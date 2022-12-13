@@ -1,29 +1,61 @@
-# Turborepo starter
+# Elixir.money Monorepo
 
-This is an official starter turborepo.
+This is the monorepo for the Elixir.money project. It contains the following apps and packages:
 
-## What's inside?
-
-This turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `web`: a [Next.js](https://nextjs.org) app
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `database`: [Prisma](https://prisma.io/) ORM wrapper to manage & access your database
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+[![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=master)](https://travis-ci.org/elixir-money/monorepo)
+[![Coverage Status](https://coveralls.io/repos/github/elixir-money/monorepo/badge.svg)](https://coveralls.io/github/elixir-money/monorepo)
 
 ### Utilities
-
-This turborepo has some additional tools already setup for you:
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 - [Prisma](https://prisma.io/) for database ORM
 - [Docker Compose](https://docs.docker.com/compose/) for local database
+
+## Apps
+
+| Folder   | Description                            | README                          |
+| -------- | -------------------------------------- | ------------------------------- |
+| `web`    | a [Next.js](https://nextjs.org) app                       | [README](apps/app/README.md)    |
+| `worker` | A Node.js, BullMQ & Redis based worker | [README](apps/worker/README.md) |
+
+## Packages
+
+| Folder   | Description       | README                              |
+| -------- | ----------------- | ----------------------------------- |
+| `common` | Shared code       | [README](packages/common/README.md) |
+| `config` | `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`) | [README](packages/config/README.md) |
+| `tsconfig` | `tsconfig.json`s used throughout the monorepo | [README](packages/tsconfig/README.md) |
+| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database | [README](packages/database/README.md) |
+
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+
+## Useful Commands
+
+### Build
+
+To build all apps and packages, run the following command:
+
+```bash
+cd my-turborepo
+yarn run build
+```
+
+### Develop
+
+To develop all apps and packages, run the following command:
+
+```bash
+cd my-turborepo
+yarn run dev
+```
+
+### Docker Compose 🐳
+
+```sh
+# TODO
+```
 
 ### Database
 
@@ -72,26 +104,6 @@ Once edited run the following command to run tell Prisma to run the seed script 
 yarn run db:seed
 ```
 
-For further more information on migrations, seeding & more, we recommend reading through the [Prisma Documentation](https://www.prisma.io/docs/).
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```bash
-cd my-turborepo
-yarn run build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```bash
-cd my-turborepo
-yarn run dev
-```
-
 ## Useful Links
 
 Learn more about the power of Turborepo:
@@ -102,3 +114,7 @@ Learn more about the power of Turborepo:
 - [Scoped Tasks](https://turborepo.org/docs/features/scopes)
 - [Configuration Options](https://turborepo.org/docs/reference/configuration)
 - [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)
+
+## License ⚖️
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
