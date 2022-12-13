@@ -76,10 +76,43 @@ function setupBullMQProcessor(queueName: string) {
 const run = async () => {
 	const queue = createQueueMQ("Scheduled jobs")
 
-	await queue.add("updateMarkets", { key: "updateMarkets" })
-	// await queue.add("updateForex", { key: "updateForex" });
-	// await queue.add("updateForex", { key: "updateSwyftx" });
-	// await queue.add("updateForex", { key: "accountsHistory" });
+	await queue.add(
+		"updateMarkets",
+		{ key: "updateMarkets" },
+		{
+			repeat: {
+				// Every 5 minutes
+				pattern: "*/5 * * * *",
+			},
+		}
+	)
+	await queue.add(
+		"updateForex",
+		{ key: "updateForex" },
+		{
+			repeat: {
+				pattern: "@hourly",
+			},
+		}
+	)
+	await queue.add(
+		"updateSwyftx",
+		{ key: "updateSwyftx" },
+		{
+			repeat: {
+				pattern: "@hourly",
+			},
+		}
+	)
+	await queue.add(
+		"accountsHistory",
+		{ key: "accountsHistory" },
+		{
+			repeat: {
+				pattern: "@daily",
+			},
+		}
+	)
 
 	await setupBullMQProcessor(queue.name)
 
