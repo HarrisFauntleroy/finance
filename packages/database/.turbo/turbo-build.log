@@ -1,4 +1,4 @@
-[33mdatabase:build[0m: cache hit, replaying output [2mf7dd27f659ff0815[0m
+[33mdatabase:build[0m: cache hit, replaying output [2m3c9f053f72771b67[0m
 [33mdatabase:build: [0m$ npm run generate
 [33mdatabase:build: [0m
 [33mdatabase:build: [0m> database@1.0.2 generate
@@ -7,7 +7,7 @@
 [33mdatabase:build: [0mEnvironment variables loaded from .env
 [33mdatabase:build: [0mPrisma schema loaded from prisma/schema.prisma
 [33mdatabase:build: [0m
-[33mdatabase:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./generated/prisma-client in 86ms
+[33mdatabase:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./generated/prisma-client in 87ms
 [33mdatabase:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
 [33mdatabase:build: [0m```
 [33mdatabase:build: [0mimport { PrismaClient } from './generated/prisma-client'
@@ -17,17 +17,17 @@
 [33mdatabase:build: [0mCLI Building entry: src/index.ts
 [33mdatabase:build: [0mCLI Using tsconfig: tsconfig.json
 [33mdatabase:build: [0mCLI tsup v5.12.9
-[33mdatabase:build: [0mCLI Using tsup config: /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/turbo-with-prisma/packages/database/tsup.config.ts
+[33mdatabase:build: [0mCLI Using tsup config: /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/database/tsup.config.ts
 [33mdatabase:build: [0mCLI Target: node12
 [33mdatabase:build: [0mCLI Cleaning output folder
 [33mdatabase:build: [0mCJS Build start
 [33mdatabase:build: [0mESM Build start
-[33mdatabase:build: [0mESM ⚡️ Build success in 6ms
 [33mdatabase:build: [0mCJS ⚡️ Build success in 8ms
-[33mdatabase:build: [0mESM dist/index.mjs     1.37 KB
-[33mdatabase:build: [0mESM dist/index.mjs.map 623.00 B
+[33mdatabase:build: [0mESM ⚡️ Build success in 7ms
 [33mdatabase:build: [0mCJS dist/index.js     1.61 KB
 [33mdatabase:build: [0mCJS dist/index.js.map 627.00 B
+[33mdatabase:build: [0mESM dist/index.mjs     1.37 KB
+[33mdatabase:build: [0mESM dist/index.mjs.map 623.00 B
 [33mdatabase:build: [0mDTS Build start
-[33mdatabase:build: [0mDTS ⚡️ Build success in 1711ms
+[33mdatabase:build: [0mDTS ⚡️ Build success in 1112ms
 [33mdatabase:build: [0mDTS dist/index.d.ts 464.00 B

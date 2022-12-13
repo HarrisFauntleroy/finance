@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { GetSessionParams } from "next-auth/react";
+
 export interface SwyftxJWT {
-    accessToken: string;
-    scope: string;
+  accessToken: string;
+  scope: string;
 }
 /** Fetch auth JWT for Swyftx API access */
 export declare const refreshSwyftxToken: (apiKey: string) => Promise<SwyftxJWT>;
@@ -15,6 +16,9 @@ export declare const refreshSwyftxToken: (apiKey: string) => Promise<SwyftxJWT>;
  *       200:
  *         description: JWT from supplied API key
  */
-declare const jwt: (_req: NextApiRequest & GetSessionParams, res: NextApiResponse<SwyftxJWT>) => Promise<void>;
+declare const jwt: (
+  _req: NextApiRequest & GetSessionParams,
+  res: NextApiResponse<SwyftxJWT>
+) => Promise<void>;
 export default jwt;
 //# sourceMappingURL=jwt.d.ts.map

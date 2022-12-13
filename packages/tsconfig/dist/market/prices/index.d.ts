@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { GetSessionParams } from "next-auth/react";
+
 declare type CoinGeckoStatus = {
-    status: number;
+  status: number;
 };
 export declare const updateMarketsCrypto: () => Promise<void>;
 /**
@@ -13,6 +14,9 @@ export declare const updateMarketsCrypto: () => Promise<void>;
  *       200:
  *         description: example
  */
-declare const prices: (_request: NextApiRequest & GetSessionParams, res: NextApiResponse<CoinGeckoStatus>) => Promise<void>;
+declare const prices: (
+  _request: NextApiRequest & GetSessionParams,
+  res: NextApiResponse<CoinGeckoStatus>
+) => Promise<void>;
 export default prices;
 //# sourceMappingURL=index.d.ts.map

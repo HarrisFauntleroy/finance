@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateMarketsCrypto = void 0;
 /**
@@ -7,10 +10,11 @@ exports.updateMarketsCrypto = void 0;
  * We update the database with price so that weekly/monthly snapshots show price of balance at the time of snapshot were current
  *
  */
-const common_1 = require("common");
 const prisma_client_1 = require("database/generated/prisma-client");
-const database_1 = require("database");
 const runtime_1 = require("database/generated/prisma-client/runtime");
+const database_1 = require("database");
+const common_1 = require("common");
+const axios_1 = __importDefault(require("axios"));
 // Base currency is USD app-wide
 // Mainly cause I don't want to pay for exchange rates lol
 const baseCurrency = "USD";
@@ -23,7 +27,7 @@ const upsertManyPosts = async (response) => {
                 name: crypto.id,
                 type: prisma_client_1.MarketType.CRYPTOCURRENCY,
                 ticker: crypto.symbol,
-                currency: baseCurrency.toLowerCase(),
+                currency: baseCurrency.toUpperCase(),
                 price: new runtime_1.Decimal(crypto.current_price).toDecimalPlaces(10),
                 priceChange24h: new runtime_1.Decimal(crypto.price_change_24h),
                 priceChange24hPercent: new runtime_1.Decimal(crypto.price_change_percentage_24h),
@@ -46,15 +50,10 @@ const upsertManyPosts = async (response) => {
     }
 };
 /** Fetch and return json, log failures */
-const fetchAndParseJSON = async (url) => {
-    try {
-        const response = await fetch(url);
-        return await response.json();
-    }
-    catch (error) {
-        common_1.logger.error(error);
-    }
-};
+const fetchAndParseJSON = async (url) => axios_1.default
+    .get(url)
+    .then((res) => res.data)
+    .catch(console.error);
 const updateMarketsCrypto = async () => {
     /** Limit results per page */
     const resultsPerPage = 250;
@@ -63,7 +62,7 @@ const updateMarketsCrypto = async () => {
     /** Loop through the page array and fetch results */
     for (let page = pages; page > 0; page--) {
         /** Base url */
-        const url = new URL(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`);
+        const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`;
         /** Fetch and update */
         await fetchAndParseJSON(url)
             .then(upsertManyPosts)

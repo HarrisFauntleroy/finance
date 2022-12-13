@@ -1,3 +1,3 @@
-test.todo("Add tests for futureValueWithPeriodicCompounding");
+test.todo("Add tests for futureValueWithPeriodicCompounding")
 
-export {};
+export {}

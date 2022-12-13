@@ -1,6 +1,6 @@
-[36mweb:lint[0m: cache hit, replaying output [2m2f8bc37418aaa76b[0m
+[36mweb:lint[0m: cache hit, replaying output [2m0bd24f2cc8d54e8c[0m
 [36mweb:lint: [0m$ next lint
-[36mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/turbo-with-prisma/apps/web/.env
+[36mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
 [36mweb:lint: [0m
 [36mweb:lint: [0m./src/env/client.mjs
 [36mweb:lint: [0m4:7  Warning: Variable name `_clientEnv` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention

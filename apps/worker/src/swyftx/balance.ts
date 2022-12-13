@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { GetSessionParams } from "next-auth/react"
 import { fetchFromSwyftx } from "."
 import { SwyftxAsset, swyftxAssets } from "./assets"
 import { refreshSwyftxToken } from "./jwt"
+import { NextApiRequest, NextApiResponse } from "next"
+import { GetSessionParams } from "next-auth/react"
 
 const baseUrl = "/user/balance/"
 

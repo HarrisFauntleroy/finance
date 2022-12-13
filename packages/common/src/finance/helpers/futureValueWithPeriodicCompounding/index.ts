@@ -1,1 +1,1 @@
-export const futureValueWithPeriodicCompounding = () => "TODO";
+export const futureValueWithPeriodicCompounding = () => "TODO"

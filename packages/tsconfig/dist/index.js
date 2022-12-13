@@ -34,16 +34,19 @@ const api_1 = require("@bull-board/api");
 const bullMQAdapter_1 = require("@bull-board/api/bullMQAdapter");
 const express_1 = require("@bull-board/express");
 const bullmq_1 = require("bullmq");
-const database_1 = require("database");
 const dotenv = __importStar(require("dotenv"));
 const express_2 = __importDefault(require("express"));
+const accountsHistory_1 = __importDefault(require("./accountsHistory"));
+const exchangeRates_1 = require("./exchangeRates");
+const prices_1 = require("./market/prices");
+const index_1 = __importDefault(require("./swyftx/index"));
 dotenv.config();
-const redisConfig = {
+const redisConfiguration = {
     host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
     port: 6379,
 };
 const queueOptions = {
-    connection: redisConfig,
+    connection: redisConfiguration,
     defaultJobOptions: {
         removeOnComplete: true,
         removeOnFail: 1000,
@@ -51,14 +54,6 @@ const queueOptions = {
 };
 /** Create a queue */
 const createQueueMQ = (name) => new bullmq_1.Queue(name, queueOptions);
-const onSuccess = (job) => {
-    job.log(`Finished job @ ${new Date().toISOString()}`);
-    return new Date().toISOString();
-};
-const onError = (job, error) => {
-    job.log(`Error ${error.message}`);
-    throw new Error(error.message);
-};
 /** Processor */
 function setupBullMQProcessor(queueName) {
     /** Queue event logs */
@@ -69,17 +64,17 @@ function setupBullMQProcessor(queueName) {
         .on("failed", ({ jobId, failedReason }) => {
         console.log(`Event: ${jobId} has failed with ${failedReason}`);
     });
-    /** API hitter 🏏 */
-    new bullmq_1.Worker(queueName, (job) => {
+    /** Job hitter 🏏 */
+    new bullmq_1.Worker(queueName, async (job) => {
         switch (job.data.key) {
             case "updateMarkets":
-                return database_1.prisma.user.count();
+                return await (0, prices_1.updateMarketsCrypto)();
             case "updateForex":
-                return database_1.prisma.user.count();
+                return await (0, exchangeRates_1.updateExchangeRates)();
             case "updateSwyftx":
-                return database_1.prisma.user.count();
+                return await (0, index_1.default)();
             case "accountsHistory":
-                return database_1.prisma.user.count();
+                return await (0, accountsHistory_1.default)();
             default:
                 throw Error();
         }
@@ -93,10 +88,10 @@ function setupBullMQProcessor(queueName) {
 }
 const run = async () => {
     const queue = createQueueMQ("Scheduled jobs");
-    async function addJobs() {
-        await queue.add("updateMarkets", { key: "updateMarkets" });
-        await queue.add("updateForex", { key: "updateForex" });
-    }
+    await queue.add("updateMarkets", { key: "updateMarkets" });
+    // await queue.add("updateForex", { key: "updateForex" });
+    // await queue.add("updateForex", { key: "updateSwyftx" });
+    // await queue.add("updateForex", { key: "accountsHistory" });
     await setupBullMQProcessor(queue.name);
     /** Remove x-powered-by header for security purposes */
     const app = (0, express_2.default)();
@@ -114,7 +109,7 @@ const run = async () => {
     /** Start express server */
     app.listen(PORT, () => {
         console.log(`Worker running on ${PORT}...`);
-        console.log(`Redis is running on ${redisConfig.host} with port ${redisConfig.port} by default`);
+        console.log(`Redis is running on ${redisConfiguration.host} with port ${redisConfiguration.port} by default`);
         console.log(`For the UI, open http://localhost:${PORT}/ui`);
     });
 };

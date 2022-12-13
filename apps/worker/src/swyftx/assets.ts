@@ -1,29 +1,29 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { GetSessionParams } from "next-auth/react";
-import { fetchFromSwyftx } from ".";
-import { refreshSwyftxToken } from "./jwt";
+import { fetchFromSwyftx } from "."
+import { refreshSwyftxToken } from "./jwt"
+import { NextApiRequest, NextApiResponse } from "next"
+import { GetSessionParams } from "next-auth/react"
 
-const baseUrl = "/markets/assets/";
+const baseUrl = "/markets/assets/"
 
 export interface SwyftxAsset {
-  id: string;
-  name: string;
-  code: string;
-  minimum_order: string;
-  price_scale: number;
-  deposit_enabled: boolean;
-  withdraw_enabled: boolean;
-  min_confirmations: number;
-  min_withdrawal: number;
-  minimum_order_increment: number;
-  mining_fee: number;
-  primary: boolean;
-  secondary: boolean;
+	id: string
+	name: string
+	code: string
+	minimum_order: string
+	price_scale: number
+	deposit_enabled: boolean
+	withdraw_enabled: boolean
+	min_confirmations: number
+	min_withdrawal: number
+	minimum_order_increment: number
+	mining_fee: number
+	primary: boolean
+	secondary: boolean
 }
 
 /** Current balance & staking balance from Swyftx */
 export const swyftxAssets = (accessToken: string) =>
-  fetchFromSwyftx(baseUrl, accessToken);
+	fetchFromSwyftx(baseUrl, accessToken)
 
 /**
  * @swagger
@@ -35,13 +35,13 @@ export const swyftxAssets = (accessToken: string) =>
  *         description: all assets related to Syftx
  */
 const assets = async (
-  _req: NextApiRequest & GetSessionParams,
-  res: NextApiResponse<SwyftxAsset[]>
+	_req: NextApiRequest & GetSessionParams,
+	res: NextApiResponse<SwyftxAsset[]>
 ) =>
-  refreshSwyftxToken(String(process.env.SWYFTX_API_KEY))
-    .then(({ accessToken }) =>
-      swyftxAssets(accessToken).then(res.json).catch(res.json)
-    )
-    .catch(res.json);
+	refreshSwyftxToken(String(process.env.SWYFTX_API_KEY))
+		.then(({ accessToken }) =>
+			swyftxAssets(accessToken).then(res.json).catch(res.json)
+		)
+		.catch(res.json)
 
-export default assets;
+export default assets

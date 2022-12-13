@@ -1,1 +1,1 @@
-export const whatPercentOfXIsY = (x: number, y: number) => (x / y) * 100;
+export const whatPercentOfXIsY = (x: number, y: number) => (x / y) * 100

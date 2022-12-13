@@ -27,11 +27,11 @@ const upsertManyPosts = async (data) => {
     // Reshape data and upsert each entry
     await Promise.all(data.map(async (response) => {
         const parsed = {
-            name: String(response.name),
+            name: String(response?.name),
             type: prisma_client_1.MarketType.CASH,
-            ticker: String(response.id).toLowerCase(),
-            currency: String(response.id),
-            price: new runtime_1.Decimal(String(response.price)),
+            ticker: String(response?.id).toLowerCase(),
+            currency: String(response?.id),
+            price: new runtime_1.Decimal(String(response?.price)),
         };
         await database_1.prisma.market.upsert({
             where: { ticker: parsed.ticker },

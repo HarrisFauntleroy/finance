@@ -6,19 +6,19 @@
 
 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function flat(obj: any): Record<string, unknown> {
-  const result = new Map();
+	const result = new Map()
 
-  // rome-ignore lint/suspicious/noExplicitAny: <explanation>
-  function flatten(obj: any, prefix = "") {
-    for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === "object") {
-        flatten(value, `${prefix}${key}.`);
-      } else {
-        result.set(prefix + key, value);
-      }
-    }
-  }
+	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+	function flatten(obj: any, prefix = "") {
+		for (const [key, value] of Object.entries(obj)) {
+			if (typeof value === "object") {
+				flatten(value, `${prefix}${key}.`)
+			} else {
+				result.set(prefix + key, value)
+			}
+		}
+	}
 
-  flatten(obj);
-  return Object.fromEntries(result);
+	flatten(obj)
+	return Object.fromEntries(result)
 }

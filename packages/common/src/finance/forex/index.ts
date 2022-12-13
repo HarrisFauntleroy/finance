@@ -1,23 +1,23 @@
-import { Decimal } from "database/generated/prisma-client/runtime";
-import { flattenArrToObj } from "../../helpers";
+import { flattenArrToObj } from "../../helpers"
+import { Decimal } from "database/generated/prisma-client/runtime"
 
-export type ExchangeRates = { [x: string]: string };
+export type ExchangeRates = { [x: string]: string }
 
 type GetExchangeRatesInput = {
-  price: Decimal;
-  currency: string;
-  name: string;
-  ticker: string;
-};
+	price: Decimal
+	currency: string
+	name: string
+	ticker: string
+}
 
 export const getExchangeRates = (
-  markets: GetExchangeRatesInput[]
+	markets: GetExchangeRatesInput[]
 ): ExchangeRates => {
-  const market = markets?.map(({ price, ...rest }) => {
-    return {
-      ...rest,
-      price: price.toString(),
-    };
-  });
-  return flattenArrToObj(market, "ticker", "price");
-};
+	const market = markets?.map(({ price, ...rest }) => {
+		return {
+			...rest,
+			price: price.toString(),
+		}
+	})
+	return flattenArrToObj(market, "ticker", "price")
+}

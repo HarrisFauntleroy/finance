@@ -273,7 +273,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/harrisfauntleroy/Documents/code/personal/turbo/examples/turbo-with-prisma/packages/database/generated/prisma-client",
+      "value": "/Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/database/generated/prisma-client",
       "fromEnvVar": null
     },
     "config": {

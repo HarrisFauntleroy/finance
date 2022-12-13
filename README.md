@@ -17,17 +17,17 @@ This is the monorepo for the Elixir.money project. It contains the following app
 
 | Folder   | Description                            | README                          |
 | -------- | -------------------------------------- | ------------------------------- |
-| `web`    | a [Next.js](https://nextjs.org) app                       | [README](apps/app/README.md)    |
+| `web`    | a [Next.js](https://nextjs.org) app    | [README](apps/app/README.md)    |
 | `worker` | A Node.js, BullMQ & Redis based worker | [README](apps/worker/README.md) |
 
 ## Packages
 
-| Folder   | Description       | README                              |
-| -------- | ----------------- | ----------------------------------- |
-| `common` | Shared code       | [README](packages/common/README.md) |
-| `config` | `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`) | [README](packages/config/README.md) |
-| `tsconfig` | `tsconfig.json`s used throughout the monorepo | [README](packages/tsconfig/README.md) |
-| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database | [README](packages/database/README.md) |
+| Folder     | Description                                                                          | README                                |
+| ---------- | ------------------------------------------------------------------------------------ | ------------------------------------- |
+| `common`   | Shared code                                                                          | [README](packages/common/README.md)   |
+| `config`   | `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`) | [README](packages/config/README.md)   |
+| `tsconfig` | `tsconfig.json`s used throughout the monorepo                                        | [README](packages/tsconfig/README.md) |
+| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database            | [README](packages/database/README.md) |
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 

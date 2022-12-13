@@ -75,7 +75,7 @@ exports.calculateUserTotals = calculateUserTotals;
  *       200:
  *         description: all transactions related to an account
  */
-const accountsHistory = async (req, res) => {
+const accountsHistory = async () => {
     /** Get userId of signed in user */
     const users = await database_1.prisma.user.findMany({
         select: {
@@ -117,6 +117,5 @@ const accountsHistory = async (req, res) => {
             results.push({ status: "Failed" });
         }
     }));
-    res.json({ results: results });
 };
 exports.default = accountsHistory;

@@ -1,8 +1,8 @@
-[32mweb:test[0m: cache hit, replaying output [2mb74fdddf5677475e[0m
+[32mweb:test[0m: cache hit, replaying output [2me3fb3d81e76cbd35[0m
 [32mweb:test: [0m$ jest
 [32mweb:test: [0mNo tests found, exiting with code 1
 [32mweb:test: [0mRun with `--passWithNoTests` to exit with code 0
-[32mweb:test: [0mIn /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/turbo-with-prisma/apps/web
+[32mweb:test: [0mIn /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web
 [32mweb:test: [0m  10 files checked.
 [32mweb:test: [0m  testMatch:  - 0 matches
 [32mweb:test: [0m  testPathIgnorePatterns: /node_modules/ - 10 matches
