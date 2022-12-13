@@ -1,0 +1,12 @@
+[35mdatabase:db:push[0m: cache hit, replaying output [2m9a3f5e6dd53cc8f7[0m
+[35mdatabase:db:push: [0m$ prisma db push
+[35mdatabase:db:push: [0mEnvironment variables loaded from .env
+[35mdatabase:db:push: [0mPrisma schema loaded from prisma/schema.prisma
+[35mdatabase:db:push: [0mDatasource "db": PostgreSQL database "postgres", schema "public" at "localhost:5432"
+[35mdatabase:db:push: [0m
+[35mdatabase:db:push: [0mThe database is already in sync with the Prisma schema.
+[35mdatabase:db:push: [0m
+[35mdatabase:db:push: [0mRunning generate... (Use --skip-generate to skip the generators)
+[35mdatabase:db:push: [0m[2K[1A[2K[GRunning generate... - Prisma Client
+[35mdatabase:db:push: [0m[2K[1A[2K[G✔ Generated Prisma Client (4.1.1 | library) to ./generated/prisma-client in 85ms
+[35mdatabase:db:push: [0m

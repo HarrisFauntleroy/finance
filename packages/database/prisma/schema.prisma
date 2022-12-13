@@ -1,0 +1,185 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma-client"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id              String            @id @default(cuid())
+  name            String?
+  email           String?           @unique
+  emailVerified   DateTime?
+  image           String?
+  role            Role              @default(USER)
+  accounts        Account[]
+  accountsHistory AccountsHistory[]
+  budget          Budget[]
+  cryptocurrency  Cryptocurrency[]
+  sessions        Session[]
+  settings        Settings?
+}
+
+model AccountsHistory {
+  id             String   @id @unique @default(cuid())
+  currency       String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  createdAt      DateTime @default(now())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([createdAt, userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Settings {
+  id                   String       @id @unique @default(cuid())
+  userId               String       @unique
+  preferredColorScheme ColorScheme? @default(LIGHT)
+  userCurrency         String       @default("aud")
+  userLanguage         String       @default("eng")
+  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([id, userId])
+}
+
+model Cryptocurrency {
+  id                     String             @id @unique @default(cuid())
+  displayName            String
+  currency               String             @default("usd")
+  balance                Decimal            @default(0)
+  costBasis              Decimal            @default(0)
+  realisedGain           Decimal            @default(0)
+  walletAddress          String?
+  targetBalance          Decimal            @default(0)
+  interestBearingBalance Decimal            @default(0)
+  rateOfIncome           Decimal            @default(0)
+  accountConnection      AccountConnection? @default(NONE)
+  apiKey                 String?
+  apiSecret              String?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @default(now()) @updatedAt
+  marketId               String?
+  userId                 String
+  parentId               String?
+  market                 Market?            @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
+  parent                 Cryptocurrency?    @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
+  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Children               Cryptocurrency[]   @relation("Cryptocurrency_Children")
+}
+
+model Market {
+  name                  String
+  ticker                String           @unique
+  description           String?
+  currency              String
+  price                 Decimal          @default(0)
+  priceChange24h        Decimal          @default(0)
+  priceChange24hPercent Decimal          @default(0)
+  marketCap             Decimal          @default(0)
+  marketCapRank         Decimal          @default(0)
+  type                  MarketType
+  image                 String?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
+  Cryptocurrency        Cryptocurrency[]
+
+  @@unique([name, ticker])
+}
+
+model Income {
+  id             String @id @unique @default(cuid())
+  name           String
+  payFrequency   String
+  grossAmount    String
+  grossFrequency String @default("P1Y0M0DT0H0M0S")
+  userId         String
+  budget         Budget @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Budget {
+  id       String       @unique @default(cuid())
+  name     String
+  userId   String
+  User     User         @relation(fields: [userId], references: [id])
+  Children BudgetItem[]
+  income   Income[]
+}
+
+model BudgetItem {
+  id        String   @unique @default(cuid())
+  name      String
+  category  String
+  amount    String
+  frequency String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  budgetId  String
+  budget    Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+}
+
+enum ColorScheme {
+  LIGHT
+  DARK
+  TBA
+}
+
+enum MarketType {
+  CRYPTOCURRENCY
+  STOCK
+  ETF
+  METAL
+  OTHER
+  CASH
+}
+
+enum AccountConnection {
+  NONE
+  SWYFTX
+  COINSPOT
+}
+
+enum Role {
+  USER
+  ADMIN
+}

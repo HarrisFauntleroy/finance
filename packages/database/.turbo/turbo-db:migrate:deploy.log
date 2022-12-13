@@ -1,0 +1,10 @@
+[35mdatabase:db:migrate:deploy[0m: cache hit, replaying output [2ma05374c9232791bb[0m
+[35mdatabase:db:migrate:deploy: [0m$ prisma migrate deploy
+[35mdatabase:db:migrate:deploy: [0mEnvironment variables loaded from .env
+[35mdatabase:db:migrate:deploy: [0mPrisma schema loaded from prisma/schema.prisma
+[35mdatabase:db:migrate:deploy: [0mDatasource "db": PostgreSQL database "postgres", schema "public" at "localhost:5432"
+[35mdatabase:db:migrate:deploy: [0m
+[35mdatabase:db:migrate:deploy: [0mNo migration found in prisma/migrations
+[35mdatabase:db:migrate:deploy: [0m
+[35mdatabase:db:migrate:deploy: [0m
+[35mdatabase:db:migrate:deploy: [0mNo pending migrations to apply.

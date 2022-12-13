@@ -1,0 +1,42 @@
+services:
+  redis:
+    container_name: ${APP_NAME}-redis
+    restart: always
+    image: redis:alpine3.16
+    env_file:
+      - .env
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    command: redis-server --include /usr/local/etc/redis/redis.conf --appendonly yes
+    volumes:
+      - redis-data:/data
+      - redis-conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - internal
+
+  worker:
+    container_name: ${APP_NAME}-worker
+    restart: always
+    image: result/latest
+    env_file:
+      - .env
+    ports:
+      - ${WORKER_PORT}:${WORKER_PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - worker:/data
+    networks:
+      - internal
+    depends_on:
+      - redis
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  worker:
+  redis-data:
+  redis-conf:

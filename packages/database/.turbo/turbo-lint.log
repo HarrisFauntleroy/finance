@@ -1,0 +1,2 @@
+[35mdatabase:lint[0m: cache hit, replaying output [2m73cc4f24da295be7[0m
+[35mdatabase:lint: [0m$ eslint ./src --fix
