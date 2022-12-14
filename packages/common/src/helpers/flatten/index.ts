@@ -22,3 +22,18 @@ export function flat(obj: any): Record<string, unknown> {
 	flatten(obj)
 	return Object.fromEntries(result)
 }
+
+// This version doesnt concatenate keys like a.b: 3 it will show b: 3
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function flattenObject(obj: any): object {
+	return Object.keys(obj)
+		.flatMap((key) => {
+			const value = obj[key]
+			if (typeof value === "object" && !Array.isArray(value)) {
+				return flattenObject(value)
+			} else {
+				return [{ [key]: value }]
+			}
+		})
+		.reduce((acc, cur) => Object.assign(acc, cur), {})
+}
