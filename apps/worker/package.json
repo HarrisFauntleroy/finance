@@ -11,6 +11,7 @@
 		"lint:fix": "eslint . --fix && yarn format",
 		"start": "NODE_ENV=production ts-node dist/index.js",
 		"test": "jest --passWithNoTests",
+		"test:watch": "yarn test --watch",
 		"test:ci": "yarn test --ci --coverage --maxWorkers=2",
 		"type-check": "tsc --noEmit"
 	},
