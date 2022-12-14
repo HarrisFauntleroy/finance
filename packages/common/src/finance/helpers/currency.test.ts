@@ -58,15 +58,15 @@ describe("convertCurrency", () => {
 		}
 		const fromCurrency = "USD"
 		const toCurrency = "EUR"
-		const amount = 100
-		const expected = 80
+		const amount = "100"
+		const expected = "80.00"
 
 		const result = convertCurrency({
 			exchangeRates,
 			fromCurrency,
 			toCurrency,
 			amount,
-		}).value
+		}).toString()
 
 		expect(result).toEqual(expected)
 	})
@@ -79,15 +79,15 @@ describe("convertCurrency", () => {
 		}
 		const fromCurrency = "USD"
 		const toCurrency = "EUR"
-		const amount = 0
-		const expected = 0
+		const amount = "0"
+		const expected = "0.00"
 
 		const result = convertCurrency({
 			exchangeRates,
 			fromCurrency,
 			toCurrency,
 			amount,
-		}).value
+		}).toString()
 
 		expect(result).toEqual(expected)
 	})
@@ -100,15 +100,15 @@ describe("convertCurrency", () => {
 		}
 		const fromCurrency = "USD"
 		const toCurrency = "USD"
-		const amount = 100
-		const expected = 100
+		const amount = "100"
+		const expected = "100.00"
 
 		const result = convertCurrency({
 			exchangeRates,
 			fromCurrency,
 			toCurrency,
 			amount,
-		}).value
+		}).toString()
 
 		expect(result).toEqual(expected)
 	})

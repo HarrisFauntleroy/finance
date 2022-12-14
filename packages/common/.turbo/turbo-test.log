@@ -1,0 +1,48 @@
+[36mcommon:test[0m: cache hit, replaying output [2mb1ec35a0944fd6a9[0m
+[36mcommon:test: [0m$ jest 
+[36mcommon:test: [0mPASS src/finance/helpers/currency.test.ts
+[36mcommon:test: [0mPASS src/math/average/average.test.ts
+[36mcommon:test: [0mPASS src/math/percentageChange.test.ts
+[36mcommon:test: [0mPASS src/finance/cryptocurrency/helpers/index.test.ts
+[36mcommon:test: [0m  ● Console
+[36mcommon:test: [0m
+[36mcommon:test: [0m    console.warn
+[36mcommon:test: [0m      warn(prisma) Conflict for env var DATABASE_URL in ../database/.env and ../../apps/web/.env
+[36mcommon:test: [0m      Env vars from ../../apps/web/.env overwrite the ones from ../database/.env
+[36mcommon:test: [0m
+[36mcommon:test: [0m      25583 | Env vars from ${import_chalk6.default.underline(relativeEnvPath)} overwrite the ones from ${import_chalk6.default.underline(relativeRootEnvPath)}
+[36mcommon:test: [0m      25584 |       `;
+[36mcommon:test: [0m    > 25585 |         console.warn(`${import_chalk6.default.yellow("warn(prisma)")} ${message}`);
+[36mcommon:test: [0m            |                 ^
+[36mcommon:test: [0m      25586 |       }
+[36mcommon:test: [0m      25587 |     }
+[36mcommon:test: [0m      25588 |   }
+[36mcommon:test: [0m
+[36mcommon:test: [0m      at checkForConflicts (../database/generated/prisma-client/runtime/index.js:25585:17)
+[36mcommon:test: [0m      at tryLoadEnvs (../database/generated/prisma-client/runtime/index.js:25537:5)
+[36mcommon:test: [0m      at warnEnvConflicts (../database/generated/prisma-client/runtime/index.js:29865:3)
+[36mcommon:test: [0m      at Object.<anonymous> (../database/generated/prisma-client/index.js:307:1)
+[36mcommon:test: [0m      at Object.<anonymous> (src/finance/cryptocurrency/helpers/index.test.ts:4:1)
+[36mcommon:test: [0m
+[36mcommon:test: [0mPASS src/helpers/array.test.ts
+[36mcommon:test: [0mPASS src/math/percentageDifference.test.ts
+[36mcommon:test: [0mPASS src/finance/helpers/futureValueWithPeriodicCompounding/index.test.ts
+[36mcommon:test: [0mPASS src/helpers/flatten/flatten.test.ts
+[36mcommon:test: [0m  ● Console
+[36mcommon:test: [0m
+[36mcommon:test: [0m    console.log
+[36mcommon:test: [0m      { a: 1, c: 2, d: 3 }
+[36mcommon:test: [0m
+[36mcommon:test: [0m      at Object.<anonymous> (src/helpers/flatten/flatten.test.ts:21:11)
+[36mcommon:test: [0m
+[36mcommon:test: [0m    console.log
+[36mcommon:test: [0m      { a: 1, c: 2, d: 3 }
+[36mcommon:test: [0m
+[36mcommon:test: [0m      at Object.<anonymous> (src/helpers/flatten/flatten.test.ts:22:11)
+[36mcommon:test: [0m
+[36mcommon:test: [0m
+[36mcommon:test: [0mTest Suites: 8 passed, 8 total
+[36mcommon:test: [0mTests:       1 todo, 21 passed, 22 total
+[36mcommon:test: [0mSnapshots:   0 total
+[36mcommon:test: [0mTime:        3.084 s, estimated 4 s
+[36mcommon:test: [0mRan all test suites.

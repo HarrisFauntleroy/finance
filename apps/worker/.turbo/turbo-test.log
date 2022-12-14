@@ -1,1 +1,3 @@
-[35mworker:test[0m: cache hit, replaying output [2mc63f356a2466f7f1[0m
+[34mworker:test[0m: cache hit, replaying output [2m1b94ccfda314fdfc[0m
+[34mworker:test: [0m$ jest --passWithNoTests
+[34mworker:test: [0mNo tests found, exiting with code 0

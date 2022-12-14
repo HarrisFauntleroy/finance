@@ -1,12 +1,3 @@
-[32mweb:test[0m: cache hit, replaying output [2me3fb3d81e76cbd35[0m
-[32mweb:test: [0m$ jest
-[32mweb:test: [0mNo tests found, exiting with code 1
-[32mweb:test: [0mRun with `--passWithNoTests` to exit with code 0
-[32mweb:test: [0mIn /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web
-[32mweb:test: [0m  10 files checked.
-[32mweb:test: [0m  testMatch:  - 0 matches
-[32mweb:test: [0m  testPathIgnorePatterns: /node_modules/ - 10 matches
-[32mweb:test: [0m  testRegex: .test.ts$ - 0 matches
-[32mweb:test: [0mPattern:  - 0 matches
-[32mweb:test: [0merror Command failed with exit code 1.
-[32mweb:test: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+[32mweb:test[0m: cache hit, replaying output [2m7d4a2e812323be88[0m
+[32mweb:test: [0m$ jest --passWithNoTests
+[32mweb:test: [0mNo tests found, exiting with code 0
