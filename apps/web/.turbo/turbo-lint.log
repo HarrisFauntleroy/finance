@@ -1,11 +1,11 @@
-[33mweb:lint[0m: cache hit, replaying output [2ma9297f09892d8eee[0m
-[33mweb:lint: [0m$ next lint
-[33mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
-[33mweb:lint: [0m
-[33mweb:lint: [0m./src/env/client.mjs
-[33mweb:lint: [0m4:7  Warning: Variable name `_clientEnv` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
-[33mweb:lint: [0m
-[33mweb:lint: [0m./src/env/server.mjs
-[33mweb:lint: [0m10:7  Warning: Variable name `_serverEnv` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
-[33mweb:lint: [0m
-[33mweb:lint: [0minfo  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+[35mweb:lint[0m: cache hit, replaying output [2m46cdd65254317995[0m
+[35mweb:lint: [0m$ next lint
+[35mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
+[35mweb:lint: [0m
+[35mweb:lint: [0m./src/env/client.mjs
+[35mweb:lint: [0m4:7  Warning: Variable name `_clientEnv` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+[35mweb:lint: [0m
+[35mweb:lint: [0m./src/env/server.mjs
+[35mweb:lint: [0m10:7  Warning: Variable name `_serverEnv` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+[35mweb:lint: [0m
+[35mweb:lint: [0minfo  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

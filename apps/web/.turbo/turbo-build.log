@@ -1,9 +1,9 @@
-[36mweb:build[0m: cache hit, replaying output [2mdd8bf29eae3891eb[0m
+[36mweb:build[0m: cache hit, replaying output [2mc8bc58150430e01c[0m
 [36mweb:build: [0m$ prisma generate
 [36mweb:build: [0mEnvironment variables loaded from .env
 [36mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
 [36mweb:build: [0m
-[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 81ms
+[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 80ms
 [36mweb:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
 [36mweb:build: [0m```
 [36mweb:build: [0mimport { PrismaClient } from '../../packages/database/generated/prisma-client'
@@ -19,7 +19,7 @@
 [36mweb:build: [0mFailed to compile.
 [36mweb:build: [0m
 [36mweb:build: [0m./src/server/trpc/router/_app.ts:10:14
-[36mweb:build: [0mType error: Exported variable 'appRouter' has or is using name 'CryptoSummaryOutput' from external module "/Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/common/dist/index" but cannot be named.
+[36mweb:build: [0mType error: Exported variable 'appRouter' has or is using name 'currency' from external module "currency.js" but cannot be named.
 [36mweb:build: [0m
 [36mweb:build: [0m[0m [90m  8 | [39m[36mimport[39m { userRouter } [36mfrom[39m [32m"./user"[39m[0m
 [36mweb:build: [0m[0m [90m  9 | [39m[0m

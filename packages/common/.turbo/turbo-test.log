@@ -1,11 +1,7 @@
-[35mcommon:test[0m: cache hit, replaying output [2m62fca61d9c2ddcdf[0m
+[35mcommon:test[0m: cache hit, replaying output [2m07d98285b6b05749[0m
 [35mcommon:test: [0m$ jest --passWithNoTests
-[35mcommon:test: [0mts-jest[ts-jest-transformer] (WARN) Got a `.js` file to compile while `allowJs` option is not set to `true` (file: /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/database/generated/prisma-client/index.js). To fix this:
-[35mcommon:test: [0m  - if you want TypeScript to process JS files, set `allowJs` to `true` in your TypeScript config (usually tsconfig.json)
-[35mcommon:test: [0m  - if you do not want TypeScript to process your `.js` files, in your Jest config change the `transform` key which value is `ts-jest` so that it does not match `.js` files anymore
-[35mcommon:test: [0mPASS src/math/average/average.test.ts
+[35mcommon:test: [0mPASS src/math/percentageChange.test.ts
 [35mcommon:test: [0mPASS src/finance/helpers/currency.test.ts
-[35mcommon:test: [0mPASS src/finance/cryptocurrency/helpers/index.test.ts
 [35mcommon:test: [0mPASS src/helpers/flatten/flatten.test.ts
 [35mcommon:test: [0m  ● Console
 [35mcommon:test: [0m
@@ -19,13 +15,37 @@
 [35mcommon:test: [0m
 [35mcommon:test: [0m      at Object.<anonymous> (src/helpers/flatten/flatten.test.ts:22:11)
 [35mcommon:test: [0m
-[35mcommon:test: [0mPASS src/math/percentageDifference.test.ts
-[35mcommon:test: [0mPASS src/math/percentageChange.test.ts
-[35mcommon:test: [0mPASS src/helpers/array.test.ts
+[35mcommon:test: [0mPASS src/math/average/average.test.ts
 [35mcommon:test: [0mPASS src/finance/helpers/futureValueWithPeriodicCompounding/index.test.ts
+[35mcommon:test: [0mPASS src/helpers/array.test.ts
+[35mcommon:test: [0mPASS src/math/percentageDifference.test.ts
+[35mcommon:test: [0mts-jest[ts-jest-transformer] (WARN) Got a `.js` file to compile while `allowJs` option is not set to `true` (file: /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/database/generated/prisma-client/index.js). To fix this:
+[35mcommon:test: [0m  - if you want TypeScript to process JS files, set `allowJs` to `true` in your TypeScript config (usually tsconfig.json)
+[35mcommon:test: [0m  - if you do not want TypeScript to process your `.js` files, in your Jest config change the `transform` key which value is `ts-jest` so that it does not match `.js` files anymore
+[35mcommon:test: [0mPASS src/finance/cryptocurrency/helpers/index.test.ts
+[35mcommon:test: [0m  ● Console
+[35mcommon:test: [0m
+[35mcommon:test: [0m    console.warn
+[35mcommon:test: [0m      warn(prisma) Conflict for env var DATABASE_URL in ../database/.env and ../../apps/web/.env
+[35mcommon:test: [0m      Env vars from ../../apps/web/.env overwrite the ones from ../database/.env
+[35mcommon:test: [0m
+[35mcommon:test: [0m      25583 | Env vars from ${import_chalk6.default.underline(relativeEnvPath)} overwrite the ones from ${import_chalk6.default.underline(relativeRootEnvPath)}
+[35mcommon:test: [0m      25584 |       `;
+[35mcommon:test: [0m    > 25585 |         console.warn(`${import_chalk6.default.yellow("warn(prisma)")} ${message}`);
+[35mcommon:test: [0m            |                 ^
+[35mcommon:test: [0m      25586 |       }
+[35mcommon:test: [0m      25587 |     }
+[35mcommon:test: [0m      25588 |   }
+[35mcommon:test: [0m
+[35mcommon:test: [0m      at checkForConflicts (../database/generated/prisma-client/runtime/index.js:25585:17)
+[35mcommon:test: [0m      at tryLoadEnvs (../database/generated/prisma-client/runtime/index.js:25537:5)
+[35mcommon:test: [0m      at warnEnvConflicts (../database/generated/prisma-client/runtime/index.js:29865:3)
+[35mcommon:test: [0m      at Object.<anonymous> (../database/generated/prisma-client/index.js:307:1)
+[35mcommon:test: [0m      at Object.<anonymous> (src/finance/cryptocurrency/helpers/index.test.ts:4:1)
+[35mcommon:test: [0m
 [35mcommon:test: [0m
 [35mcommon:test: [0mTest Suites: 8 passed, 8 total
 [35mcommon:test: [0mTests:       1 todo, 21 passed, 22 total
 [35mcommon:test: [0mSnapshots:   0 total
-[35mcommon:test: [0mTime:        3.095 s, estimated 6 s
+[35mcommon:test: [0mTime:        4.123 s
 [35mcommon:test: [0mRan all test suites.

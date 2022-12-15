@@ -1,2 +1,2 @@
-[35mworker:build[0m: cache hit, replaying output [2m8336424310718909[0m
+[35mworker:build[0m: cache hit, replaying output [2ma0e956a237d43fc3[0m
 [35mworker:build: [0m$ tsc -p .

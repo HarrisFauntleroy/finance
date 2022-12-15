@@ -1,10 +1,10 @@
-[35mweb:test[0m: cache hit, replaying output [2m3ae5dce5e222dfb6[0m
-[35mweb:test: [0m$ jest --passWithNoTests
-[35mweb:test: [0mPASS src/components/Table/Table.test.ts
-[35mweb:test: [0mPASS src/components/Form/Form.test.ts
-[35mweb:test: [0m
-[35mweb:test: [0mTest Suites: 2 passed, 2 total
-[35mweb:test: [0mTests:       2 todo, 2 total
-[35mweb:test: [0mSnapshots:   0 total
-[35mweb:test: [0mTime:        2.42 s, estimated 3 s
-[35mweb:test: [0mRan all test suites.
+[33mweb:test[0m: cache hit, replaying output [2m007882406d13fb7d[0m
+[33mweb:test: [0m$ jest --passWithNoTests
+[33mweb:test: [0mPASS src/components/Form/Form.test.ts
+[33mweb:test: [0mPASS src/components/Table/Table.test.ts
+[33mweb:test: [0m
+[33mweb:test: [0mTest Suites: 2 passed, 2 total
+[33mweb:test: [0mTests:       2 todo, 2 total
+[33mweb:test: [0mSnapshots:   0 total
+[33mweb:test: [0mTime:        2.603 s, estimated 3 s
+[33mweb:test: [0mRan all test suites.

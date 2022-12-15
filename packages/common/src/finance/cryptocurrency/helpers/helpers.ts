@@ -23,7 +23,7 @@ export type CryptoCompleteChild = Cryptocurrency & {
 }
 
 // Remove nested children
-type ChildrenOmitChildren = Omit<CryptoComplete, "Children">
+export type ChildrenOmitChildren = Omit<CryptoComplete, "Children">
 
 /** Extends cryptocurrency type with all relations */
 export interface CryptoAndChildrenComplete
@@ -36,13 +36,13 @@ export interface CryptoAndChildrenComplete
 // TODO break all of these into their own files
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-type CryptoOmitCostBasisAndChildren = Omit<
+export type CryptoOmitCostBasisAndChildren = Omit<
 	CryptoComplete,
 	"costBasis" | "Children"
 >
 
 /** Calculated values */
-interface CryptoSummaryOutput extends CryptoOmitCostBasisAndChildren {
+export interface CryptoSummaryOutput extends CryptoOmitCostBasisAndChildren {
 	unrealisedGainPercentage: string
 	estimatedStakingYield: string
 	estimatedYearlyReturn: string
@@ -124,7 +124,7 @@ export function calculateCryptoSummary(
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-interface NestedAccountTotals {
+export interface NestedAccountTotals {
 	value: string
 	Children: CryptoSummaryOutput[]
 	averageCost: string
@@ -134,7 +134,7 @@ interface NestedAccountTotals {
 	unrealisedGainPercentage: string
 }
 
-function calculateNestedAccountTotals(
+export function calculateNestedAccountTotals(
 	Children: CryptoSummaryOutput[]
 ): NestedAccountTotals {
 	const unrealisedGain = sumArrayByKey(Children, "unrealisedGain")
@@ -161,7 +161,7 @@ function calculateNestedAccountTotals(
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-interface CalculateOneCryptoInput {
+export interface CalculateOneCryptoInput {
 	crypto: CryptoComplete
 	exchangeRates: ExchangeRates
 	userCurrency: string
@@ -198,7 +198,7 @@ export function calculateOneCrypto({
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-interface CryptoSummaryInput {
+export interface CryptoSummaryInput {
 	data: CryptoComplete[]
 	exchangeRates: ExchangeRates
 	userCurrency: string
