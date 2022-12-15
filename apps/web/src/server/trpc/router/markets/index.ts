@@ -154,7 +154,7 @@ export const marketsRouter = router({
 		return market
 	}),
 	cryptocurrency: publicProcedure.query(async () => {
-		const markets = await prisma.market.findMany({
+		const cryptocurrency = await prisma.market.findMany({
 			where: {
 				type: MarketType.CRYPTOCURRENCY,
 			},
@@ -169,12 +169,12 @@ export const marketsRouter = router({
 				updatedAt: true,
 			},
 		})
-		if (!markets) {
+		if (!cryptocurrency) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
 				message: "Cannot find list of Cryptocurrency",
 			})
 		}
-		return markets
+		return cryptocurrency
 	}),
 })

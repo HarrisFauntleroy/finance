@@ -13,7 +13,11 @@ const MarketViewPage: DefaultPage = () => {
 		name: string
 		ticker: string
 	}
-	const marketQuery = trpc.markets.byName.useQuery({ name, ticker, type: MarketType.CRYPTOCURRENCY })
+	const marketQuery = trpc.markets.byName.useQuery({
+		name,
+		ticker,
+		type: MarketType.CRYPTOCURRENCY,
+	})
 
 	if (marketQuery.error) {
 		return (

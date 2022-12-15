@@ -10,13 +10,9 @@ import {
 	Th,
 	Tr,
 } from "@chakra-ui/react"
-import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import Card from "~/components/Cards"
 import Currency from "~/components/Currency"
-import type { AppRouter } from "~/server/trpc/router/_app"
-
-export type RouterInput = inferRouterInputs<AppRouter>
-export type RouterOutput = inferRouterOutputs<AppRouter>
+import type { RouterOutput } from "~/utils/trpc"
 
 interface OverviewProps {
 	data?: RouterOutput["accounts"]["byUserId"]

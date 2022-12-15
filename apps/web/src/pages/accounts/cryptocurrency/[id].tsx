@@ -1,16 +1,16 @@
-import React from "react";
+import React from "react"
 
-import NextError from "next/error";
-import { useRouter } from "next/router";
-import { Debug } from "~/components/Debug";
-import Page from "~/components/Page";
-import { trpc } from "~/utils/trpc";
+import NextError from "next/error"
+import { useRouter } from "next/router"
+import { Debug } from "~/components/Debug"
+import Page from "~/components/Page"
+import { trpc } from "~/utils/trpc"
 
 function CryptocurrencyViewPage() {
-	const id = useRouter().query.id as string;
+	const id = useRouter().query.id as string
 	const { data, error, status } = trpc.cryptocurrency.byId.useQuery({
 		id,
-	});
+	})
 
 	if (error) {
 		return (
@@ -18,11 +18,11 @@ function CryptocurrencyViewPage() {
 				title={error.message}
 				statusCode={error.data?.httpStatus ?? 500}
 			/>
-		);
+		)
 	}
 
 	if (status !== "success") {
-		return <>Loading...</>;
+		return <>Loading...</>
 	}
 
 	return (
@@ -35,8 +35,8 @@ function CryptocurrencyViewPage() {
 			<h2>Raw data:</h2>
 			{data && <Debug data={data} />}
 		</Page>
-	);
+	)
 }
 
-CryptocurrencyViewPage.auth = true;
-export default CryptocurrencyViewPage;
+CryptocurrencyViewPage.auth = true
+export default CryptocurrencyViewPage

@@ -215,7 +215,7 @@ queueMQ.add(
 	}
 )
 
-new Worker(queueName, async job => {
+new Worker(queueName, async (job) => {
 	job.log(`Starting job ${job.name}`)
 	if (job.data.key === "updateMarkets") return await updateMarketsCrypto()
 	if (job.data.key === "updateForex") return await updateExchangeRates()

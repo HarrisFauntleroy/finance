@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculateUserTotals = void 0;
 const server_1 = require("@trpc/server");
 const common_1 = require("common");
+const common_2 = require("common");
 const database_1 = require("database");
 const prisma_client_1 = require("database/generated/prisma-client");
 const runtime_1 = require("database/generated/prisma-client/runtime");
@@ -26,8 +27,10 @@ const calculateUserTotals = async (userId) => {
             userId,
         },
     });
+    // Get the user's preferred currency
     const userCurrency = settings.userCurrency;
-    const exchangeRates = await database_1.prisma.market.findMany({
+    // Fetch the market rates
+    const markets = await database_1.prisma.market.findMany({
         where: {
             type: prisma_client_1.MarketType.CASH,
         },
@@ -39,10 +42,7 @@ const calculateUserTotals = async (userId) => {
         },
     });
     /** Convert array to object */
-    const fx = exchangeRates.reduce((acc, val) => ({
-        ...acc,
-        [val.ticker]: val.price,
-    }), {});
+    const exchangeRates = (0, common_1.getExchangeRates)(markets);
     if (!user) {
         throw new server_1.TRPCError({
             code: "NOT_FOUND",
@@ -50,12 +50,12 @@ const calculateUserTotals = async (userId) => {
         });
     }
     /** Calculate cryptocurrency for overview */
-    const cryptocurrency = (0, common_1.calculateManyCrypto)({
+    const cryptocurrency = (0, common_2.calculateManyCrypto)({
         data: user?.cryptocurrency,
-        exchangeRates: fx,
+        exchangeRates,
         userCurrency,
     });
-    const { totalValue, totalCostBasis, unrealisedGain, saleableValue } = (0, common_1.calculateCryptoOverview)({ data: cryptocurrency });
+    const { totalValue, totalCostBasis, unrealisedGain, saleableValue } = (0, common_2.calculateCryptoOverview)({ data: cryptocurrency });
     return {
         currency: userCurrency,
         totalValue: totalValue.toString(),

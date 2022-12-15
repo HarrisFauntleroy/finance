@@ -18,9 +18,9 @@ const Profile: DefaultPage = () => {
 	/** userId */
 	const userId = session.data?.userId
 
-	const { data: defaultValues } = trpc.settings.byUserId.useQuery(
-
-		{ userId: userId || "" })
+	const { data: defaultValues } = trpc.settings.byUserId.useQuery({
+		userId: userId || "",
+	})
 
 	return (
 		<Page title="Profile">

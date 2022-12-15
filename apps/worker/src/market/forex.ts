@@ -58,8 +58,8 @@ export const updateExchangeRates = async () => {
 		"/latest.json?show_alternative=false"
 	)
 
-	delete exchange.disclaimer 
-	delete exchange.license 
+	delete exchange.disclaimer
+	delete exchange.license
 
 	const latest: OpenExchangeRatesResponse[] = Object.entries(
 		exchange.rates

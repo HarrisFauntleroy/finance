@@ -59,7 +59,7 @@ export default function Header({ onOpen }: HeaderProps) {
 							key={`breadcrumbs${index}`}
 							isCurrentPage={pathName?.replace("/", "") === path}
 						>
-							<BreadcrumbLink href={`/${path}`} >{path}</BreadcrumbLink>
+							<BreadcrumbLink href={`/${path}`}>{path}</BreadcrumbLink>
 						</BreadcrumbItem>
 					))}
 				</Breadcrumb>

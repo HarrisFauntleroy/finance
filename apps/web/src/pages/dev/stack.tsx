@@ -4,7 +4,7 @@
  *
  */
 import { Icon } from "@chakra-ui/react"
-import type { Feature } from "~/components/Cards/Features";
+import type { Feature } from "~/components/Cards/Features"
 import Features from "~/components/Cards/Features"
 import { DirectHit } from "~/components/Icons/DirectHit"
 import { Github } from "~/components/Icons/Github"

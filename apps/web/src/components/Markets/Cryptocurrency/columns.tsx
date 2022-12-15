@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
 	Avatar,
@@ -8,24 +8,18 @@ import {
 	Stat,
 	StatArrow,
 	Text,
-} from "@chakra-ui/react";
-import type { ColumnDef } from "@tanstack/react-table";
-import { isNegative } from "common";
-import formatDuration from "date-fns/formatDuration";
-import intervalToDuration from "date-fns/intervalToDuration";
-import Link from "next/link";
-import { BsFileMinus, BsPlus } from "react-icons/bs";
-import type { RouterOutput } from "~/components/Accounts/Overview";
-import Currency from "~/components/Currency";
-
-// Extracts the type of an array element
-export type ArrayElement<ArrayType extends readonly unknown[]> =
-	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+} from "@chakra-ui/react"
+import type { ColumnDef } from "@tanstack/react-table"
+import { isNegative } from "common"
+import formatDuration from "date-fns/formatDuration"
+import intervalToDuration from "date-fns/intervalToDuration"
+import Link from "next/link"
+import { BsFileMinus, BsPlus } from "react-icons/bs"
+import Currency from "~/components/Currency"
 
 /** Column definitions for markets page */
-export const cryptocurrencyColumns: ColumnDef<
-	RouterOutput["markets"]["cryptocurrency"]
->[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const cryptocurrencyColumns: ColumnDef<any>[] = [
 	{
 		header: "Name",
 		accessorKey: "name",
@@ -64,9 +58,11 @@ export const cryptocurrencyColumns: ColumnDef<
 	{
 		header: "Price",
 		accessorKey: "price",
-		cell: ({ row: { original: { price } } }) => (
-			<Currency value={Number(price)} />
-		),
+		cell: ({
+			row: {
+				original: { price },
+			},
+		}) => <Currency value={Number(price)} />,
 	},
 	{
 		header: "24h",
@@ -105,8 +101,8 @@ export const cryptocurrencyColumns: ColumnDef<
 						{
 							format: ["hours", "minutes"],
 							delimiter: ", ",
-						},
+						}
 				  )
 				: "",
 	},
-];
+]

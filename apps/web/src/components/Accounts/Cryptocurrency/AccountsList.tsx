@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext } from "react"
 
-import { LinkIcon } from "@chakra-ui/icons";
+import { LinkIcon } from "@chakra-ui/icons"
 import {
 	ButtonGroup,
 	HStack,
@@ -9,32 +9,32 @@ import {
 	Stack,
 	Switch,
 	Text,
-} from "@chakra-ui/react";
-import type { CalculatedCryptocurrency } from "common";
-import { useSession } from "next-auth/react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { MdRefresh } from "react-icons/md";
-import { CryptoForm } from "~/components/Accounts/Cryptocurrency/Form";
-import TableSubComponent from "~/components/Accounts/Cryptocurrency/SubRow";
-import { cryptoColumns } from "~/components/Accounts/Cryptocurrency/columns";
-import { PrivacyContext } from "~/components/AppContext/Privacy";
-import Card from "~/components/Cards";
-import { Loading } from "~/components/Loading";
-import { Table } from "~/components/Table";
-import { trpc } from "~/utils/trpc";
+} from "@chakra-ui/react"
+import type { CalculatedCryptocurrency } from "common"
+import { useSession } from "next-auth/react"
+import { FiEye, FiEyeOff } from "react-icons/fi"
+import { MdRefresh } from "react-icons/md"
+import { CryptoForm } from "~/components/Accounts/Cryptocurrency/Form"
+import TableSubComponent from "~/components/Accounts/Cryptocurrency/SubRow"
+import { cryptoColumns } from "~/components/Accounts/Cryptocurrency/columns"
+import { PrivacyContext } from "~/components/AppContext/Privacy"
+import Card from "~/components/Cards"
+import { Loading } from "~/components/Loading"
+import { Table } from "~/components/Table"
+import { trpc } from "~/utils/trpc"
 
 export const AccountsList = () => {
-	const session = useSession();
-	const userId = session?.data?.userId;
+	const session = useSession()
+	const userId = session?.data?.userId
 
-	const { privacy, togglePrivacy } = useContext(PrivacyContext);
+	const { privacy, togglePrivacy } = useContext(PrivacyContext)
 
 	const { data, status } = trpc.cryptocurrency.byUserId.useQuery({
 		userId: userId || "",
-	});
+	})
 
 	if (status === "loading") {
-		return <Loading />;
+		return <Loading />
 	}
 
 	return (
@@ -103,5 +103,5 @@ export const AccountsList = () => {
 				</Table>
 			</Skeleton>
 		</Card>
-	);
-};
+	)
+}

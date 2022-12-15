@@ -1,4 +1,4 @@
-[34mcommon:build[0m: cache hit, replaying output [2md6de19d7ed35985d[0m
+[34mcommon:build[0m: cache hit, replaying output [2me25e80d8fc537622[0m
 [34mcommon:build: [0m$ tsup
 [34mcommon:build: [0mCLI Building entry: src/index.ts
 [34mcommon:build: [0mCLI Using tsconfig: tsconfig.json
@@ -8,12 +8,12 @@
 [34mcommon:build: [0mCLI Cleaning output folder
 [34mcommon:build: [0mCJS Build start
 [34mcommon:build: [0mESM Build start
-[34mcommon:build: [0mCJS ⚡️ Build success in 16ms
+[34mcommon:build: [0mCJS ⚡️ Build success in 15ms
 [34mcommon:build: [0mESM ⚡️ Build success in 15ms
 [34mcommon:build: [0mESM dist/index.mjs     12.66 KB
 [34mcommon:build: [0mESM dist/index.mjs.map 31.96 KB
 [34mcommon:build: [0mCJS dist/index.js     15.57 KB
 [34mcommon:build: [0mCJS dist/index.js.map 32.34 KB
 [34mcommon:build: [0mDTS Build start
-[34mcommon:build: [0mDTS ⚡️ Build success in 1123ms
+[34mcommon:build: [0mDTS ⚡️ Build success in 1230ms
 [34mcommon:build: [0mDTS dist/index.d.ts 8.73 KB

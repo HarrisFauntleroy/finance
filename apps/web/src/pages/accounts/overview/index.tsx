@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from "react"
 
 import {
 	Table as ChakraTable,
@@ -14,19 +14,19 @@ import {
 	Thead,
 	Tr,
 	useColorModeValue,
-} from "@chakra-ui/react";
-import * as ChartJs from "chart.js";
+} from "@chakra-ui/react"
+import * as ChartJs from "chart.js"
 // import chartTrendline from "chartjs-plugin-trendline";
-import currency from "currency.js";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
-import { Line } from "react-chartjs-2";
-import { Layout } from "~/components/Accounts/Layout";
-import OverviewCard from "~/components/Accounts/Overview";
-import { historySnapshotColumns } from "~/components/Accounts/columns";
-import Card from "~/components/Cards";
-import { Table } from "~/components/Table";
-import { trpc } from "~/utils/trpc";
+import currency from "currency.js"
+import { format } from "date-fns"
+import { useSession } from "next-auth/react"
+import { Line } from "react-chartjs-2"
+import { Layout } from "~/components/Accounts/Layout"
+import OverviewCard from "~/components/Accounts/Overview"
+import { historySnapshotColumns } from "~/components/Accounts/columns"
+import Card from "~/components/Cards"
+import { Table } from "~/components/Table"
+import { trpc } from "~/utils/trpc"
 
 ChartJs.Chart.register(
 	// Trendline first for z-axis
@@ -40,8 +40,8 @@ ChartJs.Chart.register(
 	ChartJs.Title,
 	ChartJs.Tooltip,
 	ChartJs.Legend,
-	ChartJs.Filler,
-);
+	ChartJs.Filler
+)
 
 export const options = {
 	responsive: true,
@@ -60,37 +60,37 @@ export const options = {
 			ticks: {
 				// Include a dollar sign in the ticks
 				callback: (value: string | number) => {
-					return currency(value).format();
+					return currency(value).format()
 				},
 			},
 		},
 	},
-};
+}
 
 function AccountsPage() {
-	const session = useSession();
-	const userId = session?.data?.userId;
+	const session = useSession()
+	const userId = session?.data?.userId
 
 	const { data: accountsData } = trpc.accounts.byUserId.useQuery({
 		userId: userId || "",
-	});
+	})
 
-	const { data: historyData } = trpc.accounts.historyByUserId.useQuery(
-		{ userId: userId || "" },
-	);
+	const { data: historyData } = trpc.accounts.historyByUserId.useQuery({
+		userId: userId || "",
+	})
 
 	/** Show months and dates */
 	const labels = historyData?.accountsHistory.map(({ createdAt }) =>
-		format(new Date(createdAt), "dd MMM"),
-	);
+		format(new Date(createdAt), "dd MMM")
+	)
 
 	/** Make a copy of the data to allow mutation/reversal */
 	const tableData =
-		historyData?.accountsHistory && Array.from(historyData?.accountsHistory);
+		historyData?.accountsHistory && Array.from(historyData?.accountsHistory)
 
-	const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA");
+	const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA")
 
-	const netWorthBg = useColorModeValue("#48BB78", "#805AD5");
+	const netWorthBg = useColorModeValue("#48BB78", "#805AD5")
 
 	const data = useMemo(
 		() => ({
@@ -114,7 +114,7 @@ function AccountsPage() {
 				{
 					label: "Net Worth",
 					data: historyData?.accountsHistory.map(
-						({ totalValue }) => totalValue,
+						({ totalValue }) => totalValue
 					),
 					tension: 0.4,
 					spanGaps: true,
@@ -129,8 +129,8 @@ function AccountsPage() {
 				},
 			],
 		}),
-		[costBasisBg, historyData?.accountsHistory, labels, netWorthBg],
-	);
+		[costBasisBg, historyData?.accountsHistory, labels, netWorthBg]
+	)
 
 	const IncomeBreakdown = () => (
 		<Card>
@@ -280,7 +280,7 @@ function AccountsPage() {
 				</ChakraTable>
 			</TableContainer>
 		</Card>
-	);
+	)
 
 	return (
 		<Layout>
@@ -312,8 +312,8 @@ function AccountsPage() {
 										return a.createdAt < b.createdAt
 											? -1
 											: a.createdAt > b.createdAt
-												? 1
-												: 0;
+											? 1
+											: 0
 									})
 									.reverse() || []
 							}
@@ -331,7 +331,7 @@ function AccountsPage() {
 				<IncomeBreakdown />
 			</GridItem>
 		</Layout>
-	);
+	)
 }
 
-export default AccountsPage;
+export default AccountsPage

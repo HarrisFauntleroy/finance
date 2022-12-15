@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
 	Avatar,
@@ -9,17 +9,17 @@ import {
 	Stat,
 	StatArrow,
 	Text,
-} from "@chakra-ui/react";
-import type { ColumnDef } from "@tanstack/react-table";
-import type { CalculatedCryptocurrency } from "common";
-import { isNegative } from "common";
-import formatDuration from "date-fns/formatDuration";
-import intervalToDuration from "date-fns/intervalToDuration";
-import Link from "next/link";
-import { FormattedNumber } from "react-intl";
-import { CryptoForm } from "~/components/Accounts/Cryptocurrency/Form";
-import Currency from "~/components/Currency";
-import { Show } from "~/components/Show";
+} from "@chakra-ui/react"
+import type { ColumnDef } from "@tanstack/react-table"
+import type { CalculatedCryptocurrency } from "common"
+import { isNegative } from "common"
+import formatDuration from "date-fns/formatDuration"
+import intervalToDuration from "date-fns/intervalToDuration"
+import Link from "next/link"
+import { FormattedNumber } from "react-intl"
+import { CryptoForm } from "~/components/Accounts/Cryptocurrency/Form"
+import Currency from "~/components/Currency"
+import { Show } from "~/components/Show"
 
 /** Column definitions for crypto page */
 export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
@@ -80,14 +80,20 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 	{
 		header: "Balance",
 		accessorKey: "balance",
-		cell: ({ row: { original: { balance } } }) => (
-			<FormattedNumber value={Number(balance)} />
-		),
+		cell: ({
+			row: {
+				original: { balance },
+			},
+		}) => <FormattedNumber value={Number(balance)} />,
 	},
 	{
 		header: "Value",
 		accessorKey: "value",
-		cell: ({ row: { original: { value, price, market } } }) => (
+		cell: ({
+			row: {
+				original: { value, price, market },
+			},
+		}) => (
 			<Stack>
 				<Currency value={value} />
 				<Flex gap={1}>
@@ -101,7 +107,9 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 		header: "ROI",
 		accessorKey: "unrealisedGain",
 		cell: ({
-			row: { original: { unrealisedGainPercentage, unrealisedGain } },
+			row: {
+				original: { unrealisedGainPercentage, unrealisedGain },
+			},
 		}) => (
 			<Stack
 				color={isNegative(unrealisedGainPercentage) ? "#E53E3E" : "#38A169"}
@@ -124,7 +132,11 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 	{
 		header: "Cost Basis",
 		accessorKey: "costBasis",
-		cell: ({ row: { original: { market, costBasis, averageCost } } }) => (
+		cell: ({
+			row: {
+				original: { market, costBasis, averageCost },
+			},
+		}) => (
 			<Stack>
 				<Currency value={costBasis?.toString()} /> /
 				<Flex gap={1}>
@@ -165,7 +177,11 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 	{
 		header: "24h",
 		accessorKey: "markets.priceChange24hPercent",
-		cell: ({ row: { original: { market } } }) =>
+		cell: ({
+			row: {
+				original: { market },
+			},
+		}) =>
 			market && (
 				<Stack
 					color={
@@ -190,7 +206,11 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 	},
 	{
 		header: "Last Update",
-		cell: ({ row: { original: { market, updatedAt } } }) =>
+		cell: ({
+			row: {
+				original: { market, updatedAt },
+			},
+		}) =>
 			formatDuration(
 				intervalToDuration({
 					start: new Date(),
@@ -202,13 +222,15 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 				{
 					format: ["hours", "minutes", "seconds"],
 					delimiter: ", ",
-				},
+				}
 			),
 	},
 	{
 		header: "update",
-		cell: ({ row: { original: { id } } }) => (
-			<CryptoForm mode="update" id={id} />
-		),
+		cell: ({
+			row: {
+				original: { id },
+			},
+		}) => <CryptoForm mode="update" id={id} />,
 	},
-];
+]
