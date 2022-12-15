@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://elixir-money.vercel.app</loc><lastmod>2022-12-13T11:11:26.560Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/accounts</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/accounts/cryptocurrency</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/accounts/overview</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/admin</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/auth</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/auth/signin</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/budgets</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/dev</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/dev/docs</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/dev/roadmap</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/dev/stack</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/markets</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/pricing</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://elixir-money.vercel.app/profile</loc><lastmod>2022-12-07T00:07:10.637Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

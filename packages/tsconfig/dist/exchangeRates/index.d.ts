@@ -1,15 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { GetSessionParams } from "next-auth/react";
-
 interface OpenExchangeRatesResponse {
-  id: string;
-  price: unknown;
-  name: unknown;
+    id: string;
+    price: unknown;
+    name: unknown;
 }
 export declare const fetchFromOpenExchangeRates: (url: string) => Promise<any>;
-export declare const updateExchangeRates: () => Promise<
-  OpenExchangeRatesResponse[]
->;
+export declare const updateExchangeRates: () => Promise<OpenExchangeRatesResponse[]>;
 /**
  * @swagger
  * /api/swyftx/exchangeRates:
@@ -18,9 +15,6 @@ export declare const updateExchangeRates: () => Promise<
  *     responses:
  *       200:
  */
-declare const exchangeRates: (
-  _req: NextApiRequest & GetSessionParams,
-  res: NextApiResponse<OpenExchangeRatesResponse[]>
-) => Promise<void>;
+declare const exchangeRates: (_req: NextApiRequest & GetSessionParams, res: NextApiResponse<OpenExchangeRatesResponse[]>) => Promise<void>;
 export default exchangeRates;
 //# sourceMappingURL=index.d.ts.map

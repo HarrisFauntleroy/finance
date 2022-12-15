@@ -2,8 +2,6 @@ import axios from "axios"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
-import { NextApiRequest, NextApiResponse } from "next"
-import { GetSessionParams } from "next-auth/react"
 
 // Define the shape of the response from the Open Exchange Rates API
 interface OpenExchangeRatesResponse {
@@ -60,8 +58,8 @@ export const updateExchangeRates = async () => {
 		"/latest.json?show_alternative=false"
 	)
 
-	exchange.disclaimer = undefined
-	exchange.license = undefined
+	delete exchange.disclaimer 
+	delete exchange.license 
 
 	const latest: OpenExchangeRatesResponse[] = Object.entries(
 		exchange.rates
@@ -75,17 +73,4 @@ export const updateExchangeRates = async () => {
 	return latest
 }
 
-/**
- * @swagger
- * /api/swyftx/exchangeRates:
- *   get:
- *     description: Returns the latest exchange rates from the Open Exchange Rates API
- *     responses:
- *       200:
- */
-const exchangeRates = async (
-	_req: NextApiRequest & GetSessionParams,
-	res: NextApiResponse<OpenExchangeRatesResponse[]>
-) => updateExchangeRates().then(res.json).catch(res.json)
-
-export default exchangeRates
+export default updateExchangeRates

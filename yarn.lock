@@ -1282,7 +1282,7 @@
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/api@^4.7.0":
+"@bull-board/api@4.8.0", "@bull-board/api@^4.7.0":
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-4.8.0.tgz#88da1cd46d57230d33a3e5acade693635becc8e3"
   integrity sha512-TftGEg54r0NDPpvmaSQ2Ts2bd8AMvm4Ul/bC6H1HUu+H9dtF/jDwYqEskWLHA+qpu1oM4knuTPFkiG12vJk57Q==
@@ -1299,12 +1299,29 @@
     ejs "3.1.7"
     express "4.17.3"
 
+"@bull-board/express@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/express/-/express-4.8.0.tgz#61c2acc61491913c7d6f2256c3cbdc6f68e349e4"
+  integrity sha512-EyvdHYaOrLnhhCo07JvhIx/cJ7XMa1UpSRNvYSe4LN7mjAqbX8ShbX8nXqyHtD13TLocpg6/kZMuINMRRNsFjA==
+  dependencies:
+    "@bull-board/api" "4.8.0"
+    "@bull-board/ui" "4.8.0"
+    ejs "3.1.7"
+    express "4.17.3"
+
 "@bull-board/ui@4.6.3":
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-4.6.3.tgz#fa82d99764eaca8acf5acc42468c6393f29b20bb"
   integrity sha512-gPuunXRKhBsPquvQZlCiRpuak829CKF6RYEvLqB8SPpj/4j50OeOGe5HlwNfHL6lIzeWYugN773/xp03O32HWw==
   dependencies:
     "@bull-board/api" "4.6.3"
+
+"@bull-board/ui@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-4.8.0.tgz#653e6a70ec8c7e2011cf5d9e07a5c37cc2a304d8"
+  integrity sha512-KNk4/robDWflZxM2HfrRsijAePDE1OVyTyfhX5+uWLclNNuBH+ZZnOJnb+qnoa2giV8UKO2WZiuRqdUDNtDlQA==
+  dependencies:
+    "@bull-board/api" "4.8.0"
 
 "@chakra-ui/accordion@2.1.2":
   version "2.1.2"
@@ -5219,17 +5236,33 @@
   dependencies:
     remove-accents "0.4.2"
 
-"@tanstack/query-core@4.19.1":
-  version "4.19.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.19.1.tgz#2e92d9e8a50884eb231c5beb4386e131ebe34306"
-  integrity sha512-Zp0aIose5C8skBzqbVFGk9HJsPtUhRVDVNWIqVzFbGQQgYSeLZMd3Sdb4+EnA5wl1J7X+bre2PJGnQg9x/zHOA==
-
-"@tanstack/react-query@^4.16.0":
-  version "4.19.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.19.1.tgz#43356dd537127e76d75f5a2769eb23dafd9a3690"
-  integrity sha512-5dvHvmc0vrWI03AJugzvKfirxCyCLe+qawrWFCXdu8t7dklIhJ7D5ZhgTypv7mMtIpdHPcECtCiT/+V74wCn2A==
+"@tanstack/match-sorter-utils@^8.7.0":
+  version "8.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.7.2.tgz#6308c250308e103ab476928cc4ee26cf328716f5"
+  integrity sha512-bptNeoexeDB947fWoCPwUchPSx5FA9gwzU0bkXz0du5pT8Ud2+1ob+xOgHj6EF3VN0kdXtLhwjPyhY7/dJglkg==
   dependencies:
-    "@tanstack/query-core" "4.19.1"
+    remove-accents "0.4.2"
+
+"@tanstack/query-core@4.20.2":
+  version "4.20.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.20.2.tgz#147f7dc7eecd0e21fea4926c0dd16163a8170ef9"
+  integrity sha512-50tydwMY+fZuSPHiW+mdMQHSgjR9+3xXDoLBPt1tJWyF0mZDjMetlBxLWNaFb/Aid/ml0ZE5nRUW7CZCtwzpHQ==
+
+"@tanstack/react-query-devtools@^4.20.2":
+  version "4.20.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.20.2.tgz#afb1ad2b559db09aca7f7e432ddd9906fd860832"
+  integrity sha512-nRmjOXjpwjhatiSqY852f9m8r2NcvnVZRSOue+PzWC/sqBrtP8kwiw45jyGBcxFoxPsjT028K3E0QXrgzSdYZA==
+  dependencies:
+    "@tanstack/match-sorter-utils" "^8.7.0"
+    superjson "^1.10.0"
+    use-sync-external-store "^1.2.0"
+
+"@tanstack/react-query@^4.20.2":
+  version "4.20.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.20.2.tgz#046781bcf03b2dff72865d90b80f6f886303b3c2"
+  integrity sha512-IPL13WpNdRFv/9p1hQg6qDKX7Jchll0m1pzevaF475OVuMB2qOpQ2tOY04ClMFUG99wY/mHCZKe7j57JTnBuOQ==
+  dependencies:
+    "@tanstack/query-core" "4.20.2"
     use-sync-external-store "^1.2.0"
 
 "@tanstack/react-table@8.5.24":
@@ -5284,19 +5317,19 @@
     javascript-natural-sort "0.7.1"
     lodash "4.17.21"
 
-"@trpc/client@^10.0.0":
+"@trpc/client@^10.5.0":
   version "10.5.0"
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.5.0.tgz#7e68348aae3dbe02086d0f19d435927fdaea36f3"
   integrity sha512-ULRL6YUi/4sMzZnqS3VCe/VduPZgY24wdC4canpwWZfHj+O0kHz3KR260DzEw0QrpLrOwmkIWOlQKzVBn2lLgQ==
 
-"@trpc/next@^10.0.0":
+"@trpc/next@^10.5.0":
   version "10.5.0"
   resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.5.0.tgz#c7181b126b1f0e249e2b853b28385066576a45ba"
   integrity sha512-beWvrdHZTV7kx4XeLlHKB29EC6VWkkPykWN1eoPkSTeAYMqEIpl46Xgdj6UfiLmuq8yjAi888BahGNdmTMqFZQ==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
-"@trpc/react-query@^10.0.0":
+"@trpc/react-query@^10.5.0":
   version "10.5.0"
   resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.5.0.tgz#458ee92aed7f36ace621621dab9476cc2370fc90"
   integrity sha512-MBjgssZBy1ZRZVRE4uvnVu7AGcdOhL47Y1NIPGd5WG5ZisNrV6imf7yZ62uNDemnekwTuJT/Lad9r14swvmvzQ==
@@ -5308,7 +5341,7 @@
   dependencies:
     "@babel/runtime" "^7.9.0"
 
-"@trpc/server@^10.0.0":
+"@trpc/server@^10.5.0":
   version "10.5.0"
   resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.5.0.tgz#318d7de7550b7cb01bfd08b036d3a0321b19df80"
   integrity sha512-AJ4ckDpnN8xuqWBox68KDTFpG12ZxKkW7fi9XJ+TLtyyNyqOMVUvKH9070CdxhqBZjebTASryE+/6lntkDFQxA==
@@ -7474,13 +7507,12 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==
 
-bullmq@1.90.2:
-  version "1.90.2"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-1.90.2.tgz#59788f1fdacbb9cb9e4908354587b1cb074d6b7a"
-  integrity sha512-GBCvEdMG2mnR0Jkgc/Bv6ZBRbswkRopHJsyJik65/VXVO2/2jb8HC0+iC0cALmn7aCKpJGoVwtUmH0FLw7yLYQ==
+bullmq@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-2.4.0.tgz#9e4901e83be9917fb7ea3a10c870f84437b5d4d8"
+  integrity sha512-wchNwRagCfRjEqxpALD2P8Pjz110/lFnXjs/vBLWsHP5aYqyicl3EKDkrzEythZC+IEdyeaZ5wtmcSHWOAr7Sg==
   dependencies:
     cron-parser "^4.6.0"
-    get-port "6.1.2"
     glob "^8.0.3"
     ioredis "^5.2.2"
     lodash "^4.17.21"
@@ -7489,10 +7521,10 @@ bullmq@1.90.2:
     tslib "^2.0.0"
     uuid "^9.0.0"
 
-bullmq@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-2.4.0.tgz#9e4901e83be9917fb7ea3a10c870f84437b5d4d8"
-  integrity sha512-wchNwRagCfRjEqxpALD2P8Pjz110/lFnXjs/vBLWsHP5aYqyicl3EKDkrzEythZC+IEdyeaZ5wtmcSHWOAr7Sg==
+bullmq@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-3.4.1.tgz#5026be0e50ec6f0a41f21a642d25e93c2b586a95"
+  integrity sha512-8pe6vfwXsr3GK8dxVMfJu8GmxrDWsklL01RoFvI7yvzT8wdspq7tHuWLqkEzpZBUtdZQic/86NIUjGE1N371TA==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
@@ -11395,11 +11427,6 @@ get-package-type@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/get-package-type/-/get-package-type-0.1.0.tgz#8de2d803cff44df3bc6c456e6668b36c3926e11a"
   integrity sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==
-
-get-port@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/get-port/-/get-port-6.1.2.tgz#c1228abb67ba0e17fb346da33b15187833b9c08a"
-  integrity sha512-BrGGraKm2uPqurfGVj/z97/zv8dPleC6x9JBNRTrDNtCkkRF4rPwrQXFgL7+I+q8QSdU4ntLQX2D7KIxSy8nGw==
 
 get-set-props@^0.1.0:
   version "0.1.0"
@@ -18939,6 +18966,13 @@ superjson@1.9.1:
   dependencies:
     copy-anything "^3.0.2"
 
+superjson@^1.10.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/superjson/-/superjson-1.12.0.tgz#7b314b982bfebc5b8e56054b8528813fdda8fc7a"
+  integrity sha512-B4tefmFqj8KDShHi2br2rz0kBlUJuQHtxMCydEuHvooL+6EscROTNWRfOLMDxW1dS/daK2zZr3C3N9DU+jXATQ==
+  dependencies:
+    copy-anything "^3.0.2"
+
 supports-color@^5.3.0, supports-color@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -20875,7 +20909,7 @@ zenscroll@^4.0.2:
   resolved "https://registry.yarnpkg.com/zenscroll/-/zenscroll-4.0.2.tgz#e8d5774d1c0738a47bcfa8729f3712e2deddeb25"
   integrity sha512-jEA1znR7b4C/NnaycInCU6h/d15ZzCd1jmsruqOKnZP6WXQSMH3W2GL+OXbkruslU4h+Tzuos0HdswzRUk/Vgg==
 
-zod@^3.18.0, zod@^3.19.1:
+zod@^3.19.1, zod@^3.20.2:
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
   integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==

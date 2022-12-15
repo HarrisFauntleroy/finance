@@ -1,19 +1,151 @@
-/**
- * Worker for handling data processing
- * With BullMQ, Bull Board 🎯 & Redis
- */
+// /**
+//  * Worker for handling data processing
+//  * With BullMQ, Bull Board 🎯 & Redis
+//  */
+// import accountsHistory from "./accountsHistory"
+// import { updateMarketsCrypto } from "./market/crypto"
+// import { updateExchangeRates } from "./market/forex"
+// import swyftx from "./swyftx/index"
+// import { createBullBoard } from "@bull-board/api"
+// import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"
+// import { ExpressAdapter } from "@bull-board/express"
+// import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"
+// import * as dotenv from "dotenv"
+// import express from "express"
 import accountsHistory from "./accountsHistory"
-import { updateExchangeRates } from "./exchangeRates"
-import { updateMarketsCrypto } from "./market/prices"
-import swyftx from "./swyftx/index"
-import { createBullBoard } from "@bull-board/api"
-import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"
-import { ExpressAdapter } from "@bull-board/express"
-import { ConnectionOptions, Job, Queue, QueueEvents, Worker } from "bullmq"
-import * as dotenv from "dotenv"
-import express from "express"
+import { updateMarketsCrypto } from "./market/crypto"
+import updateExchangeRates from "./market/forex"
+import swyftx from "./swyftx"
+import { ConnectionOptions, Queue, Worker } from "bullmq"
 
-dotenv.config()
+// dotenv.config()
+
+// const redisConfiguration: ConnectionOptions = {
+// 	host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
+// 	port: 6379,
+// }
+
+// const queueOptions = {
+// 	connection: redisConfiguration,
+// 	defaultJobOptions: {},
+// }
+
+// const queueName = "Recurring jobs"
+
+// /** Create a queue */
+// const queue = new Queue(queueName, queueOptions)
+
+// /** Queue event logs */
+// new QueueEvents(queueName, queueOptions)
+// 	.on("completed", ({ jobId, returnvalue }) => {
+// 		console.log(`Event: ${jobId} has completed and returned ${returnvalue}`)
+// 	})
+// 	.on("failed", ({ jobId, failedReason }) => {
+// 		console.log(`Event: ${jobId} has failed with ${failedReason}`)
+// 	})
+
+// /** Job hitter 🏏 */
+// new Worker(
+// 	queueName,
+// 	async (job) => {
+// 		 job.log(`Starting job ${job.name}`)
+// 		if (job.data.key === "updateMarkets") return await updateMarketsCrypto()
+// 		if (job.data.key === "updateForex") return await updateExchangeRates()
+// 		if (job.data.key === "updateSwyftx") return await swyftx()
+// 		if (job.data.key === "accountsHistory") return await accountsHistory()
+// 		return
+// 	},
+// 	{ ...queueOptions, concurrency: 4 }
+// )
+// 	.on("completed", (job) => {
+// 		console.log(`Job: ${job.id} has completed!`)
+// 	})
+// 	.on("failed", (job, err) => {
+// 		console.log(`Job: ${job?.id} has failed with ${err.message}`)
+// 	})
+
+// const run = async () => {
+// 	await queue.add(
+// 		"updateMarkets",
+// 		{ key: "updateMarkets" },
+// 		{
+// 			jobId: "updateMarkets",
+// 			repeat: {
+// 				// Every 5 minutes
+// 				pattern: "*/5 * * * *",
+// 			},
+// 		}
+// 	)
+
+// 	await queue.add(
+// 		"updateForex",
+// 		{ key: "updateForex" },
+// 		{
+// 			jobId: "updateForex",
+// 			repeat: {
+// 				// Hourly
+// 				pattern: "0 * * * *",
+// 			},
+// 		}
+// 	)
+// 	await queue.add(
+// 		"updateSwyftx",
+// 		{ key: "updateSwyftx" },
+// 		{
+// 			jobId: "updateSwyftx",
+// 			repeat: {
+// 				// Every day at 8am
+// 				pattern: "0 8 * * *",
+// 			},
+// 		}
+// 	)
+// 	await queue.add(
+// 		"accountsHistory",
+// 		{ key: "accountsHistory" },
+// 		{
+// 			jobId: "accountsHistory",
+// 			repeat: {
+// 				// Hourly
+// 				pattern: "0 * * * *",
+// 			},
+// 		}
+// 	)
+
+// 	/** Remove x-powered-by header for security purposes */
+// 	const app = express()
+// 	app.disable("x-powered-by")
+
+// 	const serverAdapter = new ExpressAdapter()
+// 	serverAdapter.setBasePath("/admin/queues")
+
+// 	createBullBoard({
+// 		queues: [new BullMQAdapter(queue)],
+// 		serverAdapter,
+// 	})
+
+// 	/** Setup Bull board UI */
+// 	app.use("/ui", serverAdapter.getRouter())
+
+// 	/** App port */
+// 	const PORT = process.env.WORKER_PORT || 3001
+// 	/** Start express server */
+// 	app.listen(PORT, () => {
+// 		console.log(`Worker running on ${PORT}...`)
+// 		console.log(
+// 			`Redis is running on ${redisConfiguration.host} with port ${redisConfiguration.port} by default`
+// 		)
+// 		console.log(`For the UI, open http://localhost:${PORT}/ui`)
+// 	})
+// }
+
+// run().then().catch(console.error)
+
+const express = require("express")
+const {
+	ExpressAdapter,
+	createBullBoard,
+	BullMQAdapter,
+} = require("@bull-board/express")
 
 const redisConfiguration: ConnectionOptions = {
 	host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
@@ -22,125 +154,86 @@ const redisConfiguration: ConnectionOptions = {
 
 const queueOptions = {
 	connection: redisConfiguration,
-	defaultJobOptions: {
-		removeOnComplete: true,
-		removeOnFail: 1000,
-	},
+	defaultJobOptions: {},
 }
 
-/** Create a queue */
-const createQueueMQ = (name: string) => new Queue(name, queueOptions)
+const queueName = "Recurring jobs"
 
-/** Processor */
-function setupBullMQProcessor(queueName: string) {
-	/** Queue event logs */
-	new QueueEvents(queueName, queueOptions)
-		.on("completed", ({ jobId, returnvalue }) => {
-			console.log(`Event: ${jobId} has completed and returned ${returnvalue}`)
-		})
-		.on("failed", ({ jobId, failedReason }) => {
-			console.log(`Event: ${jobId} has failed with ${failedReason}`)
-		})
+const queueMQ = new Queue(queueName, queueOptions)
 
-	/** Job hitter 🏏 */
-	new Worker(
-		queueName,
-		async (job) => {
-			switch (job.data.key) {
-				case "updateMarkets":
-					return await updateMarketsCrypto()
+const serverAdapter = new ExpressAdapter()
+serverAdapter.setBasePath("/admin/queues")
 
-				case "updateForex":
-					return await updateExchangeRates()
+const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
+	queues: [new BullMQAdapter(queueMQ)],
+	serverAdapter: serverAdapter,
+})
 
-				case "updateSwyftx":
-					return await swyftx()
-
-				case "accountsHistory":
-					return await accountsHistory()
-
-				default:
-					throw Error()
-			}
+queueMQ.add(
+	"updateMarkets",
+	{ key: "updateMarkets" },
+	{
+		jobId: "updateMarkets",
+		repeat: {
+			// Every 5 minutes
+			pattern: "*/5 * * * *",
 		},
-		queueOptions
-	)
-		.on("completed", (job) => {
-			console.log(`Job: ${job.id} has completed!`)
-		})
-		.on("failed", (job, err) => {
-			console.log(`Job: ${job.id} has failed with ${err.message}`)
-		})
-}
+	}
+)
 
-const run = async () => {
-	const queue = createQueueMQ("Scheduled jobs")
+queueMQ.add(
+	"updateForex",
+	{ key: "updateForex" },
+	{
+		jobId: "updateForex",
+		repeat: {
+			// Hourly
+			pattern: "0 * * * *",
+		},
+	}
+)
+queueMQ.add(
+	"updateSwyftx",
+	{ key: "updateSwyftx" },
+	{
+		jobId: "updateSwyftx",
+		repeat: {
+			// Every day at 8am
+			pattern: "0 8 * * *",
+		},
+	}
+)
+queueMQ.add(
+	"accountsHistory",
+	{ key: "accountsHistory" },
+	{
+		jobId: "accountsHistory",
+		repeat: {
+			// Hourly
+			pattern: "0 * * * *",
+		},
+	}
+)
 
-	await queue.add(
-		"updateMarkets",
-		{ key: "updateMarkets" },
-		{
-			repeat: {
-				// Every 5 minutes
-				pattern: "*/5 * * * *",
-			},
-		}
-	)
-	await queue.add(
-		"updateForex",
-		{ key: "updateForex" },
-		{
-			repeat: {
-				pattern: "@hourly",
-			},
-		}
-	)
-	await queue.add(
-		"updateSwyftx",
-		{ key: "updateSwyftx" },
-		{
-			repeat: {
-				pattern: "@hourly",
-			},
-		}
-	)
-	await queue.add(
-		"accountsHistory",
-		{ key: "accountsHistory" },
-		{
-			repeat: {
-				pattern: "@daily",
-			},
-		}
-	)
+new Worker(queueName, async job => {
+	job.log(`Starting job ${job.name}`)
+	if (job.data.key === "updateMarkets") return await updateMarketsCrypto()
+	if (job.data.key === "updateForex") return await updateExchangeRates()
+	if (job.data.key === "updateSwyftx") return await swyftx()
+	if (job.data.key === "accountsHistory") return await accountsHistory()
+	return
+})
 
-	await setupBullMQProcessor(queue.name)
+const app = express()
 
-	/** Remove x-powered-by header for security purposes */
-	const app = express()
-	app.disable("x-powered-by")
+app.use("/admin/queues", serverAdapter.getRouter())
 
-	const serverAdapter = new ExpressAdapter()
-	serverAdapter.setBasePath("/ui")
+// other configurations of your server
 
-	createBullBoard({
-		queues: [new BullMQAdapter(queue)],
-		serverAdapter,
-	})
+app.listen(6001, () => {
+	console.log("Running on 6001...")
+	console.log("For the UI, open http://localhost:6001/admin/queues")
+	console.log("Make sure Redis is running on port 6379 by default")
+})
 
-	/** Setup Bull board UI */
-	app.use("/ui", serverAdapter.getRouter())
-
-	/** App port */
-	const PORT = process.env.WORKER_PORT || 3001
-	/** Start express server */
-	app.listen(PORT, () => {
-		console.log(`Worker running on ${PORT}...`)
-		console.log(
-			`Redis is running on ${redisConfiguration.host} with port ${redisConfiguration.port} by default`
-		)
-		console.log(`For the UI, open http://localhost:${PORT}/ui`)
-	})
-}
-
-run().then().catch(console.error)
+export {}

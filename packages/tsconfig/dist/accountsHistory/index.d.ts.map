@@ -1,1 +1,1 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../apps/worker/src/accountsHistory/index.ts"],"names":[],"mappings":"AAYA,eAAO,MAAM,mBAAmB,WAAkB,MAAM;;;;;;;EAkEvD,CAAC;AAEF;;;;;;;;GAQG;AACH,QAAA,MAAM,eAAe,qBA+CpB,CAAC;AAEF,eAAe,eAAe,CAAC"}
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../apps/worker/src/accountsHistory/index.ts"],"names":[],"mappings":"AAYA,eAAO,MAAM,mBAAmB,WAAkB,MAAM;;;;;;;EAkEvD,CAAA;AAED;;;;;;;;GAQG;AACH,QAAA,MAAM,eAAe,qBA6CpB,CAAA;AAED,eAAe,eAAe,CAAA"}

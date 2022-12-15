@@ -1,0 +1,5 @@
+[36mcommon:test:watch[0m: cache hit, replaying output [2m474366ec49411186[0m
+[36mcommon:test:watch: [0m$ yarn test --watch
+[36mcommon:test:watch: [0m$ jest --passWithNoTests --watch
+[36mcommon:test:watch: [0mNo tests found related to files changed since last commit.
+[36mcommon:test:watch: [0m

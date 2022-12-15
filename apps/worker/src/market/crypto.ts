@@ -4,15 +4,11 @@
  * We update the database with price so that weekly/monthly snapshots show price of balance at the time of snapshot were current
  *
  */
+import { toDecimal } from "../util"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { Market, MarketType } from "database/generated/prisma-client"
-import { Decimal } from "database/generated/prisma-client/runtime"
-import type { NextApiRequest, NextApiResponse } from "next"
-import type { GetSessionParams } from "next-auth/react"
-
-type CoinGeckoStatus = { status: number }
 
 type CoinGeckoResponse = {
 	id: string
@@ -56,13 +52,13 @@ const upsertManyPosts = async (response: CoinGeckoResponse[]) => {
 				name: crypto.id,
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: crypto.symbol,
-				currency: baseCurrency.toUpperCase(),
-				price: new Decimal(crypto.current_price).toDecimalPlaces(10),
-				priceChange24h: new Decimal(crypto.price_change_24h),
-				priceChange24hPercent: new Decimal(crypto.price_change_percentage_24h),
+				currency: baseCurrency.toLowerCase(),
+				price: toDecimal(crypto.current_price).toDecimalPlaces(10),
+				priceChange24h: toDecimal(crypto.price_change_24h),
+				priceChange24hPercent: toDecimal(crypto.price_change_percentage_24h),
 				image: crypto.image,
-				marketCap: new Decimal(crypto.market_cap),
-				marketCapRank: new Decimal(crypto.market_cap_rank),
+				marketCap: toDecimal(crypto.market_cap),
+				marketCapRank: toDecimal(crypto.market_cap_rank),
 				description: "",
 			}
 			// Upsert the data
@@ -103,22 +99,3 @@ export const updateMarketsCrypto = async () => {
 			.then(() => logger.info(page))
 	}
 }
-
-/**
- * @swagger
- * /api/market/prices:
- *   get:
- *     description: Updates all markets
- *     responses:
- *       200:
- *         description: example
- */
-const prices = async (
-	_request: NextApiRequest & GetSessionParams,
-	res: NextApiResponse<CoinGeckoStatus>
-) =>
-	updateMarketsCrypto()
-		.then(() => res.json({ status: res.statusCode }))
-		.catch(res.json)
-
-export default prices

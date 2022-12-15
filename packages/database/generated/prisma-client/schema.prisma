@@ -124,7 +124,7 @@ model Market {
   updatedAt             DateTime         @default(now()) @updatedAt
   Cryptocurrency        Cryptocurrency[]
 
-  @@unique([name, ticker])
+  @@unique([name, ticker, type])
 }
 
 model Income {

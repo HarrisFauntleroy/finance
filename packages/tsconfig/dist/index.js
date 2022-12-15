@@ -30,16 +30,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
+const accountsHistory_1 = __importDefault(require("./accountsHistory"));
+const exchangeRates_1 = require("./exchangeRates");
+const prices_1 = __importDefault(require("./market/prices"));
+const index_1 = __importDefault(require("./swyftx/index"));
 const api_1 = require("@bull-board/api");
 const bullMQAdapter_1 = require("@bull-board/api/bullMQAdapter");
 const express_1 = require("@bull-board/express");
 const bullmq_1 = require("bullmq");
 const dotenv = __importStar(require("dotenv"));
 const express_2 = __importDefault(require("express"));
-const accountsHistory_1 = __importDefault(require("./accountsHistory"));
-const exchangeRates_1 = require("./exchangeRates");
-const prices_1 = require("./market/prices");
-const index_1 = __importDefault(require("./swyftx/index"));
 dotenv.config();
 const redisConfiguration = {
     host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
@@ -66,18 +66,16 @@ function setupBullMQProcessor(queueName) {
     });
     /** Job hitter 🏏 */
     new bullmq_1.Worker(queueName, async (job) => {
-        switch (job.data.key) {
-            case "updateMarkets":
-                return await (0, prices_1.updateMarketsCrypto)();
-            case "updateForex":
-                return await (0, exchangeRates_1.updateExchangeRates)();
-            case "updateSwyftx":
-                return await (0, index_1.default)();
-            case "accountsHistory":
-                return await (0, accountsHistory_1.default)();
-            default:
-                throw Error();
-        }
+        await job.log(`Starting job ${job.name}`);
+        if (job.data.key === "updateMarkets")
+            return await (0, prices_1.default)();
+        if (job.data.key === "updateForex")
+            return await (0, exchangeRates_1.updateExchangeRates)();
+        if (job.data.key === "updateSwyftx")
+            return await (0, index_1.default)();
+        if (job.data.key === "accountsHistory")
+            return await (0, accountsHistory_1.default)();
+        return;
     }, queueOptions)
         .on("completed", (job) => {
         console.log(`Job: ${job.id} has completed!`);
@@ -88,10 +86,27 @@ function setupBullMQProcessor(queueName) {
 }
 const run = async () => {
     const queue = createQueueMQ("Scheduled jobs");
-    await queue.add("updateMarkets", { key: "updateMarkets" });
-    // await queue.add("updateForex", { key: "updateForex" });
-    // await queue.add("updateForex", { key: "updateSwyftx" });
-    // await queue.add("updateForex", { key: "accountsHistory" });
+    await queue.add("updateMarkets", { key: "updateMarkets" }, {
+        repeat: {
+            // Every 5 minutes
+            pattern: "*/5 * * * *",
+        },
+    });
+    await queue.add("updateForex", { key: "updateForex" }, {
+        repeat: {
+            pattern: "@hourly",
+        },
+    });
+    await queue.add("updateSwyftx", { key: "updateSwyftx" }, {
+        repeat: {
+            pattern: "@hourly",
+        },
+    });
+    await queue.add("accountsHistory", { key: "accountsHistory" }, {
+        repeat: {
+            pattern: "@daily",
+        },
+    });
     await setupBullMQProcessor(queue.name);
     /** Remove x-powered-by header for security purposes */
     const app = (0, express_2.default)();

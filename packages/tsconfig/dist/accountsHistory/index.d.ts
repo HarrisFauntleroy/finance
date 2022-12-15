@@ -1,10 +1,10 @@
 export declare const calculateUserTotals: (userId: string) => Promise<{
-  currency: string;
-  totalValue: string;
-  costBasis: string;
-  unrealisedGain: string;
-  realisedGain: string;
-  saleableValue: string;
+    currency: string;
+    totalValue: string;
+    costBasis: string;
+    unrealisedGain: string;
+    realisedGain: string;
+    saleableValue: string;
 }>;
 /**
  * @swagger

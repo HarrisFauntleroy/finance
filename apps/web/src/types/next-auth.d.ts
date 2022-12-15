@@ -1,12 +1,25 @@
-import { type DefaultSession } from "next-auth"
+/**
+ *
+ * Next Auth
+ *
+ */
+import type { User } from "@prisma/client"
 
 declare module "next-auth" {
 	/**
-	 * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+	 * Returned by `useSession`, `getSession`
+	 * and received as a prop on the `SessionProvider` React Context
 	 */
-	interface Session {
-		user?: {
-			id: string
-		} & DefaultSession["user"]
+	type Session = {
+		userId: string
+		user: User
+	}
+}
+
+declare module "next-auth/jwt" {
+	/** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+	type JWT = {
+		/** OpenID ID Token */
+		idToken?: string
 	}
 }

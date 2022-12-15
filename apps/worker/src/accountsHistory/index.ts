@@ -1,14 +1,13 @@
 import { TRPCError } from "@trpc/server"
+import { getExchangeRates } from "common"
 import {
 	ExchangeRates,
 	calculateCryptoOverview,
 	calculateManyCrypto,
 } from "common"
 import { prisma } from "database"
-import { AccountsHistory, MarketType } from "database/generated/prisma-client"
+import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
-import { NextApiRequest, NextApiResponse } from "next"
-import { GetSessionParams } from "next-auth/react"
 
 export const calculateUserTotals = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -30,8 +29,10 @@ export const calculateUserTotals = async (userId: string) => {
 			userId,
 		},
 	})
+	// Get the user's preferred currency
 	const userCurrency = settings.userCurrency
-	const exchangeRates = await prisma.market.findMany({
+	// Fetch the market rates
+	const markets = await prisma.market.findMany({
 		where: {
 			type: MarketType.CASH,
 		},
@@ -44,13 +45,8 @@ export const calculateUserTotals = async (userId: string) => {
 	})
 
 	/** Convert array to object */
-	const fx: ExchangeRates = exchangeRates.reduce(
-		(acc, val) => ({
-			...acc,
-			[val.ticker]: val.price,
-		}),
-		{}
-	)
+	const exchangeRates = getExchangeRates(markets)
+
 	if (!user) {
 		throw new TRPCError({
 			code: "NOT_FOUND",
@@ -61,7 +57,7 @@ export const calculateUserTotals = async (userId: string) => {
 	/** Calculate cryptocurrency for overview */
 	const cryptocurrency = calculateManyCrypto({
 		data: user?.cryptocurrency,
-		exchangeRates: fx,
+		exchangeRates,
 		userCurrency,
 	})
 

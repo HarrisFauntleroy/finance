@@ -3,18 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMarketsCrypto = void 0;
 /**
  *
  * Fetches and updates prices across all accounts holding cryptocurrencies.
  * We update the database with price so that weekly/monthly snapshots show price of balance at the time of snapshot were current
  *
  */
-const prisma_client_1 = require("database/generated/prisma-client");
-const runtime_1 = require("database/generated/prisma-client/runtime");
-const database_1 = require("database");
-const common_1 = require("common");
+const util_1 = require("../../util");
 const axios_1 = __importDefault(require("axios"));
+const common_1 = require("common");
+const database_1 = require("database");
+const prisma_client_1 = require("database/generated/prisma-client");
 // Base currency is USD app-wide
 // Mainly cause I don't want to pay for exchange rates lol
 const baseCurrency = "USD";
@@ -27,13 +26,13 @@ const upsertManyPosts = async (response) => {
                 name: crypto.id,
                 type: prisma_client_1.MarketType.CRYPTOCURRENCY,
                 ticker: crypto.symbol,
-                currency: baseCurrency.toUpperCase(),
-                price: new runtime_1.Decimal(crypto.current_price).toDecimalPlaces(10),
-                priceChange24h: new runtime_1.Decimal(crypto.price_change_24h),
-                priceChange24hPercent: new runtime_1.Decimal(crypto.price_change_percentage_24h),
+                currency: baseCurrency.toLowerCase(),
+                price: (0, util_1.toDecimal)(crypto.current_price).toDecimalPlaces(10),
+                priceChange24h: (0, util_1.toDecimal)(crypto.price_change_24h),
+                priceChange24hPercent: (0, util_1.toDecimal)(crypto.price_change_percentage_24h),
                 image: crypto.image,
-                marketCap: new runtime_1.Decimal(crypto.market_cap),
-                marketCapRank: new runtime_1.Decimal(crypto.market_cap_rank),
+                marketCap: (0, util_1.toDecimal)(crypto.market_cap),
+                marketCapRank: (0, util_1.toDecimal)(crypto.market_cap_rank),
                 description: "",
             };
             // Upsert the data
@@ -70,17 +69,4 @@ const updateMarketsCrypto = async () => {
             .then(() => common_1.logger.info(page));
     }
 };
-exports.updateMarketsCrypto = updateMarketsCrypto;
-/**
- * @swagger
- * /api/market/prices:
- *   get:
- *     description: Updates all markets
- *     responses:
- *       200:
- *         description: example
- */
-const prices = async (_request, res) => (0, exports.updateMarketsCrypto)()
-    .then(() => res.json({ status: res.statusCode }))
-    .catch(res.json);
-exports.default = prices;
+exports.default = updateMarketsCrypto;
