@@ -1,19 +1,71 @@
 version: "3"
 
-volumes:
-  database:
-    driver: local
-
 services:
-  mysql:
-    platform: linux/amd64
-    image: mysql:8.0.28
-    container_name: turborepo_mysql
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
     restart: always
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: turborepo
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
-      - database:/var/lib/mysql
+      - app:/data
+    ports:
+      - 3000:3000
+    networks:
+      - app_network
+
+  worker:
+    container_name: worker
+    build:
+      context: .
+      dockerfile: ./apps/worker/Dockerfile
+    restart: always
+    volumes:
+      - worker:/data
+    ports:
+      - 3001:3001
+    networks:
+      - app_network
+
+  database:
+    container_name: database
+    command: -p 5432
+    restart: always
+    image: postgres
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:alpine3.16
+    env_file:
+      - .env
+    ports:
+      - 6379:6379
+    command: redis-server --include /usr/local/etc/redis/redis.conf --appendonly yes
+    volumes:
+      - redis-data:/data
+      - redis-conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - app_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true
+
+volumes:
+  app:
+  postgres:
+  backups:
+  worker:
+  redis-data:
+  redis-conf:

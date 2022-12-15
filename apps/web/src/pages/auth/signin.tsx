@@ -74,7 +74,7 @@ const Signin = ({ providers }: SignInProps) => {
 	}
 
 	return (
-		<Stack mt={4} direction="column" spacing={4}>
+		<Stack direction="column" align="center">
 			<Image
 				src="/images/logodark.png"
 				objectFit="contain"
