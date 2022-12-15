@@ -1,4 +1,5 @@
 import axios from "axios"
+import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
@@ -7,7 +8,7 @@ import { Decimal } from "database/generated/prisma-client/runtime"
 interface OpenExchangeRatesResponse {
 	id: string
 	price: unknown
-	name: unknown
+	name: string
 }
 
 // Define the base URL for the Open Exchange Rates API
@@ -15,7 +16,9 @@ const baseUrl = "https://openexchangerates.org/api"
 
 // Default GET request for Open Exchange Rates API
 // Adds authorization token to the headers
-export const fetchFromOpenExchangeRates = (url: string) =>
+export const fetchFromOpenExchangeRates = (
+	url: string
+) =>
 	axios
 		.get(baseUrl + url, {
 			headers: {
@@ -27,7 +30,7 @@ export const fetchFromOpenExchangeRates = (url: string) =>
 		.catch(console.error)
 
 // Upsert many entries
-const upsertManyPosts = async (data: OpenExchangeRatesResponse[]) => {
+const upsertManyMarkets = async (data: OpenExchangeRatesResponse[]) => {
 	// Reshape data and upsert each entry
 	await Promise.all(
 		data.map(async (response) => {
@@ -48,29 +51,30 @@ const upsertManyPosts = async (data: OpenExchangeRatesResponse[]) => {
 }
 
 export const updateExchangeRates = async () => {
-	// Get currency names and tickers
-	const name = await fetchFromOpenExchangeRates(
-		"/currencies.json?show_alternative=false"
-	)
+	try {
+		// Get currency names and tickers
+		const name = await fetchFromOpenExchangeRates(
+			"/currencies.json?show_alternative=false"
+		)
+		// Get exchange rates using USD as base
+		const exchange = await fetchFromOpenExchangeRates(
+			"/latest.json?show_alternative=false"
+		)
+		logger.info(name)
+		logger.info(exchange)
+		delete exchange.disclaimer
+		delete exchange.license
 
-	// Get exchange rates using USD as base
-	const exchange = await fetchFromOpenExchangeRates(
-		"/latest.json?show_alternative=false"
-	)
+		const latest:OpenExchangeRatesResponse[] = Object.entries(exchange.rates).map(([id, price]) => ({
+			id,
+			price,
+			name: name[id],
+		}))
 
-	delete exchange.disclaimer
-	delete exchange.license
-
-	const latest: OpenExchangeRatesResponse[] = Object.entries(
-		exchange.rates
-	).map(([id, price]) => ({
-		id,
-		price,
-		name: name[id],
-	}))
-
-	await upsertManyPosts(latest)
-	return latest
+		await upsertManyMarkets(latest)
+	} catch (error) {
+		logger.error(error)
+	}
 }
 
 export default updateExchangeRates

@@ -41,7 +41,7 @@
 		"common": "*",
 		"database": "*",
 		"dinero.js": "1.9.1",
-		"dotenv": "16.0.3",
+		"dotenv": "^16.0.3",
 		"express": "4.18.2",
 		"prisma": "*"
 	},

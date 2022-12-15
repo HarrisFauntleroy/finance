@@ -1,22 +1,16 @@
-// /**
-//  * Worker for handling data processing
-//  * With BullMQ, Bull Board 🎯 & Redis
-//  */
-// import accountsHistory from "./accountsHistory"
-// import { updateMarketsCrypto } from "./market/crypto"
-// import { updateExchangeRates } from "./market/forex"
-// import swyftx from "./swyftx/index"
-// import { createBullBoard } from "@bull-board/api"
-// import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"
-// import { ExpressAdapter } from "@bull-board/express"
-// import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"
-// import * as dotenv from "dotenv"
-// import express from "express"
+/**
+ * Worker for handling data processing
+ * With BullMQ, Bull Board 🎯 & Redis
+ */
 import accountsHistory from "./accountsHistory"
 import { updateMarketsCrypto } from "./market/crypto"
 import updateExchangeRates from "./market/forex"
 import swyftx from "./swyftx"
 import { ConnectionOptions, Queue, Worker } from "bullmq"
+import { logger } from "common"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const express = require("express")
 const {
@@ -109,6 +103,7 @@ app.use("/admin/queues", serverAdapter.getRouter())
 // other configurations of your server
 
 app.listen(6001, () => {
+	logger.info(process.env.OER_APP_ID)
 	console.log("Running on 6001...")
 	console.log("For the UI, open http://localhost:6001/admin/queues")
 	console.log("Make sure Redis is running on port 6379 by default")

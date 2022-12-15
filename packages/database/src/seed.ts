@@ -39,7 +39,7 @@ const DEFAULT_USERS = [
 	}
 })()
 
-const userId = "clbp1yudp0010ndvdlyw5jfvj"
+const userId = "clbpou7co0008novdj603y64t"
 
 const input: Omit<Cryptocurrency, "createdAt" | "updatedAt">[] = [
 	{

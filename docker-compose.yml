@@ -31,7 +31,7 @@ services:
     container_name: database
     command: -p 5432
     restart: always
-    image: postgres
+    image: postgres:15
     env_file:
       - .env
     ports:
