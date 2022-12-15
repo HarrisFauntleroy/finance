@@ -1,9 +1,9 @@
-[36mweb:build[0m: cache hit, replaying output [2mc8bc58150430e01c[0m
+[36mweb:build[0m: cache hit, replaying output [2ma307607611c57e25[0m
 [36mweb:build: [0m$ prisma generate
 [36mweb:build: [0mEnvironment variables loaded from .env
 [36mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
 [36mweb:build: [0m
-[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 80ms
+[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 86ms
 [36mweb:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
 [36mweb:build: [0m```
 [36mweb:build: [0mimport { PrismaClient } from '../../packages/database/generated/prisma-client'
@@ -14,6 +14,7 @@
 [36mweb:build: [0mThis might lead to unexpected behavior.
 [36mweb:build: [0mPlease make sure they have the same version.
 [36mweb:build: [0m$ next build
+[36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env.local
 [36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
 [36mweb:build: [0minfo  - Linting and checking validity of types...
 [36mweb:build: [0mFailed to compile.

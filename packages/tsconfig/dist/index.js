@@ -85,6 +85,6 @@ app.use("/admin/queues", serverAdapter.getRouter());
 // other configurations of your server
 app.listen(6001, () => {
     console.log("Running on 6001...");
-    console.log("http://localhost:6001/admin/queues");
+    console.log("For the UI, open http://localhost:6001/admin/queues");
     console.log("Make sure Redis is running on port 6379 by default");
 });
