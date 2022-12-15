@@ -7,3 +7,5 @@
 // ) {
 // 	updateExchangeRates().then(res.json).catch(res.json)
 // }
+
+export {}
