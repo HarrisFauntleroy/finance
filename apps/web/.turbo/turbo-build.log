@@ -1,9 +1,9 @@
-[36mweb:build[0m: cache hit, replaying output [2ma307607611c57e25[0m
+[36mweb:build[0m: cache hit, replaying output [2m067c88979356c887[0m
 [36mweb:build: [0m$ prisma generate
 [36mweb:build: [0mEnvironment variables loaded from .env
 [36mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
 [36mweb:build: [0m
-[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 86ms
+[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 82ms
 [36mweb:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
 [36mweb:build: [0m```
 [36mweb:build: [0mimport { PrismaClient } from '../../packages/database/generated/prisma-client'
@@ -17,17 +17,3 @@
 [36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env.local
 [36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
 [36mweb:build: [0minfo  - Linting and checking validity of types...
-[36mweb:build: [0mFailed to compile.
-[36mweb:build: [0m
-[36mweb:build: [0m./src/server/trpc/router/_app.ts:10:14
-[36mweb:build: [0mType error: Exported variable 'appRouter' has or is using name 'currency' from external module "currency.js" but cannot be named.
-[36mweb:build: [0m
-[36mweb:build: [0m[0m [90m  8 | [39m[36mimport[39m { userRouter } [36mfrom[39m [32m"./user"[39m[0m
-[36mweb:build: [0m[0m [90m  9 | [39m[0m
-[36mweb:build: [0m[0m[31m[1m>[22m[39m[90m 10 | [39m[36mexport[39m [36mconst[39m appRouter [33m=[39m router({[0m
-[36mweb:build: [0m[0m [90m    | [39m             [31m[1m^[22m[39m[0m
-[36mweb:build: [0m[0m [90m 11 | [39m	auth[33m:[39m authRouter[33m,[39m[0m
-[36mweb:build: [0m[0m [90m 12 | [39m	accounts[33m:[39m accountsRouter[33m,[39m[0m
-[36mweb:build: [0m[0m [90m 13 | [39m	budget[33m:[39m budgetRouter[33m,[39m[0m
-[36mweb:build: [0merror Command failed with exit code 1.
-[36mweb:build: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

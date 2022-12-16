@@ -29,7 +29,8 @@
 		"generate": "turbo run generate",
 		"lint": "turbo run lint",
 		"test": "turbo run test --concurrency=1",
-		"test:watch": "turbo run test:watch"
+		"test:watch": "turbo run test:watch",
+		"docker:prune": "docker system prune --all"
 	},
 	"devDependencies": {
 		"prettier": "latest",

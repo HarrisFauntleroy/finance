@@ -3,25 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// /**
-//  * Worker for handling data processing
-//  * With BullMQ, Bull Board 🎯 & Redis
-//  */
-// import accountsHistory from "./accountsHistory"
-// import { updateMarketsCrypto } from "./market/crypto"
-// import { updateExchangeRates } from "./market/forex"
-// import swyftx from "./swyftx/index"
-// import { createBullBoard } from "@bull-board/api"
-// import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"
-// import { ExpressAdapter } from "@bull-board/express"
-// import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"
-// import * as dotenv from "dotenv"
-// import express from "express"
+/**
+ * Worker for handling data processing
+ * With BullMQ, Bull Board 🎯 & Redis
+ */
 const accountsHistory_1 = __importDefault(require("./accountsHistory"));
 const crypto_1 = require("./market/crypto");
 const forex_1 = __importDefault(require("./market/forex"));
 const swyftx_1 = __importDefault(require("./swyftx"));
 const bullmq_1 = require("bullmq");
+const common_1 = require("common");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express = require("express");
 const { ExpressAdapter, createBullBoard, BullMQAdapter, } = require("@bull-board/express");
 const redisConfiguration = {
@@ -43,8 +36,8 @@ const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
 queueMQ.add("updateMarkets", { key: "updateMarkets" }, {
     jobId: "updateMarkets",
     repeat: {
-        // Every 5 minutes
-        pattern: "*/5 * * * *",
+        // Hourly
+        pattern: "0 * * * *",
     },
 });
 queueMQ.add("updateForex", { key: "updateForex" }, {
@@ -57,8 +50,8 @@ queueMQ.add("updateForex", { key: "updateForex" }, {
 queueMQ.add("updateSwyftx", { key: "updateSwyftx" }, {
     jobId: "updateSwyftx",
     repeat: {
-        // Every day at 8am
-        pattern: "0 8 * * *",
+        // Hourly
+        pattern: "0 * * * *",
     },
 });
 queueMQ.add("accountsHistory", { key: "accountsHistory" }, {
@@ -83,8 +76,9 @@ new bullmq_1.Worker(queueName, async (job) => {
 const app = express();
 app.use("/admin/queues", serverAdapter.getRouter());
 // other configurations of your server
-app.listen(6001, () => {
-    console.log("Running on 6001...");
-    console.log("For the UI, open http://localhost:6001/admin/queues");
+app.listen(process.env.WORKER_PORT, () => {
+    common_1.logger.info(process.env.OER_APP_ID);
+    console.log(`Running on ${process.env.WORKER_PORT}...`);
+    console.log(`For the UI, open http://localhost:${process.env.WORKER_PORT}/admin/queues`);
     console.log("Make sure Redis is running on port 6379 by default");
 });

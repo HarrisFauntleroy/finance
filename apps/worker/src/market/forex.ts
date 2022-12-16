@@ -42,7 +42,11 @@ const upsertManyMarkets = async (data: OpenExchangeRatesResponse[]) => {
 				price: new Decimal(String(response?.price)),
 			}
 			await prisma.market.upsert({
-				where: { ticker: parsed.ticker },
+				where: {  name_ticker_type:{
+					name: parsed.name,
+					ticker: parsed.ticker,
+					type: MarketType.CASH,
+				} },
 				create: parsed,
 				update: parsed,
 			})
@@ -52,6 +56,7 @@ const upsertManyMarkets = async (data: OpenExchangeRatesResponse[]) => {
 
 export const updateExchangeRates = async () => {
 	try {
+		logger.info("Starting updateExchangeRates")
 		// Get currency names and tickers
 		const name = await fetchFromOpenExchangeRates(
 			"/currencies.json?show_alternative=false"
@@ -72,6 +77,7 @@ export const updateExchangeRates = async () => {
 		}))
 
 		await upsertManyMarkets(latest)
+		logger.info("Finished updateExchangeRates")
 	} catch (error) {
 		logger.error(error)
 	}

@@ -47,8 +47,8 @@ queueMQ.add(
 	{
 		jobId: "updateMarkets",
 		repeat: {
-			// Every 5 minutes
-			pattern: "*/5 * * * *",
+			// Hourly
+			pattern: "0 * * * *",
 		},
 	}
 )
@@ -70,8 +70,8 @@ queueMQ.add(
 	{
 		jobId: "updateSwyftx",
 		repeat: {
-			// Every day at 8am
-			pattern: "0 8 * * *",
+			// Hourly
+			pattern: "0 * * * *",
 		},
 	}
 )
@@ -102,10 +102,12 @@ app.use("/admin/queues", serverAdapter.getRouter())
 
 // other configurations of your server
 
-app.listen(6001, () => {
+app.listen(process.env.WORKER_PORT, () => {
 	logger.info(process.env.OER_APP_ID)
-	console.log("Running on 6001...")
-	console.log("For the UI, open http://localhost:6001/admin/queues")
+	console.log(`Running on ${process.env.WORKER_PORT}...`)
+	console.log(
+		`For the UI, open http://localhost:${process.env.WORKER_PORT}/admin/queues`
+	)
 	console.log("Make sure Redis is running on port 6379 by default")
 })
 
