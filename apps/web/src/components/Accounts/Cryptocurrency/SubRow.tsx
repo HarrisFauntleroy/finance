@@ -24,7 +24,6 @@ import {
 	calculateStandardDeviation,
 	fetchCryptoPriceHistory,
 	findSimpleMovingAverage,
-	money,
 	percentageChange,
 } from "common"
 import currency from "currency.js"
@@ -103,10 +102,10 @@ function TableSubComponent<TData extends CalculatedCryptocurrency>({
 	const bollingerBands = calculateBollingerBands(priceHistory)
 
 	// Calculate the absolute amount of saleable assets
-	const amount = Math.abs(money(saleable).value).toFixed(2)
+	const amount = Math.abs(currency(saleable).value).toFixed(2)
 
 	// Calculate the cost to buy the desired amount
-	const costToBuy = money(amount).multiply(money(price))
+	const costToBuy = currency(amount).multiply(currency(price))
 
 	// Calculate the final cost basis after buying
 	const finalCostBasis = costToBuy.add(String(costBasis))
@@ -116,12 +115,12 @@ function TableSubComponent<TData extends CalculatedCryptocurrency>({
 
 	// Calculate the average cost or price
 	const averageCostOrPrice =
-		money(averageCost).value === 0 ? money(price) : money(averageCost)
+		currency(averageCost).value === 0 ? currency(price) : currency(averageCost)
 
 	const recommendAction = () => {
 		// Calculate the return on investment after buying
 		const roiAfterBuy = Math.abs(
-			percentageChange(finalaverageCost.value, money(averageCost).value)
+			percentageChange(finalaverageCost.value, currency(averageCost).value)
 		).toFixed(2)
 
 		// Use a switch statement to determine the recommended action based on the conditions
@@ -164,8 +163,11 @@ function TableSubComponent<TData extends CalculatedCryptocurrency>({
 				<AccordionPanel pb={4}>
 					<Stack>
 						<Grid>
-							<Stat label="Average Price" value={money(averageCost).format()} />
-							<Stat label="Price" value={money(price).format()} />
+							<Stat
+								label="Average Price"
+								value={currency(averageCost).format()}
+							/>
+							<Stat label="Price" value={currency(price).format()} />
 							<Stat
 								label="Gain/Loss from Price %"
 								value={`${percentageChange(
@@ -176,39 +178,39 @@ function TableSubComponent<TData extends CalculatedCryptocurrency>({
 
 							<Stat
 								label="Simple moving average"
-								value={money(simpleMovingAverage).format()}
+								value={currency(simpleMovingAverage).format()}
 							/>
 							<Stat
 								label="Exponential moving average"
-								value={money(exponentialMovingAverage).format()}
+								value={currency(exponentialMovingAverage).format()}
 							/>
 							<Stat
 								label="Moving average convergence diveregence"
-								value={money(movingAverageConvergenceDivergence).format()}
+								value={currency(movingAverageConvergenceDivergence).format()}
 							/>
 							<Stat
 								label="Relative strength index"
-								value={money(relativeStrengthIndex).value.toString()}
+								value={currency(relativeStrengthIndex).value.toString()}
 							/>
 							<Stat
 								label="Average price gain over 365d"
-								value={money(averageGain).format()}
+								value={currency(averageGain).format()}
 							/>
 							<Stat
 								label="Average price loss over 365d"
-								value={money(averageLoss).format()}
+								value={currency(averageLoss).format()}
 							/>
 							<Stat
 								label="Standard deviation"
-								value={money(standardDeviation).format()}
+								value={currency(standardDeviation).format()}
 							/>
 							<Stat
 								label="Bollinger bands upper"
-								value={money(bollingerBands.upper).format()}
+								value={currency(bollingerBands.upper).format()}
 							/>
 							<Stat
 								label="Bollinger bands lower"
-								value={money(bollingerBands.lower).format()}
+								value={currency(bollingerBands.lower).format()}
 							/>
 							<Stat
 								label="Gain/Loss from SMA"

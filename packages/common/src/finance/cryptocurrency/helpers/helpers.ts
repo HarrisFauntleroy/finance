@@ -1,6 +1,7 @@
 import { ExchangeRates } from "../../../finance/forex"
-import { convertCurrency, money } from "../../../finance/helpers"
+import { convertCurrency } from "../../../finance/helpers"
 import { sumArrayByKey } from "../../../helpers"
+import currency from "currency.js"
 import { Cryptocurrency, Market } from "database/generated/prisma-client"
 
 export type CryptoComplete = Cryptocurrency & {
@@ -79,8 +80,8 @@ export function calculateCryptoSummary(
 	})
 
 	/** Basic stats */
-	const balance = money(crypto?.balance)
-	const targetBalance = money(crypto.targetBalance)
+	const balance = currency(String(crypto?.balance))
+	const targetBalance = currency(String(crypto.targetBalance))
 
 	const value = balance.multiply(price)
 	const unrealisedGain = value.subtract(costBasis)
@@ -94,11 +95,11 @@ export function calculateCryptoSummary(
 	const saleable = balance.subtract(targetBalance)
 	const saleableValue = saleable.multiply(price)
 	/** Income */
-	const estimatedStakingYield = money(crypto.rateOfIncome)
-		.multiply(money(crypto.interestBearingBalance))
+	const estimatedStakingYield = currency(String(crypto.rateOfIncome))
+		.multiply(currency(String(crypto.interestBearingBalance)))
 		.divide(100)
 	const estimatedYearlyReturn = estimatedStakingYield.multiply(price)
-	const amountStaked = money(crypto.interestBearingBalance)
+	const amountStaked = currency(String(crypto.interestBearingBalance))
 	/** Suggestions */
 	const belowTargetBalance = saleable.intValue < targetBalance.intValue
 	const shouldSell = averageCost < price
@@ -227,7 +228,7 @@ export function calculateCryptoOverview({
 
 	const totalCostBasis = sumArrayByKey(data, "costBasis")
 
-	const unrealisedGain = money(totalValue).subtract(totalCostBasis)
+	const unrealisedGain = currency(totalValue).subtract(totalCostBasis)
 
 	const saleableValue = sumArrayByKey(data, "saleableValue")
 

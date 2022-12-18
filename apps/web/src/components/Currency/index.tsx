@@ -1,8 +1,7 @@
 import { useContext } from "react"
 
 import { chakra } from "@chakra-ui/react"
-import { money } from "common"
-import type currency from "currency.js"
+import currency from "currency.js"
 import type { Decimal } from "database/generated/prisma-client/runtime"
 import { useSession } from "next-auth/react"
 import { PrivacyContext } from "~/components/AppContext/Privacy"
@@ -41,7 +40,7 @@ function Currency({ value }: CurrencyProps) {
 		currency: userCurrency || "usd",
 		maximumFractionDigits: 10,
 	})
-		.format(money(value).value)
+		.format(currency(String(value)).value)
 		.replace("BTC", "₿")
 		.replace("SAT", "丰")
 		.replace("ETH", "⟠")

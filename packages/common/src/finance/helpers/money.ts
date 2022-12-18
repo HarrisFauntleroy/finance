@@ -3,12 +3,6 @@ import currency from "currency.js"
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 
-/** currency but automatic transformation */
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const money = (value?: any) => currency(String(value))
-
-/** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-
 // Calculate the simple moving average of an input array
 export function findSimpleMovingAverage(inputArray: (string | number)[]) {
 	// Check if the input array exists
@@ -69,5 +63,5 @@ export function convertCurrency({
 	)
 
 	// multiply the amount by the conversion rate and return the result
-	return money(amount).multiply(conversionRate)
+	return currency(String(amount)).multiply(conversionRate)
 }
