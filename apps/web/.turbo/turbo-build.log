@@ -1,9 +1,9 @@
-[36mweb:build[0m: cache hit, replaying output [2m067c88979356c887[0m
+[36mweb:build[0m: cache hit, replaying output [2m9df61192aac14dd7[0m
 [36mweb:build: [0m$ prisma generate
 [36mweb:build: [0mEnvironment variables loaded from .env
 [36mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
 [36mweb:build: [0m
-[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 82ms
+[36mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 168ms
 [36mweb:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
 [36mweb:build: [0m```
 [36mweb:build: [0mimport { PrismaClient } from '../../packages/database/generated/prisma-client'
@@ -17,3 +17,18 @@
 [36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env.local
 [36mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/apps/web/.env
 [36mweb:build: [0minfo  - Linting and checking validity of types...
+[36mweb:build: [0mFailed to compile.
+[36mweb:build: [0m
+[36mweb:build: [0m./src/components/Budget/BudgetPlanner.tsx:35:6
+[36mweb:build: [0mType error: Type '{ userId: string; id: string; Children: { id: string; name: string; createdAt: Date; updatedAt: Date; category: string; amount: string; frequency: string; budgetId: string; }[]; name: string; income: Income[]; }[]' is not assignable to type 'Budget[]'.
+[36mweb:build: [0m  Type '{ userId: string; id: string; Children: { id: string; name: string; createdAt: Date; updatedAt: Date; category: string; amount: string; frequency: string; budgetId: string; }[]; name: string; income: Income[]; }' is missing the following properties from type 'Budget': createdAt, updatedAt, deleted, deletedAt
+[36mweb:build: [0m
+[36mweb:build: [0m[0m [90m 33 | [39m				[33m<[39m[33mTable[39m[0m
+[36mweb:build: [0m[0m [90m 34 | [39m					id[33m=[39m[32m"budgetOverview"[39m[0m
+[36mweb:build: [0m[0m[31m[1m>[22m[39m[90m 35 | [39m					data[33m=[39m{data [33m||[39m []}[0m
+[36mweb:build: [0m[0m [90m    | [39m					[31m[1m^[22m[39m[0m
+[36mweb:build: [0m[0m [90m 36 | [39m					columns[33m=[39m{budgetColumns}[0m
+[36mweb:build: [0m[0m [90m 37 | [39m					getRowCanExpand[33m=[39m{() [33m=>[39m [36mtrue[39m}[0m
+[36mweb:build: [0m[0m [90m 38 | [39m					filterEnabled[0m
+[36mweb:build: [0merror Command failed with exit code 1.
+[36mweb:build: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

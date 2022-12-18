@@ -1,4 +1,4 @@
-[34mcommon:build[0m: cache hit, replaying output [2m78601369a28e3b1d[0m
+[34mcommon:build[0m: cache hit, replaying output [2mb05e76a68f668e37[0m
 [34mcommon:build: [0m$ tsup
 [34mcommon:build: [0mCLI Building entry: src/index.ts
 [34mcommon:build: [0mCLI Using tsconfig: tsconfig.json
@@ -6,14 +6,14 @@
 [34mcommon:build: [0mCLI Using tsup config: /Users/harrisfauntleroy/Documents/code/personal/turbo/examples/elixir.money-monorepo/packages/common/tsup.config.ts
 [34mcommon:build: [0mCLI Target: node12
 [34mcommon:build: [0mCLI Cleaning output folder
-[34mcommon:build: [0mCJS Build start
 [34mcommon:build: [0mESM Build start
-[34mcommon:build: [0mESM ⚡️ Build success in 14ms
-[34mcommon:build: [0mCJS ⚡️ Build success in 16ms
-[34mcommon:build: [0mESM dist/index.mjs     13.64 KB
-[34mcommon:build: [0mESM dist/index.mjs.map 34.82 KB
-[34mcommon:build: [0mCJS dist/index.js     16.72 KB
-[34mcommon:build: [0mCJS dist/index.js.map 35.22 KB
+[34mcommon:build: [0mCJS Build start
+[34mcommon:build: [0mESM ⚡️ Build success in 176ms
+[34mcommon:build: [0mCJS ⚡️ Build success in 175ms
+[34mcommon:build: [0mESM dist/index.mjs     19.95 KB
+[34mcommon:build: [0mESM dist/index.mjs.map 53.42 KB
+[34mcommon:build: [0mCJS dist/index.js     23.08 KB
+[34mcommon:build: [0mCJS dist/index.js.map 53.82 KB
 [34mcommon:build: [0mDTS Build start
-[34mcommon:build: [0mDTS ⚡️ Build success in 1160ms
+[34mcommon:build: [0mDTS ⚡️ Build success in 1459ms
 [34mcommon:build: [0mDTS dist/index.d.ts 10.18 KB

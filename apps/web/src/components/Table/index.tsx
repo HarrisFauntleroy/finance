@@ -29,8 +29,6 @@ declare module "@tanstack/table-core" {
 	}
 }
 
-/** Extend all possible input types */
-
 export type TableProps<TData> = {
 	/** Table ID allows for persistent state on some table settings */
 	id: string

@@ -7,10 +7,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
-const accountsHistory_1 = __importDefault(require("./accountsHistory"));
+const deleter_1 = __importDefault(require("./deleter"));
 const crypto_1 = require("./market/crypto");
 const forex_1 = __importDefault(require("./market/forex"));
-const swyftx_1 = __importDefault(require("./swyftx"));
+const portfolioSnapshot_1 = __importDefault(require("./portfolioSnapshot"));
+const swyftx_1 = require("./swyftx");
 const bullmq_1 = require("bullmq");
 const common_1 = require("common");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -36,31 +37,39 @@ const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
 queueMQ.add("updateMarkets", { key: "updateMarkets" }, {
     jobId: "updateMarkets",
     repeat: {
-        // Hourly
-        pattern: "0 * * * *",
+        // Every 10 minutes
+        pattern: "*/10 * * * *",
     },
 });
 queueMQ.add("updateForex", { key: "updateForex" }, {
     jobId: "updateForex",
     repeat: {
-        // Hourly
-        pattern: "0 * * * *",
+        // Every 10 minutes
+        pattern: "*/10 * * * *",
     },
 });
 queueMQ.add("updateSwyftx", { key: "updateSwyftx" }, {
     jobId: "updateSwyftx",
     repeat: {
-        // Hourly
-        pattern: "0 * * * *",
+        // Every 10 minutes
+        pattern: "*/10 * * * *",
     },
 });
-queueMQ.add("accountsHistory", { key: "accountsHistory" }, {
-    jobId: "accountsHistory",
+queueMQ.add("portfolioSnapshot", { key: "portfolioSnapshot" }, {
+    jobId: "portfolioSnapshot",
     repeat: {
-        // Hourly
-        pattern: "0 * * * *",
+        // Every 10 minutes
+        pattern: "*/10 * * * *",
     },
 });
+queueMQ.add("deleter", { key: "deleter" }, {
+    jobId: "deleter",
+    repeat: {
+        // Every 1 minutes
+        pattern: "*/1 * * * *",
+    },
+});
+// Maybe if a specific data is passed in they do more
 new bullmq_1.Worker(queueName, async (job) => {
     job.log(`Starting job ${job.name}`);
     if (job.data.key === "updateMarkets")
@@ -68,10 +77,19 @@ new bullmq_1.Worker(queueName, async (job) => {
     if (job.data.key === "updateForex")
         return await (0, forex_1.default)();
     if (job.data.key === "updateSwyftx")
-        return await (0, swyftx_1.default)();
-    if (job.data.key === "accountsHistory")
-        return await (0, accountsHistory_1.default)();
+        return await (0, swyftx_1.swyftx)();
+    if (job.data.key === "deleter")
+        return await (0, deleter_1.default)();
+    if (job.data.key === "portfolioSnapshot")
+        return await (0, portfolioSnapshot_1.default)();
     return;
+});
+const queueEvents = new bullmq_1.QueueEvents(queueName, queueOptions);
+queueEvents.on("completed", ({ jobId, returnvalue }) => {
+    common_1.logger.info(`JobId: ${jobId} has successfully returned: ${returnvalue}}`);
+});
+queueEvents.on("failed", ({ jobId, failedReason }) => {
+    common_1.logger.info(`JobId: ${jobId} has failed: ${failedReason}}`);
 });
 const app = express();
 app.use("/admin/queues", serverAdapter.getRouter());
