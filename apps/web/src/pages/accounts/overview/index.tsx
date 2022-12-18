@@ -80,13 +80,13 @@ function AccountsPage() {
 	})
 
 	/** Show months and dates */
-	const labels = historyData?.accountsHistory.map(({ createdAt }) =>
+	const labels = historyData?.portfolioSnapshot.map(({ createdAt }) =>
 		format(new Date(createdAt), "dd MMM")
 	)
 
 	/** Make a copy of the data to allow mutation/reversal */
 	const tableData =
-		historyData?.accountsHistory && Array.from(historyData?.accountsHistory)
+		historyData?.portfolioSnapshot && Array.from(historyData?.portfolioSnapshot)
 
 	const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA")
 
@@ -98,7 +98,9 @@ function AccountsPage() {
 			datasets: [
 				{
 					label: "Cost Basis",
-					data: historyData?.accountsHistory.map(({ costBasis }) => costBasis),
+					data: historyData?.portfolioSnapshot.map(
+						({ costBasis }) => costBasis
+					),
 					tension: 0.4,
 					spanGaps: true,
 					borderColor: costBasisBg,
@@ -113,7 +115,7 @@ function AccountsPage() {
 				},
 				{
 					label: "Net Worth",
-					data: historyData?.accountsHistory.map(
+					data: historyData?.portfolioSnapshot.map(
 						({ totalValue }) => totalValue
 					),
 					tension: 0.4,
@@ -129,7 +131,7 @@ function AccountsPage() {
 				},
 			],
 		}),
-		[costBasisBg, historyData?.accountsHistory, labels, netWorthBg]
+		[costBasisBg, historyData?.portfolioSnapshot, labels, netWorthBg]
 	)
 
 	const IncomeBreakdown = () => (

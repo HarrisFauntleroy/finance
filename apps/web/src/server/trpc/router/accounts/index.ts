@@ -27,7 +27,7 @@ export const accountsRouter = router({
 			// Destructure the userId from the input object
 			const { userId } = input
 			// Fetch the user data using the userId provided
-			// Select the user's id, cryptocurrency, and accountsHistory
+			// Select the user's id, cryptocurrency, and portfolioSnapshot
 			const userResponse = await prisma.user.findUnique({
 				where: {
 					id: userId,
@@ -40,7 +40,7 @@ export const accountsRouter = router({
 							Children: true,
 						},
 					},
-					accountsHistory: true,
+					portfolioSnapshot: true,
 				},
 			})
 			// Fetch the user's settings
@@ -93,7 +93,7 @@ export const accountsRouter = router({
 				totalCostBasis,
 				unrealisedGain,
 				cryptocurrency,
-				accountsHistory: userResponse.accountsHistory,
+				portfolioSnapshot: userResponse.portfolioSnapshot,
 			}
 		}),
 	historyByUserId: publicProcedure
@@ -104,21 +104,21 @@ export const accountsRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { userId } = input
-			const accountsHistory = await prisma.user.findUnique({
+			const portfolioSnapshot = await prisma.user.findUnique({
 				where: {
 					id: userId,
 				},
 				select: {
 					id: true,
-					accountsHistory: true,
+					portfolioSnapshot: true,
 				},
 			})
-			if (!accountsHistory) {
+			if (!portfolioSnapshot) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No accountsHistory with userId '${userId}'`,
+					message: `No portfolioSnapshot with userId '${userId}'`,
 				})
 			}
-			return accountsHistory
+			return portfolioSnapshot
 		}),
 })

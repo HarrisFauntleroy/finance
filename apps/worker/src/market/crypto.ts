@@ -44,11 +44,12 @@ type CoinGeckoResponse = {
 const baseCurrency = "USD"
 
 const upsertManyPosts = async (response: CoinGeckoResponse[]) => {
-	// Loop through all the response items
 	for (const crypto of response) {
 		try {
-			// Create an object containing the data to upsert into the database
-			const parsed: Omit<Market, "createdAt" | "updatedAt"> = {
+			const parsed: Omit<
+				Market,
+				"createdAt" | "updatedAt" | "deleted" | "deletedAt"
+			> = {
 				name: crypto.id,
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: crypto.symbol,
@@ -61,20 +62,17 @@ const upsertManyPosts = async (response: CoinGeckoResponse[]) => {
 				marketCapRank: toDecimal(crypto.market_cap_rank),
 				description: "",
 			}
-			// Upsert the data
 			await prisma.market.upsert({
 				where: { ticker: parsed.ticker },
 				create: parsed,
 				update: parsed,
 			})
 		} catch (error) {
-			// Log any errors
 			logger.error(error)
 		}
 	}
 }
 
-/** Fetch and return json, log failures */
 const fetchAndParseJSON = async (url: string) =>
 	axios
 		.get(url)
@@ -82,20 +80,13 @@ const fetchAndParseJSON = async (url: string) =>
 		.catch(console.error)
 
 export const updateMarketsCrypto = async () => {
-	/** Limit results per page */
 	const resultsPerPage = 250
-	/** How many pages to fetch */
 	const pages = 8
 
-	/** Loop through the page array and fetch results */
 	for (let page = pages; page > 0; page--) {
-		/** Base url */
-		const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
+		const baseUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
 
-		/** Fetch and update */
-		await fetchAndParseJSON(url)
-			.then(upsertManyPosts)
-			.catch(logger.error)
-			.then(() => logger.info(page))
+		await fetchAndParseJSON(baseUrl).then(upsertManyPosts)
 	}
+	return `Crypto: ${new Date()}`
 }

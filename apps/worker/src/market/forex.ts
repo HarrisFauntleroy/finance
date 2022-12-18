@@ -16,9 +16,7 @@ const baseUrl = "https://openexchangerates.org/api"
 
 // Default GET request for Open Exchange Rates API
 // Adds authorization token to the headers
-export const fetchFromOpenExchangeRates = (
-	url: string
-) =>
+export const fetchFromOpenExchangeRates = (url: string) =>
 	axios
 		.get(baseUrl + url, {
 			headers: {
@@ -42,11 +40,13 @@ const upsertManyMarkets = async (data: OpenExchangeRatesResponse[]) => {
 				price: new Decimal(String(response?.price)),
 			}
 			await prisma.market.upsert({
-				where: {  name_ticker_type:{
-					name: parsed.name,
-					ticker: parsed.ticker,
-					type: MarketType.CASH,
-				} },
+				where: {
+					name_ticker_type: {
+						name: parsed.name,
+						ticker: parsed.ticker,
+						type: MarketType.CASH,
+					},
+				},
 				create: parsed,
 				update: parsed,
 			})
@@ -70,7 +70,9 @@ export const updateExchangeRates = async () => {
 		delete exchange.disclaimer
 		delete exchange.license
 
-		const latest:OpenExchangeRatesResponse[] = Object.entries(exchange.rates).map(([id, price]) => ({
+		const latest: OpenExchangeRatesResponse[] = Object.entries(
+			exchange.rates
+		).map(([id, price]) => ({
 			id,
 			price,
 			name: name[id],
@@ -81,6 +83,7 @@ export const updateExchangeRates = async () => {
 	} catch (error) {
 		logger.error(error)
 	}
+	return `Forex: ${new Date()}`
 }
 
 export default updateExchangeRates

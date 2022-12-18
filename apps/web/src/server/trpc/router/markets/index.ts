@@ -49,6 +49,7 @@ export const marketsRouter = router({
 				select: MarketSelectSchema,
 			})
 		}),
+	// Soft delete, worker clears all things that are marked deleted after 7 days by the worker app
 	delete: publicProcedure
 		.input(
 			z.object({
@@ -58,21 +59,27 @@ export const marketsRouter = router({
 			})
 		)
 		.mutation(async ({ input }) => {
-			const { name, ticker, type } = input
-			await prisma.market.delete({
+			return prisma.market.update({
 				where: {
 					name_ticker_type: {
-						name,
-						ticker,
-						type,
+						name: input.name,
+						ticker: input.ticker,
+						type: input.type,
 					},
 				},
+				data: {
+					deletedAt: new Date(),
+					deleted: true,
+				},
 			})
-			return {
-				name,
-				ticker,
-			}
 		}),
+	deleteQueue: publicProcedure.query(async () => {
+		return prisma.market.findMany({
+			where: {
+				deleted: true,
+			},
+		})
+	}),
 
 	all: publicProcedure.input(MarketSchema).query(async () => {
 		const market = await prisma.market.findMany()

@@ -1,7 +1,6 @@
 import type { FC, ReactElement, ReactNode } from "react"
 
 import SEO from "../../next-seo.config"
-import "../styles/globals.css"
 import { trpc } from "../utils/trpc"
 import Auth from "./auth"
 import type { Role } from "database/generated/prisma-client"

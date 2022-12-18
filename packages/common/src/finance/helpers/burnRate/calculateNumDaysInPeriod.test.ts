@@ -1,4 +1,4 @@
-import { calculateNumDaysInPeriod, RateType } from "./calculateNumDaysInPeriod"
+import { RateType, calculateNumDaysInPeriod } from "./calculateNumDaysInPeriod"
 
 describe("calculateNumDaysInPeriod", () => {
 	it("should return the correct number of days for each rate type", () => {

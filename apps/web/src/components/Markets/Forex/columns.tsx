@@ -15,6 +15,7 @@ import { formatDuration, intervalToDuration } from "date-fns"
 import Link from "next/link"
 import { BsFileMinus, BsPlus } from "react-icons/bs"
 import Currency from "~/components/Currency"
+import { countryByCurrency } from "~/utils/countries"
 
 /** Column definitions for markets page */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,7 +46,9 @@ export const forexColumns: ColumnDef<any>[] = [
 				>
 					<Avatar
 						size="sm"
-						src={row.original.image || ""}
+						src={`/icons/countries/${
+							countryByCurrency[row.original.ticker.toUpperCase()]
+						}.svg`}
 						backgroundColor="transparent
 								"
 					/>

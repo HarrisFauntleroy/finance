@@ -1,8 +1,6 @@
-import { SwyftxAsset, swyftxAssets } from "./assets"
-import { Balance, swyftxBalance } from "./balance"
-import { Transaction, swyftxHistory } from "./history"
-import { SwyftxJWT, refreshSwyftxToken } from "./jwt"
+import { toDecimal } from "../util"
 import axios from "axios"
+import { logger } from "common"
 import { prisma } from "database"
 import {
 	AccountConnection,
@@ -10,24 +8,91 @@ import {
 } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
 
-// import logger from "common/dist/src/helpers/logger"
+const baseSwyftxApiUrl = "https://api.swyftx.com.au"
+const assetsUrl = "/markets/assets/"
+const balanceUrl = "/user/balance/"
+const historyUrl = "/history/all/type/assetId/"
+const jwtUrl = "https://api.swyftx.com.au/auth/refresh/"
 
-const baseUrl = "https://api.swyftx.com.au"
+interface SwyftxAsset {
+	id: string
+	name: string
+	code: string
+	minimum_order: string
+	price_scale: number
+	deposit_enabled: boolean
+	withdraw_enabled: boolean
+	min_confirmations: number
+	min_withdrawal: number
+	minimum_order_increment: number
+	mining_fee: number
+	primary: boolean
+	secondary: boolean
+}
+
+const swyftxAssets = (accessToken: string) =>
+	fetchFromSwyftx(assetsUrl, accessToken)
+
+interface Balance {
+	assetId: number
+	name: string
+	availableBalance: string
+	stakingBalance: string
+	marketId: string
+}
+
+/** Current balance & staking balance from Swyftx */
+const swyftxBalance = (accessToken: string) =>
+	fetchFromSwyftx(balanceUrl, accessToken)
+
+interface SwyftxJWT {
+	accessToken: string
+	scope: string
+}
+
+const refreshSwyftxToken = async (apiKey: string) => {
+	try {
+		const myHeaders = {
+			"Content-Type": "application/x-www-form-urlencoded",
+		}
+		const data = `apiKey=${apiKey}`
+
+		const response = await axios.post(jwtUrl, data, { headers: myHeaders })
+		return response.data
+	} catch (error) {
+		console.error(error)
+	}
+}
 
 interface SwyftxAccount {
-	/** Database reference */
 	id: string
-	/** Including send/receives, buy/sells & withdraw/deposits */
 	balance: Balance[]
 	history: Transaction[]
 }
 
 const body = JSON.stringify({ apiKey: process.env.SWYFTX_API_KEY })
 
-/** Default GET request for Swyftx API, adds authorisation */
-export const fetchFromSwyftx = async (url: string, accessToken: string) => {
+interface Transaction {
+	amount: number
+	trigger: number
+	quantity: number
+	primaryAsset: number
+	quantityAsset: number
+	asset: string
+	updated: Date
+	actionType: string
+	status: string
+}
+
+interface Secrets {
+	id: string
+	apiKey: string | null
+	apiSecret: string | null
+}
+
+const fetchFromSwyftx = async (url: string, accessToken: string) => {
 	try {
-		const response = await axios.get(baseUrl + url, {
+		const response = await axios.get(baseSwyftxApiUrl + url, {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${accessToken}`,
@@ -41,36 +106,19 @@ export const fetchFromSwyftx = async (url: string, accessToken: string) => {
 	}
 }
 
-export const getApiKeyAndSecret = async (userId: string) =>
-	prisma.cryptocurrency.findFirstOrThrow({
-		where: {
-			userId: userId,
-			accountConnection: AccountConnection.SWYFTX,
-		},
-		select: {
-			id: true,
-			apiKey: true,
-			apiSecret: true,
-		},
-	})
+const swyftxHistory = (accessToken: string) =>
+	fetchFromSwyftx(historyUrl, accessToken)
 
-interface Secrets {
-	id: string
-	apiKey: string | null
-	apiSecret: string | null
-}
-/** Get complete Swyftx account including balances & transaction history */
-export const getSwyftxAccount = async ({ id, apiKey }: Secrets) => {
-	// Get JWT for Swyftx API
+const getSwyftxAccount = async ({
+	id,
+	apiKey,
+}: Secrets): Promise<SwyftxAccount> => {
 	const { accessToken }: SwyftxJWT = await refreshSwyftxToken(String(apiKey))
 
-	// Swyftx assets list with IDs
 	const assetsList: SwyftxAsset[] = await swyftxAssets(accessToken)
 
-	// Current balance & staking balance from Swyftx
 	const rawBalance: Balance[] = await swyftxBalance(accessToken)
 
-	// Transaction history from Swyftx
 	const transactions: Transaction[] = await swyftxHistory(accessToken)
 
 	const balance = rawBalance?.map((item) => {
@@ -108,40 +156,37 @@ export const getSwyftxAccount = async ({ id, apiKey }: Secrets) => {
 	}
 }
 
-const swyftx = async () => {
-	const userIDs = await prisma.user.findMany({ select: { id: true } })
-
-	const userIds = userIDs.map(({ id: userId }) => userId)
-
-	const doSwyftx = async (userId: string) => {
-		// First look for any connected swyftx accounts
-		const secrets = await getApiKeyAndSecret(userId)
-		// Get balances and history for those accounts
+export const swyftx = async () => {
+	const updateOneUser = async (secrets: {
+		apiKey: string | null
+		id: string
+		userId: string
+		apiSecret: string | null
+	}) => {
+		logger.info(`Updating ${secrets.userId}`)
 		const accounts = await getSwyftxAccount(secrets)
 
-		// Format Swyftx response to fix schema
 		const formattedData = accounts?.balance.map(
 			({
 				name,
 				availableBalance,
 				stakingBalance,
 				marketId,
-				// TODO: add currency to this??? what?
 			}): Omit<
 				Cryptocurrency,
-				"createdAt" | "updatedAt" | "id" | "currency"
+				"createdAt" | "updatedAt" | "id" | "currency" | "deleted" | "deletedAt"
 			> => {
 				return {
-					userId,
+					userId: secrets.userId,
 					displayName: name,
 					parentId: secrets?.id,
 					marketId: marketId.toLowerCase(),
-					interestBearingBalance: new Decimal(stakingBalance),
-					balance: new Decimal(availableBalance).toDecimalPlaces(10),
-					costBasis: new Decimal(0),
-					targetBalance: new Decimal(0),
-					rateOfIncome: new Decimal(0),
-					realisedGain: new Decimal(0),
+					interestBearingBalance: toDecimal(stakingBalance),
+					balance: toDecimal(availableBalance),
+					costBasis: toDecimal(0),
+					targetBalance: toDecimal(0),
+					rateOfIncome: toDecimal(0),
+					realisedGain: toDecimal(0),
 					apiKey: "",
 					apiSecret: "",
 					walletAddress: "",
@@ -150,10 +195,9 @@ const swyftx = async () => {
 			}
 		)
 
-		// Update the swyftx connected accounts children accounts
 		const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
 			where: {
-				userId,
+				userId: secrets.userId,
 				accountConnection: AccountConnection.SWYFTX,
 			},
 			select: {
@@ -167,27 +211,34 @@ const swyftx = async () => {
 			},
 		})
 
-		formattedData?.map(async (data) => {
-			// Check if a crypto of this kind already exists
+		logger.info("formattedData", formattedData)
+		formattedData?.map(async (crypto) => {
 			const existingCrypto = Children.find(
-				(child) => child.marketId === data.marketId
+				(child) => child.marketId === crypto.marketId
 			)
-
-			try {
-				await prisma.cryptocurrency.upsert({
-					where: { id: existingCrypto?.id },
-					// Update the existing crypto
-					update: data,
-					// Create if doesn't exist
-					create: data,
-				})
-				// logger.info(data.marketId, data.balance)
-			} catch (error) {
-				// logger.error(error)
-			}
+			logger.info("existingCrypto", existingCrypto)
+			if (existingCrypto?.id)
+				prisma.cryptocurrency
+					.update({
+						where: { id: existingCrypto?.id },
+						data: crypto,
+					})
+					.catch(logger.error)
+			else
+				prisma.cryptocurrency
+					.create({
+						data: crypto,
+					})
+					.catch(logger.error)
 		})
 	}
-	userIds.map((userId) => doSwyftx(userId))
-}
 
-export default swyftx
+	await prisma.cryptocurrency
+		.findMany({
+			where: { accountConnection: AccountConnection.SWYFTX },
+			select: { apiKey: true, apiSecret: true, id: true, userId: true },
+		})
+		.then((secrets) => secrets.map((secret) => updateOneUser(secret)))
+
+	return `Swyftx: ${new Date()}`
+}

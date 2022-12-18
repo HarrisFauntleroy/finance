@@ -8,6 +8,8 @@ export const SettingsSelectSchema = Prisma.validator<Prisma.SettingsSelect>()({
 	userCurrency: true,
 	userLanguage: true,
 	preferredColorScheme: true,
+	deleted: true,
+	deletedAt: true,
 })
 
 /** Zod schemas for manipulating data */
@@ -17,4 +19,5 @@ export const SettingsSchema = z.object({
 	preferredColorScheme: z.nativeEnum(ColorScheme),
 	userCurrency: z.string(),
 	userLanguage: z.string(),
+	deleted: z.boolean(),
 })

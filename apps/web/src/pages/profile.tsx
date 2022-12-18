@@ -5,6 +5,7 @@
  */
 import React from "react"
 
+import { Button } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import Page from "~/components/Page"
 import { Body } from "~/components/Page/Body"
@@ -22,10 +23,23 @@ const Profile: DefaultPage = () => {
 		userId: userId || "",
 	})
 
+	const deleteSettings = trpc.settings.delete.useMutation()
+
 	return (
 		<Page title="Profile">
 			<Body>
 				<SettingsForm defaultValues={defaultValues} />
+				{defaultValues?.id && (
+					<Button
+						onClick={() =>
+							deleteSettings.mutateAsync({
+								id: defaultValues.id,
+							})
+						}
+					>
+						Delete settings
+					</Button>
+				)}
 			</Body>
 		</Page>
 	)

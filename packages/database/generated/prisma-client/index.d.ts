@@ -52,14 +52,82 @@ export type User = {
   email: string | null
   emailVerified: Date | null
   image: string | null
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
   role: Role
 }
 
 /**
- * Model AccountsHistory
+ * Model CryptoSnapshot
  * 
  */
-export type AccountsHistory = {
+export type CryptoSnapshot = {
+  id: string
+  userId: string
+  totalValue: Prisma.Decimal
+  costBasis: Prisma.Decimal
+  unrealisedGain: Prisma.Decimal
+  realisedGain: Prisma.Decimal
+  saleableValue: Prisma.Decimal
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
+}
+
+/**
+ * Model CashSnapshot
+ * 
+ */
+export type CashSnapshot = {
+  id: string
+  userId: string
+  totalValue: Prisma.Decimal
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
+}
+
+/**
+ * Model PropertySnapshot
+ * 
+ */
+export type PropertySnapshot = {
+  id: string
+  userId: string
+  totalValue: Prisma.Decimal
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
+}
+
+/**
+ * Model SecuritySnapshot
+ * 
+ */
+export type SecuritySnapshot = {
+  id: string
+  userId: string
+  totalValue: Prisma.Decimal
+  costBasis: Prisma.Decimal
+  unrealisedGain: Prisma.Decimal
+  realisedGain: Prisma.Decimal
+  saleableValue: Prisma.Decimal
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
+}
+
+/**
+ * Model PortfolioSnapshot
+ * 
+ */
+export type PortfolioSnapshot = {
   id: string
   currency: string
   totalValue: Prisma.Decimal
@@ -67,8 +135,11 @@ export type AccountsHistory = {
   unrealisedGain: Prisma.Decimal
   realisedGain: Prisma.Decimal
   saleableValue: Prisma.Decimal
-  createdAt: Date
   userId: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -91,6 +162,10 @@ export type Settings = {
   preferredColorScheme: ColorScheme | null
   userCurrency: string
   userLanguage: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -111,11 +186,13 @@ export type Cryptocurrency = {
   accountConnection: AccountConnection | null
   apiKey: string | null
   apiSecret: string | null
-  createdAt: Date
-  updatedAt: Date
   marketId: string | null
   userId: string
   parentId: string | null
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -136,6 +213,8 @@ export type Market = {
   image: string | null
   createdAt: Date
   updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -149,6 +228,10 @@ export type Income = {
   grossAmount: string
   grossFrequency: string
   userId: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -159,6 +242,10 @@ export type Budget = {
   id: string
   name: string
   userId: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -171,9 +258,11 @@ export type BudgetItem = {
   category: string
   amount: string
   frequency: string
+  budgetId: string
   createdAt: Date
   updatedAt: Date
-  budgetId: string
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 
@@ -393,14 +482,54 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
-   * `prisma.accountsHistory`: Exposes CRUD operations for the **AccountsHistory** model.
+   * `prisma.cryptoSnapshot`: Exposes CRUD operations for the **CryptoSnapshot** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more AccountsHistories
-    * const accountsHistories = await prisma.accountsHistory.findMany()
+    * // Fetch zero or more CryptoSnapshots
+    * const cryptoSnapshots = await prisma.cryptoSnapshot.findMany()
     * ```
     */
-  get accountsHistory(): Prisma.AccountsHistoryDelegate<GlobalReject>;
+  get cryptoSnapshot(): Prisma.CryptoSnapshotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.cashSnapshot`: Exposes CRUD operations for the **CashSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CashSnapshots
+    * const cashSnapshots = await prisma.cashSnapshot.findMany()
+    * ```
+    */
+  get cashSnapshot(): Prisma.CashSnapshotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.propertySnapshot`: Exposes CRUD operations for the **PropertySnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PropertySnapshots
+    * const propertySnapshots = await prisma.propertySnapshot.findMany()
+    * ```
+    */
+  get propertySnapshot(): Prisma.PropertySnapshotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.securitySnapshot`: Exposes CRUD operations for the **SecuritySnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SecuritySnapshots
+    * const securitySnapshots = await prisma.securitySnapshot.findMany()
+    * ```
+    */
+  get securitySnapshot(): Prisma.SecuritySnapshotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.portfolioSnapshot`: Exposes CRUD operations for the **PortfolioSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PortfolioSnapshots
+    * const portfolioSnapshots = await prisma.portfolioSnapshot.findMany()
+    * ```
+    */
+  get portfolioSnapshot(): Prisma.PortfolioSnapshotDelegate<GlobalReject>;
 
   /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
@@ -512,7 +641,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 4.1.1
-   * Query Engine version: 8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+   * Query Engine version: 272861e07ab64f234d3ffc4094e32bd61775599c
    */
   export type PrismaVersion = {
     client: string
@@ -942,7 +1071,11 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
-    AccountsHistory: 'AccountsHistory',
+    CryptoSnapshot: 'CryptoSnapshot',
+    CashSnapshot: 'CashSnapshot',
+    PropertySnapshot: 'PropertySnapshot',
+    SecuritySnapshot: 'SecuritySnapshot',
+    PortfolioSnapshot: 'PortfolioSnapshot',
     VerificationToken: 'VerificationToken',
     Settings: 'Settings',
     Cryptocurrency: 'Cryptocurrency',
@@ -1115,18 +1248,26 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     accounts: number
-    accountsHistory: number
     budget: number
     cryptocurrency: number
     sessions: number
+    portfolioSnapshot: number
+    cryptoSnapshots: number
+    cashSnapshots: number
+    propertySnapshots: number
+    securitySnapshots: number
   }
 
   export type UserCountOutputTypeSelect = {
     accounts?: boolean
-    accountsHistory?: boolean
     budget?: boolean
     cryptocurrency?: boolean
     sessions?: boolean
+    portfolioSnapshot?: boolean
+    cryptoSnapshots?: boolean
+    cashSnapshots?: boolean
+    propertySnapshots?: boolean
+    securitySnapshots?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<
@@ -3261,6 +3402,10 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
     role: Role | null
   }
 
@@ -3270,6 +3415,10 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
     role: Role | null
   }
 
@@ -3279,6 +3428,10 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     role: number
     _all: number
   }
@@ -3290,6 +3443,10 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     role?: true
   }
 
@@ -3299,6 +3456,10 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     role?: true
   }
 
@@ -3308,6 +3469,10 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     role?: true
     _all?: true
   }
@@ -3396,6 +3561,10 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     role: Role
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -3422,23 +3591,35 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
     role?: boolean
     accounts?: boolean | AccountFindManyArgs
-    accountsHistory?: boolean | AccountsHistoryFindManyArgs
     budget?: boolean | BudgetFindManyArgs
     cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     sessions?: boolean | SessionFindManyArgs
     settings?: boolean | SettingsArgs
+    portfolioSnapshot?: boolean | PortfolioSnapshotFindManyArgs
+    cryptoSnapshots?: boolean | CryptoSnapshotFindManyArgs
+    cashSnapshots?: boolean | CashSnapshotFindManyArgs
+    propertySnapshots?: boolean | PropertySnapshotFindManyArgs
+    securitySnapshots?: boolean | SecuritySnapshotFindManyArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
   export type UserInclude = {
     accounts?: boolean | AccountFindManyArgs
-    accountsHistory?: boolean | AccountsHistoryFindManyArgs
     budget?: boolean | BudgetFindManyArgs
     cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     sessions?: boolean | SessionFindManyArgs
     settings?: boolean | SettingsArgs
+    portfolioSnapshot?: boolean | PortfolioSnapshotFindManyArgs
+    cryptoSnapshots?: boolean | CryptoSnapshotFindManyArgs
+    cashSnapshots?: boolean | CashSnapshotFindManyArgs
+    propertySnapshots?: boolean | PropertySnapshotFindManyArgs
+    securitySnapshots?: boolean | SecuritySnapshotFindManyArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -3454,22 +3635,30 @@ export namespace Prisma {
     ? User  & {
     [P in TrueKeys<S['include']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
-        P extends 'accountsHistory' ? Array < AccountsHistoryGetPayload<S['include'][P]>>  :
         P extends 'budget' ? Array < BudgetGetPayload<S['include'][P]>>  :
         P extends 'cryptocurrency' ? Array < CryptocurrencyGetPayload<S['include'][P]>>  :
         P extends 'sessions' ? Array < SessionGetPayload<S['include'][P]>>  :
         P extends 'settings' ? SettingsGetPayload<S['include'][P]> | null :
+        P extends 'portfolioSnapshot' ? Array < PortfolioSnapshotGetPayload<S['include'][P]>>  :
+        P extends 'cryptoSnapshots' ? Array < CryptoSnapshotGetPayload<S['include'][P]>>  :
+        P extends 'cashSnapshots' ? Array < CashSnapshotGetPayload<S['include'][P]>>  :
+        P extends 'propertySnapshots' ? Array < PropertySnapshotGetPayload<S['include'][P]>>  :
+        P extends 'securitySnapshots' ? Array < SecuritySnapshotGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
-        P extends 'accountsHistory' ? Array < AccountsHistoryGetPayload<S['select'][P]>>  :
         P extends 'budget' ? Array < BudgetGetPayload<S['select'][P]>>  :
         P extends 'cryptocurrency' ? Array < CryptocurrencyGetPayload<S['select'][P]>>  :
         P extends 'sessions' ? Array < SessionGetPayload<S['select'][P]>>  :
         P extends 'settings' ? SettingsGetPayload<S['select'][P]> | null :
+        P extends 'portfolioSnapshot' ? Array < PortfolioSnapshotGetPayload<S['select'][P]>>  :
+        P extends 'cryptoSnapshots' ? Array < CryptoSnapshotGetPayload<S['select'][P]>>  :
+        P extends 'cashSnapshots' ? Array < CashSnapshotGetPayload<S['select'][P]>>  :
+        P extends 'propertySnapshots' ? Array < PropertySnapshotGetPayload<S['select'][P]>>  :
+        P extends 'securitySnapshots' ? Array < SecuritySnapshotGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
     : User
@@ -3846,8 +4035,6 @@ export namespace Prisma {
 
     accounts<T extends AccountFindManyArgs = {}>(args?: Subset<T, AccountFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Account>>, PrismaPromise<Array<AccountGetPayload<T>>>>;
 
-    accountsHistory<T extends AccountsHistoryFindManyArgs = {}>(args?: Subset<T, AccountsHistoryFindManyArgs>): CheckSelect<T, PrismaPromise<Array<AccountsHistory>>, PrismaPromise<Array<AccountsHistoryGetPayload<T>>>>;
-
     budget<T extends BudgetFindManyArgs = {}>(args?: Subset<T, BudgetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Budget>>, PrismaPromise<Array<BudgetGetPayload<T>>>>;
 
     cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
@@ -3855,6 +4042,16 @@ export namespace Prisma {
     sessions<T extends SessionFindManyArgs = {}>(args?: Subset<T, SessionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Session>>, PrismaPromise<Array<SessionGetPayload<T>>>>;
 
     settings<T extends SettingsArgs = {}>(args?: Subset<T, SettingsArgs>): CheckSelect<T, Prisma__SettingsClient<Settings | null >, Prisma__SettingsClient<SettingsGetPayload<T> | null >>;
+
+    portfolioSnapshot<T extends PortfolioSnapshotFindManyArgs = {}>(args?: Subset<T, PortfolioSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<PortfolioSnapshot>>, PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>>;
+
+    cryptoSnapshots<T extends CryptoSnapshotFindManyArgs = {}>(args?: Subset<T, CryptoSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<CryptoSnapshot>>, PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>>;
+
+    cashSnapshots<T extends CashSnapshotFindManyArgs = {}>(args?: Subset<T, CashSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<CashSnapshot>>, PrismaPromise<Array<CashSnapshotGetPayload<T>>>>;
+
+    propertySnapshots<T extends PropertySnapshotFindManyArgs = {}>(args?: Subset<T, PropertySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<PropertySnapshot>>, PrismaPromise<Array<PropertySnapshotGetPayload<T>>>>;
+
+    securitySnapshots<T extends SecuritySnapshotFindManyArgs = {}>(args?: Subset<T, SecuritySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<SecuritySnapshot>>, PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -4209,19 +4406,19 @@ export namespace Prisma {
 
 
   /**
-   * Model AccountsHistory
+   * Model CryptoSnapshot
    */
 
 
-  export type AggregateAccountsHistory = {
-    _count: AccountsHistoryCountAggregateOutputType | null
-    _avg: AccountsHistoryAvgAggregateOutputType | null
-    _sum: AccountsHistorySumAggregateOutputType | null
-    _min: AccountsHistoryMinAggregateOutputType | null
-    _max: AccountsHistoryMaxAggregateOutputType | null
+  export type AggregateCryptoSnapshot = {
+    _count: CryptoSnapshotCountAggregateOutputType | null
+    _avg: CryptoSnapshotAvgAggregateOutputType | null
+    _sum: CryptoSnapshotSumAggregateOutputType | null
+    _min: CryptoSnapshotMinAggregateOutputType | null
+    _max: CryptoSnapshotMaxAggregateOutputType | null
   }
 
-  export type AccountsHistoryAvgAggregateOutputType = {
+  export type CryptoSnapshotAvgAggregateOutputType = {
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
@@ -4229,7 +4426,7 @@ export namespace Prisma {
     saleableValue: Decimal | null
   }
 
-  export type AccountsHistorySumAggregateOutputType = {
+  export type CryptoSnapshotSumAggregateOutputType = {
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
@@ -4237,45 +4434,51 @@ export namespace Prisma {
     saleableValue: Decimal | null
   }
 
-  export type AccountsHistoryMinAggregateOutputType = {
+  export type CryptoSnapshotMinAggregateOutputType = {
     id: string | null
-    currency: string | null
+    userId: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
     createdAt: Date | null
-    userId: string | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
-  export type AccountsHistoryMaxAggregateOutputType = {
+  export type CryptoSnapshotMaxAggregateOutputType = {
     id: string | null
-    currency: string | null
+    userId: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
     createdAt: Date | null
-    userId: string | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
-  export type AccountsHistoryCountAggregateOutputType = {
+  export type CryptoSnapshotCountAggregateOutputType = {
     id: number
-    currency: number
+    userId: number
     totalValue: number
     costBasis: number
     unrealisedGain: number
     realisedGain: number
     saleableValue: number
     createdAt: number
-    userId: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
 
-  export type AccountsHistoryAvgAggregateInputType = {
+  export type CryptoSnapshotAvgAggregateInputType = {
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
@@ -4283,7 +4486,7 @@ export namespace Prisma {
     saleableValue?: true
   }
 
-  export type AccountsHistorySumAggregateInputType = {
+  export type CryptoSnapshotSumAggregateInputType = {
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
@@ -4291,318 +4494,328 @@ export namespace Prisma {
     saleableValue?: true
   }
 
-  export type AccountsHistoryMinAggregateInputType = {
+  export type CryptoSnapshotMinAggregateInputType = {
     id?: true
-    currency?: true
+    userId?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
     createdAt?: true
-    userId?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
-  export type AccountsHistoryMaxAggregateInputType = {
+  export type CryptoSnapshotMaxAggregateInputType = {
     id?: true
-    currency?: true
+    userId?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
     createdAt?: true
-    userId?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
-  export type AccountsHistoryCountAggregateInputType = {
+  export type CryptoSnapshotCountAggregateInputType = {
     id?: true
-    currency?: true
+    userId?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
     createdAt?: true
-    userId?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
-  export type AccountsHistoryAggregateArgs = {
+  export type CryptoSnapshotAggregateArgs = {
     /**
-     * Filter which AccountsHistory to aggregate.
+     * Filter which CryptoSnapshot to aggregate.
      * 
     **/
-    where?: AccountsHistoryWhereInput
+    where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccountsHistories to fetch.
+     * Determine the order of CryptoSnapshots to fetch.
      * 
     **/
-    orderBy?: Enumerable<AccountsHistoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      * 
     **/
-    cursor?: AccountsHistoryWhereUniqueInput
+    cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccountsHistories from the position of the cursor.
+     * Take `±n` CryptoSnapshots from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccountsHistories.
+     * Skip the first `n` CryptoSnapshots.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned AccountsHistories
+     * Count returned CryptoSnapshots
     **/
-    _count?: true | AccountsHistoryCountAggregateInputType
+    _count?: true | CryptoSnapshotCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: AccountsHistoryAvgAggregateInputType
+    _avg?: CryptoSnapshotAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: AccountsHistorySumAggregateInputType
+    _sum?: CryptoSnapshotSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AccountsHistoryMinAggregateInputType
+    _min?: CryptoSnapshotMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AccountsHistoryMaxAggregateInputType
+    _max?: CryptoSnapshotMaxAggregateInputType
   }
 
-  export type GetAccountsHistoryAggregateType<T extends AccountsHistoryAggregateArgs> = {
-        [P in keyof T & keyof AggregateAccountsHistory]: P extends '_count' | 'count'
+  export type GetCryptoSnapshotAggregateType<T extends CryptoSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateCryptoSnapshot]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAccountsHistory[P]>
-      : GetScalarType<T[P], AggregateAccountsHistory[P]>
+        : GetScalarType<T[P], AggregateCryptoSnapshot[P]>
+      : GetScalarType<T[P], AggregateCryptoSnapshot[P]>
   }
 
 
 
 
-  export type AccountsHistoryGroupByArgs = {
-    where?: AccountsHistoryWhereInput
-    orderBy?: Enumerable<AccountsHistoryOrderByWithAggregationInput>
-    by: Array<AccountsHistoryScalarFieldEnum>
-    having?: AccountsHistoryScalarWhereWithAggregatesInput
+  export type CryptoSnapshotGroupByArgs = {
+    where?: CryptoSnapshotWhereInput
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithAggregationInput>
+    by: Array<CryptoSnapshotScalarFieldEnum>
+    having?: CryptoSnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AccountsHistoryCountAggregateInputType | true
-    _avg?: AccountsHistoryAvgAggregateInputType
-    _sum?: AccountsHistorySumAggregateInputType
-    _min?: AccountsHistoryMinAggregateInputType
-    _max?: AccountsHistoryMaxAggregateInputType
+    _count?: CryptoSnapshotCountAggregateInputType | true
+    _avg?: CryptoSnapshotAvgAggregateInputType
+    _sum?: CryptoSnapshotSumAggregateInputType
+    _min?: CryptoSnapshotMinAggregateInputType
+    _max?: CryptoSnapshotMaxAggregateInputType
   }
 
 
-  export type AccountsHistoryGroupByOutputType = {
+  export type CryptoSnapshotGroupByOutputType = {
     id: string
-    currency: string
+    userId: string
     totalValue: Decimal
     costBasis: Decimal
     unrealisedGain: Decimal
     realisedGain: Decimal
     saleableValue: Decimal
     createdAt: Date
-    userId: string
-    _count: AccountsHistoryCountAggregateOutputType | null
-    _avg: AccountsHistoryAvgAggregateOutputType | null
-    _sum: AccountsHistorySumAggregateOutputType | null
-    _min: AccountsHistoryMinAggregateOutputType | null
-    _max: AccountsHistoryMaxAggregateOutputType | null
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
+    _count: CryptoSnapshotCountAggregateOutputType | null
+    _avg: CryptoSnapshotAvgAggregateOutputType | null
+    _sum: CryptoSnapshotSumAggregateOutputType | null
+    _min: CryptoSnapshotMinAggregateOutputType | null
+    _max: CryptoSnapshotMaxAggregateOutputType | null
   }
 
-  type GetAccountsHistoryGroupByPayload<T extends AccountsHistoryGroupByArgs> = PrismaPromise<
+  type GetCryptoSnapshotGroupByPayload<T extends CryptoSnapshotGroupByArgs> = PrismaPromise<
     Array<
-      PickArray<AccountsHistoryGroupByOutputType, T['by']> &
+      PickArray<CryptoSnapshotGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AccountsHistoryGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof CryptoSnapshotGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AccountsHistoryGroupByOutputType[P]>
-            : GetScalarType<T[P], AccountsHistoryGroupByOutputType[P]>
+              : GetScalarType<T[P], CryptoSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], CryptoSnapshotGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AccountsHistorySelect = {
+  export type CryptoSnapshotSelect = {
     id?: boolean
-    currency?: boolean
+    userId?: boolean
     totalValue?: boolean
     costBasis?: boolean
     unrealisedGain?: boolean
     realisedGain?: boolean
     saleableValue?: boolean
+    user?: boolean | UserArgs
     createdAt?: boolean
-    userId?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
+  }
+
+  export type CryptoSnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type AccountsHistoryInclude = {
-    user?: boolean | UserArgs
-  }
-
-  export type AccountsHistoryGetPayload<
-    S extends boolean | null | undefined | AccountsHistoryArgs,
+  export type CryptoSnapshotGetPayload<
+    S extends boolean | null | undefined | CryptoSnapshotArgs,
     U = keyof S
       > = S extends true
-        ? AccountsHistory
+        ? CryptoSnapshot
     : S extends undefined
     ? never
-    : S extends AccountsHistoryArgs | AccountsHistoryFindManyArgs
+    : S extends CryptoSnapshotArgs | CryptoSnapshotFindManyArgs
     ?'include' extends U
-    ? AccountsHistory  & {
+    ? CryptoSnapshot  & {
     [P in TrueKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof AccountsHistory ? AccountsHistory[P] : never
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof CryptoSnapshot ? CryptoSnapshot[P] : never
   } 
-    : AccountsHistory
-  : AccountsHistory
+    : CryptoSnapshot
+  : CryptoSnapshot
 
 
-  type AccountsHistoryCountArgs = Merge<
-    Omit<AccountsHistoryFindManyArgs, 'select' | 'include'> & {
-      select?: AccountsHistoryCountAggregateInputType | true
+  type CryptoSnapshotCountArgs = Merge<
+    Omit<CryptoSnapshotFindManyArgs, 'select' | 'include'> & {
+      select?: CryptoSnapshotCountAggregateInputType | true
     }
   >
 
-  export interface AccountsHistoryDelegate<GlobalRejectSettings> {
+  export interface CryptoSnapshotDelegate<GlobalRejectSettings> {
     /**
-     * Find zero or one AccountsHistory that matches the filter.
-     * @param {AccountsHistoryFindUniqueArgs} args - Arguments to find a AccountsHistory
+     * Find zero or one CryptoSnapshot that matches the filter.
+     * @param {CryptoSnapshotFindUniqueArgs} args - Arguments to find a CryptoSnapshot
      * @example
-     * // Get one AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.findUnique({
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends AccountsHistoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, AccountsHistoryFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AccountsHistory'> extends True ? CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>> : CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory | null >, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T> | null >>
+    findUnique<T extends CryptoSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CryptoSnapshotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CryptoSnapshot'> extends True ? CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot | null >, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null >>
 
     /**
-     * Find the first AccountsHistory that matches the filter.
+     * Find the first CryptoSnapshot that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryFindFirstArgs} args - Arguments to find a AccountsHistory
+     * @param {CryptoSnapshotFindFirstArgs} args - Arguments to find a CryptoSnapshot
      * @example
-     * // Get one AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.findFirst({
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends AccountsHistoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, AccountsHistoryFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AccountsHistory'> extends True ? CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>> : CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory | null >, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T> | null >>
+    findFirst<T extends CryptoSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CryptoSnapshotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CryptoSnapshot'> extends True ? CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot | null >, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null >>
 
     /**
-     * Find zero or more AccountsHistories that matches the filter.
+     * Find zero or more CryptoSnapshots that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {CryptoSnapshotFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all AccountsHistories
-     * const accountsHistories = await prisma.accountsHistory.findMany()
+     * // Get all CryptoSnapshots
+     * const cryptoSnapshots = await prisma.cryptoSnapshot.findMany()
      * 
-     * // Get first 10 AccountsHistories
-     * const accountsHistories = await prisma.accountsHistory.findMany({ take: 10 })
+     * // Get first 10 CryptoSnapshots
+     * const cryptoSnapshots = await prisma.cryptoSnapshot.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const accountsHistoryWithIdOnly = await prisma.accountsHistory.findMany({ select: { id: true } })
+     * const cryptoSnapshotWithIdOnly = await prisma.cryptoSnapshot.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends AccountsHistoryFindManyArgs>(
-      args?: SelectSubset<T, AccountsHistoryFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<AccountsHistory>>, PrismaPromise<Array<AccountsHistoryGetPayload<T>>>>
+    findMany<T extends CryptoSnapshotFindManyArgs>(
+      args?: SelectSubset<T, CryptoSnapshotFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<CryptoSnapshot>>, PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>>
 
     /**
-     * Create a AccountsHistory.
-     * @param {AccountsHistoryCreateArgs} args - Arguments to create a AccountsHistory.
+     * Create a CryptoSnapshot.
+     * @param {CryptoSnapshotCreateArgs} args - Arguments to create a CryptoSnapshot.
      * @example
-     * // Create one AccountsHistory
-     * const AccountsHistory = await prisma.accountsHistory.create({
+     * // Create one CryptoSnapshot
+     * const CryptoSnapshot = await prisma.cryptoSnapshot.create({
      *   data: {
-     *     // ... data to create a AccountsHistory
+     *     // ... data to create a CryptoSnapshot
      *   }
      * })
      * 
     **/
-    create<T extends AccountsHistoryCreateArgs>(
-      args: SelectSubset<T, AccountsHistoryCreateArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    create<T extends CryptoSnapshotCreateArgs>(
+      args: SelectSubset<T, CryptoSnapshotCreateArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Create many AccountsHistories.
-     *     @param {AccountsHistoryCreateManyArgs} args - Arguments to create many AccountsHistories.
+     * Create many CryptoSnapshots.
+     *     @param {CryptoSnapshotCreateManyArgs} args - Arguments to create many CryptoSnapshots.
      *     @example
-     *     // Create many AccountsHistories
-     *     const accountsHistory = await prisma.accountsHistory.createMany({
+     *     // Create many CryptoSnapshots
+     *     const cryptoSnapshot = await prisma.cryptoSnapshot.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends AccountsHistoryCreateManyArgs>(
-      args?: SelectSubset<T, AccountsHistoryCreateManyArgs>
+    createMany<T extends CryptoSnapshotCreateManyArgs>(
+      args?: SelectSubset<T, CryptoSnapshotCreateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Delete a AccountsHistory.
-     * @param {AccountsHistoryDeleteArgs} args - Arguments to delete one AccountsHistory.
+     * Delete a CryptoSnapshot.
+     * @param {CryptoSnapshotDeleteArgs} args - Arguments to delete one CryptoSnapshot.
      * @example
-     * // Delete one AccountsHistory
-     * const AccountsHistory = await prisma.accountsHistory.delete({
+     * // Delete one CryptoSnapshot
+     * const CryptoSnapshot = await prisma.cryptoSnapshot.delete({
      *   where: {
-     *     // ... filter to delete one AccountsHistory
+     *     // ... filter to delete one CryptoSnapshot
      *   }
      * })
      * 
     **/
-    delete<T extends AccountsHistoryDeleteArgs>(
-      args: SelectSubset<T, AccountsHistoryDeleteArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    delete<T extends CryptoSnapshotDeleteArgs>(
+      args: SelectSubset<T, CryptoSnapshotDeleteArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Update one AccountsHistory.
-     * @param {AccountsHistoryUpdateArgs} args - Arguments to update one AccountsHistory.
+     * Update one CryptoSnapshot.
+     * @param {CryptoSnapshotUpdateArgs} args - Arguments to update one CryptoSnapshot.
      * @example
-     * // Update one AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.update({
+     * // Update one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4612,34 +4825,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends AccountsHistoryUpdateArgs>(
-      args: SelectSubset<T, AccountsHistoryUpdateArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    update<T extends CryptoSnapshotUpdateArgs>(
+      args: SelectSubset<T, CryptoSnapshotUpdateArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Delete zero or more AccountsHistories.
-     * @param {AccountsHistoryDeleteManyArgs} args - Arguments to filter AccountsHistories to delete.
+     * Delete zero or more CryptoSnapshots.
+     * @param {CryptoSnapshotDeleteManyArgs} args - Arguments to filter CryptoSnapshots to delete.
      * @example
-     * // Delete a few AccountsHistories
-     * const { count } = await prisma.accountsHistory.deleteMany({
+     * // Delete a few CryptoSnapshots
+     * const { count } = await prisma.cryptoSnapshot.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends AccountsHistoryDeleteManyArgs>(
-      args?: SelectSubset<T, AccountsHistoryDeleteManyArgs>
+    deleteMany<T extends CryptoSnapshotDeleteManyArgs>(
+      args?: SelectSubset<T, CryptoSnapshotDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AccountsHistories.
+     * Update zero or more CryptoSnapshots.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {CryptoSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many AccountsHistories
-     * const accountsHistory = await prisma.accountsHistory.updateMany({
+     * // Update many CryptoSnapshots
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4649,93 +4862,93 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends AccountsHistoryUpdateManyArgs>(
-      args: SelectSubset<T, AccountsHistoryUpdateManyArgs>
+    updateMany<T extends CryptoSnapshotUpdateManyArgs>(
+      args: SelectSubset<T, CryptoSnapshotUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one AccountsHistory.
-     * @param {AccountsHistoryUpsertArgs} args - Arguments to update or create a AccountsHistory.
+     * Create or update one CryptoSnapshot.
+     * @param {CryptoSnapshotUpsertArgs} args - Arguments to update or create a CryptoSnapshot.
      * @example
-     * // Update or create a AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.upsert({
+     * // Update or create a CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.upsert({
      *   create: {
-     *     // ... data to create a AccountsHistory
+     *     // ... data to create a CryptoSnapshot
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the AccountsHistory we want to update
+     *     // ... the filter for the CryptoSnapshot we want to update
      *   }
      * })
     **/
-    upsert<T extends AccountsHistoryUpsertArgs>(
-      args: SelectSubset<T, AccountsHistoryUpsertArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    upsert<T extends CryptoSnapshotUpsertArgs>(
+      args: SelectSubset<T, CryptoSnapshotUpsertArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Find one AccountsHistory that matches the filter or throw
+     * Find one CryptoSnapshot that matches the filter or throw
      * `NotFoundError` if no matches were found.
-     * @param {AccountsHistoryFindUniqueOrThrowArgs} args - Arguments to find a AccountsHistory
+     * @param {CryptoSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CryptoSnapshot
      * @example
-     * // Get one AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.findUniqueOrThrow({
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends AccountsHistoryFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AccountsHistoryFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    findUniqueOrThrow<T extends CryptoSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CryptoSnapshotFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Find the first AccountsHistory that matches the filter or
+     * Find the first CryptoSnapshot that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryFindFirstOrThrowArgs} args - Arguments to find a AccountsHistory
+     * @param {CryptoSnapshotFindFirstOrThrowArgs} args - Arguments to find a CryptoSnapshot
      * @example
-     * // Get one AccountsHistory
-     * const accountsHistory = await prisma.accountsHistory.findFirstOrThrow({
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends AccountsHistoryFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AccountsHistoryFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AccountsHistoryClient<AccountsHistory>, Prisma__AccountsHistoryClient<AccountsHistoryGetPayload<T>>>
+    findFirstOrThrow<T extends CryptoSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CryptoSnapshotFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
 
     /**
-     * Count the number of AccountsHistories.
+     * Count the number of CryptoSnapshots.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryCountArgs} args - Arguments to filter AccountsHistories to count.
+     * @param {CryptoSnapshotCountArgs} args - Arguments to filter CryptoSnapshots to count.
      * @example
-     * // Count the number of AccountsHistories
-     * const count = await prisma.accountsHistory.count({
+     * // Count the number of CryptoSnapshots
+     * const count = await prisma.cryptoSnapshot.count({
      *   where: {
-     *     // ... the filter for the AccountsHistories we want to count
+     *     // ... the filter for the CryptoSnapshots we want to count
      *   }
      * })
     **/
-    count<T extends AccountsHistoryCountArgs>(
-      args?: Subset<T, AccountsHistoryCountArgs>,
+    count<T extends CryptoSnapshotCountArgs>(
+      args?: Subset<T, CryptoSnapshotCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AccountsHistoryCountAggregateOutputType>
+          : GetScalarType<T['select'], CryptoSnapshotCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a AccountsHistory.
+     * Allows you to perform aggregations operations on a CryptoSnapshot.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {CryptoSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4755,13 +4968,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AccountsHistoryAggregateArgs>(args: Subset<T, AccountsHistoryAggregateArgs>): PrismaPromise<GetAccountsHistoryAggregateType<T>>
+    aggregate<T extends CryptoSnapshotAggregateArgs>(args: Subset<T, CryptoSnapshotAggregateArgs>): PrismaPromise<GetCryptoSnapshotAggregateType<T>>
 
     /**
-     * Group by AccountsHistory.
+     * Group by CryptoSnapshot.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountsHistoryGroupByArgs} args - Group by arguments.
+     * @param {CryptoSnapshotGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4776,14 +4989,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AccountsHistoryGroupByArgs,
+      T extends CryptoSnapshotGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AccountsHistoryGroupByArgs['orderBy'] }
-        : { orderBy?: AccountsHistoryGroupByArgs['orderBy'] },
+        ? { orderBy: CryptoSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: CryptoSnapshotGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4832,16 +5045,16 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AccountsHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountsHistoryGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CryptoSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptoSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for AccountsHistory.
+   * The delegate class that acts as a "Promise-like" for CryptoSnapshot.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AccountsHistoryClient<T> implements PrismaPromise<T> {
+  export class Prisma__CryptoSnapshotClient<T> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -4886,30 +5099,30 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * AccountsHistory base type for findUnique actions
+   * CryptoSnapshot base type for findUnique actions
    */
-  export type AccountsHistoryFindUniqueArgsBase = {
+  export type CryptoSnapshotFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * Filter, which AccountsHistory to fetch.
+     * Filter, which CryptoSnapshot to fetch.
      * 
     **/
-    where: AccountsHistoryWhereUniqueInput
+    where: CryptoSnapshotWhereUniqueInput
   }
 
   /**
-   * AccountsHistory: findUnique
+   * CryptoSnapshot: findUnique
    */
-  export interface AccountsHistoryFindUniqueArgs extends AccountsHistoryFindUniqueArgsBase {
+  export interface CryptoSnapshotFindUniqueArgs extends CryptoSnapshotFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -4919,65 +5132,65 @@ export namespace Prisma {
       
 
   /**
-   * AccountsHistory base type for findFirst actions
+   * CryptoSnapshot base type for findFirst actions
    */
-  export type AccountsHistoryFindFirstArgsBase = {
+  export type CryptoSnapshotFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * Filter, which AccountsHistory to fetch.
+     * Filter, which CryptoSnapshot to fetch.
      * 
     **/
-    where?: AccountsHistoryWhereInput
+    where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccountsHistories to fetch.
+     * Determine the order of CryptoSnapshots to fetch.
      * 
     **/
-    orderBy?: Enumerable<AccountsHistoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AccountsHistories.
+     * Sets the position for searching for CryptoSnapshots.
      * 
     **/
-    cursor?: AccountsHistoryWhereUniqueInput
+    cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccountsHistories from the position of the cursor.
+     * Take `±n` CryptoSnapshots from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccountsHistories.
+     * Skip the first `n` CryptoSnapshots.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AccountsHistories.
+     * Filter by unique combinations of CryptoSnapshots.
      * 
     **/
-    distinct?: Enumerable<AccountsHistoryScalarFieldEnum>
+    distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
   }
 
   /**
-   * AccountsHistory: findFirst
+   * CryptoSnapshot: findFirst
    */
-  export interface AccountsHistoryFindFirstArgs extends AccountsHistoryFindFirstArgsBase {
+  export interface CryptoSnapshotFindFirstArgs extends CryptoSnapshotFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -4987,227 +5200,4219 @@ export namespace Prisma {
       
 
   /**
-   * AccountsHistory findMany
+   * CryptoSnapshot findMany
    */
-  export type AccountsHistoryFindManyArgs = {
+  export type CryptoSnapshotFindManyArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * Filter, which AccountsHistories to fetch.
+     * Filter, which CryptoSnapshots to fetch.
      * 
     **/
-    where?: AccountsHistoryWhereInput
+    where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccountsHistories to fetch.
+     * Determine the order of CryptoSnapshots to fetch.
      * 
     **/
-    orderBy?: Enumerable<AccountsHistoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AccountsHistories.
+     * Sets the position for listing CryptoSnapshots.
      * 
     **/
-    cursor?: AccountsHistoryWhereUniqueInput
+    cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccountsHistories from the position of the cursor.
+     * Take `±n` CryptoSnapshots from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccountsHistories.
+     * Skip the first `n` CryptoSnapshots.
      * 
     **/
     skip?: number
-    distinct?: Enumerable<AccountsHistoryScalarFieldEnum>
+    distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
   }
 
 
   /**
-   * AccountsHistory create
+   * CryptoSnapshot create
    */
-  export type AccountsHistoryCreateArgs = {
+  export type CryptoSnapshotCreateArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * The data needed to create a AccountsHistory.
+     * The data needed to create a CryptoSnapshot.
      * 
     **/
-    data: XOR<AccountsHistoryCreateInput, AccountsHistoryUncheckedCreateInput>
+    data: XOR<CryptoSnapshotCreateInput, CryptoSnapshotUncheckedCreateInput>
   }
 
 
   /**
-   * AccountsHistory createMany
+   * CryptoSnapshot createMany
    */
-  export type AccountsHistoryCreateManyArgs = {
+  export type CryptoSnapshotCreateManyArgs = {
     /**
-     * The data used to create many AccountsHistories.
+     * The data used to create many CryptoSnapshots.
      * 
     **/
-    data: Enumerable<AccountsHistoryCreateManyInput>
+    data: Enumerable<CryptoSnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * AccountsHistory update
+   * CryptoSnapshot update
    */
-  export type AccountsHistoryUpdateArgs = {
+  export type CryptoSnapshotUpdateArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * The data needed to update a AccountsHistory.
+     * The data needed to update a CryptoSnapshot.
      * 
     **/
-    data: XOR<AccountsHistoryUpdateInput, AccountsHistoryUncheckedUpdateInput>
+    data: XOR<CryptoSnapshotUpdateInput, CryptoSnapshotUncheckedUpdateInput>
     /**
-     * Choose, which AccountsHistory to update.
+     * Choose, which CryptoSnapshot to update.
      * 
     **/
-    where: AccountsHistoryWhereUniqueInput
+    where: CryptoSnapshotWhereUniqueInput
   }
 
 
   /**
-   * AccountsHistory updateMany
+   * CryptoSnapshot updateMany
    */
-  export type AccountsHistoryUpdateManyArgs = {
+  export type CryptoSnapshotUpdateManyArgs = {
     /**
-     * The data used to update AccountsHistories.
+     * The data used to update CryptoSnapshots.
      * 
     **/
-    data: XOR<AccountsHistoryUpdateManyMutationInput, AccountsHistoryUncheckedUpdateManyInput>
+    data: XOR<CryptoSnapshotUpdateManyMutationInput, CryptoSnapshotUncheckedUpdateManyInput>
     /**
-     * Filter which AccountsHistories to update
+     * Filter which CryptoSnapshots to update
      * 
     **/
-    where?: AccountsHistoryWhereInput
+    where?: CryptoSnapshotWhereInput
   }
 
 
   /**
-   * AccountsHistory upsert
+   * CryptoSnapshot upsert
    */
-  export type AccountsHistoryUpsertArgs = {
+  export type CryptoSnapshotUpsertArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * The filter to search for the AccountsHistory to update in case it exists.
+     * The filter to search for the CryptoSnapshot to update in case it exists.
      * 
     **/
-    where: AccountsHistoryWhereUniqueInput
+    where: CryptoSnapshotWhereUniqueInput
     /**
-     * In case the AccountsHistory found by the `where` argument doesn't exist, create a new AccountsHistory with this data.
+     * In case the CryptoSnapshot found by the `where` argument doesn't exist, create a new CryptoSnapshot with this data.
      * 
     **/
-    create: XOR<AccountsHistoryCreateInput, AccountsHistoryUncheckedCreateInput>
+    create: XOR<CryptoSnapshotCreateInput, CryptoSnapshotUncheckedCreateInput>
     /**
-     * In case the AccountsHistory was found with the provided `where` argument, update it with this data.
+     * In case the CryptoSnapshot was found with the provided `where` argument, update it with this data.
      * 
     **/
-    update: XOR<AccountsHistoryUpdateInput, AccountsHistoryUncheckedUpdateInput>
+    update: XOR<CryptoSnapshotUpdateInput, CryptoSnapshotUncheckedUpdateInput>
   }
 
 
   /**
-   * AccountsHistory delete
+   * CryptoSnapshot delete
    */
-  export type AccountsHistoryDeleteArgs = {
+  export type CryptoSnapshotDeleteArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
     /**
-     * Filter which AccountsHistory to delete.
+     * Filter which CryptoSnapshot to delete.
      * 
     **/
-    where: AccountsHistoryWhereUniqueInput
+    where: CryptoSnapshotWhereUniqueInput
   }
 
 
   /**
-   * AccountsHistory deleteMany
+   * CryptoSnapshot deleteMany
    */
-  export type AccountsHistoryDeleteManyArgs = {
+  export type CryptoSnapshotDeleteManyArgs = {
     /**
-     * Filter which AccountsHistories to delete
+     * Filter which CryptoSnapshots to delete
      * 
     **/
-    where?: AccountsHistoryWhereInput
+    where?: CryptoSnapshotWhereInput
   }
 
 
   /**
-   * AccountsHistory: findUniqueOrThrow
+   * CryptoSnapshot: findUniqueOrThrow
    */
-  export type AccountsHistoryFindUniqueOrThrowArgs = AccountsHistoryFindUniqueArgsBase
+  export type CryptoSnapshotFindUniqueOrThrowArgs = CryptoSnapshotFindUniqueArgsBase
       
 
   /**
-   * AccountsHistory: findFirstOrThrow
+   * CryptoSnapshot: findFirstOrThrow
    */
-  export type AccountsHistoryFindFirstOrThrowArgs = AccountsHistoryFindFirstArgsBase
+  export type CryptoSnapshotFindFirstOrThrowArgs = CryptoSnapshotFindFirstArgsBase
       
 
   /**
-   * AccountsHistory without action
+   * CryptoSnapshot without action
    */
-  export type AccountsHistoryArgs = {
+  export type CryptoSnapshotArgs = {
     /**
-     * Select specific fields to fetch from the AccountsHistory
+     * Select specific fields to fetch from the CryptoSnapshot
      * 
     **/
-    select?: AccountsHistorySelect | null
+    select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AccountsHistoryInclude | null
+    include?: CryptoSnapshotInclude | null
+  }
+
+
+
+  /**
+   * Model CashSnapshot
+   */
+
+
+  export type AggregateCashSnapshot = {
+    _count: CashSnapshotCountAggregateOutputType | null
+    _avg: CashSnapshotAvgAggregateOutputType | null
+    _sum: CashSnapshotSumAggregateOutputType | null
+    _min: CashSnapshotMinAggregateOutputType | null
+    _max: CashSnapshotMaxAggregateOutputType | null
+  }
+
+  export type CashSnapshotAvgAggregateOutputType = {
+    totalValue: Decimal | null
+  }
+
+  export type CashSnapshotSumAggregateOutputType = {
+    totalValue: Decimal | null
+  }
+
+  export type CashSnapshotMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type CashSnapshotMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type CashSnapshotCountAggregateOutputType = {
+    id: number
+    userId: number
+    totalValue: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type CashSnapshotAvgAggregateInputType = {
+    totalValue?: true
+  }
+
+  export type CashSnapshotSumAggregateInputType = {
+    totalValue?: true
+  }
+
+  export type CashSnapshotMinAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type CashSnapshotMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type CashSnapshotCountAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type CashSnapshotAggregateArgs = {
+    /**
+     * Filter which CashSnapshot to aggregate.
+     * 
+    **/
+    where?: CashSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: CashSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashSnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CashSnapshots
+    **/
+    _count?: true | CashSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CashSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CashSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CashSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CashSnapshotMaxAggregateInputType
+  }
+
+  export type GetCashSnapshotAggregateType<T extends CashSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateCashSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCashSnapshot[P]>
+      : GetScalarType<T[P], AggregateCashSnapshot[P]>
+  }
+
+
+
+
+  export type CashSnapshotGroupByArgs = {
+    where?: CashSnapshotWhereInput
+    orderBy?: Enumerable<CashSnapshotOrderByWithAggregationInput>
+    by: Array<CashSnapshotScalarFieldEnum>
+    having?: CashSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CashSnapshotCountAggregateInputType | true
+    _avg?: CashSnapshotAvgAggregateInputType
+    _sum?: CashSnapshotSumAggregateInputType
+    _min?: CashSnapshotMinAggregateInputType
+    _max?: CashSnapshotMaxAggregateInputType
+  }
+
+
+  export type CashSnapshotGroupByOutputType = {
+    id: string
+    userId: string
+    totalValue: Decimal
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
+    _count: CashSnapshotCountAggregateOutputType | null
+    _avg: CashSnapshotAvgAggregateOutputType | null
+    _sum: CashSnapshotSumAggregateOutputType | null
+    _min: CashSnapshotMinAggregateOutputType | null
+    _max: CashSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetCashSnapshotGroupByPayload<T extends CashSnapshotGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<CashSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CashSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CashSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], CashSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CashSnapshotSelect = {
+    id?: boolean
+    userId?: boolean
+    totalValue?: boolean
+    user?: boolean | UserArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
+  }
+
+  export type CashSnapshotInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type CashSnapshotGetPayload<
+    S extends boolean | null | undefined | CashSnapshotArgs,
+    U = keyof S
+      > = S extends true
+        ? CashSnapshot
+    : S extends undefined
+    ? never
+    : S extends CashSnapshotArgs | CashSnapshotFindManyArgs
+    ?'include' extends U
+    ? CashSnapshot  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof CashSnapshot ? CashSnapshot[P] : never
+  } 
+    : CashSnapshot
+  : CashSnapshot
+
+
+  type CashSnapshotCountArgs = Merge<
+    Omit<CashSnapshotFindManyArgs, 'select' | 'include'> & {
+      select?: CashSnapshotCountAggregateInputType | true
+    }
+  >
+
+  export interface CashSnapshotDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one CashSnapshot that matches the filter.
+     * @param {CashSnapshotFindUniqueArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CashSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CashSnapshotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CashSnapshot'> extends True ? CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot | null >, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null >>
+
+    /**
+     * Find the first CashSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotFindFirstArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CashSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CashSnapshotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CashSnapshot'> extends True ? CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot | null >, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null >>
+
+    /**
+     * Find zero or more CashSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CashSnapshots
+     * const cashSnapshots = await prisma.cashSnapshot.findMany()
+     * 
+     * // Get first 10 CashSnapshots
+     * const cashSnapshots = await prisma.cashSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cashSnapshotWithIdOnly = await prisma.cashSnapshot.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CashSnapshotFindManyArgs>(
+      args?: SelectSubset<T, CashSnapshotFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<CashSnapshot>>, PrismaPromise<Array<CashSnapshotGetPayload<T>>>>
+
+    /**
+     * Create a CashSnapshot.
+     * @param {CashSnapshotCreateArgs} args - Arguments to create a CashSnapshot.
+     * @example
+     * // Create one CashSnapshot
+     * const CashSnapshot = await prisma.cashSnapshot.create({
+     *   data: {
+     *     // ... data to create a CashSnapshot
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CashSnapshotCreateArgs>(
+      args: SelectSubset<T, CashSnapshotCreateArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Create many CashSnapshots.
+     *     @param {CashSnapshotCreateManyArgs} args - Arguments to create many CashSnapshots.
+     *     @example
+     *     // Create many CashSnapshots
+     *     const cashSnapshot = await prisma.cashSnapshot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CashSnapshotCreateManyArgs>(
+      args?: SelectSubset<T, CashSnapshotCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CashSnapshot.
+     * @param {CashSnapshotDeleteArgs} args - Arguments to delete one CashSnapshot.
+     * @example
+     * // Delete one CashSnapshot
+     * const CashSnapshot = await prisma.cashSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one CashSnapshot
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CashSnapshotDeleteArgs>(
+      args: SelectSubset<T, CashSnapshotDeleteArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Update one CashSnapshot.
+     * @param {CashSnapshotUpdateArgs} args - Arguments to update one CashSnapshot.
+     * @example
+     * // Update one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CashSnapshotUpdateArgs>(
+      args: SelectSubset<T, CashSnapshotUpdateArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Delete zero or more CashSnapshots.
+     * @param {CashSnapshotDeleteManyArgs} args - Arguments to filter CashSnapshots to delete.
+     * @example
+     * // Delete a few CashSnapshots
+     * const { count } = await prisma.cashSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CashSnapshotDeleteManyArgs>(
+      args?: SelectSubset<T, CashSnapshotDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CashSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CashSnapshots
+     * const cashSnapshot = await prisma.cashSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CashSnapshotUpdateManyArgs>(
+      args: SelectSubset<T, CashSnapshotUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CashSnapshot.
+     * @param {CashSnapshotUpsertArgs} args - Arguments to update or create a CashSnapshot.
+     * @example
+     * // Update or create a CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a CashSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CashSnapshot we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CashSnapshotUpsertArgs>(
+      args: SelectSubset<T, CashSnapshotUpsertArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Find one CashSnapshot that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {CashSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CashSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CashSnapshotFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Find the first CashSnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotFindFirstOrThrowArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CashSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CashSnapshotFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+
+    /**
+     * Count the number of CashSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotCountArgs} args - Arguments to filter CashSnapshots to count.
+     * @example
+     * // Count the number of CashSnapshots
+     * const count = await prisma.cashSnapshot.count({
+     *   where: {
+     *     // ... the filter for the CashSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends CashSnapshotCountArgs>(
+      args?: Subset<T, CashSnapshotCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CashSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CashSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CashSnapshotAggregateArgs>(args: Subset<T, CashSnapshotAggregateArgs>): PrismaPromise<GetCashSnapshotAggregateType<T>>
+
+    /**
+     * Group by CashSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CashSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CashSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: CashSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CashSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCashSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CashSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__CashSnapshotClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * CashSnapshot base type for findUnique actions
+   */
+  export type CashSnapshotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter, which CashSnapshot to fetch.
+     * 
+    **/
+    where: CashSnapshotWhereUniqueInput
+  }
+
+  /**
+   * CashSnapshot: findUnique
+   */
+  export interface CashSnapshotFindUniqueArgs extends CashSnapshotFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * CashSnapshot base type for findFirst actions
+   */
+  export type CashSnapshotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter, which CashSnapshot to fetch.
+     * 
+    **/
+    where?: CashSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CashSnapshots.
+     * 
+    **/
+    cursor?: CashSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashSnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CashSnapshots.
+     * 
+    **/
+    distinct?: Enumerable<CashSnapshotScalarFieldEnum>
+  }
+
+  /**
+   * CashSnapshot: findFirst
+   */
+  export interface CashSnapshotFindFirstArgs extends CashSnapshotFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * CashSnapshot findMany
+   */
+  export type CashSnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter, which CashSnapshots to fetch.
+     * 
+    **/
+    where?: CashSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CashSnapshots.
+     * 
+    **/
+    cursor?: CashSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashSnapshots.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<CashSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * CashSnapshot create
+   */
+  export type CashSnapshotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * The data needed to create a CashSnapshot.
+     * 
+    **/
+    data: XOR<CashSnapshotCreateInput, CashSnapshotUncheckedCreateInput>
+  }
+
+
+  /**
+   * CashSnapshot createMany
+   */
+  export type CashSnapshotCreateManyArgs = {
+    /**
+     * The data used to create many CashSnapshots.
+     * 
+    **/
+    data: Enumerable<CashSnapshotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * CashSnapshot update
+   */
+  export type CashSnapshotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * The data needed to update a CashSnapshot.
+     * 
+    **/
+    data: XOR<CashSnapshotUpdateInput, CashSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which CashSnapshot to update.
+     * 
+    **/
+    where: CashSnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * CashSnapshot updateMany
+   */
+  export type CashSnapshotUpdateManyArgs = {
+    /**
+     * The data used to update CashSnapshots.
+     * 
+    **/
+    data: XOR<CashSnapshotUpdateManyMutationInput, CashSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which CashSnapshots to update
+     * 
+    **/
+    where?: CashSnapshotWhereInput
+  }
+
+
+  /**
+   * CashSnapshot upsert
+   */
+  export type CashSnapshotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * The filter to search for the CashSnapshot to update in case it exists.
+     * 
+    **/
+    where: CashSnapshotWhereUniqueInput
+    /**
+     * In case the CashSnapshot found by the `where` argument doesn't exist, create a new CashSnapshot with this data.
+     * 
+    **/
+    create: XOR<CashSnapshotCreateInput, CashSnapshotUncheckedCreateInput>
+    /**
+     * In case the CashSnapshot was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<CashSnapshotUpdateInput, CashSnapshotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * CashSnapshot delete
+   */
+  export type CashSnapshotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter which CashSnapshot to delete.
+     * 
+    **/
+    where: CashSnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * CashSnapshot deleteMany
+   */
+  export type CashSnapshotDeleteManyArgs = {
+    /**
+     * Filter which CashSnapshots to delete
+     * 
+    **/
+    where?: CashSnapshotWhereInput
+  }
+
+
+  /**
+   * CashSnapshot: findUniqueOrThrow
+   */
+  export type CashSnapshotFindUniqueOrThrowArgs = CashSnapshotFindUniqueArgsBase
+      
+
+  /**
+   * CashSnapshot: findFirstOrThrow
+   */
+  export type CashSnapshotFindFirstOrThrowArgs = CashSnapshotFindFirstArgsBase
+      
+
+  /**
+   * CashSnapshot without action
+   */
+  export type CashSnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     * 
+    **/
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CashSnapshotInclude | null
+  }
+
+
+
+  /**
+   * Model PropertySnapshot
+   */
+
+
+  export type AggregatePropertySnapshot = {
+    _count: PropertySnapshotCountAggregateOutputType | null
+    _avg: PropertySnapshotAvgAggregateOutputType | null
+    _sum: PropertySnapshotSumAggregateOutputType | null
+    _min: PropertySnapshotMinAggregateOutputType | null
+    _max: PropertySnapshotMaxAggregateOutputType | null
+  }
+
+  export type PropertySnapshotAvgAggregateOutputType = {
+    totalValue: Decimal | null
+  }
+
+  export type PropertySnapshotSumAggregateOutputType = {
+    totalValue: Decimal | null
+  }
+
+  export type PropertySnapshotMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type PropertySnapshotMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type PropertySnapshotCountAggregateOutputType = {
+    id: number
+    userId: number
+    totalValue: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type PropertySnapshotAvgAggregateInputType = {
+    totalValue?: true
+  }
+
+  export type PropertySnapshotSumAggregateInputType = {
+    totalValue?: true
+  }
+
+  export type PropertySnapshotMinAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type PropertySnapshotMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type PropertySnapshotCountAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type PropertySnapshotAggregateArgs = {
+    /**
+     * Filter which PropertySnapshot to aggregate.
+     * 
+    **/
+    where?: PropertySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: PropertySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertySnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PropertySnapshots
+    **/
+    _count?: true | PropertySnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PropertySnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PropertySnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PropertySnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PropertySnapshotMaxAggregateInputType
+  }
+
+  export type GetPropertySnapshotAggregateType<T extends PropertySnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregatePropertySnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePropertySnapshot[P]>
+      : GetScalarType<T[P], AggregatePropertySnapshot[P]>
+  }
+
+
+
+
+  export type PropertySnapshotGroupByArgs = {
+    where?: PropertySnapshotWhereInput
+    orderBy?: Enumerable<PropertySnapshotOrderByWithAggregationInput>
+    by: Array<PropertySnapshotScalarFieldEnum>
+    having?: PropertySnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PropertySnapshotCountAggregateInputType | true
+    _avg?: PropertySnapshotAvgAggregateInputType
+    _sum?: PropertySnapshotSumAggregateInputType
+    _min?: PropertySnapshotMinAggregateInputType
+    _max?: PropertySnapshotMaxAggregateInputType
+  }
+
+
+  export type PropertySnapshotGroupByOutputType = {
+    id: string
+    userId: string
+    totalValue: Decimal
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
+    _count: PropertySnapshotCountAggregateOutputType | null
+    _avg: PropertySnapshotAvgAggregateOutputType | null
+    _sum: PropertySnapshotSumAggregateOutputType | null
+    _min: PropertySnapshotMinAggregateOutputType | null
+    _max: PropertySnapshotMaxAggregateOutputType | null
+  }
+
+  type GetPropertySnapshotGroupByPayload<T extends PropertySnapshotGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<PropertySnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PropertySnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PropertySnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], PropertySnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PropertySnapshotSelect = {
+    id?: boolean
+    userId?: boolean
+    totalValue?: boolean
+    user?: boolean | UserArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
+  }
+
+  export type PropertySnapshotInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type PropertySnapshotGetPayload<
+    S extends boolean | null | undefined | PropertySnapshotArgs,
+    U = keyof S
+      > = S extends true
+        ? PropertySnapshot
+    : S extends undefined
+    ? never
+    : S extends PropertySnapshotArgs | PropertySnapshotFindManyArgs
+    ?'include' extends U
+    ? PropertySnapshot  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof PropertySnapshot ? PropertySnapshot[P] : never
+  } 
+    : PropertySnapshot
+  : PropertySnapshot
+
+
+  type PropertySnapshotCountArgs = Merge<
+    Omit<PropertySnapshotFindManyArgs, 'select' | 'include'> & {
+      select?: PropertySnapshotCountAggregateInputType | true
+    }
+  >
+
+  export interface PropertySnapshotDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one PropertySnapshot that matches the filter.
+     * @param {PropertySnapshotFindUniqueArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PropertySnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PropertySnapshotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PropertySnapshot'> extends True ? CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot | null >, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null >>
+
+    /**
+     * Find the first PropertySnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotFindFirstArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PropertySnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PropertySnapshotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PropertySnapshot'> extends True ? CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot | null >, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null >>
+
+    /**
+     * Find zero or more PropertySnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PropertySnapshots
+     * const propertySnapshots = await prisma.propertySnapshot.findMany()
+     * 
+     * // Get first 10 PropertySnapshots
+     * const propertySnapshots = await prisma.propertySnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const propertySnapshotWithIdOnly = await prisma.propertySnapshot.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends PropertySnapshotFindManyArgs>(
+      args?: SelectSubset<T, PropertySnapshotFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<PropertySnapshot>>, PrismaPromise<Array<PropertySnapshotGetPayload<T>>>>
+
+    /**
+     * Create a PropertySnapshot.
+     * @param {PropertySnapshotCreateArgs} args - Arguments to create a PropertySnapshot.
+     * @example
+     * // Create one PropertySnapshot
+     * const PropertySnapshot = await prisma.propertySnapshot.create({
+     *   data: {
+     *     // ... data to create a PropertySnapshot
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PropertySnapshotCreateArgs>(
+      args: SelectSubset<T, PropertySnapshotCreateArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Create many PropertySnapshots.
+     *     @param {PropertySnapshotCreateManyArgs} args - Arguments to create many PropertySnapshots.
+     *     @example
+     *     // Create many PropertySnapshots
+     *     const propertySnapshot = await prisma.propertySnapshot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends PropertySnapshotCreateManyArgs>(
+      args?: SelectSubset<T, PropertySnapshotCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PropertySnapshot.
+     * @param {PropertySnapshotDeleteArgs} args - Arguments to delete one PropertySnapshot.
+     * @example
+     * // Delete one PropertySnapshot
+     * const PropertySnapshot = await prisma.propertySnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one PropertySnapshot
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PropertySnapshotDeleteArgs>(
+      args: SelectSubset<T, PropertySnapshotDeleteArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Update one PropertySnapshot.
+     * @param {PropertySnapshotUpdateArgs} args - Arguments to update one PropertySnapshot.
+     * @example
+     * // Update one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PropertySnapshotUpdateArgs>(
+      args: SelectSubset<T, PropertySnapshotUpdateArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Delete zero or more PropertySnapshots.
+     * @param {PropertySnapshotDeleteManyArgs} args - Arguments to filter PropertySnapshots to delete.
+     * @example
+     * // Delete a few PropertySnapshots
+     * const { count } = await prisma.propertySnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PropertySnapshotDeleteManyArgs>(
+      args?: SelectSubset<T, PropertySnapshotDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PropertySnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PropertySnapshots
+     * const propertySnapshot = await prisma.propertySnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PropertySnapshotUpdateManyArgs>(
+      args: SelectSubset<T, PropertySnapshotUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PropertySnapshot.
+     * @param {PropertySnapshotUpsertArgs} args - Arguments to update or create a PropertySnapshot.
+     * @example
+     * // Update or create a PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.upsert({
+     *   create: {
+     *     // ... data to create a PropertySnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PropertySnapshot we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PropertySnapshotUpsertArgs>(
+      args: SelectSubset<T, PropertySnapshotUpsertArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Find one PropertySnapshot that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {PropertySnapshotFindUniqueOrThrowArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PropertySnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PropertySnapshotFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Find the first PropertySnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotFindFirstOrThrowArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PropertySnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PropertySnapshotFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+
+    /**
+     * Count the number of PropertySnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotCountArgs} args - Arguments to filter PropertySnapshots to count.
+     * @example
+     * // Count the number of PropertySnapshots
+     * const count = await prisma.propertySnapshot.count({
+     *   where: {
+     *     // ... the filter for the PropertySnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends PropertySnapshotCountArgs>(
+      args?: Subset<T, PropertySnapshotCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PropertySnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PropertySnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PropertySnapshotAggregateArgs>(args: Subset<T, PropertySnapshotAggregateArgs>): PrismaPromise<GetPropertySnapshotAggregateType<T>>
+
+    /**
+     * Group by PropertySnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PropertySnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PropertySnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: PropertySnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PropertySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropertySnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PropertySnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__PropertySnapshotClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * PropertySnapshot base type for findUnique actions
+   */
+  export type PropertySnapshotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter, which PropertySnapshot to fetch.
+     * 
+    **/
+    where: PropertySnapshotWhereUniqueInput
+  }
+
+  /**
+   * PropertySnapshot: findUnique
+   */
+  export interface PropertySnapshotFindUniqueArgs extends PropertySnapshotFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PropertySnapshot base type for findFirst actions
+   */
+  export type PropertySnapshotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter, which PropertySnapshot to fetch.
+     * 
+    **/
+    where?: PropertySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropertySnapshots.
+     * 
+    **/
+    cursor?: PropertySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertySnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertySnapshots.
+     * 
+    **/
+    distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
+  }
+
+  /**
+   * PropertySnapshot: findFirst
+   */
+  export interface PropertySnapshotFindFirstArgs extends PropertySnapshotFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PropertySnapshot findMany
+   */
+  export type PropertySnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter, which PropertySnapshots to fetch.
+     * 
+    **/
+    where?: PropertySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropertySnapshots.
+     * 
+    **/
+    cursor?: PropertySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertySnapshots.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * PropertySnapshot create
+   */
+  export type PropertySnapshotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * The data needed to create a PropertySnapshot.
+     * 
+    **/
+    data: XOR<PropertySnapshotCreateInput, PropertySnapshotUncheckedCreateInput>
+  }
+
+
+  /**
+   * PropertySnapshot createMany
+   */
+  export type PropertySnapshotCreateManyArgs = {
+    /**
+     * The data used to create many PropertySnapshots.
+     * 
+    **/
+    data: Enumerable<PropertySnapshotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * PropertySnapshot update
+   */
+  export type PropertySnapshotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * The data needed to update a PropertySnapshot.
+     * 
+    **/
+    data: XOR<PropertySnapshotUpdateInput, PropertySnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which PropertySnapshot to update.
+     * 
+    **/
+    where: PropertySnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * PropertySnapshot updateMany
+   */
+  export type PropertySnapshotUpdateManyArgs = {
+    /**
+     * The data used to update PropertySnapshots.
+     * 
+    **/
+    data: XOR<PropertySnapshotUpdateManyMutationInput, PropertySnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which PropertySnapshots to update
+     * 
+    **/
+    where?: PropertySnapshotWhereInput
+  }
+
+
+  /**
+   * PropertySnapshot upsert
+   */
+  export type PropertySnapshotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * The filter to search for the PropertySnapshot to update in case it exists.
+     * 
+    **/
+    where: PropertySnapshotWhereUniqueInput
+    /**
+     * In case the PropertySnapshot found by the `where` argument doesn't exist, create a new PropertySnapshot with this data.
+     * 
+    **/
+    create: XOR<PropertySnapshotCreateInput, PropertySnapshotUncheckedCreateInput>
+    /**
+     * In case the PropertySnapshot was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<PropertySnapshotUpdateInput, PropertySnapshotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * PropertySnapshot delete
+   */
+  export type PropertySnapshotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter which PropertySnapshot to delete.
+     * 
+    **/
+    where: PropertySnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * PropertySnapshot deleteMany
+   */
+  export type PropertySnapshotDeleteManyArgs = {
+    /**
+     * Filter which PropertySnapshots to delete
+     * 
+    **/
+    where?: PropertySnapshotWhereInput
+  }
+
+
+  /**
+   * PropertySnapshot: findUniqueOrThrow
+   */
+  export type PropertySnapshotFindUniqueOrThrowArgs = PropertySnapshotFindUniqueArgsBase
+      
+
+  /**
+   * PropertySnapshot: findFirstOrThrow
+   */
+  export type PropertySnapshotFindFirstOrThrowArgs = PropertySnapshotFindFirstArgsBase
+      
+
+  /**
+   * PropertySnapshot without action
+   */
+  export type PropertySnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     * 
+    **/
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PropertySnapshotInclude | null
+  }
+
+
+
+  /**
+   * Model SecuritySnapshot
+   */
+
+
+  export type AggregateSecuritySnapshot = {
+    _count: SecuritySnapshotCountAggregateOutputType | null
+    _avg: SecuritySnapshotAvgAggregateOutputType | null
+    _sum: SecuritySnapshotSumAggregateOutputType | null
+    _min: SecuritySnapshotMinAggregateOutputType | null
+    _max: SecuritySnapshotMaxAggregateOutputType | null
+  }
+
+  export type SecuritySnapshotAvgAggregateOutputType = {
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+  }
+
+  export type SecuritySnapshotSumAggregateOutputType = {
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+  }
+
+  export type SecuritySnapshotMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type SecuritySnapshotMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type SecuritySnapshotCountAggregateOutputType = {
+    id: number
+    userId: number
+    totalValue: number
+    costBasis: number
+    unrealisedGain: number
+    realisedGain: number
+    saleableValue: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type SecuritySnapshotAvgAggregateInputType = {
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+  }
+
+  export type SecuritySnapshotSumAggregateInputType = {
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+  }
+
+  export type SecuritySnapshotMinAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type SecuritySnapshotMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type SecuritySnapshotCountAggregateInputType = {
+    id?: true
+    userId?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type SecuritySnapshotAggregateArgs = {
+    /**
+     * Filter which SecuritySnapshot to aggregate.
+     * 
+    **/
+    where?: SecuritySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: SecuritySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SecuritySnapshots
+    **/
+    _count?: true | SecuritySnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SecuritySnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SecuritySnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SecuritySnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SecuritySnapshotMaxAggregateInputType
+  }
+
+  export type GetSecuritySnapshotAggregateType<T extends SecuritySnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateSecuritySnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSecuritySnapshot[P]>
+      : GetScalarType<T[P], AggregateSecuritySnapshot[P]>
+  }
+
+
+
+
+  export type SecuritySnapshotGroupByArgs = {
+    where?: SecuritySnapshotWhereInput
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithAggregationInput>
+    by: Array<SecuritySnapshotScalarFieldEnum>
+    having?: SecuritySnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SecuritySnapshotCountAggregateInputType | true
+    _avg?: SecuritySnapshotAvgAggregateInputType
+    _sum?: SecuritySnapshotSumAggregateInputType
+    _min?: SecuritySnapshotMinAggregateInputType
+    _max?: SecuritySnapshotMaxAggregateInputType
+  }
+
+
+  export type SecuritySnapshotGroupByOutputType = {
+    id: string
+    userId: string
+    totalValue: Decimal
+    costBasis: Decimal
+    unrealisedGain: Decimal
+    realisedGain: Decimal
+    saleableValue: Decimal
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
+    _count: SecuritySnapshotCountAggregateOutputType | null
+    _avg: SecuritySnapshotAvgAggregateOutputType | null
+    _sum: SecuritySnapshotSumAggregateOutputType | null
+    _min: SecuritySnapshotMinAggregateOutputType | null
+    _max: SecuritySnapshotMaxAggregateOutputType | null
+  }
+
+  type GetSecuritySnapshotGroupByPayload<T extends SecuritySnapshotGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<SecuritySnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SecuritySnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SecuritySnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], SecuritySnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SecuritySnapshotSelect = {
+    id?: boolean
+    userId?: boolean
+    totalValue?: boolean
+    costBasis?: boolean
+    unrealisedGain?: boolean
+    realisedGain?: boolean
+    saleableValue?: boolean
+    user?: boolean | UserArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
+  }
+
+  export type SecuritySnapshotInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type SecuritySnapshotGetPayload<
+    S extends boolean | null | undefined | SecuritySnapshotArgs,
+    U = keyof S
+      > = S extends true
+        ? SecuritySnapshot
+    : S extends undefined
+    ? never
+    : S extends SecuritySnapshotArgs | SecuritySnapshotFindManyArgs
+    ?'include' extends U
+    ? SecuritySnapshot  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof SecuritySnapshot ? SecuritySnapshot[P] : never
+  } 
+    : SecuritySnapshot
+  : SecuritySnapshot
+
+
+  type SecuritySnapshotCountArgs = Merge<
+    Omit<SecuritySnapshotFindManyArgs, 'select' | 'include'> & {
+      select?: SecuritySnapshotCountAggregateInputType | true
+    }
+  >
+
+  export interface SecuritySnapshotDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one SecuritySnapshot that matches the filter.
+     * @param {SecuritySnapshotFindUniqueArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SecuritySnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SecuritySnapshotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SecuritySnapshot'> extends True ? CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot | null >, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null >>
+
+    /**
+     * Find the first SecuritySnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotFindFirstArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SecuritySnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SecuritySnapshotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SecuritySnapshot'> extends True ? CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot | null >, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null >>
+
+    /**
+     * Find zero or more SecuritySnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SecuritySnapshots
+     * const securitySnapshots = await prisma.securitySnapshot.findMany()
+     * 
+     * // Get first 10 SecuritySnapshots
+     * const securitySnapshots = await prisma.securitySnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const securitySnapshotWithIdOnly = await prisma.securitySnapshot.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SecuritySnapshotFindManyArgs>(
+      args?: SelectSubset<T, SecuritySnapshotFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<SecuritySnapshot>>, PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>>
+
+    /**
+     * Create a SecuritySnapshot.
+     * @param {SecuritySnapshotCreateArgs} args - Arguments to create a SecuritySnapshot.
+     * @example
+     * // Create one SecuritySnapshot
+     * const SecuritySnapshot = await prisma.securitySnapshot.create({
+     *   data: {
+     *     // ... data to create a SecuritySnapshot
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SecuritySnapshotCreateArgs>(
+      args: SelectSubset<T, SecuritySnapshotCreateArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Create many SecuritySnapshots.
+     *     @param {SecuritySnapshotCreateManyArgs} args - Arguments to create many SecuritySnapshots.
+     *     @example
+     *     // Create many SecuritySnapshots
+     *     const securitySnapshot = await prisma.securitySnapshot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SecuritySnapshotCreateManyArgs>(
+      args?: SelectSubset<T, SecuritySnapshotCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SecuritySnapshot.
+     * @param {SecuritySnapshotDeleteArgs} args - Arguments to delete one SecuritySnapshot.
+     * @example
+     * // Delete one SecuritySnapshot
+     * const SecuritySnapshot = await prisma.securitySnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one SecuritySnapshot
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SecuritySnapshotDeleteArgs>(
+      args: SelectSubset<T, SecuritySnapshotDeleteArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Update one SecuritySnapshot.
+     * @param {SecuritySnapshotUpdateArgs} args - Arguments to update one SecuritySnapshot.
+     * @example
+     * // Update one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SecuritySnapshotUpdateArgs>(
+      args: SelectSubset<T, SecuritySnapshotUpdateArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Delete zero or more SecuritySnapshots.
+     * @param {SecuritySnapshotDeleteManyArgs} args - Arguments to filter SecuritySnapshots to delete.
+     * @example
+     * // Delete a few SecuritySnapshots
+     * const { count } = await prisma.securitySnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SecuritySnapshotDeleteManyArgs>(
+      args?: SelectSubset<T, SecuritySnapshotDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SecuritySnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SecuritySnapshots
+     * const securitySnapshot = await prisma.securitySnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SecuritySnapshotUpdateManyArgs>(
+      args: SelectSubset<T, SecuritySnapshotUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SecuritySnapshot.
+     * @param {SecuritySnapshotUpsertArgs} args - Arguments to update or create a SecuritySnapshot.
+     * @example
+     * // Update or create a SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.upsert({
+     *   create: {
+     *     // ... data to create a SecuritySnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SecuritySnapshot we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SecuritySnapshotUpsertArgs>(
+      args: SelectSubset<T, SecuritySnapshotUpsertArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Find one SecuritySnapshot that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {SecuritySnapshotFindUniqueOrThrowArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SecuritySnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SecuritySnapshotFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Find the first SecuritySnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotFindFirstOrThrowArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SecuritySnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SecuritySnapshotFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+
+    /**
+     * Count the number of SecuritySnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotCountArgs} args - Arguments to filter SecuritySnapshots to count.
+     * @example
+     * // Count the number of SecuritySnapshots
+     * const count = await prisma.securitySnapshot.count({
+     *   where: {
+     *     // ... the filter for the SecuritySnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends SecuritySnapshotCountArgs>(
+      args?: Subset<T, SecuritySnapshotCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SecuritySnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SecuritySnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SecuritySnapshotAggregateArgs>(args: Subset<T, SecuritySnapshotAggregateArgs>): PrismaPromise<GetSecuritySnapshotAggregateType<T>>
+
+    /**
+     * Group by SecuritySnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SecuritySnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SecuritySnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: SecuritySnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SecuritySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSecuritySnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SecuritySnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SecuritySnapshotClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * SecuritySnapshot base type for findUnique actions
+   */
+  export type SecuritySnapshotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter, which SecuritySnapshot to fetch.
+     * 
+    **/
+    where: SecuritySnapshotWhereUniqueInput
+  }
+
+  /**
+   * SecuritySnapshot: findUnique
+   */
+  export interface SecuritySnapshotFindUniqueArgs extends SecuritySnapshotFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SecuritySnapshot base type for findFirst actions
+   */
+  export type SecuritySnapshotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter, which SecuritySnapshot to fetch.
+     * 
+    **/
+    where?: SecuritySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SecuritySnapshots.
+     * 
+    **/
+    cursor?: SecuritySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SecuritySnapshots.
+     * 
+    **/
+    distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
+  }
+
+  /**
+   * SecuritySnapshot: findFirst
+   */
+  export interface SecuritySnapshotFindFirstArgs extends SecuritySnapshotFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SecuritySnapshot findMany
+   */
+  export type SecuritySnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter, which SecuritySnapshots to fetch.
+     * 
+    **/
+    where?: SecuritySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SecuritySnapshots.
+     * 
+    **/
+    cursor?: SecuritySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySnapshots.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * SecuritySnapshot create
+   */
+  export type SecuritySnapshotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * The data needed to create a SecuritySnapshot.
+     * 
+    **/
+    data: XOR<SecuritySnapshotCreateInput, SecuritySnapshotUncheckedCreateInput>
+  }
+
+
+  /**
+   * SecuritySnapshot createMany
+   */
+  export type SecuritySnapshotCreateManyArgs = {
+    /**
+     * The data used to create many SecuritySnapshots.
+     * 
+    **/
+    data: Enumerable<SecuritySnapshotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * SecuritySnapshot update
+   */
+  export type SecuritySnapshotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * The data needed to update a SecuritySnapshot.
+     * 
+    **/
+    data: XOR<SecuritySnapshotUpdateInput, SecuritySnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which SecuritySnapshot to update.
+     * 
+    **/
+    where: SecuritySnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * SecuritySnapshot updateMany
+   */
+  export type SecuritySnapshotUpdateManyArgs = {
+    /**
+     * The data used to update SecuritySnapshots.
+     * 
+    **/
+    data: XOR<SecuritySnapshotUpdateManyMutationInput, SecuritySnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which SecuritySnapshots to update
+     * 
+    **/
+    where?: SecuritySnapshotWhereInput
+  }
+
+
+  /**
+   * SecuritySnapshot upsert
+   */
+  export type SecuritySnapshotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * The filter to search for the SecuritySnapshot to update in case it exists.
+     * 
+    **/
+    where: SecuritySnapshotWhereUniqueInput
+    /**
+     * In case the SecuritySnapshot found by the `where` argument doesn't exist, create a new SecuritySnapshot with this data.
+     * 
+    **/
+    create: XOR<SecuritySnapshotCreateInput, SecuritySnapshotUncheckedCreateInput>
+    /**
+     * In case the SecuritySnapshot was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<SecuritySnapshotUpdateInput, SecuritySnapshotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * SecuritySnapshot delete
+   */
+  export type SecuritySnapshotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter which SecuritySnapshot to delete.
+     * 
+    **/
+    where: SecuritySnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * SecuritySnapshot deleteMany
+   */
+  export type SecuritySnapshotDeleteManyArgs = {
+    /**
+     * Filter which SecuritySnapshots to delete
+     * 
+    **/
+    where?: SecuritySnapshotWhereInput
+  }
+
+
+  /**
+   * SecuritySnapshot: findUniqueOrThrow
+   */
+  export type SecuritySnapshotFindUniqueOrThrowArgs = SecuritySnapshotFindUniqueArgsBase
+      
+
+  /**
+   * SecuritySnapshot: findFirstOrThrow
+   */
+  export type SecuritySnapshotFindFirstOrThrowArgs = SecuritySnapshotFindFirstArgsBase
+      
+
+  /**
+   * SecuritySnapshot without action
+   */
+  export type SecuritySnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     * 
+    **/
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SecuritySnapshotInclude | null
+  }
+
+
+
+  /**
+   * Model PortfolioSnapshot
+   */
+
+
+  export type AggregatePortfolioSnapshot = {
+    _count: PortfolioSnapshotCountAggregateOutputType | null
+    _avg: PortfolioSnapshotAvgAggregateOutputType | null
+    _sum: PortfolioSnapshotSumAggregateOutputType | null
+    _min: PortfolioSnapshotMinAggregateOutputType | null
+    _max: PortfolioSnapshotMaxAggregateOutputType | null
+  }
+
+  export type PortfolioSnapshotAvgAggregateOutputType = {
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+  }
+
+  export type PortfolioSnapshotSumAggregateOutputType = {
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+  }
+
+  export type PortfolioSnapshotMinAggregateOutputType = {
+    id: string | null
+    currency: string | null
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type PortfolioSnapshotMaxAggregateOutputType = {
+    id: string | null
+    currency: string | null
+    totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
+  }
+
+  export type PortfolioSnapshotCountAggregateOutputType = {
+    id: number
+    currency: number
+    totalValue: number
+    costBasis: number
+    unrealisedGain: number
+    realisedGain: number
+    saleableValue: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type PortfolioSnapshotAvgAggregateInputType = {
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+  }
+
+  export type PortfolioSnapshotSumAggregateInputType = {
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+  }
+
+  export type PortfolioSnapshotMinAggregateInputType = {
+    id?: true
+    currency?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type PortfolioSnapshotMaxAggregateInputType = {
+    id?: true
+    currency?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+  }
+
+  export type PortfolioSnapshotCountAggregateInputType = {
+    id?: true
+    currency?: true
+    totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type PortfolioSnapshotAggregateArgs = {
+    /**
+     * Filter which PortfolioSnapshot to aggregate.
+     * 
+    **/
+    where?: PortfolioSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortfolioSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: PortfolioSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortfolioSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortfolioSnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PortfolioSnapshots
+    **/
+    _count?: true | PortfolioSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PortfolioSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PortfolioSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PortfolioSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PortfolioSnapshotMaxAggregateInputType
+  }
+
+  export type GetPortfolioSnapshotAggregateType<T extends PortfolioSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregatePortfolioSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePortfolioSnapshot[P]>
+      : GetScalarType<T[P], AggregatePortfolioSnapshot[P]>
+  }
+
+
+
+
+  export type PortfolioSnapshotGroupByArgs = {
+    where?: PortfolioSnapshotWhereInput
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithAggregationInput>
+    by: Array<PortfolioSnapshotScalarFieldEnum>
+    having?: PortfolioSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PortfolioSnapshotCountAggregateInputType | true
+    _avg?: PortfolioSnapshotAvgAggregateInputType
+    _sum?: PortfolioSnapshotSumAggregateInputType
+    _min?: PortfolioSnapshotMinAggregateInputType
+    _max?: PortfolioSnapshotMaxAggregateInputType
+  }
+
+
+  export type PortfolioSnapshotGroupByOutputType = {
+    id: string
+    currency: string
+    totalValue: Decimal
+    costBasis: Decimal
+    unrealisedGain: Decimal
+    realisedGain: Decimal
+    saleableValue: Decimal
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
+    _count: PortfolioSnapshotCountAggregateOutputType | null
+    _avg: PortfolioSnapshotAvgAggregateOutputType | null
+    _sum: PortfolioSnapshotSumAggregateOutputType | null
+    _min: PortfolioSnapshotMinAggregateOutputType | null
+    _max: PortfolioSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetPortfolioSnapshotGroupByPayload<T extends PortfolioSnapshotGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<PortfolioSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PortfolioSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PortfolioSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], PortfolioSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PortfolioSnapshotSelect = {
+    id?: boolean
+    currency?: boolean
+    totalValue?: boolean
+    costBasis?: boolean
+    unrealisedGain?: boolean
+    realisedGain?: boolean
+    saleableValue?: boolean
+    userId?: boolean
+    user?: boolean | UserArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
+  }
+
+  export type PortfolioSnapshotInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type PortfolioSnapshotGetPayload<
+    S extends boolean | null | undefined | PortfolioSnapshotArgs,
+    U = keyof S
+      > = S extends true
+        ? PortfolioSnapshot
+    : S extends undefined
+    ? never
+    : S extends PortfolioSnapshotArgs | PortfolioSnapshotFindManyArgs
+    ?'include' extends U
+    ? PortfolioSnapshot  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof PortfolioSnapshot ? PortfolioSnapshot[P] : never
+  } 
+    : PortfolioSnapshot
+  : PortfolioSnapshot
+
+
+  type PortfolioSnapshotCountArgs = Merge<
+    Omit<PortfolioSnapshotFindManyArgs, 'select' | 'include'> & {
+      select?: PortfolioSnapshotCountAggregateInputType | true
+    }
+  >
+
+  export interface PortfolioSnapshotDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one PortfolioSnapshot that matches the filter.
+     * @param {PortfolioSnapshotFindUniqueArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PortfolioSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PortfolioSnapshotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PortfolioSnapshot'> extends True ? CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot | null >, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null >>
+
+    /**
+     * Find the first PortfolioSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotFindFirstArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PortfolioSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PortfolioSnapshotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PortfolioSnapshot'> extends True ? CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot | null >, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null >>
+
+    /**
+     * Find zero or more PortfolioSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PortfolioSnapshots
+     * const portfolioSnapshots = await prisma.portfolioSnapshot.findMany()
+     * 
+     * // Get first 10 PortfolioSnapshots
+     * const portfolioSnapshots = await prisma.portfolioSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const portfolioSnapshotWithIdOnly = await prisma.portfolioSnapshot.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends PortfolioSnapshotFindManyArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<PortfolioSnapshot>>, PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>>
+
+    /**
+     * Create a PortfolioSnapshot.
+     * @param {PortfolioSnapshotCreateArgs} args - Arguments to create a PortfolioSnapshot.
+     * @example
+     * // Create one PortfolioSnapshot
+     * const PortfolioSnapshot = await prisma.portfolioSnapshot.create({
+     *   data: {
+     *     // ... data to create a PortfolioSnapshot
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PortfolioSnapshotCreateArgs>(
+      args: SelectSubset<T, PortfolioSnapshotCreateArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Create many PortfolioSnapshots.
+     *     @param {PortfolioSnapshotCreateManyArgs} args - Arguments to create many PortfolioSnapshots.
+     *     @example
+     *     // Create many PortfolioSnapshots
+     *     const portfolioSnapshot = await prisma.portfolioSnapshot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends PortfolioSnapshotCreateManyArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PortfolioSnapshot.
+     * @param {PortfolioSnapshotDeleteArgs} args - Arguments to delete one PortfolioSnapshot.
+     * @example
+     * // Delete one PortfolioSnapshot
+     * const PortfolioSnapshot = await prisma.portfolioSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one PortfolioSnapshot
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PortfolioSnapshotDeleteArgs>(
+      args: SelectSubset<T, PortfolioSnapshotDeleteArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Update one PortfolioSnapshot.
+     * @param {PortfolioSnapshotUpdateArgs} args - Arguments to update one PortfolioSnapshot.
+     * @example
+     * // Update one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PortfolioSnapshotUpdateArgs>(
+      args: SelectSubset<T, PortfolioSnapshotUpdateArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Delete zero or more PortfolioSnapshots.
+     * @param {PortfolioSnapshotDeleteManyArgs} args - Arguments to filter PortfolioSnapshots to delete.
+     * @example
+     * // Delete a few PortfolioSnapshots
+     * const { count } = await prisma.portfolioSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PortfolioSnapshotDeleteManyArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PortfolioSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PortfolioSnapshots
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PortfolioSnapshotUpdateManyArgs>(
+      args: SelectSubset<T, PortfolioSnapshotUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PortfolioSnapshot.
+     * @param {PortfolioSnapshotUpsertArgs} args - Arguments to update or create a PortfolioSnapshot.
+     * @example
+     * // Update or create a PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a PortfolioSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PortfolioSnapshot we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PortfolioSnapshotUpsertArgs>(
+      args: SelectSubset<T, PortfolioSnapshotUpsertArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Find one PortfolioSnapshot that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {PortfolioSnapshotFindUniqueOrThrowArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PortfolioSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Find the first PortfolioSnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotFindFirstOrThrowArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PortfolioSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+
+    /**
+     * Count the number of PortfolioSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotCountArgs} args - Arguments to filter PortfolioSnapshots to count.
+     * @example
+     * // Count the number of PortfolioSnapshots
+     * const count = await prisma.portfolioSnapshot.count({
+     *   where: {
+     *     // ... the filter for the PortfolioSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends PortfolioSnapshotCountArgs>(
+      args?: Subset<T, PortfolioSnapshotCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PortfolioSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PortfolioSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PortfolioSnapshotAggregateArgs>(args: Subset<T, PortfolioSnapshotAggregateArgs>): PrismaPromise<GetPortfolioSnapshotAggregateType<T>>
+
+    /**
+     * Group by PortfolioSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PortfolioSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PortfolioSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: PortfolioSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PortfolioSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPortfolioSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PortfolioSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__PortfolioSnapshotClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * PortfolioSnapshot base type for findUnique actions
+   */
+  export type PortfolioSnapshotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter, which PortfolioSnapshot to fetch.
+     * 
+    **/
+    where: PortfolioSnapshotWhereUniqueInput
+  }
+
+  /**
+   * PortfolioSnapshot: findUnique
+   */
+  export interface PortfolioSnapshotFindUniqueArgs extends PortfolioSnapshotFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PortfolioSnapshot base type for findFirst actions
+   */
+  export type PortfolioSnapshotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter, which PortfolioSnapshot to fetch.
+     * 
+    **/
+    where?: PortfolioSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortfolioSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PortfolioSnapshots.
+     * 
+    **/
+    cursor?: PortfolioSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortfolioSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortfolioSnapshots.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PortfolioSnapshots.
+     * 
+    **/
+    distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
+  }
+
+  /**
+   * PortfolioSnapshot: findFirst
+   */
+  export interface PortfolioSnapshotFindFirstArgs extends PortfolioSnapshotFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PortfolioSnapshot findMany
+   */
+  export type PortfolioSnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter, which PortfolioSnapshots to fetch.
+     * 
+    **/
+    where?: PortfolioSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortfolioSnapshots to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PortfolioSnapshots.
+     * 
+    **/
+    cursor?: PortfolioSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortfolioSnapshots from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortfolioSnapshots.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * PortfolioSnapshot create
+   */
+  export type PortfolioSnapshotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * The data needed to create a PortfolioSnapshot.
+     * 
+    **/
+    data: XOR<PortfolioSnapshotCreateInput, PortfolioSnapshotUncheckedCreateInput>
+  }
+
+
+  /**
+   * PortfolioSnapshot createMany
+   */
+  export type PortfolioSnapshotCreateManyArgs = {
+    /**
+     * The data used to create many PortfolioSnapshots.
+     * 
+    **/
+    data: Enumerable<PortfolioSnapshotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * PortfolioSnapshot update
+   */
+  export type PortfolioSnapshotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * The data needed to update a PortfolioSnapshot.
+     * 
+    **/
+    data: XOR<PortfolioSnapshotUpdateInput, PortfolioSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which PortfolioSnapshot to update.
+     * 
+    **/
+    where: PortfolioSnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * PortfolioSnapshot updateMany
+   */
+  export type PortfolioSnapshotUpdateManyArgs = {
+    /**
+     * The data used to update PortfolioSnapshots.
+     * 
+    **/
+    data: XOR<PortfolioSnapshotUpdateManyMutationInput, PortfolioSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which PortfolioSnapshots to update
+     * 
+    **/
+    where?: PortfolioSnapshotWhereInput
+  }
+
+
+  /**
+   * PortfolioSnapshot upsert
+   */
+  export type PortfolioSnapshotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * The filter to search for the PortfolioSnapshot to update in case it exists.
+     * 
+    **/
+    where: PortfolioSnapshotWhereUniqueInput
+    /**
+     * In case the PortfolioSnapshot found by the `where` argument doesn't exist, create a new PortfolioSnapshot with this data.
+     * 
+    **/
+    create: XOR<PortfolioSnapshotCreateInput, PortfolioSnapshotUncheckedCreateInput>
+    /**
+     * In case the PortfolioSnapshot was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<PortfolioSnapshotUpdateInput, PortfolioSnapshotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * PortfolioSnapshot delete
+   */
+  export type PortfolioSnapshotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter which PortfolioSnapshot to delete.
+     * 
+    **/
+    where: PortfolioSnapshotWhereUniqueInput
+  }
+
+
+  /**
+   * PortfolioSnapshot deleteMany
+   */
+  export type PortfolioSnapshotDeleteManyArgs = {
+    /**
+     * Filter which PortfolioSnapshots to delete
+     * 
+    **/
+    where?: PortfolioSnapshotWhereInput
+  }
+
+
+  /**
+   * PortfolioSnapshot: findUniqueOrThrow
+   */
+  export type PortfolioSnapshotFindUniqueOrThrowArgs = PortfolioSnapshotFindUniqueArgsBase
+      
+
+  /**
+   * PortfolioSnapshot: findFirstOrThrow
+   */
+  export type PortfolioSnapshotFindFirstOrThrowArgs = PortfolioSnapshotFindFirstArgsBase
+      
+
+  /**
+   * PortfolioSnapshot without action
+   */
+  export type PortfolioSnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     * 
+    **/
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PortfolioSnapshotInclude | null
   }
 
 
@@ -6086,6 +10291,10 @@ export namespace Prisma {
     preferredColorScheme: ColorScheme | null
     userCurrency: string | null
     userLanguage: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type SettingsMaxAggregateOutputType = {
@@ -6094,6 +10303,10 @@ export namespace Prisma {
     preferredColorScheme: ColorScheme | null
     userCurrency: string | null
     userLanguage: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type SettingsCountAggregateOutputType = {
@@ -6102,6 +10315,10 @@ export namespace Prisma {
     preferredColorScheme: number
     userCurrency: number
     userLanguage: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -6112,6 +10329,10 @@ export namespace Prisma {
     preferredColorScheme?: true
     userCurrency?: true
     userLanguage?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type SettingsMaxAggregateInputType = {
@@ -6120,6 +10341,10 @@ export namespace Prisma {
     preferredColorScheme?: true
     userCurrency?: true
     userLanguage?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type SettingsCountAggregateInputType = {
@@ -6128,6 +10353,10 @@ export namespace Prisma {
     preferredColorScheme?: true
     userCurrency?: true
     userLanguage?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -6215,6 +10444,10 @@ export namespace Prisma {
     preferredColorScheme: ColorScheme | null
     userCurrency: string
     userLanguage: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: SettingsCountAggregateOutputType | null
     _min: SettingsMinAggregateOutputType | null
     _max: SettingsMaxAggregateOutputType | null
@@ -6241,6 +10474,10 @@ export namespace Prisma {
     userCurrency?: boolean
     userLanguage?: boolean
     user?: boolean | UserArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
   }
 
   export type SettingsInclude = {
@@ -7036,11 +11273,13 @@ export namespace Prisma {
     accountConnection: AccountConnection | null
     apiKey: string | null
     apiSecret: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
     marketId: string | null
     userId: string | null
     parentId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type CryptocurrencyMaxAggregateOutputType = {
@@ -7057,11 +11296,13 @@ export namespace Prisma {
     accountConnection: AccountConnection | null
     apiKey: string | null
     apiSecret: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
     marketId: string | null
     userId: string | null
     parentId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type CryptocurrencyCountAggregateOutputType = {
@@ -7078,11 +11319,13 @@ export namespace Prisma {
     accountConnection: number
     apiKey: number
     apiSecret: number
-    createdAt: number
-    updatedAt: number
     marketId: number
     userId: number
     parentId: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -7119,11 +11362,13 @@ export namespace Prisma {
     accountConnection?: true
     apiKey?: true
     apiSecret?: true
-    createdAt?: true
-    updatedAt?: true
     marketId?: true
     userId?: true
     parentId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type CryptocurrencyMaxAggregateInputType = {
@@ -7140,11 +11385,13 @@ export namespace Prisma {
     accountConnection?: true
     apiKey?: true
     apiSecret?: true
-    createdAt?: true
-    updatedAt?: true
     marketId?: true
     userId?: true
     parentId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type CryptocurrencyCountAggregateInputType = {
@@ -7161,11 +11408,13 @@ export namespace Prisma {
     accountConnection?: true
     apiKey?: true
     apiSecret?: true
-    createdAt?: true
-    updatedAt?: true
     marketId?: true
     userId?: true
     parentId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -7275,11 +11524,13 @@ export namespace Prisma {
     accountConnection: AccountConnection | null
     apiKey: string | null
     apiSecret: string | null
-    createdAt: Date
-    updatedAt: Date
     marketId: string | null
     userId: string
     parentId: string | null
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: CryptocurrencyCountAggregateOutputType | null
     _avg: CryptocurrencyAvgAggregateOutputType | null
     _sum: CryptocurrencySumAggregateOutputType | null
@@ -7315,8 +11566,6 @@ export namespace Prisma {
     accountConnection?: boolean
     apiKey?: boolean
     apiSecret?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
     marketId?: boolean
     userId?: boolean
     parentId?: boolean
@@ -7324,6 +11573,10 @@ export namespace Prisma {
     parent?: boolean | CryptocurrencyArgs
     user?: boolean | UserArgs
     Children?: boolean | CryptocurrencyFindManyArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
     _count?: boolean | CryptocurrencyCountOutputTypeArgs
   }
 
@@ -8136,6 +12389,8 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type MarketMaxAggregateOutputType = {
@@ -8152,6 +12407,8 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type MarketCountAggregateOutputType = {
@@ -8168,6 +12425,8 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -8202,6 +12461,8 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type MarketMaxAggregateInputType = {
@@ -8218,6 +12479,8 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type MarketCountAggregateInputType = {
@@ -8234,6 +12497,8 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -8343,6 +12608,8 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: MarketCountAggregateOutputType | null
     _avg: MarketAvgAggregateOutputType | null
     _sum: MarketSumAggregateOutputType | null
@@ -8376,9 +12643,11 @@ export namespace Prisma {
     marketCapRank?: boolean
     type?: boolean
     image?: boolean
+    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     createdAt?: boolean
     updatedAt?: boolean
-    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
+    deleted?: boolean
+    deletedAt?: boolean
     _count?: boolean | MarketCountOutputTypeArgs
   }
 
@@ -9151,6 +13420,10 @@ export namespace Prisma {
     grossAmount: string | null
     grossFrequency: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type IncomeMaxAggregateOutputType = {
@@ -9160,6 +13433,10 @@ export namespace Prisma {
     grossAmount: string | null
     grossFrequency: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type IncomeCountAggregateOutputType = {
@@ -9169,6 +13446,10 @@ export namespace Prisma {
     grossAmount: number
     grossFrequency: number
     userId: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -9180,6 +13461,10 @@ export namespace Prisma {
     grossAmount?: true
     grossFrequency?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type IncomeMaxAggregateInputType = {
@@ -9189,6 +13474,10 @@ export namespace Prisma {
     grossAmount?: true
     grossFrequency?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type IncomeCountAggregateInputType = {
@@ -9198,6 +13487,10 @@ export namespace Prisma {
     grossAmount?: true
     grossFrequency?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -9286,6 +13579,10 @@ export namespace Prisma {
     grossAmount: string
     grossFrequency: string
     userId: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: IncomeCountAggregateOutputType | null
     _min: IncomeMinAggregateOutputType | null
     _max: IncomeMaxAggregateOutputType | null
@@ -9313,6 +13610,10 @@ export namespace Prisma {
     grossFrequency?: boolean
     userId?: boolean
     budget?: boolean | BudgetArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
   }
 
   export type IncomeInclude = {
@@ -10078,18 +14379,30 @@ export namespace Prisma {
     id: string | null
     name: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetMaxAggregateOutputType = {
     id: string | null
     name: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetCountAggregateOutputType = {
     id: number
     name: number
     userId: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -10098,18 +14411,30 @@ export namespace Prisma {
     id?: true
     name?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetMaxAggregateInputType = {
     id?: true
     name?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetCountAggregateInputType = {
     id?: true
     name?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -10195,6 +14520,10 @@ export namespace Prisma {
     id: string
     name: string
     userId: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: BudgetCountAggregateOutputType | null
     _min: BudgetMinAggregateOutputType | null
     _max: BudgetMaxAggregateOutputType | null
@@ -10221,6 +14550,10 @@ export namespace Prisma {
     User?: boolean | UserArgs
     Children?: boolean | BudgetItemFindManyArgs
     income?: boolean | IncomeFindManyArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
     _count?: boolean | BudgetCountOutputTypeArgs
   }
 
@@ -11002,9 +15335,11 @@ export namespace Prisma {
     category: string | null
     amount: string | null
     frequency: string | null
+    budgetId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    budgetId: string | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetItemMaxAggregateOutputType = {
@@ -11013,9 +15348,11 @@ export namespace Prisma {
     category: string | null
     amount: string | null
     frequency: string | null
+    budgetId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    budgetId: string | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetItemCountAggregateOutputType = {
@@ -11024,9 +15361,11 @@ export namespace Prisma {
     category: number
     amount: number
     frequency: number
+    budgetId: number
     createdAt: number
     updatedAt: number
-    budgetId: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -11037,9 +15376,11 @@ export namespace Prisma {
     category?: true
     amount?: true
     frequency?: true
+    budgetId?: true
     createdAt?: true
     updatedAt?: true
-    budgetId?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetItemMaxAggregateInputType = {
@@ -11048,9 +15389,11 @@ export namespace Prisma {
     category?: true
     amount?: true
     frequency?: true
+    budgetId?: true
     createdAt?: true
     updatedAt?: true
-    budgetId?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetItemCountAggregateInputType = {
@@ -11059,9 +15402,11 @@ export namespace Prisma {
     category?: true
     amount?: true
     frequency?: true
+    budgetId?: true
     createdAt?: true
     updatedAt?: true
-    budgetId?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -11149,9 +15494,11 @@ export namespace Prisma {
     category: string
     amount: string
     frequency: string
+    budgetId: string
     createdAt: Date
     updatedAt: Date
-    budgetId: string
+    deleted: boolean
+    deletedAt: Date | null
     _count: BudgetItemCountAggregateOutputType | null
     _min: BudgetItemMinAggregateOutputType | null
     _max: BudgetItemMaxAggregateOutputType | null
@@ -11177,10 +15524,12 @@ export namespace Prisma {
     category?: boolean
     amount?: boolean
     frequency?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
     budgetId?: boolean
     budget?: boolean | BudgetArgs
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
   }
 
   export type BudgetItemInclude = {
@@ -11972,13 +16321,77 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt',
     role: 'role'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-  export const AccountsHistoryScalarFieldEnum: {
+  export const CryptoSnapshotScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type CryptoSnapshotScalarFieldEnum = (typeof CryptoSnapshotScalarFieldEnum)[keyof typeof CryptoSnapshotScalarFieldEnum]
+
+
+  export const CashSnapshotScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    totalValue: 'totalValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type CashSnapshotScalarFieldEnum = (typeof CashSnapshotScalarFieldEnum)[keyof typeof CashSnapshotScalarFieldEnum]
+
+
+  export const PropertySnapshotScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    totalValue: 'totalValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type PropertySnapshotScalarFieldEnum = (typeof PropertySnapshotScalarFieldEnum)[keyof typeof PropertySnapshotScalarFieldEnum]
+
+
+  export const SecuritySnapshotScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type SecuritySnapshotScalarFieldEnum = (typeof SecuritySnapshotScalarFieldEnum)[keyof typeof SecuritySnapshotScalarFieldEnum]
+
+
+  export const PortfolioSnapshotScalarFieldEnum: {
     id: 'id',
     currency: 'currency',
     totalValue: 'totalValue',
@@ -11986,11 +16399,14 @@ export namespace Prisma {
     unrealisedGain: 'unrealisedGain',
     realisedGain: 'realisedGain',
     saleableValue: 'saleableValue',
+    userId: 'userId',
     createdAt: 'createdAt',
-    userId: 'userId'
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
-  export type AccountsHistoryScalarFieldEnum = (typeof AccountsHistoryScalarFieldEnum)[keyof typeof AccountsHistoryScalarFieldEnum]
+  export type PortfolioSnapshotScalarFieldEnum = (typeof PortfolioSnapshotScalarFieldEnum)[keyof typeof PortfolioSnapshotScalarFieldEnum]
 
 
   export const VerificationTokenScalarFieldEnum: {
@@ -12007,7 +16423,11 @@ export namespace Prisma {
     userId: 'userId',
     preferredColorScheme: 'preferredColorScheme',
     userCurrency: 'userCurrency',
-    userLanguage: 'userLanguage'
+    userLanguage: 'userLanguage',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
@@ -12027,11 +16447,13 @@ export namespace Prisma {
     accountConnection: 'accountConnection',
     apiKey: 'apiKey',
     apiSecret: 'apiSecret',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
     marketId: 'marketId',
     userId: 'userId',
-    parentId: 'parentId'
+    parentId: 'parentId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type CryptocurrencyScalarFieldEnum = (typeof CryptocurrencyScalarFieldEnum)[keyof typeof CryptocurrencyScalarFieldEnum]
@@ -12050,7 +16472,9 @@ export namespace Prisma {
     type: 'type',
     image: 'image',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type MarketScalarFieldEnum = (typeof MarketScalarFieldEnum)[keyof typeof MarketScalarFieldEnum]
@@ -12062,7 +16486,11 @@ export namespace Prisma {
     payFrequency: 'payFrequency',
     grossAmount: 'grossAmount',
     grossFrequency: 'grossFrequency',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
@@ -12071,7 +16499,11 @@ export namespace Prisma {
   export const BudgetScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
@@ -12083,9 +16515,11 @@ export namespace Prisma {
     category: 'category',
     amount: 'amount',
     frequency: 'frequency',
+    budgetId: 'budgetId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    budgetId: 'budgetId'
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type BudgetItemScalarFieldEnum = (typeof BudgetItemScalarFieldEnum)[keyof typeof BudgetItemScalarFieldEnum]
@@ -12243,13 +16677,21 @@ export namespace Prisma {
     email?: StringNullableFilter | string | null
     emailVerified?: DateTimeNullableFilter | Date | string | null
     image?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
     role?: EnumRoleFilter | Role
     accounts?: AccountListRelationFilter
-    accountsHistory?: AccountsHistoryListRelationFilter
     budget?: BudgetListRelationFilter
     cryptocurrency?: CryptocurrencyListRelationFilter
     sessions?: SessionListRelationFilter
     settings?: XOR<SettingsRelationFilter, SettingsWhereInput> | null
+    portfolioSnapshot?: PortfolioSnapshotListRelationFilter
+    cryptoSnapshots?: CryptoSnapshotListRelationFilter
+    cashSnapshots?: CashSnapshotListRelationFilter
+    propertySnapshots?: PropertySnapshotListRelationFilter
+    securitySnapshots?: SecuritySnapshotListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12258,13 +16700,21 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     role?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
-    accountsHistory?: AccountsHistoryOrderByRelationAggregateInput
     budget?: BudgetOrderByRelationAggregateInput
     cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     settings?: SettingsOrderByWithRelationInput
+    portfolioSnapshot?: PortfolioSnapshotOrderByRelationAggregateInput
+    cryptoSnapshots?: CryptoSnapshotOrderByRelationAggregateInput
+    cashSnapshots?: CashSnapshotOrderByRelationAggregateInput
+    propertySnapshots?: PropertySnapshotOrderByRelationAggregateInput
+    securitySnapshots?: SecuritySnapshotOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -12278,6 +16728,10 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -12293,13 +16747,277 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter | Date | string | null
     image?: StringNullableWithAggregatesFilter | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     role?: EnumRoleWithAggregatesFilter | Role
   }
 
-  export type AccountsHistoryWhereInput = {
-    AND?: Enumerable<AccountsHistoryWhereInput>
-    OR?: Enumerable<AccountsHistoryWhereInput>
-    NOT?: Enumerable<AccountsHistoryWhereInput>
+  export type CryptoSnapshotWhereInput = {
+    AND?: Enumerable<CryptoSnapshotWhereInput>
+    OR?: Enumerable<CryptoSnapshotWhereInput>
+    NOT?: Enumerable<CryptoSnapshotWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type CryptoSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CryptoSnapshotWhereUniqueInput = {
+    id?: string
+  }
+
+  export type CryptoSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+    _count?: CryptoSnapshotCountOrderByAggregateInput
+    _avg?: CryptoSnapshotAvgOrderByAggregateInput
+    _max?: CryptoSnapshotMaxOrderByAggregateInput
+    _min?: CryptoSnapshotMinOrderByAggregateInput
+    _sum?: CryptoSnapshotSumOrderByAggregateInput
+  }
+
+  export type CryptoSnapshotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CryptoSnapshotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CryptoSnapshotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CryptoSnapshotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type CashSnapshotWhereInput = {
+    AND?: Enumerable<CashSnapshotWhereInput>
+    OR?: Enumerable<CashSnapshotWhereInput>
+    NOT?: Enumerable<CashSnapshotWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type CashSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CashSnapshotWhereUniqueInput = {
+    id?: string
+  }
+
+  export type CashSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+    _count?: CashSnapshotCountOrderByAggregateInput
+    _avg?: CashSnapshotAvgOrderByAggregateInput
+    _max?: CashSnapshotMaxOrderByAggregateInput
+    _min?: CashSnapshotMinOrderByAggregateInput
+    _sum?: CashSnapshotSumOrderByAggregateInput
+  }
+
+  export type CashSnapshotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CashSnapshotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CashSnapshotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CashSnapshotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type PropertySnapshotWhereInput = {
+    AND?: Enumerable<PropertySnapshotWhereInput>
+    OR?: Enumerable<PropertySnapshotWhereInput>
+    NOT?: Enumerable<PropertySnapshotWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type PropertySnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PropertySnapshotWhereUniqueInput = {
+    id?: string
+  }
+
+  export type PropertySnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+    _count?: PropertySnapshotCountOrderByAggregateInput
+    _avg?: PropertySnapshotAvgOrderByAggregateInput
+    _max?: PropertySnapshotMaxOrderByAggregateInput
+    _min?: PropertySnapshotMinOrderByAggregateInput
+    _sum?: PropertySnapshotSumOrderByAggregateInput
+  }
+
+  export type PropertySnapshotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<PropertySnapshotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<PropertySnapshotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<PropertySnapshotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type SecuritySnapshotWhereInput = {
+    AND?: Enumerable<SecuritySnapshotWhereInput>
+    OR?: Enumerable<SecuritySnapshotWhereInput>
+    NOT?: Enumerable<SecuritySnapshotWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type SecuritySnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SecuritySnapshotWhereUniqueInput = {
+    id?: string
+  }
+
+  export type SecuritySnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+    _count?: SecuritySnapshotCountOrderByAggregateInput
+    _avg?: SecuritySnapshotAvgOrderByAggregateInput
+    _max?: SecuritySnapshotMaxOrderByAggregateInput
+    _min?: SecuritySnapshotMinOrderByAggregateInput
+    _sum?: SecuritySnapshotSumOrderByAggregateInput
+  }
+
+  export type SecuritySnapshotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SecuritySnapshotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SecuritySnapshotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SecuritySnapshotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type PortfolioSnapshotWhereInput = {
+    AND?: Enumerable<PortfolioSnapshotWhereInput>
+    OR?: Enumerable<PortfolioSnapshotWhereInput>
+    NOT?: Enumerable<PortfolioSnapshotWhereInput>
     id?: StringFilter | string
     currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
@@ -12307,12 +17025,15 @@ export namespace Prisma {
     unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFilter | Date | string
     userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
-  export type AccountsHistoryOrderByWithRelationInput = {
+  export type PortfolioSnapshotOrderByWithRelationInput = {
     id?: SortOrder
     currency?: SortOrder
     totalValue?: SortOrder
@@ -12320,17 +17041,20 @@ export namespace Prisma {
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type AccountsHistoryWhereUniqueInput = {
+  export type PortfolioSnapshotWhereUniqueInput = {
     id?: string
-    createdAt_userId?: AccountsHistoryCreatedAtUserIdCompoundUniqueInput
+    createdAt_userId?: PortfolioSnapshotCreatedAtUserIdCompoundUniqueInput
   }
 
-  export type AccountsHistoryOrderByWithAggregationInput = {
+  export type PortfolioSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
     currency?: SortOrder
     totalValue?: SortOrder
@@ -12338,19 +17062,22 @@ export namespace Prisma {
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
-    _count?: AccountsHistoryCountOrderByAggregateInput
-    _avg?: AccountsHistoryAvgOrderByAggregateInput
-    _max?: AccountsHistoryMaxOrderByAggregateInput
-    _min?: AccountsHistoryMinOrderByAggregateInput
-    _sum?: AccountsHistorySumOrderByAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+    _count?: PortfolioSnapshotCountOrderByAggregateInput
+    _avg?: PortfolioSnapshotAvgOrderByAggregateInput
+    _max?: PortfolioSnapshotMaxOrderByAggregateInput
+    _min?: PortfolioSnapshotMinOrderByAggregateInput
+    _sum?: PortfolioSnapshotSumOrderByAggregateInput
   }
 
-  export type AccountsHistoryScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<AccountsHistoryScalarWhereWithAggregatesInput>
-    OR?: Enumerable<AccountsHistoryScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<AccountsHistoryScalarWhereWithAggregatesInput>
+  export type PortfolioSnapshotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<PortfolioSnapshotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<PortfolioSnapshotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<PortfolioSnapshotScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     currency?: StringWithAggregatesFilter | string
     totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
@@ -12358,8 +17085,11 @@ export namespace Prisma {
     unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
     userId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type VerificationTokenWhereInput = {
@@ -12410,6 +17140,10 @@ export namespace Prisma {
     userCurrency?: StringFilter | string
     userLanguage?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type SettingsOrderByWithRelationInput = {
@@ -12419,6 +17153,10 @@ export namespace Prisma {
     userCurrency?: SortOrder
     userLanguage?: SortOrder
     user?: UserOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type SettingsWhereUniqueInput = {
@@ -12433,6 +17171,10 @@ export namespace Prisma {
     preferredColorScheme?: SortOrder
     userCurrency?: SortOrder
     userLanguage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: SettingsCountOrderByAggregateInput
     _max?: SettingsMaxOrderByAggregateInput
     _min?: SettingsMinOrderByAggregateInput
@@ -12447,6 +17189,10 @@ export namespace Prisma {
     preferredColorScheme?: EnumColorSchemeNullableWithAggregatesFilter | ColorScheme | null
     userCurrency?: StringWithAggregatesFilter | string
     userLanguage?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type CryptocurrencyWhereInput = {
@@ -12466,8 +17212,6 @@ export namespace Prisma {
     accountConnection?: EnumAccountConnectionNullableFilter | AccountConnection | null
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     marketId?: StringNullableFilter | string | null
     userId?: StringFilter | string
     parentId?: StringNullableFilter | string | null
@@ -12475,6 +17219,10 @@ export namespace Prisma {
     parent?: XOR<CryptocurrencyRelationFilter, CryptocurrencyWhereInput> | null
     user?: XOR<UserRelationFilter, UserWhereInput>
     Children?: CryptocurrencyListRelationFilter
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type CryptocurrencyOrderByWithRelationInput = {
@@ -12491,8 +17239,6 @@ export namespace Prisma {
     accountConnection?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     marketId?: SortOrder
     userId?: SortOrder
     parentId?: SortOrder
@@ -12500,6 +17246,10 @@ export namespace Prisma {
     parent?: CryptocurrencyOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     Children?: CryptocurrencyOrderByRelationAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CryptocurrencyWhereUniqueInput = {
@@ -12520,11 +17270,13 @@ export namespace Prisma {
     accountConnection?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     marketId?: SortOrder
     userId?: SortOrder
     parentId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: CryptocurrencyCountOrderByAggregateInput
     _avg?: CryptocurrencyAvgOrderByAggregateInput
     _max?: CryptocurrencyMaxOrderByAggregateInput
@@ -12549,11 +17301,13 @@ export namespace Prisma {
     accountConnection?: EnumAccountConnectionNullableWithAggregatesFilter | AccountConnection | null
     apiKey?: StringNullableWithAggregatesFilter | string | null
     apiSecret?: StringNullableWithAggregatesFilter | string | null
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
     marketId?: StringNullableWithAggregatesFilter | string | null
     userId?: StringWithAggregatesFilter | string
     parentId?: StringNullableWithAggregatesFilter | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type MarketWhereInput = {
@@ -12571,9 +17325,11 @@ export namespace Prisma {
     marketCapRank?: DecimalFilter | Decimal | DecimalJsLike | number | string
     type?: EnumMarketTypeFilter | MarketType
     image?: StringNullableFilter | string | null
+    Cryptocurrency?: CryptocurrencyListRelationFilter
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    Cryptocurrency?: CryptocurrencyListRelationFilter
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type MarketOrderByWithRelationInput = {
@@ -12588,9 +17344,11 @@ export namespace Prisma {
     marketCapRank?: SortOrder
     type?: SortOrder
     image?: SortOrder
+    Cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    Cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MarketWhereUniqueInput = {
@@ -12612,6 +17370,8 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: MarketCountOrderByAggregateInput
     _avg?: MarketAvgOrderByAggregateInput
     _max?: MarketMaxOrderByAggregateInput
@@ -12636,6 +17396,8 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type IncomeWhereInput = {
@@ -12649,6 +17411,10 @@ export namespace Prisma {
     grossFrequency?: StringFilter | string
     userId?: StringFilter | string
     budget?: XOR<BudgetRelationFilter, BudgetWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type IncomeOrderByWithRelationInput = {
@@ -12659,6 +17425,10 @@ export namespace Prisma {
     grossFrequency?: SortOrder
     userId?: SortOrder
     budget?: BudgetOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type IncomeWhereUniqueInput = {
@@ -12672,6 +17442,10 @@ export namespace Prisma {
     grossAmount?: SortOrder
     grossFrequency?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: IncomeCountOrderByAggregateInput
     _max?: IncomeMaxOrderByAggregateInput
     _min?: IncomeMinOrderByAggregateInput
@@ -12687,6 +17461,10 @@ export namespace Prisma {
     grossAmount?: StringWithAggregatesFilter | string
     grossFrequency?: StringWithAggregatesFilter | string
     userId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type BudgetWhereInput = {
@@ -12699,6 +17477,10 @@ export namespace Prisma {
     User?: XOR<UserRelationFilter, UserWhereInput>
     Children?: BudgetItemListRelationFilter
     income?: IncomeListRelationFilter
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type BudgetOrderByWithRelationInput = {
@@ -12708,6 +17490,10 @@ export namespace Prisma {
     User?: UserOrderByWithRelationInput
     Children?: BudgetItemOrderByRelationAggregateInput
     income?: IncomeOrderByRelationAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetWhereUniqueInput = {
@@ -12718,6 +17504,10 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: BudgetCountOrderByAggregateInput
     _max?: BudgetMaxOrderByAggregateInput
     _min?: BudgetMinOrderByAggregateInput
@@ -12730,6 +17520,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     userId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type BudgetItemWhereInput = {
@@ -12741,10 +17535,12 @@ export namespace Prisma {
     category?: StringFilter | string
     amount?: StringFilter | string
     frequency?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     budgetId?: StringFilter | string
     budget?: XOR<BudgetRelationFilter, BudgetWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type BudgetItemOrderByWithRelationInput = {
@@ -12753,10 +17549,12 @@ export namespace Prisma {
     category?: SortOrder
     amount?: SortOrder
     frequency?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     budgetId?: SortOrder
     budget?: BudgetOrderByWithRelationInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetItemWhereUniqueInput = {
@@ -12769,9 +17567,11 @@ export namespace Prisma {
     category?: SortOrder
     amount?: SortOrder
     frequency?: SortOrder
+    budgetId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    budgetId?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: BudgetItemCountOrderByAggregateInput
     _max?: BudgetItemMaxOrderByAggregateInput
     _min?: BudgetItemMinOrderByAggregateInput
@@ -12786,9 +17586,11 @@ export namespace Prisma {
     category?: StringWithAggregatesFilter | string
     amount?: StringWithAggregatesFilter | string
     frequency?: StringWithAggregatesFilter | string
+    budgetId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
-    budgetId?: StringWithAggregatesFilter | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type AccountCreateInput = {
@@ -12949,13 +17751,21 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12964,13 +17774,21 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12979,13 +17797,21 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12994,13 +17820,21 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13009,6 +17843,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
   }
 
@@ -13018,6 +17856,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
   }
 
@@ -13027,58 +17869,346 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
   }
 
-  export type AccountsHistoryCreateInput = {
+  export type CryptoSnapshotCreateInput = {
     id?: string
-    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutCryptoSnapshotsInput
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutAccountsHistoryInput
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
-  export type AccountsHistoryUncheckedCreateInput = {
+  export type CryptoSnapshotUncheckedCreateInput = {
     id?: string
-    currency: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    costBasis: Decimal | DecimalJsLike | number | string
-    unrealisedGain: Decimal | DecimalJsLike | number | string
-    realisedGain: Decimal | DecimalJsLike | number | string
-    saleableValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
     userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
-  export type AccountsHistoryUpdateInput = {
+  export type CryptoSnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutCryptoSnapshotsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAccountsHistoryNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AccountsHistoryUncheckedUpdateInput = {
+  export type CryptoSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AccountsHistoryCreateManyInput = {
+  export type CryptoSnapshotCreateManyInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CryptoSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CryptoSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotCreateInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutCashSnapshotsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUncheckedCreateInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutCashSnapshotsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotCreateManyInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotCreateInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutPropertySnapshotsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedCreateInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutPropertySnapshotsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotCreateManyInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotCreateInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutSecuritySnapshotsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedCreateInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutSecuritySnapshotsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotCreateManyInput = {
+    id?: string
+    userId: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PortfolioSnapshotCreateInput = {
     id?: string
     currency: string
     totalValue: Decimal | DecimalJsLike | number | string
@@ -13086,11 +18216,29 @@ export namespace Prisma {
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutPortfolioSnapshotInput
     createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PortfolioSnapshotUncheckedCreateInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
-  export type AccountsHistoryUpdateManyMutationInput = {
+  export type PortfolioSnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -13098,10 +18246,14 @@ export namespace Prisma {
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutPortfolioSnapshotNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AccountsHistoryUncheckedUpdateManyInput = {
+  export type PortfolioSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -13109,8 +18261,55 @@ export namespace Prisma {
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PortfolioSnapshotCreateManyInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PortfolioSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PortfolioSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VerificationTokenCreateInput = {
@@ -13161,6 +18360,10 @@ export namespace Prisma {
     userCurrency?: string
     userLanguage?: string
     user: UserCreateNestedOneWithoutSettingsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SettingsUncheckedCreateInput = {
@@ -13169,6 +18372,10 @@ export namespace Prisma {
     preferredColorScheme?: ColorScheme | null
     userCurrency?: string
     userLanguage?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SettingsUpdateInput = {
@@ -13177,6 +18384,10 @@ export namespace Prisma {
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutSettingsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SettingsUncheckedUpdateInput = {
@@ -13185,6 +18396,10 @@ export namespace Prisma {
     preferredColorScheme?: NullableEnumColorSchemeFieldUpdateOperationsInput | ColorScheme | null
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SettingsCreateManyInput = {
@@ -13193,6 +18408,10 @@ export namespace Prisma {
     preferredColorScheme?: ColorScheme | null
     userCurrency?: string
     userLanguage?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SettingsUpdateManyMutationInput = {
@@ -13200,6 +18419,10 @@ export namespace Prisma {
     preferredColorScheme?: NullableEnumColorSchemeFieldUpdateOperationsInput | ColorScheme | null
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SettingsUncheckedUpdateManyInput = {
@@ -13208,6 +18431,10 @@ export namespace Prisma {
     preferredColorScheme?: NullableEnumColorSchemeFieldUpdateOperationsInput | ColorScheme | null
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyCreateInput = {
@@ -13224,12 +18451,14 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
     user: UserCreateNestedOneWithoutCryptocurrencyInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUncheckedCreateInput = {
@@ -13246,12 +18475,14 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     userId: string
     parentId?: string | null
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUpdateInput = {
@@ -13268,12 +18499,14 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
     user?: UserUpdateOneRequiredWithoutCryptocurrencyNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateInput = {
@@ -13290,12 +18523,14 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyCreateManyInput = {
@@ -13312,11 +18547,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     userId: string
     parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUpdateManyMutationInput = {
@@ -13335,6 +18572,8 @@ export namespace Prisma {
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateManyInput = {
@@ -13351,11 +18590,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MarketCreateInput = {
@@ -13370,9 +18611,11 @@ export namespace Prisma {
     marketCapRank?: Decimal | DecimalJsLike | number | string
     type: MarketType
     image?: string | null
+    Cryptocurrency?: CryptocurrencyCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
-    Cryptocurrency?: CryptocurrencyCreateNestedManyWithoutMarketInput
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type MarketUncheckedCreateInput = {
@@ -13387,9 +18630,11 @@ export namespace Prisma {
     marketCapRank?: Decimal | DecimalJsLike | number | string
     type: MarketType
     image?: string | null
+    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
-    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type MarketUpdateInput = {
@@ -13404,9 +18649,11 @@ export namespace Prisma {
     marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Cryptocurrency?: CryptocurrencyUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Cryptocurrency?: CryptocurrencyUpdateManyWithoutMarketNestedInput
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MarketUncheckedUpdateInput = {
@@ -13421,9 +18668,11 @@ export namespace Prisma {
     marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MarketCreateManyInput = {
@@ -13440,6 +18689,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type MarketUpdateManyMutationInput = {
@@ -13456,6 +18707,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MarketUncheckedUpdateManyInput = {
@@ -13472,6 +18725,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeCreateInput = {
@@ -13481,6 +18736,10 @@ export namespace Prisma {
     grossAmount: string
     grossFrequency?: string
     budget: BudgetCreateNestedOneWithoutIncomeInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeUncheckedCreateInput = {
@@ -13490,6 +18749,10 @@ export namespace Prisma {
     grossAmount: string
     grossFrequency?: string
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeUpdateInput = {
@@ -13499,6 +18762,10 @@ export namespace Prisma {
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
     budget?: BudgetUpdateOneRequiredWithoutIncomeNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeUncheckedUpdateInput = {
@@ -13508,6 +18775,10 @@ export namespace Prisma {
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeCreateManyInput = {
@@ -13517,6 +18788,10 @@ export namespace Prisma {
     grossAmount: string
     grossFrequency?: string
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeUpdateManyMutationInput = {
@@ -13525,6 +18800,10 @@ export namespace Prisma {
     payFrequency?: StringFieldUpdateOperationsInput | string
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeUncheckedUpdateManyInput = {
@@ -13534,6 +18813,10 @@ export namespace Prisma {
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetCreateInput = {
@@ -13542,6 +18825,10 @@ export namespace Prisma {
     User: UserCreateNestedOneWithoutBudgetInput
     Children?: BudgetItemCreateNestedManyWithoutBudgetInput
     income?: IncomeCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUncheckedCreateInput = {
@@ -13550,6 +18837,10 @@ export namespace Prisma {
     userId: string
     Children?: BudgetItemUncheckedCreateNestedManyWithoutBudgetInput
     income?: IncomeUncheckedCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUpdateInput = {
@@ -13558,6 +18849,10 @@ export namespace Prisma {
     User?: UserUpdateOneRequiredWithoutBudgetNestedInput
     Children?: BudgetItemUpdateManyWithoutBudgetNestedInput
     income?: IncomeUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateInput = {
@@ -13566,23 +18861,39 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     Children?: BudgetItemUncheckedUpdateManyWithoutBudgetNestedInput
     income?: IncomeUncheckedUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetCreateManyInput = {
     id?: string
     name: string
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemCreateInput = {
@@ -13591,9 +18902,11 @@ export namespace Prisma {
     category: string
     amount: string
     frequency: string
+    budget: BudgetCreateNestedOneWithoutChildrenInput
     createdAt?: Date | string
     updatedAt?: Date | string
-    budget: BudgetCreateNestedOneWithoutChildrenInput
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemUncheckedCreateInput = {
@@ -13602,9 +18915,11 @@ export namespace Prisma {
     category: string
     amount: string
     frequency: string
+    budgetId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    budgetId: string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemUpdateInput = {
@@ -13613,9 +18928,11 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     amount?: StringFieldUpdateOperationsInput | string
     frequency?: StringFieldUpdateOperationsInput | string
+    budget?: BudgetUpdateOneRequiredWithoutChildrenNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    budget?: BudgetUpdateOneRequiredWithoutChildrenNestedInput
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemUncheckedUpdateInput = {
@@ -13624,9 +18941,11 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     amount?: StringFieldUpdateOperationsInput | string
     frequency?: StringFieldUpdateOperationsInput | string
+    budgetId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    budgetId?: StringFieldUpdateOperationsInput | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemCreateManyInput = {
@@ -13635,9 +18954,11 @@ export namespace Prisma {
     category: string
     amount: string
     frequency: string
+    budgetId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    budgetId: string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemUpdateManyMutationInput = {
@@ -13648,6 +18969,8 @@ export namespace Prisma {
     frequency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemUncheckedUpdateManyInput = {
@@ -13656,9 +18979,11 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     amount?: StringFieldUpdateOperationsInput | string
     frequency?: StringFieldUpdateOperationsInput | string
+    budgetId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    budgetId?: StringFieldUpdateOperationsInput | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type StringFilter = {
@@ -13874,6 +19199,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type EnumRoleFilter = {
     equals?: Role
     in?: Enumerable<Role>
@@ -13885,12 +19215,6 @@ export namespace Prisma {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
-  }
-
-  export type AccountsHistoryListRelationFilter = {
-    every?: AccountsHistoryWhereInput
-    some?: AccountsHistoryWhereInput
-    none?: AccountsHistoryWhereInput
   }
 
   export type BudgetListRelationFilter = {
@@ -13916,11 +19240,37 @@ export namespace Prisma {
     isNot?: SettingsWhereInput | null
   }
 
-  export type AccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type PortfolioSnapshotListRelationFilter = {
+    every?: PortfolioSnapshotWhereInput
+    some?: PortfolioSnapshotWhereInput
+    none?: PortfolioSnapshotWhereInput
   }
 
-  export type AccountsHistoryOrderByRelationAggregateInput = {
+  export type CryptoSnapshotListRelationFilter = {
+    every?: CryptoSnapshotWhereInput
+    some?: CryptoSnapshotWhereInput
+    none?: CryptoSnapshotWhereInput
+  }
+
+  export type CashSnapshotListRelationFilter = {
+    every?: CashSnapshotWhereInput
+    some?: CashSnapshotWhereInput
+    none?: CashSnapshotWhereInput
+  }
+
+  export type PropertySnapshotListRelationFilter = {
+    every?: PropertySnapshotWhereInput
+    some?: PropertySnapshotWhereInput
+    none?: PropertySnapshotWhereInput
+  }
+
+  export type SecuritySnapshotListRelationFilter = {
+    every?: SecuritySnapshotWhereInput
+    some?: SecuritySnapshotWhereInput
+    none?: SecuritySnapshotWhereInput
+  }
+
+  export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13936,12 +19286,36 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PortfolioSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CryptoSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CashSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PropertySnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SecuritySnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     role?: SortOrder
   }
 
@@ -13951,6 +19325,10 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     role?: SortOrder
   }
 
@@ -13960,6 +19338,10 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     role?: SortOrder
   }
 
@@ -13975,6 +19357,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedDateTimeNullableFilter
     _max?: NestedDateTimeNullableFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type EnumRoleWithAggregatesFilter = {
@@ -13998,24 +19388,21 @@ export namespace Prisma {
     not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
-  export type AccountsHistoryCreatedAtUserIdCompoundUniqueInput = {
-    createdAt: Date | string
-    userId: string
-  }
-
-  export type AccountsHistoryCountOrderByAggregateInput = {
+  export type CryptoSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
-    currency?: SortOrder
+    userId?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type AccountsHistoryAvgOrderByAggregateInput = {
+  export type CryptoSnapshotAvgOrderByAggregateInput = {
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
@@ -14023,31 +19410,35 @@ export namespace Prisma {
     saleableValue?: SortOrder
   }
 
-  export type AccountsHistoryMaxOrderByAggregateInput = {
+  export type CryptoSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
-    currency?: SortOrder
+    userId?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type AccountsHistoryMinOrderByAggregateInput = {
+  export type CryptoSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
-    currency?: SortOrder
+    userId?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type AccountsHistorySumOrderByAggregateInput = {
+  export type CryptoSnapshotSumOrderByAggregateInput = {
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
@@ -14069,6 +19460,206 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter
     _min?: NestedDecimalFilter
     _max?: NestedDecimalFilter
+  }
+
+  export type CashSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CashSnapshotAvgOrderByAggregateInput = {
+    totalValue?: SortOrder
+  }
+
+  export type CashSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CashSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CashSnapshotSumOrderByAggregateInput = {
+    totalValue?: SortOrder
+  }
+
+  export type PropertySnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PropertySnapshotAvgOrderByAggregateInput = {
+    totalValue?: SortOrder
+  }
+
+  export type PropertySnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PropertySnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PropertySnapshotSumOrderByAggregateInput = {
+    totalValue?: SortOrder
+  }
+
+  export type SecuritySnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SecuritySnapshotAvgOrderByAggregateInput = {
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+  }
+
+  export type SecuritySnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SecuritySnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SecuritySnapshotSumOrderByAggregateInput = {
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+  }
+
+  export type PortfolioSnapshotCreatedAtUserIdCompoundUniqueInput = {
+    createdAt: Date | string
+    userId: string
+  }
+
+  export type PortfolioSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    currency?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PortfolioSnapshotAvgOrderByAggregateInput = {
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+  }
+
+  export type PortfolioSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    currency?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PortfolioSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    currency?: SortOrder
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type PortfolioSnapshotSumOrderByAggregateInput = {
+    totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
@@ -14112,6 +19703,10 @@ export namespace Prisma {
     preferredColorScheme?: SortOrder
     userCurrency?: SortOrder
     userLanguage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type SettingsMaxOrderByAggregateInput = {
@@ -14120,6 +19715,10 @@ export namespace Prisma {
     preferredColorScheme?: SortOrder
     userCurrency?: SortOrder
     userLanguage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type SettingsMinOrderByAggregateInput = {
@@ -14128,6 +19727,10 @@ export namespace Prisma {
     preferredColorScheme?: SortOrder
     userCurrency?: SortOrder
     userLanguage?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type EnumColorSchemeNullableWithAggregatesFilter = {
@@ -14171,11 +19774,13 @@ export namespace Prisma {
     accountConnection?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     marketId?: SortOrder
     userId?: SortOrder
     parentId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CryptocurrencyAvgOrderByAggregateInput = {
@@ -14201,11 +19806,13 @@ export namespace Prisma {
     accountConnection?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     marketId?: SortOrder
     userId?: SortOrder
     parentId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CryptocurrencyMinOrderByAggregateInput = {
@@ -14222,11 +19829,13 @@ export namespace Prisma {
     accountConnection?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     marketId?: SortOrder
     userId?: SortOrder
     parentId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CryptocurrencySumOrderByAggregateInput = {
@@ -14275,6 +19884,8 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MarketAvgOrderByAggregateInput = {
@@ -14299,6 +19910,8 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MarketMinOrderByAggregateInput = {
@@ -14315,6 +19928,8 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MarketSumOrderByAggregateInput = {
@@ -14347,6 +19962,10 @@ export namespace Prisma {
     grossAmount?: SortOrder
     grossFrequency?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type IncomeMaxOrderByAggregateInput = {
@@ -14356,6 +19975,10 @@ export namespace Prisma {
     grossAmount?: SortOrder
     grossFrequency?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type IncomeMinOrderByAggregateInput = {
@@ -14365,6 +19988,10 @@ export namespace Prisma {
     grossAmount?: SortOrder
     grossFrequency?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetItemListRelationFilter = {
@@ -14391,18 +20018,30 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetItemCountOrderByAggregateInput = {
@@ -14411,9 +20050,11 @@ export namespace Prisma {
     category?: SortOrder
     amount?: SortOrder
     frequency?: SortOrder
+    budgetId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    budgetId?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetItemMaxOrderByAggregateInput = {
@@ -14422,9 +20063,11 @@ export namespace Prisma {
     category?: SortOrder
     amount?: SortOrder
     frequency?: SortOrder
+    budgetId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    budgetId?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetItemMinOrderByAggregateInput = {
@@ -14433,9 +20076,11 @@ export namespace Prisma {
     category?: SortOrder
     amount?: SortOrder
     frequency?: SortOrder
+    budgetId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    budgetId?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -14493,13 +20138,6 @@ export namespace Prisma {
     connect?: Enumerable<AccountWhereUniqueInput>
   }
 
-  export type AccountsHistoryCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<AccountsHistoryCreateWithoutUserInput>, Enumerable<AccountsHistoryUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AccountsHistoryCreateOrConnectWithoutUserInput>
-    createMany?: AccountsHistoryCreateManyUserInputEnvelope
-    connect?: Enumerable<AccountsHistoryWhereUniqueInput>
-  }
-
   export type BudgetCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<BudgetCreateWithoutUserInput>, Enumerable<BudgetUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<BudgetCreateOrConnectWithoutUserInput>
@@ -14527,18 +20165,46 @@ export namespace Prisma {
     connect?: SettingsWhereUniqueInput
   }
 
+  export type PortfolioSnapshotCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PortfolioSnapshotCreateWithoutUserInput>, Enumerable<PortfolioSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PortfolioSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: PortfolioSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+  }
+
+  export type CryptoSnapshotCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CryptoSnapshotCreateWithoutUserInput>, Enumerable<CryptoSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CryptoSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: CryptoSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+  }
+
+  export type CashSnapshotCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CashSnapshotCreateWithoutUserInput>, Enumerable<CashSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CashSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: CashSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<CashSnapshotWhereUniqueInput>
+  }
+
+  export type PropertySnapshotCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PropertySnapshotCreateWithoutUserInput>, Enumerable<PropertySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PropertySnapshotCreateOrConnectWithoutUserInput>
+    createMany?: PropertySnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<PropertySnapshotWhereUniqueInput>
+  }
+
+  export type SecuritySnapshotCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<SecuritySnapshotCreateWithoutUserInput>, Enumerable<SecuritySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SecuritySnapshotCreateOrConnectWithoutUserInput>
+    createMany?: SecuritySnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
     createMany?: AccountCreateManyUserInputEnvelope
     connect?: Enumerable<AccountWhereUniqueInput>
-  }
-
-  export type AccountsHistoryUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<AccountsHistoryCreateWithoutUserInput>, Enumerable<AccountsHistoryUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AccountsHistoryCreateOrConnectWithoutUserInput>
-    createMany?: AccountsHistoryCreateManyUserInputEnvelope
-    connect?: Enumerable<AccountsHistoryWhereUniqueInput>
   }
 
   export type BudgetUncheckedCreateNestedManyWithoutUserInput = {
@@ -14568,8 +20234,47 @@ export namespace Prisma {
     connect?: SettingsWhereUniqueInput
   }
 
+  export type PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PortfolioSnapshotCreateWithoutUserInput>, Enumerable<PortfolioSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PortfolioSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: PortfolioSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+  }
+
+  export type CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CryptoSnapshotCreateWithoutUserInput>, Enumerable<CryptoSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CryptoSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: CryptoSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+  }
+
+  export type CashSnapshotUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CashSnapshotCreateWithoutUserInput>, Enumerable<CashSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CashSnapshotCreateOrConnectWithoutUserInput>
+    createMany?: CashSnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<CashSnapshotWhereUniqueInput>
+  }
+
+  export type PropertySnapshotUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PropertySnapshotCreateWithoutUserInput>, Enumerable<PropertySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PropertySnapshotCreateOrConnectWithoutUserInput>
+    createMany?: PropertySnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<PropertySnapshotWhereUniqueInput>
+  }
+
+  export type SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<SecuritySnapshotCreateWithoutUserInput>, Enumerable<SecuritySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SecuritySnapshotCreateOrConnectWithoutUserInput>
+    createMany?: SecuritySnapshotCreateManyUserInputEnvelope
+    connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -14588,20 +20293,6 @@ export namespace Prisma {
     update?: Enumerable<AccountUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<AccountUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<AccountScalarWhereInput>
-  }
-
-  export type AccountsHistoryUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<AccountsHistoryCreateWithoutUserInput>, Enumerable<AccountsHistoryUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AccountsHistoryCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<AccountsHistoryUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: AccountsHistoryCreateManyUserInputEnvelope
-    set?: Enumerable<AccountsHistoryWhereUniqueInput>
-    disconnect?: Enumerable<AccountsHistoryWhereUniqueInput>
-    delete?: Enumerable<AccountsHistoryWhereUniqueInput>
-    connect?: Enumerable<AccountsHistoryWhereUniqueInput>
-    update?: Enumerable<AccountsHistoryUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<AccountsHistoryUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<AccountsHistoryScalarWhereInput>
   }
 
   export type BudgetUpdateManyWithoutUserNestedInput = {
@@ -14656,6 +20347,76 @@ export namespace Prisma {
     update?: XOR<SettingsUpdateWithoutUserInput, SettingsUncheckedUpdateWithoutUserInput>
   }
 
+  export type PortfolioSnapshotUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PortfolioSnapshotCreateWithoutUserInput>, Enumerable<PortfolioSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PortfolioSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PortfolioSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: PortfolioSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    delete?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    connect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    update?: Enumerable<PortfolioSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PortfolioSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PortfolioSnapshotScalarWhereInput>
+  }
+
+  export type CryptoSnapshotUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CryptoSnapshotCreateWithoutUserInput>, Enumerable<CryptoSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CryptoSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CryptoSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CryptoSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    delete?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    connect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    update?: Enumerable<CryptoSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CryptoSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CryptoSnapshotScalarWhereInput>
+  }
+
+  export type CashSnapshotUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CashSnapshotCreateWithoutUserInput>, Enumerable<CashSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CashSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CashSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CashSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<CashSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<CashSnapshotWhereUniqueInput>
+    delete?: Enumerable<CashSnapshotWhereUniqueInput>
+    connect?: Enumerable<CashSnapshotWhereUniqueInput>
+    update?: Enumerable<CashSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CashSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CashSnapshotScalarWhereInput>
+  }
+
+  export type PropertySnapshotUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PropertySnapshotCreateWithoutUserInput>, Enumerable<PropertySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PropertySnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PropertySnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: PropertySnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<PropertySnapshotWhereUniqueInput>
+    disconnect?: Enumerable<PropertySnapshotWhereUniqueInput>
+    delete?: Enumerable<PropertySnapshotWhereUniqueInput>
+    connect?: Enumerable<PropertySnapshotWhereUniqueInput>
+    update?: Enumerable<PropertySnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PropertySnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PropertySnapshotScalarWhereInput>
+  }
+
+  export type SecuritySnapshotUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<SecuritySnapshotCreateWithoutUserInput>, Enumerable<SecuritySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SecuritySnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<SecuritySnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: SecuritySnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    disconnect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    delete?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    update?: Enumerable<SecuritySnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<SecuritySnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<SecuritySnapshotScalarWhereInput>
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
@@ -14668,20 +20429,6 @@ export namespace Prisma {
     update?: Enumerable<AccountUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<AccountUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<AccountScalarWhereInput>
-  }
-
-  export type AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<AccountsHistoryCreateWithoutUserInput>, Enumerable<AccountsHistoryUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AccountsHistoryCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<AccountsHistoryUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: AccountsHistoryCreateManyUserInputEnvelope
-    set?: Enumerable<AccountsHistoryWhereUniqueInput>
-    disconnect?: Enumerable<AccountsHistoryWhereUniqueInput>
-    delete?: Enumerable<AccountsHistoryWhereUniqueInput>
-    connect?: Enumerable<AccountsHistoryWhereUniqueInput>
-    update?: Enumerable<AccountsHistoryUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<AccountsHistoryUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<AccountsHistoryScalarWhereInput>
   }
 
   export type BudgetUncheckedUpdateManyWithoutUserNestedInput = {
@@ -14736,9 +20483,79 @@ export namespace Prisma {
     update?: XOR<SettingsUpdateWithoutUserInput, SettingsUncheckedUpdateWithoutUserInput>
   }
 
-  export type UserCreateNestedOneWithoutAccountsHistoryInput = {
-    create?: XOR<UserCreateWithoutAccountsHistoryInput, UserUncheckedCreateWithoutAccountsHistoryInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAccountsHistoryInput
+  export type PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PortfolioSnapshotCreateWithoutUserInput>, Enumerable<PortfolioSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PortfolioSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PortfolioSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: PortfolioSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    delete?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    connect?: Enumerable<PortfolioSnapshotWhereUniqueInput>
+    update?: Enumerable<PortfolioSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PortfolioSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PortfolioSnapshotScalarWhereInput>
+  }
+
+  export type CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CryptoSnapshotCreateWithoutUserInput>, Enumerable<CryptoSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CryptoSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CryptoSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CryptoSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    delete?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    connect?: Enumerable<CryptoSnapshotWhereUniqueInput>
+    update?: Enumerable<CryptoSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CryptoSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CryptoSnapshotScalarWhereInput>
+  }
+
+  export type CashSnapshotUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CashSnapshotCreateWithoutUserInput>, Enumerable<CashSnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CashSnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CashSnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CashSnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<CashSnapshotWhereUniqueInput>
+    disconnect?: Enumerable<CashSnapshotWhereUniqueInput>
+    delete?: Enumerable<CashSnapshotWhereUniqueInput>
+    connect?: Enumerable<CashSnapshotWhereUniqueInput>
+    update?: Enumerable<CashSnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CashSnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CashSnapshotScalarWhereInput>
+  }
+
+  export type PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PropertySnapshotCreateWithoutUserInput>, Enumerable<PropertySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PropertySnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PropertySnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: PropertySnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<PropertySnapshotWhereUniqueInput>
+    disconnect?: Enumerable<PropertySnapshotWhereUniqueInput>
+    delete?: Enumerable<PropertySnapshotWhereUniqueInput>
+    connect?: Enumerable<PropertySnapshotWhereUniqueInput>
+    update?: Enumerable<PropertySnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PropertySnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PropertySnapshotScalarWhereInput>
+  }
+
+  export type SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<SecuritySnapshotCreateWithoutUserInput>, Enumerable<SecuritySnapshotUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SecuritySnapshotCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<SecuritySnapshotUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: SecuritySnapshotCreateManyUserInputEnvelope
+    set?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    disconnect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    delete?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
+    update?: Enumerable<SecuritySnapshotUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<SecuritySnapshotUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<SecuritySnapshotScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutCryptoSnapshotsInput = {
+    create?: XOR<UserCreateWithoutCryptoSnapshotsInput, UserUncheckedCreateWithoutCryptoSnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCryptoSnapshotsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -14750,12 +20567,68 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type UserUpdateOneRequiredWithoutAccountsHistoryNestedInput = {
-    create?: XOR<UserCreateWithoutAccountsHistoryInput, UserUncheckedCreateWithoutAccountsHistoryInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAccountsHistoryInput
-    upsert?: UserUpsertWithoutAccountsHistoryInput
+  export type UserUpdateOneRequiredWithoutCryptoSnapshotsNestedInput = {
+    create?: XOR<UserCreateWithoutCryptoSnapshotsInput, UserUncheckedCreateWithoutCryptoSnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCryptoSnapshotsInput
+    upsert?: UserUpsertWithoutCryptoSnapshotsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutAccountsHistoryInput, UserUncheckedUpdateWithoutAccountsHistoryInput>
+    update?: XOR<UserUpdateWithoutCryptoSnapshotsInput, UserUncheckedUpdateWithoutCryptoSnapshotsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCashSnapshotsInput = {
+    create?: XOR<UserCreateWithoutCashSnapshotsInput, UserUncheckedCreateWithoutCashSnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCashSnapshotsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCashSnapshotsNestedInput = {
+    create?: XOR<UserCreateWithoutCashSnapshotsInput, UserUncheckedCreateWithoutCashSnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCashSnapshotsInput
+    upsert?: UserUpsertWithoutCashSnapshotsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutCashSnapshotsInput, UserUncheckedUpdateWithoutCashSnapshotsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPropertySnapshotsInput = {
+    create?: XOR<UserCreateWithoutPropertySnapshotsInput, UserUncheckedCreateWithoutPropertySnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertySnapshotsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPropertySnapshotsNestedInput = {
+    create?: XOR<UserCreateWithoutPropertySnapshotsInput, UserUncheckedCreateWithoutPropertySnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertySnapshotsInput
+    upsert?: UserUpsertWithoutPropertySnapshotsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutPropertySnapshotsInput, UserUncheckedUpdateWithoutPropertySnapshotsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSecuritySnapshotsInput = {
+    create?: XOR<UserCreateWithoutSecuritySnapshotsInput, UserUncheckedCreateWithoutSecuritySnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSecuritySnapshotsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSecuritySnapshotsNestedInput = {
+    create?: XOR<UserCreateWithoutSecuritySnapshotsInput, UserUncheckedCreateWithoutSecuritySnapshotsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSecuritySnapshotsInput
+    upsert?: UserUpsertWithoutSecuritySnapshotsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutSecuritySnapshotsInput, UserUncheckedUpdateWithoutSecuritySnapshotsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPortfolioSnapshotInput = {
+    create?: XOR<UserCreateWithoutPortfolioSnapshotInput, UserUncheckedCreateWithoutPortfolioSnapshotInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPortfolioSnapshotInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPortfolioSnapshotNestedInput = {
+    create?: XOR<UserCreateWithoutPortfolioSnapshotInput, UserUncheckedCreateWithoutPortfolioSnapshotInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPortfolioSnapshotInput
+    upsert?: UserUpsertWithoutPortfolioSnapshotInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutPortfolioSnapshotInput, UserUncheckedUpdateWithoutPortfolioSnapshotInput>
   }
 
   export type UserCreateNestedOneWithoutSettingsInput = {
@@ -15187,6 +21060,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type NestedEnumRoleFilter = {
     equals?: Role
     in?: Enumerable<Role>
@@ -15206,6 +21084,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedDateTimeNullableFilter
     _max?: NestedDateTimeNullableFilter
+  }
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type NestedEnumRoleWithAggregatesFilter = {
@@ -15302,12 +21188,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -15316,12 +21210,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -15340,12 +21242,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -15354,12 +21264,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -15368,12 +21286,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -15382,12 +21308,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -15406,12 +21340,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -15420,12 +21362,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -15466,43 +21416,15 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AccountsHistoryCreateWithoutUserInput = {
-    id?: string
-    currency: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    costBasis: Decimal | DecimalJsLike | number | string
-    unrealisedGain: Decimal | DecimalJsLike | number | string
-    realisedGain: Decimal | DecimalJsLike | number | string
-    saleableValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-  }
-
-  export type AccountsHistoryUncheckedCreateWithoutUserInput = {
-    id?: string
-    currency: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    costBasis: Decimal | DecimalJsLike | number | string
-    unrealisedGain: Decimal | DecimalJsLike | number | string
-    realisedGain: Decimal | DecimalJsLike | number | string
-    saleableValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-  }
-
-  export type AccountsHistoryCreateOrConnectWithoutUserInput = {
-    where: AccountsHistoryWhereUniqueInput
-    create: XOR<AccountsHistoryCreateWithoutUserInput, AccountsHistoryUncheckedCreateWithoutUserInput>
-  }
-
-  export type AccountsHistoryCreateManyUserInputEnvelope = {
-    data: Enumerable<AccountsHistoryCreateManyUserInput>
-    skipDuplicates?: boolean
-  }
-
   export type BudgetCreateWithoutUserInput = {
     id?: string
     name: string
     Children?: BudgetItemCreateNestedManyWithoutBudgetInput
     income?: IncomeCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUncheckedCreateWithoutUserInput = {
@@ -15510,6 +21432,10 @@ export namespace Prisma {
     name: string
     Children?: BudgetItemUncheckedCreateNestedManyWithoutBudgetInput
     income?: IncomeUncheckedCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetCreateOrConnectWithoutUserInput = {
@@ -15536,11 +21462,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUncheckedCreateWithoutUserInput = {
@@ -15557,11 +21485,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     parentId?: string | null
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyCreateOrConnectWithoutUserInput = {
@@ -15601,6 +21531,10 @@ export namespace Prisma {
     preferredColorScheme?: ColorScheme | null
     userCurrency?: string
     userLanguage?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SettingsUncheckedCreateWithoutUserInput = {
@@ -15608,11 +21542,181 @@ export namespace Prisma {
     preferredColorScheme?: ColorScheme | null
     userCurrency?: string
     userLanguage?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SettingsCreateOrConnectWithoutUserInput = {
     where: SettingsWhereUniqueInput
     create: XOR<SettingsCreateWithoutUserInput, SettingsUncheckedCreateWithoutUserInput>
+  }
+
+  export type PortfolioSnapshotCreateWithoutUserInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PortfolioSnapshotUncheckedCreateWithoutUserInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PortfolioSnapshotCreateOrConnectWithoutUserInput = {
+    where: PortfolioSnapshotWhereUniqueInput
+    create: XOR<PortfolioSnapshotCreateWithoutUserInput, PortfolioSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type PortfolioSnapshotCreateManyUserInputEnvelope = {
+    data: Enumerable<PortfolioSnapshotCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CryptoSnapshotCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CryptoSnapshotUncheckedCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CryptoSnapshotCreateOrConnectWithoutUserInput = {
+    where: CryptoSnapshotWhereUniqueInput
+    create: XOR<CryptoSnapshotCreateWithoutUserInput, CryptoSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type CryptoSnapshotCreateManyUserInputEnvelope = {
+    data: Enumerable<CryptoSnapshotCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CashSnapshotCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUncheckedCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotCreateOrConnectWithoutUserInput = {
+    where: CashSnapshotWhereUniqueInput
+    create: XOR<CashSnapshotCreateWithoutUserInput, CashSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type CashSnapshotCreateManyUserInputEnvelope = {
+    data: Enumerable<CashSnapshotCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type PropertySnapshotCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotCreateOrConnectWithoutUserInput = {
+    where: PropertySnapshotWhereUniqueInput
+    create: XOR<PropertySnapshotCreateWithoutUserInput, PropertySnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type PropertySnapshotCreateManyUserInputEnvelope = {
+    data: Enumerable<PropertySnapshotCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type SecuritySnapshotCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedCreateWithoutUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotCreateOrConnectWithoutUserInput = {
+    where: SecuritySnapshotWhereUniqueInput
+    create: XOR<SecuritySnapshotCreateWithoutUserInput, SecuritySnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type SecuritySnapshotCreateManyUserInputEnvelope = {
+    data: Enumerable<SecuritySnapshotCreateManyUserInput>
+    skipDuplicates?: boolean
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -15649,37 +21753,6 @@ export namespace Prisma {
     session_state?: StringNullableFilter | string | null
   }
 
-  export type AccountsHistoryUpsertWithWhereUniqueWithoutUserInput = {
-    where: AccountsHistoryWhereUniqueInput
-    update: XOR<AccountsHistoryUpdateWithoutUserInput, AccountsHistoryUncheckedUpdateWithoutUserInput>
-    create: XOR<AccountsHistoryCreateWithoutUserInput, AccountsHistoryUncheckedCreateWithoutUserInput>
-  }
-
-  export type AccountsHistoryUpdateWithWhereUniqueWithoutUserInput = {
-    where: AccountsHistoryWhereUniqueInput
-    data: XOR<AccountsHistoryUpdateWithoutUserInput, AccountsHistoryUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AccountsHistoryUpdateManyWithWhereWithoutUserInput = {
-    where: AccountsHistoryScalarWhereInput
-    data: XOR<AccountsHistoryUpdateManyMutationInput, AccountsHistoryUncheckedUpdateManyWithoutAccountsHistoryInput>
-  }
-
-  export type AccountsHistoryScalarWhereInput = {
-    AND?: Enumerable<AccountsHistoryScalarWhereInput>
-    OR?: Enumerable<AccountsHistoryScalarWhereInput>
-    NOT?: Enumerable<AccountsHistoryScalarWhereInput>
-    id?: StringFilter | string
-    currency?: StringFilter | string
-    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFilter | Date | string
-    userId?: StringFilter | string
-  }
-
   export type BudgetUpsertWithWhereUniqueWithoutUserInput = {
     where: BudgetWhereUniqueInput
     update: XOR<BudgetUpdateWithoutUserInput, BudgetUncheckedUpdateWithoutUserInput>
@@ -15703,6 +21776,10 @@ export namespace Prisma {
     id?: StringFilter | string
     name?: StringFilter | string
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type CryptocurrencyUpsertWithWhereUniqueWithoutUserInput = {
@@ -15738,11 +21815,13 @@ export namespace Prisma {
     accountConnection?: EnumAccountConnectionNullableFilter | AccountConnection | null
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     marketId?: StringNullableFilter | string | null
     userId?: StringFilter | string
     parentId?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -15781,6 +21860,10 @@ export namespace Prisma {
     preferredColorScheme?: NullableEnumColorSchemeFieldUpdateOperationsInput | ColorScheme | null
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SettingsUncheckedUpdateWithoutUserInput = {
@@ -15788,72 +21871,658 @@ export namespace Prisma {
     preferredColorScheme?: NullableEnumColorSchemeFieldUpdateOperationsInput | ColorScheme | null
     userCurrency?: StringFieldUpdateOperationsInput | string
     userLanguage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserCreateWithoutAccountsHistoryInput = {
+  export type PortfolioSnapshotUpsertWithWhereUniqueWithoutUserInput = {
+    where: PortfolioSnapshotWhereUniqueInput
+    update: XOR<PortfolioSnapshotUpdateWithoutUserInput, PortfolioSnapshotUncheckedUpdateWithoutUserInput>
+    create: XOR<PortfolioSnapshotCreateWithoutUserInput, PortfolioSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type PortfolioSnapshotUpdateWithWhereUniqueWithoutUserInput = {
+    where: PortfolioSnapshotWhereUniqueInput
+    data: XOR<PortfolioSnapshotUpdateWithoutUserInput, PortfolioSnapshotUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PortfolioSnapshotUpdateManyWithWhereWithoutUserInput = {
+    where: PortfolioSnapshotScalarWhereInput
+    data: XOR<PortfolioSnapshotUpdateManyMutationInput, PortfolioSnapshotUncheckedUpdateManyWithoutPortfolioSnapshotInput>
+  }
+
+  export type PortfolioSnapshotScalarWhereInput = {
+    AND?: Enumerable<PortfolioSnapshotScalarWhereInput>
+    OR?: Enumerable<PortfolioSnapshotScalarWhereInput>
+    NOT?: Enumerable<PortfolioSnapshotScalarWhereInput>
+    id?: StringFilter | string
+    currency?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type CryptoSnapshotUpsertWithWhereUniqueWithoutUserInput = {
+    where: CryptoSnapshotWhereUniqueInput
+    update: XOR<CryptoSnapshotUpdateWithoutUserInput, CryptoSnapshotUncheckedUpdateWithoutUserInput>
+    create: XOR<CryptoSnapshotCreateWithoutUserInput, CryptoSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type CryptoSnapshotUpdateWithWhereUniqueWithoutUserInput = {
+    where: CryptoSnapshotWhereUniqueInput
+    data: XOR<CryptoSnapshotUpdateWithoutUserInput, CryptoSnapshotUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CryptoSnapshotUpdateManyWithWhereWithoutUserInput = {
+    where: CryptoSnapshotScalarWhereInput
+    data: XOR<CryptoSnapshotUpdateManyMutationInput, CryptoSnapshotUncheckedUpdateManyWithoutCryptoSnapshotsInput>
+  }
+
+  export type CryptoSnapshotScalarWhereInput = {
+    AND?: Enumerable<CryptoSnapshotScalarWhereInput>
+    OR?: Enumerable<CryptoSnapshotScalarWhereInput>
+    NOT?: Enumerable<CryptoSnapshotScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type CashSnapshotUpsertWithWhereUniqueWithoutUserInput = {
+    where: CashSnapshotWhereUniqueInput
+    update: XOR<CashSnapshotUpdateWithoutUserInput, CashSnapshotUncheckedUpdateWithoutUserInput>
+    create: XOR<CashSnapshotCreateWithoutUserInput, CashSnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type CashSnapshotUpdateWithWhereUniqueWithoutUserInput = {
+    where: CashSnapshotWhereUniqueInput
+    data: XOR<CashSnapshotUpdateWithoutUserInput, CashSnapshotUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CashSnapshotUpdateManyWithWhereWithoutUserInput = {
+    where: CashSnapshotScalarWhereInput
+    data: XOR<CashSnapshotUpdateManyMutationInput, CashSnapshotUncheckedUpdateManyWithoutCashSnapshotsInput>
+  }
+
+  export type CashSnapshotScalarWhereInput = {
+    AND?: Enumerable<CashSnapshotScalarWhereInput>
+    OR?: Enumerable<CashSnapshotScalarWhereInput>
+    NOT?: Enumerable<CashSnapshotScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type PropertySnapshotUpsertWithWhereUniqueWithoutUserInput = {
+    where: PropertySnapshotWhereUniqueInput
+    update: XOR<PropertySnapshotUpdateWithoutUserInput, PropertySnapshotUncheckedUpdateWithoutUserInput>
+    create: XOR<PropertySnapshotCreateWithoutUserInput, PropertySnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type PropertySnapshotUpdateWithWhereUniqueWithoutUserInput = {
+    where: PropertySnapshotWhereUniqueInput
+    data: XOR<PropertySnapshotUpdateWithoutUserInput, PropertySnapshotUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PropertySnapshotUpdateManyWithWhereWithoutUserInput = {
+    where: PropertySnapshotScalarWhereInput
+    data: XOR<PropertySnapshotUpdateManyMutationInput, PropertySnapshotUncheckedUpdateManyWithoutPropertySnapshotsInput>
+  }
+
+  export type PropertySnapshotScalarWhereInput = {
+    AND?: Enumerable<PropertySnapshotScalarWhereInput>
+    OR?: Enumerable<PropertySnapshotScalarWhereInput>
+    NOT?: Enumerable<PropertySnapshotScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type SecuritySnapshotUpsertWithWhereUniqueWithoutUserInput = {
+    where: SecuritySnapshotWhereUniqueInput
+    update: XOR<SecuritySnapshotUpdateWithoutUserInput, SecuritySnapshotUncheckedUpdateWithoutUserInput>
+    create: XOR<SecuritySnapshotCreateWithoutUserInput, SecuritySnapshotUncheckedCreateWithoutUserInput>
+  }
+
+  export type SecuritySnapshotUpdateWithWhereUniqueWithoutUserInput = {
+    where: SecuritySnapshotWhereUniqueInput
+    data: XOR<SecuritySnapshotUpdateWithoutUserInput, SecuritySnapshotUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SecuritySnapshotUpdateManyWithWhereWithoutUserInput = {
+    where: SecuritySnapshotScalarWhereInput
+    data: XOR<SecuritySnapshotUpdateManyMutationInput, SecuritySnapshotUncheckedUpdateManyWithoutSecuritySnapshotsInput>
+  }
+
+  export type SecuritySnapshotScalarWhereInput = {
+    AND?: Enumerable<SecuritySnapshotScalarWhereInput>
+    OR?: Enumerable<SecuritySnapshotScalarWhereInput>
+    NOT?: Enumerable<SecuritySnapshotScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type UserCreateWithoutCryptoSnapshotsInput = {
     id?: string
     name?: string | null
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutAccountsHistoryInput = {
+  export type UserUncheckedCreateWithoutCryptoSnapshotsInput = {
     id?: string
     name?: string | null
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutAccountsHistoryInput = {
+  export type UserCreateOrConnectWithoutCryptoSnapshotsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAccountsHistoryInput, UserUncheckedCreateWithoutAccountsHistoryInput>
+    create: XOR<UserCreateWithoutCryptoSnapshotsInput, UserUncheckedCreateWithoutCryptoSnapshotsInput>
   }
 
-  export type UserUpsertWithoutAccountsHistoryInput = {
-    update: XOR<UserUpdateWithoutAccountsHistoryInput, UserUncheckedUpdateWithoutAccountsHistoryInput>
-    create: XOR<UserCreateWithoutAccountsHistoryInput, UserUncheckedCreateWithoutAccountsHistoryInput>
+  export type UserUpsertWithoutCryptoSnapshotsInput = {
+    update: XOR<UserUpdateWithoutCryptoSnapshotsInput, UserUncheckedUpdateWithoutCryptoSnapshotsInput>
+    create: XOR<UserCreateWithoutCryptoSnapshotsInput, UserUncheckedCreateWithoutCryptoSnapshotsInput>
   }
 
-  export type UserUpdateWithoutAccountsHistoryInput = {
+  export type UserUpdateWithoutCryptoSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutAccountsHistoryInput = {
+  export type UserUncheckedUpdateWithoutCryptoSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCashSnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budget?: BudgetCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCashSnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCashSnapshotsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCashSnapshotsInput, UserUncheckedCreateWithoutCashSnapshotsInput>
+  }
+
+  export type UserUpsertWithoutCashSnapshotsInput = {
+    update: XOR<UserUpdateWithoutCashSnapshotsInput, UserUncheckedUpdateWithoutCashSnapshotsInput>
+    create: XOR<UserCreateWithoutCashSnapshotsInput, UserUncheckedCreateWithoutCashSnapshotsInput>
+  }
+
+  export type UserUpdateWithoutCashSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budget?: BudgetUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCashSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPropertySnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budget?: BudgetCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPropertySnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPropertySnapshotsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPropertySnapshotsInput, UserUncheckedCreateWithoutPropertySnapshotsInput>
+  }
+
+  export type UserUpsertWithoutPropertySnapshotsInput = {
+    update: XOR<UserUpdateWithoutPropertySnapshotsInput, UserUncheckedUpdateWithoutPropertySnapshotsInput>
+    create: XOR<UserCreateWithoutPropertySnapshotsInput, UserUncheckedCreateWithoutPropertySnapshotsInput>
+  }
+
+  export type UserUpdateWithoutPropertySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budget?: BudgetUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPropertySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSecuritySnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budget?: BudgetCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSecuritySnapshotsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSecuritySnapshotsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSecuritySnapshotsInput, UserUncheckedCreateWithoutSecuritySnapshotsInput>
+  }
+
+  export type UserUpsertWithoutSecuritySnapshotsInput = {
+    update: XOR<UserUpdateWithoutSecuritySnapshotsInput, UserUncheckedUpdateWithoutSecuritySnapshotsInput>
+    create: XOR<UserCreateWithoutSecuritySnapshotsInput, UserUncheckedCreateWithoutSecuritySnapshotsInput>
+  }
+
+  export type UserUpdateWithoutSecuritySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budget?: BudgetUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSecuritySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPortfolioSnapshotInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budget?: BudgetCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPortfolioSnapshotInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPortfolioSnapshotInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPortfolioSnapshotInput, UserUncheckedCreateWithoutPortfolioSnapshotInput>
+  }
+
+  export type UserUpsertWithoutPortfolioSnapshotInput = {
+    update: XOR<UserUpdateWithoutPortfolioSnapshotInput, UserUncheckedUpdateWithoutPortfolioSnapshotInput>
+    create: XOR<UserCreateWithoutPortfolioSnapshotInput, UserUncheckedCreateWithoutPortfolioSnapshotInput>
+  }
+
+  export type UserUpdateWithoutPortfolioSnapshotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budget?: BudgetUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPortfolioSnapshotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSettingsInput = {
@@ -15862,12 +22531,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSettingsInput = {
@@ -15876,12 +22553,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSettingsInput = {
@@ -15900,12 +22585,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSettingsInput = {
@@ -15914,12 +22607,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MarketCreateWithoutCryptocurrencyInput = {
@@ -15936,6 +22637,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type MarketUncheckedCreateWithoutCryptocurrencyInput = {
@@ -15952,6 +22655,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type MarketCreateOrConnectWithoutCryptocurrencyInput = {
@@ -15973,11 +22678,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
     user: UserCreateNestedOneWithoutCryptocurrencyInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUncheckedCreateWithoutChildrenInput = {
@@ -15994,11 +22701,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     userId: string
     parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyCreateOrConnectWithoutChildrenInput = {
@@ -16012,12 +22721,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     budget?: BudgetCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCryptocurrencyInput = {
@@ -16026,12 +22743,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCryptocurrencyInput = {
@@ -16053,11 +22778,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     user: UserCreateNestedOneWithoutCryptocurrencyInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUncheckedCreateWithoutParentInput = {
@@ -16074,11 +22801,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     userId: string
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyCreateOrConnectWithoutParentInput = {
@@ -16110,6 +22839,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MarketUncheckedUpdateWithoutCryptocurrencyInput = {
@@ -16126,6 +22857,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUpsertWithoutChildrenInput = {
@@ -16147,11 +22880,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
     user?: UserUpdateOneRequiredWithoutCryptocurrencyNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateWithoutChildrenInput = {
@@ -16168,11 +22903,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUpsertWithoutCryptocurrencyInput = {
@@ -16186,12 +22923,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     budget?: BudgetUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCryptocurrencyInput = {
@@ -16200,12 +22945,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CryptocurrencyUpsertWithWhereUniqueWithoutParentInput = {
@@ -16238,11 +22991,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
     user: UserCreateNestedOneWithoutCryptocurrencyInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUncheckedCreateWithoutMarketInput = {
@@ -16259,11 +23014,13 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     userId: string
     parentId?: string | null
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyCreateOrConnectWithoutMarketInput = {
@@ -16297,6 +23054,10 @@ export namespace Prisma {
     name: string
     User: UserCreateNestedOneWithoutBudgetInput
     Children?: BudgetItemCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUncheckedCreateWithoutIncomeInput = {
@@ -16304,6 +23065,10 @@ export namespace Prisma {
     name: string
     userId: string
     Children?: BudgetItemUncheckedCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetCreateOrConnectWithoutIncomeInput = {
@@ -16321,6 +23086,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     User?: UserUpdateOneRequiredWithoutBudgetNestedInput
     Children?: BudgetItemUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateWithoutIncomeInput = {
@@ -16328,6 +23097,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     Children?: BudgetItemUncheckedUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutBudgetInput = {
@@ -16336,12 +23109,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBudgetInput = {
@@ -16350,12 +23131,20 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    accountsHistory?: AccountsHistoryUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    cashSnapshots?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    propertySnapshots?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    securitySnapshots?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBudgetInput = {
@@ -16371,6 +23160,8 @@ export namespace Prisma {
     frequency: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemUncheckedCreateWithoutBudgetInput = {
@@ -16381,6 +23172,8 @@ export namespace Prisma {
     frequency: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemCreateOrConnectWithoutBudgetInput = {
@@ -16399,6 +23192,10 @@ export namespace Prisma {
     payFrequency: string
     grossAmount: string
     grossFrequency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeUncheckedCreateWithoutBudgetInput = {
@@ -16407,6 +23204,10 @@ export namespace Prisma {
     payFrequency: string
     grossAmount: string
     grossFrequency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeCreateOrConnectWithoutBudgetInput = {
@@ -16430,12 +23231,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBudgetInput = {
@@ -16444,12 +23253,20 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    accountsHistory?: AccountsHistoryUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cryptoSnapshots?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    cashSnapshots?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    propertySnapshots?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    securitySnapshots?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BudgetItemUpsertWithWhereUniqueWithoutBudgetInput = {
@@ -16477,9 +23294,11 @@ export namespace Prisma {
     category?: StringFilter | string
     amount?: StringFilter | string
     frequency?: StringFilter | string
+    budgetId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    budgetId?: StringFilter | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type IncomeUpsertWithWhereUniqueWithoutBudgetInput = {
@@ -16508,6 +23327,10 @@ export namespace Prisma {
     grossAmount?: StringFilter | string
     grossFrequency?: StringFilter | string
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type BudgetCreateWithoutChildrenInput = {
@@ -16515,6 +23338,10 @@ export namespace Prisma {
     name: string
     User: UserCreateNestedOneWithoutBudgetInput
     income?: IncomeCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetUncheckedCreateWithoutChildrenInput = {
@@ -16522,6 +23349,10 @@ export namespace Prisma {
     name: string
     userId: string
     income?: IncomeUncheckedCreateNestedManyWithoutBudgetInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetCreateOrConnectWithoutChildrenInput = {
@@ -16539,6 +23370,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     User?: UserUpdateOneRequiredWithoutBudgetNestedInput
     income?: IncomeUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateWithoutChildrenInput = {
@@ -16546,6 +23381,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     income?: IncomeUncheckedUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountCreateManyUserInput = {
@@ -16562,20 +23401,13 @@ export namespace Prisma {
     session_state?: string | null
   }
 
-  export type AccountsHistoryCreateManyUserInput = {
-    id?: string
-    currency: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    costBasis: Decimal | DecimalJsLike | number | string
-    unrealisedGain: Decimal | DecimalJsLike | number | string
-    realisedGain: Decimal | DecimalJsLike | number | string
-    saleableValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-  }
-
   export type BudgetCreateManyUserInput = {
     id?: string
     name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyCreateManyUserInput = {
@@ -16592,16 +23424,76 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type SessionCreateManyUserInput = {
     id?: string
     sessionToken: string
     expires: Date | string
+  }
+
+  export type PortfolioSnapshotCreateManyUserInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CryptoSnapshotCreateManyUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotCreateManyUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type PropertySnapshotCreateManyUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type SecuritySnapshotCreateManyUserInput = {
+    id?: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -16646,44 +23538,15 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AccountsHistoryUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AccountsHistoryUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AccountsHistoryUncheckedUpdateManyWithoutAccountsHistoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type BudgetUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     Children?: BudgetItemUpdateManyWithoutBudgetNestedInput
     income?: IncomeUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateWithoutUserInput = {
@@ -16691,11 +23554,19 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     Children?: BudgetItemUncheckedUpdateManyWithoutBudgetNestedInput
     income?: IncomeUncheckedUpdateManyWithoutBudgetNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetUncheckedUpdateManyWithoutBudgetInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUpdateWithoutUserInput = {
@@ -16712,11 +23583,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateWithoutUserInput = {
@@ -16733,11 +23606,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateManyWithoutCryptocurrencyInput = {
@@ -16754,10 +23629,12 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -16778,6 +23655,180 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PortfolioSnapshotUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PortfolioSnapshotUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PortfolioSnapshotUncheckedUpdateManyWithoutPortfolioSnapshotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CryptoSnapshotUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CryptoSnapshotUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CryptoSnapshotUncheckedUpdateManyWithoutCryptoSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUncheckedUpdateManyWithoutCashSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropertySnapshotUncheckedUpdateManyWithoutPropertySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SecuritySnapshotUncheckedUpdateManyWithoutSecuritySnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CryptocurrencyCreateManyParentInput = {
     id?: string
     displayName: string
@@ -16792,10 +23843,12 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     marketId?: string | null
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUpdateWithoutParentInput = {
@@ -16812,11 +23865,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     user?: UserUpdateOneRequiredWithoutCryptocurrencyNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateWithoutParentInput = {
@@ -16833,11 +23888,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateManyWithoutChildrenInput = {
@@ -16854,10 +23911,12 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyCreateManyMarketInput = {
@@ -16874,10 +23933,12 @@ export namespace Prisma {
     accountConnection?: AccountConnection | null
     apiKey?: string | null
     apiSecret?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     userId: string
     parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type CryptocurrencyUpdateWithoutMarketInput = {
@@ -16894,11 +23955,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
     user?: UserUpdateOneRequiredWithoutCryptocurrencyNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CryptocurrencyUncheckedUpdateWithoutMarketInput = {
@@ -16915,11 +23978,13 @@ export namespace Prisma {
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemCreateManyBudgetInput = {
@@ -16930,6 +23995,8 @@ export namespace Prisma {
     frequency: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type IncomeCreateManyBudgetInput = {
@@ -16938,6 +24005,10 @@ export namespace Prisma {
     payFrequency: string
     grossAmount: string
     grossFrequency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetItemUpdateWithoutBudgetInput = {
@@ -16948,6 +24019,8 @@ export namespace Prisma {
     frequency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemUncheckedUpdateWithoutBudgetInput = {
@@ -16958,6 +24031,8 @@ export namespace Prisma {
     frequency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetItemUncheckedUpdateManyWithoutChildrenInput = {
@@ -16968,6 +24043,8 @@ export namespace Prisma {
     frequency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeUpdateWithoutBudgetInput = {
@@ -16976,6 +24053,10 @@ export namespace Prisma {
     payFrequency?: StringFieldUpdateOperationsInput | string
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeUncheckedUpdateWithoutBudgetInput = {
@@ -16984,6 +24065,10 @@ export namespace Prisma {
     payFrequency?: StringFieldUpdateOperationsInput | string
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IncomeUncheckedUpdateManyWithoutIncomeInput = {
@@ -16992,6 +24077,10 @@ export namespace Prisma {
     payFrequency?: StringFieldUpdateOperationsInput | string
     grossAmount?: StringFieldUpdateOperationsInput | string
     grossFrequency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

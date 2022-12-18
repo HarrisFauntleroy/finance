@@ -1,10 +1,10 @@
-import { addDays, differenceInDays } from "date-fns"
 import {
-	calculateNumDaysInPeriod,
-	calculateNumPeriods,
 	DateRange,
 	RateType,
+	calculateNumDaysInPeriod,
+	calculateNumPeriods,
 } from "./calculateNumDaysInPeriod"
+import { addDays, differenceInDays } from "date-fns"
 
 export interface BurnRateParams extends DateRange {
 	startBalance: number

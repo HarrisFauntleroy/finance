@@ -35,31 +35,94 @@ model Session {
 }
 
 model User {
-  id              String            @id @default(cuid())
-  name            String?
-  email           String?           @unique
-  emailVerified   DateTime?
-  image           String?
-  role            Role              @default(USER)
-  accounts        Account[]
-  accountsHistory AccountsHistory[]
-  budget          Budget[]
-  cryptocurrency  Cryptocurrency[]
-  sessions        Session[]
-  settings        Settings?
+  id                String              @id @default(cuid())
+  name              String?
+  email             String?             @unique
+  emailVerified     DateTime?
+  image             String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now()) @updatedAt
+  deleted           Boolean             @default(false)
+  deletedAt         DateTime?
+  role              Role                @default(USER)
+  accounts          Account[]
+  budget            Budget[]
+  cryptocurrency    Cryptocurrency[]
+  sessions          Session[]
+  settings          Settings?
+  portfolioSnapshot PortfolioSnapshot[]
+  cryptoSnapshots   CryptoSnapshot[]
+  cashSnapshots     CashSnapshot[]
+  propertySnapshots PropertySnapshot[]
+  securitySnapshots SecuritySnapshot[]
 }
 
-model AccountsHistory {
-  id             String   @id @unique @default(cuid())
+model CryptoSnapshot {
+  id             String    @id @unique @default(cuid())
+  userId         String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+}
+
+model CashSnapshot {
+  id         String    @id @unique @default(cuid())
+  userId     String
+  totalValue Decimal
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deleted    Boolean   @default(false)
+  deletedAt  DateTime?
+}
+
+model PropertySnapshot {
+  id         String    @id @unique @default(cuid())
+  userId     String
+  totalValue Decimal
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deleted    Boolean   @default(false)
+  deletedAt  DateTime?
+}
+
+model SecuritySnapshot {
+  id             String    @id @unique @default(cuid())
+  userId         String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+}
+
+model PortfolioSnapshot {
+  id             String    @id @unique @default(cuid())
   currency       String
   totalValue     Decimal
   costBasis      Decimal
   unrealisedGain Decimal
   realisedGain   Decimal
   saleableValue  Decimal
-  createdAt      DateTime @default(now())
   userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
 
   @@unique([createdAt, userId])
 }
@@ -79,6 +142,10 @@ model Settings {
   userCurrency         String       @default("aud")
   userLanguage         String       @default("eng")
   user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @default(now()) @updatedAt
+  deleted              Boolean      @default(false)
+  deletedAt            DateTime?
 
   @@unique([id, userId])
 }
@@ -97,15 +164,18 @@ model Cryptocurrency {
   accountConnection      AccountConnection? @default(NONE)
   apiKey                 String?
   apiSecret              String?
-  createdAt              DateTime           @default(now())
-  updatedAt              DateTime           @default(now()) @updatedAt
-  marketId               String?
-  userId                 String
-  parentId               String?
-  market                 Market?            @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
-  parent                 Cryptocurrency?    @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
-  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Children               Cryptocurrency[]   @relation("Cryptocurrency_Children")
+
+  marketId  String?
+  userId    String
+  parentId  String?
+  market    Market?          @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
+  parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
+  deleted   Boolean          @default(false)
+  deletedAt DateTime?
 }
 
 model Market {
@@ -120,42 +190,54 @@ model Market {
   marketCapRank         Decimal          @default(0)
   type                  MarketType
   image                 String?
+  Cryptocurrency        Cryptocurrency[]
   createdAt             DateTime         @default(now())
   updatedAt             DateTime         @default(now()) @updatedAt
-  Cryptocurrency        Cryptocurrency[]
+  deleted               Boolean          @default(false)
+  deletedAt             DateTime?
 
   @@unique([name, ticker, type])
 }
 
 model Income {
-  id             String @id @unique @default(cuid())
+  id             String    @id @unique @default(cuid())
   name           String
   payFrequency   String
   grossAmount    String
-  grossFrequency String @default("P1Y0M0DT0H0M0S")
+  grossFrequency String    @default("P1Y0M0DT0H0M0S")
   userId         String
-  budget         Budget @relation(fields: [userId], references: [id], onDelete: Cascade)
+  budget         Budget    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
 }
 
 model Budget {
-  id       String       @unique @default(cuid())
-  name     String
-  userId   String
-  User     User         @relation(fields: [userId], references: [id])
-  Children BudgetItem[]
-  income   Income[]
+  id        String       @unique @default(cuid())
+  name      String
+  userId    String
+  User      User         @relation(fields: [userId], references: [id])
+  Children  BudgetItem[]
+  income    Income[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  deleted   Boolean      @default(false)
+  deletedAt DateTime?
 }
 
 model BudgetItem {
-  id        String   @unique @default(cuid())
+  id        String    @unique @default(cuid())
   name      String
   category  String
   amount    String
   frequency String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
   budgetId  String
-  budget    Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  budget    Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 enum ColorScheme {

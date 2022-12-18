@@ -1,12 +1,12 @@
 import React from "react"
 
+import { MarketType } from "database/generated/prisma-client"
 import NextError from "next/error"
 import { useRouter } from "next/router"
 import { Debug } from "~/components/Debug"
 import Page from "~/components/Page"
 import type { DefaultPage } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
-import { MarketType } from "database/generated/prisma-client"
 
 const MarketViewPage: DefaultPage = () => {
 	const { name, ticker } = useRouter().query as {

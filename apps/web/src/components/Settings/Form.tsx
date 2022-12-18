@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect } from "react"
+import React, { useEffect } from "react"
 
+import { Autocomplete } from "../Autocomplete"
 import { SettingsIcon } from "@chakra-ui/icons"
 import {
-	Avatar,
 	Button,
 	ButtonGroup,
 	DrawerBody,
@@ -11,27 +11,15 @@ import {
 	DrawerFooter,
 	DrawerHeader,
 	DrawerOverlay,
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	HStack,
 	IconButton,
-	SkeletonCircle,
 	Stack,
-	Text,
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react"
-import {
-	AutoComplete,
-	AutoCompleteInput,
-	AutoCompleteItem,
-	AutoCompleteList,
-} from "@choc-ui/chakra-autocomplete"
 import { logger } from "common"
 import type { Settings } from "database/generated/prisma-client"
 import { useSession } from "next-auth/react"
-import { Controller, useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import { Debug } from "~/components/Debug"
 import Drawer from "~/components/Drawer"
 import { TextInput } from "~/components/Form/TextInput"
@@ -39,7 +27,7 @@ import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
 
 interface SettingsFormProps {
-	defaultValues?: Settings
+	defaultValues?: Omit<Settings, "createdAt" | "updatedAt">
 }
 
 export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
@@ -55,15 +43,16 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
 	/** Fetch list of assets for form autocomplete */
 	const { data: currencies } = trpc.markets.forex.useQuery()
 
+	const methods = useForm<Settings>({
+		defaultValues: { userId, ...defaultValues },
+	})
+
 	const {
 		reset,
-		control,
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<Settings>({
-		defaultValues: { userId, ...defaultValues },
-	})
+	} = methods
 
 	/** React hook form memoizes values by default, so when defaultValues changes we reset the form */
 	useEffect(() => reset(defaultValues), [defaultValues, reset])
@@ -74,7 +63,8 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
 				.mutateAsync({
 					userId,
 					id: defaultValues?.id,
-					data,
+					userCurrency: data.userCurrency,
+					userLanguage: data.userLanguage,
 				})
 				.then(() => {
 					reset()
@@ -96,102 +86,48 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
 	}
 
 	return (
-		<form
-			id="settings-form"
-			onSubmit={handleSubmit(onFormSubmit, logger.error)}
-		>
-			<Stack gap={1}>
-				{/* Ticker */}
-				<FormControl isInvalid={!!errors.userCurrency}>
-					<FormLabel htmlFor="marketId">Currency</FormLabel>
-					<Controller
-						control={control}
-						name="userCurrency"
-						render={({ field }) => (
-							<AutoComplete
-								filter={(query, optionValue, optionLabel) =>
-									optionLabel.includes(query)
-								}
-								maxSuggestions={10}
-								onChange={(value) => {
-									field.onChange(value)
-								}}
-							>
-								<AutoCompleteInput
-									size="sm"
-									placeholder="Currency"
-									onChange={field.onChange}
-									value={field.value || ""}
-									bg={"white.300"}
-									_dark={{
-										bg: "gray.700",
-									}}
-								/>
-								<AutoCompleteList>
-									{currencies?.map((option, oid) => (
-										<AutoCompleteItem
-											key={`option-${oid}`}
-											value={option.ticker}
-											textTransform="capitalize"
-										>
-											<HStack alignItems="center">
-												<Suspense fallback={<SkeletonCircle size="10" />}>
-													<Avatar
-														mr={2}
-														size="xs"
-														name={option.name}
-														src={option.image || option.name}
-													/>
-												</Suspense>
-												<Text>
-													{option.name}: ({option.ticker})
-												</Text>
-											</HStack>
-										</AutoCompleteItem>
-									))}
-								</AutoCompleteList>
-							</AutoComplete>
-						)}
+		<FormProvider {...methods}>
+			<form
+				id="settings-form"
+				onSubmit={handleSubmit(onFormSubmit, logger.error)}
+			>
+				<Stack gap={1}>
+					<Autocomplete data={currencies || []} label="Currency" />
+					<TextInput
+						label="Language"
+						name="userLanguage"
+						register={register}
+						validation={{
+							minLength: {
+								value: 3,
+								message: "Minimum length should be 3",
+							},
+						}}
+						error={errors.userLanguage?.message}
 					/>
-					<FormErrorMessage>
-						{errors.userCurrency?.message?.toString()}
-					</FormErrorMessage>
-				</FormControl>
-
-				<TextInput
-					label="Language"
-					name="userLanguage"
-					register={register}
-					validation={{
-						minLength: {
-							value: 3,
-							message: "Minimum length should be 3",
-						},
-					}}
-					error={errors.userLanguage?.message}
-				/>
-				<TextInput
-					label="Theme"
-					name="preferredColorScheme"
-					register={register}
-					validation={{
-						required: "This is required",
-					}}
-					error={errors.preferredColorScheme?.message}
-				/>
-				<ButtonGroup>
-					<Button
-						type="submit"
-						form="settings-form"
-						colorScheme="green"
-						flex={1}
-					>
-						Confirm
-					</Button>
-				</ButtonGroup>
-			</Stack>
-			<Debug data={defaultValues} />
-		</form>
+					<TextInput
+						label="Theme"
+						name="preferredColorScheme"
+						register={register}
+						validation={{
+							required: "This is required",
+						}}
+						error={errors.preferredColorScheme?.message}
+					/>
+					<ButtonGroup>
+						<Button
+							type="submit"
+							form="settings-form"
+							colorScheme="green"
+							flex={1}
+						>
+							Confirm
+						</Button>
+					</ButtonGroup>
+				</Stack>
+				<Debug data={defaultValues} />
+			</form>
+		</FormProvider>
 	)
 }
 
@@ -200,7 +136,6 @@ interface SettingsDrawerProps {
 }
 
 export const SettingsDrawer = ({ defaultValues }: SettingsDrawerProps) => {
-	/** Drawer controls */
 	const { onClose, isOpen, onOpen } = useDisclosure()
 
 	return (
@@ -218,11 +153,9 @@ export const SettingsDrawer = ({ defaultValues }: SettingsDrawerProps) => {
 				<DrawerContent>
 					<DrawerCloseButton />
 					<DrawerHeader>Update settings</DrawerHeader>
-
 					<DrawerBody>
 						<SettingsForm defaultValues={defaultValues} />
 					</DrawerBody>
-
 					<DrawerFooter borderTopWidth="1px">
 						<ButtonGroup>
 							<Button

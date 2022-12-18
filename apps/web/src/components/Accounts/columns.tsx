@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import type { AccountsHistory } from "database/generated/prisma-client"
+import type { PortfolioSnapshot } from "database/generated/prisma-client"
 import Currency from "~/components/Currency"
 
 /** Column definitions for crypto page */
-export const incomeBreakdownColumns: ColumnDef<AccountsHistory>[] = [
+export const incomeBreakdownColumns: ColumnDef<PortfolioSnapshot>[] = [
 	{
 		header: "Date Recorded",
 		accessorKey: "createdAt",
@@ -17,7 +17,7 @@ export const incomeBreakdownColumns: ColumnDef<AccountsHistory>[] = [
 ]
 
 /** Column definitions for crypto page */
-export const historySnapshotColumns: ColumnDef<AccountsHistory>[] = [
+export const historySnapshotColumns: ColumnDef<PortfolioSnapshot>[] = [
 	{
 		header: "Date Recorded",
 		accessorKey: "createdAt",
@@ -31,7 +31,7 @@ export const historySnapshotColumns: ColumnDef<AccountsHistory>[] = [
 ]
 
 /** Column definitions for crypto page */
-export const overViewColumns: ColumnDef<AccountsHistory>[] = [
+export const overViewColumns: ColumnDef<PortfolioSnapshot>[] = [
 	{
 		header: "Net Worth",
 		accessorKey: "createdAt",

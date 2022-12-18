@@ -14,7 +14,11 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react"
 import { BsWallet } from "react-icons/bs"
-import { MdMultilineChart, MdSavings } from "react-icons/md"
+import {
+	MdAdminPanelSettings,
+	MdMultilineChart,
+	MdSavings,
+} from "react-icons/md"
 // import { ReactQueryDevtools } from "react-query/devtools"
 import Footer from "~/components/Footer"
 import Header from "~/components/Header"
@@ -27,6 +31,7 @@ export default function Layout({ children }: PropsWithChildren) {
 		{ href: "/accounts", icon: BsWallet, label: "Accounts" },
 		{ href: "/markets", icon: MdMultilineChart, label: "Markets" },
 		{ href: "/budgets", icon: MdSavings, label: "Budgets" },
+		{ href: "/admin", icon: MdAdminPanelSettings, label: "Admin" },
 	]
 
 	return (

@@ -16,14 +16,24 @@ import { z } from "zod"
  */
 
 export const settingsRouter = router({
-	create: publicProcedure.input(SettingsSchema).mutation(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
+	create: publicProcedure
+		.input(
+			z.object({
+				userId: z.string(),
+				userCurrency: z.string().min(3).max(3),
+				userLanguage: z.string().min(3).max(3),
+			})
+		)
+		.mutation(async ({ input }) => {
+			return prisma.settings.create({
+				data: input,
+			})
+		}),
 	read: publicProcedure.input(SettingsSchema).query(async ({ input }) => {
 		// TODO
 		console.log("input", input)
 	}),
+
 	/**
 	 * When a user signs in
 	 * update is called to ensure that the user
@@ -34,24 +44,40 @@ export const settingsRouter = router({
 			z.object({
 				id: z.string().optional(),
 				userId: z.string(),
-				data: z.object({
-					userCurrency: z.string().min(3).max(3),
-					userLanguage: z.string().min(3).max(3),
-				}),
+				userCurrency: z.string().min(3).max(3),
+				userLanguage: z.string().min(3).max(3),
 			})
 		)
 		.mutation(async ({ input }) => {
-			const { id, userId, data } = input
 			return prisma.settings.upsert({
-				where: { userId },
-				update: { id, userId, ...data },
-				create: { userId, ...data },
+				where: { userId: input.userId },
+				update: input,
+				create: input,
 				select: SettingsSelectSchema,
 			})
 		}),
-	delete: publicProcedure.input(SettingsSchema).mutation(async ({ input }) => {
-		// TODO
-		console.log("input", input)
+	// Soft delete, worker clears all things that are marked deleted after 7 days by the worker app
+	delete: publicProcedure
+		.input(
+			z.object({
+				id: z.string(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			return prisma.settings.update({
+				where: { id: input.id },
+				data: {
+					deletedAt: new Date(),
+					deleted: true,
+				},
+			})
+		}),
+	deleteQueue: publicProcedure.query(async () => {
+		return prisma.settings.findMany({
+			where: {
+				deleted: true,
+			},
+		})
 	}),
 	byUserId: publicProcedure
 		.input(

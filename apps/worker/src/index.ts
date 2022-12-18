@@ -2,11 +2,12 @@
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
-import accountsHistory from "./accountsHistory"
+import deleter from "./deleter"
 import { updateMarketsCrypto } from "./market/crypto"
 import updateExchangeRates from "./market/forex"
-import swyftx from "./swyftx"
-import { ConnectionOptions, Queue, Worker } from "bullmq"
+import portfolioSnapshot from "./portfolioSnapshot"
+import { swyftx } from "./swyftx"
+import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"
 import { logger } from "common"
 import dotenv from "dotenv"
 
@@ -47,8 +48,8 @@ queueMQ.add(
 	{
 		jobId: "updateMarkets",
 		repeat: {
-			// Hourly
-			pattern: "0 * * * *",
+			// Every 10 minutes
+			pattern: "*/10 * * * *",
 		},
 	}
 )
@@ -59,8 +60,8 @@ queueMQ.add(
 	{
 		jobId: "updateForex",
 		repeat: {
-			// Hourly
-			pattern: "0 * * * *",
+			// Every 10 minutes
+			pattern: "*/10 * * * *",
 		},
 	}
 )
@@ -70,30 +71,53 @@ queueMQ.add(
 	{
 		jobId: "updateSwyftx",
 		repeat: {
-			// Hourly
-			pattern: "0 * * * *",
+			// Every 10 minutes
+			pattern: "*/10 * * * *",
 		},
 	}
 )
 queueMQ.add(
-	"accountsHistory",
-	{ key: "accountsHistory" },
+	"portfolioSnapshot",
+	{ key: "portfolioSnapshot" },
 	{
-		jobId: "accountsHistory",
+		jobId: "portfolioSnapshot",
 		repeat: {
-			// Hourly
-			pattern: "0 * * * *",
+			// Every 10 minutes
+			pattern: "*/10 * * * *",
+		},
+	}
+)
+queueMQ.add(
+	"deleter",
+	{ key: "deleter" },
+	{
+		jobId: "deleter",
+		repeat: {
+			// Every 1 minutes
+			pattern: "*/1 * * * *",
 		},
 	}
 )
 
+// Maybe if a specific data is passed in they do more
 new Worker(queueName, async (job) => {
 	job.log(`Starting job ${job.name}`)
 	if (job.data.key === "updateMarkets") return await updateMarketsCrypto()
 	if (job.data.key === "updateForex") return await updateExchangeRates()
 	if (job.data.key === "updateSwyftx") return await swyftx()
-	if (job.data.key === "accountsHistory") return await accountsHistory()
+	if (job.data.key === "deleter") return await deleter()
+	if (job.data.key === "portfolioSnapshot") return await portfolioSnapshot()
 	return
+})
+
+const queueEvents = new QueueEvents(queueName, queueOptions)
+
+queueEvents.on("completed", ({ jobId, returnvalue }) => {
+	logger.info(`JobId: ${jobId} has successfully returned: ${returnvalue}}`)
+})
+
+queueEvents.on("failed", ({ jobId, failedReason }) => {
+	logger.info(`JobId: ${jobId} has failed: ${failedReason}}`)
 })
 
 const app = express()

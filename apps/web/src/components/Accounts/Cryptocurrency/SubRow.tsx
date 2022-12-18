@@ -6,7 +6,10 @@ import {
 	AccordionItem,
 	AccordionPanel,
 	Box,
+	Stat as ChakraStat,
 	Stack,
+	StatLabel,
+	StatNumber,
 	Text,
 } from "@chakra-ui/react"
 import type { Row } from "@tanstack/react-table"
@@ -26,9 +29,20 @@ import {
 } from "common"
 import currency from "currency.js"
 import { Accordion } from "~/components/Accordion"
+import Card from "~/components/Cards"
 import { Debug, inDev } from "~/components/Debug"
 import { Grid } from "~/components/Grid"
-import { Stat } from "~/components/Stat"
+
+const Stat = ({ label, value }: { label: string; value: string }) => (
+	<Card>
+		<ChakraStat style={{ padding: "8px" }}>
+			<Stack>
+				<StatLabel>{label}</StatLabel>
+				<StatNumber>{value}</StatNumber>
+			</Stack>
+		</ChakraStat>
+	</Card>
+)
 
 interface TableSubComponentProps<TData> {
 	row: Row<TData>

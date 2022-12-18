@@ -41,7 +41,10 @@ const DEFAULT_USERS = [
 
 const userId = "clbpou7co0008novdj603y64t"
 
-const input: Omit<Cryptocurrency, "createdAt" | "updatedAt">[] = [
+const input: Omit<
+	Cryptocurrency,
+	"createdAt" | "updatedAt" | "deletedAt" | "deleted"
+>[] = [
 	{
 		userId,
 		id: "cl9ws2f6w0000vdjzw7n9mhbk-btc",
