@@ -3,7 +3,6 @@
  * Next Auth
  *
  */
-
 import type { User } from "database/generated/prisma-client"
 
 declare module "next-auth" {

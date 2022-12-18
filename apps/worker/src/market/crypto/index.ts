@@ -5,19 +5,15 @@
  *
  */
 import { toDecimal } from "../../util"
+import { CoinGeckoResponse } from "./types"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
-import { CoinGeckoResponse } from "./types"
 
-// Define the MarketUpdater class to handle updating markets
 class MarketUpdater {
-	// Base currency is USD app-wide
-	// Mainly cause I don't want to pay for exchange rates lol
 	private baseCurrency = "USD"
 
-	// Method to upsert many markets in the database
 	private async upsertManyMarkets(response: CoinGeckoResponse[]) {
 		response
 			.map((crypto) => ({
@@ -60,7 +56,7 @@ class MarketUpdater {
 
 		for (let page = pages; page > 0; page--) {
 			logger.info("page", page)
-			const response = await this.fetchAndParseJSON(
+			const response: CoinGeckoResponse[] = await this.fetchAndParseJSON(
 				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
 			)
 			await this.upsertManyMarkets(response)
