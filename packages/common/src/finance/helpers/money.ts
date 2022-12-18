@@ -1,6 +1,5 @@
-import { ExchangeRates } from "../../finance/forex"
+import { ExchangeRates } from "../forex"
 import currency from "currency.js"
-import Prisma from "database"
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 
@@ -35,8 +34,8 @@ export function getConversionRate(
 	fromCurrency: string,
 	toCurrency: string
 ): { value: string; error?: string } {
-	const fromRate = rates[fromCurrency]
-	const toRate = rates[toCurrency]
+	const fromRate = rates[fromCurrency.toLowerCase()]
+	const toRate = rates[toCurrency.toLowerCase()]
 
 	if (!fromRate) {
 		return { value: "0", error: `Invalid from currency: ${fromCurrency}` }

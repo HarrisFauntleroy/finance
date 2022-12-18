@@ -20,6 +20,10 @@ export const BudgetSelectSchema = Prisma.validator<Prisma.BudgetSelect>()({
 	name: true,
 	income: true,
 	userId: true,
+	createdAt: true,
+	updatedAt: true,
+	deleted: true,
+	deletedAt: true,
 	Children: {
 		select: {
 			id: true,

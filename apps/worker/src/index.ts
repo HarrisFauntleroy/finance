@@ -4,7 +4,7 @@
  */
 import deleter from "./deleter"
 import { updateMarketsCrypto } from "./market/crypto"
-import updateExchangeRates from "./market/forex"
+import updateExchangeRates from "./market/exchangeRates"
 import portfolioSnapshot from "./portfolioSnapshot"
 import { swyftx } from "./swyftx"
 import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"

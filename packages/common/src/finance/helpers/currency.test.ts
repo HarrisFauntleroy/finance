@@ -1,4 +1,4 @@
-import { convertCurrency, getConversionRate } from "./currency"
+import { convertCurrency, getConversionRate } from "./money"
 
 describe("getConversionRate", () => {
 	it("should return the correct conversion rate", () => {
@@ -100,7 +100,7 @@ describe("convertCurrency", () => {
 		}
 		const fromCurrency = "USD"
 		const toCurrency = "USD"
-		const amount = "100"
+		const amount = "100.00"
 		const expected = "100.00"
 
 		const result = convertCurrency({

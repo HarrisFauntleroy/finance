@@ -55,12 +55,6 @@
 			"last 1 safari version"
 		]
 	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
 	"jest": {
 		"moduleDirectories": [
 			"node_modules",

@@ -1,6 +1,7 @@
-import { ExchangeRates } from "../../forex"
+import { ExchangeRates, getExchangeRates } from "../../forex"
 import { CryptoComplete, calculateManyCrypto } from "./helpers"
 import { CalculatedCryptocurrency } from "./types"
+import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
 
@@ -28,6 +29,8 @@ const testData: CryptoComplete[] = [
 		apiSecret: null,
 		createdAt: todaysDate,
 		updatedAt: todaysDate,
+		deleted: false,
+		deletedAt: null,
 		accountConnection: null,
 		Children: [],
 		parentId: "43209489012480234802",
@@ -41,6 +44,8 @@ const testData: CryptoComplete[] = [
 			description: descriptionText,
 			createdAt: todaysDate,
 			updatedAt: todaysDate,
+			deleted: false,
+			deletedAt: null,
 			currency: "AUD",
 			type: MarketType.CRYPTOCURRENCY,
 			price: new Decimal(32939.38),
@@ -64,6 +69,8 @@ const testData: CryptoComplete[] = [
 		apiSecret: null,
 		createdAt: todaysDate,
 		updatedAt: todaysDate,
+		deleted: false,
+		deletedAt: null,
 		accountConnection: "SWYFTX",
 		parentId: null,
 		market: null,
@@ -85,6 +92,8 @@ const testData: CryptoComplete[] = [
 				apiSecret: null,
 				createdAt: todaysDate,
 				updatedAt: todaysDate,
+				deleted: false,
+				deletedAt: null,
 				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
@@ -97,6 +106,8 @@ const testData: CryptoComplete[] = [
 					description: descriptionText,
 					createdAt: todaysDate,
 					updatedAt: todaysDate,
+					deleted: false,
+					deletedAt: null,
 					currency: "AUD",
 					type: MarketType.CRYPTOCURRENCY,
 					price: new Decimal(32939.38),
@@ -120,6 +131,8 @@ const testData: CryptoComplete[] = [
 				apiSecret: null,
 				createdAt: todaysDate,
 				updatedAt: todaysDate,
+				deleted: false,
+				deletedAt: null,
 				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
@@ -132,6 +145,8 @@ const testData: CryptoComplete[] = [
 					description: descriptionText,
 					createdAt: todaysDate,
 					updatedAt: todaysDate,
+					deleted: false,
+					deletedAt: null,
 					currency: "AUD",
 					type: MarketType.CRYPTOCURRENCY,
 					price: new Decimal(3000),
@@ -175,6 +190,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		interestBearingBalance: new Decimal(0),
 		createdAt: todaysDate,
 		updatedAt: todaysDate,
+		deleted: false,
+		deletedAt: null,
 		market: {
 			image: "",
 			ticker: "BTC",
@@ -189,6 +206,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 			priceChange24hPercent: new Decimal(5),
 			createdAt: todaysDate,
 			updatedAt: todaysDate,
+			deleted: false,
+			deletedAt: null,
 		},
 	},
 	{
@@ -208,6 +227,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		apiSecret: null,
 		createdAt: todaysDate,
 		updatedAt: todaysDate,
+		deleted: false,
+		deletedAt: null,
 		accountConnection: "SWYFTX",
 		parentId: null,
 		market: null,
@@ -242,6 +263,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				averageCost: "25000.00",
 				accountConnection: null,
 				balance: new Decimal(1),
+				deleted: false,
+				deletedAt: null,
 				belowTargetBalance: true,
 				unrealisedGain: "7939.38",
 				rateOfIncome: new Decimal(0),
@@ -269,6 +292,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 					priceChange24hPercent: new Decimal(5),
 					createdAt: todaysDate,
 					updatedAt: todaysDate,
+					deleted: false,
+					deletedAt: null,
 				},
 			},
 			{
@@ -297,6 +322,8 @@ const expectedResult: CalculatedCryptocurrency[] = [
 					ticker: "ETH",
 					type: MarketType.CRYPTOCURRENCY,
 					updatedAt: todaysDate,
+					deleted: false,
+					deletedAt: null,
 				},
 				marketId: "ETH",
 				displayName: "Ethereum",
@@ -317,21 +344,30 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				value: "3000.00",
 				walletAddress: null,
 				belowTargetBalance: true,
+				deleted: false,
+				deletedAt: null,
 			},
 		],
 	},
 ]
 
-const exchangeRates: ExchangeRates = {
-	AUD: "0.68",
-	USD: "1.0",
-	EUR: "0.8",
-	GBP: "0.6",
-	BTC: "0.000047",
-	ETH: "0.00062",
-}
+test("Calculates an accounts total from its sub-accounts. Like crypto imported from an exchange", async () => {
+	// Fetch the market rates
+	const markets = await prisma.market.findMany({
+		where: {
+			type: MarketType.CASH,
+		},
+		select: {
+			currency: true,
+			price: true,
+			name: true,
+			ticker: true,
+		},
+	})
 
-test("Calculates an accounts total from its sub-accounts. Like crypto imported from an exchange", () => {
+	/** Convert array to object */
+	const exchangeRates = getExchangeRates(markets)
+
 	expect(
 		calculateManyCrypto({
 			data: testData,

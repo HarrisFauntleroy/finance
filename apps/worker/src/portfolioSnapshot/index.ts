@@ -29,6 +29,8 @@ export const calculateUserTotals = async (userId: string) => {
 		},
 	})
 	const userCurrency = settings.userCurrency
+
+	// Fetch the market rates
 	const markets = await prisma.market.findMany({
 		where: {
 			type: MarketType.CASH,

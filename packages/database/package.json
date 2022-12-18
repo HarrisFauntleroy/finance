@@ -2,8 +2,8 @@
 	"name": "database",
 	"version": "1.0.2",
 	"license": "MIT",
-	"main": "./dist/index",
-	"types": "./dist/index",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"dist/**"
 	],

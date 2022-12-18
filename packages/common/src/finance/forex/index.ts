@@ -1,17 +1,9 @@
 import { flattenArrToObj } from "../../helpers"
-import { Decimal } from "database/generated/prisma-client/runtime"
 
 export type ExchangeRates = { [x: string]: string }
 
-type GetExchangeRatesInput = {
-	price: Decimal
-	currency: string
-	name: string
-	ticker: string
-}
-
 export const getExchangeRates = (
-	markets: GetExchangeRatesInput[]
+	markets: Record<string, any>[]
 ): ExchangeRates => {
 	const market = markets?.map(({ price, ...rest }) => {
 		return {

@@ -1282,10 +1282,17 @@
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/api@4.8.0", "@bull-board/api@^4.7.0":
+"@bull-board/api@4.8.0":
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-4.8.0.tgz#88da1cd46d57230d33a3e5acade693635becc8e3"
   integrity sha512-TftGEg54r0NDPpvmaSQ2Ts2bd8AMvm4Ul/bC6H1HUu+H9dtF/jDwYqEskWLHA+qpu1oM4knuTPFkiG12vJk57Q==
+  dependencies:
+    redis-info "^3.0.8"
+
+"@bull-board/api@^4.7.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-4.9.0.tgz#26b3a972ebecdab8c44d32256410bb90126f6a82"
+  integrity sha512-JzFJ80ZFnFozpVygA8sDFbrOxsXKMWfcxx1ixcoRLfP7KjBXEPkhKO8CUGMku1SQak1mkcKJehwmNC/rdUttew==
   dependencies:
     redis-info "^3.0.8"
 
@@ -12508,9 +12515,9 @@ i18next@^21.9.1:
     "@babel/runtime" "^7.17.2"
 
 i18next@^22.0.4:
-  version "22.4.4"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.4.4.tgz#6d682fb4432877d11b59be31284c9eaffac19e36"
-  integrity sha512-uTUx1buYCdii2sqLcYmT2Va7zDARwfzg1DapSwkwLNGiPo+fXogEbUwV92j8njHbU7UmZFwHTcuMAi8l+vtIYg==
+  version "22.4.5"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.4.5.tgz#7324e4946c2facbe743ca25bca8980af05b0a109"
+  integrity sha512-Kc+Ow0guRetUq+kv02tj0Yof9zveROPBAmJ8UxxNODLVBRSwsM4iD0Gw3BEieOmkWemF6clU3K1fbnCuTqiN2Q==
   dependencies:
     "@babel/runtime" "^7.20.6"
 
