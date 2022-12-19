@@ -4,13 +4,15 @@
  * We update the database with price so that weekly/monthly snapshots show price of balance at the time of snapshot were current
  *
  */
-import { toDecimal } from "../../util"
+import { Progress, toDecimal } from "../../../util"
 import { CoinGeckoResponse } from "./types"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
-import fetch from "node-fetch"
+
+// note: you have to install this dependency manually since it's not required by cli-progress
+const colors = require("ansi-colors")
 
 class MarketUpdater {
 	private baseCurrency = "USD"
@@ -46,26 +48,20 @@ class MarketUpdater {
 		const resultsPerPage = 500
 		const pages = 10
 
-		const totalSteps = 10
-		let progress = 0
+		const progress = new Progress(resultsPerPage * pages)
+
+		progress.start()
+
+		const getUrl = (page: number) =>
+			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
 
 		for (let page = pages; page > 0; page--) {
-			progress++
-			const percentage = Math.round((progress / totalSteps) * 100)
+			progress.increment(resultsPerPage)
+			const markets = await axios.get(getUrl(page)).then(({ data }) => data)
 
-			logger.info(
-				`market/crypto: [${"#".repeat(percentage)}${" ".repeat(
-					100 - percentage
-				)}] ${percentage}%`
-			)
-			const response = await axios
-				.get(
-					`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
-				)
-				.then((res) => res.data)
-
-			await this.upsertManyMarkets(response)
+			await this.upsertManyMarkets(markets)
 		}
+		progress.stop()
 		return `Crypto: ${new Date()}`
 	}
 }

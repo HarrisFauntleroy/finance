@@ -122,6 +122,15 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   role: 'role'
 });
 
+exports.Prisma.LogScalarFieldEnum = makeEnum({
+  id: 'id',
+  type: 'type',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted'
+});
+
 exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
   id: 'id',
   userId: 'userId',
@@ -294,6 +303,14 @@ exports.Role = makeEnum({
   ADMIN: 'ADMIN'
 });
 
+exports.LogType = makeEnum({
+  info: 'info',
+  warn: 'warn',
+  error: 'error',
+  trace: 'trace',
+  debug: 'debug'
+});
+
 exports.ColorScheme = makeEnum({
   LIGHT: 'LIGHT',
   DARK: 'DARK',
@@ -319,6 +336,7 @@ exports.Prisma.ModelName = makeEnum({
   Account: 'Account',
   Session: 'Session',
   User: 'User',
+  Log: 'Log',
   CryptoSnapshot: 'CryptoSnapshot',
   CashSnapshot: 'CashSnapshot',
   PropertySnapshot: 'PropertySnapshot',

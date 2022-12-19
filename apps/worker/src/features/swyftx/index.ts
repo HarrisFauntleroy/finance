@@ -1,4 +1,4 @@
-import { toDecimal } from "../util"
+import { Progress, toDecimal } from "../../util"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
@@ -163,7 +163,6 @@ export const swyftx = async () => {
 		userId: string
 		apiSecret: string | null
 	}) => {
-		logger.info(`Updating ${secrets.userId}`)
 		const accounts = await getSwyftxAccount(secrets)
 
 		const formattedData = accounts?.balance.map(
@@ -211,12 +210,10 @@ export const swyftx = async () => {
 			},
 		})
 
-		logger.info("formattedData", formattedData)
 		formattedData?.map(async (crypto) => {
 			const existingCrypto = Children.find(
 				(child) => child.marketId === crypto.marketId
 			)
-			logger.info("existingCrypto", existingCrypto)
 			if (existingCrypto?.id)
 				prisma.cryptocurrency
 					.update({
@@ -238,7 +235,16 @@ export const swyftx = async () => {
 			where: { accountConnection: AccountConnection.SWYFTX },
 			select: { apiKey: true, apiSecret: true, id: true, userId: true },
 		})
-		.then((secrets) => secrets.map((secret) => updateOneUser(secret)))
+		.then((secrets) => {
+			const progress = new Progress(secrets.length)
+			progress.start()
+
+			const promises = secrets.map((secret) => {
+				updateOneUser(secret).then(() => progress.increment())
+			})
+
+			Promise.all(promises).then(() => progress.stop())
+		})
 
 	return `Swyftx: ${new Date()}`
 }

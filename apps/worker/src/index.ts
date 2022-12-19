@@ -2,12 +2,12 @@
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
-import deleter from "./deleter"
-import { updateMarketsCrypto } from "./market/crypto"
-import updateExchangeRates from "./market/exchangeRates"
-import portfolioSnapshot from "./portfolioSnapshot"
-import { swyftx } from "./swyftx"
-import { ConnectionOptions, Queue, QueueEvents, Worker } from "bullmq"
+import deleter from "./features/deleter"
+import { updateMarketsCrypto } from "./features/market/crypto"
+import updateExchangeRates from "./features/market/exchangeRates"
+import portfolioSnapshot from "./features/portfolioSnapshot"
+import { swyftx } from "./features/swyftx"
+import { ConnectionOptions, Queue, Worker } from "bullmq"
 import { logger } from "common"
 import dotenv from "dotenv"
 
@@ -48,8 +48,8 @@ queueMQ.add(
 	{
 		jobId: "updateMarkets",
 		repeat: {
-			// Every 10 minutes
-			pattern: "*/10 * * * *",
+			// “At minute 0.”
+			pattern: "0 * * * *",
 		},
 	}
 )
@@ -60,8 +60,8 @@ queueMQ.add(
 	{
 		jobId: "updateForex",
 		repeat: {
-			// Every 10 minutes
-			pattern: "*/10 * * * *",
+			// “At minute 0.”
+			pattern: "0 * * * *",
 		},
 	}
 )
@@ -71,8 +71,8 @@ queueMQ.add(
 	{
 		jobId: "updateSwyftx",
 		repeat: {
-			// Every 10 minutes
-			pattern: "*/10 * * * *",
+			// "At 08:00 and 20:00"
+			pattern: "0 8,20 * * *",
 		},
 	}
 )
@@ -82,8 +82,8 @@ queueMQ.add(
 	{
 		jobId: "portfolioSnapshot",
 		repeat: {
-			// Every 10 minutes
-			pattern: "*/10 * * * *",
+			// "At 08:00 and 20:00"
+			pattern: "0 8,20 * * *",
 		},
 	}
 )
@@ -93,14 +93,14 @@ queueMQ.add(
 	{
 		jobId: "deleter",
 		repeat: {
-			// Every 1 minutes
-			pattern: "*/1 * * * *",
+			// “At 00:00.”
+			pattern: "0 0 * * *",
 		},
 	}
 )
 
 // Maybe if a specific data is passed in they do more
-new Worker(queueName, async (job) => {
+const worker = new Worker(queueName, async (job) => {
 	job.log(`Starting job ${job.name}`)
 	if (job.data.key === "updateMarkets") return await updateMarketsCrypto()
 	if (job.data.key === "updateForex") return await updateExchangeRates()
@@ -110,14 +110,12 @@ new Worker(queueName, async (job) => {
 	return
 })
 
-const queueEvents = new QueueEvents(queueName, queueOptions)
-
-queueEvents.on("completed", ({ jobId, returnvalue }) => {
-	logger.info(`JobId: ${jobId} has successfully returned: ${returnvalue}}`)
+worker.on("completed", (job) => {
+	logger.info(`Job: ${job.name} has succeeded`)
 })
 
-queueEvents.on("failed", ({ jobId, failedReason }) => {
-	logger.info(`JobId: ${jobId} has failed: ${failedReason}}`)
+worker.on("failed", (job) => {
+	logger.error(`Job: ${job?.name} has failed`)
 })
 
 const app = express()

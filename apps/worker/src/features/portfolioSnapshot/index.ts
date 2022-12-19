@@ -7,6 +7,7 @@ import {
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
+import ProgressBar from "progress"
 
 export const calculateUserTotals = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -90,6 +91,11 @@ const portfolioSnapshot = async () => {
 		},
 	})
 
+	const progressbar = new ProgressBar("-> Processing [:bar] :percent :etas", {
+		total: users.length,
+		width: 30,
+	})
+
 	const results: { user?: string; status: string }[] = []
 
 	await Promise.all(
@@ -119,9 +125,11 @@ const portfolioSnapshot = async () => {
 						createdAt: true,
 					},
 				})
+				progressbar.tick(1)
 				/** Return PortfolioSnapshot object */
 				results.push({ user: response.userId, status: "Succeeded" })
 			} catch (error) {
+				progressbar.tick(1)
 				/** Return the thrown error */
 				results.push({ status: "Failed" })
 			}

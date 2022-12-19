@@ -118,10 +118,8 @@ const swyftx = async () => {
                 },
             },
         });
-        common_1.logger.info("formattedData", formattedData);
         formattedData?.map(async (crypto) => {
             const existingCrypto = Children.find((child) => child.marketId === crypto.marketId);
-            common_1.logger.info("existingCrypto", existingCrypto);
             if (existingCrypto?.id)
                 database_1.prisma.cryptocurrency
                     .update({

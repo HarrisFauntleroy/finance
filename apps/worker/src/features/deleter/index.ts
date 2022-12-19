@@ -1,8 +1,13 @@
 import { logger } from "common"
 import { prisma } from "database"
 import { subDays } from "date-fns"
+import { Progress } from "../../util"
 
 const deleter = async () => {
+	const progress = new Progress(4)
+
+	progress.start()
+
 	const sevenDaysAgo = subDays(new Date(), 7)
 
 	// Delete users
@@ -15,6 +20,8 @@ const deleter = async () => {
 		},
 	})
 
+	progress.increment()
+
 	// Delete settings
 	await prisma.settings.deleteMany({
 		where: {
@@ -24,6 +31,8 @@ const deleter = async () => {
 			},
 		},
 	})
+
+	progress.increment()
 
 	// Delete budgets
 	await prisma.budget.deleteMany({
@@ -35,6 +44,8 @@ const deleter = async () => {
 		},
 	})
 
+	progress.increment()
+
 	// Delete cryptocurrency
 	await prisma.cryptocurrency.deleteMany({
 		where: {
@@ -44,6 +55,9 @@ const deleter = async () => {
 			},
 		},
 	})
+
+	progress.increment()
+	progress.stop()
 
 	return `Delete queue: ${new Date()}`
 }

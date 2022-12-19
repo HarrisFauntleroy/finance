@@ -57,6 +57,23 @@ model User {
   securitySnapshots SecuritySnapshot[]
 }
 
+model Log {
+  id        String   @id @unique @default(cuid())
+  type      LogType
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  deleted   Boolean  @default(false)
+}
+
+enum LogType {
+  info
+  warn
+  error
+  trace
+  debug
+}
+
 model CryptoSnapshot {
   id             String    @id @unique @default(cuid())
   userId         String

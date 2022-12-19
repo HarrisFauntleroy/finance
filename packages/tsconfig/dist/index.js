@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const deleter_1 = __importDefault(require("./deleter"));
 const crypto_1 = require("./market/crypto");
-const forex_1 = __importDefault(require("./market/forex"));
+const exchangeRates_1 = __importDefault(require("./market/exchangeRates"));
 const portfolioSnapshot_1 = __importDefault(require("./portfolioSnapshot"));
 const swyftx_1 = require("./swyftx");
 const bullmq_1 = require("bullmq");
@@ -65,17 +65,17 @@ queueMQ.add("portfolioSnapshot", { key: "portfolioSnapshot" }, {
 queueMQ.add("deleter", { key: "deleter" }, {
     jobId: "deleter",
     repeat: {
-        // Every 1 minutes
-        pattern: "*/1 * * * *",
+        // Every 10 minutes
+        pattern: "*/10 * * * *",
     },
 });
 // Maybe if a specific data is passed in they do more
-new bullmq_1.Worker(queueName, async (job) => {
+const worker = new bullmq_1.Worker(queueName, async (job) => {
     job.log(`Starting job ${job.name}`);
     if (job.data.key === "updateMarkets")
         return await (0, crypto_1.updateMarketsCrypto)();
     if (job.data.key === "updateForex")
-        return await (0, forex_1.default)();
+        return await (0, exchangeRates_1.default)();
     if (job.data.key === "updateSwyftx")
         return await (0, swyftx_1.swyftx)();
     if (job.data.key === "deleter")
@@ -84,12 +84,11 @@ new bullmq_1.Worker(queueName, async (job) => {
         return await (0, portfolioSnapshot_1.default)();
     return;
 });
-const queueEvents = new bullmq_1.QueueEvents(queueName, queueOptions);
-queueEvents.on("completed", ({ jobId, returnvalue }) => {
-    common_1.logger.info(`JobId: ${jobId} has successfully returned: ${returnvalue}}`);
+worker.on("completed", (job) => {
+    common_1.logger.info(`JobId: ${job.name} has successfully returned: ${job.returnvalue}}`);
 });
-queueEvents.on("failed", ({ jobId, failedReason }) => {
-    common_1.logger.info(`JobId: ${jobId} has failed: ${failedReason}}`);
+worker.on("failed", (job) => {
+    common_1.logger.info(`JobId: ${job?.name} has failed: ${job?.failedReason}}`);
 });
 const app = express();
 app.use("/admin/queues", serverAdapter.getRouter());

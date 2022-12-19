@@ -60,6 +60,19 @@ export type User = {
 }
 
 /**
+ * Model Log
+ * 
+ */
+export type Log = {
+  id: string
+  type: LogType
+  message: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+}
+
+/**
  * Model CryptoSnapshot
  * 
  */
@@ -281,6 +294,17 @@ export const Role: {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const LogType: {
+  info: 'info',
+  warn: 'warn',
+  error: 'error',
+  trace: 'trace',
+  debug: 'debug'
+};
+
+export type LogType = (typeof LogType)[keyof typeof LogType]
+
+
 export const ColorScheme: {
   LIGHT: 'LIGHT',
   DARK: 'DARK',
@@ -480,6 +504,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.log`: Exposes CRUD operations for the **Log** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Logs
+    * const logs = await prisma.log.findMany()
+    * ```
+    */
+  get log(): Prisma.LogDelegate<GlobalReject>;
 
   /**
    * `prisma.cryptoSnapshot`: Exposes CRUD operations for the **CryptoSnapshot** model.
@@ -1071,6 +1105,7 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
+    Log: 'Log',
     CryptoSnapshot: 'CryptoSnapshot',
     CashSnapshot: 'CashSnapshot',
     PropertySnapshot: 'PropertySnapshot',
@@ -4401,6 +4436,887 @@ export namespace Prisma {
      * 
     **/
     include?: UserInclude | null
+  }
+
+
+
+  /**
+   * Model Log
+   */
+
+
+  export type AggregateLog = {
+    _count: LogCountAggregateOutputType | null
+    _min: LogMinAggregateOutputType | null
+    _max: LogMaxAggregateOutputType | null
+  }
+
+  export type LogMinAggregateOutputType = {
+    id: string | null
+    type: LogType | null
+    message: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+  }
+
+  export type LogMaxAggregateOutputType = {
+    id: string | null
+    type: LogType | null
+    message: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+  }
+
+  export type LogCountAggregateOutputType = {
+    id: number
+    type: number
+    message: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type LogMinAggregateInputType = {
+    id?: true
+    type?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+  }
+
+  export type LogMaxAggregateInputType = {
+    id?: true
+    type?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+  }
+
+  export type LogCountAggregateInputType = {
+    id?: true
+    type?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type LogAggregateArgs = {
+    /**
+     * Filter which Log to aggregate.
+     * 
+    **/
+    where?: LogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Logs to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<LogOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: LogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Logs from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Logs.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Logs
+    **/
+    _count?: true | LogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LogMaxAggregateInputType
+  }
+
+  export type GetLogAggregateType<T extends LogAggregateArgs> = {
+        [P in keyof T & keyof AggregateLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLog[P]>
+      : GetScalarType<T[P], AggregateLog[P]>
+  }
+
+
+
+
+  export type LogGroupByArgs = {
+    where?: LogWhereInput
+    orderBy?: Enumerable<LogOrderByWithAggregationInput>
+    by: Array<LogScalarFieldEnum>
+    having?: LogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LogCountAggregateInputType | true
+    _min?: LogMinAggregateInputType
+    _max?: LogMaxAggregateInputType
+  }
+
+
+  export type LogGroupByOutputType = {
+    id: string
+    type: LogType
+    message: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    _count: LogCountAggregateOutputType | null
+    _min: LogMinAggregateOutputType | null
+    _max: LogMaxAggregateOutputType | null
+  }
+
+  type GetLogGroupByPayload<T extends LogGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<LogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LogGroupByOutputType[P]>
+            : GetScalarType<T[P], LogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LogSelect = {
+    id?: boolean
+    type?: boolean
+    message?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+  }
+
+  export type LogGetPayload<
+    S extends boolean | null | undefined | LogArgs,
+    U = keyof S
+      > = S extends true
+        ? Log
+    : S extends undefined
+    ? never
+    : S extends LogArgs | LogFindManyArgs
+    ?'include' extends U
+    ? Log 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof Log ? Log[P] : never
+  } 
+    : Log
+  : Log
+
+
+  type LogCountArgs = Merge<
+    Omit<LogFindManyArgs, 'select' | 'include'> & {
+      select?: LogCountAggregateInputType | true
+    }
+  >
+
+  export interface LogDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Log that matches the filter.
+     * @param {LogFindUniqueArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends LogFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, LogFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Log'> extends True ? CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>> : CheckSelect<T, Prisma__LogClient<Log | null >, Prisma__LogClient<LogGetPayload<T> | null >>
+
+    /**
+     * Find the first Log that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogFindFirstArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends LogFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, LogFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Log'> extends True ? CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>> : CheckSelect<T, Prisma__LogClient<Log | null >, Prisma__LogClient<LogGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Logs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Logs
+     * const logs = await prisma.log.findMany()
+     * 
+     * // Get first 10 Logs
+     * const logs = await prisma.log.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const logWithIdOnly = await prisma.log.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends LogFindManyArgs>(
+      args?: SelectSubset<T, LogFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<Log>>, PrismaPromise<Array<LogGetPayload<T>>>>
+
+    /**
+     * Create a Log.
+     * @param {LogCreateArgs} args - Arguments to create a Log.
+     * @example
+     * // Create one Log
+     * const Log = await prisma.log.create({
+     *   data: {
+     *     // ... data to create a Log
+     *   }
+     * })
+     * 
+    **/
+    create<T extends LogCreateArgs>(
+      args: SelectSubset<T, LogCreateArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Create many Logs.
+     *     @param {LogCreateManyArgs} args - Arguments to create many Logs.
+     *     @example
+     *     // Create many Logs
+     *     const log = await prisma.log.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends LogCreateManyArgs>(
+      args?: SelectSubset<T, LogCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Log.
+     * @param {LogDeleteArgs} args - Arguments to delete one Log.
+     * @example
+     * // Delete one Log
+     * const Log = await prisma.log.delete({
+     *   where: {
+     *     // ... filter to delete one Log
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends LogDeleteArgs>(
+      args: SelectSubset<T, LogDeleteArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Update one Log.
+     * @param {LogUpdateArgs} args - Arguments to update one Log.
+     * @example
+     * // Update one Log
+     * const log = await prisma.log.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends LogUpdateArgs>(
+      args: SelectSubset<T, LogUpdateArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Delete zero or more Logs.
+     * @param {LogDeleteManyArgs} args - Arguments to filter Logs to delete.
+     * @example
+     * // Delete a few Logs
+     * const { count } = await prisma.log.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends LogDeleteManyArgs>(
+      args?: SelectSubset<T, LogDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Logs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Logs
+     * const log = await prisma.log.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends LogUpdateManyArgs>(
+      args: SelectSubset<T, LogUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Log.
+     * @param {LogUpsertArgs} args - Arguments to update or create a Log.
+     * @example
+     * // Update or create a Log
+     * const log = await prisma.log.upsert({
+     *   create: {
+     *     // ... data to create a Log
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Log we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends LogUpsertArgs>(
+      args: SelectSubset<T, LogUpsertArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Find one Log that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {LogFindUniqueOrThrowArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends LogFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, LogFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Find the first Log that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogFindFirstOrThrowArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends LogFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, LogFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+
+    /**
+     * Count the number of Logs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogCountArgs} args - Arguments to filter Logs to count.
+     * @example
+     * // Count the number of Logs
+     * const count = await prisma.log.count({
+     *   where: {
+     *     // ... the filter for the Logs we want to count
+     *   }
+     * })
+    **/
+    count<T extends LogCountArgs>(
+      args?: Subset<T, LogCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Log.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LogAggregateArgs>(args: Subset<T, LogAggregateArgs>): PrismaPromise<GetLogAggregateType<T>>
+
+    /**
+     * Group by Log.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LogGroupByArgs['orderBy'] }
+        : { orderBy?: LogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLogGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Log.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__LogClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * Log base type for findUnique actions
+   */
+  export type LogFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * Filter, which Log to fetch.
+     * 
+    **/
+    where: LogWhereUniqueInput
+  }
+
+  /**
+   * Log: findUnique
+   */
+  export interface LogFindUniqueArgs extends LogFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Log base type for findFirst actions
+   */
+  export type LogFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * Filter, which Log to fetch.
+     * 
+    **/
+    where?: LogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Logs to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<LogOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Logs.
+     * 
+    **/
+    cursor?: LogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Logs from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Logs.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Logs.
+     * 
+    **/
+    distinct?: Enumerable<LogScalarFieldEnum>
+  }
+
+  /**
+   * Log: findFirst
+   */
+  export interface LogFindFirstArgs extends LogFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Log findMany
+   */
+  export type LogFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * Filter, which Logs to fetch.
+     * 
+    **/
+    where?: LogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Logs to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<LogOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Logs.
+     * 
+    **/
+    cursor?: LogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Logs from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Logs.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<LogScalarFieldEnum>
+  }
+
+
+  /**
+   * Log create
+   */
+  export type LogCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * The data needed to create a Log.
+     * 
+    **/
+    data: XOR<LogCreateInput, LogUncheckedCreateInput>
+  }
+
+
+  /**
+   * Log createMany
+   */
+  export type LogCreateManyArgs = {
+    /**
+     * The data used to create many Logs.
+     * 
+    **/
+    data: Enumerable<LogCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Log update
+   */
+  export type LogUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * The data needed to update a Log.
+     * 
+    **/
+    data: XOR<LogUpdateInput, LogUncheckedUpdateInput>
+    /**
+     * Choose, which Log to update.
+     * 
+    **/
+    where: LogWhereUniqueInput
+  }
+
+
+  /**
+   * Log updateMany
+   */
+  export type LogUpdateManyArgs = {
+    /**
+     * The data used to update Logs.
+     * 
+    **/
+    data: XOR<LogUpdateManyMutationInput, LogUncheckedUpdateManyInput>
+    /**
+     * Filter which Logs to update
+     * 
+    **/
+    where?: LogWhereInput
+  }
+
+
+  /**
+   * Log upsert
+   */
+  export type LogUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * The filter to search for the Log to update in case it exists.
+     * 
+    **/
+    where: LogWhereUniqueInput
+    /**
+     * In case the Log found by the `where` argument doesn't exist, create a new Log with this data.
+     * 
+    **/
+    create: XOR<LogCreateInput, LogUncheckedCreateInput>
+    /**
+     * In case the Log was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<LogUpdateInput, LogUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Log delete
+   */
+  export type LogDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
+    /**
+     * Filter which Log to delete.
+     * 
+    **/
+    where: LogWhereUniqueInput
+  }
+
+
+  /**
+   * Log deleteMany
+   */
+  export type LogDeleteManyArgs = {
+    /**
+     * Filter which Logs to delete
+     * 
+    **/
+    where?: LogWhereInput
+  }
+
+
+  /**
+   * Log: findUniqueOrThrow
+   */
+  export type LogFindUniqueOrThrowArgs = LogFindUniqueArgsBase
+      
+
+  /**
+   * Log: findFirstOrThrow
+   */
+  export type LogFindFirstOrThrowArgs = LogFindFirstArgsBase
+      
+
+  /**
+   * Log without action
+   */
+  export type LogArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     * 
+    **/
+    select?: LogSelect | null
   }
 
 
@@ -16331,6 +17247,18 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const LogScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    message: 'message',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted'
+  };
+
+  export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
+
+
   export const CryptoSnapshotScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -16752,6 +17680,55 @@ export namespace Prisma {
     deleted?: BoolWithAggregatesFilter | boolean
     deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     role?: EnumRoleWithAggregatesFilter | Role
+  }
+
+  export type LogWhereInput = {
+    AND?: Enumerable<LogWhereInput>
+    OR?: Enumerable<LogWhereInput>
+    NOT?: Enumerable<LogWhereInput>
+    id?: StringFilter | string
+    type?: EnumLogTypeFilter | LogType
+    message?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+  }
+
+  export type LogOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type LogWhereUniqueInput = {
+    id?: string
+  }
+
+  export type LogOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    _count?: LogCountOrderByAggregateInput
+    _max?: LogMaxOrderByAggregateInput
+    _min?: LogMinOrderByAggregateInput
+  }
+
+  export type LogScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<LogScalarWhereWithAggregatesInput>
+    OR?: Enumerable<LogScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<LogScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    type?: EnumLogTypeWithAggregatesFilter | LogType
+    message?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
   }
 
   export type CryptoSnapshotWhereInput = {
@@ -17874,6 +18851,69 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
+  }
+
+  export type LogCreateInput = {
+    id?: string
+    type: LogType
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+  }
+
+  export type LogUncheckedCreateInput = {
+    id?: string
+    type: LogType
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+  }
+
+  export type LogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LogCreateManyInput = {
+    id?: string
+    type: LogType
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+  }
+
+  export type LogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CryptoSnapshotCreateInput = {
@@ -19377,6 +20417,50 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter
   }
 
+  export type EnumLogTypeFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeFilter | LogType
+  }
+
+  export type LogCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type LogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type LogMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type EnumLogTypeWithAggregatesFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeWithAggregatesFilter | LogType
+    _count?: NestedIntFilter
+    _min?: NestedEnumLogTypeFilter
+    _max?: NestedEnumLogTypeFilter
+  }
+
   export type DecimalFilter = {
     equals?: Decimal | DecimalJsLike | number | string
     in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
@@ -20553,6 +21637,10 @@ export namespace Prisma {
     deleteMany?: Enumerable<SecuritySnapshotScalarWhereInput>
   }
 
+  export type EnumLogTypeFieldUpdateOperationsInput = {
+    set?: LogType
+  }
+
   export type UserCreateNestedOneWithoutCryptoSnapshotsInput = {
     create?: XOR<UserCreateWithoutCryptoSnapshotsInput, UserUncheckedCreateWithoutCryptoSnapshotsInput>
     connectOrCreate?: UserCreateOrConnectWithoutCryptoSnapshotsInput
@@ -21102,6 +22190,23 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumRoleFilter
     _max?: NestedEnumRoleFilter
+  }
+
+  export type NestedEnumLogTypeFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeFilter | LogType
+  }
+
+  export type NestedEnumLogTypeWithAggregatesFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeWithAggregatesFilter | LogType
+    _count?: NestedIntFilter
+    _min?: NestedEnumLogTypeFilter
+    _max?: NestedEnumLogTypeFilter
   }
 
   export type NestedDecimalFilter = {
