@@ -11,8 +11,12 @@
 		"url": "https://github.com/HarrisFauntleroy"
 	},
 	"workspaces": [
-		"apps/*",
-		"packages/*"
+		"apps/web",
+		"apps/worker",
+		"packages/common",
+		"packages/config",
+		"packages/database",
+		"packages/tsconfig"
 	],
 	"prisma": {
 		"schema": "packages/database/prisma/schema.prisma",

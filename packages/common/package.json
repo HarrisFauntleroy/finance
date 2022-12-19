@@ -16,8 +16,8 @@
 		"lint:fix": "eslint . --fix",
 		"start": "NODE_ENV=production ts-node dist/index.js",
 		"test": "jest --passWithNoTests",
-		"test:watch": "yarn test --watch",
 		"test:ci": "yarn test --ci --coverage --maxWorkers=2",
+		"test:watch": "yarn test --watch",
 		"type-check": "tsc --noEmit"
 	},
 	"jest": {
@@ -46,13 +46,14 @@
 		"zod": "^3.19.1"
 	},
 	"devDependencies": {
+		"@types/jest": "29.2.2",
 		"config": "*",
 		"eslint": "^8.12.0",
 		"rimraf": "^3.0.2",
 		"tsconfig": "*",
 		"tsup": "^5.11.13",
 		"tsx": "^3.7.1",
-		"@types/jest": "29.2.2",
 		"typescript": "^4.5.5"
-	}
+	},
+	"packageManager": "yarn@1.22.19"
 }

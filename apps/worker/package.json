@@ -12,8 +12,8 @@
 		"lint:fix": "eslint . --fix && yarn format",
 		"start": "NODE_ENV=production ts-node dist/index.js",
 		"test": "jest --passWithNoTests",
-		"test:watch": "yarn test --watch",
 		"test:ci": "yarn test --ci --coverage --maxWorkers=2",
+		"test:watch": "yarn test --watch",
 		"type-check": "tsc --noEmit"
 	},
 	"jest": {
@@ -53,6 +53,7 @@
 		"progress": "^2.0.3"
 	},
 	"devDependencies": {
+		"tsconfig": "*",
 		"@trivago/prettier-plugin-sort-imports": "3.4.0",
 		"@types/cli-progress": "^3.11.0",
 		"@types/dinero.js": "1.9.0",
@@ -65,5 +66,6 @@
 		"ts-node": "10.9.1",
 		"tsup": "^5.11.13",
 		"typescript": "4.8.4"
-	}
+	},
+	"packageManager": "yarn@1.22.19"
 }
