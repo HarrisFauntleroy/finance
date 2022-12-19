@@ -38,7 +38,7 @@
 		"tsx": "^3.7.1",
 		"turbo": "latest"
 	},
-	"packageManager": "yarn@1.22.17",
+	"packageManager": "yarn@1.22.19",
 	"engines": {
 		"node": ">=14.0.0",
 		"npm": ">=7.0.0"
