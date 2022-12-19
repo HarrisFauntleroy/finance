@@ -47,7 +47,7 @@ export const Forex = () => {
 						id="Forex"
 						data={data || []}
 						columns={forexColumns}
-						getRowCanExpand={() => true}
+						getRowCanExpand
 						paginationEnabled
 					>
 						<HStack>

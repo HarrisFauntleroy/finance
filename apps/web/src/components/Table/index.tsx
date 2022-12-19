@@ -40,7 +40,7 @@ export type TableProps<TData> = {
 	renderSubComponent?: (props: {
 		row: reactTable.Row<TData>
 	}) => React.ReactElement
-	getRowCanExpand?: (row: reactTable.Row<TData>) => boolean
+	getRowCanExpand?: boolean
 } & React.PropsWithChildren
 
 export const Table = <TData extends object>({
@@ -86,7 +86,7 @@ export const Table = <TData extends object>({
 			globalFilter,
 			pagination,
 		},
-		getRowCanExpand,
+		getRowCanExpand: () => getRowCanExpand || false,
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
 		getCoreRowModel: reactTable.getCoreRowModel(),

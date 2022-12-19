@@ -34,7 +34,7 @@ export const BudgetPlanner = () => {
 					id="budgetOverview"
 					data={data || []}
 					columns={budgetColumns}
-					getRowCanExpand={() => true}
+					getRowCanExpand
 					filterEnabled
 					paginationEnabled
 					renderSubComponent={(props) => <RenderSubComponent {...props} />}

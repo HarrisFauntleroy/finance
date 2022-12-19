@@ -44,7 +44,7 @@ export const AccountsList = () => {
 					id="cryptocurrencyOverview"
 					data={(data as CalculatedCryptocurrency[]) || []}
 					columns={cryptoColumns}
-					getRowCanExpand={() => true}
+					getRowCanExpand
 					filterEnabled
 					paginationEnabled
 					// If children show them as sub table
@@ -55,7 +55,7 @@ export const AccountsList = () => {
 									id="cryptocurrencyOverview"
 									data={props?.row?.original?.Children || []}
 									columns={cryptoColumns}
-									getRowCanExpand={() => true}
+									getRowCanExpand
 									renderSubComponent={TableSubComponent}
 									paginationEnabled
 								/>

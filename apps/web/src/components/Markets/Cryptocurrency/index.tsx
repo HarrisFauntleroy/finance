@@ -48,7 +48,7 @@ export const Cryptocurrency = () => {
 						id="Cryptocurrency"
 						data={data || []}
 						columns={cryptocurrencyColumns}
-						getRowCanExpand={() => true}
+						getRowCanExpand
 						paginationEnabled
 					>
 						<HStack>
