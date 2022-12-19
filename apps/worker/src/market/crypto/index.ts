@@ -10,6 +10,7 @@ import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
+import fetch from "node-fetch"
 
 class MarketUpdater {
 	private baseCurrency = "USD"
@@ -36,29 +37,33 @@ class MarketUpdater {
 						create: parsed,
 						update: parsed,
 					})
-					.then(() => logger.info("success", parsed.ticker))
 					.catch(() => logger.error("error", parsed.ticker))
 			)
 	}
 
-	// Method to fetch and parse JSON data from a given URL
-	private async fetchAndParseJSON(url: string) {
-		return axios
-			.get(url)
-			.then((res) => res.data)
-			.catch(console.error)
-	}
-
 	// Method to update the markets for cryptocurrencies
 	public async updateMarketsCrypto() {
-		const resultsPerPage = 250
-		const pages = 8
+		const resultsPerPage = 500
+		const pages = 10
+
+		const totalSteps = 10
+		let progress = 0
 
 		for (let page = pages; page > 0; page--) {
-			logger.info("page", page)
-			const response: CoinGeckoResponse[] = await this.fetchAndParseJSON(
-				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
+			progress++
+			const percentage = Math.round((progress / totalSteps) * 100)
+
+			logger.info(
+				`[${"#".repeat(percentage)}${" ".repeat(
+					100 - percentage
+				)}] ${percentage}%`
 			)
+			const response = await axios
+				.get(
+					`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
+				)
+				.then((res) => res.data)
+
 			await this.upsertManyMarkets(response)
 		}
 		return `Crypto: ${new Date()}`
