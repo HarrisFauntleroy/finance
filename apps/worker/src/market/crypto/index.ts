@@ -54,7 +54,7 @@ class MarketUpdater {
 			const percentage = Math.round((progress / totalSteps) * 100)
 
 			logger.info(
-				`[${"#".repeat(percentage)}${" ".repeat(
+				`market/crypto: [${"#".repeat(percentage)}${" ".repeat(
 					100 - percentage
 				)}] ${percentage}%`
 			)
