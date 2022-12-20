@@ -111,7 +111,7 @@
 		"database": "*",
 		"date-fns": "^2.29.3",
 		"final-form": "^4.20.7",
-		"framer-motion": "7.6.6",
+		"framer-motion": "7.10.3",
 		"i18next": "^22.0.4",
 		"i18next-browser-languagedetector": "^7.0.1",
 		"i18next-http-backend": "^2.0.1",
