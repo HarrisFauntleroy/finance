@@ -118,7 +118,9 @@ worker.on("failed", (job) => {
 	logger.error(`Job: ${job?.name} has failed`)
 })
 
+/** Remove x-powered-by header for security purposes */
 const app = express()
+app.disable("x-powered-by")
 
 app.use("/admin/queues", serverAdapter.getRouter())
 
