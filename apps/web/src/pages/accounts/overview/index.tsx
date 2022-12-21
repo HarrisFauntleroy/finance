@@ -20,22 +20,22 @@ import * as ChartJs from "chart.js"
 import currency from "currency.js"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
-import { Line } from "react-chartjs-2"
+import { Line, Pie } from "react-chartjs-2"
 import { Layout } from "~/components/Accounts/Layout"
 import OverviewCard from "~/components/Accounts/Overview"
 import { historySnapshotColumns } from "~/components/Accounts/columns"
 import Card from "~/components/Cards"
 import { Table } from "~/components/Table"
 import { trpc } from "~/utils/trpc"
+import { useMockData } from "~/hooks/useMockData"
+import { logger } from "common"
 
 ChartJs.Chart.register(
-	// Trendline first for z-axis
-	// Trendline breaking with one days worth of data...
-	// chartTrendline,
 	ChartJs.CategoryScale,
 	ChartJs.LinearScale,
 	ChartJs.PointElement,
 	ChartJs.LineElement,
+	ChartJs.ArcElement,
 	ChartJs.BarElement,
 	ChartJs.Title,
 	ChartJs.Tooltip,
@@ -57,6 +57,8 @@ export const options = {
 	},
 	scales: {
 		y: {
+			min: 0,
+			// stacked: true,
 			ticks: {
 				// Include a dollar sign in the ticks
 				callback: (value: string | number) => {
@@ -72,6 +74,10 @@ function AccountsPage() {
 	const userId = session?.data?.userId
 
 	const { data: accountsData } = trpc.accounts.byUserId.useQuery({
+		userId: userId || "",
+	})
+
+	const { data: allocationData } = trpc.accounts.allocation.useQuery({
 		userId: userId || "",
 	})
 
@@ -92,7 +98,7 @@ function AccountsPage() {
 
 	const netWorthBg = useColorModeValue("#48BB78", "#805AD5")
 
-	const data = useMemo(
+	const lineData = useMemo(
 		() => ({
 			labels,
 			datasets: [
@@ -284,10 +290,47 @@ function AccountsPage() {
 		</Card>
 	)
 
+	const pie = useMockData("pie")
+
+	logger.info(allocationData)
+
 	return (
 		<Layout>
 			<GridItem area={"overview"}>
 				<OverviewCard data={accountsData} />
+			</GridItem>
+
+			<GridItem area={"chart"}>
+				<Card>
+					<Line options={options} data={lineData} />
+				</Card>
+			</GridItem>
+
+			<GridItem area={"allocation"}>
+				<Card>
+					<Pie
+						style={{
+							maxHeight: "100%",
+							maxWidth: "100%",
+							aspectRatio: "1/1",
+						}}
+						options={{
+							maintainAspectRatio: false,
+							responsive: true,
+							plugins: {
+								legend: {
+									display: false,
+								},
+								title: {
+									display: true,
+									position: "bottom",
+									text: "Portfolio Allocation",
+								},
+							},
+						}}
+						data={pie}
+					/>
+				</Card>
 			</GridItem>
 
 			<GridItem area={"history"}>
@@ -321,11 +364,6 @@ function AccountsPage() {
 							}
 						/>
 					</Skeleton>
-				</Card>
-			</GridItem>
-			<GridItem area={"chart"}>
-				<Card>
-					<Line options={options} data={data} />
 				</Card>
 			</GridItem>
 

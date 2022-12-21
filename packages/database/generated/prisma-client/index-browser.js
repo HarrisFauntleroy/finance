@@ -133,12 +133,13 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
 
 exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
   id: 'id',
-  userId: 'userId',
+  currency: 'currency',
   totalValue: 'totalValue',
   costBasis: 'costBasis',
   unrealisedGain: 'unrealisedGain',
   realisedGain: 'realisedGain',
   saleableValue: 'saleableValue',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
@@ -147,8 +148,13 @@ exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
 
 exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
   id: 'id',
-  userId: 'userId',
+  currency: 'currency',
   totalValue: 'totalValue',
+  costBasis: 'costBasis',
+  unrealisedGain: 'unrealisedGain',
+  realisedGain: 'realisedGain',
+  saleableValue: 'saleableValue',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
@@ -157,8 +163,13 @@ exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
 
 exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
   id: 'id',
-  userId: 'userId',
+  currency: 'currency',
   totalValue: 'totalValue',
+  costBasis: 'costBasis',
+  unrealisedGain: 'unrealisedGain',
+  realisedGain: 'realisedGain',
+  saleableValue: 'saleableValue',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
@@ -167,12 +178,13 @@ exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
 
 exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
   id: 'id',
-  userId: 'userId',
+  currency: 'currency',
   totalValue: 'totalValue',
   costBasis: 'costBasis',
   unrealisedGain: 'unrealisedGain',
   realisedGain: 'realisedGain',
   saleableValue: 'saleableValue',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',

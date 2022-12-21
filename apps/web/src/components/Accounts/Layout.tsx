@@ -7,9 +7,9 @@ export const Layout = ({ children }: PropsWithChildren) => {
 	return (
 		<Grid
 			templateAreas={{
-				sm: `"overview history"
+				sm: `"overview allocation"
 						 "chart chart"
-						 "income income"`,
+						 "income history"`,
 				base: `"overview"
 							 "history"
 							 "chart"

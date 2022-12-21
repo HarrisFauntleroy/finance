@@ -16,6 +16,7 @@ import {
 import { BsWallet } from "react-icons/bs"
 import {
 	MdAdminPanelSettings,
+	MdHome,
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
@@ -28,6 +29,7 @@ export default function Layout({ children }: PropsWithChildren) {
 	const disclosure = useDisclosure()
 
 	const links = [
+		{ href: "/", icon: MdHome, label: "Home" },
 		{ href: "/accounts", icon: BsWallet, label: "Accounts" },
 		{ href: "/markets", icon: MdMultilineChart, label: "Markets" },
 		{ href: "/budgets", icon: MdSavings, label: "Budgets" },

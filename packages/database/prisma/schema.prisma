@@ -76,54 +76,74 @@ enum LogType {
 
 model CryptoSnapshot {
   id             String    @id @unique @default(cuid())
-  userId         String
+  currency       String
   totalValue     Decimal
   costBasis      Decimal
   unrealisedGain Decimal
   realisedGain   Decimal
   saleableValue  Decimal
+  userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @default(now()) @updatedAt
   deleted        Boolean   @default(false)
   deletedAt      DateTime?
+
+  @@unique([createdAt, userId])
 }
 
 model CashSnapshot {
-  id         String    @id @unique @default(cuid())
-  userId     String
-  totalValue Decimal
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now()) @updatedAt
-  deleted    Boolean   @default(false)
-  deletedAt  DateTime?
+  id             String    @id @unique @default(cuid())
+  currency       String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+
+  @@unique([createdAt, userId])
 }
 
 model PropertySnapshot {
-  id         String    @id @unique @default(cuid())
-  userId     String
-  totalValue Decimal
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now()) @updatedAt
-  deleted    Boolean   @default(false)
-  deletedAt  DateTime?
+  id             String    @id @unique @default(cuid())
+  currency       String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+
+  @@unique([createdAt, userId])
 }
 
 model SecuritySnapshot {
   id             String    @id @unique @default(cuid())
-  userId         String
+  currency       String
   totalValue     Decimal
   costBasis      Decimal
   unrealisedGain Decimal
   realisedGain   Decimal
   saleableValue  Decimal
+  userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @default(now()) @updatedAt
   deleted        Boolean   @default(false)
   deletedAt      DateTime?
+
+  @@unique([createdAt, userId])
 }
 
 model PortfolioSnapshot {

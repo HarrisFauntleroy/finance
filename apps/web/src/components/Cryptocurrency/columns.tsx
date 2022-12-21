@@ -17,7 +17,7 @@ import formatDuration from "date-fns/formatDuration"
 import intervalToDuration from "date-fns/intervalToDuration"
 import Link from "next/link"
 import { FormattedNumber } from "react-intl"
-import { CryptoForm } from "~/components/Accounts/Cryptocurrency/Form"
+import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import Currency from "~/components/Currency"
 import { Show } from "~/components/Show"
 

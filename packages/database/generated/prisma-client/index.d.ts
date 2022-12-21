@@ -78,12 +78,13 @@ export type Log = {
  */
 export type CryptoSnapshot = {
   id: string
-  userId: string
+  currency: string
   totalValue: Prisma.Decimal
   costBasis: Prisma.Decimal
   unrealisedGain: Prisma.Decimal
   realisedGain: Prisma.Decimal
   saleableValue: Prisma.Decimal
+  userId: string
   createdAt: Date
   updatedAt: Date
   deleted: boolean
@@ -96,8 +97,13 @@ export type CryptoSnapshot = {
  */
 export type CashSnapshot = {
   id: string
-  userId: string
+  currency: string
   totalValue: Prisma.Decimal
+  costBasis: Prisma.Decimal
+  unrealisedGain: Prisma.Decimal
+  realisedGain: Prisma.Decimal
+  saleableValue: Prisma.Decimal
+  userId: string
   createdAt: Date
   updatedAt: Date
   deleted: boolean
@@ -110,8 +116,13 @@ export type CashSnapshot = {
  */
 export type PropertySnapshot = {
   id: string
-  userId: string
+  currency: string
   totalValue: Prisma.Decimal
+  costBasis: Prisma.Decimal
+  unrealisedGain: Prisma.Decimal
+  realisedGain: Prisma.Decimal
+  saleableValue: Prisma.Decimal
+  userId: string
   createdAt: Date
   updatedAt: Date
   deleted: boolean
@@ -124,12 +135,13 @@ export type PropertySnapshot = {
  */
 export type SecuritySnapshot = {
   id: string
-  userId: string
+  currency: string
   totalValue: Prisma.Decimal
   costBasis: Prisma.Decimal
   unrealisedGain: Prisma.Decimal
   realisedGain: Prisma.Decimal
   saleableValue: Prisma.Decimal
+  userId: string
   createdAt: Date
   updatedAt: Date
   deleted: boolean
@@ -5352,12 +5364,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMinAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -5366,12 +5379,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -5380,12 +5394,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotCountAggregateOutputType = {
     id: number
-    userId: number
+    currency: number
     totalValue: number
     costBasis: number
     unrealisedGain: number
     realisedGain: number
     saleableValue: number
+    userId: number
     createdAt: number
     updatedAt: number
     deleted: number
@@ -5412,12 +5427,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMinAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -5426,12 +5442,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMaxAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -5440,12 +5457,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotCountAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -5547,12 +5565,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotGroupByOutputType = {
     id: string
-    userId: string
+    currency: string
     totalValue: Decimal
     costBasis: Decimal
     unrealisedGain: Decimal
     realisedGain: Decimal
     saleableValue: Decimal
+    userId: string
     createdAt: Date
     updatedAt: Date
     deleted: boolean
@@ -5580,12 +5599,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotSelect = {
     id?: boolean
-    userId?: boolean
+    currency?: boolean
     totalValue?: boolean
     costBasis?: boolean
     unrealisedGain?: boolean
     realisedGain?: boolean
     saleableValue?: boolean
+    userId?: boolean
     user?: boolean | UserArgs
     createdAt?: boolean
     updatedAt?: boolean
@@ -6356,16 +6376,29 @@ export namespace Prisma {
 
   export type CashSnapshotAvgAggregateOutputType = {
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
   }
 
   export type CashSnapshotSumAggregateOutputType = {
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
   }
 
   export type CashSnapshotMinAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -6374,8 +6407,13 @@ export namespace Prisma {
 
   export type CashSnapshotMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -6384,8 +6422,13 @@ export namespace Prisma {
 
   export type CashSnapshotCountAggregateOutputType = {
     id: number
-    userId: number
+    currency: number
     totalValue: number
+    costBasis: number
+    unrealisedGain: number
+    realisedGain: number
+    saleableValue: number
+    userId: number
     createdAt: number
     updatedAt: number
     deleted: number
@@ -6396,16 +6439,29 @@ export namespace Prisma {
 
   export type CashSnapshotAvgAggregateInputType = {
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
   }
 
   export type CashSnapshotSumAggregateInputType = {
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
   }
 
   export type CashSnapshotMinAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -6414,8 +6470,13 @@ export namespace Prisma {
 
   export type CashSnapshotMaxAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -6424,8 +6485,13 @@ export namespace Prisma {
 
   export type CashSnapshotCountAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -6527,8 +6593,13 @@ export namespace Prisma {
 
   export type CashSnapshotGroupByOutputType = {
     id: string
-    userId: string
+    currency: string
     totalValue: Decimal
+    costBasis: Decimal
+    unrealisedGain: Decimal
+    realisedGain: Decimal
+    saleableValue: Decimal
+    userId: string
     createdAt: Date
     updatedAt: Date
     deleted: boolean
@@ -6556,8 +6627,13 @@ export namespace Prisma {
 
   export type CashSnapshotSelect = {
     id?: boolean
-    userId?: boolean
+    currency?: boolean
     totalValue?: boolean
+    costBasis?: boolean
+    unrealisedGain?: boolean
+    realisedGain?: boolean
+    saleableValue?: boolean
+    userId?: boolean
     user?: boolean | UserArgs
     createdAt?: boolean
     updatedAt?: boolean
@@ -7328,16 +7404,29 @@ export namespace Prisma {
 
   export type PropertySnapshotAvgAggregateOutputType = {
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
   }
 
   export type PropertySnapshotSumAggregateOutputType = {
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
   }
 
   export type PropertySnapshotMinAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -7346,8 +7435,13 @@ export namespace Prisma {
 
   export type PropertySnapshotMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
+    costBasis: Decimal | null
+    unrealisedGain: Decimal | null
+    realisedGain: Decimal | null
+    saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -7356,8 +7450,13 @@ export namespace Prisma {
 
   export type PropertySnapshotCountAggregateOutputType = {
     id: number
-    userId: number
+    currency: number
     totalValue: number
+    costBasis: number
+    unrealisedGain: number
+    realisedGain: number
+    saleableValue: number
+    userId: number
     createdAt: number
     updatedAt: number
     deleted: number
@@ -7368,16 +7467,29 @@ export namespace Prisma {
 
   export type PropertySnapshotAvgAggregateInputType = {
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
   }
 
   export type PropertySnapshotSumAggregateInputType = {
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
   }
 
   export type PropertySnapshotMinAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -7386,8 +7498,13 @@ export namespace Prisma {
 
   export type PropertySnapshotMaxAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -7396,8 +7513,13 @@ export namespace Prisma {
 
   export type PropertySnapshotCountAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
+    costBasis?: true
+    unrealisedGain?: true
+    realisedGain?: true
+    saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -7499,8 +7621,13 @@ export namespace Prisma {
 
   export type PropertySnapshotGroupByOutputType = {
     id: string
-    userId: string
+    currency: string
     totalValue: Decimal
+    costBasis: Decimal
+    unrealisedGain: Decimal
+    realisedGain: Decimal
+    saleableValue: Decimal
+    userId: string
     createdAt: Date
     updatedAt: Date
     deleted: boolean
@@ -7528,8 +7655,13 @@ export namespace Prisma {
 
   export type PropertySnapshotSelect = {
     id?: boolean
-    userId?: boolean
+    currency?: boolean
     totalValue?: boolean
+    costBasis?: boolean
+    unrealisedGain?: boolean
+    realisedGain?: boolean
+    saleableValue?: boolean
+    userId?: boolean
     user?: boolean | UserArgs
     createdAt?: boolean
     updatedAt?: boolean
@@ -8316,12 +8448,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMinAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -8330,12 +8463,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
+    currency: string | null
     totalValue: Decimal | null
     costBasis: Decimal | null
     unrealisedGain: Decimal | null
     realisedGain: Decimal | null
     saleableValue: Decimal | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deleted: boolean | null
@@ -8344,12 +8478,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotCountAggregateOutputType = {
     id: number
-    userId: number
+    currency: number
     totalValue: number
     costBasis: number
     unrealisedGain: number
     realisedGain: number
     saleableValue: number
+    userId: number
     createdAt: number
     updatedAt: number
     deleted: number
@@ -8376,12 +8511,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMinAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -8390,12 +8526,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMaxAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -8404,12 +8541,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotCountAggregateInputType = {
     id?: true
-    userId?: true
+    currency?: true
     totalValue?: true
     costBasis?: true
     unrealisedGain?: true
     realisedGain?: true
     saleableValue?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
     deleted?: true
@@ -8511,12 +8649,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotGroupByOutputType = {
     id: string
-    userId: string
+    currency: string
     totalValue: Decimal
     costBasis: Decimal
     unrealisedGain: Decimal
     realisedGain: Decimal
     saleableValue: Decimal
+    userId: string
     createdAt: Date
     updatedAt: Date
     deleted: boolean
@@ -8544,12 +8683,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotSelect = {
     id?: boolean
-    userId?: boolean
+    currency?: boolean
     totalValue?: boolean
     costBasis?: boolean
     unrealisedGain?: boolean
     realisedGain?: boolean
     saleableValue?: boolean
+    userId?: boolean
     user?: boolean | UserArgs
     createdAt?: boolean
     updatedAt?: boolean
@@ -17261,12 +17401,13 @@ export namespace Prisma {
 
   export const CryptoSnapshotScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
+    currency: 'currency',
     totalValue: 'totalValue',
     costBasis: 'costBasis',
     unrealisedGain: 'unrealisedGain',
     realisedGain: 'realisedGain',
     saleableValue: 'saleableValue',
+    userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deleted: 'deleted',
@@ -17278,8 +17419,13 @@ export namespace Prisma {
 
   export const CashSnapshotScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
+    currency: 'currency',
     totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deleted: 'deleted',
@@ -17291,8 +17437,13 @@ export namespace Prisma {
 
   export const PropertySnapshotScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
+    currency: 'currency',
     totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deleted: 'deleted',
@@ -17304,12 +17455,13 @@ export namespace Prisma {
 
   export const SecuritySnapshotScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
+    currency: 'currency',
     totalValue: 'totalValue',
     costBasis: 'costBasis',
     unrealisedGain: 'unrealisedGain',
     realisedGain: 'realisedGain',
     saleableValue: 'saleableValue',
+    userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deleted: 'deleted',
@@ -17736,12 +17888,13 @@ export namespace Prisma {
     OR?: Enumerable<CryptoSnapshotWhereInput>
     NOT?: Enumerable<CryptoSnapshotWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17751,12 +17904,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     user?: UserOrderByWithRelationInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17766,16 +17920,18 @@ export namespace Prisma {
 
   export type CryptoSnapshotWhereUniqueInput = {
     id?: string
+    createdAt_userId?: CryptoSnapshotCreatedAtUserIdCompoundUniqueInput
   }
 
   export type CryptoSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -17792,12 +17948,13 @@ export namespace Prisma {
     OR?: Enumerable<CryptoSnapshotScalarWhereWithAggregatesInput>
     NOT?: Enumerable<CryptoSnapshotScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    userId?: StringWithAggregatesFilter | string
+    currency?: StringWithAggregatesFilter | string
     totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
     deleted?: BoolWithAggregatesFilter | boolean
@@ -17809,8 +17966,13 @@ export namespace Prisma {
     OR?: Enumerable<CashSnapshotWhereInput>
     NOT?: Enumerable<CashSnapshotWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17820,8 +17982,13 @@ export namespace Prisma {
 
   export type CashSnapshotOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     user?: UserOrderByWithRelationInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17831,12 +17998,18 @@ export namespace Prisma {
 
   export type CashSnapshotWhereUniqueInput = {
     id?: string
+    createdAt_userId?: CashSnapshotCreatedAtUserIdCompoundUniqueInput
   }
 
   export type CashSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -17853,8 +18026,13 @@ export namespace Prisma {
     OR?: Enumerable<CashSnapshotScalarWhereWithAggregatesInput>
     NOT?: Enumerable<CashSnapshotScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    userId?: StringWithAggregatesFilter | string
+    currency?: StringWithAggregatesFilter | string
     totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
     deleted?: BoolWithAggregatesFilter | boolean
@@ -17866,8 +18044,13 @@ export namespace Prisma {
     OR?: Enumerable<PropertySnapshotWhereInput>
     NOT?: Enumerable<PropertySnapshotWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17877,8 +18060,13 @@ export namespace Prisma {
 
   export type PropertySnapshotOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     user?: UserOrderByWithRelationInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17888,12 +18076,18 @@ export namespace Prisma {
 
   export type PropertySnapshotWhereUniqueInput = {
     id?: string
+    createdAt_userId?: PropertySnapshotCreatedAtUserIdCompoundUniqueInput
   }
 
   export type PropertySnapshotOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -17910,8 +18104,13 @@ export namespace Prisma {
     OR?: Enumerable<PropertySnapshotScalarWhereWithAggregatesInput>
     NOT?: Enumerable<PropertySnapshotScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    userId?: StringWithAggregatesFilter | string
+    currency?: StringWithAggregatesFilter | string
     totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
     deleted?: BoolWithAggregatesFilter | boolean
@@ -17923,12 +18122,13 @@ export namespace Prisma {
     OR?: Enumerable<SecuritySnapshotWhereInput>
     NOT?: Enumerable<SecuritySnapshotWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17938,12 +18138,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     user?: UserOrderByWithRelationInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17953,16 +18154,18 @@ export namespace Prisma {
 
   export type SecuritySnapshotWhereUniqueInput = {
     id?: string
+    createdAt_userId?: SecuritySnapshotCreatedAtUserIdCompoundUniqueInput
   }
 
   export type SecuritySnapshotOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -17979,12 +18182,13 @@ export namespace Prisma {
     OR?: Enumerable<SecuritySnapshotScalarWhereWithAggregatesInput>
     NOT?: Enumerable<SecuritySnapshotScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    userId?: StringWithAggregatesFilter | string
+    currency?: StringWithAggregatesFilter | string
     totalValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
     deleted?: BoolWithAggregatesFilter | boolean
@@ -18918,6 +19122,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotCreateInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -18932,12 +19137,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedCreateInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -18946,6 +19152,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -18960,12 +19167,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -18974,12 +19182,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotCreateManyInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -18988,6 +19197,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -19001,7 +19211,97 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotCreateInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    user: UserCreateNestedOneWithoutCashSnapshotsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUncheckedCreateInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    user?: UserUpdateOneRequiredWithoutCashSnapshotsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CashSnapshotCreateManyInput = {
+    id?: string
+    currency: string
+    totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+  }
+
+  export type CashSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -19013,69 +19313,15 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type CashSnapshotCreateInput = {
-    id?: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    user: UserCreateNestedOneWithoutCashSnapshotsInput
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-  }
-
-  export type CashSnapshotUncheckedCreateInput = {
-    id?: string
-    userId: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-  }
-
-  export type CashSnapshotUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    user?: UserUpdateOneRequiredWithoutCashSnapshotsNestedInput
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type CashSnapshotUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type CashSnapshotCreateManyInput = {
-    id?: string
-    userId: string
-    totalValue: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-  }
-
-  export type CashSnapshotUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type CashSnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19084,7 +19330,12 @@ export namespace Prisma {
 
   export type PropertySnapshotCreateInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutPropertySnapshotsInput
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19094,8 +19345,13 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedCreateInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -19104,7 +19360,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutPropertySnapshotsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19114,8 +19375,13 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19124,8 +19390,13 @@ export namespace Prisma {
 
   export type PropertySnapshotCreateManyInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -19134,7 +19405,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19143,8 +19419,13 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19153,6 +19434,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotCreateInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -19167,12 +19449,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedCreateInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -19181,6 +19464,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -19195,12 +19479,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19209,12 +19494,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotCreateManyInput = {
     id?: string
-    userId: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
     realisedGain: Decimal | DecimalJsLike | number | string
     saleableValue: Decimal | DecimalJsLike | number | string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -19223,6 +19509,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -19236,12 +19523,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20472,14 +20760,20 @@ export namespace Prisma {
     not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
+  export type CryptoSnapshotCreatedAtUserIdCompoundUniqueInput = {
+    createdAt: Date | string
+    userId: string
+  }
+
   export type CryptoSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20496,12 +20790,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20510,12 +20805,13 @@ export namespace Prisma {
 
   export type CryptoSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20546,10 +20842,20 @@ export namespace Prisma {
     _max?: NestedDecimalFilter
   }
 
+  export type CashSnapshotCreatedAtUserIdCompoundUniqueInput = {
+    createdAt: Date | string
+    userId: string
+  }
+
   export type CashSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20558,12 +20864,21 @@ export namespace Prisma {
 
   export type CashSnapshotAvgOrderByAggregateInput = {
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
   }
 
   export type CashSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20572,8 +20887,13 @@ export namespace Prisma {
 
   export type CashSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20582,12 +20902,26 @@ export namespace Prisma {
 
   export type CashSnapshotSumOrderByAggregateInput = {
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+  }
+
+  export type PropertySnapshotCreatedAtUserIdCompoundUniqueInput = {
+    createdAt: Date | string
+    userId: string
   }
 
   export type PropertySnapshotCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20596,12 +20930,21 @@ export namespace Prisma {
 
   export type PropertySnapshotAvgOrderByAggregateInput = {
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
   }
 
   export type PropertySnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20610,8 +20953,13 @@ export namespace Prisma {
 
   export type PropertySnapshotMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20620,16 +20968,26 @@ export namespace Prisma {
 
   export type PropertySnapshotSumOrderByAggregateInput = {
     totalValue?: SortOrder
+    costBasis?: SortOrder
+    unrealisedGain?: SortOrder
+    realisedGain?: SortOrder
+    saleableValue?: SortOrder
+  }
+
+  export type SecuritySnapshotCreatedAtUserIdCompoundUniqueInput = {
+    createdAt: Date | string
+    userId: string
   }
 
   export type SecuritySnapshotCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20646,12 +21004,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -20660,12 +21019,13 @@ export namespace Prisma {
 
   export type SecuritySnapshotMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    currency?: SortOrder
     totalValue?: SortOrder
     costBasis?: SortOrder
     unrealisedGain?: SortOrder
     realisedGain?: SortOrder
     saleableValue?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
@@ -22698,6 +23058,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -22711,6 +23072,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -22734,7 +23096,12 @@ export namespace Prisma {
 
   export type CashSnapshotCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -22743,7 +23110,12 @@ export namespace Prisma {
 
   export type CashSnapshotUncheckedCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -22762,7 +23134,12 @@ export namespace Prisma {
 
   export type PropertySnapshotCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -22771,7 +23148,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -22790,6 +23172,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -22803,6 +23186,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedCreateWithoutUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -23037,12 +23421,13 @@ export namespace Prisma {
     OR?: Enumerable<CryptoSnapshotScalarWhereInput>
     NOT?: Enumerable<CryptoSnapshotScalarWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
@@ -23070,8 +23455,13 @@ export namespace Prisma {
     OR?: Enumerable<CashSnapshotScalarWhereInput>
     NOT?: Enumerable<CashSnapshotScalarWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
@@ -23099,8 +23489,13 @@ export namespace Prisma {
     OR?: Enumerable<PropertySnapshotScalarWhereInput>
     NOT?: Enumerable<PropertySnapshotScalarWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
@@ -23128,12 +23523,13 @@ export namespace Prisma {
     OR?: Enumerable<SecuritySnapshotScalarWhereInput>
     NOT?: Enumerable<SecuritySnapshotScalarWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    currency?: StringFilter | string
     totalValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
     saleableValue?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
@@ -24559,6 +24955,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotCreateManyUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -24572,7 +24969,12 @@ export namespace Prisma {
 
   export type CashSnapshotCreateManyUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -24581,7 +24983,12 @@ export namespace Prisma {
 
   export type PropertySnapshotCreateManyUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
+    costBasis: Decimal | DecimalJsLike | number | string
+    unrealisedGain: Decimal | DecimalJsLike | number | string
+    realisedGain: Decimal | DecimalJsLike | number | string
+    saleableValue: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
@@ -24590,6 +24997,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotCreateManyUserInput = {
     id?: string
+    currency: string
     totalValue: Decimal | DecimalJsLike | number | string
     costBasis: Decimal | DecimalJsLike | number | string
     unrealisedGain: Decimal | DecimalJsLike | number | string
@@ -24804,6 +25212,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24817,6 +25226,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24830,6 +25240,7 @@ export namespace Prisma {
 
   export type CryptoSnapshotUncheckedUpdateManyWithoutCryptoSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24843,7 +25254,12 @@ export namespace Prisma {
 
   export type CashSnapshotUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24852,7 +25268,12 @@ export namespace Prisma {
 
   export type CashSnapshotUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24861,7 +25282,12 @@ export namespace Prisma {
 
   export type CashSnapshotUncheckedUpdateManyWithoutCashSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24870,7 +25296,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24879,7 +25310,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24888,7 +25324,12 @@ export namespace Prisma {
 
   export type PropertySnapshotUncheckedUpdateManyWithoutPropertySnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    saleableValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -24897,6 +25338,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24910,6 +25352,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24923,6 +25366,7 @@ export namespace Prisma {
 
   export type SecuritySnapshotUncheckedUpdateManyWithoutSecuritySnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
     totalValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     unrealisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string

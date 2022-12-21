@@ -1,11 +1,11 @@
 import React from "react"
 
 import { GridItem } from "@chakra-ui/react"
-import { AccountsList } from "~/components/Accounts/Cryptocurrency/AccountsList"
-import IncomeOverviewCard from "~/components/Accounts/Cryptocurrency/Income"
-import { Layout } from "~/components/Accounts/Cryptocurrency/Layout"
-import OverviewCard from "~/components/Accounts/Cryptocurrency/Overview"
-import { Targets } from "~/components/Accounts/Cryptocurrency/Targets"
+import { AccountsList } from "~/components/Cryptocurrency/AccountsList"
+import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
+import { Layout } from "~/components/Cryptocurrency/Layout"
+import OverviewCard from "~/components/Cryptocurrency/Overview"
+import { Targets } from "~/components/Cryptocurrency/Targets"
 
 function CryptoPage() {
 	return (

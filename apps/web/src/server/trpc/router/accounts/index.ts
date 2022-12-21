@@ -8,6 +8,70 @@ import {
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { z } from "zod"
+import currency from "currency.js"
+
+export async function getPortfolioAllocation(
+	userId: string
+): Promise<{ name: MarketType; value: currency }[]> {
+	const cryptoSnapshots = await prisma.cryptoSnapshot.findMany({
+		where: { userId },
+		select: { totalValue: true },
+	})
+	const cashSnapshots = await prisma.cashSnapshot.findMany({
+		where: { userId },
+		select: { totalValue: true },
+	})
+	const propertySnapshots = await prisma.propertySnapshot.findMany({
+		where: { userId },
+		select: { totalValue: true },
+	})
+	const securitySnapshots = await prisma.securitySnapshot.findMany({
+		where: { userId },
+		select: { totalValue: true },
+	})
+
+	// Calculate the total value of each asset class
+	const totalCryptoValue = cryptoSnapshots.reduce(
+		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
+		currency(0)
+	)
+	const totalCashValue = cashSnapshots.reduce(
+		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
+		currency(0)
+	)
+	const totalPropertyValue = propertySnapshots.reduce(
+		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
+		currency(0)
+	)
+	const totalSecurityValue = securitySnapshots.reduce(
+		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
+		currency(0)
+	)
+
+	// Calculate the percentage of the total portfolio value that each asset class represents
+	const totalPortfolioValue = totalCryptoValue
+		.add(totalCashValue)
+		.add(totalPropertyValue)
+		.add(totalSecurityValue)
+	const cryptoPercentage = totalCryptoValue
+		.divide(totalPortfolioValue)
+		.multiply(100)
+	const cashPercentage = totalCashValue
+		.divide(totalPortfolioValue)
+		.multiply(100)
+	// const propertyPercentage = totalPropertyValue
+	// 	.divide(totalPortfolioValue)
+	// 	.multiply(100)
+	// const securityPercentage = totalSecurityValue
+	// 	.divide(totalPortfolioValue)
+	// 	.multiply(100)
+
+	// Return the data in the format required by a pie chart
+	return [
+		{ name: MarketType.CRYPTOCURRENCY, value: cryptoPercentage },
+		{ name: MarketType.CASH, value: cashPercentage },
+	]
+}
 
 /**
  * Routers: Accounts
@@ -95,6 +159,18 @@ export const accountsRouter = router({
 				cryptocurrency,
 				portfolioSnapshot: userResponse.portfolioSnapshot,
 			}
+		}),
+	allocation: publicProcedure
+		.input(
+			z.object({
+				userId: z.string(),
+			})
+		)
+		.query(async ({ input }) => {
+			// Destructure the userId from the input object
+			const { userId } = input
+
+			return getPortfolioAllocation(userId)
 		}),
 	historyByUserId: publicProcedure
 		.input(

@@ -5,16 +5,16 @@
  */
 import React, { useMemo } from "react"
 
-import { Center, Heading, useColorModeValue } from "@chakra-ui/react"
+import { Center, GridItem, Heading, useColorModeValue } from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
 import { RateType, calculateBurnDown } from "common"
-import { useSession } from "next-auth/react"
 import Link from "next/link"
-import { Line } from "react-chartjs-2"
+import { Bar, Line, Pie } from "react-chartjs-2"
 import Card from "~/components/Cards"
 import { Grid } from "~/components/Grid"
 import Page from "~/components/Page"
 import type { DefaultPage } from "~/pages/_app"
+import { useMockData } from "~/hooks/useMockData"
 
 ChartJs.Chart.register(
 	// Trendline first for z-axis
@@ -25,6 +25,7 @@ ChartJs.Chart.register(
 	ChartJs.PointElement,
 	ChartJs.LineElement,
 	ChartJs.BarElement,
+	ChartJs.ArcElement,
 	ChartJs.Title,
 	ChartJs.Tooltip,
 	ChartJs.Legend,
@@ -47,9 +48,6 @@ const NavLink = ({ href }: { href: string }) => (
 )
 
 const Index: DefaultPage = () => {
-	const session = useSession()
-	const userName = session.data?.user?.name
-
 	const links = [
 		{ href: "/accounts" },
 		{ href: "/markets" },
@@ -108,15 +106,115 @@ const Index: DefaultPage = () => {
 		[burnRate, costBasisBg]
 	)
 
+	const line = useMockData("line")
+	const bar = useMockData("bar")
+	const pie = useMockData("pie")
+
 	return (
-		<Page title="Home">
-			<Center alignItems="center" padding="16px">
-				<Heading>Welcome {userName}!</Heading>
+		<Page title="Home" padding="16px" gap="8px">
+			<Center alignItems="center">
+				<Heading>Dashboard</Heading>
 			</Center>
-			You will run out of money in {burnRate.length} days
-			<Line data={data} options={options} />
-			<Grid columns={2} padding="16px">
-				{links.map(NavLink)}
+			<Grid columns={2}>{links.map(NavLink)}</Grid>
+			<Grid
+				templateAreas={{
+					md: `"runway time"
+							 "expenses incomePie"`,
+					sm: `"runway time"
+							 "expenses incomePie"`,
+					base: `"runway"
+							   "time"
+							   "expenses"
+							   "incomePie"`,
+				}}
+				gridTemplateRows={"1fr 1fr"}
+				gridTemplateColumns={{
+					md: "1fr 1fr",
+					sm: "1fr 1fr",
+					base: "100vw",
+				}}
+				maxW="100%"
+			>
+				<GridItem area={"runway"}>
+					<Card>
+						You will run out of money in {burnRate.length} days
+						<Line data={data} options={options} />
+					</Card>
+				</GridItem>
+
+				<GridItem area={"time"}>
+					<Card>
+						<Line
+							options={{
+								responsive: true,
+								plugins: {
+									legend: {
+										position: "top" as const,
+									},
+									title: {
+										display: true,
+										text: "Income, Expenses, Net Worth over time",
+									},
+								},
+							}}
+							data={line}
+						/>
+					</Card>
+				</GridItem>
+				<GridItem area={"expenses"}>
+					<Card>
+						<Bar
+							options={{
+								plugins: {
+									title: {
+										display: true,
+										text: "Expenses by Categories",
+									},
+								},
+								responsive: true,
+								interaction: {
+									mode: "index" as const,
+									intersect: false,
+								},
+								scales: {
+									x: {
+										stacked: true,
+									},
+									y: {
+										stacked: true,
+									},
+								},
+							}}
+							data={bar}
+						/>
+					</Card>
+				</GridItem>
+				<GridItem area={"incomePie"}>
+					<Card>
+						<Pie
+							style={{
+								maxHeight: "100%",
+								maxWidth: "100%",
+								aspectRatio: "1/1",
+							}}
+							options={{
+								maintainAspectRatio: false,
+								responsive: true,
+								plugins: {
+									legend: {
+										display: false,
+									},
+									title: {
+										display: true,
+										position: "bottom",
+										text: "Income distribution",
+									},
+								},
+							}}
+							data={pie}
+						/>
+					</Card>
+				</GridItem>
 			</Grid>
 		</Page>
 	)
