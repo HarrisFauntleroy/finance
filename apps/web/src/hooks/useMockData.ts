@@ -110,10 +110,10 @@ const mockPieChartData = () => {
 export function useMockData(type: string) {
 	switch (type) {
 		case "line":
-			return mockLineChartData() as any
+			return mockLineChartData()
 		case "bar":
-			return mockBarChartData() as any
+			return mockBarChartData()
 		case "pie":
-			return mockPieChartData() as any
+			return mockPieChartData()
 	}
 }

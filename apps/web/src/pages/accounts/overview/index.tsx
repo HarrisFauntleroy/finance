@@ -1,4 +1,5 @@
 import React, { useMemo } from "react"
+import type { ChartData } from "chart.js"
 
 import {
 	Table as ChakraTable,
@@ -27,8 +28,6 @@ import { historySnapshotColumns } from "~/components/Accounts/columns"
 import Card from "~/components/Cards"
 import { Table } from "~/components/Table"
 import { trpc } from "~/utils/trpc"
-import { useMockData } from "~/hooks/useMockData"
-import { logger } from "common"
 
 ChartJs.Chart.register(
 	ChartJs.CategoryScale,
@@ -290,9 +289,34 @@ function AccountsPage() {
 		</Card>
 	)
 
-	const pie = useMockData("pie")
-
-	logger.info(allocationData)
+	const data: ChartData<"pie", number[], unknown> = useMemo(
+		() => ({
+			labels: allocationData?.map(({ name }) => name),
+			datasets: [
+				{
+					label: "# of Votes",
+					data: allocationData?.map(({ value }) => value) || [],
+					backgroundColor: [
+						"rgba(54, 162, 235, 0.2)",
+						"rgba(255, 99, 132, 0.2)",
+						"rgba(255, 206, 86, 0.2)",
+						"rgba(75, 192, 192, 0.2)",
+						"rgba(153, 102, 255, 0.2)",
+						"rgba(255, 159, 64, 0.2)",
+					],
+					borderColor: [
+						"rgba(54, 162, 235, 1)",
+						"rgba(255, 99, 132, 1)",
+						"rgba(255, 206, 86, 1)",
+						"rgba(75, 192, 192, 1)",
+						"rgba(153, 102, 255, 1)",
+						"rgba(255, 159, 64, 1)",
+					],
+				},
+			],
+		}),
+		[allocationData]
+	)
 
 	return (
 		<Layout>
@@ -319,16 +343,18 @@ function AccountsPage() {
 							responsive: true,
 							plugins: {
 								legend: {
-									display: false,
+									display: true,
+									position: "right",
 								},
 								title: {
 									display: true,
-									position: "bottom",
+									position: "top",
+									// align: "start",
 									text: "Portfolio Allocation",
 								},
 							},
 						}}
-						data={pie}
+						data={data}
 					/>
 				</Card>
 			</GridItem>

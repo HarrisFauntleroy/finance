@@ -12,8 +12,8 @@ import currency from "currency.js"
 
 export async function getPortfolioAllocation(
 	userId: string
-): Promise<{ name: MarketType; value: currency }[]> {
-	const cryptoSnapshots = await prisma.cryptoSnapshot.findMany({
+): Promise<{ name: MarketType; value: number }[]> {
+	const cryptoSnapshots = await prisma.portfolioSnapshot.findMany({
 		where: { userId },
 		select: { totalValue: true },
 	})
@@ -30,23 +30,15 @@ export async function getPortfolioAllocation(
 		select: { totalValue: true },
 	})
 
-	// Calculate the total value of each asset class
-	const totalCryptoValue = cryptoSnapshots.reduce(
-		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
-		currency(0)
-	)
-	const totalCashValue = cashSnapshots.reduce(
-		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
-		currency(0)
-	)
-	const totalPropertyValue = propertySnapshots.reduce(
-		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
-		currency(0)
-	)
-	const totalSecurityValue = securitySnapshots.reduce(
-		(sum, snapshot) => sum.add(String(snapshot.totalValue)),
-		currency(0)
-	)
+	const sumTotalValue = (data: Record<string, unknown>[]) =>
+		data
+			.map(({ totalValue }) => currency(String(totalValue)))
+			.reduce((sum, totalValue) => sum.add(totalValue), currency(0))
+
+	const totalCryptoValue = sumTotalValue(cryptoSnapshots)
+	const totalCashValue = sumTotalValue(cashSnapshots)
+	const totalPropertyValue = sumTotalValue(propertySnapshots)
+	const totalSecurityValue = sumTotalValue(securitySnapshots)
 
 	// Calculate the percentage of the total portfolio value that each asset class represents
 	const totalPortfolioValue = totalCryptoValue
@@ -59,17 +51,19 @@ export async function getPortfolioAllocation(
 	const cashPercentage = totalCashValue
 		.divide(totalPortfolioValue)
 		.multiply(100)
-	// const propertyPercentage = totalPropertyValue
-	// 	.divide(totalPortfolioValue)
-	// 	.multiply(100)
-	// const securityPercentage = totalSecurityValue
-	// 	.divide(totalPortfolioValue)
-	// 	.multiply(100)
+	const propertyPercentage = totalPropertyValue
+		.divide(totalPortfolioValue)
+		.multiply(100)
+	const securityPercentage = totalSecurityValue
+		.divide(totalPortfolioValue)
+		.multiply(100)
 
 	// Return the data in the format required by a pie chart
 	return [
-		{ name: MarketType.CRYPTOCURRENCY, value: cryptoPercentage },
-		{ name: MarketType.CASH, value: cashPercentage },
+		{ name: MarketType.CRYPTOCURRENCY, value: cryptoPercentage.value },
+		{ name: MarketType.CASH, value: cashPercentage.value },
+		{ name: MarketType.OTHER, value: propertyPercentage.value },
+		{ name: MarketType.STOCK, value: securityPercentage.value },
 	]
 }
 
