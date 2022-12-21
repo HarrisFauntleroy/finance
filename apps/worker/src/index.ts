@@ -101,7 +101,6 @@ queueMQ.add(
 
 // Maybe if a specific data is passed in they do more
 const worker = new Worker(queueName, async ({ name, data: { key }, log }) => {
-	log(`Starting job ${name}`)
 	switch (key) {
 		case "updateMarkets":
 			return await updateMarketsCrypto()
@@ -117,7 +116,6 @@ const worker = new Worker(queueName, async ({ name, data: { key }, log }) => {
 			log(`Failed to find job ${name}`)
 			break
 	}
-	log(`Finished job ${name}`)
 })
 
 worker.on("completed", (job) => {
