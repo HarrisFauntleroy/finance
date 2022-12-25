@@ -3,11 +3,10 @@ import { z } from "zod"
 
 /** Prisma schemas for retrieving data */
 
-export const BudgetItemSelectSchema =
-	Prisma.validator<Prisma.BudgetItemSelect>()({
+export const BudgetAssetSelectSchema =
+	Prisma.validator<Prisma.BudgetAssetSelect>()({
 		id: true,
 		name: true,
-		category: true,
 		amount: true,
 		frequency: true,
 		budgetId: true,
@@ -28,7 +27,6 @@ export const BudgetSelectSchema = Prisma.validator<Prisma.BudgetSelect>()({
 		select: {
 			id: true,
 			name: true,
-			category: true,
 			amount: true,
 			frequency: true,
 			budgetId: true,
@@ -49,7 +47,7 @@ export const BudgetSchemaWithId = BudgetSchema.extend({
 	id: z.string(),
 })
 
-export const BudgetItemSchema = z.object({
+export const BudgetAssetSchema = z.object({
 	name: z.string(),
 	category: z.string(),
 	amount: z.string(),
@@ -60,6 +58,6 @@ export const BudgetItemSchema = z.object({
 	budgetId: z.string(),
 })
 
-export const BudgetItemSchemaWithId = BudgetItemSchema.extend({
+export const BudgetAssetSchemaWithId = BudgetAssetSchema.extend({
 	id: z.string(),
 })
