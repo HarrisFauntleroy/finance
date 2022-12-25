@@ -2,14 +2,16 @@
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
-import deleter from "./features/deleter"
-import { updateMarketsCrypto } from "./features/market/crypto"
-import updateExchangeRates from "./features/market/exchangeRates"
-import { swyftx } from "./features/swyftx"
+import { cleaner } from "./jobs/cleaner"
+import { cryptocurrency } from "./jobs/cryptocurrency"
+import { history } from "./jobs/history"
+import { markets } from "./jobs/markets"
+import { swyftx } from "./jobs/swyftx"
+import bodyParser from "body-parser"
 import { ConnectionOptions, Queue, Worker } from "bullmq"
 import { logger } from "common"
+import { prisma } from "database"
 import dotenv from "dotenv"
-import snapshots from "./features/snapshots"
 
 dotenv.config()
 
@@ -30,7 +32,7 @@ const queueOptions = {
 	defaultJobOptions: {},
 }
 
-const queueName = "Taks"
+const queueName = "Schedule tasks"
 
 const queueMQ = new Queue(queueName, queueOptions)
 
@@ -43,58 +45,61 @@ const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
 })
 
 queueMQ.add(
-	"updateMarkets",
-	{ key: "updateMarkets" },
+	"markets",
+	{ key: "markets" },
 	{
-		jobId: "updateMarkets",
+		jobId: "markets",
 		repeat: {
-			// “At minute 0.”
+			// Hourly
 			pattern: "0 * * * *",
 		},
 	}
 )
 
 queueMQ.add(
-	"updateForex",
-	{ key: "updateForex" },
+	"cryptocurrency",
+	{ key: "cryptocurrency" },
 	{
-		jobId: "updateForex",
+		jobId: "cryptocurrency",
 		repeat: {
-			// “At minute 0.”
+			// Hourly
 			pattern: "0 * * * *",
 		},
 	}
 )
+
 queueMQ.add(
-	"updateSwyftx",
-	{ key: "updateSwyftx" },
+	"swyftx",
+	{ key: "swyftx" },
 	{
-		jobId: "updateSwyftx",
+		jobId: "swyftx",
 		repeat: {
-			// "At 08:00 and 20:00"
-			pattern: "0 8,20 * * *",
+			// Hourly
+			pattern: "0 * * * *",
 		},
 	}
 )
+
 queueMQ.add(
-	"snapshots",
-	{ key: "snapshots" },
+	"cleaner",
+	{ key: "cleaner" },
 	{
-		jobId: "snapshots",
+		jobId: "cleaner",
 		repeat: {
-			// "At 08:00 and 20:00"
-			pattern: "0 8,20 * * *",
+			// Hourly
+			pattern: "0 * * * *",
 		},
 	}
 )
+
 queueMQ.add(
-	"deleter",
-	{ key: "deleter" },
+	"history",
+	{ key: "history" },
 	{
-		jobId: "deleter",
+		jobId: "history",
 		repeat: {
-			// “At 00:00.”
-			pattern: "0 0 * * *",
+			// "At 08:00 and 20:00"
+			pattern: "0 8,20 * * *",
 		},
 	}
 )
@@ -102,16 +107,17 @@ queueMQ.add(
 // Maybe if a specific data is passed in they do more
 const worker = new Worker(queueName, async ({ name, data: { key }, log }) => {
 	switch (key) {
-		case "updateMarkets":
-			return await updateMarketsCrypto()
-		case "updateForex":
-			return await updateExchangeRates()
-		case "updateSwyftx":
+		case "markets":
+			return await markets()
+		case "cryptocurrency":
+			return await cryptocurrency()
+		case "swyftx":
 			return await swyftx()
-		case "deleter":
-			return await deleter()
-		case "snapshots":
-			return await snapshots()
+		case "cleaner":
+			return await cleaner()
+		case "history":
+			return await history()
+
 		default:
 			log(`Failed to find job ${name}`)
 			break
@@ -131,6 +137,50 @@ const app = express()
 app.disable("x-powered-by")
 
 app.use("/admin/queues", serverAdapter.getRouter())
+
+app.use(bodyParser.json())
+
+/**
+ * @swagger
+ * paths:
+ *   /log:
+ *     post:
+ *       summary: Creates a new log entry
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 type:
+ *                   type: string
+ *                   description: The type of log entry
+ *                 message:
+ *                   type: string
+ *                   description: The message for the log entry
+ *       responses:
+ *         200:
+ *           description: Log entry created successfully
+ *         500:
+ *           description: An error occurred while creating the log entry
+ */
+app.post(
+	"/log",
+	async (
+		req: { body: { type: any; message: any } },
+		res: { sendStatus: (arg0: number) => void }
+	) => {
+		const { type, message } = req.body
+		try {
+			await prisma.log.create({ data: { type, message } })
+			res.sendStatus(200)
+		} catch (err) {
+			console.error(err)
+			res.sendStatus(500)
+		}
+	}
+)
 
 app.listen(process.env.WORKER_PORT, () => {
 	logger.info(process.env.OER_APP_ID)

@@ -51,19 +51,20 @@ model User {
   sessions          Session[]
   settings          Settings?
   portfolioSnapshot PortfolioSnapshot[]
-  cryptoSnapshots   CryptoSnapshot[]
-  cashSnapshots     CashSnapshot[]
-  propertySnapshots PropertySnapshot[]
-  securitySnapshots SecuritySnapshot[]
+  CryptoSnapshot    CryptoSnapshot[]
+  CashSnapshot      CashSnapshot[]
+  PropertySnapshot  PropertySnapshot[]
+  SecuritySnapshot  SecuritySnapshot[]
 }
 
 model Log {
-  id        String   @id @unique @default(cuid())
+  id        String    @id @unique @default(cuid())
   type      LogType
   message   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  deleted   Boolean  @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 enum LogType {
@@ -72,6 +73,259 @@ enum LogType {
   error
   trace
   debug
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Settings {
+  id                   String       @id @unique @default(cuid())
+  userId               String       @unique
+  preferredColorScheme ColorScheme? @default(LIGHT)
+  userCurrency         String       @default("aud")
+  userLanguage         String       @default("eng")
+  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @default(now()) @updatedAt
+  deleted              Boolean      @default(false)
+  deletedAt            DateTime?
+
+  @@unique([id, userId])
+}
+
+model Cryptocurrency {
+  id                     String             @id @unique @default(cuid())
+  displayName            String
+  currency               String             @default("usd")
+  balance                Decimal            @default(0)
+  costBasis              Decimal            @default(0)
+  realisedGain           Decimal            @default(0)
+  apiKey                 String?
+  apiSecret              String?
+  walletAddress          String?
+  targetBalance          Decimal            @default(0)
+  interestBearingBalance Decimal            @default(0)
+  rateOfIncome           Decimal            @default(0)
+  accountConnection      AccountConnection? @default(NONE)
+
+  marketId  String?
+  userId    String
+  parentId  String?
+  market    Market?          @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
+  parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
+  deleted   Boolean          @default(false)
+  deletedAt DateTime?
+}
+
+model Market {
+  name                  String
+  ticker                String           @unique
+  description           String?
+  currency              String
+  price                 Decimal          @default(0)
+  priceChange24h        Decimal          @default(0)
+  priceChange24hPercent Decimal          @default(0)
+  marketCap             Decimal          @default(0)
+  marketCapRank         Decimal          @default(0)
+  type                  MarketType
+  image                 String?
+  Cryptocurrency        Cryptocurrency[]
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
+  deleted               Boolean          @default(false)
+  deletedAt             DateTime?
+
+  @@unique([name, ticker, type])
+}
+
+model Income {
+  id             String    @id @unique @default(cuid())
+  name           String
+  payFrequency   String
+  grossAmount    String
+  grossFrequency String    @default("P1Y0M0DT0H0M0S")
+  userId         String
+  budget         Budget    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+}
+
+model Budget {
+  id        String        @unique @default(cuid())
+  name      String
+  userId    String
+  User      User          @relation(fields: [userId], references: [id])
+  Children  BudgetAsset[]
+  income    Income[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  deleted   Boolean       @default(false)
+  deletedAt DateTime?
+}
+
+model BudgetAsset {
+  id        String    @unique @default(cuid())
+  name      String
+  type      String
+  amount    String
+  frequency String
+  budgetId  String
+  budget    Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+}
+
+enum ColorScheme {
+  LIGHT
+  DARK
+  TBA
+}
+
+enum MarketType {
+  CRYPTOCURRENCY
+  STOCK
+  ETF
+  METAL
+  OTHER
+  CASH
+}
+
+enum AccountConnection {
+  NONE
+  SWYFTX
+  COINSPOT
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// =-=-=-=-=-=-=-=-=-= Everything below is new =-=-=-=-=-=-=-=-=-=
+
+// You can use the term "financial asset" or "financial instrument" to refer to something that may be either an asset or a liability. These terms are commonly used in accounting and finance to refer to items that have a monetary value and can be used to measure, recognize, and record transactions or events. Financial assets may include cash, investments, or other assets that can be easily converted into cash, while financial liabilities may include debts or obligations that are owed to others.
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+// EG 
+// const assets = await prisma.item.findMany({
+//   where: {
+//     type: AssetCategory.CRYPTOCURRENCY,
+//     labels: {
+//       some: {
+//         name: "MyLabel",
+//       },
+//     },
+//   },
+//   orderBy: {
+//     createdAt: "asc",
+//   },
+// })
+
+// const liabilities = await prisma.item.findMany({
+//   where: {
+//     type: LiabilityCategory.MORTGAGE,
+//     labels: {
+//       some: {
+//         name: "MyLabel",
+//       },
+//     },
+//   },
+//   orderBy: {
+//     createdAt: "asc",
+//   },
+// })
+
+// const customAssets = await prisma.item.findMany({
+//   where: {
+//     type: AssetCategory.CUSTOM,
+//     customCategory: {
+//       name: "MyCustomCategory",
+//     },
+//   },
+//   orderBy: {
+//     createdAt: "asc",
+//   },
+// })
+
+enum Category {
+  LOAN // represents a liability
+  CASH // represents an asset
+  CUSTOM // represents a custom asset or liability
+  MORTGAGE
+  PROPERTY
+  SECURITY
+  CREDIT_CARD
+  CRYPTOCURRENCY
+}
+
+model UserCategory {
+  id        String    @id @default(cuid())
+  name      String
+  icon      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+  assets    Asset[]
+}
+
+model UserLabel {
+  id        String    @id @default(cuid())
+  name      String
+  icon      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+  asset     Asset?    @relation(fields: [assetId], references: [id])
+  assetId   String?
+}
+
+model Asset {
+  id             String        @id @default(cuid())
+  name           String
+  labels         UserLabel[]
+  value          Decimal
+  currency       String
+  category       Category
+  customCategory UserCategory? @relation(fields: [categoryId], references: [id])
+  categoryId     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  deleted        Boolean       @default(false)
+  deletedAt      DateTime?
+}
+
+model PortfolioSnapshot {
+  id             String    @id @unique @default(cuid())
+  currency       String
+  totalValue     Decimal
+  costBasis      Decimal
+  unrealisedGain Decimal
+  realisedGain   Decimal
+  saleableValue  Decimal
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  deleted        Boolean   @default(false)
+  deletedAt      DateTime?
+
+  @@unique([createdAt, userId])
 }
 
 model CryptoSnapshot {
@@ -144,161 +398,4 @@ model SecuritySnapshot {
   deletedAt      DateTime?
 
   @@unique([createdAt, userId])
-}
-
-model PortfolioSnapshot {
-  id             String    @id @unique @default(cuid())
-  currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
-  userId         String
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-  deleted        Boolean   @default(false)
-  deletedAt      DateTime?
-
-  @@unique([createdAt, userId])
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-model Settings {
-  id                   String       @id @unique @default(cuid())
-  userId               String       @unique
-  preferredColorScheme ColorScheme? @default(LIGHT)
-  userCurrency         String       @default("aud")
-  userLanguage         String       @default("eng")
-  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @default(now()) @updatedAt
-  deleted              Boolean      @default(false)
-  deletedAt            DateTime?
-
-  @@unique([id, userId])
-}
-
-model Cryptocurrency {
-  id                     String             @id @unique @default(cuid())
-  displayName            String
-  currency               String             @default("usd")
-  balance                Decimal            @default(0)
-  costBasis              Decimal            @default(0)
-  realisedGain           Decimal            @default(0)
-  walletAddress          String?
-  targetBalance          Decimal            @default(0)
-  interestBearingBalance Decimal            @default(0)
-  rateOfIncome           Decimal            @default(0)
-  accountConnection      AccountConnection? @default(NONE)
-  apiKey                 String?
-  apiSecret              String?
-
-  marketId  String?
-  userId    String
-  parentId  String?
-  market    Market?          @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
-  parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @default(now()) @updatedAt
-  deleted   Boolean          @default(false)
-  deletedAt DateTime?
-}
-
-model Market {
-  name                  String
-  ticker                String           @unique
-  description           String?
-  currency              String
-  price                 Decimal          @default(0)
-  priceChange24h        Decimal          @default(0)
-  priceChange24hPercent Decimal          @default(0)
-  marketCap             Decimal          @default(0)
-  marketCapRank         Decimal          @default(0)
-  type                  MarketType
-  image                 String?
-  Cryptocurrency        Cryptocurrency[]
-  createdAt             DateTime         @default(now())
-  updatedAt             DateTime         @default(now()) @updatedAt
-  deleted               Boolean          @default(false)
-  deletedAt             DateTime?
-
-  @@unique([name, ticker, type])
-}
-
-model Income {
-  id             String    @id @unique @default(cuid())
-  name           String
-  payFrequency   String
-  grossAmount    String
-  grossFrequency String    @default("P1Y0M0DT0H0M0S")
-  userId         String
-  budget         Budget    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-  deleted        Boolean   @default(false)
-  deletedAt      DateTime?
-}
-
-model Budget {
-  id        String       @unique @default(cuid())
-  name      String
-  userId    String
-  User      User         @relation(fields: [userId], references: [id])
-  Children  BudgetItem[]
-  income    Income[]
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @default(now()) @updatedAt
-  deleted   Boolean      @default(false)
-  deletedAt DateTime?
-}
-
-model BudgetItem {
-  id        String    @unique @default(cuid())
-  name      String
-  category  String
-  amount    String
-  frequency String
-  budgetId  String
-  budget    Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  deleted   Boolean   @default(false)
-  deletedAt DateTime?
-}
-
-enum ColorScheme {
-  LIGHT
-  DARK
-  TBA
-}
-
-enum MarketType {
-  CRYPTOCURRENCY
-  STOCK
-  ETF
-  METAL
-  OTHER
-  CASH
-}
-
-enum AccountConnection {
-  NONE
-  SWYFTX
-  COINSPOT
-}
-
-enum Role {
-  USER
-  ADMIN
 }

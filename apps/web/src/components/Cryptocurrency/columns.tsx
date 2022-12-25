@@ -5,6 +5,9 @@ import {
 	AvatarGroup,
 	Badge,
 	Flex,
+	List,
+	ListIcon,
+	ListItem,
 	Stack,
 	Stat,
 	StatArrow,
@@ -16,6 +19,8 @@ import { isNegative } from "common"
 import formatDuration from "date-fns/formatDuration"
 import intervalToDuration from "date-fns/intervalToDuration"
 import Link from "next/link"
+import { BsCurrencyDollar } from "react-icons/bs"
+import { MdEdit } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import Currency from "~/components/Currency"
@@ -210,20 +215,38 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 			row: {
 				original: { market, updatedAt },
 			},
-		}) =>
-			formatDuration(
-				intervalToDuration({
-					start: new Date(),
-					end: market?.updatedAt
-						? new Date(market?.updatedAt)
-						: // For nested accounts the top level updated at applies
-						  new Date(updatedAt),
-				}),
-				{
-					format: ["hours", "minutes", "seconds"],
-					delimiter: ", ",
-				}
-			),
+		}) => (
+			<List>
+				<ListItem>
+					<ListIcon as={MdEdit} />
+					{formatDuration(
+						intervalToDuration({
+							start: new Date(),
+							end: updatedAt,
+						}),
+						{
+							format: ["hours", "minutes", "seconds"],
+							delimiter: ", ",
+						}
+					)}
+				</ListItem>
+				{market?.updatedAt && (
+					<ListItem>
+						<ListIcon as={BsCurrencyDollar} />
+						{formatDuration(
+							intervalToDuration({
+								start: new Date(),
+								end: market?.updatedAt,
+							}),
+							{
+								format: ["hours", "minutes", "seconds"],
+								delimiter: ", ",
+							}
+						)}
+					</ListItem>
+				)}
+			</List>
+		),
 	},
 	{
 		header: "update",

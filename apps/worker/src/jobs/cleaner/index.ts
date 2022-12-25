@@ -1,9 +1,9 @@
+import { Progress } from "../../util"
 import { logger } from "common"
 import { prisma } from "database"
 import { subDays } from "date-fns"
-import { Progress } from "../../util"
 
-const deleter = async () => {
+export const cleaner = async () => {
 	const progress = new Progress(4)
 
 	progress.start()
@@ -61,5 +61,3 @@ const deleter = async () => {
 
 	return `Delete queue: ${new Date()}`
 }
-
-export default deleter

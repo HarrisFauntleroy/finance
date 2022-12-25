@@ -1,5 +1,4 @@
 import React, { useMemo } from "react"
-import type { ChartData } from "chart.js"
 
 import {
 	Table as ChakraTable,
@@ -16,6 +15,7 @@ import {
 	Tr,
 	useColorModeValue,
 } from "@chakra-ui/react"
+import type { ChartData } from "chart.js"
 import * as ChartJs from "chart.js"
 // import chartTrendline from "chartjs-plugin-trendline";
 import currency from "currency.js"
@@ -373,7 +373,7 @@ function AccountsPage() {
 						<Table
 							pageSize={4}
 							columns={historySnapshotColumns}
-							id={"history-snapshots"}
+							id={"history-portfolioSnapshot"}
 							// ISO8601See General principles was designed for lexicographical sort. As such the ISO8601 string representation can be sorted like any other string, and this will give the expected order
 							// https://stackoverflow.com/questions/12192491/sort-array-by-iso-8601-date
 							// This only works if the date includes the timezone

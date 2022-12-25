@@ -82,4 +82,74 @@ export const userRouter = router({
 
 		return user
 	}),
+	findVerifiedUsers: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				emailVerified: {
+					not: null,
+				},
+			},
+		})
+	}),
+	findAdminUsers: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				role: "ADMIN",
+			},
+		})
+	}),
+	findUsersWithProviderAccount: publicProcedure
+		.input(z.object({ provider: z.string() }))
+		.query(async ({ input }) => {
+			const { provider } = input
+			return prisma.user.findMany({
+				where: {
+					accounts: {
+						some: {
+							provider,
+						},
+					},
+				},
+			})
+		}),
+	findUsersWithBudget: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				budget: {
+					some: {},
+				},
+			},
+		})
+	}),
+	findUsersWithCryptocurrency: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				cryptocurrency: {
+					some: {},
+				},
+			},
+		})
+	}),
+	findUsersWithSession: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				sessions: {
+					some: {},
+				},
+			},
+		})
+	}),
+	findInactiveUsers: publicProcedure.query(async () => {
+		return prisma.user.findMany({
+			where: {
+				sessions: {
+					none: {
+						expires: {
+							gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+						},
+					},
+				},
+			},
+		})
+	}),
 })

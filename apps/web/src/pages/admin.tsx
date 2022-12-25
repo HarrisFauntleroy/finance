@@ -18,8 +18,10 @@ import {
 	StatNumber,
 	Text,
 } from "@chakra-ui/react"
+import { LogChart } from "~/components/Admin/LogChart"
 import Card from "~/components/Cards"
 import { Grid } from "~/components/Grid"
+import MdViewer from "~/components/Markdown/Editor"
 import Page from "~/components/Page"
 import type { DefaultPage } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
@@ -28,93 +30,125 @@ const Index: DefaultPage = () => {
 	const { data: users } = trpc.user.all.useQuery()
 
 	const { data: deleteQueue } = trpc.settings.deleteQueue.useQuery()
+	const { data: findInactiveUsers } = trpc.user.findInactiveUsers.useQuery()
+
+	const { data: findUsersWithSession } =
+		trpc.user.findUsersWithSession.useQuery()
+
+	const { data: findUsersWithCryptocurrency } =
+		trpc.user.findUsersWithCryptocurrency.useQuery()
+
+	const { data: findUsersWithBudget } = trpc.user.findUsersWithBudget.useQuery()
+
+	const { data: findAdminUsers } = trpc.user.findAdminUsers.useQuery()
+
+	const { data: findVerifiedUsers } = trpc.user.findVerifiedUsers.useQuery()
+
+	const { data: findUsersWithProviderAccount } =
+		trpc.user.findUsersWithProviderAccount.useQuery({
+			provider: "google",
+		})
 
 	return (
 		<Page title="Home">
 			<Stack alignItems="center" padding="16px">
 				<Heading>Admin dashboard</Heading>
+				Hello
+				<MdViewer />
 				<Text textAlign="left" width="100%" fontSize="2xl">
 					Stats
 				</Text>
 				<Grid columns={4} padding="16px">
 					<Card>
 						<Stat>
-							{/* This is the total number of users who have signed up for an account on your website. */}
-							<StatLabel>Registered users</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Verified users</StatLabel>
+							<StatNumber>{findVerifiedUsers?.length}</StatNumber>
+							<StatHelpText>Users who have verified their email:</StatHelpText>
+							<List>
+								{findVerifiedUsers?.map((verifiedUser) => (
+									<ListItem key={verifiedUser.id}>{verifiedUser.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is the number of users who have logged in and engaged with your website within a specific time period, such as the past month. */}
-							<StatLabel>Active users</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Admin users</StatLabel>
+							<StatNumber>{findAdminUsers?.length}</StatNumber>
+							<StatHelpText>Users who have admin their email:</StatHelpText>
+							<List>
+								{findAdminUsers?.map((adminUser) => (
+									<ListItem key={adminUser.id}>{adminUser.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is the number of users who have signed up for an account on your website within a specific time period. */}
-							<StatLabel>New users</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Google users</StatLabel>
+							<StatNumber>{findUsersWithProviderAccount?.length}</StatNumber>
+							<StatHelpText>Users who have google emails:</StatHelpText>
+							<List>
+								{findUsersWithProviderAccount?.map((googleUser) => (
+									<ListItem key={googleUser.id}>{googleUser.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is the percentage of users who continue to use your website over time. */}
-							<StatLabel>User retention rate</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Budget users</StatLabel>
+							<StatNumber>{findUsersWithBudget?.length}</StatNumber>
+							<StatHelpText>Users who have at least one budget:</StatHelpText>
+							<List>
+								{findUsersWithBudget?.map((budgetUser) => (
+									<ListItem key={budgetUser.id}>{budgetUser.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is a measure of how actively users are interacting with your website, such as by viewing pages, clicking on links, or making purchases. */}
-							<StatLabel>User engagement</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Cryptocurrency users</StatLabel>
+							<StatNumber>{findUsersWithCryptocurrency?.length}</StatNumber>
+							<StatHelpText>
+								Users who have at least one cryptocurrency:
+							</StatHelpText>
+							<List>
+								{findUsersWithCryptocurrency?.map((cryptocurrencyUser) => (
+									<ListItem key={cryptocurrencyUser.id}>
+										{cryptocurrencyUser.name}
+									</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is a breakdown of where your website traffic is coming from, such as search engines, social media, or referral websites. */}
-							<StatLabel>Traffic sources</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Signed in at least once</StatLabel>
+							<StatNumber>{findUsersWithSession?.length}</StatNumber>
+							<StatHelpText>
+								Users who have logged in at least once:
+							</StatHelpText>
+							<List>
+								{findUsersWithSession?.map((hadSession) => (
+									<ListItem key={hadSession.id}>{hadSession.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 					<Card>
 						<Stat>
-							{/* This is the total number of pages that have been viewed on your website within a specific time period. */}
-							<StatLabel>Page views this month</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
-						</Stat>
-					</Card>
-					<Card>
-						<Stat>
-							{/*  This is the percentage of visitors who leave your website after viewing only one page. A high bounce rate may indicate that visitors are not finding what they are looking for on your website. */}
-							<StatLabel>Bounce rate</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
-						</Stat>
-					</Card>
-					<Card>
-						<Stat>
-							{/* This is the percentage of visitors who take a desired action, such as making a purchase or signing up for an account. */}
-							<StatLabel>Conversion rate</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
-						</Stat>
-					</Card>
-					<Card>
-						<Stat>
-							{/* This is the total amount of money that your website has generated within a specific time period, either through sales or through advertising or other means. */}
-							<StatLabel>Revenue</StatLabel>
-							<StatNumber>{users?.length}</StatNumber>
-							<StatHelpText>Feb 12 - Feb 28</StatHelpText>
+							<StatLabel>Inactive users</StatLabel>
+							<StatNumber>{findInactiveUsers?.length}</StatNumber>
+							<StatHelpText>
+								Users who have not logged in for the past 30 days:
+							</StatHelpText>
+							<List>
+								{findInactiveUsers?.map((inactiveUser) => (
+									<ListItem key={inactiveUser.id}>{inactiveUser.name}</ListItem>
+								))}
+							</List>
 						</Stat>
 					</Card>
 				</Grid>
@@ -159,6 +193,7 @@ const Index: DefaultPage = () => {
 						</List>
 					</Card>
 				))}
+				<LogChart />
 			</Stack>
 		</Page>
 	)

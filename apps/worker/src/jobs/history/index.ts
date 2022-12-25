@@ -1,9 +1,10 @@
+import { Progress } from "../../util"
+import { calculateCryptoTotals } from "./cryptocurrency"
 import { prisma } from "database"
 import { Decimal } from "database/generated/prisma-client/runtime"
 import ProgressBar from "progress"
-import { calculateCryptoTotals } from "./cryptocurrency"
 
-const portfolioSnapshot = async () => {
+export const history = async () => {
 	/** Get userId of signed in user */
 	const users: { id: string }[] = await prisma.user.findMany({
 		select: {
@@ -11,21 +12,20 @@ const portfolioSnapshot = async () => {
 		},
 	})
 
-	const progressbar = new ProgressBar("-> Processing [:bar] :percent :etas", {
-		total: users.length,
-		width: 30,
-	})
+	const progress = new Progress(users.length)
+
+	progress.start()
 
 	const results: { user?: string; status: string }[] = []
 
-	// Cryptocurrency snapshots
+	// Cryptocurrency portfolioSnapshot
 	await Promise.all(
 		users.map(async ({ id: userId }) => {
 			try {
 				/** Calculate overview totals to store for history */
 				const totals = await calculateCryptoTotals(userId)
 				/** Create new portfolioSnapshot entry */
-				const response = await prisma.cryptoSnapshot.create({
+				const response = await prisma.portfolioSnapshot.create({
 					data: {
 						userId,
 						currency: totals.currency,
@@ -46,11 +46,11 @@ const portfolioSnapshot = async () => {
 						createdAt: true,
 					},
 				})
-				progressbar.tick(1)
+				progress.increment()
 				/** Return PortfolioSnapshot object */
 				results.push({ user: response.userId, status: "Succeeded" })
 			} catch (error) {
-				progressbar.tick(1)
+				progress.increment()
 				/** Return the thrown error */
 				results.push({ status: "Failed" })
 			}
@@ -59,5 +59,3 @@ const portfolioSnapshot = async () => {
 
 	return `Snapshot: ${new Date()}`
 }
-
-export default portfolioSnapshot

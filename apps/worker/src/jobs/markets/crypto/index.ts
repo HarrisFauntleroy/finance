@@ -1,7 +1,7 @@
 /**
  *
  * Fetches and updates prices across all accounts holding cryptocurrencies.
- * We update the database with price so that weekly/monthly snapshots show price of balance at the time of snapshot were current
+ * We update the database with price so that weekly/monthly portfolioSnapshot show price of balance at the time of snapshot were current
  *
  */
 import { Progress, toDecimal } from "../../../util"
@@ -11,13 +11,10 @@ import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 
-// note: you have to install this dependency manually since it's not required by cli-progress
-const colors = require("ansi-colors")
-
 class MarketUpdater {
 	private baseCurrency = "USD"
 
-	private async upsertManyMarkets(response: CoinGeckoResponse[]) {
+	public async upsertCryptoMarkets(response: CoinGeckoResponse[]) {
 		response
 			.map((crypto) => ({
 				name: crypto.id,
@@ -59,7 +56,7 @@ class MarketUpdater {
 			progress.increment(resultsPerPage)
 			const markets = await axios.get(getUrl(page)).then(({ data }) => data)
 
-			await this.upsertManyMarkets(markets)
+			await this.upsertCryptoMarkets(markets)
 		}
 		progress.stop()
 		return `Crypto: ${new Date()}`

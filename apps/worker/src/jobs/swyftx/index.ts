@@ -1,4 +1,12 @@
 import { Progress, toDecimal } from "../../util"
+import {
+	Balance,
+	Secrets,
+	SwyftxAccount,
+	SwyftxAsset,
+	SwyftxJWT,
+	Transaction,
+} from "./types"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
@@ -6,49 +14,12 @@ import {
 	AccountConnection,
 	Cryptocurrency,
 } from "database/generated/prisma-client"
-import { Decimal } from "database/generated/prisma-client/runtime"
 
 const baseSwyftxApiUrl = "https://api.swyftx.com.au"
 const assetsUrl = "/markets/assets/"
 const balanceUrl = "/user/balance/"
 const historyUrl = "/history/all/type/assetId/"
 const jwtUrl = "https://api.swyftx.com.au/auth/refresh/"
-
-interface SwyftxAsset {
-	id: string
-	name: string
-	code: string
-	minimum_order: string
-	price_scale: number
-	deposit_enabled: boolean
-	withdraw_enabled: boolean
-	min_confirmations: number
-	min_withdrawal: number
-	minimum_order_increment: number
-	mining_fee: number
-	primary: boolean
-	secondary: boolean
-}
-
-const swyftxAssets = (accessToken: string) =>
-	fetchFromSwyftx(assetsUrl, accessToken)
-
-interface Balance {
-	assetId: number
-	name: string
-	availableBalance: string
-	stakingBalance: string
-	marketId: string
-}
-
-/** Current balance & staking balance from Swyftx */
-const swyftxBalance = (accessToken: string) =>
-	fetchFromSwyftx(balanceUrl, accessToken)
-
-interface SwyftxJWT {
-	accessToken: string
-	scope: string
-}
 
 const refreshSwyftxToken = async (apiKey: string) => {
 	try {
@@ -64,33 +35,9 @@ const refreshSwyftxToken = async (apiKey: string) => {
 	}
 }
 
-interface SwyftxAccount {
-	id: string
-	balance: Balance[]
-	history: Transaction[]
-}
-
-const body = JSON.stringify({ apiKey: process.env.SWYFTX_API_KEY })
-
-interface Transaction {
-	amount: number
-	trigger: number
-	quantity: number
-	primaryAsset: number
-	quantityAsset: number
-	asset: string
-	updated: Date
-	actionType: string
-	status: string
-}
-
-interface Secrets {
-	id: string
-	apiKey: string | null
-	apiSecret: string | null
-}
-
 const fetchFromSwyftx = async (url: string, accessToken: string) => {
+	const body = JSON.stringify({ apiKey: process.env.SWYFTX_API_KEY })
+
 	try {
 		const response = await axios.get(baseSwyftxApiUrl + url, {
 			headers: {
@@ -106,20 +53,23 @@ const fetchFromSwyftx = async (url: string, accessToken: string) => {
 	}
 }
 
-const swyftxHistory = (accessToken: string) =>
-	fetchFromSwyftx(historyUrl, accessToken)
-
 const getSwyftxAccount = async ({
 	id,
 	apiKey,
 }: Secrets): Promise<SwyftxAccount> => {
 	const { accessToken }: SwyftxJWT = await refreshSwyftxToken(String(apiKey))
 
-	const assetsList: SwyftxAsset[] = await swyftxAssets(accessToken)
+	const assetsList: SwyftxAsset[] = await fetchFromSwyftx(
+		assetsUrl,
+		accessToken
+	)
 
-	const rawBalance: Balance[] = await swyftxBalance(accessToken)
+	const rawBalance: Balance[] = await fetchFromSwyftx(balanceUrl, accessToken)
 
-	const transactions: Transaction[] = await swyftxHistory(accessToken)
+	const transactions: Transaction[] = await fetchFromSwyftx(
+		historyUrl,
+		accessToken
+	)
 
 	const balance = rawBalance?.map((item) => {
 		const matchingAsset = assetsList.find(

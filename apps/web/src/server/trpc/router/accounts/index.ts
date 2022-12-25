@@ -5,10 +5,10 @@ import {
 	calculateManyCrypto,
 	getExchangeRates,
 } from "common"
+import currency from "currency.js"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { z } from "zod"
-import currency from "currency.js"
 
 export async function getPortfolioAllocation(
 	userId: string
