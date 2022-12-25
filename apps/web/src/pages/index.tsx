@@ -100,88 +100,96 @@ const Index: DefaultPage = () => {
 					<GridItem minW="200px" area={"runway"}>
 						<Card maxWidth="100%">
 							You will run out of money in {burnRate.length} days
-							<Chart
-								type="line"
-								data={data}
-								options={{
-									plugins: {
-										legend: {
-											display: false,
+							{data && (
+								<Chart
+									type="line"
+									data={data}
+									options={{
+										plugins: {
+											legend: {
+												display: false,
+											},
+											title: {
+												display: true,
+												text: "Burndown / Runway",
+											},
 										},
-										title: {
-											display: true,
-											text: "Burndown / Runway",
-										},
-									},
-								}}
-							/>
+									}}
+								/>
+							)}
 						</Card>
 					</GridItem>
 
 					<GridItem minW="200px" area={"time"}>
 						<Card maxWidth="100%">
-							<Chart
-								type="line"
-								options={{
-									plugins: {
-										legend: {
-											display: false,
+							{line && (
+								<Chart
+									type="line"
+									options={{
+										plugins: {
+											legend: {
+												display: false,
+											},
+											title: {
+												display: true,
+												text: "Income, Expenses, Net Worth over time",
+											},
 										},
-										title: {
-											display: true,
-											text: "Income, Expenses, Net Worth over time",
-										},
-									},
-								}}
-								data={line}
-							/>
+									}}
+									data={line}
+								/>
+							)}
 						</Card>
 					</GridItem>
 					<GridItem minW="200px" area={"expenses"}>
 						<Card maxWidth="100%">
-							<Chart
-								type="bar"
-								options={{
-									plugins: {
-										legend: {
-											display: false,
+							{bar && (
+								<Chart
+									type="bar"
+									options={{
+										plugins: {
+											legend: {
+												display: false,
+											},
+											title: {
+												display: true,
+												text: "Expenses by Categories",
+											},
 										},
-										title: {
-											display: true,
-											text: "Expenses by Categories",
+										scales: {
+											x: {
+												stacked: true,
+											},
+											y: {
+												stacked: true,
+											},
 										},
-									},
-									scales: {
-										x: {
-											stacked: true,
-										},
-										y: {
-											stacked: true,
-										},
-									},
-								}}
-								data={bar}
-							/>
+									}}
+									data={bar}
+								/>
+							)}
 						</Card>
 					</GridItem>
 					<GridItem minW="200px" area={"incomePie"}>
 						<Card maxWidth="100%">
-							<Chart
-								type="pie"
-								options={{
-									plugins: {
-										legend: {
-											display: false,
+							{pie && (
+								<Chart
+									type="pie"
+									options={{
+										plugins: {
+											legend: {
+												display: false,
+											},
+											title: {
+												display: true,
+												position: "bottom",
+												text: "Income distribution",
+											},
 										},
-										title: {
-											display: true,
-											position: "bottom",
-											text: "Income distribution",
-										},
-									},
-								}}
-								data={pie}
-							/>
+									}}
+									data={pie}
+								/>
+							)}
 						</Card>
 					</GridItem>
 				</Grid>

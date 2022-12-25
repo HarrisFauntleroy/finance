@@ -10,5 +10,3 @@ export const AccountSelectSchema = Prisma.validator<Prisma.UserSelect>()({
 		},
 	},
 })
-
-/** Zod schemas for manipulating data */
