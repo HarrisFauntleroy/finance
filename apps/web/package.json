@@ -79,7 +79,7 @@
 	},
 	"dependencies": {
 		"@bull-board/api": "^4.7.0",
-		"@bull-board/express": "4.6.3",
+		"@bull-board/express": "4.9.0",
 		"@chakra-ui/icons": "2.0.14",
 		"@chakra-ui/react": "2.4.4",
 		"@chakra-ui/theme-tools": "2.0.14",
