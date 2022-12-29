@@ -4,10 +4,10 @@ export const NodeJsIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 74.375 85"
 		fill="#fff"
-		fill-rule="evenodd"
+		fillRule="evenodd"
 		stroke="#000"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 		{...props}
 	>
 		<path
