@@ -1,5 +1,5 @@
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -270,6 +270,7 @@ enum Category {
   SECURITY
   CREDIT_CARD
   CRYPTOCURRENCY
+  SUPERANNUATION
 }
 
 model UserCategory {

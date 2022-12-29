@@ -402,7 +402,8 @@ export const Category: {
   PROPERTY: 'PROPERTY',
   SECURITY: 'SECURITY',
   CREDIT_CARD: 'CREDIT_CARD',
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY'
+  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
+  SUPERANNUATION: 'SUPERANNUATION'
 };
 
 export type Category = (typeof Category)[keyof typeof Category]
