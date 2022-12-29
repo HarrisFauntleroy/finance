@@ -1,5 +1,11 @@
 version = 1
 
+exclude_patterns = [
+  "**/dist",
+  "**/generated",
+  "**/coverage"
+]
+
 [[analyzers]]
 name = "shell"
 enabled = true
@@ -10,3 +16,11 @@ enabled = true
 
   [analyzers.meta]
   plugins = ["react"]
+
+[[transformers]]
+name = "prettier"
+enabled = true
+
+[[transformers]]
+name = "standardjs"
+enabled = true
