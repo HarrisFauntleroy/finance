@@ -3,14 +3,14 @@ import { logger } from "common"
 export class Progress {
 	private total: number
 	private current: number
-	private progressBarLength: number = 20
+	private progressBarLength = 20
 
-	constructor(total: number, startAmount: number = 0) {
+	constructor(total: number, startAmount = 0) {
 		this.total = total
 		this.current = startAmount
 	}
 
-	public increment(amount: number = 1): void {
+	public increment(amount = 1): void {
 		this.current += amount
 		this.showProgress()
 	}

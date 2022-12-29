@@ -16,11 +16,11 @@ import {
 } from "database/generated/prisma-client"
 
 export class Swyftx {
-	private baseUrl: string = "https://api.swyftx.com.au"
-	private assetsUrl: string = "/markets/assets/"
-	private balanceUrl: string = "/user/balance/"
-	private historyUrl: string = "/history/all/type/assetId/"
-	private jwtUrl: string = "https://api.swyftx.com.au/auth/refresh/"
+	private baseUrl = "https://api.swyftx.com.au"
+	private assetsUrl = "/markets/assets/"
+	private balanceUrl = "/user/balance/"
+	private historyUrl = "/history/all/type/assetId/"
+	private jwtUrl = "https://api.swyftx.com.au/auth/refresh/"
 
 	constructor(private apiKey?: string) {}
 
