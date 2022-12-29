@@ -9,9 +9,7 @@ import { Grid, GridItem, Stack, useColorModeValue } from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
 import { RateType, calculateBurnDown } from "common"
 import { Chart } from "react-chartjs-2"
-import Card from "~/components/Cards"
-import MdViewer from "~/components/Markdown/Editor"
-import Page from "~/components/Page"
+import { Card, Page, MarkdownEditor } from "ui"
 import { useMockData } from "~/hooks/useMockData"
 import type { DefaultPage } from "~/pages/_app"
 
@@ -100,23 +98,21 @@ const Index: DefaultPage = () => {
 					<GridItem minW="200px" area={"runway"}>
 						<Card maxWidth="100%">
 							You will run out of money in {burnRate.length} days
-							{data && (
-								<Chart
-									type="line"
-									data={data}
-									options={{
-										plugins: {
-											legend: {
-												display: false,
-											},
-											title: {
-												display: true,
-												text: "Burndown / Runway",
-											},
+							<Chart
+								type="line"
+								data={data}
+								options={{
+									plugins: {
+										legend: {
+											display: false,
 										},
-									}}
-								/>
-							)}
+										title: {
+											display: true,
+											text: "Burndown / Runway",
+										},
+									},
+								}}
+							/>
 						</Card>
 					</GridItem>
 
@@ -193,7 +189,7 @@ const Index: DefaultPage = () => {
 						</Card>
 					</GridItem>
 				</Grid>
-				<MdViewer />
+				<MarkdownEditor />
 			</Stack>
 		</Page>
 	)

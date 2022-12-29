@@ -1,0 +1,65 @@
+{
+	"name": "ui",
+	"version": "1.0.1",
+	"private": true,
+	"license": "MIT",
+	"sideEffects": false,
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist/**"
+	],
+	"scripts": {
+		"build": "tsup src/index.ts --format esm,cjs --dts --external react",
+		"build-storybook": "build-storybook",
+		"clean": "rimraf .turbo node_modules dist",
+		"format": "prettier --write .",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"start": "NODE_ENV=production ts-node dist/index.js",
+		"storybook": "start-storybook -p 6006",
+		"test": "jest --passWithNoTests",
+		"test:ci": "yarn test --ci --coverage --maxWorkers=2",
+		"test:watch": "yarn test --watch",
+		"type-check": "tsc --noEmit"
+	},
+	"jest": {
+		"preset": "jest-presets/jest/node"
+	},
+	"dependencies": {
+		"@chakra-ui/react": "^2.4.5",
+		"currency.js": "^2.0.4",
+		"database": "*",
+		"prisma": "*",
+		"react-dom": "^18.2.0",
+		"zod": "^3.19.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.20.7",
+		"@storybook/addon-actions": "^6.5.15",
+		"@storybook/addon-essentials": "^6.5.15",
+		"@storybook/addon-interactions": "^6.5.15",
+		"@storybook/addon-links": "^6.5.15",
+		"@storybook/builder-webpack4": "^6.5.15",
+		"@storybook/manager-webpack4": "^6.5.15",
+		"@storybook/react": "^6.5.15",
+		"@storybook/testing-library": "^0.0.13",
+		"@types/jest": "29.2.2",
+		"@types/react": "^17.0.13",
+		"@types/react-dom": "^17.0.8",
+		"babel-loader": "^8.3.0",
+		"common": "*",
+		"config": "*",
+		"tsconfig": "*",
+		"eslint": "^8.12.0",
+		"eslint-plugin-storybook": "^0.6.8",
+		"jest": "^26.6.3",
+		"postcss": "^8.4.20",
+		"react": "^18.2.0",
+		"rimraf": "^3.0.2",
+		"tsup": "^5.11.13",
+		"tsx": "^3.7.1",
+		"typescript": "^4.5.5"
+	},
+	"packageManager": "yarn@1.22.19"
+}

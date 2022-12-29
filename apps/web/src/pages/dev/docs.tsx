@@ -3,7 +3,7 @@
  */
 import dynamic from "next/dynamic"
 import "swagger-ui-react/swagger-ui.css"
-import Page from "~/components/Page"
+import { Page } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const SwaggerUI = dynamic(() => import("swagger-ui-react"), {

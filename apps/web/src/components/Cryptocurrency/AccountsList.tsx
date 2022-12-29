@@ -15,12 +15,10 @@ import { useSession } from "next-auth/react"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
 import { PrivacyContext } from "~/components/AppContext/Privacy"
-import Card from "~/components/Cards"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { cryptoColumns } from "~/components/Cryptocurrency/columns"
-import { Loading } from "~/components/Loading"
-import { Table } from "~/components/Table"
+import { Loading, Table, Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const AccountsList = () => {

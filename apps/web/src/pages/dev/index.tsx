@@ -7,8 +7,7 @@ import React from "react"
 
 import { Stack } from "@chakra-ui/react"
 import Link from "next/link"
-import Page from "~/components/Page"
-import { Body } from "~/components/Page/Body"
+import { Body,Page } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const Index: DefaultPage = () => {

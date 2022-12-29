@@ -5,10 +5,7 @@
  */
 import React from "react"
 
-import type { Milestone } from "~/components/Cards/Milestones"
-import Milestones from "~/components/Cards/Milestones"
-import Page from "~/components/Page"
-import { Body } from "~/components/Page/Body"
+import { Body, Page, Milestones, type Milestone } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const Roadmap: DefaultPage = () => {

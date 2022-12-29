@@ -27,10 +27,7 @@ import {
 	percentageChange,
 } from "common"
 import currency from "currency.js"
-import { Accordion } from "~/components/Accordion"
-import Card from "~/components/Cards"
-import { Debug, inDev } from "~/components/Debug"
-import { Grid } from "~/components/Grid"
+import { Accordion, Card, Debug, inDev, Grid } from "ui"
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
 	<Card>

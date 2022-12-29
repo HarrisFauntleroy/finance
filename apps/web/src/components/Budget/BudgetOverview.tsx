@@ -2,7 +2,7 @@ import React from "react"
 
 import { Button, GridItem } from "@chakra-ui/react"
 import { Layout } from "~/components/Budget/Layout"
-import Card from "~/components/Cards"
+import { Card } from "ui"
 
 export const BudgetOverview = () => {
 	return (

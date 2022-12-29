@@ -2,8 +2,7 @@ import React from "react"
 
 import NextError from "next/error"
 import { useRouter } from "next/router"
-import { Debug } from "~/components/Debug"
-import Page from "~/components/Page"
+import { Debug, Page } from "ui"
 import { trpc } from "~/utils/trpc"
 
 function CryptocurrencyViewPage() {

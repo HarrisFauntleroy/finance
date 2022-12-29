@@ -7,8 +7,8 @@ import React from "react"
 
 import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
 import { Forex } from "~/components/Markets/Forex"
-import Page from "~/components/Page"
-import { Tabs } from "~/components/Tabs"
+import { Page } from "ui"
+import { Tabs } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const Markets: DefaultPage = () => {

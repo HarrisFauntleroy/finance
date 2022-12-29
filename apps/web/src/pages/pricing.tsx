@@ -5,9 +5,7 @@
  */
 import React from "react"
 
-import { PricingCard } from "~/components/Cards/Pricing"
-import Page from "~/components/Page"
-import { Body } from "~/components/Page/Body"
+import { Body, Page, PricingCard } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const Pricing: DefaultPage = () => {

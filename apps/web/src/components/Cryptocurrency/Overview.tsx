@@ -10,9 +10,8 @@ import {
 	Tr,
 } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
-import Card from "~/components/Cards"
 import Currency from "~/components/Currency"
-import { Loading } from "~/components/Loading"
+import { Loading, Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 function OverviewCard() {

@@ -7,7 +7,7 @@
 import type { PropsWithChildren } from "react"
 import React from "react"
 
-import useLocalStorage from "~/hooks/useLocalStorage"
+import { useLocalStorage } from "ui"
 
 type PrivacyContextType = {
 	privacy: boolean

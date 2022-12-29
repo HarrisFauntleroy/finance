@@ -25,8 +25,7 @@ import { Line, Pie } from "react-chartjs-2"
 import { Layout } from "~/components/Accounts/Layout"
 import OverviewCard from "~/components/Accounts/Overview"
 import { historySnapshotColumns } from "~/components/Accounts/columns"
-import Card from "~/components/Cards"
-import { Table } from "~/components/Table"
+import { Card, Table } from "ui"
 import { trpc } from "~/utils/trpc"
 
 ChartJs.Chart.register(

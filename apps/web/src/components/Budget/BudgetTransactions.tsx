@@ -6,10 +6,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi"
 import { PrivacyContext } from "~/components/AppContext/Privacy"
 import { BudgetForm } from "~/components/Budget/Form"
 import { budgetColumns } from "~/components/Budget/columns"
-import Card from "~/components/Cards"
-import { Loading } from "~/components/Loading"
-import { Table } from "~/components/Table"
-import { RenderSubComponent } from "~/components/Table/Filter"
+import { Table, Loading, Card, RenderSubComponent } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const BudgetTransactions = () => {

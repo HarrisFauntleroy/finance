@@ -1,6 +1,6 @@
 import React from "react"
 
-import Card from "~/components/Cards"
+import { Card } from "ui"
 
 export const BudgetPlanner = () => {
 	return <Card>CALENDER</Card>

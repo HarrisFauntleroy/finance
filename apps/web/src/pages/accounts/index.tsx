@@ -7,8 +7,7 @@ import React from "react"
 
 import { Text } from "@chakra-ui/react"
 import Link from "next/link"
-import Page from "~/components/Page"
-import { Tabs } from "~/components/Tabs"
+import { Page, Tabs } from "ui"
 import CryptoPage from "~/pages/accounts/cryptocurrency"
 import AccountsPage from "~/pages/accounts/overview"
 

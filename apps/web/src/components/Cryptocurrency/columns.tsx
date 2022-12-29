@@ -24,7 +24,7 @@ import { MdEdit } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import Currency from "~/components/Currency"
-import { Show } from "~/components/Show"
+import { Show } from "ui"
 
 /** Column definitions for crypto page */
 export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [

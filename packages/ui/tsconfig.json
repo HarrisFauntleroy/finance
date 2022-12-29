@@ -1,0 +1,15 @@
+{
+	"extends": "tsconfig/node16.json",
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"jsx": "react"
+	},
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"tsup.config.ts",
+		"../../apps/web/src/components/Table1D.tsx"
+	],
+	"exclude": ["node_modules"]
+}

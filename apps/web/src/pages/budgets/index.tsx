@@ -3,8 +3,7 @@ import React from "react"
 import { BudgetOverview } from "~/components/Budget/BudgetOverview"
 import { BudgetPlanner } from "~/components/Budget/BudgetPlanner"
 import { BudgetTransactions } from "~/components/Budget/BudgetTransactions"
-import Page from "~/components/Page"
-import { Tabs } from "~/components/Tabs"
+import { Tabs, Page } from "ui"
 
 function Budgets() {
 	const tabData = [

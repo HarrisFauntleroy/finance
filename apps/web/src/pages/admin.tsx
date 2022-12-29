@@ -18,11 +18,7 @@ import {
 	StatNumber,
 	Text,
 } from "@chakra-ui/react"
-import { LogChart } from "~/components/Admin/LogChart"
-import Card from "~/components/Cards"
-import { Grid } from "~/components/Grid"
-import MdViewer from "~/components/Markdown/Editor"
-import Page from "~/components/Page"
+import { Page, Card, Grid, MarkdownEditor } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
 
@@ -54,7 +50,7 @@ const Index: DefaultPage = () => {
 			<Stack alignItems="center" padding="16px">
 				<Heading>Admin dashboard</Heading>
 				Hello
-				<MdViewer />
+				<MarkdownEditor />
 				<Text textAlign="left" width="100%" fontSize="2xl">
 					Stats
 				</Text>
@@ -193,7 +189,6 @@ const Index: DefaultPage = () => {
 						</List>
 					</Card>
 				))}
-				<LogChart />
 			</Stack>
 		</Page>
 	)
