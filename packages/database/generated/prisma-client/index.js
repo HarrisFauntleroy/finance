@@ -449,7 +449,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql",
+  "activeProvider": "cockroachdb",
   "dataProxy": false
 }
 config.document = dmmf

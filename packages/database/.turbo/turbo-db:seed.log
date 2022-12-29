@@ -1,2 +1,23 @@
-[34mdatabase:db:seed[0m: cache hit, replaying output [2m912d4e375fd7681a[0m
-[34mdatabase:db:seed: [0m$ tsx src/seed.ts
+[32mdatabase:db:seed[0m: cache hit, replaying output [2m68b6807c47f38c4b[0m
+[32mdatabase:db:seed: [0m$ tsx src/seed.ts
+[32mdatabase:db:seed: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658
+[32mdatabase:db:seed: [0m      throw new PrismaClientKnownRequestError(message, error2.code, this.client._clientVersion, error2.meta);
+[32mdatabase:db:seed: [0m            ^
+[32mdatabase:db:seed: [0m
+[32mdatabase:db:seed: [0mError: 
+[32mdatabase:db:seed: [0mInvalid `prisma.user.upsert()` invocation:
+[32mdatabase:db:seed: [0m
+[32mdatabase:db:seed: [0m
+[32mdatabase:db:seed: [0m  The table `public.User` does not exist in the current database.
+[32mdatabase:db:seed: [0m    at RequestHandler.handleRequestError (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658:13)
+[32mdatabase:db:seed: [0m    at RequestHandler.request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28640:12)
+[32mdatabase:db:seed: [0m    at null.consumer (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29618:18)
+[32mdatabase:db:seed: [0m    at PrismaClient._request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29639:16)
+[32mdatabase:db:seed: [0m    at async Promise.all (index 0)
+[32mdatabase:db:seed: [0m    at null.<anonymous> (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/src/seed.ts:19:3) {
+[32mdatabase:db:seed: [0m  code: 'P2021',
+[32mdatabase:db:seed: [0m  clientVersion: '4.1.1',
+[32mdatabase:db:seed: [0m  meta: { table: 'public.User' }
+[32mdatabase:db:seed: [0m}
+[32mdatabase:db:seed: [0merror Command failed with exit code 1.
+[32mdatabase:db:seed: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
