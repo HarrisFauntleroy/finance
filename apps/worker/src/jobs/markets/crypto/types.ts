@@ -1,3 +1,5 @@
+import { Decimal } from "database/generated/prisma-client/runtime"
+
 export type CoinGeckoResponse = {
 	id: string
 	symbol: string
@@ -25,4 +27,17 @@ export type CoinGeckoResponse = {
 	atl_date: string
 	roi: undefined
 	last_updated: string
+}
+
+export interface ParsedCrypto {
+	name: string
+	type: "CRYPTOCURRENCY"
+	ticker: string
+	currency: string
+	price: Decimal
+	priceChange24h: Decimal
+	priceChange24hPercent: Decimal
+	image: string
+	marketCap: Decimal
+	marketCapRank: Decimal
 }

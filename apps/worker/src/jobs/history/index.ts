@@ -2,7 +2,6 @@ import { Progress } from "../../util"
 import { calculateCryptoTotals } from "./cryptocurrency"
 import { prisma } from "database"
 import { Decimal } from "database/generated/prisma-client/runtime"
-import ProgressBar from "progress"
 
 export const history = async () => {
 	/** Get userId of signed in user */
@@ -14,7 +13,7 @@ export const history = async () => {
 
 	const progress = new Progress(users.length)
 
-	progress.start()
+	progress.start("History")
 
 	const results: { user?: string; status: string }[] = []
 
@@ -57,5 +56,7 @@ export const history = async () => {
 		})
 	)
 
-	return `Snapshot: ${new Date()}`
+	progress.stop("History")
+
+	return new Date()
 }

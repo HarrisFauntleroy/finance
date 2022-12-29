@@ -131,6 +131,7 @@ export type Cryptocurrency = {
  * 
  */
 export type Market = {
+  id: string
   name: string
   ticker: string
   description: string | null
@@ -8493,6 +8494,7 @@ export namespace Prisma {
   }
 
   export type MarketMinAggregateOutputType = {
+    id: string | null
     name: string | null
     ticker: string | null
     description: string | null
@@ -8511,6 +8513,7 @@ export namespace Prisma {
   }
 
   export type MarketMaxAggregateOutputType = {
+    id: string | null
     name: string | null
     ticker: string | null
     description: string | null
@@ -8529,6 +8532,7 @@ export namespace Prisma {
   }
 
   export type MarketCountAggregateOutputType = {
+    id: number
     name: number
     ticker: number
     description: number
@@ -8565,6 +8569,7 @@ export namespace Prisma {
   }
 
   export type MarketMinAggregateInputType = {
+    id?: true
     name?: true
     ticker?: true
     description?: true
@@ -8583,6 +8588,7 @@ export namespace Prisma {
   }
 
   export type MarketMaxAggregateInputType = {
+    id?: true
     name?: true
     ticker?: true
     description?: true
@@ -8601,6 +8607,7 @@ export namespace Prisma {
   }
 
   export type MarketCountAggregateInputType = {
+    id?: true
     name?: true
     ticker?: true
     description?: true
@@ -8712,6 +8719,7 @@ export namespace Prisma {
 
 
   export type MarketGroupByOutputType = {
+    id: string
     name: string
     ticker: string
     description: string | null
@@ -8749,6 +8757,7 @@ export namespace Prisma {
 
 
   export type MarketSelect = {
+    id?: boolean
     name?: boolean
     ticker?: boolean
     description?: boolean
@@ -8848,8 +8857,8 @@ export namespace Prisma {
      * // Get first 10 Markets
      * const markets = await prisma.market.findMany({ take: 10 })
      * 
-     * // Only select the `name`
-     * const marketWithNameOnly = await prisma.market.findMany({ select: { name: true } })
+     * // Only select the `id`
+     * const marketWithIdOnly = await prisma.market.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends MarketFindManyArgs>(
@@ -20546,6 +20555,7 @@ export namespace Prisma {
 
 
   export const MarketScalarFieldEnum: {
+    id: 'id',
     name: 'name',
     ticker: 'ticker',
     description: 'description',
@@ -21248,6 +21258,7 @@ export namespace Prisma {
     AND?: Enumerable<MarketWhereInput>
     OR?: Enumerable<MarketWhereInput>
     NOT?: Enumerable<MarketWhereInput>
+    id?: StringFilter | string
     name?: StringFilter | string
     ticker?: StringFilter | string
     description?: StringNullableFilter | string | null
@@ -21267,6 +21278,7 @@ export namespace Prisma {
   }
 
   export type MarketOrderByWithRelationInput = {
+    id?: SortOrder
     name?: SortOrder
     ticker?: SortOrder
     description?: SortOrder
@@ -21286,11 +21298,12 @@ export namespace Prisma {
   }
 
   export type MarketWhereUniqueInput = {
-    ticker?: string
+    id?: string
     name_ticker_type?: MarketNameTickerTypeCompoundUniqueInput
   }
 
   export type MarketOrderByWithAggregationInput = {
+    id?: SortOrder
     name?: SortOrder
     ticker?: SortOrder
     description?: SortOrder
@@ -21317,6 +21330,7 @@ export namespace Prisma {
     AND?: Enumerable<MarketScalarWhereWithAggregatesInput>
     OR?: Enumerable<MarketScalarWhereWithAggregatesInput>
     NOT?: Enumerable<MarketScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     ticker?: StringWithAggregatesFilter | string
     description?: StringNullableWithAggregatesFilter | string | null
@@ -22743,6 +22757,7 @@ export namespace Prisma {
   }
 
   export type MarketCreateInput = {
+    id?: string
     name: string
     ticker: string
     description?: string | null
@@ -22762,6 +22777,7 @@ export namespace Prisma {
   }
 
   export type MarketUncheckedCreateInput = {
+    id?: string
     name: string
     ticker: string
     description?: string | null
@@ -22781,6 +22797,7 @@ export namespace Prisma {
   }
 
   export type MarketUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22800,6 +22817,7 @@ export namespace Prisma {
   }
 
   export type MarketUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22819,6 +22837,7 @@ export namespace Prisma {
   }
 
   export type MarketCreateManyInput = {
+    id?: string
     name: string
     ticker: string
     description?: string | null
@@ -22837,6 +22856,7 @@ export namespace Prisma {
   }
 
   export type MarketUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22855,6 +22875,7 @@ export namespace Prisma {
   }
 
   export type MarketUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24567,6 +24588,7 @@ export namespace Prisma {
   }
 
   export type MarketCountOrderByAggregateInput = {
+    id?: SortOrder
     name?: SortOrder
     ticker?: SortOrder
     description?: SortOrder
@@ -24593,6 +24615,7 @@ export namespace Prisma {
   }
 
   export type MarketMaxOrderByAggregateInput = {
+    id?: SortOrder
     name?: SortOrder
     ticker?: SortOrder
     description?: SortOrder
@@ -24611,6 +24634,7 @@ export namespace Prisma {
   }
 
   export type MarketMinOrderByAggregateInput = {
+    id?: SortOrder
     name?: SortOrder
     ticker?: SortOrder
     description?: SortOrder
@@ -27511,6 +27535,7 @@ export namespace Prisma {
   }
 
   export type MarketCreateWithoutCryptocurrencyInput = {
+    id?: string
     name: string
     ticker: string
     description?: string | null
@@ -27529,6 +27554,7 @@ export namespace Prisma {
   }
 
   export type MarketUncheckedCreateWithoutCryptocurrencyInput = {
+    id?: string
     name: string
     ticker: string
     description?: string | null
@@ -27713,6 +27739,7 @@ export namespace Prisma {
   }
 
   export type MarketUpdateWithoutCryptocurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27731,6 +27758,7 @@ export namespace Prisma {
   }
 
   export type MarketUncheckedUpdateWithoutCryptocurrencyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null

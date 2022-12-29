@@ -1,12 +1,11 @@
 import { Progress } from "../../util"
-import { logger } from "common"
 import { prisma } from "database"
 import { subDays } from "date-fns"
 
 export const cleaner = async () => {
 	const progress = new Progress(4)
 
-	progress.start()
+	progress.start("Cleaner")
 
 	const sevenDaysAgo = subDays(new Date(), 7)
 
@@ -57,7 +56,7 @@ export const cleaner = async () => {
 	})
 
 	progress.increment()
-	progress.stop()
+	progress.stop("Cleaner")
 
-	return `Delete queue: ${new Date()}`
+	return new Date()
 }

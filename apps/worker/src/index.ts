@@ -183,7 +183,6 @@ app.post(
 )
 
 app.listen(process.env.WORKER_PORT, () => {
-	logger.info(process.env.OER_APP_ID)
 	console.log(`Running on ${process.env.WORKER_PORT}...`)
 	console.log(
 		`For the UI, open http://localhost:${process.env.WORKER_PORT}/admin/queues`

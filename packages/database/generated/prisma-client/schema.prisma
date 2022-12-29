@@ -116,7 +116,7 @@ model Cryptocurrency {
   marketId  String?
   userId    String
   parentId  String?
-  market    Market?          @relation(fields: [marketId], references: [ticker], onDelete: NoAction)
+  market    Market?          @relation(fields: [marketId], references: [id], onDelete: NoAction)
   parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
@@ -127,8 +127,9 @@ model Cryptocurrency {
 }
 
 model Market {
+  id                    String           @id @unique @default(cuid())
   name                  String
-  ticker                String           @unique
+  ticker                String
   description           String?
   currency              String
   price                 Decimal          @default(0)

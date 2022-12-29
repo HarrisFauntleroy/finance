@@ -62,7 +62,7 @@ export async function updateEtherumBalances() {
 	})
 
 	const progress = new Progress(cryptocurrencies.length)
-	progress.start()
+	progress.start("Ethereum")
 
 	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
@@ -88,5 +88,7 @@ export async function updateEtherumBalances() {
 		progress.increment()
 	}
 
-	progress.stop()
+	progress.stop("Ethereum")
+
+	return new Date()
 }

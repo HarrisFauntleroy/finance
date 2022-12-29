@@ -15,12 +15,12 @@ export class Progress {
 		this.showProgress()
 	}
 
-	public start(): void {
-		logger.info("Starting...")
+	public start(label?: string): void {
+		logger.info(`Starting... ${label}`)
 	}
 
-	public stop(): void {
-		logger.info("Finished...")
+	public stop(label?: string): void {
+		logger.info(`Finished... ${label}`)
 	}
 
 	private showProgress(): void {

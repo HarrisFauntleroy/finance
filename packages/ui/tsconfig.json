@@ -9,7 +9,9 @@
 		"**/*.ts",
 		"**/*.tsx",
 		"tsup.config.ts",
-		"../../apps/web/src/components/Table1D.tsx"
+		"../../apps/web/src/components/Table1D.tsx",
+		"src/components/Accordion/Accordion.stories.mdx",
+		"src/components/Accordion/Accordion.stories.mdx"
 	],
 	"exclude": ["node_modules"]
 }

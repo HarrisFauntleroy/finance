@@ -1,7 +1,7 @@
-import { updateMarketsCrypto } from "./crypto"
+import { updateCryptoMarkets } from "./crypto"
 import { updateExchangeRates } from "./exchangeRates"
 
 export const markets = async () => {
 	await updateExchangeRates()
-	await updateMarketsCrypto()
+	await updateCryptoMarkets()
 }

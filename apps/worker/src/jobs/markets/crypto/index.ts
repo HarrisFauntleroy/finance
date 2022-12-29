@@ -5,66 +5,103 @@
  *
  */
 import { Progress, toDecimal } from "../../../util"
-import { CoinGeckoResponse } from "./types"
+import { CoinGeckoResponse, ParsedCrypto } from "./types"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 
-class MarketUpdater {
+export class MarketUpdater {
+	private baseUrl = "https://api.coingecko.com/api/v3"
 	private baseCurrency = "USD"
+	private resultsPerPage = 200
+	private pages = 10
 
-	public async upsertCryptoMarkets(response: CoinGeckoResponse[]) {
-		response
-			.map((crypto) => ({
-				name: crypto.id,
+	private async fetchFromCoingecko(page: number): Promise<CoinGeckoResponse[]> {
+		return axios
+			.get(this.baseUrl + "/coins/markets", {
+				params: {
+					vs_currency: this.baseCurrency,
+					order: "market_cap_desc",
+					per_page: this.resultsPerPage,
+					page: page,
+					sparkline: false,
+				},
+				headers: {
+					"Accept-Encoding": "application/json",
+				},
+			})
+			.then((res) => res.data)
+			.catch(logger.error)
+	}
+
+	public parseExchangeRateResponse(
+		response: CoinGeckoResponse[]
+	): ParsedCrypto[] {
+		return response?.map(
+			({
+				id,
+				symbol,
+				current_price,
+				price_change_24h,
+				price_change_percentage_24h,
+				image,
+				market_cap,
+				market_cap_rank,
+			}) => ({
+				name: id,
 				type: MarketType.CRYPTOCURRENCY,
-				ticker: crypto.symbol,
+				ticker: symbol,
 				currency: this.baseCurrency.toLowerCase(),
-				price: toDecimal(crypto.current_price).toDecimalPlaces(10),
-				priceChange24h: toDecimal(crypto.price_change_24h),
-				priceChange24hPercent: toDecimal(crypto.price_change_percentage_24h),
-				image: crypto.image,
-				marketCap: toDecimal(crypto.market_cap),
-				marketCapRank: toDecimal(crypto.market_cap_rank),
-				description: "",
-			}))
-			.forEach((parsed) =>
-				prisma.market
-					.upsert({
-						where: { ticker: parsed.ticker },
-						create: parsed,
-						update: parsed,
-					})
-					.catch(() => logger.error("error", parsed.ticker))
-			)
+				price: toDecimal(current_price).toDecimalPlaces(10),
+				priceChange24h: toDecimal(price_change_24h),
+				priceChange24hPercent: toDecimal(price_change_percentage_24h),
+				image: image,
+				marketCap: toDecimal(market_cap),
+				marketCapRank: toDecimal(market_cap_rank),
+			})
+		)
+	}
+
+	private async upsertCryptoMarkets(response: CoinGeckoResponse[]) {
+		const parsed = this.parseExchangeRateResponse(response)
+
+		for await (let crypto of parsed) {
+			await prisma.market
+				.upsert({
+					where: {
+						name_ticker_type: {
+							name: crypto.name,
+							ticker: crypto.ticker,
+							type: MarketType.CRYPTOCURRENCY,
+						},
+					},
+					create: crypto,
+					update: crypto,
+				})
+				.catch((err) => logger.error("error", crypto.ticker + " " + err))
+		}
 	}
 
 	// Method to update the markets for cryptocurrencies
-	public async updateMarketsCrypto() {
-		const resultsPerPage = 500
-		const pages = 10
+	public async updateCryptoMarkets() {
+		const progress = new Progress(this.pages)
+		progress.start("Cryptocurrency")
 
-		const progress = new Progress(resultsPerPage * pages)
-
-		progress.start()
-
-		const getUrl = (page: number) =>
-			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.baseCurrency}&order=market_cap_desc&per_page=${resultsPerPage}&page=${page}&sparkline=false`
-
-		for (let page = pages; page > 0; page--) {
-			progress.increment(resultsPerPage)
-			const markets = await axios.get(getUrl(page)).then(({ data }) => data)
+		for (let page = this.pages; page > 0; page--) {
+			const markets = await this.fetchFromCoingecko(page)
 
 			await this.upsertCryptoMarkets(markets)
+			progress.increment()
 		}
-		progress.stop()
-		return `Crypto: ${new Date()}`
+
+		progress.stop("Cryptocurrency")
+		return new Date()
 	}
 }
 
 const marketUpdater = new MarketUpdater()
 
-export const updateMarketsCrypto = async () => {
-	return marketUpdater.updateMarketsCrypto()
+export const updateCryptoMarkets = async () => {
+	return marketUpdater.updateCryptoMarkets().catch(logger.error)
 }

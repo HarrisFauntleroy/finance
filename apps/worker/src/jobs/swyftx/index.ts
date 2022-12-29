@@ -187,14 +187,16 @@ export const swyftx = async () => {
 		})
 		.then((secrets) => {
 			const progress = new Progress(secrets.length)
-			progress.start()
+			progress.start("Swyftx")
 
 			const promises = secrets.map((secret) => {
 				updateOneUser(secret).then(() => progress.increment())
 			})
 
 			Promise.all(promises).then(() => progress.stop())
+
+			progress.stop("Swyftx")
 		})
 
-	return `Swyftx: ${new Date()}`
+	return new Date()
 }

@@ -174,6 +174,7 @@ exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
 });
 
 exports.Prisma.MarketScalarFieldEnum = makeEnum({
+  id: 'id',
   name: 'name',
   ticker: 'ticker',
   description: 'description',

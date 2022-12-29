@@ -11,79 +11,95 @@ interface OpenExchangeRatesResponse {
 	name: string
 }
 
-const baseUrl = "https://openexchangerates.org/api"
+class MarketUpdater {
+	private baseUrl = "https://openexchangerates.org/api"
 
-export const fetchFromOpenExchangeRates = (url: string) =>
-	axios
-		.get(baseUrl + url, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Token ${process.env.OER_APP_ID}`,
-			},
-		})
-		.then(({ data }) => data)
-		.catch(console.error)
+	private parseExchangeRateResponse(
+		exchangeRates: OpenExchangeRatesResponse[]
+	) {
+		return exchangeRates.map(({ name, id, price }) => ({
+			name: String(name),
+			type: MarketType.CASH,
+			ticker: String(id).toLowerCase(),
+			currency: String(id).toLowerCase(),
+			price: new Decimal(String(price)),
+		}))
+	}
 
-export const upsertManyMarkets = (data: OpenExchangeRatesResponse[]) => {
-	const progress = new Progress(data.length)
+	private async upsertExchangeRates(
+		exchangeRates: OpenExchangeRatesResponse[]
+	) {
+		const progress = new Progress(exchangeRates.length)
+		progress.start("Exchange Rates")
+		const parsed = this.parseExchangeRateResponse(exchangeRates)
 
-	progress.start()
-
-	Promise.all(
-		data.map(async (response) => {
-			progress.increment()
-			const parsed = {
-				name: String(response?.name),
-				type: MarketType.CASH,
-				ticker: String(response?.id).toLowerCase(),
-				currency: String(response?.id),
-				price: new Decimal(String(response?.price)),
-			}
+		for await (const cash of parsed) {
 			await prisma.market
 				.upsert({
 					where: {
 						name_ticker_type: {
-							name: parsed.name,
-							ticker: parsed.ticker,
+							name: cash?.name,
+							ticker: cash?.ticker,
 							type: MarketType.CASH,
 						},
 					},
-					create: parsed,
-					update: parsed,
+					create: cash,
+					update: cash,
 				})
-				.catch(logger.error)
-		})
-	)
-		.then(() => progress.stop())
-		.catch(logger.error)
+				.then(() => progress.increment())
+				.catch((err) => logger.error("error", cash.ticker + " " + err))
+		}
+
+		progress.stop("Exchange Rates")
+	}
+
+	private async fetchFromOpenExchangeRates(url: string) {
+		return axios
+			.get(this.baseUrl + url, {
+				headers: {
+					"Accept-Encoding": "application/json",
+					"Content-Type": "application/json",
+					Authorization: `Token ${process.env.OER_APP_ID}`,
+				},
+			})
+			.then(({ data }) => data)
+			.catch(logger.error)
+	}
+
+	// Method to update the markets for cryptocurrencies
+	public async updateExchangeRates() {
+		try {
+			// Get currency names and tickers
+			const name = await this.fetchFromOpenExchangeRates(
+				"/currencies.json?show_alternative=false"
+			)
+			// Get exchange rates using USD as base
+			const exchange = await this.fetchFromOpenExchangeRates(
+				"/latest.json?show_alternative=false"
+			)
+
+			delete exchange.disclaimer
+			delete exchange.license
+
+			const exchangeRates: OpenExchangeRatesResponse[] = Object.entries(
+				exchange?.rates || {}
+			).map(([id, price]) => ({
+				id,
+				price,
+				name: name[id],
+			}))
+
+			await this.upsertExchangeRates(exchangeRates)
+		} catch (error) {
+			logger.error("Exchange Rates: ", error)
+		}
+
+		return new Date()
+	}
 }
 
+const marketUpdater = new MarketUpdater()
+
 export const updateExchangeRates = async () => {
-	try {
-		logger.info("Starting updateExchangeRates")
-		// Get currency names and tickers
-		const name = await fetchFromOpenExchangeRates(
-			"/currencies.json?show_alternative=false"
-		)
-		// Get exchange rates using USD as base
-		const exchange = await fetchFromOpenExchangeRates(
-			"/latest.json?show_alternative=false"
-		)
-
-		delete exchange.disclaimer
-		delete exchange.license
-
-		const latest: OpenExchangeRatesResponse[] = Object.entries(
-			exchange.rates
-		).map(([id, price]) => ({
-			id,
-			price,
-			name: name[id],
-		}))
-
-		await upsertManyMarkets(latest)
-	} catch (error) {
-		logger.error(error)
-	}
-	return `Forex: ${new Date()}`
+	return marketUpdater.updateExchangeRates()
 }
