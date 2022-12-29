@@ -3,7 +3,7 @@ import React from "react"
 import { Flex, Progress, ProgressLabel, Stack, Text } from "@chakra-ui/react"
 import { whatPercentOfXIsY } from "common"
 import { useSession } from "next-auth/react"
-import { Loading, Card } from "ui"
+import { Card, Loading } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const Targets = () => {

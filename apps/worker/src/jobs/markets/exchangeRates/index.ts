@@ -1,9 +1,9 @@
+import { Progress } from "../../../util"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
-import { Progress } from "../../../util"
 
 interface OpenExchangeRatesResponse {
 	id: string

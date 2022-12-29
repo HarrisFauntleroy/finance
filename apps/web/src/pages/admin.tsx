@@ -18,7 +18,7 @@ import {
 	StatNumber,
 	Text,
 } from "@chakra-ui/react"
-import { Page, Card, Grid, MarkdownEditor } from "ui"
+import { Card, Grid, MarkdownEditor, Page } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
 

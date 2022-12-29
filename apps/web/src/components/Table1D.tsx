@@ -9,7 +9,7 @@ interface Table1DProps {
 
 export const Table1D = ({ data }: Table1DProps) => {
 	return (
-        <TableContainer>
+		<TableContainer>
 			<Table variant="simple" size="sm">
 				<Tbody>
 					{data?.map((item) => (
@@ -29,5 +29,5 @@ export const Table1D = ({ data }: Table1DProps) => {
 				</Tbody>
 			</Table>
 		</TableContainer>
-    );
+	)
 }

@@ -14,11 +14,11 @@ import type { CalculatedCryptocurrency } from "common"
 import { useSession } from "next-auth/react"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
+import { Card, Loading, Table } from "ui"
 import { PrivacyContext } from "~/components/AppContext/Privacy"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { cryptoColumns } from "~/components/Cryptocurrency/columns"
-import { Loading, Table, Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const AccountsList = () => {

@@ -10,9 +10,9 @@ import {
 	Th,
 	Tr,
 } from "@chakra-ui/react"
+import { Card } from "ui"
 import Currency from "~/components/Currency"
 import type { RouterOutput } from "~/utils/trpc"
-import { Card } from "ui"
 
 interface OverviewProps {
 	data?: RouterOutput["accounts"]["byUserId"]

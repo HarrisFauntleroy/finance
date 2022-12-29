@@ -5,7 +5,7 @@
  */
 import React from "react"
 
-import { Body, Page, Milestones, type Milestone } from "ui"
+import { Body, type Milestone, Milestones, Page } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 
 const Roadmap: DefaultPage = () => {

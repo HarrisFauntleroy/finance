@@ -5,18 +5,18 @@
  */
 import { Icon } from "@chakra-ui/react"
 import {
-	type Feature,
-	GithubIcon,
-	TypescriptIcon,
-	RedisIcon,
-	Page,
 	Body,
 	DirectHitIcon,
-	PostgresIcon,
+	type Feature,
+	Features,
+	GithubIcon,
 	JestIcon,
 	NodeJsIcon,
+	Page,
+	PostgresIcon,
 	ReactIcon,
-	Features,
+	RedisIcon,
+	TypescriptIcon,
 } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 

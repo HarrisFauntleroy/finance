@@ -5,10 +5,10 @@
  */
 import React from "react"
 
-import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
-import { Forex } from "~/components/Markets/Forex"
 import { Page } from "ui"
 import { Tabs } from "ui"
+import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
+import { Forex } from "~/components/Markets/Forex"
 import type { DefaultPage } from "~/pages/_app"
 
 const Markets: DefaultPage = () => {

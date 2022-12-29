@@ -16,7 +16,7 @@ import { logger } from "common"
 import type { Budget } from "database/generated/prisma-client"
 import { useSession } from "next-auth/react"
 import { useForm } from "react-hook-form"
-import { Drawer, Debug, TextInput } from "ui"
+import { Debug, Drawer, TextInput } from "ui"
 import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
 

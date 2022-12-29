@@ -14,8 +14,8 @@ import {
 } from "@chakra-ui/react"
 import currency from "currency.js"
 import { useSession } from "next-auth/react"
+import { Card, Loading } from "ui"
 import Currency from "~/components/Currency"
-import { Loading, Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 function IncomeOverviewCard() {

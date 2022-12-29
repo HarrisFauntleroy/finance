@@ -9,7 +9,7 @@ import { Grid, GridItem, Stack, useColorModeValue } from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
 import { RateType, calculateBurnDown } from "common"
 import { Chart } from "react-chartjs-2"
-import { Card, Page, MarkdownEditor } from "ui"
+import { Card, MarkdownEditor, Page } from "ui"
 import { useMockData } from "~/hooks/useMockData"
 import type { DefaultPage } from "~/pages/_app"
 

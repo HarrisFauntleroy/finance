@@ -27,7 +27,7 @@ import {
 	percentageChange,
 } from "common"
 import currency from "currency.js"
-import { Accordion, Card, Debug, inDev, Grid } from "ui"
+import { Accordion, Card, Debug, Grid, inDev } from "ui"
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
 	<Card>
