@@ -10,11 +10,10 @@ module.exports = {
 	experimental: {
 		// Required:
 		appDir: true,
-		esmExternals: "loose"
+		esmExternals: "loose",
 	},
 	webpack: (config) => {
 		config.module.rules.push({
-
 			test: /prisma-client\/index\.js$/,
 			loader: "string-replace-loader",
 			options: {
