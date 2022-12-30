@@ -71,6 +71,45 @@ const Index: DefaultPage = () => {
 	const bar = useMockData("bar")
 	const pie = useMockData("pie")
 
+	// const features: Feature[] = [
+	// 	{
+	// 		heading: "Net worth calculator",
+	// 		content:
+	// 			"Track your net worth over time for an overall view of your progress towards your goals",
+	// 		icon: <Icon as={MdTrendingUp} height={8} width={8} />,
+	// 	},
+	// 	{
+	// 		heading: "Crypto portfolio tracker",
+	// 		content:
+	// 			"Track your current portfolio from the comfort of your personal finance app",
+	// 		icon: <Icon as={BsCurrencyBitcoin} height={8} width={8} />,
+	// 	},
+	// 	{
+	// 		heading: "Multi currency support",
+	// 		content:
+	// 			"Track every dollar, euro and yen and see it all add up in your home currency.",
+	// 		icon: <Icon as={BsCurrencyExchange} height={8} width={8} />,
+	// 	},
+	// 	{
+	// 		heading: "API Included",
+	// 		content:
+	// 			"A convenient API allows us to extend our services beyond this site. Monitor your portfolio, track market movements and much more.",
+	// 		icon: <Icon as={BsTerminal} height={8} width={8} />,
+	// 	},
+	// 	{
+	// 		heading: "Budgeting",
+	// 		content:
+	// 			"Making a personal budget is easy. Sticking to it is the hard part. We help you do both!",
+	// 		icon: <Icon as={MdSavings} height={8} width={8} />,
+	// 	},
+	// 	{
+	// 		heading: "Security",
+	// 		content:
+	// 			"Stay secure with two-factor authentication and data encryption at rest",
+	// 		icon: <Icon as={LockIcon} height={8} width={8} />,
+	// 	},
+	// ]
+
 	return (
 		<Page title="Home" gap="8px">
 			<Stack alignItems="center" padding="16px">

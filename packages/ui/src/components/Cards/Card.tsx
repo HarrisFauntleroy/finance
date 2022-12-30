@@ -1,8 +1,7 @@
 /**
  * Generic Card
  */
-import type { PropsWithChildren, ReactNode } from "react"
-import React from "react"
+import React, { type ReactNode } from "react"
 
 import type { GridItemProps } from "@chakra-ui/react"
 import { GridItem, useColorModeValue } from "@chakra-ui/react"

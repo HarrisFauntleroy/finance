@@ -4,42 +4,25 @@
  *	Checks if user is logged in before allowing access to page
  *
  */
-import React, { useEffect, useMemo } from "react"
+import type { ReactNode } from "react"
+import { Fragment } from "react"
+import React, { useEffect } from "react"
 
-import { Button, Center, CircularProgress, useToast } from "@chakra-ui/react"
+import {
+	Button,
+	Center,
+	Progress,
+	Stack,
+	Text,
+	useToast,
+} from "@chakra-ui/react"
 import { Role } from "database/generated/prisma-client"
 import type { NextPageContext } from "next"
-import { getSession, signIn, signOut, useSession } from "next-auth/react"
+import { getSession, signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
-import { defaultToast } from "~/utils/toast"
-
-/** Loading component for the authorization flow */
-function AuthLoading() {
-	return (
-		<Center
-			position="fixed"
-			minWidth="100vw"
-			minHeight="100vh"
-			background="transparent"
-			top={0}
-			left={0}
-		>
-			<CircularProgress isIndeterminate size="64px" thickness="8px" />
-		</Center>
-	)
-}
-
-enum Status {
-	AUTHENTICATED = "authenticated",
-	UNAUTHENTICATED = "unauthenticated",
-	NO_ROLE = "role-not-found",
-	LOADING = "loading",
-}
 
 type AuthProps = {
-	children:
-		| React.ReactElement<unknown, string | React.JSXElementConstructor<unknown>>
-		| undefined
+	children?: ReactNode
 	// An array of roles from the current page
 	roles?: Role[]
 }
@@ -50,84 +33,68 @@ export const getServerSideProps = async (context: NextPageContext) => ({
 	},
 })
 
+const SignInButton = () => (
+	<Button variant="link" onClick={() => signIn()} textDecoration="underline">
+		Please sign in to continue
+	</Button>
+)
+
 function Auth({ children, roles }: AuthProps) {
-	const { data: session, status } = useSession({ required: true })
-
 	const toast = useToast()
-
 	const router = useRouter()
+	const { data: session, status } = useSession({
+		required: true,
+	})
 
-	const loading = status === Status.LOADING
+	const loading = status === "loading"
 
-	const role = useMemo(
-		() => session?.user.role || Role.USER,
-		[session?.user.role]
-	)
+	const role = session?.user.role || Role.USER
+	const rolesArray = roles || [Role.USER]
+	const roleAllowed = rolesArray.includes(role) || role === Role.ADMIN
 
-	/** Prevent roles being undefined, as not every page should need to define roles */
-	const rolesArray = useMemo(() => roles || [Role.USER], [roles])
-
-	/** Is user role found in roles array  */
-	const roleAllowed = useMemo(
-		() => rolesArray.includes(role) || role === Role.ADMIN,
-		[role, rolesArray]
-	)
-
-	/** Session found and not loading */
 	const hasSession = !loading && session
-
-	/** Session found and role allowed */
+	// For a user to have a required role, they must have a session
 	const hasRequiredRole = hasSession && roleAllowed
+	// If role is required, user must have required role
+	// Otherwise just a session is required
+	const authorized = role ? hasRequiredRole : hasSession
 
-	/** Authorized (Has session, role if required) */
-	const authorized = useMemo(() => {
-		/** Check role if one is provided */
-		if (role) {
-			/** Checks both session and role */
-			return hasRequiredRole
-		}
-
-		/** Just checks session */
-		return hasSession
-	}, [role, hasSession, hasRequiredRole])
-
-	/**
-	 * Redirect anyone out of pages they shouldn't be in
-	 */
 	useEffect(() => {
-		if (!(authorized || loading)) {
-			router.push("/")
+		const id = "authentication-toast"
+		const showToast = () => {
+			if (!toast.isActive(id))
+				toast({
+					id,
+					title: "Session not found",
+					description: <SignInButton />,
+					status: "warning",
+					duration: null,
+					position: "bottom",
+					variant: "subtle",
+				})
 		}
-	}, [authorized, loading, router])
 
-	/** Loading state */
-	if (loading) {
-		return <AuthLoading />
-	}
+		if (!authorized) {
+			if (!hasSession) {
+				showToast()
+			} else {
+				router.push("/")
+			}
+		}
+	}, [authorized, hasSession, router, toast])
 
-	if (!hasSession) {
-		toast({
-			title: (
-				<Button
-					onClick={
-						session ? () => signOut({ callbackUrl: "/" }) : () => signIn()
-					}
-				>
-					Please sign in to continue
-				</Button>
-			),
-			status: "info",
-			...defaultToast,
-		})
-	}
-
-	/** Show content if auth checks pass */
 	if (authorized && children) {
-		return children
+		return <Fragment>{children}</Fragment>
 	}
 
-	return null
-	/** If all else fails return nothing */
+	return (
+		<Center height="100%">
+			<Stack>
+				<Text>Looking for sessions</Text>
+				<Progress isIndeterminate />
+			</Stack>
+		</Center>
+	)
 }
 
 export default Auth

@@ -12,10 +12,10 @@
 	"scripts": {
 		"build": "tsup src/index.ts --format esm,cjs --dts --external react",
 		"build-storybook": "build-storybook",
-		"dev": "start-storybook -p 6006",
 		"clean": "rimraf .turbo node_modules dist",
+		"dev": "start-storybook -p 6006",
 		"format": "prettier --write .",
-		"lint": "eslint .",
+		"lint": "next lint",
 		"lint:fix": "eslint . --fix",
 		"start": "NODE_ENV=production ts-node dist/index.js",
 		"storybook": "start-storybook -p 6006",
@@ -43,15 +43,28 @@
 			"^.+\\.(t|j)s$": "ts-jest"
 		}
 	},
-	"engines": {
-		"node": "16"
-	},
 	"dependencies": {
 		"@chakra-ui/react": "^2.4.5",
+		"@choc-ui/chakra-autocomplete": "^5.1.4",
+		"@tanstack/match-sorter-utils": "^8.7.2",
+		"@tanstack/react-table": "^8.7.4",
+		"autoprefixer": "^10.4.13",
+		"chakra-ui-steps": "^1.8.0",
+		"common": "*",
 		"currency.js": "^2.0.4",
 		"database": "*",
+		"katex": "^0.16.4",
+		"next": "^13.1.1",
 		"prisma": "*",
+		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.41.2",
+		"react-icons": "^4.7.1",
+		"react-markdown": "^8.0.4",
+		"rehype-katex": "^6.0.2",
+		"remark-gfm": "^3.0.1",
+		"remark-math": "^5.1.1",
+		"tsup": "^6.5.0",
 		"zod": "^3.19.1"
 	},
 	"devDependencies": {
@@ -68,18 +81,19 @@
 		"@types/react": "^17.0.13",
 		"@types/react-dom": "^17.0.8",
 		"babel-loader": "^8.3.0",
-		"common": "*",
 		"config": "*",
-		"tsconfig": "*",
 		"eslint": "^8.12.0",
+		"eslint-plugin-react": "^7.31.11",
 		"eslint-plugin-storybook": "^0.6.8",
 		"jest": "^26.6.3",
 		"postcss": "^8.4.20",
-		"react": "^18.2.0",
 		"rimraf": "^3.0.2",
-		"tsup": "^5.11.13",
+		"tsconfig": "*",
 		"tsx": "^3.7.1",
-		"typescript": "^4.5.5"
+		"typescript": "4.7.4"
 	},
-	"packageManager": "yarn@1.22.19"
+	"packageManager": "yarn@1.22.19",
+	"engines": {
+		"node": "16"
+	}
 }

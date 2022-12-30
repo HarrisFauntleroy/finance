@@ -2,6 +2,7 @@ import React from "react"
 
 import type { UseDisclosureProps } from "@chakra-ui/react"
 import { Drawer, DrawerContent, DrawerOverlay } from "@chakra-ui/react"
+import type { Role } from "database/generated/prisma-client"
 import type { IconType } from "react-icons"
 import { SidebarContent } from "~/components/Sidebar/SidebarContent"
 
@@ -9,6 +10,7 @@ export interface SidebarLink {
 	href: string
 	icon: IconType
 	label: string
+	role?: Role
 }
 
 interface SidebarProps extends Omit<UseDisclosureProps, "isOpen" | "onClose"> {

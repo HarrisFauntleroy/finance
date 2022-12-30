@@ -4,10 +4,10 @@ export const GithubIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 148.744 150.744"
 		fill="#fff"
-		fill-rule="evenodd"
+		fillRule="evenodd"
 		stroke="#000"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 		{...props}
 	>
 		<path

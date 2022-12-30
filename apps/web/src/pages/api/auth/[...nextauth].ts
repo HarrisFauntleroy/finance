@@ -57,10 +57,7 @@ export const authOptions: NextAuthOptions = {
 	},
 	events: {
 		async createUser({ user }) {
-			/**
-			 * Create a default settings for user if they dont have one
-			 * TODO: Find locale from browser?
-			 */
+			/** Create a default settings for user if they dont have one */
 			await prisma.settings.create({
 				data: {
 					userId: user.id,

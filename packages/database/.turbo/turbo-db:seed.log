@@ -1,23 +1,23 @@
-[32mdatabase:db:seed[0m: cache hit, replaying output [2m57acaae00704ef86[0m
-[32mdatabase:db:seed: [0m$ tsx src/seed.ts
-[32mdatabase:db:seed: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658
-[32mdatabase:db:seed: [0m      throw new PrismaClientKnownRequestError(message, error2.code, this.client._clientVersion, error2.meta);
-[32mdatabase:db:seed: [0m            ^
-[32mdatabase:db:seed: [0m
-[32mdatabase:db:seed: [0mError: 
-[32mdatabase:db:seed: [0mInvalid `prisma.cryptocurrency.upsert()` invocation:
-[32mdatabase:db:seed: [0m
-[32mdatabase:db:seed: [0m
-[32mdatabase:db:seed: [0m  Foreign key constraint failed on the field: `Cryptocurrency_marketId_fkey (index)`
-[32mdatabase:db:seed: [0m    at RequestHandler.handleRequestError (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658:13)
-[32mdatabase:db:seed: [0m    at RequestHandler.request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28640:12)
-[32mdatabase:db:seed: [0m    at null.consumer (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29618:18)
-[32mdatabase:db:seed: [0m    at PrismaClient._request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29639:16)
-[32mdatabase:db:seed: [0m    at async Promise.all (index 6)
-[32mdatabase:db:seed: [0m    at null.<anonymous> (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/src/seed.ts:197:3) {
-[32mdatabase:db:seed: [0m  code: 'P2003',
-[32mdatabase:db:seed: [0m  clientVersion: '4.1.1',
-[32mdatabase:db:seed: [0m  meta: { field_name: 'Cryptocurrency_marketId_fkey (index)' }
-[32mdatabase:db:seed: [0m}
-[32mdatabase:db:seed: [0merror Command failed with exit code 1.
-[32mdatabase:db:seed: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+[33mdatabase:db:seed[0m: cache hit, replaying output [2m69182d84b7bcf183[0m
+[33mdatabase:db:seed: [0m$ tsx src/seed.ts
+[33mdatabase:db:seed: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658
+[33mdatabase:db:seed: [0m      throw new PrismaClientKnownRequestError(message, error2.code, this.client._clientVersion, error2.meta);
+[33mdatabase:db:seed: [0m            ^
+[33mdatabase:db:seed: [0m
+[33mdatabase:db:seed: [0mError: 
+[33mdatabase:db:seed: [0mInvalid `prisma.cryptocurrency.upsert()` invocation:
+[33mdatabase:db:seed: [0m
+[33mdatabase:db:seed: [0m
+[33mdatabase:db:seed: [0m  Foreign key constraint failed on the field: `Cryptocurrency_marketId_fkey (index)`
+[33mdatabase:db:seed: [0m    at RequestHandler.handleRequestError (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28658:13)
+[33mdatabase:db:seed: [0m    at RequestHandler.request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:28640:12)
+[33mdatabase:db:seed: [0m    at null.consumer (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29618:18)
+[33mdatabase:db:seed: [0m    at PrismaClient._request (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js:29639:16)
+[33mdatabase:db:seed: [0m    at async Promise.all (index 0)
+[33mdatabase:db:seed: [0m    at null.<anonymous> (/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/src/seed.ts:195:3) {
+[33mdatabase:db:seed: [0m  code: 'P2003',
+[33mdatabase:db:seed: [0m  clientVersion: '4.1.1',
+[33mdatabase:db:seed: [0m  meta: { field_name: 'Cryptocurrency_marketId_fkey (index)' }
+[33mdatabase:db:seed: [0m}
+[33mdatabase:db:seed: [0merror Command failed with exit code 1.
+[33mdatabase:db:seed: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

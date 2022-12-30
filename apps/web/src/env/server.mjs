@@ -7,17 +7,17 @@
 import { env as clientEnv, formatErrors } from "./client.mjs"
 import { serverSchema } from "./schema.mjs"
 
-const _serverEnv = serverSchema.safeParse(process.env)
+const SERVER_ENV = serverSchema.safeParse(process.env)
 
-if (!_serverEnv.success) {
+if (!SERVER_ENV.success) {
 	console.error(
 		"❌ Invalid environment variables:\n",
-		...formatErrors(_serverEnv.error.format())
+		...formatErrors(SERVER_ENV.error.format())
 	)
 	throw new Error("Invalid environment variables")
 }
 
-for (let key of Object.keys(_serverEnv.data)) {
+for (let key of Object.keys(SERVER_ENV.data)) {
 	if (key.startsWith("NEXT_PUBLIC_")) {
 		console.warn("❌ You are exposing a server-side env-variable:", key)
 
@@ -25,4 +25,4 @@ for (let key of Object.keys(_serverEnv.data)) {
 	}
 }
 
-export const env = { ..._serverEnv.data, ...clientEnv }
+export const env = { ...SERVER_ENV.data, ...clientEnv }

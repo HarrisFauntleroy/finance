@@ -1,4 +1,4 @@
-import React, { type SVGProps } from "react"
+import React from "react"
 
 import type { IconProps } from "@chakra-ui/react"
 import { Icon } from "@chakra-ui/react"

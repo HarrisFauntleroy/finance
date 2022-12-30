@@ -1,0 +1,2 @@
+[36mcommon:lint:fix[0m: cache hit, replaying output [2m6e7c74feabdd301e[0m
+[36mcommon:lint:fix: [0m$ eslint . --fix

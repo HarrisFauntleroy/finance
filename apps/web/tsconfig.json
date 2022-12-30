@@ -7,13 +7,6 @@
 			"~/*": ["src/*"]
 		}
 	},
-	"include": [
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.stories.jsx",
-		"public/icons/countries/test.js",
-		"public/icons/countries/index.mjs"
-	],
-	"exclude": ["node_modules"]
+	"include": ["**/*.js", "**/*.ts", "**/*.tsx", "**/*.stories.jsx"],
+	"exclude": ["**/node_modules"]
 }

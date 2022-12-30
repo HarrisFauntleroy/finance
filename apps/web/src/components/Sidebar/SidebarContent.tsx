@@ -10,6 +10,7 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react"
 import Image from "next/image"
+import Link from "next/link"
 import type { SidebarLink } from "~/components/Sidebar"
 import { SidebarItem } from "~/components/Sidebar/SidebarItem"
 
@@ -39,32 +40,37 @@ export function SidebarContent({
 			w={{ base: 0, sm: "64px", md: "200px" }}
 			{...props}
 		>
-			<Center
-				height="64px"
-				justifyContent={{
-					base: drawer ? "left" : "center",
-					sm: drawer ? "left" : "center",
-				}}
-			>
-				<Image src="/images/logodark.png" height="32" width="32" alt="logo" />
-				<Text
-					ml="2"
-					fontSize="2xl"
-					fontWeight="semibold"
-					display={{ sm: "none", md: "unset" }}
+			<Link href="/">
+				<Center
+					height="64px"
+					justifyContent={{
+						base: drawer ? "left" : "center",
+						sm: drawer ? "left" : "center",
+					}}
 				>
-					Elixir Money
-				</Text>
-			</Center>
+					<Image src="/images/logodark.png" height="32" width="32" alt="logo" />
+
+					<Text
+						ml="2"
+						fontSize="2xl"
+						fontWeight="semibold"
+						display={{ sm: "none", md: "unset" }}
+					>
+						Elixir Money
+					</Text>
+				</Center>
+			</Link>
+
 			<Divider />
 			<Stack as="nav" aria-label="Main Navigation">
-				{links?.map(({ href, icon, label }) => (
+				{links?.map(({ href, icon, label, role }) => (
 					<SidebarItem
 						key={href}
 						href={href}
 						icon={icon}
 						label={label}
 						drawer={drawer}
+						role={role}
 					/>
 				))}
 			</Stack>

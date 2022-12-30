@@ -4,10 +4,10 @@ export const TypescriptIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 85 85"
 		fill="#fff"
-		fill-rule="evenodd"
+		fillRule="evenodd"
 		stroke="#000"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 		{...props}
 	>
 		<path

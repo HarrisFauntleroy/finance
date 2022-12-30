@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { type InputHTMLAttributes } from "react"
-import { useEffect, useState } from "react"
+import React from "react"
 
 import { Debug } from "../Debug"
-import { CloseIcon } from "@chakra-ui/icons"
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react"
 import { rankItem } from "@tanstack/match-sorter-utils"
 import type { Column, FilterFn, Row, Table } from "@tanstack/react-table"
 

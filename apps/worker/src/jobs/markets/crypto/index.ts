@@ -49,6 +49,7 @@ export class MarketUpdater {
 				market_cap,
 				market_cap_rank,
 			}) => ({
+				id: `${id}_${symbol}_${MarketType.CRYPTOCURRENCY}`,
 				name: id,
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: symbol,

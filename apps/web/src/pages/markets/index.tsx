@@ -21,6 +21,14 @@ const Markets: DefaultPage = () => {
 			title: "Forex",
 			page: <Forex />,
 		},
+		{
+			title: "Compare",
+			page: <Forex />,
+		},
+		{
+			title: "Insights",
+			page: <Forex />,
+		},
 	]
 
 	return (
@@ -30,5 +38,5 @@ const Markets: DefaultPage = () => {
 	)
 }
 
-Markets.auth = true
+Markets.auth = false
 export default Markets

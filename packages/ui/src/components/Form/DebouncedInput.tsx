@@ -1,4 +1,5 @@
-import React, { InputHTMLAttributes, useEffect, useState } from "react"
+import type { InputHTMLAttributes } from "react"
+import React, { useEffect, useState } from "react"
 
 import { useDebounce } from "../../hooks/useDebounce"
 import { Input } from "@chakra-ui/react"
@@ -14,7 +15,7 @@ export function DebouncedInput({
 	debounce?: number
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "onChange">) {
 	const [value, setValue] = useState(initialValue)
-	const [debouncedValue, setDebouncedValue] = useDebounce(value, debounce)
+	const [debouncedValue] = useDebounce(value, debounce)
 
 	useEffect(() => {
 		setValue(initialValue)
