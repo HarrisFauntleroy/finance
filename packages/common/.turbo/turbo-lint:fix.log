@@ -1,2 +1,2 @@
-[36mcommon:lint:fix[0m: cache hit, replaying output [2m6e7c74feabdd301e[0m
-[36mcommon:lint:fix: [0m$ eslint . --fix
+[35mcommon:lint:fix[0m: cache hit, replaying output [2m48a44f6849456eec[0m
+[35mcommon:lint:fix: [0m$ eslint . --fix

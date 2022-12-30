@@ -7,6 +7,12 @@
 			"~/*": ["src/*"]
 		}
 	},
-	"include": ["**/*.js", "**/*.ts", "**/*.tsx", "**/*.stories.jsx"],
+	"include": [
+		"**/*.config.js",
+		"**/*.js",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.stories.jsx"
+	],
 	"exclude": ["**/node_modules"]
 }

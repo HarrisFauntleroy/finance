@@ -2,7 +2,6 @@ import type { FC, ReactElement, ReactNode } from "react"
 
 import SEO from "../../next-seo.config"
 import { trpc } from "../utils/trpc"
-import Auth from "./auth"
 import type { Role } from "database/generated/prisma-client"
 import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
@@ -10,6 +9,7 @@ import { DefaultSeo } from "next-seo"
 import type { AppProps } from "next/dist/shared/lib/router/router"
 import { AppContext } from "~/components/AppContext"
 import Layout from "~/components/DefaultLayout"
+import Auth from "./auth"
 
 interface WithLayout {
 	getLayout?: (page: ReactElement | JSX.Element) => ReactNode
