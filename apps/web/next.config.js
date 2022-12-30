@@ -13,7 +13,6 @@ module.exports = {
 	},
 	webpack: (config) => {
 		config.module.rules.push({
-
 			test: /prisma-client\/index\.js$/,
 			loader: "string-replace-loader",
 			options: {

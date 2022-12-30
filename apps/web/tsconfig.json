@@ -1,28 +1,24 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "~/*": [
-        "src/*"
-      ]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "**/*.config.js",
-    "**/*.js",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.stories.jsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "**/node_modules"
-  ]
+	"extends": "tsconfig/nextjs.json",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": "./",
+		"paths": {
+			"~/*": ["src/*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	},
+	"include": [
+		"**/*.config.js",
+		"**/*.js",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.stories.jsx",
+		".next/types/**/*.ts"
+	],
+	"exclude": ["**/node_modules"]
 }
