@@ -1,6 +1,6 @@
-[34mdatabase:lint[0m: cache hit, replaying output [2m269c4d69cf5d8b5a[0m
-[34mdatabase:lint: [0m$ next lint
-[34mdatabase:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/.env
-[34mdatabase:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
-[34mdatabase:lint: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-[34mdatabase:lint: [0merror Command failed with exit code 1.
+[35mdatabase:lint[0m: cache hit, replaying output [2ma0dd8fae8dea5f58[0m
+[35mdatabase:lint: [0m$ next lint
+[35mdatabase:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/.env
+[35mdatabase:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
+[35mdatabase:lint: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+[35mdatabase:lint: [0merror Command failed with exit code 1.

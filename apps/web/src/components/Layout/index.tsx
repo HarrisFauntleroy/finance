@@ -20,9 +20,9 @@ import {
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
-import Footer from "~/components/Footer"
-import Header from "~/components/Header"
-import Sidebar from "~/components/Sidebar"
+import Footer from "~/components/Layout/Footer"
+import Header from "~/components/Layout/Header"
+import Sidebar from "~/components/Layout/Sidebar"
 
 export default function Layout({ children }: PropsWithChildren) {
 	const disclosure = useDisclosure()

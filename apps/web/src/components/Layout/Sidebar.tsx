@@ -4,7 +4,7 @@ import type { UseDisclosureProps } from "@chakra-ui/react"
 import { Drawer, DrawerContent, DrawerOverlay } from "@chakra-ui/react"
 import type { Role } from "database/generated/prisma-client"
 import type { IconType } from "react-icons"
-import { SidebarContent } from "~/components/Sidebar/SidebarContent"
+import { SidebarContent } from "~/components/Layout/SidebarContent"
 
 export interface SidebarLink {
 	href: string

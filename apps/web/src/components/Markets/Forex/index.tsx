@@ -14,7 +14,7 @@ import Link from "next/link"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
 import { Card, Loading, Table } from "ui"
-import { PrivacyContext } from "~/components/AppContext/Privacy"
+import { PrivacyContext } from "~/components/Context/Privacy"
 import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
 

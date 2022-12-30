@@ -1,4 +1,3 @@
-[36mui:lint[0m: cache hit, replaying output [2m02f0c93f09902c3b[0m
-[36mui:lint: [0mwarning package.json: "dependencies" has dependency "tsup" with range "^6.5.0" that collides with a dependency in "devDependencies" of the same name with version "^5.11.13"
-[36mui:lint: [0m$ next lint
-[36mui:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
+[32mui:lint[0m: cache hit, replaying output [2mf19442dfe67bafe7[0m
+[32mui:lint: [0m$ next lint
+[32mui:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
