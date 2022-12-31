@@ -145,7 +145,7 @@ model Market {
   deleted               Boolean          @default(false)
   deletedAt             DateTime?
 
-  @@unique([name, ticker, type])
+  @@unique([ticker, type])
 }
 
 model Income {

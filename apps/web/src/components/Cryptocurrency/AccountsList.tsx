@@ -14,7 +14,7 @@ import type { CalculatedCryptocurrency } from "common"
 import { useSession } from "next-auth/react"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
-import { Card, Loading, Table } from "ui"
+import { Card, Table } from "ui"
 import { PrivacyContext } from "~/components/Context/Privacy"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import TableSubComponent from "~/components/Cryptocurrency/SubRow"
@@ -27,13 +27,9 @@ export const AccountsList = () => {
 
 	const { privacy, togglePrivacy } = useContext(PrivacyContext)
 
-	const { data, status } = trpc.cryptocurrency.byUserId.useQuery({
+	const { data } = trpc.cryptocurrency.byUserId.useQuery({
 		userId: userId || "",
 	})
-
-	if (status === "loading") {
-		return <Loading />
-	}
 
 	return (
 		<Card>

@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 import { HStack, IconButton, Skeleton, Text } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import { FiEye, FiEyeOff } from "react-icons/fi"
-import { Card, Loading, RenderSubComponent, Table } from "ui"
+import { Card, RenderSubComponent, Table } from "ui"
 import { PrivacyContext } from "~/components/Context/Privacy"
 import { BudgetForm } from "~/components/Budget/Form"
 import { budgetColumns } from "~/components/Budget/columns"
@@ -16,13 +16,9 @@ export const BudgetTransactions = () => {
 
 	const { privacy, togglePrivacy } = useContext(PrivacyContext)
 
-	const { data, status: budgetStatus } = trpc.budget.byUserId.useQuery({
+	const { data } = trpc.budget.byUserId.useQuery({
 		userId: userId || "",
 	})
-
-	if (budgetStatus === "loading") {
-		return <Loading />
-	}
 
 	return (
 		<Card>

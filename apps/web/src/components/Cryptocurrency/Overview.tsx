@@ -10,7 +10,7 @@ import {
 	Tr,
 } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
-import { Card, Loading } from "ui"
+import { Card } from "ui"
 import Currency from "~/components/Currency"
 import { trpc } from "~/utils/trpc"
 
@@ -18,13 +18,9 @@ function OverviewCard() {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data, status } = trpc.cryptocurrency.overviewByUserId.useQuery({
+	const { data } = trpc.cryptocurrency.overviewByUserId.useQuery({
 		userId: userId || "",
 	})
-
-	if (status === "loading") {
-		return <Loading />
-	}
 
 	return (
 		<Card>

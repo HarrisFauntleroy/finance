@@ -36,11 +36,10 @@ export const marketsRouter = router({
 			})
 		)
 		.mutation(async ({ input }) => {
-			const { name, ticker, type, data } = input
+			const { ticker, type, data } = input
 			return prisma.market.update({
 				where: {
-					name_ticker_type: {
-						name,
+					ticker_type: {
 						ticker,
 						type,
 					},
@@ -61,8 +60,7 @@ export const marketsRouter = router({
 		.mutation(async ({ input }) => {
 			return prisma.market.update({
 				where: {
-					name_ticker_type: {
-						name: input.name,
+					ticker_type: {
 						ticker: input.ticker,
 						type: input.type,
 					},
@@ -103,8 +101,7 @@ export const marketsRouter = router({
 			const { name, ticker, type } = input
 			const market = await prisma.market.findUnique({
 				where: {
-					name_ticker_type: {
-						name,
+					ticker_type: {
 						ticker,
 						type,
 					},

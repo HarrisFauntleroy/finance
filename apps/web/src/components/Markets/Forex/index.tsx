@@ -13,7 +13,7 @@ import NextError from "next/error"
 import Link from "next/link"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
-import { Card, Loading, Table } from "ui"
+import { Card, Table } from "ui"
 import { PrivacyContext } from "~/components/Context/Privacy"
 import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
@@ -24,7 +24,7 @@ export const Forex = () => {
 	/** Toasts */
 	const toast = useToast()
 
-	const { data, error, status } = trpc.markets.forex.useQuery()
+	const { data, error } = trpc.markets.forex.useQuery()
 	if (error) {
 		return (
 			<NextError
@@ -34,9 +34,6 @@ export const Forex = () => {
 		)
 	}
 
-	if (status !== "success") {
-		return <Loading />
-	}
 	return (
 		<Stack>
 			<Card>

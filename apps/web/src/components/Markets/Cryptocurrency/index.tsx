@@ -12,7 +12,7 @@ import NextError from "next/error"
 import Link from "next/link"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdRefresh } from "react-icons/md"
-import { Card, Loading, Table } from "ui"
+import { Card, Table } from "ui"
 import { PrivacyContext } from "~/components/Context/Privacy"
 import { cryptocurrencyColumns } from "~/components/Markets/Cryptocurrency/columns"
 import { defaultToast } from "~/utils/toast"
@@ -24,7 +24,7 @@ export const Cryptocurrency = () => {
 	/** Toasts */
 	const toast = useToast()
 
-	const { data, error, status } = trpc.markets.cryptocurrency.useQuery()
+	const { data, error } = trpc.markets.cryptocurrency.useQuery()
 
 	if (error) {
 		return (
@@ -35,9 +35,6 @@ export const Cryptocurrency = () => {
 		)
 	}
 
-	if (status !== "success") {
-		return <Loading />
-	}
 	return (
 		<Stack>
 			<Card>

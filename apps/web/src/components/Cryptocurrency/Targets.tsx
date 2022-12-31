@@ -3,7 +3,7 @@ import React from "react"
 import { Flex, Progress, ProgressLabel, Stack, Text } from "@chakra-ui/react"
 import { whatPercentOfXIsY } from "common"
 import { useSession } from "next-auth/react"
-import { Card, Loading } from "ui"
+import { Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const Targets = () => {
@@ -14,14 +14,9 @@ export const Targets = () => {
 	const userId = session?.data?.userId
 
 	// Use the trpc hook to make a query for the user's cryptocurrency targets
-	const { data, status } = trpc.cryptocurrency.targets.useQuery({
+	const { data } = trpc.cryptocurrency.targets.useQuery({
 		userId: userId || "",
 	})
-
-	// If the query is still loading, show a loading component
-	if (status === "loading") {
-		return <Loading />
-	}
 
 	// When the query is finished, render the targets in a card
 	return (

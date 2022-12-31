@@ -37,8 +37,7 @@ class MarketUpdater {
 			await prisma.market
 				.upsert({
 					where: {
-						name_ticker_type: {
-							name: cash?.name,
+						ticker_type: {
 							ticker: cash?.ticker,
 							type: MarketType.CASH,
 						},

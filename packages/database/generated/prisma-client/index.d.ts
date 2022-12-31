@@ -21299,7 +21299,7 @@ export namespace Prisma {
 
   export type MarketWhereUniqueInput = {
     id?: string
-    name_ticker_type?: MarketNameTickerTypeCompoundUniqueInput
+    ticker_type?: MarketTickerTypeCompoundUniqueInput
   }
 
   export type MarketOrderByWithAggregationInput = {
@@ -24581,8 +24581,7 @@ export namespace Prisma {
     not?: NestedEnumMarketTypeFilter | MarketType
   }
 
-  export type MarketNameTickerTypeCompoundUniqueInput = {
-    name: string
+  export type MarketTickerTypeCompoundUniqueInput = {
     ticker: string
     type: MarketType
   }

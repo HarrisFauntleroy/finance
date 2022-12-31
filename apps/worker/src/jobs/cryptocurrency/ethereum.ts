@@ -8,7 +8,7 @@ import Web3 from "web3"
 dotenv.config()
 
 const web3 = new Web3(
-	new Web3.providers.HttpProvider(String(process.env.INFURA_API))
+	new Web3.providers.HttpProvider("https://rpc.ankr.com/eth")
 )
 
 export async function getBalance(walletAddress: string): Promise<string> {
@@ -50,7 +50,7 @@ export async function updateEtherumBalances() {
 			market: {
 				type: MarketType.CRYPTOCURRENCY,
 			},
-			marketId: "eth",
+			marketId: "eth_CRYPTOCURRENCY",
 			walletAddress: {
 				not: null,
 			},
@@ -67,12 +67,21 @@ export async function updateEtherumBalances() {
 	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
 		// Get the account balance and linked transactions
-		// (I'm assuming here that you already have functions to do this)
 		const balance = await getBalance(cryptocurrency.walletAddress as string)
 
 		// const transactions = await getTransactionHistory(
 		// 	cryptocurrency.walletAddress as string
 		// )
+
+		// const tokenAddresses = Object.values(tokens).map((token) => token.address)
+
+		// for (let tokenAddress of tokenAddresses) {
+		// 	const contract = new web3.eth.Contract(AbiIte, tokenAddress)
+		// 	const tokenBalance = await contract.methods
+		// 		.balanceOf(cryptocurrency.walletAddress)
+		// 		.call()
+		// 	logger.info(tokenBalance)
+		// }
 
 		// Update the cryptocurrency in the database with the new balance and transactions
 		await prisma.cryptocurrency.update({

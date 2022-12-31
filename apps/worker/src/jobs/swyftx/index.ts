@@ -8,30 +8,37 @@ import {
 	Transaction,
 } from "./types"
 import axios from "axios"
-import { logger } from "common"
+import { logger, mapWithMatchingData } from "common"
 import { prisma } from "database"
 import {
 	AccountConnection,
 	Cryptocurrency,
+	MarketType,
 } from "database/generated/prisma-client"
+import dotenv from "dotenv"
 
-const baseSwyftxApiUrl = "https://api.swyftx.com.au"
-const assetsUrl = "/markets/assets/"
-const balanceUrl = "/user/balance/"
-const historyUrl = "/history/all/type/assetId/"
-const jwtUrl = "https://api.swyftx.com.au/auth/refresh/"
+dotenv.config()
+
+const endpoint = {
+	base: "https://api.swyftx.com.au",
+	assets: "/markets/assets/",
+	balance: "/user/balance/",
+	history: "/history/all/type/assetId/",
+	jwt: "https://api.swyftx.com.au/auth/refresh/",
+}
 
 const refreshSwyftxToken = async (apiKey: string) => {
 	try {
-		const myHeaders = {
-			"Content-Type": "application/x-www-form-urlencoded",
-		}
 		const data = `apiKey=${apiKey}`
-
-		const response = await axios.post(jwtUrl, data, { headers: myHeaders })
+		const response = await axios.post(endpoint.jwt, data, {
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+				"Accept-Encoding": "application/json",
+			},
+		})
 		return response.data
-	} catch (error) {
-		console.error(error)
+	} catch (err) {
+		logger.error("refreshSwyftxToken")
 	}
 }
 
@@ -39,17 +46,17 @@ const fetchFromSwyftx = async (url: string, accessToken: string) => {
 	const body = JSON.stringify({ apiKey: process.env.SWYFTX_API_KEY })
 
 	try {
-		const response = await axios.get(baseSwyftxApiUrl + url, {
+		const response = await axios.get(endpoint.base + url, {
 			headers: {
 				"Content-Type": "application/json",
+				"Accept-Encoding": "application/json",
 				Authorization: `Bearer ${accessToken}`,
 			},
 			data: body,
 		})
 		return response.data
 	} catch (err) {
-		// You could log the error message here
-		console.error(err)
+		logger.error("fetchFromSwyftx")
 	}
 }
 
@@ -60,14 +67,17 @@ const getSwyftxAccount = async ({
 	const { accessToken }: SwyftxJWT = await refreshSwyftxToken(String(apiKey))
 
 	const assetsList: SwyftxAsset[] = await fetchFromSwyftx(
-		assetsUrl,
+		endpoint.assets,
 		accessToken
 	)
 
-	const rawBalance: Balance[] = await fetchFromSwyftx(balanceUrl, accessToken)
+	const rawBalance: Balance[] = await fetchFromSwyftx(
+		endpoint.balance,
+		accessToken
+	)
 
 	const transactions: Transaction[] = await fetchFromSwyftx(
-		historyUrl,
+		endpoint.history,
 		accessToken
 	)
 
@@ -106,97 +116,100 @@ const getSwyftxAccount = async ({
 	}
 }
 
-export const swyftx = async () => {
-	const updateOneUser = async (secrets: {
-		apiKey: string | null
-		id: string
-		userId: string
-		apiSecret: string | null
-	}) => {
-		const accounts = await getSwyftxAccount(secrets)
+const updateOneUser = async (secrets: {
+	apiKey: string | null
+	id: string
+	userId: string
+	apiSecret: string | null
+}) => {
+	const accounts = await getSwyftxAccount(secrets)
 
-		const formattedData = accounts?.balance.map(
-			({
-				name,
-				availableBalance,
-				stakingBalance,
-				marketId,
-			}): Omit<
-				Cryptocurrency,
-				"createdAt" | "updatedAt" | "id" | "currency" | "deleted" | "deletedAt"
-			> => {
-				return {
-					userId: secrets.userId,
-					displayName: name,
-					parentId: secrets?.id,
-					marketId: marketId.toLowerCase(),
-					interestBearingBalance: toDecimal(stakingBalance),
-					balance: toDecimal(availableBalance),
-					costBasis: toDecimal(0),
-					targetBalance: toDecimal(0),
-					rateOfIncome: toDecimal(0),
-					realisedGain: toDecimal(0),
-					apiKey: "",
-					apiSecret: "",
-					walletAddress: "",
-					accountConnection: "NONE",
-				}
-			}
-		)
-
-		const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
-			where: {
+	const formattedData = accounts?.balance.map(
+		({
+			name,
+			availableBalance,
+			stakingBalance,
+			marketId,
+		}): Omit<
+			Cryptocurrency,
+			"createdAt" | "updatedAt" | "id" | "currency" | "deleted" | "deletedAt"
+		> => {
+			return {
 				userId: secrets.userId,
-				accountConnection: AccountConnection.SWYFTX,
-			},
-			select: {
-				id: true,
-				Children: {
-					select: {
-						id: true,
-						marketId: true,
-					},
+				displayName: name,
+				parentId: secrets?.id,
+				marketId: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+				interestBearingBalance: toDecimal(stakingBalance),
+				balance: toDecimal(availableBalance),
+				costBasis: toDecimal(0),
+				targetBalance: toDecimal(0),
+				rateOfIncome: toDecimal(0),
+				realisedGain: toDecimal(0),
+				apiKey: "",
+				apiSecret: "",
+				walletAddress: "",
+				accountConnection: "NONE",
+			}
+		}
+	)
+
+	logger.info(formattedData)
+
+	const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
+		where: {
+			userId: secrets.userId,
+			accountConnection: AccountConnection.SWYFTX,
+		},
+		select: {
+			id: true,
+			Children: {
+				select: {
+					id: true,
+					marketId: true,
 				},
 			},
-		})
+		},
+	})
 
-		formattedData?.map(async (crypto) => {
-			const existingCrypto = Children.find(
-				(child) => child.marketId === crypto.marketId
-			)
-			if (existingCrypto?.id)
-				prisma.cryptocurrency
-					.update({
-						where: { id: existingCrypto?.id },
-						data: crypto,
-					})
-					.catch(logger.error)
-			else
-				prisma.cryptocurrency
-					.create({
-						data: crypto,
-					})
-					.catch(logger.error)
-		})
-	}
+	formattedData?.map(async (crypto) => {
+		const existingCrypto = Children.find(
+			(child) => child.marketId === crypto.marketId
+		)
 
-	await prisma.cryptocurrency
+		if (existingCrypto?.id)
+			prisma.cryptocurrency
+				.update({
+					where: { id: existingCrypto?.id },
+					data: crypto,
+				})
+				.catch(logger.error)
+		else
+			prisma.cryptocurrency
+				.create({
+					data: crypto,
+				})
+				.catch(logger.error)
+	})
+}
+
+export const swyftx = () =>
+	prisma.cryptocurrency
 		.findMany({
-			where: { accountConnection: AccountConnection.SWYFTX },
+			where: {
+				accountConnection: AccountConnection.SWYFTX,
+				apiKey: { not: null },
+				apiSecret: { not: null },
+			},
 			select: { apiKey: true, apiSecret: true, id: true, userId: true },
 		})
 		.then((secrets) => {
-			const progress = new Progress(secrets.length)
-			progress.start("Swyftx")
-
-			const promises = secrets.map((secret) => {
+			const swyftxAccounts = secrets.length
+			const progress = new Progress(swyftxAccounts)
+			progress.start(`Started updating ${swyftxAccounts} Swyftx accounts`)
+			for (const secret of secrets) {
 				updateOneUser(secret).then(() => progress.increment())
-			})
-
-			Promise.all(promises).then(() => progress.stop())
-
-			progress.stop("Swyftx")
+			}
+			progress.stop(`Finished updating ${swyftxAccounts} Swyftx accounts}`)
 		})
-
-	return new Date()
-}
+		.then(() => new Date())
+		.catch(() => logger.info("swyftx"))

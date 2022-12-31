@@ -49,7 +49,7 @@ export class MarketUpdater {
 				market_cap,
 				market_cap_rank,
 			}) => ({
-				id: `${id}_${symbol}_${MarketType.CRYPTOCURRENCY}`,
+				id: `${symbol}_${MarketType.CRYPTOCURRENCY}`,
 				name: id,
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: symbol,
@@ -71,8 +71,7 @@ export class MarketUpdater {
 			await prisma.market
 				.upsert({
 					where: {
-						name_ticker_type: {
-							name: crypto.name,
+						ticker_type: {
 							ticker: crypto.ticker,
 							type: MarketType.CRYPTOCURRENCY,
 						},
