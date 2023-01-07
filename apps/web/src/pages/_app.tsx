@@ -7,7 +7,7 @@ import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 import { DefaultSeo } from "next-seo"
 import type { AppProps } from "next/dist/shared/lib/router/router"
-import { AppContext } from "~/components/Context"
+import { AppContext } from "~/providers"
 import Layout from "~/components/Layout"
 import Auth from "./auth"
 

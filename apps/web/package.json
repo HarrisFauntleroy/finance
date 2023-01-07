@@ -38,9 +38,7 @@
 		"up-latest": "yarn up --latest",
 		"release": "cross-env HUSKY=0 standard-version",
 		"push-release": "git push --follow-tags origin main",
-		"swagger": "next-swagger-doc-cli next-swagger-doc.json",
-		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"swagger": "next-swagger-doc-cli next-swagger-doc.json"
 	},
 	"browserslist": {
 		"production": [
@@ -82,7 +80,7 @@
 		"@bull-board/express": "4.9.0",
 		"@chakra-ui/icons": "2.0.14",
 		"@chakra-ui/react": "2.4.4",
-		"@chakra-ui/theme-tools": "2.0.14",
+		"@chakra-ui/theme-tools": "2.0.16",
 		"@choc-ui/chakra-autocomplete": "5.1.4",
 		"@emotion/react": "11.10.5",
 		"@emotion/styled": "11.10.5",
@@ -154,6 +152,8 @@
 		"swagger-ui-react": "4.15.5",
 		"ui": "*",
 		"uuid": "9.0.0",
+		"papaparse": "@latest",
+		"@types/papaparse": "5.3.7",
 		"ws": "8.11.0",
 		"zod": "^3.20.2"
 	},

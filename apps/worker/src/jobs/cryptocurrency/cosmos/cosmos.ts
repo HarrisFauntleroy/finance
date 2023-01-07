@@ -59,7 +59,7 @@ export async function updateCosmosBalances() {
 	for (const cryptocurrency of cryptocurrencies) {
 		const balance = await getCosmosBalance(
 			cryptocurrency.walletAddress as string
-		)
+		).catch(logger.error)
 
 		const balanceInCosmos = new Decimal(String(balance?.amount)).times(10 ** -6)
 

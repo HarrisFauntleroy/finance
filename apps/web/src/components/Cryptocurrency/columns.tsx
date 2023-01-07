@@ -2,6 +2,7 @@ import React from "react"
 
 import {
 	Avatar,
+	AvatarBadge,
 	AvatarGroup,
 	Badge,
 	Flex,
@@ -20,7 +21,7 @@ import formatDuration from "date-fns/formatDuration"
 import intervalToDuration from "date-fns/intervalToDuration"
 import Link from "next/link"
 import { BsCurrencyDollar } from "react-icons/bs"
-import { MdEdit } from "react-icons/md"
+import { MdEdit, MdSync } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
 import { Show } from "ui"
 import { CryptoForm } from "~/components/Cryptocurrency/Form"
@@ -34,7 +35,14 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 		cell: ({
 			row: {
 				getToggleExpandedHandler,
-				original: { displayName, market, Children },
+				original: {
+					displayName,
+					market,
+					Children,
+					apiKey,
+					apiSecret,
+					walletAddress,
+				},
 			},
 		}) => (
 			<Flex gap={1} alignItems="center">
@@ -51,14 +59,20 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 						name={market?.name}
 						title={market?.name}
 						src={market?.image || ""}
-					/>
+					>
+						{(apiKey || apiSecret || walletAddress) && (
+							<AvatarBadge fontSize={16} bgColor="white">
+								<MdSync color="green" />
+							</AvatarBadge>
+						)}
+					</Avatar>
 					{Children?.map(({ id, market: childMarket }) => (
 						<Avatar
 							key={id}
 							name={childMarket?.name}
 							title={childMarket?.name}
 							src={childMarket?.image || ""}
-						/>
+						></Avatar>
 					))}
 				</AvatarGroup>
 				<Link

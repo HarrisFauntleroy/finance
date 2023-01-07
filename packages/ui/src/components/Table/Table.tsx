@@ -22,6 +22,9 @@ import {
 import type { RankingInfo } from "@tanstack/match-sorter-utils"
 import * as reactTable from "@tanstack/react-table"
 
+// import { DndProvider, useDrag, useDrop } from "react-dnd"
+// import { HTML5Backend } from "react-dnd-html5-backend"
+
 declare module "@tanstack/table-core" {
 	interface FilterFns {
 		fuzzy: reactTable.FilterFn<unknown>

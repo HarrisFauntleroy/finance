@@ -65,7 +65,9 @@
 		"remark-gfm": "^3.0.1",
 		"remark-math": "^5.1.1",
 		"tsup": "^6.5.0",
-		"zod": "^3.19.1"
+		"zod": "^3.19.1",
+		"react-dnd": "",
+		"react-dnd-html5-backend": ""
 	},
 	"devDependencies": {
 		"@babel/core": "^7.20.7",

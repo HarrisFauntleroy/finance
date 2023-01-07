@@ -153,8 +153,6 @@ const updateOneUser = async (secrets: {
 		}
 	)
 
-	logger.info(formattedData)
-
 	const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
 		where: {
 			userId: secrets.userId,

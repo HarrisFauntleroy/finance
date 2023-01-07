@@ -3,20 +3,38 @@
  * Index page
  *
  */
+import type { ChangeEvent } from "react"
 import React, { useMemo } from "react"
-
-import { Grid, GridItem, Stack, useColorModeValue } from "@chakra-ui/react"
+import {
+	Button,
+	Grid,
+	GridItem,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	Stack,
+	Table,
+	Tbody,
+	Td,
+	Th,
+	Thead,
+	Tr,
+	useColorModeValue,
+	useDisclosure,
+} from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
-import { RateType, calculateBurnDown } from "common"
+import { RateType, calculateBurnDown, logger } from "common"
 import { Chart } from "react-chartjs-2"
-import { Card, MarkdownEditor, Page } from "ui"
+import { Card, Page } from "ui"
 import { useMockData } from "~/hooks/useMockData"
 import type { DefaultPage } from "~/pages/_app"
+import { loadCSV } from "~/components/Csv"
 
 ChartJs.Chart.register(
-	// Trendline first for z-axis
-	// Trendline breaking with one days worth of data...
-	// chartTrendline,
 	ChartJs.CategoryScale,
 	ChartJs.LinearScale,
 	ChartJs.PointElement,
@@ -40,8 +58,6 @@ const Index: DefaultPage = () => {
 	})
 
 	const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA")
-
-	// const netWorthBg = useColorModeValue("#48BB78", "#805AD5")
 
 	const data = useMemo(
 		() => ({
@@ -71,48 +87,86 @@ const Index: DefaultPage = () => {
 	const bar = useMockData("bar")
 	const pie = useMockData("pie")
 
-	// const features: Feature[] = [
-	// 	{
-	// 		heading: "Net worth calculator",
-	// 		content:
-	// 			"Track your net worth over time for an overall view of your progress towards your goals",
-	// 		icon: <Icon as={MdTrendingUp} height={8} width={8} />,
-	// 	},
-	// 	{
-	// 		heading: "Crypto portfolio tracker",
-	// 		content:
-	// 			"Track your current portfolio from the comfort of your personal finance app",
-	// 		icon: <Icon as={BsCurrencyBitcoin} height={8} width={8} />,
-	// 	},
-	// 	{
-	// 		heading: "Multi currency support",
-	// 		content:
-	// 			"Track every dollar, euro and yen and see it all add up in your home currency.",
-	// 		icon: <Icon as={BsCurrencyExchange} height={8} width={8} />,
-	// 	},
-	// 	{
-	// 		heading: "API Included",
-	// 		content:
-	// 			"A convenient API allows us to extend our services beyond this site. Monitor your portfolio, track market movements and much more.",
-	// 		icon: <Icon as={BsTerminal} height={8} width={8} />,
-	// 	},
-	// 	{
-	// 		heading: "Budgeting",
-	// 		content:
-	// 			"Making a personal budget is easy. Sticking to it is the hard part. We help you do both!",
-	// 		icon: <Icon as={MdSavings} height={8} width={8} />,
-	// 	},
-	// 	{
-	// 		heading: "Security",
-	// 		content:
-	// 			"Stay secure with two-factor authentication and data encryption at rest",
-	// 		icon: <Icon as={LockIcon} height={8} width={8} />,
-	// 	},
-	// ]
+	// Timestamp	Description	Currency	Amount	To Currency	To Amount	baseCurrency	baseAmount	Native Amount (USD)	TxType	TxHash
+	const [csvState, setCsvState] = React.useState<unknown[]>()
+
+	function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+		const target = event.target as HTMLInputElement
+		const files = target.files
+		const file = files?.[0]
+		if (file) {
+			loadCSV(file).then((parsedData) => {
+				setCsvState(parsedData)
+			})
+		}
+		logger.error("File not found")
+		return { error: "File not found" }
+	}
+
+	const { onClose } = useDisclosure()
+
+	const headers = Object.keys((csvState?.[0] as Record<string, unknown>) || {})
 
 	return (
 		<Page title="Home" gap="8px">
 			<Stack alignItems="center" padding="16px">
+				<div>
+					<input type="file" onChange={handleFileChange} />
+					<Modal isOpen={!!csvState?.length} onClose={onClose} size="2xl">
+						<ModalOverlay />
+						<ModalContent>
+							<ModalHeader>Modal Title</ModalHeader>
+							<ModalCloseButton />
+							<ModalBody overflow="scroll">
+								<form
+								// onSubmit={handleSubmit}
+								>
+									<Table id="table" size="sm" variant="striped" maxWidth="100%">
+										<Thead>
+											<Tr>
+												{headers?.map((header: string) => (
+													<Th key={header}>
+														<input
+															type="text"
+															value={header}
+															// onChange={(e) => handleHeaderChange(e, index)}
+														/>
+													</Th>
+												))}
+											</Tr>
+										</Thead>
+										<Tbody>
+											{csvState?.map((cell) => (
+												<Tr key={String(cell)}>
+													{Object.values(cell as Record<string, string>).map(
+														(value: string) => (
+															<Td key={value}>
+																<input
+																	type="text"
+																	value={value}
+																	// onChange={(e) =>
+																	// 	handleCellChange(e, rowIndex, cellIndex)
+																	// }
+																/>
+															</Td>
+														)
+													)}
+												</Tr>
+											))}
+										</Tbody>
+									</Table>
+									<button type="submit">Submit</button>
+								</form>
+							</ModalBody>
+							<ModalFooter>
+								<Button colorScheme="blue" mr={3} onClick={onClose}>
+									Close
+								</Button>
+								<Button variant="ghost">Secondary Action</Button>
+							</ModalFooter>
+						</ModalContent>
+					</Modal>
+				</div>
 				<Grid
 					width="100%"
 					templateAreas={{
@@ -228,7 +282,6 @@ const Index: DefaultPage = () => {
 						</Card>
 					</GridItem>
 				</Grid>
-				<MarkdownEditor />
 			</Stack>
 		</Page>
 	)

@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react"
+import React from "react"
 
 import {
+	Accordion,
 	AccordionButton,
 	AccordionIcon,
 	AccordionItem,
@@ -10,24 +11,13 @@ import {
 	Stack,
 	StatLabel,
 	StatNumber,
-	Text,
 } from "@chakra-ui/react"
 import type { Row } from "@tanstack/react-table"
 import type { CalculatedCryptocurrency } from "common"
-import {
-	calculateAverageGain,
-	calculateAverageLoss,
-	calculateBollingerBands,
-	calculateEMA,
-	calculateMACD,
-	calculateRSI,
-	calculateStandardDeviation,
-	fetchCryptoPriceHistory,
-	findSimpleMovingAverage,
-	percentageChange,
-} from "common"
+import { percentageChange } from "common"
+
 import currency from "currency.js"
-import { Accordion, Card, Debug, Grid, inDev } from "ui"
+import { Card, Debug, Grid, inDev } from "ui"
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
 	<Card>
@@ -46,106 +36,9 @@ interface TableSubComponentProps<TData> {
 
 function TableSubComponent<TData extends CalculatedCryptocurrency>({
 	row: {
-		original: {
-			// Check if the user should sell or not
-			shouldSell,
-			// Check if the target balance has been reached or not
-			belowTargetBalance,
-			// Calculate the average cost
-			averageCost,
-			// Determine the market to buy or sell from
-			marketId,
-			balance,
-			price,
-			market,
-			saleable,
-			costBasis,
-			targetBalance,
-			...original
-		},
+		original: { averageCost, price, ...original },
 	},
 }: TableSubComponentProps<TData>) {
-	const [priceHistory, setPriceHistory] = useState([])
-
-	useMemo(() => {
-		if (market?.name) {
-			// Fetch the last 200 days of price data for the cryptocurrency
-			fetchCryptoPriceHistory(market.name, -200).then(setPriceHistory)
-		}
-	}, [market?.name])
-
-	// Calculate the simple moving average of the price history
-	const simpleMovingAverage = findSimpleMovingAverage(priceHistory)
-
-	// Calculate the exponential moving average of the price history over the past 365 days
-	const exponentialMovingAverage = calculateEMA(priceHistory, 365)
-
-	// Calculate the moving average convergence divergence of the price history
-	const movingAverageConvergenceDivergence = calculateMACD(priceHistory)
-
-	// Calculate the relative strength index of the price history
-	const relativeStrengthIndex = calculateRSI(priceHistory)
-
-	// Calculate the average gain of the price history over the past 365 days
-	const averageGain = calculateAverageGain(priceHistory, 365)
-
-	// Calculate the average loss of the price history over the past 365 days
-	const averageLoss = calculateAverageLoss(priceHistory, 365)
-
-	// Calculate the standard deviation of the price history over the past 365 days
-	const standardDeviation = calculateStandardDeviation(priceHistory, 365)
-
-	// Calculate the upper and lower Bollinger bands of the price history
-	const bollingerBands = calculateBollingerBands(priceHistory)
-
-	// Calculate the absolute amount of saleable assets
-	const amount = Math.abs(currency(saleable).value).toFixed(2)
-
-	// Calculate the cost to buy the desired amount
-	const costToBuy = currency(amount).multiply(currency(price))
-
-	// Calculate the final cost basis after buying
-	const finalCostBasis = costToBuy.add(String(costBasis))
-
-	// Calculate the final average cost after buying
-	const finalaverageCost = finalCostBasis.divide(String(targetBalance))
-
-	// Calculate the average cost or price
-	const averageCostOrPrice =
-		currency(averageCost).value === 0 ? currency(price) : currency(averageCost)
-
-	const recommendAction = () => {
-		// Calculate the return on investment after buying
-		const roiAfterBuy = Math.abs(
-			percentageChange(finalaverageCost.value, currency(averageCost).value)
-		).toFixed(2)
-
-		// Use a switch statement to determine the recommended action based on the conditions
-		switch (true) {
-			// Want to sell and should sell
-			case shouldSell && !belowTargetBalance:
-				return `Sell ${amount} ${marketId?.toUpperCase()} for ${costToBuy.format()} a gain of ${roiAfterBuy}%`
-
-			// Want to sell but shouldn't sell
-			case !(shouldSell || belowTargetBalance):
-				return `Sell ${amount} ${marketId?.toUpperCase()} for ${costToBuy.format()} to generate a loss of ${averageCostOrPrice
-					.multiply(amount)
-					.format()} a loss of ${roiAfterBuy}%`
-
-			// Want to buy and should buy
-			case !shouldSell && belowTargetBalance:
-				return `Buy ${amount} for ${costToBuy.format()} ${marketId?.toUpperCase()} to decrease your average price of $${averageCost} to ${finalaverageCost.format()} a decrease of ${roiAfterBuy}%`
-
-			// Want to buy but shouldn't buy
-			case shouldSell && belowTargetBalance:
-				return `Buy ${amount} ${marketId?.toUpperCase()} for ${costToBuy.format()} to increase your average price of $${averageCost} to ${finalaverageCost.format()} an increase of ${roiAfterBuy}%`
-
-			// Catch-all for any unexpected cases
-			default:
-				return "Something went wrong"
-		}
-	}
-
 	return (
 		<Accordion>
 			<AccordionItem maxW="100vw">
@@ -172,61 +65,7 @@ function TableSubComponent<TData extends CalculatedCryptocurrency>({
 									currency(price).value
 								).toFixed(2)}%`}
 							/>
-
-							<Stat
-								label="Simple moving average"
-								value={currency(simpleMovingAverage).format()}
-							/>
-							<Stat
-								label="Exponential moving average"
-								value={currency(exponentialMovingAverage).format()}
-							/>
-							<Stat
-								label="Moving average convergence diveregence"
-								value={currency(movingAverageConvergenceDivergence).format()}
-							/>
-							<Stat
-								label="Relative strength index"
-								value={currency(relativeStrengthIndex).value.toString()}
-							/>
-							<Stat
-								label="Average price gain over 365d"
-								value={currency(averageGain).format()}
-							/>
-							<Stat
-								label="Average price loss over 365d"
-								value={currency(averageLoss).format()}
-							/>
-							<Stat
-								label="Standard deviation"
-								value={currency(standardDeviation).format()}
-							/>
-							<Stat
-								label="Bollinger bands upper"
-								value={currency(bollingerBands.upper).format()}
-							/>
-							<Stat
-								label="Bollinger bands lower"
-								value={currency(bollingerBands.lower).format()}
-							/>
-							<Stat
-								label="Gain/Loss from SMA"
-								value={`${percentageChange(
-									currency(averageCost).value,
-									currency(simpleMovingAverage).value
-								).toFixed(2)}
-										%`}
-							/>
-							<Stat
-								label="Target / Balance"
-								value={(Number(targetBalance) / Number(balance))?.toFixed(2)}
-							/>
 						</Grid>
-						<Text gap={1}>
-							{belowTargetBalance ? "Buy" : "Sell"} {amount} to reach your
-							target balance of {targetBalance?.toString() || 0}
-						</Text>
-						<Text gap={1}>{recommendAction()}</Text>
 					</Stack>
 				</AccordionPanel>
 			</AccordionItem>

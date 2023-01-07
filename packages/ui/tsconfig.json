@@ -4,6 +4,12 @@
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"jsx": "react"
 	},
-	"include": ["**/*.ts", "**/*.tsx", "tsup.config.ts", "postcss.config.js"],
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"tsup.config.ts",
+		"postcss.config.js",
+		"src/components/Button/Button.stories.js"
+	],
 	"exclude": ["**/node_modules", "**/dist"]
 }
