@@ -14,10 +14,6 @@
 		"apps/*",
 		"packages/*"
 	],
-	"prisma": {
-		"schema": "packages/database/prisma/schema.prisma",
-		"seed": "tsx packages/database/src/seed.ts"
-	},
 	"scripts": {
 		"build": "turbo run build",
 		"clean": "turbo run clean",
@@ -25,17 +21,39 @@
 		"db:push": "turbo run db:push",
 		"db:seed": "turbo run db:seed",
 		"dev": "turbo run dev --parallel",
+		"docker:prune": "docker system prune --all",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"generate": "turbo run generate",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix",
 		"test": "turbo run test --concurrency=1",
-		"test:watch": "turbo run test:watch",
-		"docker:prune": "docker system prune --all"
+		"test:watch": "turbo run test:watch"
+	},
+	"prettier": {
+		"arrowParens": "always",
+		"bracketSpacing": true,
+		"endOfLine": "lf",
+		"htmlWhitespaceSensitivity": "css",
+		"importOrder": [
+			"^react$",
+			"<THIRD_PARTY_MODULES>"
+		],
+		"importOrderSeparation": true,
+		"importOrderSortSpecifiers": true,
+		"insertPragma": false,
+		"jsxSingleQuote": false,
+		"printWidth": 80,
+		"quoteProps": "as-needed",
+		"requirePragma": false,
+		"semi": false,
+		"singleQuote": false,
+		"tabWidth": 2,
+		"trailingComma": "es5",
+		"useTabs": true
 	},
 	"devDependencies": {
-		"prettier": "latest",
 		"@trivago/prettier-plugin-sort-imports": "3.4.0",
+		"prettier": "latest",
 		"tsx": "^3.7.1",
 		"turbo": "latest"
 	},
@@ -43,5 +61,9 @@
 	"engines": {
 		"node": ">=14.0.0",
 		"npm": ">=7.0.0"
+	},
+	"prisma": {
+		"schema": "packages/database/prisma/schema.prisma",
+		"seed": "tsx packages/database/src/seed.ts"
 	}
 }
