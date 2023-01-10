@@ -21,7 +21,6 @@ import { trpc } from "~/utils/trpc"
 export const Cryptocurrency = () => {
 	const { privacy, togglePrivacy } = useContext(PrivacyContext)
 
-	/** Toasts */
 	const toast = useToast()
 
 	const { data, error } = trpc.markets.cryptocurrency.useQuery()

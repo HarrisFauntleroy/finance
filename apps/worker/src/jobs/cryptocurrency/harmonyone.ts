@@ -7,9 +7,11 @@ import {
 	ChainType,
 	fromWei,
 	hexToNumber,
+	isValidAddress,
 	Units,
 } from "@harmony-js/utils"
 import { Harmony } from "@harmony-js/core"
+import { logger } from "common"
 
 dotenv.config()
 
@@ -19,13 +21,16 @@ const hmy = new Harmony("https://rpc.ankr.com/harmony", {
 })
 
 export async function getBalance(walletAddress: string): Promise<string> {
-	const balance = await hmy.blockchain
-		.getBalance({ address: walletAddress })
-		.then((response) => {
-			return response.result
-		})
+	if (isValidAddress(walletAddress)) {
+		const balance = await hmy.blockchain
+			.getBalance({ address: walletAddress })
+			.then((response) => {
+				return response.result
+			})
 
-	return fromWei(hexToNumber(balance), Units.one)
+		return fromWei(hexToNumber(balance), Units.one)
+	}
+	throw new Error("Invalid address!")
 }
 
 // export async function getTransactionHistory(
@@ -59,25 +64,29 @@ export async function updateHarmonyBalances() {
 
 	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
-		// Get the account balance and linked transactions
-		const balance = await getBalance(cryptocurrency.walletAddress as string)
+		try {
+			// Get the account balance and linked transactions
+			const balance = await getBalance(cryptocurrency.walletAddress as string)
 
-		// const transactions = await getTransactionHistory(
-		// 	cryptocurrency.walletAddress as string
-		// )
+			// const transactions = await getTransactionHistory(
+			// 	cryptocurrency.walletAddress as string
+			// )
 
-		// Update the cryptocurrency in the database with the new balance and transactions
-		await prisma.cryptocurrency.update({
-			data: {
-				balance,
-				// transactions,
-			},
-			where: {
-				id: cryptocurrency.id,
-			},
-		})
+			// Update the cryptocurrency in the database with the new balance and transactions
+			await prisma.cryptocurrency.update({
+				data: {
+					balance,
+					// transactions,
+				},
+				where: {
+					id: cryptocurrency.id,
+				},
+			})
 
-		progress.increment()
+			progress.increment()
+		} catch (error) {
+			logger.error(error)
+		}
 	}
 
 	progress.stop("Harmony ONE")

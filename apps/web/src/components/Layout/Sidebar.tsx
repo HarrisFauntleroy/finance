@@ -24,9 +24,9 @@ export default function Sidebar({ links, ...props }: SidebarProps) {
 		<>
 			<SidebarContent
 				links={links}
-				w={{ sm: "64px", md: "200px" }}
+				w={{ md: "64px", lg: "200px" }}
 				borderRight="none"
-				display={{ base: "none", sm: "unset" }}
+				display={{ base: "none", md: "unset" }}
 			/>
 			<Drawer isOpen={props.isOpen} onClose={props.onClose} placement="left">
 				<DrawerOverlay />

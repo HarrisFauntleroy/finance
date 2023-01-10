@@ -337,6 +337,26 @@ exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
+exports.Prisma.TransactionScalarFieldEnum = makeEnum({
+  id: 'id',
+  timestamp: 'timestamp',
+  pricePerUnit: 'pricePerUnit',
+  baseCurrency: 'baseCurrency',
+  quantity: 'quantity',
+  quantityFilled: 'quantityFilled',
+  fee: 'fee',
+  valueInBaseCurrency: 'valueInBaseCurrency',
+  fromAsset: 'fromAsset',
+  toAsset: 'toAsset',
+  market: 'market',
+  transactionType: 'transactionType',
+  expiry: 'expiry',
+  status: 'status',
+  transactionHash: 'transactionHash',
+  description: 'description',
+  memo: 'memo'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
@@ -411,7 +431,8 @@ exports.Prisma.ModelName = makeEnum({
   CryptoSnapshot: 'CryptoSnapshot',
   CashSnapshot: 'CashSnapshot',
   PropertySnapshot: 'PropertySnapshot',
-  SecuritySnapshot: 'SecuritySnapshot'
+  SecuritySnapshot: 'SecuritySnapshot',
+  Transaction: 'Transaction'
 });
 
 /**

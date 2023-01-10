@@ -47,10 +47,10 @@ export default function Layout({ children }: PropsWithChildren) {
 		<Grid
 			minHeight="100vh"
 			templateAreas={{
-				md: `"header header"
+				lg: `"header header"
 							"nav main"
 							"nav footer"`,
-				sm: `"header header"
+				md: `"header header"
 							"nav main"
 							"nav footer"`,
 				base: `"header"
@@ -59,8 +59,8 @@ export default function Layout({ children }: PropsWithChildren) {
 			}}
 			gridTemplateRows={"64px 1fr 32px"}
 			gridTemplateColumns={{
-				md: "200px calc(100vw - 200px)",
-				sm: "64px calc(100vw - 64px)",
+				lg: "200px calc(100vw - 200px)",
+				md: "64px calc(100vw - 64px)",
 				base: "100vw",
 			}}
 			bg={useColorModeValue("background.light", "background.dark")}
@@ -76,9 +76,6 @@ export default function Layout({ children }: PropsWithChildren) {
 			<GridItem area={"footer"}>
 				<Footer />
 			</GridItem>
-			{/* {process.env.NODE_ENV === "development" && (
-				// <ReactQueryDevtools initialIsOpen={false} />
-			)} */}
 		</Grid>
 	)
 }

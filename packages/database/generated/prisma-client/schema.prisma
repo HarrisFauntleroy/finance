@@ -401,3 +401,57 @@ model SecuritySnapshot {
 
   @@unique([createdAt, userId])
 }
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Transaction model
+// Applies to all transactions, crypto trades, stock purchases, apples bought.
+
+model Transaction {
+  id                  String    @id @unique @default(cuid())
+  // The time when the transaction was made
+  // ISO-8601 format
+  timestamp           DateTime
+  // The price of a single unit of the asset being bought or sold
+  pricePerUnit        Decimal
+  // The settlement currency in which the pricePerUnit is denominated
+  // ISO-4217 format
+  baseCurrency        String
+  // The number of units of the asset being bought or sold
+  quantity            Decimal
+  // The number of units of the asset that have been filled in the transaction
+  // (optional field, may not be applicable to all transactions)
+  quantityFilled      Decimal?
+  // The fee associated with the transaction in the base currency
+  fee                 Decimal
+  // The total value of the transaction in the base currency
+  valueInBaseCurrency Decimal
+  // The asset being sold in the transaction)
+  fromAsset           String?
+  // The asset being bought in the transaction
+  // (optional field, may not be applicable to all 
+  toAsset             String
+  // The market in which the transaction took place
+  market              String
+  // The type of transaction (e.g. "buy", "sell", "referral_card_cashback")
+  transactionType     String
+  // The expiration time of the transaction, if applicable
+  // ISO-8601 format
+  expiry              DateTime?
+  // The current status of the transaction (e.g. "filled", "cancelled")
+  status              String
+  // A unique identifier for the transaction
+  transactionHash     String
+  // A description of the transaction
+  description         String
+  // A memo associated with the transaction
+  memo                String
+
+  // A unique identifier for the order associated with the transaction. This could be useful for tracking and linking related transactions (e.g. multiple fills of a single order).
+  // orderId   String?
+
+  // The type of order associated with the transaction (e.g. "market", "limit", "stop"). This can be useful for understanding the conditions under which the transaction was made.
+  // orderType String?
+
+  // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
+  // limitPrice Decimal?
+}

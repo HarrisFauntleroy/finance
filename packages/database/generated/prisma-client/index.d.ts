@@ -338,6 +338,30 @@ export type SecuritySnapshot = {
   deletedAt: Date | null
 }
 
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = {
+  id: string
+  timestamp: Date
+  pricePerUnit: Prisma.Decimal
+  baseCurrency: string
+  quantity: Prisma.Decimal
+  quantityFilled: Prisma.Decimal | null
+  fee: Prisma.Decimal
+  valueInBaseCurrency: Prisma.Decimal
+  fromAsset: string | null
+  toAsset: string
+  market: string
+  transactionType: string
+  expiry: Date | null
+  status: string
+  transactionHash: string
+  description: string
+  memo: string
+}
+
 
 /**
  * Enums
@@ -739,6 +763,16 @@ export class PrismaClient<
     * ```
     */
   get securitySnapshot(): Prisma.SecuritySnapshotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.transaction`: Exposes CRUD operations for the **Transaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Transactions
+    * const transactions = await prisma.transaction.findMany()
+    * ```
+    */
+  get transaction(): Prisma.TransactionDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -1225,7 +1259,8 @@ export namespace Prisma {
     CryptoSnapshot: 'CryptoSnapshot',
     CashSnapshot: 'CashSnapshot',
     PropertySnapshot: 'PropertySnapshot',
-    SecuritySnapshot: 'SecuritySnapshot'
+    SecuritySnapshot: 'SecuritySnapshot',
+    Transaction: 'Transaction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -20441,6 +20476,1025 @@ export namespace Prisma {
 
 
   /**
+   * Model Transaction
+   */
+
+
+  export type AggregateTransaction = {
+    _count: TransactionCountAggregateOutputType | null
+    _avg: TransactionAvgAggregateOutputType | null
+    _sum: TransactionSumAggregateOutputType | null
+    _min: TransactionMinAggregateOutputType | null
+    _max: TransactionMaxAggregateOutputType | null
+  }
+
+  export type TransactionAvgAggregateOutputType = {
+    pricePerUnit: Decimal | null
+    quantity: Decimal | null
+    quantityFilled: Decimal | null
+    fee: Decimal | null
+    valueInBaseCurrency: Decimal | null
+  }
+
+  export type TransactionSumAggregateOutputType = {
+    pricePerUnit: Decimal | null
+    quantity: Decimal | null
+    quantityFilled: Decimal | null
+    fee: Decimal | null
+    valueInBaseCurrency: Decimal | null
+  }
+
+  export type TransactionMinAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    pricePerUnit: Decimal | null
+    baseCurrency: string | null
+    quantity: Decimal | null
+    quantityFilled: Decimal | null
+    fee: Decimal | null
+    valueInBaseCurrency: Decimal | null
+    fromAsset: string | null
+    toAsset: string | null
+    market: string | null
+    transactionType: string | null
+    expiry: Date | null
+    status: string | null
+    transactionHash: string | null
+    description: string | null
+    memo: string | null
+  }
+
+  export type TransactionMaxAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    pricePerUnit: Decimal | null
+    baseCurrency: string | null
+    quantity: Decimal | null
+    quantityFilled: Decimal | null
+    fee: Decimal | null
+    valueInBaseCurrency: Decimal | null
+    fromAsset: string | null
+    toAsset: string | null
+    market: string | null
+    transactionType: string | null
+    expiry: Date | null
+    status: string | null
+    transactionHash: string | null
+    description: string | null
+    memo: string | null
+  }
+
+  export type TransactionCountAggregateOutputType = {
+    id: number
+    timestamp: number
+    pricePerUnit: number
+    baseCurrency: number
+    quantity: number
+    quantityFilled: number
+    fee: number
+    valueInBaseCurrency: number
+    fromAsset: number
+    toAsset: number
+    market: number
+    transactionType: number
+    expiry: number
+    status: number
+    transactionHash: number
+    description: number
+    memo: number
+    _all: number
+  }
+
+
+  export type TransactionAvgAggregateInputType = {
+    pricePerUnit?: true
+    quantity?: true
+    quantityFilled?: true
+    fee?: true
+    valueInBaseCurrency?: true
+  }
+
+  export type TransactionSumAggregateInputType = {
+    pricePerUnit?: true
+    quantity?: true
+    quantityFilled?: true
+    fee?: true
+    valueInBaseCurrency?: true
+  }
+
+  export type TransactionMinAggregateInputType = {
+    id?: true
+    timestamp?: true
+    pricePerUnit?: true
+    baseCurrency?: true
+    quantity?: true
+    quantityFilled?: true
+    fee?: true
+    valueInBaseCurrency?: true
+    fromAsset?: true
+    toAsset?: true
+    market?: true
+    transactionType?: true
+    expiry?: true
+    status?: true
+    transactionHash?: true
+    description?: true
+    memo?: true
+  }
+
+  export type TransactionMaxAggregateInputType = {
+    id?: true
+    timestamp?: true
+    pricePerUnit?: true
+    baseCurrency?: true
+    quantity?: true
+    quantityFilled?: true
+    fee?: true
+    valueInBaseCurrency?: true
+    fromAsset?: true
+    toAsset?: true
+    market?: true
+    transactionType?: true
+    expiry?: true
+    status?: true
+    transactionHash?: true
+    description?: true
+    memo?: true
+  }
+
+  export type TransactionCountAggregateInputType = {
+    id?: true
+    timestamp?: true
+    pricePerUnit?: true
+    baseCurrency?: true
+    quantity?: true
+    quantityFilled?: true
+    fee?: true
+    valueInBaseCurrency?: true
+    fromAsset?: true
+    toAsset?: true
+    market?: true
+    transactionType?: true
+    expiry?: true
+    status?: true
+    transactionHash?: true
+    description?: true
+    memo?: true
+    _all?: true
+  }
+
+  export type TransactionAggregateArgs = {
+    /**
+     * Filter which Transaction to aggregate.
+     * 
+    **/
+    where?: TransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transactions to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TransactionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: TransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transactions from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transactions.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Transactions
+    **/
+    _count?: true | TransactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TransactionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TransactionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TransactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TransactionMaxAggregateInputType
+  }
+
+  export type GetTransactionAggregateType<T extends TransactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateTransaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTransaction[P]>
+      : GetScalarType<T[P], AggregateTransaction[P]>
+  }
+
+
+
+
+  export type TransactionGroupByArgs = {
+    where?: TransactionWhereInput
+    orderBy?: Enumerable<TransactionOrderByWithAggregationInput>
+    by: Array<TransactionScalarFieldEnum>
+    having?: TransactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TransactionCountAggregateInputType | true
+    _avg?: TransactionAvgAggregateInputType
+    _sum?: TransactionSumAggregateInputType
+    _min?: TransactionMinAggregateInputType
+    _max?: TransactionMaxAggregateInputType
+  }
+
+
+  export type TransactionGroupByOutputType = {
+    id: string
+    timestamp: Date
+    pricePerUnit: Decimal
+    baseCurrency: string
+    quantity: Decimal
+    quantityFilled: Decimal | null
+    fee: Decimal
+    valueInBaseCurrency: Decimal
+    fromAsset: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry: Date | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    _count: TransactionCountAggregateOutputType | null
+    _avg: TransactionAvgAggregateOutputType | null
+    _sum: TransactionSumAggregateOutputType | null
+    _min: TransactionMinAggregateOutputType | null
+    _max: TransactionMaxAggregateOutputType | null
+  }
+
+  type GetTransactionGroupByPayload<T extends TransactionGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<TransactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TransactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TransactionGroupByOutputType[P]>
+            : GetScalarType<T[P], TransactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TransactionSelect = {
+    id?: boolean
+    timestamp?: boolean
+    pricePerUnit?: boolean
+    baseCurrency?: boolean
+    quantity?: boolean
+    quantityFilled?: boolean
+    fee?: boolean
+    valueInBaseCurrency?: boolean
+    fromAsset?: boolean
+    toAsset?: boolean
+    market?: boolean
+    transactionType?: boolean
+    expiry?: boolean
+    status?: boolean
+    transactionHash?: boolean
+    description?: boolean
+    memo?: boolean
+  }
+
+  export type TransactionGetPayload<
+    S extends boolean | null | undefined | TransactionArgs,
+    U = keyof S
+      > = S extends true
+        ? Transaction
+    : S extends undefined
+    ? never
+    : S extends TransactionArgs | TransactionFindManyArgs
+    ?'include' extends U
+    ? Transaction 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof Transaction ? Transaction[P] : never
+  } 
+    : Transaction
+  : Transaction
+
+
+  type TransactionCountArgs = Merge<
+    Omit<TransactionFindManyArgs, 'select' | 'include'> & {
+      select?: TransactionCountAggregateInputType | true
+    }
+  >
+
+  export interface TransactionDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Transaction that matches the filter.
+     * @param {TransactionFindUniqueArgs} args - Arguments to find a Transaction
+     * @example
+     * // Get one Transaction
+     * const transaction = await prisma.transaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends TransactionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, TransactionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Transaction'> extends True ? CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>> : CheckSelect<T, Prisma__TransactionClient<Transaction | null >, Prisma__TransactionClient<TransactionGetPayload<T> | null >>
+
+    /**
+     * Find the first Transaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionFindFirstArgs} args - Arguments to find a Transaction
+     * @example
+     * // Get one Transaction
+     * const transaction = await prisma.transaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends TransactionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, TransactionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Transaction'> extends True ? CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>> : CheckSelect<T, Prisma__TransactionClient<Transaction | null >, Prisma__TransactionClient<TransactionGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Transactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Transactions
+     * const transactions = await prisma.transaction.findMany()
+     * 
+     * // Get first 10 Transactions
+     * const transactions = await prisma.transaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const transactionWithIdOnly = await prisma.transaction.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends TransactionFindManyArgs>(
+      args?: SelectSubset<T, TransactionFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<Transaction>>, PrismaPromise<Array<TransactionGetPayload<T>>>>
+
+    /**
+     * Create a Transaction.
+     * @param {TransactionCreateArgs} args - Arguments to create a Transaction.
+     * @example
+     * // Create one Transaction
+     * const Transaction = await prisma.transaction.create({
+     *   data: {
+     *     // ... data to create a Transaction
+     *   }
+     * })
+     * 
+    **/
+    create<T extends TransactionCreateArgs>(
+      args: SelectSubset<T, TransactionCreateArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Create many Transactions.
+     *     @param {TransactionCreateManyArgs} args - Arguments to create many Transactions.
+     *     @example
+     *     // Create many Transactions
+     *     const transaction = await prisma.transaction.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends TransactionCreateManyArgs>(
+      args?: SelectSubset<T, TransactionCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Transaction.
+     * @param {TransactionDeleteArgs} args - Arguments to delete one Transaction.
+     * @example
+     * // Delete one Transaction
+     * const Transaction = await prisma.transaction.delete({
+     *   where: {
+     *     // ... filter to delete one Transaction
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends TransactionDeleteArgs>(
+      args: SelectSubset<T, TransactionDeleteArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Update one Transaction.
+     * @param {TransactionUpdateArgs} args - Arguments to update one Transaction.
+     * @example
+     * // Update one Transaction
+     * const transaction = await prisma.transaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends TransactionUpdateArgs>(
+      args: SelectSubset<T, TransactionUpdateArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Delete zero or more Transactions.
+     * @param {TransactionDeleteManyArgs} args - Arguments to filter Transactions to delete.
+     * @example
+     * // Delete a few Transactions
+     * const { count } = await prisma.transaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends TransactionDeleteManyArgs>(
+      args?: SelectSubset<T, TransactionDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Transactions
+     * const transaction = await prisma.transaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends TransactionUpdateManyArgs>(
+      args: SelectSubset<T, TransactionUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Transaction.
+     * @param {TransactionUpsertArgs} args - Arguments to update or create a Transaction.
+     * @example
+     * // Update or create a Transaction
+     * const transaction = await prisma.transaction.upsert({
+     *   create: {
+     *     // ... data to create a Transaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Transaction we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends TransactionUpsertArgs>(
+      args: SelectSubset<T, TransactionUpsertArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Find one Transaction that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {TransactionFindUniqueOrThrowArgs} args - Arguments to find a Transaction
+     * @example
+     * // Get one Transaction
+     * const transaction = await prisma.transaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends TransactionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, TransactionFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Find the first Transaction that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionFindFirstOrThrowArgs} args - Arguments to find a Transaction
+     * @example
+     * // Get one Transaction
+     * const transaction = await prisma.transaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends TransactionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, TransactionFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__TransactionClient<Transaction>, Prisma__TransactionClient<TransactionGetPayload<T>>>
+
+    /**
+     * Count the number of Transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionCountArgs} args - Arguments to filter Transactions to count.
+     * @example
+     * // Count the number of Transactions
+     * const count = await prisma.transaction.count({
+     *   where: {
+     *     // ... the filter for the Transactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends TransactionCountArgs>(
+      args?: Subset<T, TransactionCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TransactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Transaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TransactionAggregateArgs>(args: Subset<T, TransactionAggregateArgs>): PrismaPromise<GetTransactionAggregateType<T>>
+
+    /**
+     * Group by Transaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TransactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TransactionGroupByArgs['orderBy'] }
+        : { orderBy?: TransactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTransactionGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Transaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__TransactionClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * Transaction base type for findUnique actions
+   */
+  export type TransactionFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * Filter, which Transaction to fetch.
+     * 
+    **/
+    where: TransactionWhereUniqueInput
+  }
+
+  /**
+   * Transaction: findUnique
+   */
+  export interface TransactionFindUniqueArgs extends TransactionFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Transaction base type for findFirst actions
+   */
+  export type TransactionFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * Filter, which Transaction to fetch.
+     * 
+    **/
+    where?: TransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transactions to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TransactionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Transactions.
+     * 
+    **/
+    cursor?: TransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transactions from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transactions.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Transactions.
+     * 
+    **/
+    distinct?: Enumerable<TransactionScalarFieldEnum>
+  }
+
+  /**
+   * Transaction: findFirst
+   */
+  export interface TransactionFindFirstArgs extends TransactionFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Transaction findMany
+   */
+  export type TransactionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * Filter, which Transactions to fetch.
+     * 
+    **/
+    where?: TransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transactions to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TransactionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Transactions.
+     * 
+    **/
+    cursor?: TransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transactions from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transactions.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<TransactionScalarFieldEnum>
+  }
+
+
+  /**
+   * Transaction create
+   */
+  export type TransactionCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * The data needed to create a Transaction.
+     * 
+    **/
+    data: XOR<TransactionCreateInput, TransactionUncheckedCreateInput>
+  }
+
+
+  /**
+   * Transaction createMany
+   */
+  export type TransactionCreateManyArgs = {
+    /**
+     * The data used to create many Transactions.
+     * 
+    **/
+    data: Enumerable<TransactionCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Transaction update
+   */
+  export type TransactionUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * The data needed to update a Transaction.
+     * 
+    **/
+    data: XOR<TransactionUpdateInput, TransactionUncheckedUpdateInput>
+    /**
+     * Choose, which Transaction to update.
+     * 
+    **/
+    where: TransactionWhereUniqueInput
+  }
+
+
+  /**
+   * Transaction updateMany
+   */
+  export type TransactionUpdateManyArgs = {
+    /**
+     * The data used to update Transactions.
+     * 
+    **/
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which Transactions to update
+     * 
+    **/
+    where?: TransactionWhereInput
+  }
+
+
+  /**
+   * Transaction upsert
+   */
+  export type TransactionUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * The filter to search for the Transaction to update in case it exists.
+     * 
+    **/
+    where: TransactionWhereUniqueInput
+    /**
+     * In case the Transaction found by the `where` argument doesn't exist, create a new Transaction with this data.
+     * 
+    **/
+    create: XOR<TransactionCreateInput, TransactionUncheckedCreateInput>
+    /**
+     * In case the Transaction was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<TransactionUpdateInput, TransactionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Transaction delete
+   */
+  export type TransactionDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+    /**
+     * Filter which Transaction to delete.
+     * 
+    **/
+    where: TransactionWhereUniqueInput
+  }
+
+
+  /**
+   * Transaction deleteMany
+   */
+  export type TransactionDeleteManyArgs = {
+    /**
+     * Filter which Transactions to delete
+     * 
+    **/
+    where?: TransactionWhereInput
+  }
+
+
+  /**
+   * Transaction: findUniqueOrThrow
+   */
+  export type TransactionFindUniqueOrThrowArgs = TransactionFindUniqueArgsBase
+      
+
+  /**
+   * Transaction: findFirstOrThrow
+   */
+  export type TransactionFindFirstOrThrowArgs = TransactionFindFirstArgsBase
+      
+
+  /**
+   * Transaction without action
+   */
+  export type TransactionArgs = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     * 
+    **/
+    select?: TransactionSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -20752,6 +21806,29 @@ export namespace Prisma {
   };
 
   export type SecuritySnapshotScalarFieldEnum = (typeof SecuritySnapshotScalarFieldEnum)[keyof typeof SecuritySnapshotScalarFieldEnum]
+
+
+  export const TransactionScalarFieldEnum: {
+    id: 'id',
+    timestamp: 'timestamp',
+    pricePerUnit: 'pricePerUnit',
+    baseCurrency: 'baseCurrency',
+    quantity: 'quantity',
+    quantityFilled: 'quantityFilled',
+    fee: 'fee',
+    valueInBaseCurrency: 'valueInBaseCurrency',
+    fromAsset: 'fromAsset',
+    toAsset: 'toAsset',
+    market: 'market',
+    transactionType: 'transactionType',
+    expiry: 'expiry',
+    status: 'status',
+    transactionHash: 'transactionHash',
+    description: 'description',
+    memo: 'memo'
+  };
+
+  export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -22114,6 +23191,101 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
     deleted?: BoolWithAggregatesFilter | boolean
     deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type TransactionWhereInput = {
+    AND?: Enumerable<TransactionWhereInput>
+    OR?: Enumerable<TransactionWhereInput>
+    NOT?: Enumerable<TransactionWhereInput>
+    id?: StringFilter | string
+    timestamp?: DateTimeFilter | Date | string
+    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFilter | string
+    quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    fromAsset?: StringNullableFilter | string | null
+    toAsset?: StringFilter | string
+    market?: StringFilter | string
+    transactionType?: StringFilter | string
+    expiry?: DateTimeNullableFilter | Date | string | null
+    status?: StringFilter | string
+    transactionHash?: StringFilter | string
+    description?: StringFilter | string
+    memo?: StringFilter | string
+  }
+
+  export type TransactionOrderByWithRelationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    pricePerUnit?: SortOrder
+    baseCurrency?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+    fromAsset?: SortOrder
+    toAsset?: SortOrder
+    market?: SortOrder
+    transactionType?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    transactionHash?: SortOrder
+    description?: SortOrder
+    memo?: SortOrder
+  }
+
+  export type TransactionWhereUniqueInput = {
+    id?: string
+  }
+
+  export type TransactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    pricePerUnit?: SortOrder
+    baseCurrency?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+    fromAsset?: SortOrder
+    toAsset?: SortOrder
+    market?: SortOrder
+    transactionType?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    transactionHash?: SortOrder
+    description?: SortOrder
+    memo?: SortOrder
+    _count?: TransactionCountOrderByAggregateInput
+    _avg?: TransactionAvgOrderByAggregateInput
+    _max?: TransactionMaxOrderByAggregateInput
+    _min?: TransactionMinOrderByAggregateInput
+    _sum?: TransactionSumOrderByAggregateInput
+  }
+
+  export type TransactionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<TransactionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<TransactionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<TransactionScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    timestamp?: DateTimeWithAggregatesFilter | Date | string
+    pricePerUnit?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringWithAggregatesFilter | string
+    quantity?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    quantityFilled?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    fromAsset?: StringNullableWithAggregatesFilter | string | null
+    toAsset?: StringWithAggregatesFilter | string
+    market?: StringWithAggregatesFilter | string
+    transactionType?: StringWithAggregatesFilter | string
+    expiry?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    status?: StringWithAggregatesFilter | string
+    transactionHash?: StringWithAggregatesFilter | string
+    description?: StringWithAggregatesFilter | string
+    memo?: StringWithAggregatesFilter | string
   }
 
   export type AccountCreateInput = {
@@ -23914,6 +25086,146 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type TransactionCreateInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+  }
+
+  export type TransactionUncheckedCreateInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+  }
+
+  export type TransactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionCreateManyInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+  }
+
+  export type TransactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -25289,6 +26601,109 @@ export namespace Prisma {
     saleableValue?: SortOrder
   }
 
+  export type DecimalNullableFilter = {
+    equals?: Decimal | DecimalJsLike | number | string | null
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type TransactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    pricePerUnit?: SortOrder
+    baseCurrency?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+    fromAsset?: SortOrder
+    toAsset?: SortOrder
+    market?: SortOrder
+    transactionType?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    transactionHash?: SortOrder
+    description?: SortOrder
+    memo?: SortOrder
+  }
+
+  export type TransactionAvgOrderByAggregateInput = {
+    pricePerUnit?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+  }
+
+  export type TransactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    pricePerUnit?: SortOrder
+    baseCurrency?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+    fromAsset?: SortOrder
+    toAsset?: SortOrder
+    market?: SortOrder
+    transactionType?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    transactionHash?: SortOrder
+    description?: SortOrder
+    memo?: SortOrder
+  }
+
+  export type TransactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    pricePerUnit?: SortOrder
+    baseCurrency?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+    fromAsset?: SortOrder
+    toAsset?: SortOrder
+    market?: SortOrder
+    transactionType?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    transactionHash?: SortOrder
+    description?: SortOrder
+    memo?: SortOrder
+  }
+
+  export type TransactionSumOrderByAggregateInput = {
+    pricePerUnit?: SortOrder
+    quantity?: SortOrder
+    quantityFilled?: SortOrder
+    fee?: SortOrder
+    valueInBaseCurrency?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string | null
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedDecimalNullableFilter
+    _sum?: NestedDecimalNullableFilter
+    _min?: NestedDecimalNullableFilter
+    _max?: NestedDecimalNullableFilter
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -26243,6 +27658,14 @@ export namespace Prisma {
     update?: XOR<UserUpdateWithoutSecuritySnapshotInput, UserUncheckedUpdateWithoutSecuritySnapshotInput>
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type NestedStringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -26544,6 +27967,33 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumCategoryFilter
     _max?: NestedEnumCategoryFilter
+  }
+
+  export type NestedDecimalNullableFilter = {
+    equals?: Decimal | DecimalJsLike | number | string | null
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string | null
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | null
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedDecimalNullableFilter
+    _sum?: NestedDecimalNullableFilter
+    _min?: NestedDecimalNullableFilter
+    _max?: NestedDecimalNullableFilter
   }
 
   export type UserCreateWithoutAccountsInput = {

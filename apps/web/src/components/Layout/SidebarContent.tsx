@@ -37,7 +37,7 @@ export function SidebarContent({
 			overflowX="hidden"
 			overflowY="auto"
 			shadow="2xl"
-			w={{ base: 0, sm: "64px", md: "200px" }}
+			w={{ base: 0, md: "64px", lg: "200px" }}
 			{...props}
 		>
 			<Link href="/">
@@ -45,7 +45,7 @@ export function SidebarContent({
 					height="64px"
 					justifyContent={{
 						base: drawer ? "left" : "center",
-						sm: drawer ? "left" : "center",
+						md: drawer ? "left" : "center",
 					}}
 				>
 					<Image src="/images/logodark.png" height="32" width="32" alt="logo" />
@@ -54,7 +54,7 @@ export function SidebarContent({
 						ml="2"
 						fontSize="2xl"
 						fontWeight="semibold"
-						display={{ sm: "none", md: "unset" }}
+						display={{ md: "none", lg: "unset" }}
 					>
 						Elixir Money
 					</Text>

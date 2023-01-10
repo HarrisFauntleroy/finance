@@ -1,7 +1,7 @@
-import { updateCosmosBalances } from "./cosmos"
+import { updateAtomBalances } from "./atom"
 import { updateOsmosisBalances } from "./osmosis"
 
-export const cosmos = async () => {
-	updateCosmosBalances()
+export const updateCosmosBalances = async () => {
+	updateAtomBalances()
 	updateOsmosisBalances()
 }

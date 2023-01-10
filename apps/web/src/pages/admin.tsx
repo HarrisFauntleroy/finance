@@ -21,11 +21,12 @@ import {
 import { Card, Grid, MarkdownEditor, Page } from "ui"
 import type { DefaultPage } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
+import { Csv } from "~/components/Csv"
 
 const Index: DefaultPage = () => {
 	const { data: users } = trpc.user.all.useQuery()
 
-	const { data: deleteQueue } = trpc.settings.deleteQueue.useQuery()
+	const { data: logs } = trpc.logs.read.useQuery()
 	const { data: findInactiveUsers } = trpc.user.findInactiveUsers.useQuery()
 
 	const { data: findUsersWithSession } =
@@ -49,8 +50,9 @@ const Index: DefaultPage = () => {
 		<Page title="Home">
 			<Stack alignItems="center" padding="16px">
 				<Heading>Admin dashboard</Heading>
+				<Csv />
 				Hello
-				<MarkdownEditor />
+				<MarkdownEditor markdown={``} />
 				<Text textAlign="left" width="100%" fontSize="2xl">
 					Stats
 				</Text>
@@ -177,15 +179,19 @@ const Index: DefaultPage = () => {
 					))}
 				</Grid>
 				<Text textAlign="left" width="100%" fontSize="2xl">
-					Delete Queue
+					Logs
 				</Text>
-				{deleteQueue?.map((setting) => (
-					<Card key={setting.id}>
+				{logs?.map((log) => (
+					<Card key={log.id}>
 						<List>
-							<ListItem>{setting.id}</ListItem>
-							<ListItem>{setting.userId}</ListItem>
-							<ListItem>{setting.userCurrency}</ListItem>
-							<ListItem>{setting.userLanguage}</ListItem>
+							<ListItem>{log.createdAt.toLocaleDateString()}</ListItem>
+							<ListItem>
+								Flagged for deletion: {log.deleted.toString()}
+							</ListItem>
+							<ListItem>{log.id}</ListItem>
+							<ListItem>{log.message}</ListItem>
+							<ListItem>{log.type}</ListItem>
+							<ListItem>{log.updatedAt.toLocaleDateString()}</ListItem>
 						</List>
 					</Card>
 				))}

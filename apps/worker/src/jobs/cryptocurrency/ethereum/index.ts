@@ -1,9 +1,9 @@
-import { Progress } from "../../util"
-import { logger } from "common"
+import { Progress } from "../../../util"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import dotenv from "dotenv"
 import Web3 from "web3"
+import { logger } from "common"
 
 dotenv.config()
 
@@ -12,9 +12,12 @@ const web3 = new Web3(
 )
 
 export async function getBalance(walletAddress: string): Promise<string> {
-	const balance = await web3.eth.getBalance(walletAddress)
+	if (web3.utils.isAddress(walletAddress)) {
+		const balance = await web3.eth.getBalance(walletAddress)
 
-	return web3.utils.fromWei(balance, "ether")
+		return web3.utils.fromWei(balance, "ether")
+	}
+	throw new Error("Invalid address!")
 }
 
 export async function getTransactionHistory(
@@ -66,35 +69,39 @@ export async function updateEtherumBalances() {
 
 	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
-		// Get the account balance and linked transactions
-		const balance = await getBalance(cryptocurrency.walletAddress as string)
+		try {
+			// Get the account balance and linked transactions
+			const balance = await getBalance(cryptocurrency.walletAddress as string)
 
-		// const transactions = await getTransactionHistory(
-		// 	cryptocurrency.walletAddress as string
-		// )
+			// const transactions = await getTransactionHistory(
+			// 	cryptocurrency.walletAddress as string
+			// )
 
-		// const tokenAddresses = Object.values(tokens).map((token) => token.address)
+			// const tokenAddresses = Object.values(tokens).map((token) => token.address)
 
-		// for (let tokenAddress of tokenAddresses) {
-		// 	const contract = new web3.eth.Contract(AbiIte, tokenAddress)
-		// 	const tokenBalance = await contract.methods
-		// 		.balanceOf(cryptocurrency.walletAddress)
-		// 		.call()
-		// 	logger.info(tokenBalance)
-		// }
+			// for (let tokenAddress of tokenAddresses) {
+			// 	const contract = new web3.eth.Contract(AbiIte, tokenAddress)
+			// 	const tokenBalance = await contract.methods
+			// 		.balanceOf(cryptocurrency.walletAddress)
+			// 		.call()
+			// 	logger.info(tokenBalance)
+			// }
 
-		// Update the cryptocurrency in the database with the new balance and transactions
-		await prisma.cryptocurrency.update({
-			data: {
-				balance,
-				// transactions,
-			},
-			where: {
-				id: cryptocurrency.id,
-			},
-		})
+			// Update the cryptocurrency in the database with the new balance and transactions
+			await prisma.cryptocurrency.update({
+				data: {
+					balance,
+					// transactions,
+				},
+				where: {
+					id: cryptocurrency.id,
+				},
+			})
 
-		progress.increment()
+			progress.increment()
+		} catch (error) {
+			logger.error(error)
+		}
 	}
 
 	progress.stop("Ethereum")

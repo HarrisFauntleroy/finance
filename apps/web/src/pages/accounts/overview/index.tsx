@@ -23,9 +23,9 @@ import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Line, Pie } from "react-chartjs-2"
 import { Card, Table } from "ui"
-import { Layout } from "~/components/Accounts/Layout"
-import OverviewCard from "~/components/Accounts/Overview"
-import { historySnapshotColumns } from "~/components/Accounts/columns"
+import { Layout } from "~/components/Portfolio/Layout"
+import OverviewCard from "~/components/Portfolio/Overview"
+import { historySnapshotColumns } from "~/components/Portfolio/columns"
 import { trpc } from "~/utils/trpc"
 
 ChartJs.Chart.register(

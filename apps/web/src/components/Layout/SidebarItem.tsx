@@ -40,7 +40,7 @@ export function SidebarItem({
 					<Link href={href || "#"}>
 						<Flex
 							align="center"
-							justify={{ base: drawer ? "left" : "center", md: "left" }}
+							justify={{ base: drawer ? "left" : "center", lg: "left" }}
 							cursor="pointer"
 							padding="8px"
 							height="64px"
@@ -66,7 +66,7 @@ export function SidebarItem({
 									transform={isActive ? "scale(1.5)" : "scale(1)"}
 								/>
 							)}
-							<Text display={{ base: drawer ? "unset" : "none", md: "unset" }}>
+							<Text display={{ base: drawer ? "unset" : "none", lg: "unset" }}>
 								{label}
 							</Text>
 						</Flex>

@@ -39,7 +39,7 @@ export default function Header({ onOpen }: HeaderProps) {
 				justify={{ base: "space-between" }}
 				w="full"
 				px="4"
-				pl={{ base: "16px", sm: "64px", md: "200px" }}
+				pl={{ base: "16px", md: "64px", lg: "200px" }}
 				bg={useColorModeValue("gray.50", "gray.900")}
 				boxShadow="sm"
 				height="64px"
@@ -66,7 +66,7 @@ export default function Header({ onOpen }: HeaderProps) {
 				<Flex gap={2}>
 					<IconButton
 						aria-label="Menu"
-						display={{ base: "flex", sm: "none" }}
+						display={{ base: "flex", md: "none" }}
 						onClick={onOpen}
 						icon={<FiMenu />}
 						size="sm"

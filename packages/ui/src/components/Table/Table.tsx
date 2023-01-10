@@ -20,14 +20,33 @@ import {
 	Tr,
 } from "@chakra-ui/react"
 import type { RankingInfo } from "@tanstack/match-sorter-utils"
-import * as reactTable from "@tanstack/react-table"
+import type {
+	ColumnDef,
+	ColumnFiltersState,
+	FilterFn,
+	PaginationState,
+	Row,
+	SortingState,
+} from "@tanstack/react-table"
+import {
+	flexRender,
+	getCoreRowModel,
+	getExpandedRowModel,
+	getFacetedMinMaxValues,
+	getFacetedRowModel,
+	getFacetedUniqueValues,
+	getFilteredRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table"
 
 // import { DndProvider, useDrag, useDrop } from "react-dnd"
 // import { HTML5Backend } from "react-dnd-html5-backend"
 
 declare module "@tanstack/table-core" {
 	interface FilterFns {
-		fuzzy: reactTable.FilterFn<unknown>
+		fuzzy: FilterFn<unknown>
 	}
 	interface FilterMeta {
 		itemRank: RankingInfo
@@ -37,14 +56,12 @@ declare module "@tanstack/table-core" {
 export type TableProps<TData> = {
 	/** Table ID allows for persistent state on some table settings */
 	id: string
-	columns: reactTable.ColumnDef<TData>[]
+	columns: ColumnDef<TData>[]
 	data: TData[]
 	pageSize?: number
 	paginationEnabled?: boolean
 	filterEnabled?: boolean
-	renderSubComponent?: (props: {
-		row: reactTable.Row<TData>
-	}) => React.ReactElement
+	renderSubComponent?: (props: { row: Row<TData> }) => React.ReactElement
 	getRowCanExpand?: boolean
 	children?: ReactNode
 }
@@ -64,23 +81,24 @@ export const Table = <TData extends object>({
 	const [globalFilter, setGlobalFilter] = React.useState("")
 
 	/** Column filter - search */
-	const [columnFilters, setColumnFilters] =
-		React.useState<reactTable.ColumnFiltersState>([])
+	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+		[]
+	)
 
 	/** Column sorting */
-	const [sorting, setSorting] = useLocalStorage<reactTable.SortingState>(
+	const [sorting, setSorting] = useLocalStorage<SortingState>(
 		`table-sort-${id}`,
 		[]
 	)
 
 	/** Pagination state */
-	const [pagination, setPagination] = useState<reactTable.PaginationState>({
+	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		// Default row count
 		pageSize: pageSize || 20,
 	})
 
-	const table = reactTable.useReactTable({
+	const table = useReactTable({
 		data,
 		columns,
 		filterFns: {
@@ -95,17 +113,17 @@ export const Table = <TData extends object>({
 		getRowCanExpand: () => getRowCanExpand || false,
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
-		getCoreRowModel: reactTable.getCoreRowModel(),
-		getExpandedRowModel: reactTable.getExpandedRowModel(),
+		getCoreRowModel: getCoreRowModel(),
+		getExpandedRowModel: getExpandedRowModel(),
 		onColumnFiltersChange: setColumnFilters,
 		onGlobalFilterChange: setGlobalFilter,
 		globalFilterFn: Filter.fuzzyFilter,
-		getFilteredRowModel: reactTable.getFilteredRowModel(),
-		getSortedRowModel: reactTable.getSortedRowModel(),
-		getPaginationRowModel: reactTable.getPaginationRowModel(),
-		getFacetedRowModel: reactTable.getFacetedRowModel(),
-		getFacetedUniqueValues: reactTable.getFacetedUniqueValues(),
-		getFacetedMinMaxValues: reactTable.getFacetedMinMaxValues(),
+		getFilteredRowModel: getFilteredRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getFacetedRowModel: getFacetedRowModel(),
+		getFacetedUniqueValues: getFacetedUniqueValues(),
+		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		/** Debug */
 		debugTable: false,
 		debugHeaders: false,
@@ -137,7 +155,7 @@ export const Table = <TData extends object>({
 								<Tr>
 									{row.getVisibleCells().map((cell) => (
 										<Td key={cell.id}>
-											{reactTable.flexRender(
+											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
 											)}
@@ -162,7 +180,7 @@ export const Table = <TData extends object>({
 									<Th key={header.id}>
 										{header.isPlaceholder
 											? null
-											: reactTable.flexRender(
+											: flexRender(
 													header.column.columnDef.footer,
 													header.getContext()
 											  )}

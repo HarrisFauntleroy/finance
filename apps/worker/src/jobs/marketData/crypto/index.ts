@@ -89,10 +89,13 @@ export class MarketUpdater {
 		progress.start("Cryptocurrency")
 
 		for (let page = this.pages; page > 0; page--) {
-			const markets = await this.fetchFromCoingecko(page)
-
-			await this.upsertCryptoMarkets(markets)
-			progress.increment()
+			try {
+				const markets = await this.fetchFromCoingecko(page)
+				await this.upsertCryptoMarkets(markets)
+				progress.increment()
+			} catch (error) {
+				logger.error(error)
+			}
 		}
 
 		progress.stop("Cryptocurrency")

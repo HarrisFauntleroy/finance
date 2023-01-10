@@ -31,10 +31,10 @@ const getBalance = async (
 	}
 }
 
-const getCosmosBalance = (address: string) =>
+const getAtomBalance = (address: string) =>
 	getBalance("uatom", address, COSMOS_RPC)
 
-export async function updateCosmosBalances() {
+export async function updateAtomBalances() {
 	// Get all cryptocurrencies with type 'crypto', market ID 'eth', and a non-null wallet address
 	const cryptocurrencies = await prisma.cryptocurrency.findMany({
 		where: {
@@ -53,32 +53,39 @@ export async function updateCosmosBalances() {
 	})
 
 	const progress = new Progress(cryptocurrencies.length)
-	progress.start("Cosmos")
+	progress.start("Atom")
 
 	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
-		const balance = await getCosmosBalance(
-			cryptocurrency.walletAddress as string
-		).catch(logger.error)
+		if (cryptocurrency.walletAddress)
+			try {
+				const balance = await getAtomBalance(
+					cryptocurrency.walletAddress as string
+				).catch(logger.error)
 
-		const balanceInCosmos = new Decimal(String(balance?.amount)).times(10 ** -6)
+				const balanceInCosmos = new Decimal(String(balance?.amount)).times(
+					10 ** -6
+				)
 
-		// Update the cryptocurrency in the database with the new balance and transactions
-		await prisma.cryptocurrency.update({
-			data: {
-				balance: balanceInCosmos,
-				// transactions,
-			},
+				// Update the cryptocurrency in the database with the new balance and transactions
+				await prisma.cryptocurrency.update({
+					data: {
+						balance: balanceInCosmos,
+						// transactions,
+					},
 
-			where: {
-				id: cryptocurrency.id,
-			},
-		})
+					where: {
+						id: cryptocurrency.id,
+					},
+				})
 
-		progress.increment()
+				progress.increment()
+			} catch (error) {
+				logger.error(error)
+			}
 	}
 
-	progress.stop("Cosmos")
+	progress.stop("Atom")
 
 	return new Date()
 }

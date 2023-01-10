@@ -1,9 +1,9 @@
-import { cosmos } from "./cosmos"
+import { updateCosmosBalances } from "./cosmos"
 import { updateEtherumBalances } from "./ethereum"
 import { updateHarmonyBalances } from "./harmonyone"
 
 export const cryptocurrency = async () => {
-	cosmos()
+	updateCosmosBalances()
 	updateEtherumBalances()
 	updateHarmonyBalances()
 }
