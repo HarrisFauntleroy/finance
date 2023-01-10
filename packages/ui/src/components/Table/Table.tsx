@@ -21,7 +21,6 @@ import {
 } from "@chakra-ui/react"
 import type { RankingInfo } from "@tanstack/match-sorter-utils"
 import type {
-	ColumnDef,
 	ColumnFiltersState,
 	FilterFn,
 	PaginationState,
@@ -56,7 +55,9 @@ declare module "@tanstack/table-core" {
 export type TableProps<TData> = {
 	/** Table ID allows for persistent state on some table settings */
 	id: string
-	columns: ColumnDef<TData>[]
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	columns: any[]
+	// columns: ColumnDef<TData>[]
 	data: TData[]
 	pageSize?: number
 	paginationEnabled?: boolean
