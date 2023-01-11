@@ -41,8 +41,8 @@ export const AccountsList = () => {
 					getRowCanExpand
 					filterEnabled
 					paginationEnabled
-					// If children show them as sub table
-					renderSubComponent={(props) =>
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					renderSubComponent={(props: any) =>
 						(props?.row?.original?.Children?.length || 0) > 0 ? (
 							<Stack>
 								<Table

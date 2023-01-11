@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReactNode } from "react"
 import React, { Fragment, useState } from "react"
 
@@ -24,7 +25,6 @@ import type {
 	ColumnFiltersState,
 	FilterFn,
 	PaginationState,
-	Row,
 	SortingState,
 } from "@tanstack/react-table"
 import {
@@ -55,14 +55,13 @@ declare module "@tanstack/table-core" {
 export type TableProps<TData> = {
 	/** Table ID allows for persistent state on some table settings */
 	id: string
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	columns: any[]
 	// columns: ColumnDef<TData>[]
 	data: TData[]
 	pageSize?: number
 	paginationEnabled?: boolean
 	filterEnabled?: boolean
-	renderSubComponent?: (props: { row: Row<TData> }) => React.ReactElement
+	renderSubComponent?: any
 	getRowCanExpand?: boolean
 	children?: ReactNode
 }

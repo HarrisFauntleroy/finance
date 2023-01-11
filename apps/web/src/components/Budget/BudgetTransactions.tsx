@@ -30,7 +30,8 @@ export const BudgetTransactions = () => {
 					getRowCanExpand
 					filterEnabled
 					paginationEnabled
-					renderSubComponent={(props) => <RenderSubComponent {...props} />}
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					renderSubComponent={(props: any) => <RenderSubComponent {...props} />}
 				>
 					<HStack>
 						<Text
