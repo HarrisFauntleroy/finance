@@ -1,6 +1,7 @@
-import { ExchangeRates } from "../../../finance/forex"
-import { convertCurrency } from "../../../finance/helpers"
-import { sumArrayByKey } from "../../../helpers"
+import { ExchangeRates } from "../../finance/forex"
+import { sumArrayByKey } from "../../helpers"
+import { divide, lessThan, multiply, subtract } from "../../math"
+import { convertCurrency } from "../currency"
 import currency from "currency.js"
 import { Cryptocurrency, Market } from "database/generated/prisma-client"
 
@@ -69,7 +70,7 @@ export function calculateCryptoSummary(
 		exchangeRates,
 		fromCurrency: crypto?.market?.currency || crypto.currency,
 		toCurrency: toCurrency,
-		amount: crypto?.market?.price.toString(),
+		amount: crypto?.market?.price.toString() || 0,
 	})
 
 	const costBasis = convertCurrency({
@@ -79,47 +80,41 @@ export function calculateCryptoSummary(
 		amount: crypto.costBasis.toString(),
 	})
 
-	/** Basic stats */
-	const balance = currency(String(crypto?.balance))
-	const targetBalance = currency(String(crypto.targetBalance))
+	const balance = String(crypto?.balance)
+	const targetBalance = String(crypto.targetBalance)
+	const rateOfIncome = String(crypto.rateOfIncome)
+	const interestBearingBalance = String(crypto.interestBearingBalance)
 
-	const value = balance.multiply(price)
-	const unrealisedGain = value.subtract(costBasis)
-	const unrealisedGainPercentage = Number.isNaN(
-		unrealisedGain.divide(costBasis).value
+	const value = multiply(balance, price)
+	const unrealisedGain = subtract(value, costBasis)
+	const unrealisedGainPercentage = divide(unrealisedGain, costBasis)
+	const averageCost = divide(costBasis, balance)
+	const saleable = subtract(balance, targetBalance)
+	const saleableValue = multiply(saleable, price)
+	const estimatedStakingYield = divide(
+		multiply(rateOfIncome, interestBearingBalance),
+		100
 	)
-		? "0"
-		: unrealisedGain.divide(costBasis)
-	const averageCost = costBasis.divide(balance)
-	/** Liquid assets */
-	const saleable = balance.subtract(targetBalance)
-	const saleableValue = saleable.multiply(price)
-	/** Income */
-	const estimatedStakingYield = currency(String(crypto.rateOfIncome))
-		.multiply(currency(String(crypto.interestBearingBalance)))
-		.divide(100)
-	const estimatedYearlyReturn = estimatedStakingYield.multiply(price)
-	const amountStaked = currency(String(crypto.interestBearingBalance))
-	/** Suggestions */
-	const belowTargetBalance = saleable.intValue < targetBalance.intValue
-	const shouldSell = averageCost < price
+	const estimatedYearlyReturn = multiply(estimatedStakingYield, price)
+	const belowTargetBalance = lessThan(saleable, targetBalance)
+	const shouldSell = lessThan(averageCost, price)
 
 	return {
 		...crypto,
 		shouldSell,
 		belowTargetBalance,
-		value: value.toString(),
-		price: price.toString(),
+		value: value,
+		price: price,
 		currency: toCurrency,
-		saleable: saleable.toString(),
-		costBasis: costBasis.toString(),
-		averageCost: averageCost.toString(),
-		amountStaked: amountStaked.toString(),
-		saleableValue: saleableValue.toString(),
-		unrealisedGain: unrealisedGain.toString(),
-		estimatedYearlyReturn: estimatedYearlyReturn.toString(),
-		estimatedStakingYield: estimatedStakingYield.toString(),
-		unrealisedGainPercentage: unrealisedGainPercentage.toString(),
+		saleable: saleable,
+		costBasis: costBasis,
+		averageCost: averageCost,
+		amountStaked: interestBearingBalance,
+		saleableValue: saleableValue,
+		unrealisedGain: unrealisedGain,
+		estimatedYearlyReturn: estimatedYearlyReturn,
+		estimatedStakingYield: estimatedStakingYield,
+		unrealisedGainPercentage: unrealisedGainPercentage,
 	}
 }
 

@@ -19,6 +19,11 @@ const styles = {
 		hr: {
 			backgroundColor: "#4B0082",
 		},
+		".lagRadar": {
+			position: "fixed",
+			bottom: "0.5rem",
+			right: "0.5rem",
+		},
 	}),
 }
 

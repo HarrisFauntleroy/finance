@@ -82,11 +82,9 @@ export const accountsRouter = router({
 			})
 		)
 		.query(async ({ input }) => {
-			// Destructure the userId from the input object
 			const { userId } = input
-			// Fetch the user data using the userId provided
-			// Select the user's id, cryptocurrency, and portfolioSnapshot
-			const userResponse = await prisma.user.findUnique({
+
+			const data = await prisma.user.findUnique({
 				where: {
 					id: userId,
 				},
@@ -101,15 +99,12 @@ export const accountsRouter = router({
 					portfolioSnapshot: true,
 				},
 			})
-			// Fetch the user's settings
-			const settings = await prisma.settings.findFirstOrThrow({
+			const { userCurrency } = await prisma.settings.findFirstOrThrow({
 				where: {
 					userId,
 				},
 			})
-			// Get the user's preferred currency
-			const userCurrency = settings.userCurrency
-			// Fetch the market rates
+
 			const markets = await prisma.market.findMany({
 				where: {
 					type: MarketType.CASH,
@@ -125,8 +120,7 @@ export const accountsRouter = router({
 			/** Convert array to object */
 			const exchangeRates = getExchangeRates(markets)
 
-			// If the user was not found, throw an error
-			if (!userResponse) {
+			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: `No user with userId '${userId}'`,
@@ -135,7 +129,7 @@ export const accountsRouter = router({
 
 			/** Calculate cryptocurrency for overview */
 			const cryptocurrency = calculateManyCrypto({
-				data: userResponse.cryptocurrency,
+				data: data.cryptocurrency,
 				exchangeRates,
 				userCurrency,
 			})
@@ -151,7 +145,7 @@ export const accountsRouter = router({
 				totalCostBasis,
 				unrealisedGain,
 				cryptocurrency,
-				portfolioSnapshot: userResponse.portfolioSnapshot,
+				portfolioSnapshot: data.portfolioSnapshot,
 			}
 		}),
 	allocation: publicProcedure

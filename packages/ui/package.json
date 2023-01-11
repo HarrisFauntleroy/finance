@@ -68,6 +68,7 @@
 		"zod": "^3.19.1",
 		"react-beautiful-dnd": "*",
 		"react-dnd": "*",
+		"@react-hook/window-size": "*",
 		"react-dnd-html5-backend": "*"
 	},
 	"devDependencies": {

@@ -7,9 +7,11 @@
 	"include": [
 		"**/*.ts",
 		"**/*.tsx",
+		"**/*.jsx",
 		"tsup.config.ts",
 		"postcss.config.js",
-		"src/components/Button/Button.stories.js"
+		"src/components/Button/Button.stories.js",
+		"src/hooks/useLagRadar.jsx"
 	],
 	"exclude": ["**/node_modules", "**/dist"]
 }

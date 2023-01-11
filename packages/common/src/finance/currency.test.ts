@@ -1,4 +1,4 @@
-import { convertCurrency, getConversionRate } from "./money"
+import { convertCurrency, getConversionRate } from "./currency"
 
 describe("getConversionRate", () => {
 	it("should return the correct conversion rate", () => {

@@ -23,8 +23,10 @@ import {
 import Footer from "~/components/Layout/Footer"
 import Header from "~/components/Layout/Header"
 import Sidebar from "~/components/Layout/Sidebar"
+import useLagRadar from "~/hooks/useLagRadar"
 
 export default function Layout({ children }: PropsWithChildren) {
+	useLagRadar()
 	const disclosure = useDisclosure()
 
 	const links = [

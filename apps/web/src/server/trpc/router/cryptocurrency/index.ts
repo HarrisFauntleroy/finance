@@ -127,21 +127,22 @@ export const cryptocurrencyRouter = router({
 			})
 		)
 		.query(async ({ input }) => {
-			// Destructure the userId from the input object
 			const { userId } = input
-			// Fetch the cryptocurrency data for the user with the specified userId
-			// Include the market data and children of the cryptocurrency, as well as the user's settings
-			const cryptoResponse = await prisma.cryptocurrency.findMany({
+
+			const data = await prisma.cryptocurrency.findMany({
 				where: {
 					userId,
-					// Dont list children twice
+					// This keeps sub accounts nested
 					parentId: null,
 				},
 				include: {
 					market: true,
 					Children: {
-						// Need to fetch markets so children can be calculated
-						include: { market: true },
+						include: {
+							// Needed for price data
+							// Could lean this out
+							market: true,
+						},
 					},
 					user: {
 						select: {
@@ -152,6 +153,63 @@ export const cryptocurrencyRouter = router({
 							},
 						},
 					},
+				},
+			})
+			const { userCurrency } = await prisma.settings.findFirstOrThrow({
+				where: {
+					userId,
+				},
+			})
+
+			// Fetch the market rates
+			const markets = await prisma.market.findMany({
+				where: {
+					type: MarketType.CASH,
+				},
+				select: {
+					currency: true,
+					price: true,
+					name: true,
+					ticker: true,
+				},
+			})
+
+			/** Convert array to object */
+			const exchangeRates = getExchangeRates(markets)
+
+			// If no cryptocurrency was found for the user, throw an error
+			if (!data) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `No cryptocurrency with userId '${userId}'`,
+				})
+			}
+			// Calculate the cryptocurrency values using the provided data, exchange rates, and user currency
+			return calculateManyCrypto({
+				data: data,
+				exchangeRates,
+				userCurrency,
+			})
+		}),
+	overviewByUserId: publicProcedure
+		.input(
+			z.object({
+				userId: z.string(),
+			})
+		)
+		.query(async ({ input }) => {
+			// Destructure the userId from the input object
+			const { userId } = input
+			// Fetch the cryptocurrency data for the user with the specified userId
+			// Include the market data, children of the cryptocurrency, and the user's settings
+			const data = await prisma.cryptocurrency.findMany({
+				where: {
+					userId,
+					parentId: null,
+				},
+				include: {
+					market: true,
+					Children: true,
 				},
 			})
 			// Fetch the user's settings
@@ -178,81 +236,16 @@ export const cryptocurrencyRouter = router({
 			/** Convert array to object */
 			const exchangeRates = getExchangeRates(markets)
 
-			// If no cryptocurrency was found for the user, throw an error
-			if (!cryptoResponse) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: `No cryptocurrency with userId '${userId}'`,
-				})
-			}
-			// Calculate the cryptocurrency values using the provided data, exchange rates, and user currency
-			return calculateManyCrypto({
-				data: cryptoResponse,
-				exchangeRates,
-				userCurrency,
-			})
-		}),
-	overviewByUserId: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-			})
-		)
-		.query(async ({ input }) => {
-			// Destructure the userId from the input object
-			const { userId } = input
-			// Fetch the cryptocurrency data for the user with the specified userId
-			// Include the market data, children of the cryptocurrency, and the user's settings
-			const cryptoResponse = await prisma.cryptocurrency.findMany({
-				where: {
-					userId,
-					parentId: null,
-				},
-				include: {
-					market: true,
-					Children: true,
-					user: {
-						select: {
-							settings: {
-								select: {
-									userCurrency: true,
-								},
-							},
-						},
-					},
-				},
-			})
-			// Fetch the user's settings
-			const settings = await prisma.settings.findFirstOrThrow({
-				where: {
-					userId,
-				},
-			})
-			// Fetch the market rates
-			const markets = await prisma.market.findMany({
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
-				},
-			})
-
-			// Convert the exchange rates array to an object
-			const exchangeRates = getExchangeRates(markets)
-
-			if (!cryptoResponse) {
+			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: `No cryptocurrency with userId '${userId}'`,
 				})
 			}
 
-			const userCurrency = settings.userCurrency
-
-			/** Flatten output */
+			/** Calculate cryptocurrency for overview */
 			const cryptocurrency = calculateManyCrypto({
-				data: cryptoResponse,
+				data,
 				exchangeRates,
 				userCurrency,
 			})
@@ -282,7 +275,7 @@ export const cryptocurrencyRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { userId } = input
-			const cryptoResponse = await prisma.cryptocurrency.findMany({
+			const data = await prisma.cryptocurrency.findMany({
 				where: {
 					userId,
 				},
@@ -294,13 +287,13 @@ export const cryptocurrencyRouter = router({
 				},
 			})
 
-			if (!cryptoResponse) {
+			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: `No cryptocurrency with userId '${userId}'`,
 				})
 			}
-			return cryptoResponse
+			return data
 		}),
 	update: publicProcedure
 		.input(

@@ -1,4 +1,4 @@
-import { ExchangeRates, getExchangeRates } from "../../forex"
+import { getExchangeRates } from "../forex"
 import { CryptoComplete, calculateManyCrypto } from "./helpers"
 import { CalculatedCryptocurrency } from "./types"
 import { prisma } from "database"
@@ -35,6 +35,7 @@ const testData: CryptoComplete[] = [
 		Children: [],
 		parentId: "43209489012480234802",
 		market: {
+			id: "",
 			name: "bitcoin",
 			ticker: "BTC",
 			marketCapRank: new Decimal(1),
@@ -97,6 +98,7 @@ const testData: CryptoComplete[] = [
 				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
+					id: "",
 					name: "bitcoin",
 					ticker: "btc",
 					marketCapRank: new Decimal(1),
@@ -136,6 +138,7 @@ const testData: CryptoComplete[] = [
 				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
+					id: "",
 					name: "bitcoin",
 					ticker: "ETH",
 					marketCapRank: new Decimal(2),
@@ -169,7 +172,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		shouldSell: true,
 		value: "32939.38",
 		walletAddress: null,
-		amountStaked: "0.00",
+		amountStaked: "0",
 		costBasis: "25000.00",
 		saleableValue: "0.00",
 		displayName: "Bitcoin",
@@ -193,6 +196,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		deleted: false,
 		deletedAt: null,
 		market: {
+			id: "",
 			image: "",
 			ticker: "BTC",
 			currency: "AUD",
@@ -239,7 +243,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		unrealisedGainPercentage: "-0.56",
 		saleable: "0.00",
 		saleableValue: "0.00",
-		amountStaked: "0.00",
+		amountStaked: "0",
 		value: "35939.38",
 		price: "0.00",
 		belowTargetBalance: false,
@@ -256,7 +260,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				price: "32939.38",
 				value: "32939.38",
 				walletAddress: null,
-				amountStaked: "0.00",
+				amountStaked: "0",
 				costBasis: "25000.00",
 				saleableValue: "0.00",
 				displayName: "Bitcoin",
@@ -279,6 +283,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				createdAt: todaysDate,
 				updatedAt: todaysDate,
 				market: {
+					id: "",
 					image: "",
 					ticker: "btc",
 					currency: "AUD",
@@ -309,6 +314,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				estimatedStakingYield: "0.00",
 				id: "209184092180928301283901",
 				market: {
+					id: "",
 					createdAt: todaysDate,
 					currency: "AUD",
 					description: descriptionText,
@@ -333,7 +339,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				saleable: "0.00",
 				saleableValue: "0.00",
 				shouldSell: true,
-				amountStaked: "0.00",
+				amountStaked: "0",
 				rateOfIncome: new Decimal(0),
 				targetBalance: new Decimal(1),
 				balance: new Decimal(1),
