@@ -21,7 +21,7 @@ ChartJs.Chart.register(
 )
 
 export const LogChart = () => {
-	const { data } = trpc.log.read.useQuery()
+	const { data } = trpc.logs.read.useQuery()
 
 	return <>{data && <Line data={data} />}</>
 }
