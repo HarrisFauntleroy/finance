@@ -21,6 +21,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { BsPerson } from "react-icons/bs"
 import { FiDollarSign } from "react-icons/fi"
 import { MdOutlineNoEncryption } from "react-icons/md"
+import type { Step } from "ui"
 import { Debug, Drawer, Stepper } from "ui"
 import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
@@ -88,25 +89,25 @@ export const CryptoForm = ({ mode, id = "" }: FormProps) => {
 		}
 	}
 
-	const steps = [
+	const steps: Step[] = [
 		{
 			label: "Describe",
 			content: <StepOne />,
-			icon: FiDollarSign,
+			icon: <FiDollarSign />,
 			description: "Step 1 description",
 			key: "ac2799f9-72f7-4b7c-b126-ea58f53f527f",
 		},
 		{
 			label: "Market",
 			content: <StepTwo />,
-			icon: MdOutlineNoEncryption,
+			icon: <MdOutlineNoEncryption />,
 			description: "Step 2 description",
 			key: "4a646453-17d0-4153-9f99-46360b328dbe",
 		},
 		{
 			label: "Income",
 			content: <StepThree />,
-			icon: BsPerson,
+			icon: <BsPerson />,
 			description: "Step 3 description",
 			key: "4c1bfdbf-4b8d-4b50-90dc-7195b750415c",
 		},

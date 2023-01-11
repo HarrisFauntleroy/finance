@@ -3,13 +3,12 @@ import React from "react"
 
 import { Button, Flex, Stack } from "@chakra-ui/react"
 import { Step as ChakraStep, Steps, useSteps } from "chakra-ui-steps"
-import type { IconType } from "react-icons"
 import { FiCheckCircle } from "react-icons/fi"
 
-type Step = {
+export type Step = {
 	label: string
 	content: ReactNode | JSX.Element
-	icon: IconType
+	icon: ReactNode | JSX.Element
 	description: string
 	key: string
 }
