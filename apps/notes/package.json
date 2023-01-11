@@ -78,8 +78,8 @@
 	"dependencies": {
 		"@bull-board/api": "^4.7.0",
 		"@bull-board/express": "4.9.0",
-		"@chakra-ui/icons": "2.0.14",
-		"@chakra-ui/react": "2.4.4",
+		"@chakra-ui/icons": "2.0.15",
+		"@chakra-ui/react": "2.4.6",
 		"@chakra-ui/theme-tools": "2.0.16",
 		"@choc-ui/chakra-autocomplete": "5.1.4",
 		"@emotion/react": "11.10.5",
