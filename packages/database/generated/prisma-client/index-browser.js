@@ -122,16 +122,6 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   role: 'role'
 });
 
-exports.Prisma.LogScalarFieldEnum = makeEnum({
-  id: 'id',
-  type: 'type',
-  message: 'message',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
 exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
   identifier: 'identifier',
   token: 'token',
@@ -150,42 +140,10 @@ exports.Prisma.SettingsScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
+exports.Prisma.LogScalarFieldEnum = makeEnum({
   id: 'id',
-  displayName: 'displayName',
-  currency: 'currency',
-  balance: 'balance',
-  costBasis: 'costBasis',
-  realisedGain: 'realisedGain',
-  apiKey: 'apiKey',
-  apiSecret: 'apiSecret',
-  walletAddress: 'walletAddress',
-  targetBalance: 'targetBalance',
-  interestBearingBalance: 'interestBearingBalance',
-  rateOfIncome: 'rateOfIncome',
-  accountConnection: 'accountConnection',
-  marketId: 'marketId',
-  userId: 'userId',
-  parentId: 'parentId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.MarketScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  ticker: 'ticker',
-  description: 'description',
-  currency: 'currency',
-  price: 'price',
-  priceChange24h: 'priceChange24h',
-  priceChange24hPercent: 'priceChange24hPercent',
-  marketCap: 'marketCap',
-  marketCapRank: 'marketCapRank',
   type: 'type',
-  image: 'image',
+  message: 'message',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
@@ -209,26 +167,50 @@ exports.Prisma.BudgetScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   userId: 'userId',
+  totalBalance: 'totalBalance',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.BudgetAssetScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
   id: 'id',
-  name: 'name',
-  type: 'type',
-  amount: 'amount',
-  frequency: 'frequency',
   budgetId: 'budgetId',
+  name: 'name',
+  remainingAmount: 'remainingAmount',
+  totalAmount: 'totalAmount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.UserCategoryScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
+  id: 'id',
+  timestamp: 'timestamp',
+  pricePerUnit: 'pricePerUnit',
+  baseCurrency: 'baseCurrency',
+  quantity: 'quantity',
+  quantityFilled: 'quantityFilled',
+  fee: 'fee',
+  valueInBaseCurrency: 'valueInBaseCurrency',
+  fromAsset: 'fromAsset',
+  toAsset: 'toAsset',
+  market: 'market',
+  transactionType: 'transactionType',
+  expiry: 'expiry',
+  status: 'status',
+  transactionHash: 'transactionHash',
+  description: 'description',
+  memo: 'memo',
+  imageUrl: 'imageUrl',
+  imageName: 'imageName',
+  imageId: 'imageId',
+  budgetEnvelopeId: 'budgetEnvelopeId'
+});
+
+exports.Prisma.AssetCategoryScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   icon: 'icon',
@@ -238,7 +220,7 @@ exports.Prisma.UserCategoryScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.UserLabelScalarFieldEnum = makeEnum({
+exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   icon: 'icon',
@@ -252,14 +234,49 @@ exports.Prisma.UserLabelScalarFieldEnum = makeEnum({
 exports.Prisma.AssetScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
-  value: 'value',
   currency: 'currency',
-  category: 'category',
-  categoryId: 'categoryId',
+  apiKey: 'apiKey',
+  apiSecret: 'apiSecret',
+  walletAddress: 'walletAddress',
+  value: 'value',
+  valueLastUpdated: 'valueLastUpdated',
+  balance: 'balance',
+  costBasis: 'costBasis',
+  realisedGain: 'realisedGain',
+  targetBalance: 'targetBalance',
+  interestBearingBalance: 'interestBearingBalance',
+  incomeRate: 'incomeRate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  account: 'account',
+  categoryId: 'categoryId',
+  category: 'category',
+  marketId: 'marketId',
+  parentId: 'parentId',
+  userId: 'userId'
+});
+
+exports.Prisma.TransactionScalarFieldEnum = makeEnum({
+  id: 'id',
+  timestamp: 'timestamp',
+  pricePerUnit: 'pricePerUnit',
+  baseCurrency: 'baseCurrency',
+  quantity: 'quantity',
+  quantityFilled: 'quantityFilled',
+  fee: 'fee',
+  valueInBaseCurrency: 'valueInBaseCurrency',
+  fromAsset: 'fromAsset',
+  toAsset: 'toAsset',
+  market: 'market',
+  transactionType: 'transactionType',
+  expiry: 'expiry',
+  status: 'status',
+  transactionHash: 'transactionHash',
+  description: 'description',
+  memo: 'memo',
+  relatedAssetId: 'relatedAssetId'
 });
 
 exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
@@ -337,24 +354,46 @@ exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.TransactionScalarFieldEnum = makeEnum({
+exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
   id: 'id',
-  timestamp: 'timestamp',
-  pricePerUnit: 'pricePerUnit',
-  baseCurrency: 'baseCurrency',
-  quantity: 'quantity',
-  quantityFilled: 'quantityFilled',
-  fee: 'fee',
-  valueInBaseCurrency: 'valueInBaseCurrency',
-  fromAsset: 'fromAsset',
-  toAsset: 'toAsset',
-  market: 'market',
-  transactionType: 'transactionType',
-  expiry: 'expiry',
-  status: 'status',
-  transactionHash: 'transactionHash',
+  displayName: 'displayName',
+  currency: 'currency',
+  balance: 'balance',
+  costBasis: 'costBasis',
+  realisedGain: 'realisedGain',
+  apiKey: 'apiKey',
+  apiSecret: 'apiSecret',
+  walletAddress: 'walletAddress',
+  targetBalance: 'targetBalance',
+  interestBearingBalance: 'interestBearingBalance',
+  rateOfIncome: 'rateOfIncome',
+  accountConnection: 'accountConnection',
+  marketId: 'marketId',
+  parentId: 'parentId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
+exports.Prisma.MarketScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  ticker: 'ticker',
   description: 'description',
-  memo: 'memo'
+  currency: 'currency',
+  price: 'price',
+  priceChange24h: 'priceChange24h',
+  priceChange24hPercent: 'priceChange24hPercent',
+  marketCap: 'marketCap',
+  marketCapRank: 'marketCapRank',
+  type: 'type',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 });
 
 exports.Prisma.SortOrder = makeEnum({
@@ -371,6 +410,12 @@ exports.Role = makeEnum({
   ADMIN: 'ADMIN'
 });
 
+exports.ColorScheme = makeEnum({
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
+  TBA: 'TBA'
+});
+
 exports.LogType = makeEnum({
   info: 'info',
   warn: 'warn',
@@ -379,25 +424,10 @@ exports.LogType = makeEnum({
   debug: 'debug'
 });
 
-exports.ColorScheme = makeEnum({
-  LIGHT: 'LIGHT',
-  DARK: 'DARK',
-  TBA: 'TBA'
-});
-
 exports.AccountConnection = makeEnum({
   NONE: 'NONE',
   SWYFTX: 'SWYFTX',
   COINSPOT: 'COINSPOT'
-});
-
-exports.MarketType = makeEnum({
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
-  STOCK: 'STOCK',
-  ETF: 'ETF',
-  METAL: 'METAL',
-  OTHER: 'OTHER',
-  CASH: 'CASH'
 });
 
 exports.Category = makeEnum({
@@ -412,27 +442,37 @@ exports.Category = makeEnum({
   SUPERANNUATION: 'SUPERANNUATION'
 });
 
+exports.MarketType = makeEnum({
+  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
+  STOCK: 'STOCK',
+  ETF: 'ETF',
+  METAL: 'METAL',
+  OTHER: 'OTHER',
+  CASH: 'CASH'
+});
+
 exports.Prisma.ModelName = makeEnum({
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  Log: 'Log',
   VerificationToken: 'VerificationToken',
   Settings: 'Settings',
-  Cryptocurrency: 'Cryptocurrency',
-  Market: 'Market',
+  Log: 'Log',
   Income: 'Income',
   Budget: 'Budget',
-  BudgetAsset: 'BudgetAsset',
-  UserCategory: 'UserCategory',
-  UserLabel: 'UserLabel',
+  BudgetEnvelope: 'BudgetEnvelope',
+  BudgetTransaction: 'BudgetTransaction',
+  AssetCategory: 'AssetCategory',
+  AssetLabel: 'AssetLabel',
   Asset: 'Asset',
+  Transaction: 'Transaction',
   PortfolioSnapshot: 'PortfolioSnapshot',
   CryptoSnapshot: 'CryptoSnapshot',
   CashSnapshot: 'CashSnapshot',
   PropertySnapshot: 'PropertySnapshot',
   SecuritySnapshot: 'SecuritySnapshot',
-  Transaction: 'Transaction'
+  Cryptocurrency: 'Cryptocurrency',
+  Market: 'Market'
 });
 
 /**

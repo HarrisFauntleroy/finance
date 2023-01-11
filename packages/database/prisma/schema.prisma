@@ -8,6 +8,10 @@ generator client {
   output   = "../generated/prisma-client"
 }
 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// USER
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -55,24 +59,7 @@ model User {
   CashSnapshot      CashSnapshot[]
   PropertySnapshot  PropertySnapshot[]
   SecuritySnapshot  SecuritySnapshot[]
-}
-
-model Log {
-  id        String    @id @unique @default(cuid())
-  type      LogType
-  message   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  deleted   Boolean   @default(false)
-  deletedAt DateTime?
-}
-
-enum LogType {
-  info
-  warn
-  error
-  trace
-  debug
+  Asset             Asset[]
 }
 
 model VerificationToken {
@@ -98,55 +85,42 @@ model Settings {
   @@unique([id, userId])
 }
 
-model Cryptocurrency {
-  id                     String             @id @unique @default(cuid())
-  displayName            String
-  currency               String             @default("usd")
-  balance                Decimal            @default(0)
-  costBasis              Decimal            @default(0)
-  realisedGain           Decimal            @default(0)
-  apiKey                 String?
-  apiSecret              String?
-  walletAddress          String?
-  targetBalance          Decimal            @default(0)
-  interestBearingBalance Decimal            @default(0)
-  rateOfIncome           Decimal            @default(0)
-  accountConnection      AccountConnection? @default(NONE)
+enum ColorScheme {
+  LIGHT
+  DARK
+  TBA
+}
 
-  marketId  String?
-  userId    String
-  parentId  String?
-  market    Market?          @relation(fields: [marketId], references: [id], onDelete: NoAction)
-  parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @default(now()) @updatedAt
-  deleted   Boolean          @default(false)
+enum Role {
+  USER
+  ADMIN
+}
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// LOGS 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+model Log {
+  id        String    @id @unique @default(cuid())
+  type      LogType
+  message   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
   deletedAt DateTime?
 }
 
-model Market {
-  id                    String           @id @unique @default(cuid())
-  name                  String
-  ticker                String
-  description           String?
-  currency              String
-  price                 Decimal          @default(0)
-  priceChange24h        Decimal          @default(0)
-  priceChange24hPercent Decimal          @default(0)
-  marketCap             Decimal          @default(0)
-  marketCapRank         Decimal          @default(0)
-  type                  MarketType
-  image                 String?
-  Cryptocurrency        Cryptocurrency[]
-  createdAt             DateTime         @default(now())
-  updatedAt             DateTime         @default(now()) @updatedAt
-  deleted               Boolean          @default(false)
-  deletedAt             DateTime?
-
-  @@unique([ticker, type])
+enum LogType {
+  info
+  warn
+  error
+  trace
+  debug
 }
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// BUDGETS 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 model Income {
   id             String    @id @unique @default(cuid())
@@ -163,63 +137,96 @@ model Income {
 }
 
 model Budget {
-  id        String        @unique @default(cuid())
-  name      String
-  userId    String
-  User      User          @relation(fields: [userId], references: [id])
-  Children  BudgetAsset[]
-  income    Income[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @default(now()) @updatedAt
-  deleted   Boolean       @default(false)
-  deletedAt DateTime?
+  id           String           @unique @default(cuid())
+  name         String
+  userId       String
+  user         User             @relation(fields: [userId], references: [id])
+  envelopes    BudgetEnvelope[]
+  income       Income[]
+  totalBalance Decimal          @default(0)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @default(now()) @updatedAt
+  deleted      Boolean          @default(false)
+  deletedAt    DateTime?
 }
 
-model BudgetAsset {
-  id        String    @unique @default(cuid())
-  name      String
-  type      String
-  amount    String
-  frequency String
-  budgetId  String
-  budget    Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  deleted   Boolean   @default(false)
-  deletedAt DateTime?
+model BudgetEnvelope {
+  id              String              @id @unique @default(cuid())
+  budgetId        String
+  name            String
+  budget          Budget              @relation(fields: [budgetId], references: [id])
+  transactions    BudgetTransaction[]
+  remainingAmount Decimal             @default(0)
+  totalAmount     Decimal             @default(0)
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @default(now()) @updatedAt
+  deleted         Boolean             @default(false)
+  deletedAt       DateTime?
 }
 
-enum ColorScheme {
-  LIGHT
-  DARK
-  TBA
+model BudgetTransaction {
+  id                  String    @id @unique @default(cuid())
+  // The time when the transaction was made
+  // ISO-8601 format
+  timestamp           DateTime
+  // The price of a single unit of the asset being bought or sold
+  pricePerUnit        Decimal
+  // The settlement currency in which the pricePerUnit is denominated
+  // ISO-4217 format
+  baseCurrency        String
+  // The number of units of the asset being bought or sold
+  quantity            Decimal
+  // The number of units of the asset that have been filled in the transaction
+  // (optional field, may not be applicable to all transactions)
+  quantityFilled      Decimal?
+  // The fee associated with the transaction in the base currency
+  fee                 Decimal
+  // The total value of the transaction in the base currency
+  valueInBaseCurrency Decimal
+  // The asset being sold in the transaction)
+  fromAsset           String?
+  // The asset being bought in the transaction
+  // (optional field, may not be applicable to all 
+  toAsset             String
+  // The market in which the transaction took place
+  market              String
+  // The type of transaction (e.g. "buy", "sell", "referral_card_cashback")
+  transactionType     String
+  // The expiration time of the transaction, if applicable
+  // ISO-8601 format
+  expiry              DateTime?
+  // The current status of the transaction (e.g. "filled", "cancelled")
+  status              String
+  // A unique identifier for the transaction
+  transactionHash     String
+  // A description of the transaction
+  description         String
+  // A memo associated with the transaction
+  memo                String
+
+  // Attached image
+  imageUrl  String?
+  imageName String?
+  imageId   String?
+
+  // A unique identifier for the order associated with the transaction. This could be useful for tracking and linking related transactions (e.g. multiple fills of a single order).
+  // orderId   String?
+
+  // The type of order associated with the transaction (e.g. "market", "limit", "stop"). This can be useful for understanding the conditions under which the transaction was made.
+  // orderType String?
+
+  // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
+  // limitPrice Decimal?
+
+  budgetEnvelopeId String?
+  budgetEnvelope   BudgetEnvelope? @relation(fields: [budgetEnvelopeId], references: [id])
 }
 
-enum MarketType {
-  CRYPTOCURRENCY
-  STOCK
-  ETF
-  METAL
-  OTHER
-  CASH
-}
-
-enum AccountConnection {
-  NONE
-  SWYFTX
-  COINSPOT
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-// =-=-=-=-=-=-=-=-=-= Everything below is new =-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// ASSETS 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // You can use the term "financial asset" or "financial instrument" to refer to something that may be either an asset or a liability. These terms are commonly used in accounting and finance to refer to items that have a monetary value and can be used to measure, recognize, and record transactions or events. Financial assets may include cash, investments, or other assets that can be easily converted into cash, while financial liabilities may include debts or obligations that are owed to others.
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // EG 
 // const assets = await prisma.item.findMany({
@@ -274,7 +281,7 @@ enum Category {
   SUPERANNUATION
 }
 
-model UserCategory {
+model AssetCategory {
   id        String    @id @default(cuid())
   name      String
   icon      String?
@@ -285,7 +292,7 @@ model UserCategory {
   assets    Asset[]
 }
 
-model UserLabel {
+model AssetLabel {
   id        String    @id @default(cuid())
   name      String
   icon      String?
@@ -298,19 +305,117 @@ model UserLabel {
 }
 
 model Asset {
-  id             String        @id @default(cuid())
-  name           String
-  labels         UserLabel[]
-  value          Decimal
-  currency       String
-  category       Category
-  customCategory UserCategory? @relation(fields: [categoryId], references: [id])
+  id                     String    @id @default(cuid())
+  // The name of the asset, such as "Bitcoin" or "Tesla Stock"
+  name                   String
+  // The currency that the asset is denominated in, such as "USD" or "EUR"
+  currency               String
+  // Credentials used to access data from an external API, such as an exchange's API.
+  apiKey                 String?
+  apiSecret              String?
+  // The address of the wallet where the asset is stored, if applicable.
+  walletAddress          String?
+  // The current value of the asset, this is based on the market data of the specific asset and it can be fluctuating based on the market data.
+  value                  Decimal
+  valueLastUpdated       DateTime?
+  // The balance of the asset, for example the number of shares or tokens that the user owns.
+  balance                Decimal   @default(0)
+  // The total cost of purchasing the asset, including any fees or expenses.
+  costBasis              Decimal   @default(0)
+  // The profit or loss from the sale of the asset, calculated as the sale price minus the cost basis.
+  realisedGain           Decimal   @default(0)
+  // The desired balance of the asset, for example the number of shares or tokens that the user wants to own.
+  targetBalance          Decimal?
+  // The balance of the asset that earns interest, for example a savings account balance.
+  interestBearingBalance Decimal?
+  // The income rate of the asset, for example the annual percentage rate of a savings account.
+  incomeRate             Decimal?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  deleted   Boolean            @default(false)
+  deletedAt DateTime?
+  // An enumeration that represents the connection of the asset to an external account.
+  account   AccountConnection?
+  // An array of labels that can be used to classify the asset, such as "personal" or "business"
+  labels    AssetLabel[]
+
   categoryId     String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @default(now()) @updatedAt
-  deleted        Boolean       @default(false)
-  deletedAt      DateTime?
+  category       Category
+  // Reference to the category of the asset, for example "Cryptocurrency" or "Stock"
+  customCategory AssetCategory? @relation(fields: [categoryId], references: [id])
+
+  // Connection to market data for crypto, stock, metal prices etc.
+  marketId String?
+  market   Market? @relation(fields: [marketId], references: [id], onDelete: NoAction)
+
+  // If the asset is a sub-asset, it will have a parent asset, these fields represent the parent asset
+  parentId     String?
+  parent       Asset?        @relation("sub_assets", fields: [parentId], references: [id])
+  subAssets    Asset[]       @relation("sub_assets")
+  transactions Transaction[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Transaction {
+  id                  String    @id @unique @default(cuid())
+  // The time when the transaction was made
+  // ISO-8601 format
+  timestamp           DateTime
+  // The price of a single unit of the asset being bought or sold
+  pricePerUnit        Decimal
+  // The settlement currency in which the pricePerUnit is denominated
+  // ISO-4217 format
+  baseCurrency        String
+  // The number of units of the asset being bought or sold
+  quantity            Decimal
+  // The number of units of the asset that have been filled in the transaction
+  // (optional field, may not be applicable to all transactions)
+  quantityFilled      Decimal?
+  // The fee associated with the transaction in the base currency
+  fee                 Decimal
+  // The total value of the transaction in the base currency
+  valueInBaseCurrency Decimal
+  // The asset being sold in the transaction)
+  fromAsset           String?
+  // The asset being bought in the transaction
+  // (optional field, may not be applicable to all 
+  toAsset             String
+  // The market in which the transaction took place
+  market              String
+  // The type of transaction (e.g. "buy", "sell", "referral_card_cashback")
+  transactionType     String
+  // The expiration time of the transaction, if applicable
+  // ISO-8601 format
+  expiry              DateTime?
+  // The current status of the transaction (e.g. "filled", "cancelled")
+  status              String
+  // A unique identifier for the transaction
+  transactionHash     String
+  // A description of the transaction
+  description         String
+  // A memo associated with the transaction
+  memo                String
+
+  // A unique identifier for the order associated with the transaction. This could be useful for tracking and linking related transactions (e.g. multiple fills of a single order).
+  // orderId   String?
+
+  // The type of order associated with the transaction (e.g. "market", "limit", "stop"). This can be useful for understanding the conditions under which the transaction was made.
+  // orderType String?
+
+  // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
+  // limitPrice Decimal?
+
+  relatedAssetId String?
+  relatedAsset   Asset?  @relation(fields: [relatedAssetId], references: [id])
+}
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// SNAPSHOTS - TODO: REFACTOR NEEDED 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 model PortfolioSnapshot {
   id             String    @id @unique @default(cuid())
@@ -402,56 +507,70 @@ model SecuritySnapshot {
   @@unique([createdAt, userId])
 }
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Transaction model
-// Applies to all transactions, crypto trades, stock purchases, apples bought.
+// EVERYTHING BELOW HERE SHOULD BE MERGED INTO THE ASSET SECTION AS ASSET SUPERCEDES CRYPTOCURRENCY 
 
-model Transaction {
-  id                  String    @id @unique @default(cuid())
-  // The time when the transaction was made
-  // ISO-8601 format
-  timestamp           DateTime
-  // The price of a single unit of the asset being bought or sold
-  pricePerUnit        Decimal
-  // The settlement currency in which the pricePerUnit is denominated
-  // ISO-4217 format
-  baseCurrency        String
-  // The number of units of the asset being bought or sold
-  quantity            Decimal
-  // The number of units of the asset that have been filled in the transaction
-  // (optional field, may not be applicable to all transactions)
-  quantityFilled      Decimal?
-  // The fee associated with the transaction in the base currency
-  fee                 Decimal
-  // The total value of the transaction in the base currency
-  valueInBaseCurrency Decimal
-  // The asset being sold in the transaction)
-  fromAsset           String?
-  // The asset being bought in the transaction
-  // (optional field, may not be applicable to all 
-  toAsset             String
-  // The market in which the transaction took place
-  market              String
-  // The type of transaction (e.g. "buy", "sell", "referral_card_cashback")
-  transactionType     String
-  // The expiration time of the transaction, if applicable
-  // ISO-8601 format
-  expiry              DateTime?
-  // The current status of the transaction (e.g. "filled", "cancelled")
-  status              String
-  // A unique identifier for the transaction
-  transactionHash     String
-  // A description of the transaction
-  description         String
-  // A memo associated with the transaction
-  memo                String
+model Cryptocurrency {
+  id                     String             @id @unique @default(cuid())
+  displayName            String
+  currency               String             @default("usd")
+  balance                Decimal            @default(0)
+  costBasis              Decimal            @default(0)
+  realisedGain           Decimal            @default(0)
+  apiKey                 String?
+  apiSecret              String?
+  walletAddress          String?
+  targetBalance          Decimal            @default(0)
+  interestBearingBalance Decimal            @default(0)
+  rateOfIncome           Decimal            @default(0)
+  accountConnection      AccountConnection? @default(NONE)
 
-  // A unique identifier for the order associated with the transaction. This could be useful for tracking and linking related transactions (e.g. multiple fills of a single order).
-  // orderId   String?
+  marketId  String?
+  market    Market?          @relation(fields: [marketId], references: [id], onDelete: NoAction)
+  parentId  String?
+  parent    Cryptocurrency?  @relation("Cryptocurrency_Children", fields: [parentId], references: [id])
+  Children  Cryptocurrency[] @relation("Cryptocurrency_Children")
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
+  deleted   Boolean          @default(false)
+  deletedAt DateTime?
+}
 
-  // The type of order associated with the transaction (e.g. "market", "limit", "stop"). This can be useful for understanding the conditions under which the transaction was made.
-  // orderType String?
+enum MarketType {
+  CRYPTOCURRENCY
+  STOCK
+  ETF
+  METAL
+  OTHER
+  CASH
+}
 
-  // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
-  // limitPrice Decimal?
+model Market {
+  id                    String           @id @unique @default(cuid())
+  name                  String
+  ticker                String
+  description           String?
+  currency              String
+  price                 Decimal          @default(0)
+  priceChange24h        Decimal          @default(0)
+  priceChange24hPercent Decimal          @default(0)
+  marketCap             Decimal          @default(0)
+  marketCapRank         Decimal          @default(0)
+  type                  MarketType
+  image                 String?
+  Cryptocurrency        Cryptocurrency[]
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
+  deleted               Boolean          @default(false)
+  deletedAt             DateTime?
+  Asset                 Asset[]
+
+  @@unique([ticker, type])
+}
+
+enum AccountConnection {
+  NONE
+  SWYFTX
+  COINSPOT
 }
