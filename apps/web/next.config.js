@@ -7,6 +7,14 @@ const path = require("path")
 module.exports = {
 	reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
 	swcMinify: true,
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "assets.coingecko.com",
+			}
+		]
+	},
 	experimental: {
 		// Required:
 		appDir: true,

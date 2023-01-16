@@ -108,5 +108,3 @@ app.listen(process.env.WORKER_PORT, () => {
 		`Make sure Redis is running on port ${process.env.REDIS_PORT} by default`
 	)
 })
-
-export {}

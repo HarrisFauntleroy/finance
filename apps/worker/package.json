@@ -10,7 +10,7 @@
 		"format": "prettier --write .",
 		"lint": "next lint",
 		"lint:fix": "eslint . --fix",
-		"start": "NODE_ENV=production ts-node dist/index.js",
+		"start": "NODE_ENV=production node dist/index.js",
 		"test": "jest --passWithNoTests",
 		"test:ci": "yarn test --ci --coverage --maxWorkers=2",
 		"test:watch": "yarn test --watch",

@@ -15,6 +15,7 @@
 		"packages/*"
 	],
 	"scripts": {
+		"docker:network": "docker network create app_network",
 		"build": "turbo run build",
 		"clean": "turbo run clean",
 		"db:migrate:deploy": "turbo run db:migrate:deploy",

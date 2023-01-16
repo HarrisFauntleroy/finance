@@ -4,7 +4,7 @@
 		"strict": true,
 		"baseUrl": "./",
 		"paths": {
-			"~/*": ["src/*"]
+			"~/*": ["./*"]
 		},
 		"plugins": [
 			{
@@ -20,7 +20,7 @@
 		"**/*.tsx",
 		"**/*.stories.jsx",
 		".next/types/**/*.ts",
-		"src/hooks/useLagRadar.jsx"
+		"hooks/useLagRadar.js"
 	],
 	"exclude": ["**/node_modules"]
 }

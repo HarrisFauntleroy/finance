@@ -11,7 +11,7 @@
 		"tsup.config.ts",
 		"postcss.config.js",
 		"src/components/Button/Button.stories.js",
-		"src/hooks/useLagRadar.jsx"
+		"src/hooks/useLagRadar.js"
 	],
 	"exclude": ["**/node_modules", "**/dist"]
 }

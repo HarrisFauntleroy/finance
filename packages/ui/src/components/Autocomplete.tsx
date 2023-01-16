@@ -17,16 +17,14 @@ import {
 } from "@choc-ui/chakra-autocomplete"
 import { Controller, useFormContext } from "react-hook-form"
 
-interface AutocompleteProps<T> {
+interface AutocompleteProps {
 	label: string
-	data: T
+	name: string
+	data: any[]
+	error?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Autocomplete = <T extends Record<string, any>[]>({
-	label,
-	data,
-}: AutocompleteProps<T>) => {
+export const Autocomplete = ({ label, data }: AutocompleteProps) => {
 	const {
 		control,
 		formState: { errors },
