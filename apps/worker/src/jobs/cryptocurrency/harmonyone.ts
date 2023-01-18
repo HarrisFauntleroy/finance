@@ -1,17 +1,17 @@
 import { Progress } from "../../util"
-import { prisma } from "database"
-import { MarketType } from "database/generated/prisma-client"
-import dotenv from "dotenv"
+import { Harmony } from "@harmony-js/core"
 import {
 	ChainID,
 	ChainType,
+	Units,
 	fromWei,
 	hexToNumber,
 	isValidAddress,
-	Units,
 } from "@harmony-js/utils"
-import { Harmony } from "@harmony-js/core"
 import { logger } from "common"
+import { prisma } from "database"
+import { MarketType } from "database/generated/prisma-client"
+import dotenv from "dotenv"
 
 dotenv.config()
 

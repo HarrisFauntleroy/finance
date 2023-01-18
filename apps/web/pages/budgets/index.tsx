@@ -1,9 +1,9 @@
 import React from "react"
 
 import { Page, Tabs } from "ui"
-import { BudgetOverview } from "~/components/Budget/BudgetOverview"
-import { BudgetSettings } from "~/components/Budget/BudgetSettings"
-import { BudgetsList } from "~/components/Budget/BudgetsList"
+import { BudgetOverview } from "~/components/Budget/Overview"
+import { BudgetSettings } from "~/components/Budget/Settings"
+import { BudgetsList } from "~/components/Budget/Transactions"
 
 function Budgets() {
 	const tabData = [

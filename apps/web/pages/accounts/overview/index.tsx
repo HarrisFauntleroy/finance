@@ -1,12 +1,11 @@
 import React from "react"
 
 import { GridItem } from "@chakra-ui/react"
-
-import { Layout } from "~/components/Portfolio/Layout"
-import { NetWorthCostBasisChart } from "~/components/Portfolio/NetWorthCostBasisChart"
-import { IncomeBreakdownTable } from "~/components/Portfolio/IncomeBreakdownTable"
 import { AllocationPieChart } from "~/components/Portfolio/AllocationPieChart"
 import { HistorySnapshots } from "~/components/Portfolio/HistorySnapshots"
+import { IncomeBreakdownTable } from "~/components/Portfolio/IncomeBreakdownTable"
+import { Layout } from "~/components/Portfolio/Layout"
+import { NetWorthCostBasisChart } from "~/components/Portfolio/NetWorthCostBasisChart"
 
 function AccountsPage() {
 	return (

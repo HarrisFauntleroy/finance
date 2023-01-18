@@ -1,8 +1,9 @@
 import { publicProcedure, router } from "../../trpc"
-import { BudgetSchema, BudgetSchemaWithId, BudgetSelectSchema } from "./schema"
+import { BudgetSchema, BudgetSchemaWithIdZod } from "./schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
+import { decimal } from "~/utils/decimal"
 
 /**
  * Routers: Budget
@@ -17,12 +18,20 @@ import { z } from "zod"
 
 export const budgetRouter = router({
 	// Firstly, create a budget.
-	create: publicProcedure.input(BudgetSchema).mutation(async ({ input }) => {
-		return prisma.budget.create({
-			data: input,
-			select: BudgetSelectSchema,
-		})
-	}),
+	create: publicProcedure
+		.input(
+			z.object({
+				name: z.string(),
+				userId: z.string(),
+				totalBalance: decimal(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			return prisma.budget.create({
+				data: input,
+				select: BudgetSchema,
+			})
+		}),
 	byId: publicProcedure
 		.input(
 			z.object({
@@ -35,7 +44,7 @@ export const budgetRouter = router({
 				where: {
 					id,
 				},
-				select: BudgetSelectSchema,
+				select: BudgetSchema,
 			})
 			if (!budgetResponse) {
 				throw new TRPCError({
@@ -57,7 +66,10 @@ export const budgetRouter = router({
 				where: {
 					userId,
 				},
-				select: BudgetSelectSchema,
+				select: BudgetSchema,
+				orderBy: {
+					createdAt: "asc",
+				},
 			})
 			if (!budgetResponse) {
 				throw new TRPCError({
@@ -93,7 +105,7 @@ export const budgetRouter = router({
 			z.object({
 				id: z.string(),
 				userId: z.string(),
-				data: BudgetSchemaWithId,
+				data: BudgetSchemaWithIdZod,
 			})
 		)
 		.mutation(async ({ input }) => {
@@ -101,7 +113,7 @@ export const budgetRouter = router({
 			const budgetResponse = await prisma.budget.update({
 				where: { id },
 				data,
-				select: BudgetSelectSchema,
+				select: BudgetSchema,
 			})
 			if (!budgetResponse) {
 				throw new TRPCError({

@@ -1,17 +1,18 @@
+import React, { useContext, useState } from "react"
+
 import { SettingsIcon } from "@chakra-ui/icons"
 import {
 	Button,
+	Flex,
 	Menu,
 	MenuButton,
-	MenuList,
 	MenuDivider,
 	MenuItemOption,
+	MenuList,
 	MenuOptionGroup,
-	Flex,
 	Select,
 } from "@chakra-ui/react"
-import React, { useContext, useState } from "react"
-import { FiEyeOff, FiEye } from "react-icons/fi"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdExpand } from "react-icons/md"
 import { PrivacyContext } from "~/components/Providers/Privacy"
 

@@ -1,3 +1,9 @@
+import React from "react"
+
+import Accounts from "./accounts"
+import Overview from "./overview"
+import Statistics from "./statistics"
+import Transactions from "./transactions"
 import {
 	Stack,
 	Tab,
@@ -7,11 +13,6 @@ import {
 	Tabs,
 	Text,
 } from "@chakra-ui/react"
-import React from "react"
-import Overview from "./overview"
-import Transactions from "./transactions"
-import Statistics from "./statistics"
-import Accounts from "./accounts"
 import Link from "next/link"
 
 const Portfolio = () => {

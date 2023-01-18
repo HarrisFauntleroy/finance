@@ -1,16 +1,16 @@
 import React from "react"
 
-import { trpc } from "../utils/trpc"
-import type { Role } from "database/generated/prisma-client"
-import { DefaultSeo } from "next-seo"
 import SEO from "../next-seo.config"
-import { type NextPage } from "next"
-import { type AppProps } from "next/app"
-import { type Session } from "next-auth"
-import { AppContext } from "~/components/Providers"
-import Layout from "~/components/Layout"
+import { trpc } from "../utils/trpc"
 import Auth from "./auth"
+import type { Role } from "database/generated/prisma-client"
+import { type NextPage } from "next"
+import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
+import { DefaultSeo } from "next-seo"
+import { type AppProps } from "next/app"
+import Layout from "~/components/Layout"
+import { AppContext } from "~/components/Providers"
 
 export type WithAuth = {
 	auth: boolean

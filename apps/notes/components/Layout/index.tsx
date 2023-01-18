@@ -7,6 +7,8 @@
 import { ReactNode, useState } from "react"
 import React from "react"
 
+import { NoteForm } from "../Form"
+import { HamburgerIcon, PlusSquareIcon } from "@chakra-ui/icons"
 import {
 	Avatar,
 	Box,
@@ -20,13 +22,11 @@ import {
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react"
+import { Note } from "database-notes/generated/prisma-client"
+import { signIn, signOut, useSession } from "next-auth/react"
 import { MdLogin, MdLogout } from "react-icons/md"
-import { HamburgerIcon, PlusSquareIcon } from "@chakra-ui/icons"
 import { MarkdownEditor } from "ui"
 import { trpc } from "~/utils/trpc"
-import { signIn, signOut, useSession } from "next-auth/react"
-import { NoteForm } from "../Form"
-import { Note } from "database-notes/generated/prisma-client"
 
 export default function Layout({ children }: { children?: ReactNode }) {
 	const [currentNote, setCurrentNote] = useState<Note>()

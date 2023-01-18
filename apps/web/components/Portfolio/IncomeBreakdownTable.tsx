@@ -1,17 +1,18 @@
+import React from "react"
+
 import {
 	Card,
+	Stat,
+	Table,
 	TableContainer,
-	Thead,
-	Tr,
-	Th,
 	Tbody,
 	Td,
-	Stat,
-	Tfoot,
 	Text,
-	Table,
+	Tfoot,
+	Th,
+	Thead,
+	Tr,
 } from "@chakra-ui/react"
-import React from "react"
 
 export const IncomeBreakdownTable = () => {
 	return (

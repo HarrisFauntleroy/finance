@@ -1,3 +1,6 @@
+import type { ChangeEvent } from "react"
+import { useState } from "react"
+
 import {
 	Button,
 	Modal,
@@ -17,8 +20,6 @@ import {
 } from "@chakra-ui/react"
 import { logger } from "common"
 import Papa from "papaparse"
-import type { ChangeEvent } from "react"
-import { useState } from "react"
 
 // Load the CSV file and parse its contents
 export async function loadCSV(file: File): Promise<unknown[]> {

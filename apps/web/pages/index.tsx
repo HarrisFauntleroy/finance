@@ -4,8 +4,7 @@
  *
  */
 import React from "react"
-import { Page } from "ui"
-import type { NextPageWithLayout } from "~/pages/_app"
+
 import {
 	ArcElement,
 	BarElement,
@@ -13,12 +12,14 @@ import {
 	Chart,
 	Filler,
 	Legend,
-	LinearScale,
 	LineElement,
+	LinearScale,
 	PointElement,
 	Title,
 	Tooltip,
 } from "chart.js"
+import { Page } from "ui"
+import type { NextPageWithLayout } from "~/pages/_app"
 
 Chart.register(
 	CategoryScale,

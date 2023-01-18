@@ -19,8 +19,8 @@ import {
 	Text,
 } from "@chakra-ui/react"
 import { Card, Grid, MarkdownEditor, Page } from "ui"
-import { trpc } from "~/utils/trpc"
 import { Csv } from "~/components/Csv"
+import { trpc } from "~/utils/trpc"
 
 const Index = () => {
 	const { data: users } = trpc.user.all.useQuery()

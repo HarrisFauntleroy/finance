@@ -1,5 +1,6 @@
-import { Stack } from "@chakra-ui/react"
 import React from "react"
+
+import { Stack } from "@chakra-ui/react"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
 

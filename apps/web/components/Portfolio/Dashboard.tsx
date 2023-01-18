@@ -1,6 +1,7 @@
-import { useColorModeValue } from "@chakra-ui/react"
-import { calculateBurnDown, RateType } from "common"
 import React, { useMemo } from "react"
+
+import { useColorModeValue } from "@chakra-ui/react"
+import { RateType, calculateBurnDown } from "common"
 import { Chart } from "react-chartjs-2"
 import { Card, Grid } from "ui"
 import { useMockData } from "~/hooks/useMockData"

@@ -5,10 +5,10 @@
  */
 import React from "react"
 
+import CryptoComparison from "../../components/Markets/CryptoComparison"
 import { Page, Tabs } from "ui"
 import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
 import { Forex } from "~/components/Markets/Forex"
-import CryptoComparison from "../../components/Markets/CryptoComparison"
 
 const Markets = () => {
 	const tabData = [

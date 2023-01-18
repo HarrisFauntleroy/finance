@@ -9,10 +9,10 @@ import {
 	Th,
 	Tr,
 } from "@chakra-ui/react"
+import { useSession } from "next-auth/react"
 import { Card } from "ui"
 import Currency from "~/components/Currency"
 import { trpc } from "~/utils/trpc"
-import { useSession } from "next-auth/react"
 
 function OverviewCard() {
 	const session = useSession()

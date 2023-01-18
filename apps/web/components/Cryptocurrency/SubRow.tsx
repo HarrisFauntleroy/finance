@@ -15,7 +15,6 @@ import {
 import type { Row } from "@tanstack/react-table"
 import type { CalculatedCryptocurrency } from "common"
 import { percentageChange } from "common"
-
 import currency from "currency.js"
 import { Card, Debug, Grid, inDev } from "ui"
 

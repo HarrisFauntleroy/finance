@@ -1,5 +1,6 @@
-import { Flex, Table, Thead, Tr, Th, Tbody, Td, Stack } from "@chakra-ui/react"
 import React from "react"
+
+import { Flex, Stack, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { AccountBreakdown } from "~/components/Portfolio/AccountBreakdown"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
 import { ControlBar } from "~/components/Portfolio/ControlBar"

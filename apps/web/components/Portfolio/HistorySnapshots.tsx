@@ -1,8 +1,9 @@
-import { Skeleton, Text } from "@chakra-ui/react"
-import { Card, Table } from "ui"
 import React from "react"
+
 import { historySnapshotColumns } from "./columns"
+import { Skeleton, Text } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
+import { Card, Table } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const HistorySnapshots = () => {

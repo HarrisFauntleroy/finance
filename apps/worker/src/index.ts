@@ -7,15 +7,15 @@ import { cryptocurrency } from "./jobs/cryptocurrency"
 import { history } from "./jobs/history"
 import { marketData } from "./jobs/marketData"
 import { swyftx } from "./jobs/swyftx"
+import {
+	BullMQAdapter,
+	ExpressAdapter,
+	createBullBoard,
+} from "@bull-board/express"
 import bodyParser from "body-parser"
 import { ConnectionOptions, Queue, Worker } from "bullmq"
 import { logger } from "common"
 import dotenv from "dotenv"
-import {
-	ExpressAdapter,
-	createBullBoard,
-	BullMQAdapter,
-} from "@bull-board/express"
 import express from "express"
 
 dotenv.config()

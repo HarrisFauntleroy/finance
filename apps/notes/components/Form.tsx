@@ -1,35 +1,35 @@
 import React, { useEffect } from "react"
 
-import { logger } from "common"
-import { useSession } from "next-auth/react"
-import { FormProvider, useForm } from "react-hook-form"
-import { Drawer } from "ui"
-import type { RouterOutput } from "~/utils/trpc"
-import { trpc } from "~/utils/trpc"
-import type { Note } from "database-notes/generated/prisma-client"
-import { MdNote } from "react-icons/md"
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
 import {
-	useEditableControls,
+	Button,
 	ButtonGroup,
-	IconButton,
-	Flex,
-	Input,
+	DrawerBody,
+	DrawerCloseButton,
+	DrawerContent,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerOverlay,
 	Editable,
 	EditableInput,
 	EditablePreview,
+	Flex,
+	IconButton,
+	Input,
 	Textarea,
-	useDisclosure,
-	DrawerOverlay,
-	DrawerContent,
-	DrawerCloseButton,
-	DrawerHeader,
-	DrawerBody,
-	DrawerFooter,
-	Button,
-	useColorModeValue,
 	Tooltip,
+	useColorModeValue,
+	useDisclosure,
+	useEditableControls,
 } from "@chakra-ui/react"
+import { logger } from "common"
+import type { Note } from "database-notes/generated/prisma-client"
+import { useSession } from "next-auth/react"
+import { FormProvider, useForm } from "react-hook-form"
+import { MdNote } from "react-icons/md"
+import { Drawer } from "ui"
+import type { RouterOutput } from "~/utils/trpc"
+import { trpc } from "~/utils/trpc"
 
 type DefaultNote = RouterOutput["notes"]["byId"]
 

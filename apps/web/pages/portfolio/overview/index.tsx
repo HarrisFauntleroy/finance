@@ -1,14 +1,14 @@
 import React from "react"
 
 import { GridItem } from "@chakra-ui/react"
-import { AccountsList } from "~/components/Portfolio/AccountsList"
+import * as ChartJs from "chart.js"
+import currency from "currency.js"
 import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
 import { Layout } from "~/components/Cryptocurrency/Layout"
 import { Targets } from "~/components/Cryptocurrency/Targets"
-import * as ChartJs from "chart.js"
-import currency from "currency.js"
-import OverviewCard from "~/components/Portfolio/OverviewCard"
+import { AccountsList } from "~/components/Portfolio/AccountsList"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
+import OverviewCard from "~/components/Portfolio/OverviewCard"
 
 ChartJs.Chart.register(
 	ChartJs.CategoryScale,

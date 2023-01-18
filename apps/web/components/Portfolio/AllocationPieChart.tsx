@@ -1,8 +1,9 @@
-import { Card } from "ui"
+import React, { useMemo } from "react"
+
 import type { ChartData } from "chart.js"
 import { useSession } from "next-auth/react"
-import React, { useMemo } from "react"
 import { Pie } from "react-chartjs-2"
+import { Card } from "ui"
 import { trpc } from "~/utils/trpc"
 
 export const AllocationPieChart = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 
+import { Autocomplete } from "../Form/Autocomplete"
 import { SettingsIcon } from "@chakra-ui/icons"
 import {
 	Button,
@@ -22,7 +23,6 @@ import { FormProvider, useForm } from "react-hook-form"
 import { Debug, Drawer, TextInput } from "ui"
 import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
-import { Autocomplete } from "../Form/Autocomplete"
 
 interface SettingsFormProps {
 	defaultValues?: Omit<Settings, "createdAt" | "updatedAt">
