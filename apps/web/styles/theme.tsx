@@ -31,19 +31,7 @@ const activeLabelStyles = {
 	transform: "scale(0.85) translateY(-24px)",
 }
 
-// const colors = {
-// 	background: {
-// 		dark: "#000000",
-// 		light: "#F1F1F1",
-// 	},
-// 	element: {
-// 		dark: "#333333",
-// 	},
-// 	accent: "#4B0082",
-// 	accent2: "#663399",
-// 	accentPop: "#8B008B",
-// 	subtleAccent: "#9966CC",
-// }
+const colors = {}
 
 const fonts = {
 	body: "Arial, sans-serif",
@@ -121,6 +109,7 @@ const components = {
 
 export const theme = extendTheme({
 	fonts,
+	colors,
 	styles,
 	components,
 	breakpoints,

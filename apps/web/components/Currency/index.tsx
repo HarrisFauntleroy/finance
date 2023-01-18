@@ -4,7 +4,7 @@ import { chakra } from "@chakra-ui/react"
 import currency from "currency.js"
 import type { Decimal } from "database/generated/prisma-client/runtime"
 import { useSession } from "next-auth/react"
-import { PrivacyContext } from "~/providers/Privacy"
+import { PrivacyContext } from "~/components/Providers/Privacy"
 import { trpc } from "~/utils/trpc"
 
 interface CurrencyProps {

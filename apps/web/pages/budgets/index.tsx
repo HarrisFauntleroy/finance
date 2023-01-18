@@ -2,8 +2,8 @@ import React from "react"
 
 import { Page, Tabs } from "ui"
 import { BudgetOverview } from "~/components/Budget/BudgetOverview"
-import { BudgetPlanner } from "~/components/Budget/BudgetPlanner"
-import { BudgetTransactions } from "~/components/Budget/BudgetTransactions"
+import { BudgetSettings } from "~/components/Budget/BudgetSettings"
+import { BudgetsList } from "~/components/Budget/BudgetsList"
 
 function Budgets() {
 	const tabData = [
@@ -12,12 +12,12 @@ function Budgets() {
 			page: <BudgetOverview />,
 		},
 		{
-			title: "Transactions",
-			page: <BudgetTransactions />,
+			title: "Budgets",
+			page: <BudgetsList />,
 		},
 		{
-			title: "Planner",
-			page: <BudgetPlanner />,
+			title: "Settings",
+			page: <BudgetSettings />,
 		},
 	]
 

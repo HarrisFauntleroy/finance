@@ -16,25 +16,25 @@ import Link from "next/link"
 
 const Portfolio = () => {
 	return (
-		<Stack padding="8px">
-			<Tabs variant="enclosed">
+		<Stack height="100%">
+			<Tabs variant="enclosed" height="100%" padding="8px">
 				<TabList>
 					<Tab>Overview</Tab>
 					<Tab>Accounts</Tab>
 					<Tab>Transactions</Tab>
 					<Tab>Statistics</Tab>
 				</TabList>
-				<TabPanels>
-					<TabPanel>
+				<TabPanels height="100%">
+					<TabPanel padding={0} height="100%">
 						<Overview />
 					</TabPanel>
-					<TabPanel>
+					<TabPanel padding={0} height="100%">
 						<Accounts />
 					</TabPanel>
-					<TabPanel>
+					<TabPanel padding={0} height="100%">
 						<Transactions />
 					</TabPanel>
-					<TabPanel>
+					<TabPanel padding={0} height="100%">
 						<Statistics />
 					</TabPanel>
 				</TabPanels>

@@ -8,6 +8,7 @@ import { Targets } from "~/components/Cryptocurrency/Targets"
 import * as ChartJs from "chart.js"
 import currency from "currency.js"
 import OverviewCard from "~/components/Portfolio/OverviewCard"
+import { ControlBar } from "~/components/Portfolio/ControlBar"
 
 ChartJs.Chart.register(
 	ChartJs.CategoryScale,
@@ -56,6 +57,9 @@ function Overview() {
 			</GridItem>
 			<GridItem area={"income"}>
 				<IncomeOverviewCard />
+			</GridItem>
+			<GridItem area={"control"}>
+				<ControlBar />
 			</GridItem>
 			<GridItem area={"assets"}>
 				<AccountsList />

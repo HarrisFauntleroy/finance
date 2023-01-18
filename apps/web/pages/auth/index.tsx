@@ -13,13 +13,12 @@ import { getSession, useSession } from "next-auth/react"
 
 type AuthProps = {
 	children?: ReactNode
-	// An array of roles from the current page
 	roles?: Role[]
 }
 
 export const getServerSideProps = async (context: NextPageContext) => {
 	const session = await getSession(context)
-	if (session) return { redirect: "/" }
+	if (session) return session
 }
 
 function Auth({ children, roles }: AuthProps) {

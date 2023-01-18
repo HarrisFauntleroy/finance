@@ -16,6 +16,7 @@ import { z } from "zod"
  */
 
 export const budgetRouter = router({
+	// Firstly, create a budget.
 	create: publicProcedure.input(BudgetSchema).mutation(async ({ input }) => {
 		return prisma.budget.create({
 			data: input,
@@ -66,6 +67,27 @@ export const budgetRouter = router({
 			}
 			return budgetResponse
 		}),
+	// transactionsByUserId: publicProcedure
+	// 	.input(
+	// 		z.object({
+	// 			userId: z.string(),
+	// 		})
+	// 	)
+	// 	.query(async ({ input }) => {
+	// 		const { userId } = input
+	// 		const budgetResponse = await prisma.budgetTransaction.findMany({
+	// 			where: {
+	// 				userId,
+	// 			},
+	// 		})
+	// 		if (!budgetResponse) {
+	// 			throw new TRPCError({
+	// 				code: "NOT_FOUND",
+	// 				message: `No budget with userId '${userId}'`,
+	// 			})
+	// 		}
+	// 		return budgetResponse
+	// 	}),
 	update: publicProcedure
 		.input(
 			z.object({

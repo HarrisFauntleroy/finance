@@ -7,9 +7,10 @@ import SEO from "../next-seo.config"
 import { type NextPage } from "next"
 import { type AppProps } from "next/app"
 import { type Session } from "next-auth"
-import { AppContext } from "~/providers"
+import { AppContext } from "~/components/Providers"
 import Layout from "~/components/Layout"
 import Auth from "./auth"
+import { SessionProvider } from "next-auth/react"
 
 export type WithAuth = {
 	auth: boolean
@@ -48,10 +49,12 @@ const MyApp = ({
 			))
 
 	return (
-		<AppContext session={session}>
-			<DefaultSeo {...SEO} />
-			{getLayout(<Component {...pageProps} />)}
-		</AppContext>
+		<SessionProvider session={session}>
+			<AppContext>
+				<DefaultSeo {...SEO} />
+				{getLayout(<Component {...pageProps} />)}
+			</AppContext>
+		</SessionProvider>
 	)
 }
 

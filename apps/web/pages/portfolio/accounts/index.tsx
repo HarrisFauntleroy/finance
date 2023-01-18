@@ -1,11 +1,13 @@
-import { Flex, Table, Thead, Tr, Th, Tbody, Td } from "@chakra-ui/react"
+import { Flex, Table, Thead, Tr, Th, Tbody, Td, Stack } from "@chakra-ui/react"
 import React from "react"
 import { AccountBreakdown } from "~/components/Portfolio/AccountBreakdown"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
+import { ControlBar } from "~/components/Portfolio/ControlBar"
 
 function Accounts() {
 	return (
-		<>
+		<Stack paddingY="8px">
+			<ControlBar />
 			<AccountsList />
 			<Flex>
 				<Table>
@@ -56,7 +58,7 @@ function Accounts() {
 				</Table>
 				<AccountBreakdown />
 			</Flex>
-		</>
+		</Stack>
 	)
 }
 

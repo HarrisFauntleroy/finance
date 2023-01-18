@@ -12,7 +12,7 @@ export const AccountsList = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.assets.byUserId.useQuery({
+	const { data } = trpc.cryptocurrency.byUserId.useQuery({
 		userId: userId || "",
 	})
 
