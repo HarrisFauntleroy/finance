@@ -190,7 +190,7 @@ const config = {
   },
   "relativeEnvPaths": {
     "rootEnvPath": "../../.env",
-    "schemaEnvPath": "../../../../apps/web/.env"
+    "schemaEnvPath": "../../../../apps/notes/.env"
   },
   "relativePath": "../../prisma",
   "clientVersion": "4.1.1",
