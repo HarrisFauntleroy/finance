@@ -8,7 +8,7 @@ import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { cryptoColumns } from "~/components/Cryptocurrency/columns"
 import { trpc } from "~/utils/trpc"
 
-export const AccountsList = () => {
+export const BudgetTransactions = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
 

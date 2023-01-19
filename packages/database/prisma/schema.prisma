@@ -39,27 +39,29 @@ model Session {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  name              String?
-  email             String?             @unique
-  emailVerified     DateTime?
-  image             String?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @default(now()) @updatedAt
-  deleted           Boolean             @default(false)
-  deletedAt         DateTime?
-  role              Role                @default(USER)
-  accounts          Account[]
-  budget            Budget[]
-  cryptocurrency    Cryptocurrency[]
-  sessions          Session[]
-  settings          Settings?
-  portfolioSnapshot PortfolioSnapshot[]
-  CryptoSnapshot    CryptoSnapshot[]
-  CashSnapshot      CashSnapshot[]
-  PropertySnapshot  PropertySnapshot[]
-  SecuritySnapshot  SecuritySnapshot[]
-  Asset             Asset[]
+  id                 String              @id @default(cuid())
+  name               String?
+  email              String?             @unique
+  emailVerified      DateTime?
+  image              String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @default(now()) @updatedAt
+  deleted            Boolean             @default(false)
+  deletedAt          DateTime?
+  role               Role                @default(USER)
+  accounts           Account[]
+  budgets            Budget[]
+  budgetTransactions BudgetTransaction[]
+  assets             Asset[]
+  assetTransactions  Transaction[]
+  cryptocurrency     Cryptocurrency[]
+  sessions           Session[]
+  settings           Settings?
+  portfolioSnapshot  PortfolioSnapshot[]
+  CryptoSnapshot     CryptoSnapshot[]
+  CashSnapshot       CashSnapshot[]
+  PropertySnapshot   PropertySnapshot[]
+  SecuritySnapshot   SecuritySnapshot[]
 }
 
 model VerificationToken {
@@ -220,6 +222,8 @@ model BudgetTransaction {
 
   budgetEnvelopeId String?
   budgetEnvelope   BudgetEnvelope? @relation(fields: [budgetEnvelopeId], references: [id])
+  user             User?           @relation(fields: [userId], references: [id])
+  userId           String?
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -411,6 +415,8 @@ model Transaction {
 
   relatedAssetId String?
   relatedAsset   Asset?  @relation(fields: [relatedAssetId], references: [id])
+  user           User?   @relation(fields: [userId], references: [id])
+  userId         String?
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -521,7 +527,7 @@ model Cryptocurrency {
   walletAddress          String?
   targetBalance          Decimal            @default(0)
   interestBearingBalance Decimal            @default(0)
-  rateOfIncome           Decimal            @default(0)
+  incomeRate             Decimal            @default(0)
   accountConnection      AccountConnection? @default(NONE)
 
   marketId  String?

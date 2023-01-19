@@ -207,7 +207,8 @@ exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
   imageUrl: 'imageUrl',
   imageName: 'imageName',
   imageId: 'imageId',
-  budgetEnvelopeId: 'budgetEnvelopeId'
+  budgetEnvelopeId: 'budgetEnvelopeId',
+  userId: 'userId'
 });
 
 exports.Prisma.AssetCategoryScalarFieldEnum = makeEnum({
@@ -276,7 +277,8 @@ exports.Prisma.TransactionScalarFieldEnum = makeEnum({
   transactionHash: 'transactionHash',
   description: 'description',
   memo: 'memo',
-  relatedAssetId: 'relatedAssetId'
+  relatedAssetId: 'relatedAssetId',
+  userId: 'userId'
 });
 
 exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
@@ -366,7 +368,7 @@ exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
   walletAddress: 'walletAddress',
   targetBalance: 'targetBalance',
   interestBearingBalance: 'interestBearingBalance',
-  rateOfIncome: 'rateOfIncome',
+  incomeRate: 'incomeRate',
   accountConnection: 'accountConnection',
   marketId: 'marketId',
   parentId: 'parentId',

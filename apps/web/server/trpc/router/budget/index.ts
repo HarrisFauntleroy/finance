@@ -1,5 +1,5 @@
 import { publicProcedure, router } from "../../trpc"
-import { BudgetSchema, BudgetSchemaWithIdZod } from "./schema"
+import { BudgetSchema } from "./schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
@@ -31,6 +31,30 @@ export const budgetRouter = router({
 				data: input,
 				select: BudgetSchema,
 			})
+		}),
+	update: publicProcedure
+		.input(
+			z.object({
+				id: z.string(),
+				name: z.string(),
+				userId: z.string(),
+				totalBalance: decimal(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			const { id, ...data } = input
+			const budgetResponse = await prisma.budget.update({
+				where: { id },
+				data,
+				select: BudgetSchema,
+			})
+			if (!budgetResponse) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `No budget with id '${id}'`,
+				})
+			}
+			return budgetResponse
 		}),
 	byId: publicProcedure
 		.input(
@@ -79,6 +103,30 @@ export const budgetRouter = router({
 			}
 			return budgetResponse
 		}),
+	transactionsByUserId: publicProcedure
+		.input(
+			z.object({
+				userId: z.string(),
+			})
+		)
+		.query(async ({ input }) => {
+			const { userId } = input
+			const budgetResponse = await prisma.budgetTransaction.findMany({
+				where: {
+					userId,
+				},
+				orderBy: {
+					createdAt: "asc",
+				},
+			})
+			if (!budgetResponse) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `No budget with userId '${userId}'`,
+				})
+			}
+			return budgetResponse
+		}),
 	// transactionsByUserId: publicProcedure
 	// 	.input(
 	// 		z.object({
@@ -100,29 +148,6 @@ export const budgetRouter = router({
 	// 		}
 	// 		return budgetResponse
 	// 	}),
-	update: publicProcedure
-		.input(
-			z.object({
-				id: z.string(),
-				userId: z.string(),
-				data: BudgetSchemaWithIdZod,
-			})
-		)
-		.mutation(async ({ input }) => {
-			const { id, data } = input
-			const budgetResponse = await prisma.budget.update({
-				where: { id },
-				data,
-				select: BudgetSchema,
-			})
-			if (!budgetResponse) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: `No budget with id '${id}'`,
-				})
-			}
-			return budgetResponse
-		}),
 	delete: publicProcedure
 		.input(
 			z.object({

@@ -167,21 +167,17 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 	},
 	{
 		header: "Staking",
-		accessorKey: "rateOfIncome",
+		accessorKey: "incomeRate",
 		cell: ({
 			row: {
-				original: {
-					rateOfIncome,
-					interestBearingBalance,
-					estimatedYearlyReturn,
-				},
+				original: { incomeRate, interestBearingBalance, estimatedYearlyReturn },
 			},
 		}) => (
 			<Show when={Number(interestBearingBalance) > 0}>
 				<Stack gap={1}>
 					<Text>
 						<>
-							{interestBearingBalance} @ {rateOfIncome}%
+							{interestBearingBalance} @ {incomeRate}%
 						</>
 					</Text>
 					<Badge maxWidth="max-content" colorScheme="green">

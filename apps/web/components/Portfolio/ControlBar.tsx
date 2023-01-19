@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react"
 
+import { AccountControl } from "./AccountControl"
 import { SettingsIcon } from "@chakra-ui/icons"
 import {
 	Button,
@@ -25,7 +26,7 @@ export const ControlBar = () => {
 
 	return (
 		<Flex justify="space-between">
-			<Button variant="outline">ADD ACCOUNT</Button>
+			<AccountControl />
 			<Flex gap="8px">
 				<Menu closeOnSelect={false}>
 					<MenuButton as={Button} variant="outline">

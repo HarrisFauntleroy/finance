@@ -82,7 +82,7 @@ export function calculateCryptoSummary(
 
 	const balance = String(crypto?.balance)
 	const targetBalance = String(crypto.targetBalance)
-	const rateOfIncome = String(crypto.rateOfIncome)
+	const incomeRate = String(crypto.incomeRate)
 	const interestBearingBalance = String(crypto.interestBearingBalance)
 
 	const value = multiply(balance, price)
@@ -92,7 +92,7 @@ export function calculateCryptoSummary(
 	const saleable = subtract(balance, targetBalance)
 	const saleableValue = multiply(saleable, price)
 	const estimatedStakingYield = divide(
-		multiply(rateOfIncome, interestBearingBalance),
+		multiply(incomeRate, interestBearingBalance),
 		100
 	)
 	const estimatedYearlyReturn = multiply(estimatedStakingYield, price)

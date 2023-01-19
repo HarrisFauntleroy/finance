@@ -108,7 +108,7 @@ CREATE TABLE "Cryptocurrency" (
     "walletAddress" TEXT,
     "targetBalance" DECIMAL(65,30) NOT NULL DEFAULT 0,
     "interestBearingBalance" DECIMAL(65,30) NOT NULL DEFAULT 0,
-    "rateOfIncome" DECIMAL(65,30) NOT NULL DEFAULT 0,
+    "incomeRate" DECIMAL(65,30) NOT NULL DEFAULT 0,
     "accountConnection" "AccountConnection" DEFAULT 'NONE',
     "marketId" TEXT,
     "userId" TEXT NOT NULL,

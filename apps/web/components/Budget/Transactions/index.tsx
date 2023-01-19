@@ -1,66 +1,49 @@
 import React from "react"
 
-import { BudgetControl } from "../BudgetControl"
-import {
-	ButtonGroup,
-	Flex,
-	Heading,
-	Stack,
-	Stat,
-	StatGroup,
-	StatHelpText,
-	StatNumber,
-} from "@chakra-ui/react"
-import currency from "currency.js"
+import { Stack } from "@chakra-ui/react"
+import type { CalculatedCryptocurrency } from "common"
 import { useSession } from "next-auth/react"
-import { Card, Grid } from "ui"
+import { Card, Table } from "ui"
+import TableSubComponent from "~/components/Cryptocurrency/SubRow"
+import { cryptoColumns } from "~/components/Cryptocurrency/columns"
 import { trpc } from "~/utils/trpc"
 
-export const BudgetsList = () => {
+export const AccountsList = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
-	const { data } = trpc.budget.byUserId.useQuery({
+
+	const { data } = trpc.cryptocurrency.byUserId.useQuery({
 		userId: userId || "",
 	})
 
 	return (
-		<Stack gap="8px">
-			<Flex justify="space-between" align="center">
-				<BudgetControl />
-			</Flex>
-			<Grid>
-				{data?.map((budget) => (
-					<Card key={budget.id}>
-						<Stack justify="space-between" align="top">
-							<Stack>
-								<Heading size="md">{budget.name}</Heading>
-							</Stack>
-							<StatGroup gap="16px">
-								<Stat>
-									<StatNumber>
-										{currency(String(budget.income)).format()}
-									</StatNumber>
-									<StatHelpText>Income</StatHelpText>
-								</Stat>
-								<Stat>
-									<StatNumber>
-										{currency(String(budget?.totalBalance)).format()}
-									</StatNumber>
-									<StatHelpText>Current balance</StatHelpText>
-								</Stat>
-								<Stat>
-									<StatNumber>{currency(40).format()}</StatNumber>
-									<StatHelpText>Daily spend limit</StatHelpText>
-								</Stat>
-							</StatGroup>
-							<ButtonGroup alignItems="center">
-								<BudgetControl variant="delete" defaultValues={budget} />
-								<BudgetControl defaultValues={budget} />
-							</ButtonGroup>
+		<Card>
+			<Table
+				id="cryptocurrencyOverview"
+				data={(data as CalculatedCryptocurrency[]) || []}
+				columns={cryptoColumns}
+				getRowCanExpand
+				filterEnabled
+				paginationEnabled
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				renderSubComponent={(props: any) =>
+					(props?.row?.original?.Children?.length || 0) > 0 ? (
+						<Stack>
+							<Table
+								id="cryptocurrencyOverview"
+								data={props?.row?.original?.Children || []}
+								columns={cryptoColumns}
+								getRowCanExpand
+								renderSubComponent={TableSubComponent}
+								paginationEnabled
+							/>
+							<TableSubComponent row={props.row} />
 						</Stack>
-					</Card>
-				))}
-			</Grid>
-		</Stack>
+					) : (
+						<TableSubComponent row={props.row} />
+					)
+				}
+			/>
+		</Card>
 	)
 }

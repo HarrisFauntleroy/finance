@@ -43,16 +43,16 @@ export const StepTwo = () => {
 			</FormControl>
 
 			{/* Staking APY */}
-			<FormControl isInvalid={!!formState?.errors.rateOfIncome}>
-				<FormLabel htmlFor="rateOfIncome">Staking APY</FormLabel>
+			<FormControl isInvalid={!!formState?.errors.incomeRate}>
+				<FormLabel htmlFor="incomeRate">Staking APY</FormLabel>
 				<Input
 					size="sm"
-					id="rateOfIncome"
+					id="incomeRate"
 					placeholder="Staking APY"
-					{...register("rateOfIncome", {})}
+					{...register("incomeRate", {})}
 				/>
 				<FormErrorMessage>
-					{formState?.errors.rateOfIncome?.message?.toString()}
+					{formState?.errors.incomeRate?.message?.toString()}
 				</FormErrorMessage>
 			</FormControl>
 		</Stack>

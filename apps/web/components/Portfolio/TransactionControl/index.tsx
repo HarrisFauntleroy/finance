@@ -1,8 +1,8 @@
 import React from "react"
 
-import type { BudgetFormInputs } from "./BudgetForm"
-import { BudgetForm } from "./BudgetForm"
-import { DeleteBudget } from "./DeleteBudget"
+import { DeleteTransaction } from "./DeleteTransaction"
+import type { BudgetFormInputs } from "./TransactionForm"
+import { BudgetForm } from "./TransactionForm"
 
 interface BudgetControlProps {
 	variant?: "delete"
@@ -14,7 +14,7 @@ export const BudgetControl = ({
 	variant,
 }: BudgetControlProps) => {
 	return variant === "delete" ? (
-		<DeleteBudget id={defaultValues?.id} />
+		<DeleteTransaction id={defaultValues?.id} />
 	) : (
 		<BudgetForm defaultValues={defaultValues} />
 	)

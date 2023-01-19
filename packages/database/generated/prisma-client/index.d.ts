@@ -173,6 +173,7 @@ export type BudgetTransaction = {
   imageName: string | null
   imageId: string | null
   budgetEnvelopeId: string | null
+  userId: string | null
 }
 
 /**
@@ -258,6 +259,7 @@ export type Transaction = {
   description: string
   memo: string
   relatedAssetId: string | null
+  userId: string | null
 }
 
 /**
@@ -371,7 +373,7 @@ export type Cryptocurrency = {
   walletAddress: string | null
   targetBalance: Prisma.Decimal
   interestBearingBalance: Prisma.Decimal
-  rateOfIncome: Prisma.Decimal
+  incomeRate: Prisma.Decimal
   accountConnection: AccountConnection | null
   marketId: string | null
   parentId: string | null
@@ -1480,7 +1482,10 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     accounts: number
-    budget: number
+    budgets: number
+    budgetTransactions: number
+    assets: number
+    assetTransactions: number
     cryptocurrency: number
     sessions: number
     portfolioSnapshot: number
@@ -1488,12 +1493,14 @@ export namespace Prisma {
     CashSnapshot: number
     PropertySnapshot: number
     SecuritySnapshot: number
-    Asset: number
   }
 
   export type UserCountOutputTypeSelect = {
     accounts?: boolean
-    budget?: boolean
+    budgets?: boolean
+    budgetTransactions?: boolean
+    assets?: boolean
+    assetTransactions?: boolean
     cryptocurrency?: boolean
     sessions?: boolean
     portfolioSnapshot?: boolean
@@ -1501,7 +1508,6 @@ export namespace Prisma {
     CashSnapshot?: boolean
     PropertySnapshot?: boolean
     SecuritySnapshot?: boolean
-    Asset?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<
@@ -3984,7 +3990,10 @@ export namespace Prisma {
     deletedAt?: boolean
     role?: boolean
     accounts?: boolean | AccountFindManyArgs
-    budget?: boolean | BudgetFindManyArgs
+    budgets?: boolean | BudgetFindManyArgs
+    budgetTransactions?: boolean | BudgetTransactionFindManyArgs
+    assets?: boolean | AssetFindManyArgs
+    assetTransactions?: boolean | TransactionFindManyArgs
     cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     sessions?: boolean | SessionFindManyArgs
     settings?: boolean | SettingsArgs
@@ -3993,13 +4002,15 @@ export namespace Prisma {
     CashSnapshot?: boolean | CashSnapshotFindManyArgs
     PropertySnapshot?: boolean | PropertySnapshotFindManyArgs
     SecuritySnapshot?: boolean | SecuritySnapshotFindManyArgs
-    Asset?: boolean | AssetFindManyArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
   export type UserInclude = {
     accounts?: boolean | AccountFindManyArgs
-    budget?: boolean | BudgetFindManyArgs
+    budgets?: boolean | BudgetFindManyArgs
+    budgetTransactions?: boolean | BudgetTransactionFindManyArgs
+    assets?: boolean | AssetFindManyArgs
+    assetTransactions?: boolean | TransactionFindManyArgs
     cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     sessions?: boolean | SessionFindManyArgs
     settings?: boolean | SettingsArgs
@@ -4008,7 +4019,6 @@ export namespace Prisma {
     CashSnapshot?: boolean | CashSnapshotFindManyArgs
     PropertySnapshot?: boolean | PropertySnapshotFindManyArgs
     SecuritySnapshot?: boolean | SecuritySnapshotFindManyArgs
-    Asset?: boolean | AssetFindManyArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -4024,7 +4034,10 @@ export namespace Prisma {
     ? User  & {
     [P in TrueKeys<S['include']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
-        P extends 'budget' ? Array < BudgetGetPayload<S['include'][P]>>  :
+        P extends 'budgets' ? Array < BudgetGetPayload<S['include'][P]>>  :
+        P extends 'budgetTransactions' ? Array < BudgetTransactionGetPayload<S['include'][P]>>  :
+        P extends 'assets' ? Array < AssetGetPayload<S['include'][P]>>  :
+        P extends 'assetTransactions' ? Array < TransactionGetPayload<S['include'][P]>>  :
         P extends 'cryptocurrency' ? Array < CryptocurrencyGetPayload<S['include'][P]>>  :
         P extends 'sessions' ? Array < SessionGetPayload<S['include'][P]>>  :
         P extends 'settings' ? SettingsGetPayload<S['include'][P]> | null :
@@ -4033,14 +4046,16 @@ export namespace Prisma {
         P extends 'CashSnapshot' ? Array < CashSnapshotGetPayload<S['include'][P]>>  :
         P extends 'PropertySnapshot' ? Array < PropertySnapshotGetPayload<S['include'][P]>>  :
         P extends 'SecuritySnapshot' ? Array < SecuritySnapshotGetPayload<S['include'][P]>>  :
-        P extends 'Asset' ? Array < AssetGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
-        P extends 'budget' ? Array < BudgetGetPayload<S['select'][P]>>  :
+        P extends 'budgets' ? Array < BudgetGetPayload<S['select'][P]>>  :
+        P extends 'budgetTransactions' ? Array < BudgetTransactionGetPayload<S['select'][P]>>  :
+        P extends 'assets' ? Array < AssetGetPayload<S['select'][P]>>  :
+        P extends 'assetTransactions' ? Array < TransactionGetPayload<S['select'][P]>>  :
         P extends 'cryptocurrency' ? Array < CryptocurrencyGetPayload<S['select'][P]>>  :
         P extends 'sessions' ? Array < SessionGetPayload<S['select'][P]>>  :
         P extends 'settings' ? SettingsGetPayload<S['select'][P]> | null :
@@ -4049,7 +4064,6 @@ export namespace Prisma {
         P extends 'CashSnapshot' ? Array < CashSnapshotGetPayload<S['select'][P]>>  :
         P extends 'PropertySnapshot' ? Array < PropertySnapshotGetPayload<S['select'][P]>>  :
         P extends 'SecuritySnapshot' ? Array < SecuritySnapshotGetPayload<S['select'][P]>>  :
-        P extends 'Asset' ? Array < AssetGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
     : User
@@ -4426,7 +4440,13 @@ export namespace Prisma {
 
     accounts<T extends AccountFindManyArgs = {}>(args?: Subset<T, AccountFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Account>>, PrismaPromise<Array<AccountGetPayload<T>>>>;
 
-    budget<T extends BudgetFindManyArgs = {}>(args?: Subset<T, BudgetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Budget>>, PrismaPromise<Array<BudgetGetPayload<T>>>>;
+    budgets<T extends BudgetFindManyArgs = {}>(args?: Subset<T, BudgetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Budget>>, PrismaPromise<Array<BudgetGetPayload<T>>>>;
+
+    budgetTransactions<T extends BudgetTransactionFindManyArgs = {}>(args?: Subset<T, BudgetTransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<BudgetTransaction>>, PrismaPromise<Array<BudgetTransactionGetPayload<T>>>>;
+
+    assets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+
+    assetTransactions<T extends TransactionFindManyArgs = {}>(args?: Subset<T, TransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Transaction>>, PrismaPromise<Array<TransactionGetPayload<T>>>>;
 
     cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
 
@@ -4443,8 +4463,6 @@ export namespace Prisma {
     PropertySnapshot<T extends PropertySnapshotFindManyArgs = {}>(args?: Subset<T, PropertySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<PropertySnapshot>>, PrismaPromise<Array<PropertySnapshotGetPayload<T>>>>;
 
     SecuritySnapshot<T extends SecuritySnapshotFindManyArgs = {}>(args?: Subset<T, SecuritySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<SecuritySnapshot>>, PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>>;
-
-    Asset<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -10509,6 +10527,7 @@ export namespace Prisma {
     imageName: string | null
     imageId: string | null
     budgetEnvelopeId: string | null
+    userId: string | null
   }
 
   export type BudgetTransactionMaxAggregateOutputType = {
@@ -10533,6 +10552,7 @@ export namespace Prisma {
     imageName: string | null
     imageId: string | null
     budgetEnvelopeId: string | null
+    userId: string | null
   }
 
   export type BudgetTransactionCountAggregateOutputType = {
@@ -10557,6 +10577,7 @@ export namespace Prisma {
     imageName: number
     imageId: number
     budgetEnvelopeId: number
+    userId: number
     _all: number
   }
 
@@ -10599,6 +10620,7 @@ export namespace Prisma {
     imageName?: true
     imageId?: true
     budgetEnvelopeId?: true
+    userId?: true
   }
 
   export type BudgetTransactionMaxAggregateInputType = {
@@ -10623,6 +10645,7 @@ export namespace Prisma {
     imageName?: true
     imageId?: true
     budgetEnvelopeId?: true
+    userId?: true
   }
 
   export type BudgetTransactionCountAggregateInputType = {
@@ -10647,6 +10670,7 @@ export namespace Prisma {
     imageName?: true
     imageId?: true
     budgetEnvelopeId?: true
+    userId?: true
     _all?: true
   }
 
@@ -10764,6 +10788,7 @@ export namespace Prisma {
     imageName: string | null
     imageId: string | null
     budgetEnvelopeId: string | null
+    userId: string | null
     _count: BudgetTransactionCountAggregateOutputType | null
     _avg: BudgetTransactionAvgAggregateOutputType | null
     _sum: BudgetTransactionSumAggregateOutputType | null
@@ -10808,10 +10833,13 @@ export namespace Prisma {
     imageId?: boolean
     budgetEnvelopeId?: boolean
     budgetEnvelope?: boolean | BudgetEnvelopeArgs
+    user?: boolean | UserArgs
+    userId?: boolean
   }
 
   export type BudgetTransactionInclude = {
     budgetEnvelope?: boolean | BudgetEnvelopeArgs
+    user?: boolean | UserArgs
   }
 
   export type BudgetTransactionGetPayload<
@@ -10825,12 +10853,14 @@ export namespace Prisma {
     ?'include' extends U
     ? BudgetTransaction  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['include'][P]> | null :  never
+        P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['include'][P]> | null :
+        P extends 'user' ? UserGetPayload<S['include'][P]> | null :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['select'][P]> | null :  P extends keyof BudgetTransaction ? BudgetTransaction[P] : never
+        P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['select'][P]> | null :
+        P extends 'user' ? UserGetPayload<S['select'][P]> | null :  P extends keyof BudgetTransaction ? BudgetTransaction[P] : never
   } 
     : BudgetTransaction
   : BudgetTransaction
@@ -11205,6 +11235,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     budgetEnvelope<T extends BudgetEnvelopeArgs = {}>(args?: Subset<T, BudgetEnvelopeArgs>): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope | null >, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null >>;
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
 
     private get _document();
     /**
@@ -14666,6 +14698,7 @@ export namespace Prisma {
     description: string | null
     memo: string | null
     relatedAssetId: string | null
+    userId: string | null
   }
 
   export type TransactionMaxAggregateOutputType = {
@@ -14687,6 +14720,7 @@ export namespace Prisma {
     description: string | null
     memo: string | null
     relatedAssetId: string | null
+    userId: string | null
   }
 
   export type TransactionCountAggregateOutputType = {
@@ -14708,6 +14742,7 @@ export namespace Prisma {
     description: number
     memo: number
     relatedAssetId: number
+    userId: number
     _all: number
   }
 
@@ -14747,6 +14782,7 @@ export namespace Prisma {
     description?: true
     memo?: true
     relatedAssetId?: true
+    userId?: true
   }
 
   export type TransactionMaxAggregateInputType = {
@@ -14768,6 +14804,7 @@ export namespace Prisma {
     description?: true
     memo?: true
     relatedAssetId?: true
+    userId?: true
   }
 
   export type TransactionCountAggregateInputType = {
@@ -14789,6 +14826,7 @@ export namespace Prisma {
     description?: true
     memo?: true
     relatedAssetId?: true
+    userId?: true
     _all?: true
   }
 
@@ -14903,6 +14941,7 @@ export namespace Prisma {
     description: string
     memo: string
     relatedAssetId: string | null
+    userId: string | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -14944,10 +14983,13 @@ export namespace Prisma {
     memo?: boolean
     relatedAssetId?: boolean
     relatedAsset?: boolean | AssetArgs
+    user?: boolean | UserArgs
+    userId?: boolean
   }
 
   export type TransactionInclude = {
     relatedAsset?: boolean | AssetArgs
+    user?: boolean | UserArgs
   }
 
   export type TransactionGetPayload<
@@ -14961,12 +15003,14 @@ export namespace Prisma {
     ?'include' extends U
     ? Transaction  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'relatedAsset' ? AssetGetPayload<S['include'][P]> | null :  never
+        P extends 'relatedAsset' ? AssetGetPayload<S['include'][P]> | null :
+        P extends 'user' ? UserGetPayload<S['include'][P]> | null :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'relatedAsset' ? AssetGetPayload<S['select'][P]> | null :  P extends keyof Transaction ? Transaction[P] : never
+        P extends 'relatedAsset' ? AssetGetPayload<S['select'][P]> | null :
+        P extends 'user' ? UserGetPayload<S['select'][P]> | null :  P extends keyof Transaction ? Transaction[P] : never
   } 
     : Transaction
   : Transaction
@@ -15341,6 +15385,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     relatedAsset<T extends AssetArgs = {}>(args?: Subset<T, AssetArgs>): CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>;
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
 
     private get _document();
     /**
@@ -20853,7 +20899,7 @@ export namespace Prisma {
     realisedGain: Decimal | null
     targetBalance: Decimal | null
     interestBearingBalance: Decimal | null
-    rateOfIncome: Decimal | null
+    incomeRate: Decimal | null
   }
 
   export type CryptocurrencySumAggregateOutputType = {
@@ -20862,7 +20908,7 @@ export namespace Prisma {
     realisedGain: Decimal | null
     targetBalance: Decimal | null
     interestBearingBalance: Decimal | null
-    rateOfIncome: Decimal | null
+    incomeRate: Decimal | null
   }
 
   export type CryptocurrencyMinAggregateOutputType = {
@@ -20877,7 +20923,7 @@ export namespace Prisma {
     walletAddress: string | null
     targetBalance: Decimal | null
     interestBearingBalance: Decimal | null
-    rateOfIncome: Decimal | null
+    incomeRate: Decimal | null
     accountConnection: AccountConnection | null
     marketId: string | null
     parentId: string | null
@@ -20900,7 +20946,7 @@ export namespace Prisma {
     walletAddress: string | null
     targetBalance: Decimal | null
     interestBearingBalance: Decimal | null
-    rateOfIncome: Decimal | null
+    incomeRate: Decimal | null
     accountConnection: AccountConnection | null
     marketId: string | null
     parentId: string | null
@@ -20923,7 +20969,7 @@ export namespace Prisma {
     walletAddress: number
     targetBalance: number
     interestBearingBalance: number
-    rateOfIncome: number
+    incomeRate: number
     accountConnection: number
     marketId: number
     parentId: number
@@ -20942,7 +20988,7 @@ export namespace Prisma {
     realisedGain?: true
     targetBalance?: true
     interestBearingBalance?: true
-    rateOfIncome?: true
+    incomeRate?: true
   }
 
   export type CryptocurrencySumAggregateInputType = {
@@ -20951,7 +20997,7 @@ export namespace Prisma {
     realisedGain?: true
     targetBalance?: true
     interestBearingBalance?: true
-    rateOfIncome?: true
+    incomeRate?: true
   }
 
   export type CryptocurrencyMinAggregateInputType = {
@@ -20966,7 +21012,7 @@ export namespace Prisma {
     walletAddress?: true
     targetBalance?: true
     interestBearingBalance?: true
-    rateOfIncome?: true
+    incomeRate?: true
     accountConnection?: true
     marketId?: true
     parentId?: true
@@ -20989,7 +21035,7 @@ export namespace Prisma {
     walletAddress?: true
     targetBalance?: true
     interestBearingBalance?: true
-    rateOfIncome?: true
+    incomeRate?: true
     accountConnection?: true
     marketId?: true
     parentId?: true
@@ -21012,7 +21058,7 @@ export namespace Prisma {
     walletAddress?: true
     targetBalance?: true
     interestBearingBalance?: true
-    rateOfIncome?: true
+    incomeRate?: true
     accountConnection?: true
     marketId?: true
     parentId?: true
@@ -21128,7 +21174,7 @@ export namespace Prisma {
     walletAddress: string | null
     targetBalance: Decimal
     interestBearingBalance: Decimal
-    rateOfIncome: Decimal
+    incomeRate: Decimal
     accountConnection: AccountConnection | null
     marketId: string | null
     parentId: string | null
@@ -21170,7 +21216,7 @@ export namespace Prisma {
     walletAddress?: boolean
     targetBalance?: boolean
     interestBearingBalance?: boolean
-    rateOfIncome?: boolean
+    incomeRate?: boolean
     accountConnection?: boolean
     marketId?: boolean
     market?: boolean | MarketArgs
@@ -23176,7 +23222,8 @@ export namespace Prisma {
     imageUrl: 'imageUrl',
     imageName: 'imageName',
     imageId: 'imageId',
-    budgetEnvelopeId: 'budgetEnvelopeId'
+    budgetEnvelopeId: 'budgetEnvelopeId',
+    userId: 'userId'
   };
 
   export type BudgetTransactionScalarFieldEnum = (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum]
@@ -23257,7 +23304,8 @@ export namespace Prisma {
     transactionHash: 'transactionHash',
     description: 'description',
     memo: 'memo',
-    relatedAssetId: 'relatedAssetId'
+    relatedAssetId: 'relatedAssetId',
+    userId: 'userId'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
@@ -23365,7 +23413,7 @@ export namespace Prisma {
     walletAddress: 'walletAddress',
     targetBalance: 'targetBalance',
     interestBearingBalance: 'interestBearingBalance',
-    rateOfIncome: 'rateOfIncome',
+    incomeRate: 'incomeRate',
     accountConnection: 'accountConnection',
     marketId: 'marketId',
     parentId: 'parentId',
@@ -23559,7 +23607,10 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter | Date | string | null
     role?: EnumRoleFilter | Role
     accounts?: AccountListRelationFilter
-    budget?: BudgetListRelationFilter
+    budgets?: BudgetListRelationFilter
+    budgetTransactions?: BudgetTransactionListRelationFilter
+    assets?: AssetListRelationFilter
+    assetTransactions?: TransactionListRelationFilter
     cryptocurrency?: CryptocurrencyListRelationFilter
     sessions?: SessionListRelationFilter
     settings?: XOR<SettingsRelationFilter, SettingsWhereInput> | null
@@ -23568,7 +23619,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotListRelationFilter
     PropertySnapshot?: PropertySnapshotListRelationFilter
     SecuritySnapshot?: SecuritySnapshotListRelationFilter
-    Asset?: AssetListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -23583,7 +23633,10 @@ export namespace Prisma {
     deletedAt?: SortOrder
     role?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
-    budget?: BudgetOrderByRelationAggregateInput
+    budgets?: BudgetOrderByRelationAggregateInput
+    budgetTransactions?: BudgetTransactionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+    assetTransactions?: TransactionOrderByRelationAggregateInput
     cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     settings?: SettingsOrderByWithRelationInput
@@ -23592,7 +23645,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotOrderByRelationAggregateInput
     PropertySnapshot?: PropertySnapshotOrderByRelationAggregateInput
     SecuritySnapshot?: SecuritySnapshotOrderByRelationAggregateInput
-    Asset?: AssetOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -24013,6 +24065,8 @@ export namespace Prisma {
     imageId?: StringNullableFilter | string | null
     budgetEnvelopeId?: StringNullableFilter | string | null
     budgetEnvelope?: XOR<BudgetEnvelopeRelationFilter, BudgetEnvelopeWhereInput> | null
+    user?: XOR<UserRelationFilter, UserWhereInput> | null
+    userId?: StringNullableFilter | string | null
   }
 
   export type BudgetTransactionOrderByWithRelationInput = {
@@ -24038,6 +24092,8 @@ export namespace Prisma {
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
     budgetEnvelope?: BudgetEnvelopeOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    userId?: SortOrder
   }
 
   export type BudgetTransactionWhereUniqueInput = {
@@ -24066,6 +24122,7 @@ export namespace Prisma {
     imageName?: SortOrder
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
+    userId?: SortOrder
     _count?: BudgetTransactionCountOrderByAggregateInput
     _avg?: BudgetTransactionAvgOrderByAggregateInput
     _max?: BudgetTransactionMaxOrderByAggregateInput
@@ -24098,6 +24155,7 @@ export namespace Prisma {
     imageName?: StringNullableWithAggregatesFilter | string | null
     imageId?: StringNullableWithAggregatesFilter | string | null
     budgetEnvelopeId?: StringNullableWithAggregatesFilter | string | null
+    userId?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type AssetCategoryWhereInput = {
@@ -24374,6 +24432,8 @@ export namespace Prisma {
     memo?: StringFilter | string
     relatedAssetId?: StringNullableFilter | string | null
     relatedAsset?: XOR<AssetRelationFilter, AssetWhereInput> | null
+    user?: XOR<UserRelationFilter, UserWhereInput> | null
+    userId?: StringNullableFilter | string | null
   }
 
   export type TransactionOrderByWithRelationInput = {
@@ -24396,6 +24456,8 @@ export namespace Prisma {
     memo?: SortOrder
     relatedAssetId?: SortOrder
     relatedAsset?: AssetOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    userId?: SortOrder
   }
 
   export type TransactionWhereUniqueInput = {
@@ -24421,6 +24483,7 @@ export namespace Prisma {
     description?: SortOrder
     memo?: SortOrder
     relatedAssetId?: SortOrder
+    userId?: SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -24450,6 +24513,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter | string
     memo?: StringWithAggregatesFilter | string
     relatedAssetId?: StringNullableWithAggregatesFilter | string | null
+    userId?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type PortfolioSnapshotWhereInput = {
@@ -24857,7 +24921,7 @@ export namespace Prisma {
     walletAddress?: StringNullableFilter | string | null
     targetBalance?: DecimalFilter | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFilter | Decimal | DecimalJsLike | number | string
     accountConnection?: EnumAccountConnectionNullableFilter | AccountConnection | null
     marketId?: StringNullableFilter | string | null
     market?: XOR<MarketRelationFilter, MarketWhereInput> | null
@@ -24884,7 +24948,7 @@ export namespace Prisma {
     walletAddress?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
     accountConnection?: SortOrder
     marketId?: SortOrder
     market?: MarketOrderByWithRelationInput
@@ -24915,7 +24979,7 @@ export namespace Prisma {
     walletAddress?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
     accountConnection?: SortOrder
     marketId?: SortOrder
     parentId?: SortOrder
@@ -24946,7 +25010,7 @@ export namespace Prisma {
     walletAddress?: StringNullableWithAggregatesFilter | string | null
     targetBalance?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     accountConnection?: EnumAccountConnectionNullableWithAggregatesFilter | AccountConnection | null
     marketId?: StringNullableWithAggregatesFilter | string | null
     parentId?: StringNullableWithAggregatesFilter | string | null
@@ -25217,7 +25281,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -25226,7 +25293,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -25241,7 +25307,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -25250,7 +25319,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -25265,7 +25333,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -25274,7 +25345,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -25289,7 +25359,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -25298,7 +25371,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -25628,7 +25700,7 @@ export namespace Prisma {
   export type BudgetCreateInput = {
     id?: string
     name: string
-    user: UserCreateNestedOneWithoutBudgetInput
+    user: UserCreateNestedOneWithoutBudgetsInput
     envelopes?: BudgetEnvelopeCreateNestedManyWithoutBudgetInput
     income?: IncomeCreateNestedManyWithoutBudgetInput
     totalBalance?: Decimal | DecimalJsLike | number | string
@@ -25654,7 +25726,7 @@ export namespace Prisma {
   export type BudgetUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutBudgetNestedInput
+    user?: UserUpdateOneRequiredWithoutBudgetsNestedInput
     envelopes?: BudgetEnvelopeUpdateManyWithoutBudgetNestedInput
     income?: IncomeUpdateManyWithoutBudgetNestedInput
     totalBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -25818,6 +25890,7 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelope?: BudgetEnvelopeCreateNestedOneWithoutTransactionsInput
+    user?: UserCreateNestedOneWithoutBudgetTransactionsInput
   }
 
   export type BudgetTransactionUncheckedCreateInput = {
@@ -25842,6 +25915,7 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelopeId?: string | null
+    userId?: string | null
   }
 
   export type BudgetTransactionUpdateInput = {
@@ -25866,6 +25940,7 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelope?: BudgetEnvelopeUpdateOneWithoutTransactionsNestedInput
+    user?: UserUpdateOneWithoutBudgetTransactionsNestedInput
   }
 
   export type BudgetTransactionUncheckedUpdateInput = {
@@ -25890,6 +25965,7 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetTransactionCreateManyInput = {
@@ -25914,6 +25990,7 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelopeId?: string | null
+    userId?: string | null
   }
 
   export type BudgetTransactionUpdateManyMutationInput = {
@@ -25961,6 +26038,7 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssetCategoryCreateInput = {
@@ -26140,7 +26218,7 @@ export namespace Prisma {
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateInput = {
@@ -26200,7 +26278,7 @@ export namespace Prisma {
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateInput = {
@@ -26329,6 +26407,7 @@ export namespace Prisma {
     description: string
     memo: string
     relatedAsset?: AssetCreateNestedOneWithoutTransactionsInput
+    user?: UserCreateNestedOneWithoutAssetTransactionsInput
   }
 
   export type TransactionUncheckedCreateInput = {
@@ -26350,6 +26429,7 @@ export namespace Prisma {
     description: string
     memo: string
     relatedAssetId?: string | null
+    userId?: string | null
   }
 
   export type TransactionUpdateInput = {
@@ -26371,6 +26451,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
     relatedAsset?: AssetUpdateOneWithoutTransactionsNestedInput
+    user?: UserUpdateOneWithoutAssetTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
@@ -26392,6 +26473,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionCreateManyInput = {
@@ -26413,6 +26495,7 @@ export namespace Prisma {
     description: string
     memo: string
     relatedAssetId?: string | null
+    userId?: string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
@@ -26454,6 +26537,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PortfolioSnapshotCreateInput = {
@@ -26988,7 +27072,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
@@ -27012,7 +27096,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     parentId?: string | null
@@ -27036,7 +27120,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
@@ -27060,7 +27144,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27084,7 +27168,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     parentId?: string | null
@@ -27107,7 +27191,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27127,7 +27211,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27516,6 +27600,24 @@ export namespace Prisma {
     none?: BudgetWhereInput
   }
 
+  export type BudgetTransactionListRelationFilter = {
+    every?: BudgetTransactionWhereInput
+    some?: BudgetTransactionWhereInput
+    none?: BudgetTransactionWhereInput
+  }
+
+  export type AssetListRelationFilter = {
+    every?: AssetWhereInput
+    some?: AssetWhereInput
+    none?: AssetWhereInput
+  }
+
+  export type TransactionListRelationFilter = {
+    every?: TransactionWhereInput
+    some?: TransactionWhereInput
+    none?: TransactionWhereInput
+  }
+
   export type CryptocurrencyListRelationFilter = {
     every?: CryptocurrencyWhereInput
     some?: CryptocurrencyWhereInput
@@ -27563,17 +27665,23 @@ export namespace Prisma {
     none?: SecuritySnapshotWhereInput
   }
 
-  export type AssetListRelationFilter = {
-    every?: AssetWhereInput
-    some?: AssetWhereInput
-    none?: AssetWhereInput
-  }
-
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type BudgetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BudgetTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TransactionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -27602,10 +27710,6 @@ export namespace Prisma {
   }
 
   export type SecuritySnapshotOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AssetOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -27940,16 +28044,6 @@ export namespace Prisma {
     _max?: NestedDecimalFilter
   }
 
-  export type BudgetTransactionListRelationFilter = {
-    every?: BudgetTransactionWhereInput
-    some?: BudgetTransactionWhereInput
-    none?: BudgetTransactionWhereInput
-  }
-
-  export type BudgetTransactionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type BudgetEnvelopeCountOrderByAggregateInput = {
     id?: SortOrder
     budgetId?: SortOrder
@@ -28034,6 +28128,7 @@ export namespace Prisma {
     imageName?: SortOrder
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
+    userId?: SortOrder
   }
 
   export type BudgetTransactionAvgOrderByAggregateInput = {
@@ -28066,6 +28161,7 @@ export namespace Prisma {
     imageName?: SortOrder
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
+    userId?: SortOrder
   }
 
   export type BudgetTransactionMinOrderByAggregateInput = {
@@ -28090,6 +28186,7 @@ export namespace Prisma {
     imageName?: SortOrder
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
+    userId?: SortOrder
   }
 
   export type BudgetTransactionSumOrderByAggregateInput = {
@@ -28214,17 +28311,7 @@ export namespace Prisma {
     isNot?: MarketWhereInput | null
   }
 
-  export type TransactionListRelationFilter = {
-    every?: TransactionWhereInput
-    some?: TransactionWhereInput
-    none?: TransactionWhereInput
-  }
-
   export type AssetLabelOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type TransactionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28368,6 +28455,7 @@ export namespace Prisma {
     description?: SortOrder
     memo?: SortOrder
     relatedAssetId?: SortOrder
+    userId?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -28397,6 +28485,7 @@ export namespace Prisma {
     description?: SortOrder
     memo?: SortOrder
     relatedAssetId?: SortOrder
+    userId?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
@@ -28418,6 +28507,7 @@ export namespace Prisma {
     description?: SortOrder
     memo?: SortOrder
     relatedAssetId?: SortOrder
+    userId?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
@@ -28775,7 +28865,7 @@ export namespace Prisma {
     walletAddress?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
     accountConnection?: SortOrder
     marketId?: SortOrder
     parentId?: SortOrder
@@ -28792,7 +28882,7 @@ export namespace Prisma {
     realisedGain?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
   }
 
   export type CryptocurrencyMaxOrderByAggregateInput = {
@@ -28807,7 +28897,7 @@ export namespace Prisma {
     walletAddress?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
     accountConnection?: SortOrder
     marketId?: SortOrder
     parentId?: SortOrder
@@ -28830,7 +28920,7 @@ export namespace Prisma {
     walletAddress?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
     accountConnection?: SortOrder
     marketId?: SortOrder
     parentId?: SortOrder
@@ -28847,7 +28937,7 @@ export namespace Prisma {
     realisedGain?: SortOrder
     targetBalance?: SortOrder
     interestBearingBalance?: SortOrder
-    rateOfIncome?: SortOrder
+    incomeRate?: SortOrder
   }
 
   export type EnumMarketTypeFilter = {
@@ -29007,6 +29097,27 @@ export namespace Prisma {
     connect?: Enumerable<BudgetWhereUniqueInput>
   }
 
+  export type BudgetTransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<BudgetTransactionCreateWithoutUserInput>, Enumerable<BudgetTransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<BudgetTransactionCreateOrConnectWithoutUserInput>
+    createMany?: BudgetTransactionCreateManyUserInputEnvelope
+    connect?: Enumerable<BudgetTransactionWhereUniqueInput>
+  }
+
+  export type AssetCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
+    createMany?: AssetCreateManyUserInputEnvelope
+    connect?: Enumerable<AssetWhereUniqueInput>
+  }
+
+  export type TransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<TransactionCreateWithoutUserInput>, Enumerable<TransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<TransactionCreateOrConnectWithoutUserInput>
+    createMany?: TransactionCreateManyUserInputEnvelope
+    connect?: Enumerable<TransactionWhereUniqueInput>
+  }
+
   export type CryptocurrencyCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<CryptocurrencyCreateWithoutUserInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutUserInput>
@@ -29062,13 +29173,6 @@ export namespace Prisma {
     connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
   }
 
-  export type AssetCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
-    createMany?: AssetCreateManyUserInputEnvelope
-    connect?: Enumerable<AssetWhereUniqueInput>
-  }
-
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
@@ -29081,6 +29185,27 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<BudgetCreateOrConnectWithoutUserInput>
     createMany?: BudgetCreateManyUserInputEnvelope
     connect?: Enumerable<BudgetWhereUniqueInput>
+  }
+
+  export type BudgetTransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<BudgetTransactionCreateWithoutUserInput>, Enumerable<BudgetTransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<BudgetTransactionCreateOrConnectWithoutUserInput>
+    createMany?: BudgetTransactionCreateManyUserInputEnvelope
+    connect?: Enumerable<BudgetTransactionWhereUniqueInput>
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
+    createMany?: AssetCreateManyUserInputEnvelope
+    connect?: Enumerable<AssetWhereUniqueInput>
+  }
+
+  export type TransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<TransactionCreateWithoutUserInput>, Enumerable<TransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<TransactionCreateOrConnectWithoutUserInput>
+    createMany?: TransactionCreateManyUserInputEnvelope
+    connect?: Enumerable<TransactionWhereUniqueInput>
   }
 
   export type CryptocurrencyUncheckedCreateNestedManyWithoutUserInput = {
@@ -29138,13 +29263,6 @@ export namespace Prisma {
     connect?: Enumerable<SecuritySnapshotWhereUniqueInput>
   }
 
-  export type AssetUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
-    createMany?: AssetCreateManyUserInputEnvelope
-    connect?: Enumerable<AssetWhereUniqueInput>
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -29183,6 +29301,48 @@ export namespace Prisma {
     update?: Enumerable<BudgetUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<BudgetUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<BudgetScalarWhereInput>
+  }
+
+  export type BudgetTransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<BudgetTransactionCreateWithoutUserInput>, Enumerable<BudgetTransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<BudgetTransactionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<BudgetTransactionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: BudgetTransactionCreateManyUserInputEnvelope
+    set?: Enumerable<BudgetTransactionWhereUniqueInput>
+    disconnect?: Enumerable<BudgetTransactionWhereUniqueInput>
+    delete?: Enumerable<BudgetTransactionWhereUniqueInput>
+    connect?: Enumerable<BudgetTransactionWhereUniqueInput>
+    update?: Enumerable<BudgetTransactionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<BudgetTransactionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<BudgetTransactionScalarWhereInput>
+  }
+
+  export type AssetUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AssetUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AssetCreateManyUserInputEnvelope
+    set?: Enumerable<AssetWhereUniqueInput>
+    disconnect?: Enumerable<AssetWhereUniqueInput>
+    delete?: Enumerable<AssetWhereUniqueInput>
+    connect?: Enumerable<AssetWhereUniqueInput>
+    update?: Enumerable<AssetUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AssetUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AssetScalarWhereInput>
+  }
+
+  export type TransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<TransactionCreateWithoutUserInput>, Enumerable<TransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<TransactionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<TransactionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: TransactionCreateManyUserInputEnvelope
+    set?: Enumerable<TransactionWhereUniqueInput>
+    disconnect?: Enumerable<TransactionWhereUniqueInput>
+    delete?: Enumerable<TransactionWhereUniqueInput>
+    connect?: Enumerable<TransactionWhereUniqueInput>
+    update?: Enumerable<TransactionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<TransactionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<TransactionScalarWhereInput>
   }
 
   export type CryptocurrencyUpdateManyWithoutUserNestedInput = {
@@ -29293,20 +29453,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<SecuritySnapshotScalarWhereInput>
   }
 
-  export type AssetUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<AssetUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: AssetCreateManyUserInputEnvelope
-    set?: Enumerable<AssetWhereUniqueInput>
-    disconnect?: Enumerable<AssetWhereUniqueInput>
-    delete?: Enumerable<AssetWhereUniqueInput>
-    connect?: Enumerable<AssetWhereUniqueInput>
-    update?: Enumerable<AssetUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<AssetUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<AssetScalarWhereInput>
-  }
-
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
@@ -29333,6 +29479,48 @@ export namespace Prisma {
     update?: Enumerable<BudgetUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<BudgetUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<BudgetScalarWhereInput>
+  }
+
+  export type BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<BudgetTransactionCreateWithoutUserInput>, Enumerable<BudgetTransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<BudgetTransactionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<BudgetTransactionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: BudgetTransactionCreateManyUserInputEnvelope
+    set?: Enumerable<BudgetTransactionWhereUniqueInput>
+    disconnect?: Enumerable<BudgetTransactionWhereUniqueInput>
+    delete?: Enumerable<BudgetTransactionWhereUniqueInput>
+    connect?: Enumerable<BudgetTransactionWhereUniqueInput>
+    update?: Enumerable<BudgetTransactionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<BudgetTransactionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<BudgetTransactionScalarWhereInput>
+  }
+
+  export type AssetUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AssetUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AssetCreateManyUserInputEnvelope
+    set?: Enumerable<AssetWhereUniqueInput>
+    disconnect?: Enumerable<AssetWhereUniqueInput>
+    delete?: Enumerable<AssetWhereUniqueInput>
+    connect?: Enumerable<AssetWhereUniqueInput>
+    update?: Enumerable<AssetUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AssetUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AssetScalarWhereInput>
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<TransactionCreateWithoutUserInput>, Enumerable<TransactionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<TransactionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<TransactionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: TransactionCreateManyUserInputEnvelope
+    set?: Enumerable<TransactionWhereUniqueInput>
+    disconnect?: Enumerable<TransactionWhereUniqueInput>
+    delete?: Enumerable<TransactionWhereUniqueInput>
+    connect?: Enumerable<TransactionWhereUniqueInput>
+    update?: Enumerable<TransactionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<TransactionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<TransactionScalarWhereInput>
   }
 
   export type CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput = {
@@ -29443,20 +29631,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<SecuritySnapshotScalarWhereInput>
   }
 
-  export type AssetUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<AssetCreateWithoutUserInput>, Enumerable<AssetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<AssetUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: AssetCreateManyUserInputEnvelope
-    set?: Enumerable<AssetWhereUniqueInput>
-    disconnect?: Enumerable<AssetWhereUniqueInput>
-    delete?: Enumerable<AssetWhereUniqueInput>
-    connect?: Enumerable<AssetWhereUniqueInput>
-    update?: Enumerable<AssetUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<AssetUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<AssetScalarWhereInput>
-  }
-
   export type UserCreateNestedOneWithoutSettingsInput = {
     create?: XOR<UserCreateWithoutSettingsInput, UserUncheckedCreateWithoutSettingsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSettingsInput
@@ -29493,9 +29667,9 @@ export namespace Prisma {
     update?: XOR<BudgetUpdateWithoutIncomeInput, BudgetUncheckedUpdateWithoutIncomeInput>
   }
 
-  export type UserCreateNestedOneWithoutBudgetInput = {
-    create?: XOR<UserCreateWithoutBudgetInput, UserUncheckedCreateWithoutBudgetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBudgetInput
+  export type UserCreateNestedOneWithoutBudgetsInput = {
+    create?: XOR<UserCreateWithoutBudgetsInput, UserUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBudgetsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -29527,12 +29701,12 @@ export namespace Prisma {
     connect?: Enumerable<IncomeWhereUniqueInput>
   }
 
-  export type UserUpdateOneRequiredWithoutBudgetNestedInput = {
-    create?: XOR<UserCreateWithoutBudgetInput, UserUncheckedCreateWithoutBudgetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBudgetInput
-    upsert?: UserUpsertWithoutBudgetInput
+  export type UserUpdateOneRequiredWithoutBudgetsNestedInput = {
+    create?: XOR<UserCreateWithoutBudgetsInput, UserUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBudgetsInput
+    upsert?: UserUpsertWithoutBudgetsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutBudgetInput, UserUncheckedUpdateWithoutBudgetInput>
+    update?: XOR<UserUpdateWithoutBudgetsInput, UserUncheckedUpdateWithoutBudgetsInput>
   }
 
   export type BudgetEnvelopeUpdateManyWithoutBudgetNestedInput = {
@@ -29661,6 +29835,12 @@ export namespace Prisma {
     connect?: BudgetEnvelopeWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutBudgetTransactionsInput = {
+    create?: XOR<UserCreateWithoutBudgetTransactionsInput, UserUncheckedCreateWithoutBudgetTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBudgetTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type NullableDecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string | null
     increment?: Decimal | DecimalJsLike | number | string
@@ -29677,6 +29857,16 @@ export namespace Prisma {
     delete?: boolean
     connect?: BudgetEnvelopeWhereUniqueInput
     update?: XOR<BudgetEnvelopeUpdateWithoutTransactionsInput, BudgetEnvelopeUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type UserUpdateOneWithoutBudgetTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutBudgetTransactionsInput, UserUncheckedCreateWithoutBudgetTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBudgetTransactionsInput
+    upsert?: UserUpsertWithoutBudgetTransactionsInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutBudgetTransactionsInput, UserUncheckedUpdateWithoutBudgetTransactionsInput>
   }
 
   export type AssetCreateNestedManyWithoutCustomCategoryInput = {
@@ -29776,9 +29966,9 @@ export namespace Prisma {
     connect?: Enumerable<TransactionWhereUniqueInput>
   }
 
-  export type UserCreateNestedOneWithoutAssetInput = {
-    create?: XOR<UserCreateWithoutAssetInput, UserUncheckedCreateWithoutAssetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAssetInput
+  export type UserCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<UserCreateWithoutAssetsInput, UserUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssetsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -29883,12 +30073,12 @@ export namespace Prisma {
     deleteMany?: Enumerable<TransactionScalarWhereInput>
   }
 
-  export type UserUpdateOneRequiredWithoutAssetNestedInput = {
-    create?: XOR<UserCreateWithoutAssetInput, UserUncheckedCreateWithoutAssetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAssetInput
-    upsert?: UserUpsertWithoutAssetInput
+  export type UserUpdateOneRequiredWithoutAssetsNestedInput = {
+    create?: XOR<UserCreateWithoutAssetsInput, UserUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssetsInput
+    upsert?: UserUpsertWithoutAssetsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutAssetInput, UserUncheckedUpdateWithoutAssetInput>
+    update?: XOR<UserUpdateWithoutAssetsInput, UserUncheckedUpdateWithoutAssetsInput>
   }
 
   export type AssetLabelUncheckedUpdateManyWithoutAssetNestedInput = {
@@ -29939,6 +30129,12 @@ export namespace Prisma {
     connect?: AssetWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutAssetTransactionsInput = {
+    create?: XOR<UserCreateWithoutAssetTransactionsInput, UserUncheckedCreateWithoutAssetTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssetTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type AssetUpdateOneWithoutTransactionsNestedInput = {
     create?: XOR<AssetCreateWithoutTransactionsInput, AssetUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: AssetCreateOrConnectWithoutTransactionsInput
@@ -29947,6 +30143,16 @@ export namespace Prisma {
     delete?: boolean
     connect?: AssetWhereUniqueInput
     update?: XOR<AssetUpdateWithoutTransactionsInput, AssetUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type UserUpdateOneWithoutAssetTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutAssetTransactionsInput, UserUncheckedCreateWithoutAssetTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssetTransactionsInput
+    upsert?: UserUpsertWithoutAssetTransactionsInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutAssetTransactionsInput, UserUncheckedUpdateWithoutAssetTransactionsInput>
   }
 
   export type UserCreateNestedOneWithoutPortfolioSnapshotInput = {
@@ -30536,7 +30742,10 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     role?: Role
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -30545,7 +30754,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -30559,7 +30767,10 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     role?: Role
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -30568,7 +30779,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -30592,7 +30802,10 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -30601,7 +30814,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -30615,7 +30827,10 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -30624,7 +30839,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -30639,7 +30853,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
@@ -30647,7 +30864,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -30662,7 +30878,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
@@ -30670,7 +30889,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -30695,7 +30913,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
@@ -30703,7 +30924,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -30718,7 +30938,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
@@ -30726,7 +30949,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -30801,6 +31023,184 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BudgetTransactionCreateWithoutUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    imageUrl?: string | null
+    imageName?: string | null
+    imageId?: string | null
+    budgetEnvelope?: BudgetEnvelopeCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type BudgetTransactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    imageUrl?: string | null
+    imageName?: string | null
+    imageId?: string | null
+    budgetEnvelopeId?: string | null
+  }
+
+  export type BudgetTransactionCreateOrConnectWithoutUserInput = {
+    where: BudgetTransactionWhereUniqueInput
+    create: XOR<BudgetTransactionCreateWithoutUserInput, BudgetTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type BudgetTransactionCreateManyUserInputEnvelope = {
+    data: Enumerable<BudgetTransactionCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutUserInput = {
+    id?: string
+    name: string
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    value: Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: Date | string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    labels?: AssetLabelCreateNestedManyWithoutAssetInput
+    category: Category
+    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutAssetInput
+    parent?: AssetCreateNestedOneWithoutSubAssetsInput
+    subAssets?: AssetCreateNestedManyWithoutParentInput
+    transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
+  }
+
+  export type AssetUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    value: Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: Date | string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
+    categoryId?: string | null
+    category: Category
+    marketId?: string | null
+    parentId?: string | null
+    subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
+  }
+
+  export type AssetCreateOrConnectWithoutUserInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssetCreateManyUserInputEnvelope = {
+    data: Enumerable<AssetCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionCreateWithoutUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    relatedAsset?: AssetCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    relatedAssetId?: string | null
+  }
+
+  export type TransactionCreateOrConnectWithoutUserInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutUserInput, TransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type TransactionCreateManyUserInputEnvelope = {
+    data: Enumerable<TransactionCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
   export type CryptocurrencyCreateWithoutUserInput = {
     id?: string
     displayName: string
@@ -30813,7 +31213,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
@@ -30836,7 +31236,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     parentId?: string | null
@@ -31096,74 +31496,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AssetCreateWithoutUserInput = {
-    id?: string
-    name: string
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
-    parent?: AssetCreateNestedOneWithoutSubAssetsInput
-    subAssets?: AssetCreateNestedManyWithoutParentInput
-    transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-  }
-
-  export type AssetUncheckedCreateWithoutUserInput = {
-    id?: string
-    name: string
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    categoryId?: string | null
-    category: Category
-    marketId?: string | null
-    parentId?: string | null
-    subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
-    transactions?: TransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
-  }
-
-  export type AssetCreateOrConnectWithoutUserInput = {
-    where: AssetWhereUniqueInput
-    create: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput>
-  }
-
-  export type AssetCreateManyUserInputEnvelope = {
-    data: Enumerable<AssetCreateManyUserInput>
-    skipDuplicates?: boolean
-  }
-
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -31211,7 +31543,7 @@ export namespace Prisma {
 
   export type BudgetUpdateManyWithWhereWithoutUserInput = {
     where: BudgetScalarWhereInput
-    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyWithoutBudgetInput>
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyWithoutBudgetsInput>
   }
 
   export type BudgetScalarWhereInput = {
@@ -31226,6 +31558,137 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
     deletedAt?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type BudgetTransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: BudgetTransactionWhereUniqueInput
+    update: XOR<BudgetTransactionUpdateWithoutUserInput, BudgetTransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<BudgetTransactionCreateWithoutUserInput, BudgetTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type BudgetTransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: BudgetTransactionWhereUniqueInput
+    data: XOR<BudgetTransactionUpdateWithoutUserInput, BudgetTransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BudgetTransactionUpdateManyWithWhereWithoutUserInput = {
+    where: BudgetTransactionScalarWhereInput
+    data: XOR<BudgetTransactionUpdateManyMutationInput, BudgetTransactionUncheckedUpdateManyWithoutBudgetTransactionsInput>
+  }
+
+  export type BudgetTransactionScalarWhereInput = {
+    AND?: Enumerable<BudgetTransactionScalarWhereInput>
+    OR?: Enumerable<BudgetTransactionScalarWhereInput>
+    NOT?: Enumerable<BudgetTransactionScalarWhereInput>
+    id?: StringFilter | string
+    timestamp?: DateTimeFilter | Date | string
+    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFilter | string
+    quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    fromAsset?: StringNullableFilter | string | null
+    toAsset?: StringFilter | string
+    market?: StringFilter | string
+    transactionType?: StringFilter | string
+    expiry?: DateTimeNullableFilter | Date | string | null
+    status?: StringFilter | string
+    transactionHash?: StringFilter | string
+    description?: StringFilter | string
+    memo?: StringFilter | string
+    imageUrl?: StringNullableFilter | string | null
+    imageName?: StringNullableFilter | string | null
+    imageId?: StringNullableFilter | string | null
+    budgetEnvelopeId?: StringNullableFilter | string | null
+    userId?: StringNullableFilter | string | null
+  }
+
+  export type AssetUpsertWithWhereUniqueWithoutUserInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutUserInput, AssetUncheckedUpdateWithoutUserInput>
+    create: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutUserInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutUserInput, AssetUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutUserInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutAssetsInput>
+  }
+
+  export type AssetScalarWhereInput = {
+    AND?: Enumerable<AssetScalarWhereInput>
+    OR?: Enumerable<AssetScalarWhereInput>
+    NOT?: Enumerable<AssetScalarWhereInput>
+    id?: StringFilter | string
+    name?: StringFilter | string
+    currency?: StringFilter | string
+    apiKey?: StringNullableFilter | string | null
+    apiSecret?: StringNullableFilter | string | null
+    walletAddress?: StringNullableFilter | string | null
+    value?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: DateTimeNullableFilter | Date | string | null
+    balance?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    targetBalance?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
+    account?: EnumAccountConnectionNullableFilter | AccountConnection | null
+    categoryId?: StringNullableFilter | string | null
+    category?: EnumCategoryFilter | Category
+    marketId?: StringNullableFilter | string | null
+    parentId?: StringNullableFilter | string | null
+    userId?: StringFilter | string
+  }
+
+  export type TransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutUserInput, TransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<TransactionCreateWithoutUserInput, TransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutUserInput, TransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutUserInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutAssetTransactionsInput>
+  }
+
+  export type TransactionScalarWhereInput = {
+    AND?: Enumerable<TransactionScalarWhereInput>
+    OR?: Enumerable<TransactionScalarWhereInput>
+    NOT?: Enumerable<TransactionScalarWhereInput>
+    id?: StringFilter | string
+    timestamp?: DateTimeFilter | Date | string
+    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFilter | string
+    quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    fromAsset?: StringNullableFilter | string | null
+    toAsset?: StringFilter | string
+    market?: StringFilter | string
+    transactionType?: StringFilter | string
+    expiry?: DateTimeNullableFilter | Date | string | null
+    status?: StringFilter | string
+    transactionHash?: StringFilter | string
+    description?: StringFilter | string
+    memo?: StringFilter | string
+    relatedAssetId?: StringNullableFilter | string | null
+    userId?: StringNullableFilter | string | null
   }
 
   export type CryptocurrencyUpsertWithWhereUniqueWithoutUserInput = {
@@ -31259,7 +31722,7 @@ export namespace Prisma {
     walletAddress?: StringNullableFilter | string | null
     targetBalance?: DecimalFilter | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFilter | Decimal | DecimalJsLike | number | string
     accountConnection?: EnumAccountConnectionNullableFilter | AccountConnection | null
     marketId?: StringNullableFilter | string | null
     parentId?: StringNullableFilter | string | null
@@ -31493,52 +31956,6 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
-  export type AssetUpsertWithWhereUniqueWithoutUserInput = {
-    where: AssetWhereUniqueInput
-    update: XOR<AssetUpdateWithoutUserInput, AssetUncheckedUpdateWithoutUserInput>
-    create: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput>
-  }
-
-  export type AssetUpdateWithWhereUniqueWithoutUserInput = {
-    where: AssetWhereUniqueInput
-    data: XOR<AssetUpdateWithoutUserInput, AssetUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AssetUpdateManyWithWhereWithoutUserInput = {
-    where: AssetScalarWhereInput
-    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutAssetInput>
-  }
-
-  export type AssetScalarWhereInput = {
-    AND?: Enumerable<AssetScalarWhereInput>
-    OR?: Enumerable<AssetScalarWhereInput>
-    NOT?: Enumerable<AssetScalarWhereInput>
-    id?: StringFilter | string
-    name?: StringFilter | string
-    currency?: StringFilter | string
-    apiKey?: StringNullableFilter | string | null
-    apiSecret?: StringNullableFilter | string | null
-    walletAddress?: StringNullableFilter | string | null
-    value?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: DateTimeNullableFilter | Date | string | null
-    balance?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    targetBalance?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    deleted?: BoolFilter | boolean
-    deletedAt?: DateTimeNullableFilter | Date | string | null
-    account?: EnumAccountConnectionNullableFilter | AccountConnection | null
-    categoryId?: StringNullableFilter | string | null
-    category?: EnumCategoryFilter | Category
-    marketId?: StringNullableFilter | string | null
-    parentId?: StringNullableFilter | string | null
-    userId?: StringFilter | string
-  }
-
   export type UserCreateWithoutSettingsInput = {
     id?: string
     name?: string | null
@@ -31551,7 +31968,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
@@ -31559,7 +31979,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSettingsInput = {
@@ -31574,7 +31993,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
@@ -31582,7 +32004,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSettingsInput = {
@@ -31607,7 +32028,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
@@ -31615,7 +32039,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSettingsInput = {
@@ -31630,7 +32053,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
@@ -31638,13 +32064,12 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BudgetCreateWithoutIncomeInput = {
     id?: string
     name: string
-    user: UserCreateNestedOneWithoutBudgetInput
+    user: UserCreateNestedOneWithoutBudgetsInput
     envelopes?: BudgetEnvelopeCreateNestedManyWithoutBudgetInput
     totalBalance?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
@@ -31678,7 +32103,7 @@ export namespace Prisma {
   export type BudgetUpdateWithoutIncomeInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutBudgetNestedInput
+    user?: UserUpdateOneRequiredWithoutBudgetsNestedInput
     envelopes?: BudgetEnvelopeUpdateManyWithoutBudgetNestedInput
     totalBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31699,7 +32124,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserCreateWithoutBudgetInput = {
+  export type UserCreateWithoutBudgetsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -31711,6 +32136,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -31719,10 +32147,9 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutBudgetInput = {
+  export type UserUncheckedCreateWithoutBudgetsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -31734,6 +32161,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -31742,12 +32172,11 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutBudgetInput = {
+  export type UserCreateOrConnectWithoutBudgetsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBudgetInput, UserUncheckedCreateWithoutBudgetInput>
+    create: XOR<UserCreateWithoutBudgetsInput, UserUncheckedCreateWithoutBudgetsInput>
   }
 
   export type BudgetEnvelopeCreateWithoutBudgetInput = {
@@ -31818,12 +32247,12 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutBudgetInput = {
-    update: XOR<UserUpdateWithoutBudgetInput, UserUncheckedUpdateWithoutBudgetInput>
-    create: XOR<UserCreateWithoutBudgetInput, UserUncheckedCreateWithoutBudgetInput>
+  export type UserUpsertWithoutBudgetsInput = {
+    update: XOR<UserUpdateWithoutBudgetsInput, UserUncheckedUpdateWithoutBudgetsInput>
+    create: XOR<UserCreateWithoutBudgetsInput, UserUncheckedCreateWithoutBudgetsInput>
   }
 
-  export type UserUpdateWithoutBudgetInput = {
+  export type UserUpdateWithoutBudgetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31835,6 +32264,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -31843,10 +32275,9 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutBudgetInput = {
+  export type UserUncheckedUpdateWithoutBudgetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31858,6 +32289,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -31866,7 +32300,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BudgetEnvelopeUpsertWithWhereUniqueWithoutBudgetInput = {
@@ -31935,7 +32368,7 @@ export namespace Prisma {
   export type BudgetCreateWithoutEnvelopesInput = {
     id?: string
     name: string
-    user: UserCreateNestedOneWithoutBudgetInput
+    user: UserCreateNestedOneWithoutBudgetsInput
     income?: IncomeCreateNestedManyWithoutBudgetInput
     totalBalance?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
@@ -31982,6 +32415,7 @@ export namespace Prisma {
     imageUrl?: string | null
     imageName?: string | null
     imageId?: string | null
+    user?: UserCreateNestedOneWithoutBudgetTransactionsInput
   }
 
   export type BudgetTransactionUncheckedCreateWithoutBudgetEnvelopeInput = {
@@ -32005,6 +32439,7 @@ export namespace Prisma {
     imageUrl?: string | null
     imageName?: string | null
     imageId?: string | null
+    userId?: string | null
   }
 
   export type BudgetTransactionCreateOrConnectWithoutBudgetEnvelopeInput = {
@@ -32025,7 +32460,7 @@ export namespace Prisma {
   export type BudgetUpdateWithoutEnvelopesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutBudgetNestedInput
+    user?: UserUpdateOneRequiredWithoutBudgetsNestedInput
     income?: IncomeUpdateManyWithoutBudgetNestedInput
     totalBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32062,33 +32497,6 @@ export namespace Prisma {
     data: XOR<BudgetTransactionUpdateManyMutationInput, BudgetTransactionUncheckedUpdateManyWithoutTransactionsInput>
   }
 
-  export type BudgetTransactionScalarWhereInput = {
-    AND?: Enumerable<BudgetTransactionScalarWhereInput>
-    OR?: Enumerable<BudgetTransactionScalarWhereInput>
-    NOT?: Enumerable<BudgetTransactionScalarWhereInput>
-    id?: StringFilter | string
-    timestamp?: DateTimeFilter | Date | string
-    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    baseCurrency?: StringFilter | string
-    quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    fromAsset?: StringNullableFilter | string | null
-    toAsset?: StringFilter | string
-    market?: StringFilter | string
-    transactionType?: StringFilter | string
-    expiry?: DateTimeNullableFilter | Date | string | null
-    status?: StringFilter | string
-    transactionHash?: StringFilter | string
-    description?: StringFilter | string
-    memo?: StringFilter | string
-    imageUrl?: StringNullableFilter | string | null
-    imageName?: StringNullableFilter | string | null
-    imageId?: StringNullableFilter | string | null
-    budgetEnvelopeId?: StringNullableFilter | string | null
-  }
-
   export type BudgetEnvelopeCreateWithoutTransactionsInput = {
     id?: string
     name: string
@@ -32116,6 +32524,61 @@ export namespace Prisma {
   export type BudgetEnvelopeCreateOrConnectWithoutTransactionsInput = {
     where: BudgetEnvelopeWhereUniqueInput
     create: XOR<BudgetEnvelopeCreateWithoutTransactionsInput, BudgetEnvelopeUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type UserCreateWithoutBudgetTransactionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    CryptoSnapshot?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
+    PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
+    SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBudgetTransactionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    CryptoSnapshot?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBudgetTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBudgetTransactionsInput, UserUncheckedCreateWithoutBudgetTransactionsInput>
   }
 
   export type BudgetEnvelopeUpsertWithoutTransactionsInput = {
@@ -32147,6 +32610,61 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type UserUpsertWithoutBudgetTransactionsInput = {
+    update: XOR<UserUpdateWithoutBudgetTransactionsInput, UserUncheckedUpdateWithoutBudgetTransactionsInput>
+    create: XOR<UserCreateWithoutBudgetTransactionsInput, UserUncheckedCreateWithoutBudgetTransactionsInput>
+  }
+
+  export type UserUpdateWithoutBudgetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    CryptoSnapshot?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
+    PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBudgetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    CryptoSnapshot?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type AssetCreateWithoutCustomCategoryInput = {
     id?: string
     name: string
@@ -32173,7 +32691,7 @@ export namespace Prisma {
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutCustomCategoryInput = {
@@ -32257,7 +32775,7 @@ export namespace Prisma {
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutLabelsInput = {
@@ -32325,7 +32843,7 @@ export namespace Prisma {
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutLabelsInput = {
@@ -32483,7 +33001,7 @@ export namespace Prisma {
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutSubAssetsInput = {
@@ -32546,7 +33064,7 @@ export namespace Prisma {
     market?: MarketCreateNestedOneWithoutAssetInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutParentInput = {
@@ -32606,6 +33124,7 @@ export namespace Prisma {
     transactionHash: string
     description: string
     memo: string
+    user?: UserCreateNestedOneWithoutAssetTransactionsInput
   }
 
   export type TransactionUncheckedCreateWithoutRelatedAssetInput = {
@@ -32626,6 +33145,7 @@ export namespace Prisma {
     transactionHash: string
     description: string
     memo: string
+    userId?: string | null
   }
 
   export type TransactionCreateOrConnectWithoutRelatedAssetInput = {
@@ -32638,7 +33158,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCreateWithoutAssetInput = {
+  export type UserCreateWithoutAssetsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -32650,7 +33170,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -32661,7 +33183,7 @@ export namespace Prisma {
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutAssetInput = {
+  export type UserUncheckedCreateWithoutAssetsInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -32673,7 +33195,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -32684,9 +33208,9 @@ export namespace Prisma {
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutAssetInput = {
+  export type UserCreateOrConnectWithoutAssetsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAssetInput, UserUncheckedCreateWithoutAssetInput>
+    create: XOR<UserCreateWithoutAssetsInput, UserUncheckedCreateWithoutAssetsInput>
   }
 
   export type AssetLabelUpsertWithWhereUniqueWithoutAssetInput = {
@@ -32820,7 +33344,7 @@ export namespace Prisma {
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutSubAssetsInput = {
@@ -32884,36 +33408,12 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutTransactionsInput>
   }
 
-  export type TransactionScalarWhereInput = {
-    AND?: Enumerable<TransactionScalarWhereInput>
-    OR?: Enumerable<TransactionScalarWhereInput>
-    NOT?: Enumerable<TransactionScalarWhereInput>
-    id?: StringFilter | string
-    timestamp?: DateTimeFilter | Date | string
-    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    baseCurrency?: StringFilter | string
-    quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    fromAsset?: StringNullableFilter | string | null
-    toAsset?: StringFilter | string
-    market?: StringFilter | string
-    transactionType?: StringFilter | string
-    expiry?: DateTimeNullableFilter | Date | string | null
-    status?: StringFilter | string
-    transactionHash?: StringFilter | string
-    description?: StringFilter | string
-    memo?: StringFilter | string
-    relatedAssetId?: StringNullableFilter | string | null
+  export type UserUpsertWithoutAssetsInput = {
+    update: XOR<UserUpdateWithoutAssetsInput, UserUncheckedUpdateWithoutAssetsInput>
+    create: XOR<UserCreateWithoutAssetsInput, UserUncheckedCreateWithoutAssetsInput>
   }
 
-  export type UserUpsertWithoutAssetInput = {
-    update: XOR<UserUpdateWithoutAssetInput, UserUncheckedUpdateWithoutAssetInput>
-    create: XOR<UserCreateWithoutAssetInput, UserUncheckedCreateWithoutAssetInput>
-  }
-
-  export type UserUpdateWithoutAssetInput = {
+  export type UserUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32925,7 +33425,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -32936,7 +33438,7 @@ export namespace Prisma {
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutAssetInput = {
+  export type UserUncheckedUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32948,7 +33450,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -32985,7 +33489,7 @@ export namespace Prisma {
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutTransactionsInput = {
@@ -33022,6 +33526,61 @@ export namespace Prisma {
     create: XOR<AssetCreateWithoutTransactionsInput, AssetUncheckedCreateWithoutTransactionsInput>
   }
 
+  export type UserCreateWithoutAssetTransactionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    settings?: SettingsCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
+    CryptoSnapshot?: CryptoSnapshotCreateNestedManyWithoutUserInput
+    CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
+    PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
+    SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAssetTransactionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    role?: Role
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
+    CryptoSnapshot?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
+    CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
+    PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
+    SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAssetTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssetTransactionsInput, UserUncheckedCreateWithoutAssetTransactionsInput>
+  }
+
   export type AssetUpsertWithoutTransactionsInput = {
     update: XOR<AssetUpdateWithoutTransactionsInput, AssetUncheckedUpdateWithoutTransactionsInput>
     create: XOR<AssetCreateWithoutTransactionsInput, AssetUncheckedCreateWithoutTransactionsInput>
@@ -33053,7 +33612,7 @@ export namespace Prisma {
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutTransactionsInput = {
@@ -33085,6 +33644,61 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type UserUpsertWithoutAssetTransactionsInput = {
+    update: XOR<UserUpdateWithoutAssetTransactionsInput, UserUncheckedUpdateWithoutAssetTransactionsInput>
+    create: XOR<UserCreateWithoutAssetTransactionsInput, UserUncheckedCreateWithoutAssetTransactionsInput>
+  }
+
+  export type UserUpdateWithoutAssetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    settings?: SettingsUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
+    CryptoSnapshot?: CryptoSnapshotUpdateManyWithoutUserNestedInput
+    CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
+    PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
+    SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
+    portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    CryptoSnapshot?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
+    PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
+    SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutPortfolioSnapshotInput = {
     id?: string
     name?: string | null
@@ -33097,7 +33711,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -33105,7 +33722,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPortfolioSnapshotInput = {
@@ -33120,7 +33736,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33128,7 +33747,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPortfolioSnapshotInput = {
@@ -33153,7 +33771,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -33161,7 +33782,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPortfolioSnapshotInput = {
@@ -33176,7 +33796,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33184,7 +33807,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCryptoSnapshotInput = {
@@ -33199,7 +33821,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -33207,7 +33832,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCryptoSnapshotInput = {
@@ -33222,7 +33846,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33230,7 +33857,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCryptoSnapshotInput = {
@@ -33255,7 +33881,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -33263,7 +33892,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCryptoSnapshotInput = {
@@ -33278,7 +33906,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33286,7 +33917,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCashSnapshotInput = {
@@ -33301,7 +33931,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -33309,7 +33942,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCashSnapshotInput = {
@@ -33324,7 +33956,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33332,7 +33967,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCashSnapshotInput = {
@@ -33357,7 +33991,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -33365,7 +34002,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCashSnapshotInput = {
@@ -33380,7 +34016,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33388,7 +34027,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPropertySnapshotInput = {
@@ -33403,7 +34041,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -33411,7 +34052,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotCreateNestedManyWithoutUserInput
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPropertySnapshotInput = {
@@ -33426,7 +34066,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33434,7 +34077,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPropertySnapshotInput = {
@@ -33459,7 +34101,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -33467,7 +34112,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUpdateManyWithoutUserNestedInput
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertySnapshotInput = {
@@ -33482,7 +34126,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33490,7 +34137,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSecuritySnapshotInput = {
@@ -33505,7 +34151,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
@@ -33513,7 +34162,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotCreateNestedManyWithoutUserInput
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSecuritySnapshotInput = {
@@ -33528,7 +34176,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33536,7 +34187,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedCreateNestedManyWithoutUserInput
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSecuritySnapshotInput = {
@@ -33561,7 +34211,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
@@ -33569,7 +34222,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUpdateManyWithoutUserNestedInput
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSecuritySnapshotInput = {
@@ -33584,7 +34236,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33592,7 +34247,6 @@ export namespace Prisma {
     CryptoSnapshot?: CryptoSnapshotUncheckedUpdateManyWithoutUserNestedInput
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MarketCreateWithoutCryptocurrencyInput = {
@@ -33652,7 +34306,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
@@ -33675,7 +34329,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     parentId?: string | null
@@ -33703,7 +34357,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     market?: MarketCreateNestedOneWithoutCryptocurrencyInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
@@ -33726,7 +34380,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
@@ -33759,7 +34413,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountCreateNestedManyWithoutUserInput
-    budget?: BudgetCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionCreateNestedManyWithoutUserInput
+    assets?: AssetCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     settings?: SettingsCreateNestedOneWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotCreateNestedManyWithoutUserInput
@@ -33767,7 +34424,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotCreateNestedManyWithoutUserInput
-    Asset?: AssetCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCryptocurrencyInput = {
@@ -33782,7 +34438,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     role?: Role
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    budget?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutUserInput
+    budgetTransactions?: BudgetTransactionUncheckedCreateNestedManyWithoutUserInput
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    assetTransactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     settings?: SettingsUncheckedCreateNestedOneWithoutUserInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedCreateNestedManyWithoutUserInput
@@ -33790,7 +34449,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedCreateNestedManyWithoutUserInput
     PropertySnapshot?: PropertySnapshotUncheckedCreateNestedManyWithoutUserInput
     SecuritySnapshot?: SecuritySnapshotUncheckedCreateNestedManyWithoutUserInput
-    Asset?: AssetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCryptocurrencyInput = {
@@ -33860,7 +34518,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
@@ -33883,7 +34541,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33927,7 +34585,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    budget?: BudgetUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUpdateManyWithoutUserNestedInput
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     settings?: SettingsUpdateOneWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUpdateManyWithoutUserNestedInput
@@ -33935,7 +34596,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUpdateManyWithoutUserNestedInput
-    Asset?: AssetUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCryptocurrencyInput = {
@@ -33950,7 +34610,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     role?: EnumRoleFieldUpdateOperationsInput | Role
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    budget?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutUserNestedInput
+    budgetTransactions?: BudgetTransactionUncheckedUpdateManyWithoutUserNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    assetTransactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     settings?: SettingsUncheckedUpdateOneWithoutUserNestedInput
     portfolioSnapshot?: PortfolioSnapshotUncheckedUpdateManyWithoutUserNestedInput
@@ -33958,7 +34621,6 @@ export namespace Prisma {
     CashSnapshot?: CashSnapshotUncheckedUpdateManyWithoutUserNestedInput
     PropertySnapshot?: PropertySnapshotUncheckedUpdateManyWithoutUserNestedInput
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
-    Asset?: AssetUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CryptocurrencyCreateWithoutMarketInput = {
@@ -33973,7 +34635,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     parent?: CryptocurrencyCreateNestedOneWithoutChildrenInput
     Children?: CryptocurrencyCreateNestedManyWithoutParentInput
@@ -33996,7 +34658,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     parentId?: string | null
     Children?: CryptocurrencyUncheckedCreateNestedManyWithoutParentInput
@@ -34043,7 +34705,7 @@ export namespace Prisma {
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: TransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
   }
 
   export type AssetUncheckedCreateWithoutMarketInput = {
@@ -34141,6 +34803,77 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type BudgetTransactionCreateManyUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    imageUrl?: string | null
+    imageName?: string | null
+    imageId?: string | null
+    budgetEnvelopeId?: string | null
+  }
+
+  export type AssetCreateManyUserInput = {
+    id?: string
+    name: string
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    value: Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: Date | string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    categoryId?: string | null
+    category: Category
+    marketId?: string | null
+    parentId?: string | null
+  }
+
+  export type TransactionCreateManyUserInput = {
+    id?: string
+    timestamp: Date | string
+    pricePerUnit: Decimal | DecimalJsLike | number | string
+    baseCurrency: string
+    quantity: Decimal | DecimalJsLike | number | string
+    quantityFilled?: Decimal | DecimalJsLike | number | string | null
+    fee: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fromAsset?: string | null
+    toAsset: string
+    market: string
+    transactionType: string
+    expiry?: Date | string | null
+    status: string
+    transactionHash: string
+    description: string
+    memo: string
+    relatedAssetId?: string | null
+  }
+
   export type CryptocurrencyCreateManyUserInput = {
     id?: string
     displayName: string
@@ -34153,7 +34886,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     parentId?: string | null
@@ -34239,32 +34972,6 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type AssetCreateManyUserInput = {
-    id?: string
-    name: string
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    categoryId?: string | null
-    category: Category
-    marketId?: string | null
-    parentId?: string | null
-  }
-
   export type AccountUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -34331,7 +35038,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type BudgetUncheckedUpdateManyWithoutBudgetInput = {
+  export type BudgetUncheckedUpdateManyWithoutBudgetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     totalBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -34339,6 +35046,225 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type BudgetTransactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetEnvelope?: BudgetEnvelopeUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type BudgetTransactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BudgetTransactionUncheckedUpdateManyWithoutBudgetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssetUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    labels?: AssetLabelUpdateManyWithoutAssetNestedInput
+    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutAssetNestedInput
+    parent?: AssetUpdateOneWithoutSubAssetsNestedInput
+    subAssets?: AssetUpdateManyWithoutParentNestedInput
+    transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    marketId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
+  }
+
+  export type AssetUncheckedUpdateManyWithoutAssetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    marketId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TransactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    relatedAsset?: AssetUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutAssetTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCurrency?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
+    toAsset?: StringFieldUpdateOperationsInput | string
+    market?: StringFieldUpdateOperationsInput | string
+    transactionType?: StringFieldUpdateOperationsInput | string
+    expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    transactionHash?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    memo?: StringFieldUpdateOperationsInput | string
+    relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CryptocurrencyUpdateWithoutUserInput = {
@@ -34353,7 +35279,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
@@ -34376,7 +35302,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34399,7 +35325,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34637,90 +35563,6 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AssetUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
-    parent?: AssetUpdateOneWithoutSubAssetsNestedInput
-    subAssets?: AssetUpdateManyWithoutParentNestedInput
-    transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-  }
-
-  export type AssetUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
-    marketId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
-    transactions?: TransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
-  }
-
-  export type AssetUncheckedUpdateManyWithoutAssetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
-    marketId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type BudgetEnvelopeCreateManyBudgetInput = {
     id?: string
     name: string
@@ -34836,6 +35678,7 @@ export namespace Prisma {
     imageUrl?: string | null
     imageName?: string | null
     imageId?: string | null
+    userId?: string | null
   }
 
   export type BudgetTransactionUpdateWithoutBudgetEnvelopeInput = {
@@ -34859,6 +35702,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutBudgetTransactionsNestedInput
   }
 
   export type BudgetTransactionUncheckedUpdateWithoutBudgetEnvelopeInput = {
@@ -34882,6 +35726,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateManyWithoutTransactionsInput = {
@@ -34905,6 +35750,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssetCreateManyCustomCategoryInput = {
@@ -34959,7 +35805,7 @@ export namespace Prisma {
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutCustomCategoryInput = {
@@ -34988,32 +35834,6 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssetUncheckedUpdateManyWithoutAssetsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
-    marketId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -35071,6 +35891,7 @@ export namespace Prisma {
     transactionHash: string
     description: string
     memo: string
+    userId?: string | null
   }
 
   export type AssetLabelUpdateWithoutAssetInput = {
@@ -35129,7 +35950,7 @@ export namespace Prisma {
     market?: MarketUpdateOneWithoutAssetNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutParentInput = {
@@ -35205,6 +36026,7 @@ export namespace Prisma {
     transactionHash?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneWithoutAssetTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutRelatedAssetInput = {
@@ -35225,6 +36047,7 @@ export namespace Prisma {
     transactionHash?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutTransactionsInput = {
@@ -35245,6 +36068,7 @@ export namespace Prisma {
     transactionHash?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     memo?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CryptocurrencyCreateManyParentInput = {
@@ -35259,7 +36083,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     marketId?: string | null
     userId: string
@@ -35281,7 +36105,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     market?: MarketUpdateOneWithoutCryptocurrencyNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
@@ -35304,7 +36128,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
@@ -35327,7 +36151,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
@@ -35349,7 +36173,7 @@ export namespace Prisma {
     walletAddress?: string | null
     targetBalance?: Decimal | DecimalJsLike | number | string
     interestBearingBalance?: Decimal | DecimalJsLike | number | string
-    rateOfIncome?: Decimal | DecimalJsLike | number | string
+    incomeRate?: Decimal | DecimalJsLike | number | string
     accountConnection?: AccountConnection | null
     parentId?: string | null
     userId: string
@@ -35397,7 +36221,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     parent?: CryptocurrencyUpdateOneWithoutChildrenNestedInput
     Children?: CryptocurrencyUpdateManyWithoutParentNestedInput
@@ -35420,7 +36244,7 @@ export namespace Prisma {
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
     targetBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestBearingBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rateOfIncome?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    incomeRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     accountConnection?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     Children?: CryptocurrencyUncheckedUpdateManyWithoutParentNestedInput
@@ -35457,7 +36281,7 @@ export namespace Prisma {
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: TransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutMarketInput = {
@@ -35486,6 +36310,32 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssetUncheckedUpdateManyWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 

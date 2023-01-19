@@ -17,7 +17,6 @@ import { Role } from "database/generated/prisma-client"
 import { BsBank } from "react-icons/bs"
 import {
 	MdAdminPanelSettings,
-	MdFreeCancellation,
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
@@ -32,7 +31,6 @@ export default function Layout({ children }: PropsWithChildren) {
 
 	const links = [
 		{ href: "/portfolio", icon: BsBank, label: "Accounts" },
-		{ href: "/depreciated", icon: MdFreeCancellation, label: "Accounts" },
 		{ href: "/budgets", icon: MdSavings, label: "Budgets" },
 		{
 			href: "/markets",

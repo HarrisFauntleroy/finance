@@ -117,7 +117,7 @@ export class Swyftx {
 					balance: toDecimal(availableBalance),
 					costBasis: toDecimal(0),
 					targetBalance: toDecimal(0),
-					rateOfIncome: toDecimal(0),
+					incomeRate: toDecimal(0),
 					realisedGain: toDecimal(0),
 					apiKey: "",
 					apiSecret: "",
