@@ -6,30 +6,33 @@
 import React from "react"
 
 import CryptoComparison from "../../components/Markets/CryptoComparison"
-import { Page, Tabs } from "ui"
 import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
 import { Forex } from "~/components/Markets/Forex"
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react"
 
 const Markets = () => {
-	const tabData = [
-		{
-			title: "Cryptocurrency",
-			page: <Cryptocurrency />,
-		},
-		{
-			title: "Forex",
-			page: <Forex />,
-		},
-		{
-			title: "Compare",
-			page: <CryptoComparison />,
-		},
-	]
+
 
 	return (
-		<Page title="Markets">
-			<Tabs pages={tabData} id="markets" />
-		</Page>
+		<Tabs variant="enclosed" height="100%" padding="8px">
+			<TabList>
+				<Tab>Cryptocurrency</Tab>
+				<Tab>Forex</Tab>
+				<Tab>Compare</Tab>
+			</TabList>
+			<TabPanels height="100%">
+				<TabPanel padding={0} height="100%">
+					<Cryptocurrency />
+				</TabPanel>
+				<TabPanel padding={0} height="100%">
+					<Forex />
+				</TabPanel>
+				<TabPanel padding={0} height="100%">
+					<CryptoComparison />
+				</TabPanel>
+			</TabPanels>
+		</Tabs>
+
 	)
 }
 
