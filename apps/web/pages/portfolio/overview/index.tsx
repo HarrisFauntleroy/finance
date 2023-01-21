@@ -5,8 +5,8 @@ import * as ChartJs from "chart.js"
 import currency from "currency.js"
 import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
 import { Layout } from "~/components/Cryptocurrency/Layout"
-import { Targets } from "~/components/Cryptocurrency/Targets"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
+import { AssetControl } from "~/components/Portfolio/AssetControl"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
 import OverviewCard from "~/components/Portfolio/OverviewCard"
 
@@ -60,12 +60,10 @@ function Overview() {
 			</GridItem>
 			<GridItem area={"control"}>
 				<ControlBar />
+				<AssetControl />
 			</GridItem>
 			<GridItem area={"assets"}>
 				<AccountsList />
-			</GridItem>
-			<GridItem area={"targets"}>
-				<Targets />
 			</GridItem>
 		</Layout>
 	)

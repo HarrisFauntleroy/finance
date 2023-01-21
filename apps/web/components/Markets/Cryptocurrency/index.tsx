@@ -1,28 +1,12 @@
-import React, { useContext } from "react"
+import React from "react"
 
-import {
-	HStack,
-	IconButton,
-	Skeleton,
-	Stack,
-	Text,
-	useToast,
-} from "@chakra-ui/react"
+import { Stack } from "@chakra-ui/react"
 import NextError from "next/error"
-import Link from "next/link"
-import { FiEye, FiEyeOff } from "react-icons/fi"
-import { MdRefresh } from "react-icons/md"
-import { Card, Table } from "ui"
+import { Table } from "ui"
 import { cryptocurrencyColumns } from "~/components/Markets/Cryptocurrency/columns"
-import { PrivacyContext } from "~/components/Providers/Privacy"
-import { defaultToast } from "~/utils/toast"
 import { trpc } from "~/utils/trpc"
 
 export const Cryptocurrency = () => {
-	const { privacy, togglePrivacy } = useContext(PrivacyContext)
-
-	const toast = useToast()
-
 	const { data, error } = trpc.markets.cryptocurrency.useQuery()
 
 	if (error) {
@@ -36,51 +20,13 @@ export const Cryptocurrency = () => {
 
 	return (
 		<Stack>
-			<Card>
-				<Skeleton rounded="xl" isLoaded={!!data}>
-					<Table
-						id="Cryptocurrency"
-						data={data || []}
-						columns={cryptocurrencyColumns}
-						getRowCanExpand
-						paginationEnabled
-					>
-						<HStack>
-							<IconButton
-								icon={<MdRefresh />}
-								aria-label=""
-								onClick={() => {
-									fetch("api/market/prices")
-										.then(() =>
-											toast({
-												title: "Succesfully refreshed",
-												status: "success",
-												...defaultToast,
-											})
-										)
-										.catch(() =>
-											toast({
-												title: "Failed to refresh",
-												status: "error",
-												...defaultToast,
-											})
-										)
-								}}
-							/>
-							{privacy.toString()}
-							<IconButton
-								icon={privacy ? <FiEyeOff /> : <FiEye />}
-								aria-label=""
-								onClick={() => togglePrivacy()}
-							/>
-						</HStack>
-					</Table>
-				</Skeleton>
-			</Card>
-			<Text textAlign="center">
-				Price data provided by{" "}
-				<Link href="https://www.coingecko.com">CoinGecko</Link>
-			</Text>
+			<Table
+				id="Cryptocurrency"
+				data={data || []}
+				columns={cryptocurrencyColumns}
+				getRowCanExpand
+				paginationEnabled
+			/>
 		</Stack>
 	)
 }

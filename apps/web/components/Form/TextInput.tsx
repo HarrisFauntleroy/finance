@@ -8,15 +8,17 @@ import {
 	FormLabel,
 	Input,
 } from "@chakra-ui/react"
-import type { UseFormRegister, ValidationRule } from "react-hook-form"
+import type { ValidationRule } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 
-interface InputProps {
+interface FormInputBase {
+	id?: string
 	name: string
 	label: string
+	hidden?: boolean
+	required?: boolean
 	inputProps?: ChakraInputProps
 	error?: string
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-	register: UseFormRegister<any>
 	validation?: Partial<{
 		required: string | ValidationRule<boolean>
 		minLength: ValidationRule<number>
@@ -24,17 +26,45 @@ interface InputProps {
 	}>
 }
 
-export const TextInput = ({
+interface FormInput extends FormInputBase {
+	type: "text"
+	options?: never
+}
+
+interface SelectFormInput extends FormInputBase {
+	type: "select"
+	options?: string[]
+}
+
+interface MultiSelectFormInput extends FormInputBase {
+	type: "multi-select"
+	options?: Record<string, unknown>[]
+}
+
+export type FormInputs = FormInput | SelectFormInput | MultiSelectFormInput
+
+export function TextInput({
 	name,
 	label,
+	hidden,
 	inputProps,
-	register,
 	error,
 	validation,
-}: InputProps) => (
-	<FormControl isInvalid={!!error}>
-		<FormLabel htmlFor={name}>{label}</FormLabel>
-		<Input id={name} {...register(name, validation)} {...inputProps} />
-		<FormErrorMessage>{error}</FormErrorMessage>
-	</FormControl>
-)
+}: FormInputs) {
+	const context = useFormContext()
+	return (
+		<FormControl
+			isInvalid={!!error}
+			display={hidden ? "none" : "flex"}
+			flexDir="column"
+		>
+			<FormLabel htmlFor={name}>{label}</FormLabel>
+			<Input
+				id={name}
+				{...context.register(name, validation)}
+				{...inputProps}
+			/>
+			<FormErrorMessage>{error}</FormErrorMessage>
+		</FormControl>
+	)
+}

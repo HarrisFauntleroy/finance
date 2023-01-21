@@ -4,15 +4,12 @@ import type { AssetFormInputs } from "./AccountForm"
 import { AssetForm } from "./AccountForm"
 import { DeleteAsset } from "./DeleteAccount"
 
-interface AccountControlProps {
+interface AssetControlProps {
 	variant?: "delete"
 	defaultValues?: AssetFormInputs
 }
 
-export const AccountControl = ({
-	defaultValues,
-	variant,
-}: AccountControlProps) => {
+export const AssetControl = ({ defaultValues, variant }: AssetControlProps) => {
 	return variant === "delete" ? (
 		<DeleteAsset id={defaultValues?.id} />
 	) : (

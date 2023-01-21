@@ -5,9 +5,7 @@
  */
 import React from "react"
 
-import { Button, Flex, Text } from "@chakra-ui/react"
-import Link from "next/link"
-import { MdDeveloperMode } from "react-icons/md"
+import { Flex, Text } from "@chakra-ui/react"
 
 export function Footer() {
 	return (
@@ -20,18 +18,9 @@ export function Footer() {
 				justifyContent="center"
 				alignItems="center"
 			>
-				Harris Fauntleroy © 2022 All rights reserved
+				Harris Fauntleroy © {new Date().getFullYear().toString()} All rights
+				reserved
 			</Text>
-			<Link href="/dev" passHref>
-				<Button
-					variant="link"
-					size="xs"
-					leftIcon={<MdDeveloperMode />}
-					aria-label=""
-				>
-					developer
-				</Button>
-			</Link>
 		</Flex>
 	)
 }

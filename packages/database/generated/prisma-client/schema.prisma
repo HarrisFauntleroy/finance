@@ -53,7 +53,7 @@ model User {
   budgets            Budget[]
   budgetTransactions BudgetTransaction[]
   assets             Asset[]
-  assetTransactions  Transaction[]
+  assetTransactions  AssetTransaction[]
   cryptocurrency     Cryptocurrency[]
   sessions           Session[]
   settings           Settings?
@@ -222,8 +222,8 @@ model BudgetTransaction {
 
   budgetEnvelopeId String?
   budgetEnvelope   BudgetEnvelope? @relation(fields: [budgetEnvelopeId], references: [id])
-  user             User?           @relation(fields: [userId], references: [id])
-  userId           String?
+  user             User            @relation(fields: [userId], references: [id])
+  userId           String
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -345,8 +345,8 @@ model Asset {
   // An array of labels that can be used to classify the asset, such as "personal" or "business"
   labels    AssetLabel[]
 
-  categoryId     String?
   category       Category
+  categoryId     String?
   // Reference to the category of the asset, for example "Cryptocurrency" or "Stock"
   customCategory AssetCategory? @relation(fields: [categoryId], references: [id])
 
@@ -356,15 +356,15 @@ model Asset {
 
   // If the asset is a sub-asset, it will have a parent asset, these fields represent the parent asset
   parentId     String?
-  parent       Asset?        @relation("sub_assets", fields: [parentId], references: [id])
-  subAssets    Asset[]       @relation("sub_assets")
-  transactions Transaction[]
+  parent       Asset?             @relation("sub_assets", fields: [parentId], references: [id])
+  subAssets    Asset[]            @relation("sub_assets")
+  transactions AssetTransaction[]
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Transaction {
+model AssetTransaction {
   id                  String    @id @unique @default(cuid())
   // The time when the transaction was made
   // ISO-8601 format
@@ -415,8 +415,13 @@ model Transaction {
 
   relatedAssetId String?
   relatedAsset   Asset?  @relation(fields: [relatedAssetId], references: [id])
-  user           User?   @relation(fields: [userId], references: [id])
-  userId         String?
+  user           User    @relation(fields: [userId], references: [id])
+  userId         String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

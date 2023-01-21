@@ -252,14 +252,14 @@ exports.Prisma.AssetScalarFieldEnum = makeEnum({
   deleted: 'deleted',
   deletedAt: 'deletedAt',
   account: 'account',
-  categoryId: 'categoryId',
   category: 'category',
+  categoryId: 'categoryId',
   marketId: 'marketId',
   parentId: 'parentId',
   userId: 'userId'
 });
 
-exports.Prisma.TransactionScalarFieldEnum = makeEnum({
+exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
   id: 'id',
   timestamp: 'timestamp',
   pricePerUnit: 'pricePerUnit',
@@ -278,7 +278,11 @@ exports.Prisma.TransactionScalarFieldEnum = makeEnum({
   description: 'description',
   memo: 'memo',
   relatedAssetId: 'relatedAssetId',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 });
 
 exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
@@ -467,7 +471,7 @@ exports.Prisma.ModelName = makeEnum({
   AssetCategory: 'AssetCategory',
   AssetLabel: 'AssetLabel',
   Asset: 'Asset',
-  Transaction: 'Transaction',
+  AssetTransaction: 'AssetTransaction',
   PortfolioSnapshot: 'PortfolioSnapshot',
   CryptoSnapshot: 'CryptoSnapshot',
   CashSnapshot: 'CashSnapshot',

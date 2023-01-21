@@ -1,8 +1,10 @@
 import { router } from "../trpc"
 import { accountsRouter } from "./accounts"
+import { assetTransactionRouter } from "./assetTransaction"
 import { assetRouter } from "./assets"
 import { authRouter } from "./auth"
 import { budgetRouter } from "./budget"
+import { budgetTransactionRouter } from "./budgetTransaction"
 import { cryptocurrencyRouter } from "./cryptocurrency"
 import { logRouter } from "./logs"
 import { marketsRouter } from "./markets"
@@ -19,7 +21,8 @@ export const appRouter = router({
 	user: userRouter,
 	logs: logRouter,
 	assets: assetRouter,
+	budgetTransactions: budgetTransactionRouter,
+	assetTransactions: assetTransactionRouter,
 })
 
-// export type definition of API
 export type AppRouter = typeof appRouter

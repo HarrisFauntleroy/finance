@@ -4,9 +4,6 @@ import { EditIcon } from "@chakra-ui/icons"
 import {
 	Button,
 	ButtonGroup,
-	FormControl,
-	FormLabel,
-	Input,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -23,8 +20,9 @@ import { useSession } from "next-auth/react"
 import type { SubmitHandler } from "react-hook-form"
 import { FormProvider } from "react-hook-form"
 import { useForm } from "react-hook-form"
-import { Card } from "ui"
 import { logger } from "~/../../packages/common/dist"
+import type { FormInputs } from "~/components/Form/TextInput"
+import { TextInput } from "~/components/Form/TextInput"
 import type { RouterInput } from "~/utils/trpc"
 import { trpc } from "~/utils/trpc"
 
@@ -59,7 +57,7 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 		defaultValues: { userId, ...defaultValues },
 	})
 
-	const { handleSubmit, register, reset } = methods
+	const { handleSubmit, reset } = methods
 
 	useEffect(() => reset(defaultValues), [defaultValues, reset])
 
@@ -87,34 +85,9 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 		return new Error("No userId provided")
 	}
 
-	interface FormInputBase {
-		id: string
-		name: keyof AssetUpdateInput
-		label: string
-		hidden?: boolean
-		required?: boolean
-	}
-
-	interface FormInput extends FormInputBase {
-		type: "text"
-		options?: never
-	}
-
-	interface SelectFormInput extends FormInputBase {
-		type: "select"
-		options?: string[]
-	}
-
-	interface MultiSelectFormInput extends FormInputBase {
-		type: "multi-select"
-		options?: Record<string, unknown>[]
-	}
-
-	type FormInputs = FormInput | SelectFormInput | MultiSelectFormInput
-
 	const inputs: FormInputs[] = [
 		{
-			id: "3456456346",
+			id: "5c643ac8-5ae3-4a4c-8f00-233279ebfd60",
 			label: "ID",
 			name: "id",
 			type: "text",
@@ -122,7 +95,7 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 			required: true,
 		},
 		{
-			id: "63454663456",
+			id: "88ab98d3-5f54-42b6-b6a1-5e2cc27e6845",
 			label: "User ID",
 			name: "userId",
 			type: "text",
@@ -130,46 +103,46 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 			required: true,
 		},
 		{
-			id: "34655364654",
+			id: "1f168748-7f15-48c5-907d-e0605e452587",
 			label: "Name",
 			name: "name",
 			type: "text",
 		},
 		{
-			id: "245624652",
+			id: "f1078cfb-ecaa-4d07-9b16-4c1e13fac11a",
 			label: "Currency",
 			name: "currency",
 			type: "select",
 			options: ["USD", "AUD"],
 		},
 		{
-			id: "24654562456",
+			id: "9d3c188d-7a76-418c-92bd-b3428536f6e2",
 			label: "API Key",
 			name: "apiKey",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "52464562",
+			id: "ba38ec5e-23c4-4516-a431-8b9e586c2662",
 			label: "API Secret",
 			name: "apiSecret",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "24654262456",
+			id: "a75dde14-6d5d-459a-8adf-6f387e7a7848",
 			label: "Wallet Address",
 			name: "walletAddress",
 			type: "text",
 		},
 		{
-			id: "24565426",
+			id: "dfe0b012-8a85-4990-9588-d6f1d21644bf",
 			label: "Value",
 			name: "value",
 			type: "text",
 		},
 		{
-			id: "24564562",
+			id: "83cd2e3f-d915-4ecf-80ab-8d34c1e1deb2",
 			label: "Value Last Updated",
 			name: "valueLastUpdated",
 			type: "text",
@@ -177,79 +150,79 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 			required: false,
 		},
 		{
-			id: "2456456542",
+			id: "26eb07cd-7af3-41ab-9b79-104f87fc3bc0",
 			label: "Balance",
 			name: "balance",
 			type: "text",
 		},
 		{
-			id: "2464565422",
+			id: "03e7806e-d47e-43e1-8175-80aaf306d765",
 			label: "Cost Basis",
 			name: "costBasis",
 			type: "text",
 		},
 		{
-			id: "24564256",
+			id: "724cc579-a040-4e62-a0e9-39dc1aff884d",
 			label: "Realised Gain",
 			name: "realisedGain",
 			type: "text",
 		},
 		{
-			id: "24565426",
+			id: "b9d1c05c-aeb8-4223-8586-89ed8590ca95",
 			label: "Target Balance",
 			name: "targetBalance",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "624562546452",
+			id: "92f18bf5-6825-4a90-95e6-5c373854b56d",
 			label: "Interest Bearing Balance",
 			name: "interestBearingBalance",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "45675674575",
+			id: "3d9b9c3d-1168-4af6-837a-c5fb30c9741c",
 			label: "Income Rate",
 			name: "incomeRate",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "3423432423",
+			id: "858b639e-59aa-466f-af02-935100caf47e",
 			label: "Connection",
 			name: "connection",
 			type: "text",
 		},
 		{
-			id: "465464565",
+			id: "afc1a8c0-3685-45a6-90f2-55407adf3b5f",
 			label: "Labels",
 			name: "labels",
 			type: "multi-select",
 		},
 		{
-			id: "567657884",
+			id: "22f76f55-1af0-4a78-ab93-6165a305e984",
 			label: "Category ID",
 			name: "categoryId",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "3653634554456",
+			id: "3e2f683e-c1ad-42bd-8928-045001dc44fe",
 			label: "Custom Category",
 			name: "customCategory",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "43252346565",
+			id: "92d5f3a9-c083-4a2e-a3f2-b2cd730c2e37",
 			label: "Market ID",
 			name: "marketId",
 			type: "text",
 			required: false,
 		},
 		{
-			id: "346456345654",
+			id: "3933466e-a807-425d-9b9f-6ea339c4b2f3",
 			label: "Parent ID",
 			name: "parentId",
 			type: "text",
@@ -276,18 +249,14 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 							</ModalHeader>
 							<ModalCloseButton />
 							<ModalBody>
-								<Card>
-									{inputs?.map((input) => (
-										<FormControl key={input.id}>
-											<FormLabel>{input.label}</FormLabel>
-											<Input type="text" {...register(input.name)} />
-										</FormControl>
-									))}
-									<FormControl>
-										<FormLabel>Currency</FormLabel>
-										<Input type="text" {...register("currency")} />
-									</FormControl>
-								</Card>
+								{inputs?.map((input) => (
+									<TextInput
+										key={input.name}
+										name={input.name}
+										label={input.label}
+										type={input.type}
+									/>
+								))}
 								{(createAsset.isLoading || updateAsset.isLoading) && (
 									<Progress size="xs" isIndeterminate />
 								)}

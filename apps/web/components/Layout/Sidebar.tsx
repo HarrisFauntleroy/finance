@@ -1,8 +1,11 @@
 import React from "react"
 
 import type { UseDisclosureProps } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
+import { DrawerFooter } from "@chakra-ui/react"
 import { Drawer, DrawerContent, DrawerOverlay } from "@chakra-ui/react"
 import type { Role } from "database/generated/prisma-client"
+import Link from "next/link"
 import type { IconType } from "react-icons"
 import { SidebarContent } from "~/components/Layout/SidebarContent"
 
@@ -33,6 +36,12 @@ export default function Sidebar({ links, ...props }: SidebarProps) {
 				<DrawerContent maxWidth="200px" aria-modal="true">
 					<SidebarContent links={links} w="full" borderRight="none" drawer />
 				</DrawerContent>
+				<DrawerFooter>
+					<Text textAlign="center">
+						Price data provided by{" "}
+						<Link href="https://www.coingecko.com">CoinGecko</Link>
+					</Text>
+				</DrawerFooter>
 			</Drawer>
 		</>
 	)

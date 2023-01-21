@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ReactNode } from "react"
 import React, { Fragment, useState } from "react"
 
 import { useLocalStorage } from "../../hooks/useLocalStorage"
@@ -10,7 +9,6 @@ import { TableHeader } from "./Header"
 import { Pagination } from "./Pagination"
 import {
 	Table as ChakraTable,
-	HStack,
 	Stack,
 	TableContainer,
 	Tbody,
@@ -57,17 +55,15 @@ export type TableProps<TData> = {
 	id: string
 	columns: any[]
 	// columns: ColumnDef<TData>[]
-	data: TData[]
+	data?: TData[]
 	pageSize?: number
 	paginationEnabled?: boolean
 	filterEnabled?: boolean
 	renderSubComponent?: any
 	getRowCanExpand?: boolean
-	children?: ReactNode
 }
 
 export const Table = <TData extends object>({
-	children,
 	columns,
 	data,
 	pageSize,
@@ -99,7 +95,7 @@ export const Table = <TData extends object>({
 	})
 
 	const table = useReactTable({
-		data,
+		data: data || [],
 		columns,
 		filterFns: {
 			fuzzy: Filter.fuzzyFilter,
@@ -131,8 +127,7 @@ export const Table = <TData extends object>({
 	})
 
 	return (
-		<Stack gap={2}>
-			<HStack>{children}</HStack>
+		<Stack height="100%" flex={1}>
 			<Show when={!!filterEnabled}>
 				<DebouncedInput
 					value={globalFilter ?? ""}
@@ -140,8 +135,15 @@ export const Table = <TData extends object>({
 					placeholder="Search all columns..."
 				/>
 			</Show>
-			<TableContainer>
-				<ChakraTable variant="simple" size="sm">
+			<TableContainer height="100%">
+				<ChakraTable
+					variant="simple"
+					size="sm"
+					height="100%"
+					flex={1}
+					overflow="scroll"
+					maxWidth="100%"
+				>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>

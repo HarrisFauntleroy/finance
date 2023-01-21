@@ -2,12 +2,12 @@ import React from "react"
 
 import { Stack } from "@chakra-ui/react"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
-import { ControlBar } from "~/components/Portfolio/ControlBar"
+import { AssetTransactionControl } from "~/components/Portfolio/AssetTransactionControl"
 
 function Transactions() {
 	return (
-		<Stack paddingY="8px">
-			<ControlBar />
+		<Stack direction="column" paddingY="8px" height="100%">
+			<AssetTransactionControl />
 			<AccountsList />
 		</Stack>
 	)

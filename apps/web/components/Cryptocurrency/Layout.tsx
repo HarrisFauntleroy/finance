@@ -11,16 +11,14 @@ export const Layout = ({ children }: PropsWithChildren) => {
 			templateAreas={{
 				sm: `"overview overview income income"
 						 "control control control control"
-						 "assets assets assets assets"
-						 "targets targets targets targets"`,
+						 "assets assets assets assets"`,
 				base: `"overview"
 							 "income"
-							 "assets"
-							 "targets"`,
+							 "assets"`,
 			}}
 			gridTemplateRows={{
-				sm: "max-content max-content 1fr max-content",
-				base: "repeat(4,max-content)",
+				sm: "max-content max-content 1fr",
+				base: "repeat(3, max-content)",
 			}}
 			gridTemplateColumns={{
 				sm: "repeat(4, 1fr)",

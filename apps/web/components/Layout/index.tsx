@@ -20,7 +20,7 @@ import {
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
-import Footer from "~/components/Layout/Footer"
+import { Footer } from "ui"
 import Header from "~/components/Layout/Header"
 import Sidebar from "~/components/Layout/Sidebar"
 import useLagRadar from "~/hooks/useLagRadar"
@@ -47,7 +47,7 @@ export default function Layout({ children }: PropsWithChildren) {
 
 	return (
 		<Grid
-			minHeight="100vh"
+			height="100%"
 			templateAreas={{
 				lg: `"header header"
 							"nav main"
@@ -59,7 +59,7 @@ export default function Layout({ children }: PropsWithChildren) {
 								"main"
 								"footer"`,
 			}}
-			gridTemplateRows={"64px 1fr 32px"}
+			gridTemplateRows={{ base: "64px 1fr 32px" }}
 			gridTemplateColumns={{
 				lg: "200px calc(100vw - 200px)",
 				md: "64px calc(100vw - 64px)",

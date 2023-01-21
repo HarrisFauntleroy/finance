@@ -7,7 +7,7 @@ const styles = {
 		"html, body, #__next": {
 			fontKerning: "auto",
 			fontSmooth: "antialiased",
-			minHeight: "100vh",
+			height: "100vh",
 			maxWidth: "100vw",
 			display: "flex",
 			padding: 0,

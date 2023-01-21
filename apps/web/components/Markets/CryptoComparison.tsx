@@ -74,103 +74,109 @@ const CryptoComparison = () => {
 	)
 
 	return (
-		<Grid
-			padding="8px"
-			gridTemplateColumns={{
-				sm: "1fr max-content",
-				base: "1fr",
-			}}
-		>
-			<Card padding="8px">
-				<Heading>Crypto Comparison</Heading>
-				<Flex>
-					<Select
-						variant="outline"
-						width="100%"
-						defaultValue={coinToCompare?.ticker}
+		<Stack>
+			<Grid
+				padding="8px"
+				gridTemplateColumns={{
+					sm: "1fr max-content",
+					base: "1fr",
+				}}
+			>
+				<Card padding="8px">
+					<Heading>Crypto Comparison</Heading>
+					<Flex>
+						<Select
+							variant="outline"
+							width="100%"
+							defaultValue={coinToCompare?.ticker}
+							onChange={(e) =>
+								// eslint-disable-next-line @typescript-eslint/no-explicit-any
+								handleSelectCrypto1(
+									(data as Record<string, any>)[e.target.value]
+								)
+							}
+						>
+							{data?.map((crypto, index) => (
+								<option value={index} key={crypto.ticker}>
+									<HStack alignItems="center">
+										<Image
+											width={1}
+											height={1}
+											alt=""
+											src={crypto.image || crypto.name}
+										/>
+										<Text>
+											{crypto.name} ({crypto.ticker})
+										</Text>
+									</HStack>
+								</option>
+							))}
+						</Select>
+
+						<Select
+							variant="outline"
+							width="100px"
+							defaultValue={selectedCurrency}
+							onChange={(e) => handleSelectCurrency(e.target.value)}
+						>
+							{currencies.map((currencyOption) => (
+								<option value={currencyOption} key={currencyOption}>
+									{currencyOption}
+								</option>
+							))}
+						</Select>
+					</Flex>
+					<Text fontSize={32}>
+						What if {coinToCompare?.ticker} reached the market cap of...
+					</Text>
+					<Stack width="100%">
+						{calculatedValues?.map((crypto) => (
+							<Flex key={crypto.ticker} justify="space-between" align="center">
+								<Flex align="center">
+									<Box>{String(crypto?.marketCapRank)}</Box>
+									<Avatar src={crypto.image || ""} name={crypto.ticker} />
+									<Stack alignItems="center">
+										<Text textTransform="uppercase">{crypto.ticker}</Text>
+										<Text textTransform="capitalize">{crypto.name}</Text>
+									</Stack>
+									<Box>{currency(String(crypto?.marketCap)).format()}</Box>
+								</Flex>
+								<Box width="300px">
+									<Flex>
+										<>
+											Current {crypto?.ticker} Price: {crypto?.price}
+										</>
+									</Flex>
+									<Divider />
+									<Flex>
+										Potential Price: {currency(crypto?.potentialPrice).format()}
+									</Flex>
+									<Divider />
+									<Flex>Potential Upside: {crypto?.potentialUpside}%</Flex>
+								</Box>
+							</Flex>
+						))}
+					</Stack>
+				</Card>
+				<Card>
+					<label>Select Crypto to compare</label>
+					<select
 						onChange={(e) =>
 							// eslint-disable-next-line @typescript-eslint/no-explicit-any
-							handleSelectCrypto1((data as Record<string, any>)[e.target.value])
+							handleSelectCrypto2(
+								(data as Record<string, any>)?.[e.target.value]
+							)
 						}
 					>
 						{data?.map((crypto, index) => (
 							<option value={index} key={crypto.ticker}>
-								<HStack alignItems="center">
-									<Image
-										width={1}
-										height={1}
-										alt=""
-										src={crypto.image || crypto.name}
-									/>
-									<Text>
-										{crypto.name} ({crypto.ticker})
-									</Text>
-								</HStack>
+								{crypto.ticker}
 							</option>
 						))}
-					</Select>
-
-					<Select
-						variant="outline"
-						width="100px"
-						defaultValue={selectedCurrency}
-						onChange={(e) => handleSelectCurrency(e.target.value)}
-					>
-						{currencies.map((currencyOption) => (
-							<option value={currencyOption} key={currencyOption}>
-								{currencyOption}
-							</option>
-						))}
-					</Select>
-				</Flex>
-				<Text fontSize={32}>
-					What if {coinToCompare?.ticker} reached the market cap of...
-				</Text>
-				<Stack width="100%">
-					{calculatedValues?.map((crypto) => (
-						<Flex key={crypto.ticker} justify="space-between" align="center">
-							<Flex align="center">
-								<Box>{String(crypto?.marketCapRank)}</Box>
-								<Avatar src={crypto.image || ""} name={crypto.ticker} />
-								<Stack alignItems="center">
-									<Text textTransform="uppercase">{crypto.ticker}</Text>
-									<Text textTransform="capitalize">{crypto.name}</Text>
-								</Stack>
-								<Box>{currency(String(crypto?.marketCap)).format()}</Box>
-							</Flex>
-							<Box width="300px">
-								<Flex>
-									<>
-										Current {crypto?.ticker} Price: {crypto?.price}
-									</>
-								</Flex>
-								<Divider />
-								<Flex>
-									Potential Price: {currency(crypto?.potentialPrice).format()}
-								</Flex>
-								<Divider />
-								<Flex>Potential Upside: {crypto?.potentialUpside}%</Flex>
-							</Box>
-						</Flex>
-					))}
-				</Stack>
-			</Card>
-			<Card>
-				<label>Select Crypto to compare</label>
-				<select
-					onChange={(e) =>
-						// eslint-disable-next-line @typescript-eslint/no-explicit-any
-						handleSelectCrypto2((data as Record<string, any>)?.[e.target.value])
-					}
-				>
-					{data?.map((crypto, index) => (
-						<option value={index} key={crypto.ticker}>
-							{crypto.ticker}
-						</option>
-					))}
-				</select>
-			</Card>
-		</Grid>
+					</select>
+				</Card>
+			</Grid>
+		</Stack>
 	)
 }
 

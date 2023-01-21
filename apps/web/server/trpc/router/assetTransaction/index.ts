@@ -25,38 +25,37 @@ import { decimal } from "~/utils/decimal"
  * asset.delete ✅
  */
 
-const AssetZod = z.object({
+const AssetTransactionZod = z.object({
 	userId: z.string(),
-	name: z.string(),
-	connection: z.nativeEnum(AccountConnection).nullable(),
-	currency: z.string().max(3).min(3),
-	value: decimal(),
-	category: z.nativeEnum(Category),
-	marketId: z.string().nullable(),
-	balance: decimal().default(0),
-	targetBalance: decimal().default(0),
-	costBasis: decimal().default(0),
-	interestBearingBalance: decimal().default(0),
-	incomeRate: decimal().default(0),
-	walletAddress: z.string().nullable(),
-	apiKey: z.string().nullable(),
-	apiSecret: z.string().nullable(),
+	timestamp: z.date(),
+	pricePerUnit: decimal(),
+	baseCurrency: z.string(),
+	quantity: decimal(),
+	quantityFilled: decimal(),
+	fee: decimal(),
+	valueInBaseCurrency: decimal(),
+	fromAsset: z.string(),
+	toAsset: z.string(),
+	market: z.string(),
+	transactionType: z.string(),
+	expiry: z.date(),
+	status: z.string(),
+	transactionHash: z.string(),
+	description: z.string(),
+	memo: z.string(),
+	relatedAssetId: z.string(),
 })
 
-const AssetWithIdZod = AssetZod.extend({
-	id: z.string(),
-})
-
-const AssetWithParentId = AssetZod.extend({
-	parentId: z.string(),
-})
-
-export const assetRouter = router({
-	create: publicProcedure.input(AssetZod).mutation(async ({ input: data }) => {
-		return prisma.asset.create({ data })
-	}),
+export const assetTransactionRouter = router({
+	create: publicProcedure
+		.input(AssetTransactionZod)
+		.mutation(async ({ input }) => {
+			return prisma.asset.create({
+				data: input,
+			})
+		}),
 	createChild: publicProcedure
-		.input(AssetWithParentId)
+		.input(AssetTransactionZod.extend({ parentId: z.string() }))
 		.mutation(async ({ input }) => {
 			return prisma.asset.create({
 				data: input,
@@ -71,30 +70,74 @@ export const assetRouter = router({
 				},
 			})
 		}),
-	update: publicProcedure.input(AssetWithIdZod).mutation(async ({ input }) => {
-		const { id, ...data } = input
-		return prisma.asset.update({
-			where: { id },
-			data,
-			include: {
-				user: true,
-			},
-		})
-	}),
-	delete: publicProcedure
+	update: publicProcedure
+		.input(
+			z.object({
+				id: z.string(),
+				userId: z.string(),
+				name: z.string(),
+				accountConnection: z.nativeEnum(AccountConnection).nullable(),
+				currency: z.string().max(3).min(3),
+				value: decimal(),
+				valueLastUpdated: z.date(),
+				category: z.nativeEnum(Category),
+				marketId: z.string().nullable(),
+				balance: decimal(),
+				targetBalance: decimal(),
+				costBasis: decimal(),
+				realisedGain: decimal(),
+				interestBearingBalance: decimal(),
+				incomeRate: decimal(),
+				walletAddress: z.string().nullable(),
+				apiKey: z.string().nullable(),
+				apiSecret: z.string().nullable(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			const { id, ...data } = input
+			return prisma.asset.update({
+				where: { id },
+				data,
+				include: {
+					user: true,
+				},
+			})
+		}),
+	all: publicProcedure
 		.input(
 			z.object({
 				id: z.string(),
 			})
 		)
-		.mutation(async ({ input }) => {
+		.query(async ({ input }) => {
 			const { id } = input
-			await prisma.asset.delete({
-				where: { id },
+			const asset = await prisma.asset.findUnique({
+				where: {
+					id,
+				},
+				include: {
+					market: true,
+					subAssets: true,
+					transactions: true,
+					user: {
+						select: {
+							settings: {
+								select: {
+									userCurrency: true,
+								},
+							},
+						},
+					},
+				},
 			})
-			return {
-				id,
+			if (!asset) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `No asset with id '${id}'`,
+				})
 			}
+
+			return asset
 		}),
 	byId: publicProcedure
 		.input(
@@ -131,6 +174,75 @@ export const assetRouter = router({
 
 			return asset
 		}),
+	// byUserId: publicProcedure
+	// 	.input(
+	// 		z.object({
+	// 			userId: z.string(),
+	// 		})
+	// 	)
+	// 	.query(async ({ input }) => {
+	// 		const { userId } = input
+
+	// 		const data = await prisma.asset.findMany({
+	// 			where: {
+	// 				userId,
+	// 				// This keeps sub accounts nested
+	// 				parentId: null,
+	// 			},
+	// 			include: {
+	// 				market: true,
+	// 				subAssets: {
+	// 					include: {
+	// 						market: true,
+	// 					},
+	// 				},
+	// 				user: {
+	// 					select: {
+	// 						settings: {
+	// 							select: {
+	// 								userCurrency: true,
+	// 							},
+	// 						},
+	// 					},
+	// 				},
+	// 			},
+	// 		})
+	// 		const { userCurrency } = await prisma.settings.findFirstOrThrow({
+	// 			where: {
+	// 				userId,
+	// 			},
+	// 		})
+
+	// 		// Fetch the market rates
+	// 		const markets = await prisma.market.findMany({
+	// 			where: {
+	// 				type: MarketType.CASH,
+	// 			},
+	// 			select: {
+	// 				currency: true,
+	// 				price: true,
+	// 				name: true,
+	// 				ticker: true,
+	// 			},
+	// 		})
+
+	// 		/** Convert array to object */
+	// 		const exchangeRates = getExchangeRates(markets)
+
+	// 		// If no asset was found for the user, throw an error
+	// 		if (!data) {
+	// 			throw new TRPCError({
+	// 				code: "NOT_FOUND",
+	// 				message: `No asset with userId '${userId}'`,
+	// 			})
+	// 		}
+	// 		// Calculate the asset values using the provided data, exchange rates, and user currency
+	// 		return calculateManyCrypto({
+	// 			data: data,
+	// 			exchangeRates,
+	// 			userCurrency,
+	// 		})
+	// 	}),
 	byUserId: publicProcedure
 		.input(
 			z.object({
@@ -139,66 +251,21 @@ export const assetRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { userId } = input
-
-			const data = await prisma.asset.findMany({
-				where: {
-					userId,
-					// This keeps sub accounts nested
-					parentId: null,
-				},
-				include: {
-					market: true,
-					subAssets: {
-						include: {
-							market: true,
-						},
-					},
-					user: {
-						select: {
-							settings: {
-								select: {
-									userCurrency: true,
-								},
-							},
-						},
-					},
-				},
-			})
-			const { userCurrency } = await prisma.settings.findFirstOrThrow({
+			const budgetResponse = await prisma.assetTransaction.findMany({
 				where: {
 					userId,
 				},
-			})
-
-			// Fetch the market rates
-			const markets = await prisma.market.findMany({
-				where: {
-					type: MarketType.CASH,
-				},
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
+				orderBy: {
+					createdAt: "asc",
 				},
 			})
-
-			/** Convert array to object */
-			const exchangeRates = getExchangeRates(markets)
-
-			// If no asset was found for the user, throw an error
-			if (!data) {
+			if (!budgetResponse) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No asset with userId '${userId}'`,
+					message: `No budget with userId '${userId}'`,
 				})
 			}
-			// Calculate the asset values using the provided data, exchange rates, and user currency
-			return calculateManyCrypto({
-				data,
-				exchangeRates,
-				userCurrency,
-			})
+			return budgetResponse
 		}),
 	overviewByUserId: publicProcedure
 		.input(
@@ -303,5 +370,20 @@ export const assetRouter = router({
 				})
 			}
 			return data
+		}),
+	delete: publicProcedure
+		.input(
+			z.object({
+				id: z.string(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			const { id } = input
+			await prisma.asset.delete({
+				where: { id },
+			})
+			return {
+				id,
+			}
 		}),
 })

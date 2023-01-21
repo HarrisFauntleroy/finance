@@ -6,13 +6,11 @@
 import React from "react"
 
 import CryptoComparison from "../../components/Markets/CryptoComparison"
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Cryptocurrency } from "~/components/Markets/Cryptocurrency"
 import { Forex } from "~/components/Markets/Forex"
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react"
 
 const Markets = () => {
-
-
 	return (
 		<Tabs variant="enclosed" height="100%" padding="8px">
 			<TabList>
@@ -32,7 +30,6 @@ const Markets = () => {
 				</TabPanel>
 			</TabPanels>
 		</Tabs>
-
 	)
 }
 

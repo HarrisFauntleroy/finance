@@ -7,14 +7,12 @@ import {
 	TabPanel,
 	TabPanels,
 	Tabs,
-	Text,
 } from "@chakra-ui/react"
-import Link from "next/link"
 import { Page } from "ui"
-import { BudgetsList } from "~/components/Budget/Budgets"
+import { BudgetsList } from "~/components/Budget/BudgetsList"
 import { BudgetOverview } from "~/components/Budget/Overview"
-import { BudgetSettings } from "~/components/Budget/Settings"
-import { BudgetTransactions } from "~/components/Portfolio/TransactionsList"
+import { Statistics } from "~/components/Budget/Statistics"
+import { BudgetTransactions } from "~/components/Budget/TransactionsList"
 
 function Budgets() {
 	return (
@@ -45,15 +43,11 @@ function Budgets() {
 						</TabPanel>
 						<TabPanel padding={0} height="100%">
 							<Stack paddingY="8px">
-								<BudgetSettings />
+								<Statistics />
 							</Stack>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
-				<Text textAlign="center">
-					Price data provided by{" "}
-					<Link href="https://www.coingecko.com">CoinGecko</Link>
-				</Text>
 			</Stack>
 		</Page>
 	)

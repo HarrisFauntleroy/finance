@@ -4,9 +4,7 @@ import { EditIcon } from "@chakra-ui/icons"
 import {
 	Button,
 	ButtonGroup,
-	FormControl,
-	FormLabel,
-	Input,
+	Heading,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -15,6 +13,7 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Progress,
+	Stack,
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react"
@@ -23,8 +22,9 @@ import { useSession } from "next-auth/react"
 import type { SubmitHandler } from "react-hook-form"
 import { FormProvider } from "react-hook-form"
 import { useForm } from "react-hook-form"
-import { Card } from "ui"
 import { logger } from "~/../../packages/common/dist"
+import type { FormInputs } from "~/components/Form/TextInput"
+import { TextInput } from "~/components/Form/TextInput"
 import type { RouterInput } from "~/utils/trpc"
 import { trpc } from "~/utils/trpc"
 
@@ -59,7 +59,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 		defaultValues: { userId, ...defaultValues },
 	})
 
-	const { handleSubmit, register, reset } = methods
+	const { handleSubmit, reset } = methods
 
 	useEffect(() => reset(defaultValues), [defaultValues, reset])
 
@@ -87,6 +87,21 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 		return new Error("No userId provided")
 	}
 
+	const inputs: FormInputs[] = [
+		{
+			id: "145e9714-75f2-46b9-999f-e0895cc37952",
+			label: "Name",
+			name: "name",
+			type: "text",
+		},
+		{
+			id: "db3016e5-a3b7-432f-a399-8c238c562651",
+			label: "Total Balance",
+			name: "totalBalance",
+			type: "text",
+		},
+	]
+
 	return (
 		<Fragment>
 			<Button
@@ -102,20 +117,22 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 					<FormProvider {...methods}>
 						<form>
 							<ModalHeader>
-								{defaultValues?.id ? "UPDATE BUDGET" : "CREATE BUDGET"}
+								<Heading size="md">
+									{defaultValues?.id ? "UPDATE BUDGET" : "CREATE BUDGET"}
+								</Heading>
 							</ModalHeader>
 							<ModalCloseButton />
 							<ModalBody>
-								<Card>
-									<FormControl>
-										<FormLabel>Name</FormLabel>
-										<Input type="text" {...register("name")} />
-									</FormControl>
-									<FormControl>
-										<FormLabel>Balance</FormLabel>
-										<Input type="text" {...register("totalBalance")} />
-									</FormControl>
-								</Card>
+								<Stack>
+									{inputs?.map((input) => (
+										<TextInput
+											key={input.name}
+											name={input.name}
+											label={input.label}
+											type={input.type}
+										/>
+									))}
+								</Stack>
 								{(createBudget.isLoading || updateBudget.isLoading) && (
 									<Progress size="xs" isIndeterminate />
 								)}

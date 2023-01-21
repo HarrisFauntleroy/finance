@@ -13,7 +13,7 @@ export const DeleteTransaction = ({ id }: DeleteTransactionProps) => {
 	const toast = useToast()
 	const queryClient = useQueryClient()
 
-	const deleteTransaction = trpc.transaction.delete.useMutation({
+	const deleteTransaction = trpc.assetTransactions.delete.useMutation({
 		onSuccess: () => {
 			queryClient.invalidateQueries()
 		},

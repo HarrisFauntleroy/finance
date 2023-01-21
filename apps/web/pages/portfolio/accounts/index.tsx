@@ -7,7 +7,7 @@ import { ControlBar } from "~/components/Portfolio/ControlBar"
 
 function Accounts() {
 	return (
-		<Stack paddingY="8px">
+		<Stack paddingY="8px" height="100%">
 			<ControlBar />
 			<AccountsList />
 			<Flex>

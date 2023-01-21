@@ -25,11 +25,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 4.1.1
- * Query Engine version: 272861e07ab64f234d3ffc4094e32bd61775599c
+ * Query Engine version: 8d8414deb360336e4698a65aa45a1fbaf1ce13d8
  */
 Prisma.prismaVersion = {
   client: "4.1.1",
-  engine: "272861e07ab64f234d3ffc4094e32bd61775599c"
+  engine: "8d8414deb360336e4698a65aa45a1fbaf1ce13d8"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -76,8 +76,8 @@ const regularDirname = hasDirname && fs.existsSync(path.join(__dirname, 'schema.
 
 // if the client has been bundled, we need to look for the folders
 const foundDirname = !regularDirname && findSync(process.cwd(), [
-    "../../packages/database-notes/generated/prisma-client",
-    "../packages/database-notes/generated/prisma-client",
+    "generated/prisma-client",
+    "prisma-client",
 ], ['d'], ['d'], 1)[0]
 
 const dirname = regularDirname || foundDirname || __dirname
@@ -190,11 +190,11 @@ const config = {
   },
   "relativeEnvPaths": {
     "rootEnvPath": "../../.env",
-    "schemaEnvPath": "../../../../apps/web/.env"
+    "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
   "clientVersion": "4.1.1",
-  "engineVersion": "272861e07ab64f234d3ffc4094e32bd61775599c",
+  "engineVersion": "8d8414deb360336e4698a65aa45a1fbaf1ce13d8",
   "datasourceNames": [
     "db"
   ],
@@ -218,7 +218,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "../../packages/database-notes/generated/prisma-client/libquery_engine-darwin-arm64.dylib.node")
+path.join(process.cwd(), "generated/prisma-client/libquery_engine-darwin-arm64.dylib.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "../../packages/database-notes/generated/prisma-client/schema.prisma")
-)
+path.join(process.cwd(), "generated/prisma-client/schema.prisma")

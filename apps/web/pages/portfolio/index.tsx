@@ -11,9 +11,7 @@ import {
 	TabPanel,
 	TabPanels,
 	Tabs,
-	Text,
 } from "@chakra-ui/react"
-import Link from "next/link"
 
 const Portfolio = () => {
 	return (
@@ -40,10 +38,6 @@ const Portfolio = () => {
 					</TabPanel>
 				</TabPanels>
 			</Tabs>
-			<Text textAlign="center">
-				Price data provided by{" "}
-				<Link href="https://www.coingecko.com">CoinGecko</Link>
-			</Text>
 		</Stack>
 	)
 }
