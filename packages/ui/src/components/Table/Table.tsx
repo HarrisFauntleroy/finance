@@ -136,14 +136,7 @@ export const Table = <TData extends object>({
 				/>
 			</Show>
 			<TableContainer height="100%">
-				<ChakraTable
-					variant="simple"
-					size="sm"
-					height="100%"
-					flex={1}
-					overflow="scroll"
-					maxWidth="100%"
-				>
+				<ChakraTable height="100%" flex={1} overflow="scroll" maxWidth="100%">
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>

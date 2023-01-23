@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 
-import type { InputProps as ChakraInputProps } from "@chakra-ui/react"
 import {
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
 	Input,
 } from "@chakra-ui/react"
-import type { ValidationRule } from "react-hook-form"
 import { useFormContext } from "react-hook-form"
 
 interface FormInputBase {
@@ -17,17 +15,11 @@ interface FormInputBase {
 	label: string
 	hidden?: boolean
 	required?: boolean
-	inputProps?: ChakraInputProps
 	error?: string
-	validation?: Partial<{
-		required: string | ValidationRule<boolean>
-		minLength: ValidationRule<number>
-		maxLength: ValidationRule<number>
-	}>
 }
 
 interface FormInput extends FormInputBase {
-	type: "text"
+	type: "text" | "date"
 	options?: never
 }
 
@@ -44,12 +36,11 @@ interface MultiSelectFormInput extends FormInputBase {
 export type FormInputs = FormInput | SelectFormInput | MultiSelectFormInput
 
 export function TextInput({
-	name,
 	label,
-	hidden,
-	inputProps,
+	name,
 	error,
-	validation,
+	hidden,
+	...props
 }: FormInputs) {
 	const context = useFormContext()
 	return (
@@ -59,11 +50,7 @@ export function TextInput({
 			flexDir="column"
 		>
 			<FormLabel htmlFor={name}>{label}</FormLabel>
-			<Input
-				id={name}
-				{...context.register(name, validation)}
-				{...inputProps}
-			/>
+			<Input {...props} {...context.register(name)} />
 			<FormErrorMessage>{error}</FormErrorMessage>
 		</FormControl>
 	)

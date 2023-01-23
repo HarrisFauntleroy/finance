@@ -21,7 +21,6 @@ export const DeleteBudget = ({ id }: DeleteBudgetProps) => {
 
 	return (
 		<Button
-			variant="outline"
 			colorScheme="red"
 			onClick={() => {
 				if (id) {

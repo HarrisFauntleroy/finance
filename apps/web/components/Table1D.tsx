@@ -10,7 +10,7 @@ interface Table1DProps {
 export const Table1D = ({ data }: Table1DProps) => {
 	return (
 		<TableContainer>
-			<Table variant="simple" size="sm">
+			<Table>
 				<Tbody>
 					{data?.map((item) => (
 						<Tr key={`${item?.[1]}table1d`}>

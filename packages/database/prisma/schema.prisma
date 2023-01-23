@@ -172,19 +172,19 @@ model BudgetTransaction {
   // ISO-8601 format
   timestamp           DateTime
   // The price of a single unit of the asset being bought or sold
-  pricePerUnit        Decimal
+  pricePerUnit        Decimal   @default(0)
   // The settlement currency in which the pricePerUnit is denominated
   // ISO-4217 format
   baseCurrency        String
   // The number of units of the asset being bought or sold
-  quantity            Decimal
+  quantity            Decimal   @default(0)
   // The number of units of the asset that have been filled in the transaction
   // (optional field, may not be applicable to all transactions)
   quantityFilled      Decimal?
   // The fee associated with the transaction in the base currency
-  fee                 Decimal
+  fee                 Decimal   @default(0)
   // The total value of the transaction in the base currency
-  valueInBaseCurrency Decimal
+  valueInBaseCurrency Decimal   @default(0)
   // The asset being sold in the transaction)
   fromAsset           String?
   // The asset being bought in the transaction
@@ -368,9 +368,9 @@ model AssetTransaction {
   id                  String    @id @unique @default(cuid())
   // The time when the transaction was made
   // ISO-8601 format
-  timestamp           DateTime
+  timestamp           DateTime?
   // The price of a single unit of the asset being bought or sold
-  pricePerUnit        Decimal
+  pricePerUnit        Decimal?
   // The settlement currency in which the pricePerUnit is denominated
   // ISO-4217 format
   baseCurrency        String
@@ -380,29 +380,29 @@ model AssetTransaction {
   // (optional field, may not be applicable to all transactions)
   quantityFilled      Decimal?
   // The fee associated with the transaction in the base currency
-  fee                 Decimal
+  fee                 Decimal?
   // The total value of the transaction in the base currency
-  valueInBaseCurrency Decimal
+  valueInBaseCurrency Decimal?
   // The asset being sold in the transaction)
   fromAsset           String?
   // The asset being bought in the transaction
   // (optional field, may not be applicable to all 
   toAsset             String
   // The market in which the transaction took place
-  market              String
+  market              String?
   // The type of transaction (e.g. "buy", "sell", "referral_card_cashback")
   transactionType     String
   // The expiration time of the transaction, if applicable
   // ISO-8601 format
   expiry              DateTime?
   // The current status of the transaction (e.g. "filled", "cancelled")
-  status              String
+  status              String?
   // A unique identifier for the transaction
-  transactionHash     String
+  transactionHash     String?
   // A description of the transaction
-  description         String
+  description         String?
   // A memo associated with the transaction
-  memo                String
+  memo                String?
 
   // A unique identifier for the order associated with the transaction. This could be useful for tracking and linking related transactions (e.g. multiple fills of a single order).
   // orderId   String?

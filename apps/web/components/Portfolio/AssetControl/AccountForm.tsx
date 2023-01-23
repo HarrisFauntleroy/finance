@@ -235,7 +235,6 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 			<Button
 				colorScheme={defaultValues?.id ? "blue" : "green"}
 				onClick={onOpen}
-				variant="outline"
 			>
 				{defaultValues?.id ? <EditIcon /> : "NEW ACCOUNT"}
 			</Button>
@@ -265,7 +264,6 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 								<ButtonGroup>
 									<Button
 										disabled={createAsset.isLoading || updateAsset.isLoading}
-										variant="outline"
 										colorScheme="green"
 										type="submit"
 										onClick={handleSubmit(onValidSubmit, logger.error)}
@@ -274,11 +272,7 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 											? "LOADING..."
 											: "SUBMIT"}
 									</Button>
-									<Button
-										onClick={onClose}
-										variant="outline"
-										colorScheme="orange"
-									>
+									<Button onClick={onClose} colorScheme="orange">
 										CANCEL
 									</Button>
 								</ButtonGroup>

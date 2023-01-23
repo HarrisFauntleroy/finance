@@ -87,7 +87,6 @@ const CryptoComparison = () => {
 					<Heading>Crypto Comparison</Heading>
 					<Flex>
 						<Select
-							variant="outline"
 							width="100%"
 							defaultValue={coinToCompare?.ticker}
 							onChange={(e) =>
@@ -115,7 +114,6 @@ const CryptoComparison = () => {
 						</Select>
 
 						<Select
-							variant="outline"
 							width="100px"
 							defaultValue={selectedCurrency}
 							onChange={(e) => handleSelectCurrency(e.target.value)}

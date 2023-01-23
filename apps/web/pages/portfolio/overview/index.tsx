@@ -6,7 +6,6 @@ import currency from "currency.js"
 import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
 import { Layout } from "~/components/Cryptocurrency/Layout"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
-import { AssetControl } from "~/components/Portfolio/AssetControl"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
 import OverviewCard from "~/components/Portfolio/OverviewCard"
 
@@ -60,7 +59,6 @@ function Overview() {
 			</GridItem>
 			<GridItem area={"control"}>
 				<ControlBar />
-				<AssetControl />
 			</GridItem>
 			<GridItem area={"assets"}>
 				<AccountsList />

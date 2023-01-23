@@ -107,11 +107,10 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 			<Button
 				colorScheme={defaultValues?.id ? "blue" : "green"}
 				onClick={onOpen}
-				variant="outline"
 			>
 				{defaultValues?.id ? <EditIcon /> : "NEW BUDGET"}
 			</Button>
-			<Modal onClose={onClose} isOpen={isOpen} isCentered>
+			<Modal onClose={onClose} isOpen={isOpen}>
 				<ModalOverlay />
 				<ModalContent>
 					<FormProvider {...methods}>
@@ -141,7 +140,6 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 								<ButtonGroup>
 									<Button
 										disabled={createBudget.isLoading || updateBudget.isLoading}
-										variant="outline"
 										colorScheme="green"
 										type="submit"
 										onClick={handleSubmit(onValidSubmit, logger.error)}
@@ -150,11 +148,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 											? "LOADING..."
 											: "SUBMIT"}
 									</Button>
-									<Button
-										onClick={onClose}
-										variant="outline"
-										colorScheme="orange"
-									>
+									<Button onClick={onClose} colorScheme="orange">
 										CANCEL
 									</Button>
 								</ButtonGroup>

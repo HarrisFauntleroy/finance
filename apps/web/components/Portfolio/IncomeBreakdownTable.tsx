@@ -26,7 +26,7 @@ export const IncomeBreakdownTable = () => {
 				Income Breakdown
 			</Text>
 			<TableContainer>
-				<Table variant="simple" size="sm">
+				<Table>
 					<Thead>
 						<Tr>
 							<Th />

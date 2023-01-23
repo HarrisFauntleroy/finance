@@ -35,7 +35,7 @@ function Overview() {
 					Overview
 				</Text>
 				<TableContainer>
-					<ChakraTable variant="simple" size="sm">
+					<ChakraTable>
 						<Tbody>
 							<Tr>
 								<Th>Net Worth</Th>

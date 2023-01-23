@@ -33,7 +33,7 @@ function OverviewCard() {
 				>
 					Overview
 				</Text>
-				<ChakraTable variant="simple" size="sm">
+				<ChakraTable variant="simple">
 					<Tbody>
 						<Tr>
 							<Th>Value</Th>

@@ -21,7 +21,6 @@ export const DeleteTransaction = ({ id }: DeleteTransactionProps) => {
 
 	return (
 		<Button
-			variant="outline"
 			colorScheme="red"
 			onClick={() => {
 				if (id) {

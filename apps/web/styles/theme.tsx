@@ -49,7 +49,34 @@ const breakpoints = {
 }
 
 const components = {
+	Button: {
+		defaultProps: {
+			size: "sm",
+			variant: "outline",
+		},
+	},
+	Input: {
+		defaultProps: {
+			size: "sm",
+			variant: "outline",
+		},
+	},
+	Select: {
+		defaultProps: {
+			size: "sm",
+			variant: "outline",
+		},
+	},
+	Table: {
+		defaultProps: {
+			size: "sm",
+			variant: "striped",
+		},
+	},
 	Avatar: {
+		defaultProps: {
+			size: "sm",
+		},
 		parts: ["container", "group"],
 		variants: {
 			square: {

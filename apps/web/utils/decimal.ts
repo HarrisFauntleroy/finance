@@ -13,9 +13,9 @@ export const decimal = () =>
 		.or(z.number())
 		.refine((value) => {
 			try {
-				return toDecimal(value)
+				return new Decimal(value)
 			} catch (error) {
 				return false
 			}
 		})
-		.transform((value) => toDecimal(value))
+		.transform((value) => new Decimal(value))

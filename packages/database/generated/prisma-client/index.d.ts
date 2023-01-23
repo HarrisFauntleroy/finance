@@ -242,22 +242,22 @@ export type Asset = {
  */
 export type AssetTransaction = {
   id: string
-  timestamp: Date
-  pricePerUnit: Prisma.Decimal
+  timestamp: Date | null
+  pricePerUnit: Prisma.Decimal | null
   baseCurrency: string
   quantity: Prisma.Decimal
   quantityFilled: Prisma.Decimal | null
-  fee: Prisma.Decimal
-  valueInBaseCurrency: Prisma.Decimal
+  fee: Prisma.Decimal | null
+  valueInBaseCurrency: Prisma.Decimal | null
   fromAsset: string | null
   toAsset: string
-  market: string
+  market: string | null
   transactionType: string
   expiry: Date | null
-  status: string
-  transactionHash: string
-  description: string
-  memo: string
+  status: string | null
+  transactionHash: string | null
+  description: string | null
+  memo: string | null
   relatedAssetId: string | null
   userId: string
   createdAt: Date
@@ -14952,22 +14952,22 @@ export namespace Prisma {
 
   export type AssetTransactionGroupByOutputType = {
     id: string
-    timestamp: Date
-    pricePerUnit: Decimal
+    timestamp: Date | null
+    pricePerUnit: Decimal | null
     baseCurrency: string
     quantity: Decimal
     quantityFilled: Decimal | null
-    fee: Decimal
-    valueInBaseCurrency: Decimal
+    fee: Decimal | null
+    valueInBaseCurrency: Decimal | null
     fromAsset: string | null
     toAsset: string
-    market: string
+    market: string | null
     transactionType: string
     expiry: Date | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status: string | null
+    transactionHash: string | null
+    description: string | null
+    memo: string | null
     relatedAssetId: string | null
     userId: string
     createdAt: Date
@@ -24454,22 +24454,22 @@ export namespace Prisma {
     OR?: Enumerable<AssetTransactionWhereInput>
     NOT?: Enumerable<AssetTransactionWhereInput>
     id?: StringFilter | string
-    timestamp?: DateTimeFilter | Date | string
-    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    timestamp?: DateTimeNullableFilter | Date | string | null
+    pricePerUnit?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFilter | string
     quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
     quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    fee?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
     fromAsset?: StringNullableFilter | string | null
     toAsset?: StringFilter | string
-    market?: StringFilter | string
+    market?: StringNullableFilter | string | null
     transactionType?: StringFilter | string
     expiry?: DateTimeNullableFilter | Date | string | null
-    status?: StringFilter | string
-    transactionHash?: StringFilter | string
-    description?: StringFilter | string
-    memo?: StringFilter | string
+    status?: StringNullableFilter | string | null
+    transactionHash?: StringNullableFilter | string | null
+    description?: StringNullableFilter | string | null
+    memo?: StringNullableFilter | string | null
     relatedAssetId?: StringNullableFilter | string | null
     relatedAsset?: XOR<AssetRelationFilter, AssetWhereInput> | null
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -24548,22 +24548,22 @@ export namespace Prisma {
     OR?: Enumerable<AssetTransactionScalarWhereWithAggregatesInput>
     NOT?: Enumerable<AssetTransactionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    timestamp?: DateTimeWithAggregatesFilter | Date | string
-    pricePerUnit?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    timestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    pricePerUnit?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringWithAggregatesFilter | string
     quantity?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     quantityFilled?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    fee?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
     fromAsset?: StringNullableWithAggregatesFilter | string | null
     toAsset?: StringWithAggregatesFilter | string
-    market?: StringWithAggregatesFilter | string
+    market?: StringNullableWithAggregatesFilter | string | null
     transactionType?: StringWithAggregatesFilter | string
     expiry?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    status?: StringWithAggregatesFilter | string
-    transactionHash?: StringWithAggregatesFilter | string
-    description?: StringWithAggregatesFilter | string
-    memo?: StringWithAggregatesFilter | string
+    status?: StringNullableWithAggregatesFilter | string | null
+    transactionHash?: StringNullableWithAggregatesFilter | string | null
+    description?: StringNullableWithAggregatesFilter | string | null
+    memo?: StringNullableWithAggregatesFilter | string | null
     relatedAssetId?: StringNullableWithAggregatesFilter | string | null
     userId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -25927,12 +25927,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -25952,12 +25952,12 @@ export namespace Prisma {
   export type BudgetTransactionUncheckedCreateInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -26027,12 +26027,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateManyInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -26446,22 +26446,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAsset?: AssetCreateNestedOneWithoutTransactionsInput
     user: UserCreateNestedOneWithoutAssetTransactionsInput
     createdAt?: Date | string
@@ -26472,22 +26472,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedCreateInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAssetId?: string | null
     userId: string
     createdAt?: Date | string
@@ -26498,22 +26498,22 @@ export namespace Prisma {
 
   export type AssetTransactionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAsset?: AssetUpdateOneWithoutTransactionsNestedInput
     user?: UserUpdateOneRequiredWithoutAssetTransactionsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26524,22 +26524,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26550,22 +26550,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateManyInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAssetId?: string | null
     userId: string
     createdAt?: Date | string
@@ -26576,22 +26576,22 @@ export namespace Prisma {
 
   export type AssetTransactionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -26600,22 +26600,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31118,12 +31118,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateWithoutUserInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -31142,12 +31142,12 @@ export namespace Prisma {
   export type BudgetTransactionUncheckedCreateWithoutUserInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -31243,22 +31243,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateWithoutUserInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAsset?: AssetCreateNestedOneWithoutTransactionsInput
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31268,22 +31268,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedCreateWithoutUserInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAssetId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31771,22 +31771,22 @@ export namespace Prisma {
     OR?: Enumerable<AssetTransactionScalarWhereInput>
     NOT?: Enumerable<AssetTransactionScalarWhereInput>
     id?: StringFilter | string
-    timestamp?: DateTimeFilter | Date | string
-    pricePerUnit?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    timestamp?: DateTimeNullableFilter | Date | string | null
+    pricePerUnit?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFilter | string
     quantity?: DecimalFilter | Decimal | DecimalJsLike | number | string
     quantityFilled?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    fee?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
     fromAsset?: StringNullableFilter | string | null
     toAsset?: StringFilter | string
-    market?: StringFilter | string
+    market?: StringNullableFilter | string | null
     transactionType?: StringFilter | string
     expiry?: DateTimeNullableFilter | Date | string | null
-    status?: StringFilter | string
-    transactionHash?: StringFilter | string
-    description?: StringFilter | string
-    memo?: StringFilter | string
+    status?: StringNullableFilter | string | null
+    transactionHash?: StringNullableFilter | string | null
+    description?: StringNullableFilter | string | null
+    memo?: StringNullableFilter | string | null
     relatedAssetId?: StringNullableFilter | string | null
     userId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
@@ -32501,12 +32501,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateWithoutBudgetEnvelopeInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -32525,12 +32525,12 @@ export namespace Prisma {
   export type BudgetTransactionUncheckedCreateWithoutBudgetEnvelopeInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -33212,22 +33212,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateWithoutRelatedAssetInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     user: UserCreateNestedOneWithoutAssetTransactionsInput
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33237,22 +33237,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedCreateWithoutRelatedAssetInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34918,12 +34918,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateManyUserInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -34967,22 +34967,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateManyUserInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     relatedAssetId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35322,22 +35322,22 @@ export namespace Prisma {
 
   export type AssetTransactionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAsset?: AssetUpdateOneWithoutTransactionsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35347,22 +35347,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35372,22 +35372,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateManyWithoutAssetTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     relatedAssetId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35788,12 +35788,12 @@ export namespace Prisma {
   export type BudgetTransactionCreateManyBudgetEnvelopeInput = {
     id?: string
     timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    pricePerUnit?: Decimal | DecimalJsLike | number | string
     baseCurrency: string
-    quantity: Decimal | DecimalJsLike | number | string
+    quantity?: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string
     fromAsset?: string | null
     toAsset: string
     market: string
@@ -36003,22 +36003,22 @@ export namespace Prisma {
 
   export type AssetTransactionCreateManyRelatedAssetInput = {
     id?: string
-    timestamp: Date | string
-    pricePerUnit: Decimal | DecimalJsLike | number | string
+    timestamp?: Date | string | null
+    pricePerUnit?: Decimal | DecimalJsLike | number | string | null
     baseCurrency: string
     quantity: Decimal | DecimalJsLike | number | string
     quantityFilled?: Decimal | DecimalJsLike | number | string | null
-    fee: Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency: Decimal | DecimalJsLike | number | string
+    fee?: Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: Decimal | DecimalJsLike | number | string | null
     fromAsset?: string | null
     toAsset: string
-    market: string
+    market?: string | null
     transactionType: string
     expiry?: Date | string | null
-    status: string
-    transactionHash: string
-    description: string
-    memo: string
+    status?: string | null
+    transactionHash?: string | null
+    description?: string | null
+    memo?: string | null
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36142,22 +36142,22 @@ export namespace Prisma {
 
   export type AssetTransactionUpdateWithoutRelatedAssetInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutAssetTransactionsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36167,22 +36167,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateWithoutRelatedAssetInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36192,22 +36192,22 @@ export namespace Prisma {
 
   export type AssetTransactionUncheckedUpdateManyWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricePerUnit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePerUnit?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     baseCurrency?: StringFieldUpdateOperationsInput | string
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantityFilled?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueInBaseCurrency?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    valueInBaseCurrency?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     fromAsset?: NullableStringFieldUpdateOperationsInput | string | null
     toAsset?: StringFieldUpdateOperationsInput | string
-    market?: StringFieldUpdateOperationsInput | string
+    market?: NullableStringFieldUpdateOperationsInput | string | null
     transactionType?: StringFieldUpdateOperationsInput | string
     expiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    transactionHash?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    memo?: StringFieldUpdateOperationsInput | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionHash?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    memo?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

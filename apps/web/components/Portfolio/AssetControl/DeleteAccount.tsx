@@ -21,7 +21,6 @@ export const DeleteAsset = ({ id }: DeleteAssetProps) => {
 
 	return (
 		<Button
-			variant="outline"
 			colorScheme="red"
 			onClick={() => {
 				if (id) {

@@ -29,7 +29,7 @@ export const ControlBar = () => {
 			<AssetControl />
 			<Flex gap="8px">
 				<Menu closeOnSelect={false}>
-					<MenuButton as={Button} variant="outline">
+					<MenuButton as={Button}>
 						<SettingsIcon />
 					</MenuButton>
 					<MenuList minWidth="240px">
@@ -48,7 +48,7 @@ export const ControlBar = () => {
 				<Select placeholder="Sort by" width="max-content">
 					<option>type</option>
 				</Select>
-				<Button variant="outline" onClick={handleClick}>
+				<Button onClick={handleClick}>
 					<MdExpand />
 				</Button>
 			</Flex>
