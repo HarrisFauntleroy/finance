@@ -41,7 +41,6 @@ export const Stepper = ({ steps }: StepperProps) => {
 						isDisabled={activeStep === 0}
 						mr={4}
 						onClick={prevStep}
-						size="sm"
 						variant="ghost"
 					>
 						Prev

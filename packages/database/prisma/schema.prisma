@@ -312,6 +312,7 @@ model Asset {
   id                     String    @id @default(cuid())
   // The name of the asset, such as "Bitcoin" or "Tesla Stock"
   name                   String
+  institution            String?
   // The currency that the asset is denominated in, such as "USD" or "EUR"
   currency               String
   // Credentials used to access data from an external API, such as an exchange's API.
@@ -345,7 +346,7 @@ model Asset {
   // An array of labels that can be used to classify the asset, such as "personal" or "business"
   labels    AssetLabel[]
 
-  category       Category
+  category       Category?
   categoryId     String?
   // Reference to the category of the asset, for example "Cryptocurrency" or "Stock"
   customCategory AssetCategory? @relation(fields: [categoryId], references: [id])

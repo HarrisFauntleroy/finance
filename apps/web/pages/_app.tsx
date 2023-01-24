@@ -50,10 +50,8 @@ const MyApp = ({
 
 	return (
 		<SessionProvider session={session}>
-			<AppContext>
-				<DefaultSeo {...SEO} />
-				{getLayout(<Component {...pageProps} />)}
-			</AppContext>
+			<DefaultSeo {...SEO} />
+			<AppContext>{getLayout(<Component {...pageProps} />)}</AppContext>
 		</SessionProvider>
 	)
 }

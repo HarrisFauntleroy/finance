@@ -124,12 +124,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 							<ModalBody>
 								<Stack>
 									{inputs?.map((input) => (
-										<TextInput
-											key={input.name}
-											name={input.name}
-											label={input.label}
-											type={input.type}
-										/>
+										<TextInput key={input.name} {...input} />
 									))}
 								</Stack>
 								{(createBudget.isLoading || updateBudget.isLoading) && (

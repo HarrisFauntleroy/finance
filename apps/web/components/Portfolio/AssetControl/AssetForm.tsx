@@ -136,20 +136,6 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 			type: "text",
 		},
 		{
-			id: "dfe0b012-8a85-4990-9588-d6f1d21644bf",
-			label: "Value",
-			name: "value",
-			type: "text",
-		},
-		{
-			id: "83cd2e3f-d915-4ecf-80ab-8d34c1e1deb2",
-			label: "Value Last Updated",
-			name: "valueLastUpdated",
-			type: "text",
-			hidden: true,
-			required: false,
-		},
-		{
 			id: "26eb07cd-7af3-41ab-9b79-104f87fc3bc0",
 			label: "Balance",
 			name: "balance",
@@ -163,7 +149,7 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 		},
 		{
 			id: "724cc579-a040-4e62-a0e9-39dc1aff884d",
-			label: "Realised Gain",
+			label: "Realised Gains",
 			name: "realisedGain",
 			type: "text",
 		},
@@ -202,8 +188,8 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 		},
 		{
 			id: "22f76f55-1af0-4a78-ab93-6165a305e984",
-			label: "Category ID",
-			name: "categoryId",
+			label: "Category",
+			name: "category",
 			type: "text",
 			required: false,
 		},
@@ -249,12 +235,7 @@ export const AssetForm = ({ defaultValues }: FormProps) => {
 							<ModalCloseButton />
 							<ModalBody>
 								{inputs?.map((input) => (
-									<TextInput
-										key={input.name}
-										name={input.name}
-										label={input.label}
-										type={input.type}
-									/>
+									<TextInput key={input.name} {...input} />
 								))}
 								{(createAsset.isLoading || updateAsset.isLoading) && (
 									<Progress size="xs" isIndeterminate />

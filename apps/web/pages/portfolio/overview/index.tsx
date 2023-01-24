@@ -7,7 +7,7 @@ import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
 import { Layout } from "~/components/Cryptocurrency/Layout"
 import { AccountsList } from "~/components/Portfolio/AccountsList"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
-import OverviewCard from "~/components/Portfolio/OverviewCard"
+import OverviewCard from "~/components/Portfolio/Overview/OverviewCard"
 
 ChartJs.Chart.register(
 	ChartJs.CategoryScale,

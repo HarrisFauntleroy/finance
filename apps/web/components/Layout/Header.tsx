@@ -10,7 +10,6 @@ import {
 	Flex,
 	IconButton,
 	useBreakpointValue,
-	useColorModeValue,
 } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import { FiMenu } from "react-icons/fi"
@@ -39,8 +38,7 @@ export default function Header({ onOpen }: HeaderProps) {
 				justify={{ base: "space-between" }}
 				w="full"
 				px="4"
-				pl={{ base: "16px", md: "64px", lg: "200px" }}
-				bg={useColorModeValue("gray.50", "gray.900")}
+				pl={{ base: "8px", md: "64px", lg: "200px" }}
 				boxShadow="sm"
 				height="64px"
 			>

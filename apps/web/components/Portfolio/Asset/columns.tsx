@@ -4,7 +4,6 @@ import {
 	Avatar,
 	AvatarBadge,
 	AvatarGroup,
-	Badge,
 	Flex,
 	List,
 	ListIcon,
@@ -15,7 +14,6 @@ import {
 	Text,
 } from "@chakra-ui/react"
 import type { ColumnDef } from "@tanstack/react-table"
-import type { CalculatedCryptocurrency } from "common"
 import { isNegative } from "common"
 import formatDuration from "date-fns/formatDuration"
 import intervalToDuration from "date-fns/intervalToDuration"
@@ -23,31 +21,21 @@ import Link from "next/link"
 import { BsCurrencyDollar } from "react-icons/bs"
 import { MdEdit, MdSync } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
-import { Show } from "ui"
-import { CryptoForm } from "~/components/Cryptocurrency/Form"
 import Currency from "~/components/Currency"
 
-/** Column definitions for crypto page */
-export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const assetColumns: ColumnDef<any>[] = [
 	{
-		header: "Name",
+		header: "Display Name",
 		accessorKey: "name",
 		cell: ({
 			row: {
 				getToggleExpandedHandler,
-				original: {
-					displayName,
-					market,
-					Children,
-					apiKey,
-					apiSecret,
-					walletAddress,
-				},
+				original: { name, market, Children, apiKey, apiSecret, walletAddress },
 			},
 		}) => (
 			<Flex gap={1} alignItems="center">
 				<AvatarGroup
-					variant=""
 					max={1}
 					cursor="pointer"
 					{...{
@@ -90,11 +78,20 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 						whiteSpace="nowrap"
 						textOverflow="ellipsis"
 					>
-						{displayName}
+						{name}
 					</Text>
 				</Link>
 			</Flex>
 		),
+	},
+	{
+		header: "Institution",
+		accessorKey: "institution",
+		cell: ({
+			row: {
+				original: { institution },
+			},
+		}) => <Text>{institution}</Text>,
 	},
 	{
 		header: "Balance",
@@ -166,60 +163,6 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 		),
 	},
 	{
-		header: "Staking",
-		accessorKey: "incomeRate",
-		cell: ({
-			row: {
-				original: { incomeRate, interestBearingBalance, estimatedYearlyReturn },
-			},
-		}) => (
-			<Show when={Number(interestBearingBalance) > 0}>
-				<Stack gap={1}>
-					<Text>
-						<>
-							{interestBearingBalance} @ {incomeRate}%
-						</>
-					</Text>
-					<Badge maxWidth="max-content" colorScheme="green">
-						<Flex gap={1}>
-							Yearly: <Currency value={estimatedYearlyReturn} />
-						</Flex>
-					</Badge>
-				</Stack>
-			</Show>
-		),
-	},
-	{
-		header: "24h",
-		accessorKey: "markets.priceChange24hPercent",
-		cell: ({
-			row: {
-				original: { market },
-			},
-		}) =>
-			market && (
-				<Stack
-					color={
-						isNegative(Number(market?.priceChange24hPercent))
-							? "#E53E3E"
-							: "#38A169"
-					}
-				>
-					<Stat>
-						<StatArrow
-							type={
-								isNegative(Number(market?.priceChange24hPercent))
-									? "decrease"
-									: "increase"
-							}
-						/>
-						{`${Number(market?.priceChange24hPercent).toFixed(2)}%`}
-					</Stat>
-					<Currency value={market?.priceChange24h?.toString()} />
-				</Stack>
-			),
-	},
-	{
 		header: "Last Update",
 		cell: ({
 			row: {
@@ -257,13 +200,5 @@ export const cryptoColumns: ColumnDef<CalculatedCryptocurrency>[] = [
 				)}
 			</List>
 		),
-	},
-	{
-		header: "update",
-		cell: ({
-			row: {
-				original: { id },
-			},
-		}) => <CryptoForm mode="update" id={id} />,
 	},
 ]

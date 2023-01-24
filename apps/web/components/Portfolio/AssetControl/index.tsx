@@ -1,8 +1,8 @@
 import React from "react"
 
-import type { AssetFormInputs } from "./AccountForm"
-import { AssetForm } from "./AccountForm"
-import { DeleteAsset } from "./DeleteAccount"
+import type { AssetFormInputs } from "./AssetForm"
+import { AssetForm } from "./AssetForm"
+import { DeleteAsset } from "./DeleteAsset"
 
 interface AssetControlProps {
 	variant?: "delete"

@@ -212,6 +212,7 @@ export type AssetLabel = {
 export type Asset = {
   id: string
   name: string
+  institution: string | null
   currency: string
   apiKey: string | null
   apiSecret: string | null
@@ -229,7 +230,7 @@ export type Asset = {
   deleted: boolean
   deletedAt: Date | null
   account: AccountConnection | null
-  category: Category
+  category: Category | null
   categoryId: string | null
   marketId: string | null
   parentId: string | null
@@ -13518,6 +13519,7 @@ export namespace Prisma {
   export type AssetMinAggregateOutputType = {
     id: string | null
     name: string | null
+    institution: string | null
     currency: string | null
     apiKey: string | null
     apiSecret: string | null
@@ -13545,6 +13547,7 @@ export namespace Prisma {
   export type AssetMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    institution: string | null
     currency: string | null
     apiKey: string | null
     apiSecret: string | null
@@ -13572,6 +13575,7 @@ export namespace Prisma {
   export type AssetCountAggregateOutputType = {
     id: number
     name: number
+    institution: number
     currency: number
     apiKey: number
     apiSecret: number
@@ -13621,6 +13625,7 @@ export namespace Prisma {
   export type AssetMinAggregateInputType = {
     id?: true
     name?: true
+    institution?: true
     currency?: true
     apiKey?: true
     apiSecret?: true
@@ -13648,6 +13653,7 @@ export namespace Prisma {
   export type AssetMaxAggregateInputType = {
     id?: true
     name?: true
+    institution?: true
     currency?: true
     apiKey?: true
     apiSecret?: true
@@ -13675,6 +13681,7 @@ export namespace Prisma {
   export type AssetCountAggregateInputType = {
     id?: true
     name?: true
+    institution?: true
     currency?: true
     apiKey?: true
     apiSecret?: true
@@ -13795,6 +13802,7 @@ export namespace Prisma {
   export type AssetGroupByOutputType = {
     id: string
     name: string
+    institution: string | null
     currency: string
     apiKey: string | null
     apiSecret: string | null
@@ -13812,7 +13820,7 @@ export namespace Prisma {
     deleted: boolean
     deletedAt: Date | null
     account: AccountConnection | null
-    category: Category
+    category: Category | null
     categoryId: string | null
     marketId: string | null
     parentId: string | null
@@ -13841,6 +13849,7 @@ export namespace Prisma {
   export type AssetSelect = {
     id?: boolean
     name?: boolean
+    institution?: boolean
     currency?: boolean
     apiKey?: boolean
     apiSecret?: boolean
@@ -23295,6 +23304,7 @@ export namespace Prisma {
   export const AssetScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    institution: 'institution',
     currency: 'currency',
     apiKey: 'apiKey',
     apiSecret: 'apiSecret',
@@ -24318,6 +24328,7 @@ export namespace Prisma {
     NOT?: Enumerable<AssetWhereInput>
     id?: StringFilter | string
     name?: StringFilter | string
+    institution?: StringNullableFilter | string | null
     currency?: StringFilter | string
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
@@ -24336,7 +24347,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter | Date | string | null
     account?: EnumAccountConnectionNullableFilter | AccountConnection | null
     labels?: AssetLabelListRelationFilter
-    category?: EnumCategoryFilter | Category
+    category?: EnumCategoryNullableFilter | Category | null
     categoryId?: StringNullableFilter | string | null
     customCategory?: XOR<AssetCategoryRelationFilter, AssetCategoryWhereInput> | null
     marketId?: StringNullableFilter | string | null
@@ -24352,6 +24363,7 @@ export namespace Prisma {
   export type AssetOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    institution?: SortOrder
     currency?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
@@ -24390,6 +24402,7 @@ export namespace Prisma {
   export type AssetOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    institution?: SortOrder
     currency?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
@@ -24425,6 +24438,7 @@ export namespace Prisma {
     NOT?: Enumerable<AssetScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
+    institution?: StringNullableWithAggregatesFilter | string | null
     currency?: StringWithAggregatesFilter | string
     apiKey?: StringNullableWithAggregatesFilter | string | null
     apiSecret?: StringNullableWithAggregatesFilter | string | null
@@ -24442,7 +24456,7 @@ export namespace Prisma {
     deleted?: BoolWithAggregatesFilter | boolean
     deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     account?: EnumAccountConnectionNullableWithAggregatesFilter | AccountConnection | null
-    category?: EnumCategoryWithAggregatesFilter | Category
+    category?: EnumCategoryNullableWithAggregatesFilter | Category | null
     categoryId?: StringNullableWithAggregatesFilter | string | null
     marketId?: StringNullableWithAggregatesFilter | string | null
     parentId?: StringNullableWithAggregatesFilter | string | null
@@ -26250,6 +26264,7 @@ export namespace Prisma {
   export type AssetCreateInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -26268,7 +26283,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
@@ -26280,6 +26295,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -26298,7 +26314,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -26310,6 +26326,7 @@ export namespace Prisma {
   export type AssetUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26328,7 +26345,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
@@ -26340,6 +26357,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26358,7 +26376,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26370,6 +26388,7 @@ export namespace Prisma {
   export type AssetCreateManyInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -26387,7 +26406,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -26397,6 +26416,7 @@ export namespace Prisma {
   export type AssetUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26414,12 +26434,13 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
   }
 
   export type AssetUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26437,7 +26458,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28378,11 +28399,11 @@ export namespace Prisma {
     none?: AssetLabelWhereInput
   }
 
-  export type EnumCategoryFilter = {
-    equals?: Category
-    in?: Enumerable<Category>
-    notIn?: Enumerable<Category>
-    not?: NestedEnumCategoryFilter | Category
+  export type EnumCategoryNullableFilter = {
+    equals?: Category | null
+    in?: Enumerable<Category> | null
+    notIn?: Enumerable<Category> | null
+    not?: NestedEnumCategoryNullableFilter | Category | null
   }
 
   export type AssetCategoryRelationFilter = {
@@ -28402,6 +28423,7 @@ export namespace Prisma {
   export type AssetCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    institution?: SortOrder
     currency?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
@@ -28439,6 +28461,7 @@ export namespace Prisma {
   export type AssetMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    institution?: SortOrder
     currency?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
@@ -28466,6 +28489,7 @@ export namespace Prisma {
   export type AssetMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    institution?: SortOrder
     currency?: SortOrder
     apiKey?: SortOrder
     apiSecret?: SortOrder
@@ -28510,14 +28534,14 @@ export namespace Prisma {
     _max?: NestedEnumAccountConnectionNullableFilter
   }
 
-  export type EnumCategoryWithAggregatesFilter = {
-    equals?: Category
-    in?: Enumerable<Category>
-    notIn?: Enumerable<Category>
-    not?: NestedEnumCategoryWithAggregatesFilter | Category
-    _count?: NestedIntFilter
-    _min?: NestedEnumCategoryFilter
-    _max?: NestedEnumCategoryFilter
+  export type EnumCategoryNullableWithAggregatesFilter = {
+    equals?: Category | null
+    in?: Enumerable<Category> | null
+    notIn?: Enumerable<Category> | null
+    not?: NestedEnumCategoryNullableWithAggregatesFilter | Category | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedEnumCategoryNullableFilter
+    _max?: NestedEnumCategoryNullableFilter
   }
 
   export type AssetTransactionCountOrderByAggregateInput = {
@@ -30105,8 +30129,8 @@ export namespace Prisma {
     deleteMany?: Enumerable<AssetLabelScalarWhereInput>
   }
 
-  export type EnumCategoryFieldUpdateOperationsInput = {
-    set?: Category
+  export type NullableEnumCategoryFieldUpdateOperationsInput = {
+    set?: Category | null
   }
 
   export type AssetCategoryUpdateOneWithoutAssetsNestedInput = {
@@ -30779,11 +30803,11 @@ export namespace Prisma {
     not?: NestedEnumAccountConnectionNullableFilter | AccountConnection | null
   }
 
-  export type NestedEnumCategoryFilter = {
-    equals?: Category
-    in?: Enumerable<Category>
-    notIn?: Enumerable<Category>
-    not?: NestedEnumCategoryFilter | Category
+  export type NestedEnumCategoryNullableFilter = {
+    equals?: Category | null
+    in?: Enumerable<Category> | null
+    notIn?: Enumerable<Category> | null
+    not?: NestedEnumCategoryNullableFilter | Category | null
   }
 
   export type NestedEnumAccountConnectionNullableWithAggregatesFilter = {
@@ -30796,14 +30820,14 @@ export namespace Prisma {
     _max?: NestedEnumAccountConnectionNullableFilter
   }
 
-  export type NestedEnumCategoryWithAggregatesFilter = {
-    equals?: Category
-    in?: Enumerable<Category>
-    notIn?: Enumerable<Category>
-    not?: NestedEnumCategoryWithAggregatesFilter | Category
-    _count?: NestedIntFilter
-    _min?: NestedEnumCategoryFilter
-    _max?: NestedEnumCategoryFilter
+  export type NestedEnumCategoryNullableWithAggregatesFilter = {
+    equals?: Category | null
+    in?: Enumerable<Category> | null
+    notIn?: Enumerable<Category> | null
+    not?: NestedEnumCategoryNullableWithAggregatesFilter | Category | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedEnumCategoryNullableFilter
+    _max?: NestedEnumCategoryNullableFilter
   }
 
   export type NestedEnumMarketTypeFilter = {
@@ -31176,6 +31200,7 @@ export namespace Prisma {
   export type AssetCreateWithoutUserInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -31194,7 +31219,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
@@ -31205,6 +31230,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -31223,7 +31249,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -31726,6 +31752,7 @@ export namespace Prisma {
     NOT?: Enumerable<AssetScalarWhereInput>
     id?: StringFilter | string
     name?: StringFilter | string
+    institution?: StringNullableFilter | string | null
     currency?: StringFilter | string
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
@@ -31743,7 +31770,7 @@ export namespace Prisma {
     deleted?: BoolFilter | boolean
     deletedAt?: DateTimeNullableFilter | Date | string | null
     account?: EnumAccountConnectionNullableFilter | AccountConnection | null
-    category?: EnumCategoryFilter | Category
+    category?: EnumCategoryNullableFilter | Category | null
     categoryId?: StringNullableFilter | string | null
     marketId?: StringNullableFilter | string | null
     parentId?: StringNullableFilter | string | null
@@ -32772,6 +32799,7 @@ export namespace Prisma {
   export type AssetCreateWithoutCustomCategoryInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -32790,7 +32818,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
@@ -32801,6 +32829,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutCustomCategoryInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -32819,7 +32848,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     marketId?: string | null
     parentId?: string | null
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
@@ -32856,6 +32885,7 @@ export namespace Prisma {
   export type AssetCreateWithoutLabelsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -32873,7 +32903,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
@@ -32885,6 +32915,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutLabelsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -32902,7 +32933,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -32924,6 +32955,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutLabelsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32941,7 +32973,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
@@ -32953,6 +32985,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutLabelsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32970,7 +33003,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33082,6 +33115,7 @@ export namespace Prisma {
   export type AssetCreateWithoutSubAssetsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33100,7 +33134,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
@@ -33111,6 +33145,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutSubAssetsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33129,7 +33164,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -33145,6 +33180,7 @@ export namespace Prisma {
   export type AssetCreateWithoutParentInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33163,7 +33199,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
@@ -33174,6 +33210,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutParentInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33192,7 +33229,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
@@ -33433,6 +33470,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutSubAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33451,7 +33489,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
@@ -33462,6 +33500,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutSubAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33480,7 +33519,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33578,6 +33617,7 @@ export namespace Prisma {
   export type AssetCreateWithoutTransactionsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33596,7 +33636,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     market?: MarketCreateNestedOneWithoutAssetInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
@@ -33607,6 +33647,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutTransactionsInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -33625,7 +33666,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -33701,6 +33742,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33719,7 +33761,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
@@ -33730,6 +33772,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33748,7 +33791,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34794,6 +34837,7 @@ export namespace Prisma {
   export type AssetCreateWithoutMarketInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -34812,7 +34856,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
@@ -34823,6 +34867,7 @@ export namespace Prisma {
   export type AssetUncheckedCreateWithoutMarketInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -34841,7 +34886,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     parentId?: string | null
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
@@ -34942,6 +34987,7 @@ export namespace Prisma {
   export type AssetCreateManyUserInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -34959,7 +35005,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
@@ -35239,6 +35285,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35257,7 +35304,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
@@ -35268,6 +35315,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35286,7 +35334,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35297,6 +35345,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateManyWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35314,7 +35363,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35884,6 +35933,7 @@ export namespace Prisma {
   export type AssetCreateManyCustomCategoryInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -35901,7 +35951,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     marketId?: string | null
     parentId?: string | null
     userId: string
@@ -35910,6 +35960,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutCustomCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35928,7 +35979,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     market?: MarketUpdateOneWithoutAssetNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
@@ -35939,6 +35990,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutCustomCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35957,7 +36009,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
@@ -35978,6 +36030,7 @@ export namespace Prisma {
   export type AssetCreateManyParentInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -35995,7 +36048,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     marketId?: string | null
     userId: string
@@ -36059,6 +36112,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36077,7 +36131,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     market?: MarketUpdateOneWithoutAssetNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
@@ -36088,6 +36142,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36106,7 +36161,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
@@ -36117,6 +36172,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateManyWithoutSubAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36134,7 +36190,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
@@ -36330,6 +36386,7 @@ export namespace Prisma {
   export type AssetCreateManyMarketInput = {
     id?: string
     name: string
+    institution?: string | null
     currency: string
     apiKey?: string | null
     apiSecret?: string | null
@@ -36347,7 +36404,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: Date | string | null
     account?: AccountConnection | null
-    category: Category
+    category?: Category | null
     categoryId?: string | null
     parentId?: string | null
     userId: string
@@ -36402,6 +36459,7 @@ export namespace Prisma {
   export type AssetUpdateWithoutMarketInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36420,7 +36478,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
@@ -36431,6 +36489,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateWithoutMarketInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36449,7 +36508,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
@@ -36460,6 +36519,7 @@ export namespace Prisma {
   export type AssetUncheckedUpdateManyWithoutAssetInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36477,7 +36537,7 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: EnumCategoryFieldUpdateOperationsInput | Category
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string

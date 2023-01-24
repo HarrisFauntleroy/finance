@@ -235,6 +235,7 @@ exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
 exports.Prisma.AssetScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
+  institution: 'institution',
   currency: 'currency',
   apiKey: 'apiKey',
   apiSecret: 'apiSecret',

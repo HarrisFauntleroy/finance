@@ -18,7 +18,7 @@ function Budgets() {
 	return (
 		<Page title="Budgets">
 			<Stack height="100%">
-				<Tabs variant="enclosed" height="100%" padding="8px">
+				<Tabs height="100%" padding="8px">
 					<TabList>
 						<Tab>Overview</Tab>
 						<Tab>Budgets</Tab>

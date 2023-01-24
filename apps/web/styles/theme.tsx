@@ -16,9 +16,6 @@ const styles = {
 		".w-md-editor-show-preview": {
 			boxShadow: "0px !important",
 		},
-		hr: {
-			backgroundColor: "#4B0082",
-		},
 		".lagRadar": {
 			position: "fixed",
 			bottom: "0.5rem",
@@ -30,8 +27,6 @@ const styles = {
 const activeLabelStyles = {
 	transform: "scale(0.85) translateY(-24px)",
 }
-
-const colors = {}
 
 const fonts = {
 	body: "Arial, sans-serif",
@@ -53,6 +48,17 @@ const components = {
 		defaultProps: {
 			size: "sm",
 			variant: "outline",
+		},
+	},
+	Tabs: {
+		defaultProps: {
+			size: "sm",
+			variant: "enclosed",
+		},
+	},
+	TabPanel: {
+		defaultProps: {
+			padding: "8px",
 		},
 	},
 	Input: {
@@ -136,7 +142,6 @@ const components = {
 
 export const theme = extendTheme({
 	fonts,
-	colors,
 	styles,
 	components,
 	breakpoints,
