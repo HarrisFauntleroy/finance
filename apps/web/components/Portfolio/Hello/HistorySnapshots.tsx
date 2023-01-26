@@ -1,6 +1,6 @@
 import React from "react"
 
-import { historySnapshotColumns } from "./columns"
+import { historySnapshotColumns } from "../columns"
 import { Skeleton, Text } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import { Card, Table } from "ui"

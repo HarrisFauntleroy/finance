@@ -1,4 +1,4 @@
-export * from "./cryptocurrency"
+export * from "./assets"
 export * from "./forex"
 export * from "./transactions"
 export * from "./helpers"

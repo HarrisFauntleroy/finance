@@ -1,11 +1,37 @@
 import React, { useMemo } from "react"
 
 import { Card, useColorModeValue } from "@chakra-ui/react"
+import currency from "currency.js"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Line } from "react-chartjs-2"
-import { options } from "~/pages/portfolio/overview"
 import { trpc } from "~/utils/trpc"
+
+const options = {
+	responsive: true,
+	type: "line",
+	plugins: {
+		legend: {
+			position: "top" as const,
+		},
+		title: {
+			display: true,
+			text: "Net Worth / Cost Basis",
+		},
+	},
+	scales: {
+		y: {
+			min: 0,
+			// stacked: true,
+			ticks: {
+				// Include a dollar sign in the ticks
+				callback: (value: string | number) => {
+					return currency(value).format()
+				},
+			},
+		},
+	},
+}
 
 export const NetWorthCostBasisChart = () => {
 	const session = useSession()

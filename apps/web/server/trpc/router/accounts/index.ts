@@ -1,70 +1,42 @@
 import { publicProcedure, router } from "../../trpc"
 import { TRPCError } from "@trpc/server"
 import {
-	calculateCryptoOverview,
-	calculateManyCrypto,
+	calculateAssetOverview,
+	calculateManyAsset,
 	getExchangeRates,
 } from "common"
-import currency from "currency.js"
 import { prisma } from "database"
+import type {
+	Category,
+	CustomAssetCategory,
+} from "database/generated/prisma-client"
 import { MarketType } from "database/generated/prisma-client"
+import type { Decimal } from "database/generated/prisma-client/runtime"
 import { z } from "zod"
 
-export async function getPortfolioAllocation(
-	userId: string
-): Promise<{ name: MarketType; value: number }[]> {
-	const cryptoSnapshots = await prisma.portfolioSnapshot.findMany({
+export async function getPortfolioAllocation(userId: string): Promise<
+	{
+		balance: Decimal
+		category: Category | null
+		customCategory: CustomAssetCategory | null
+		market: {
+			price: Decimal | null
+		} | null
+	}[]
+> {
+	return await prisma.asset.findMany({
 		where: { userId },
-		select: { totalValue: true },
+		select: {
+			balance: true,
+			category: true,
+			customCategory: true,
+			market: {
+				select: {
+					price: true,
+				},
+			},
+		},
 	})
-	const cashSnapshots = await prisma.cashSnapshot.findMany({
-		where: { userId },
-		select: { totalValue: true },
-	})
-	const propertySnapshots = await prisma.propertySnapshot.findMany({
-		where: { userId },
-		select: { totalValue: true },
-	})
-	const securitySnapshots = await prisma.securitySnapshot.findMany({
-		where: { userId },
-		select: { totalValue: true },
-	})
-
-	const sumTotalValue = (data: Record<string, unknown>[]) =>
-		data
-			.map(({ totalValue }) => currency(String(totalValue)))
-			.reduce((sum, totalValue) => sum.add(totalValue), currency(0))
-
-	const totalCryptoValue = sumTotalValue(cryptoSnapshots)
-	const totalCashValue = sumTotalValue(cashSnapshots)
-	const totalPropertyValue = sumTotalValue(propertySnapshots)
-	const totalSecurityValue = sumTotalValue(securitySnapshots)
-
-	// Calculate the percentage of the total portfolio value that each asset class represents
-	const totalPortfolioValue = totalCryptoValue
-		.add(totalCashValue)
-		.add(totalPropertyValue)
-		.add(totalSecurityValue)
-	const cryptoPercentage = totalCryptoValue
-		.divide(totalPortfolioValue)
-		.multiply(100)
-	const cashPercentage = totalCashValue
-		.divide(totalPortfolioValue)
-		.multiply(100)
-	const propertyPercentage = totalPropertyValue
-		.divide(totalPortfolioValue)
-		.multiply(100)
-	const securityPercentage = totalSecurityValue
-		.divide(totalPortfolioValue)
-		.multiply(100)
-
-	// Return the data in the format required by a pie chart
-	return [
-		{ name: MarketType.CRYPTOCURRENCY, value: cryptoPercentage.value },
-		{ name: MarketType.CASH, value: cashPercentage.value },
-		{ name: MarketType.OTHER, value: propertyPercentage.value },
-		{ name: MarketType.STOCK, value: securityPercentage.value },
-	]
 }
 
 /**
@@ -90,10 +62,10 @@ export const accountsRouter = router({
 				},
 				select: {
 					id: true,
-					cryptocurrency: {
+					assets: {
 						include: {
 							market: true,
-							Children: true,
+							subAsset: true,
 						},
 					},
 					portfolioSnapshot: true,
@@ -127,25 +99,25 @@ export const accountsRouter = router({
 				})
 			}
 
-			/** Calculate cryptocurrency for overview */
-			const cryptocurrency = calculateManyCrypto({
-				data: data.cryptocurrency,
+			/** Calculate assets for overview */
+			const assets = calculateManyAsset({
+				data: data.assets,
 				exchangeRates,
 				userCurrency,
 			})
 
-			// Calculate the total value, saleable value, total cost basis, and unrealised gain for the cryptocurrency
+			// Calculate the total value, saleable value, total cost basis, and unrealised gain for the assets
 			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-				calculateCryptoOverview({ data: cryptocurrency })
+				calculateAssetOverview({ data: assets })
 
-			// Return the calculated values and the user's cryptocurrency and accounts history
+			// Return the calculated values and the user's assets and accounts history
 			return {
 				totalValue,
 				saleableValue,
 				totalCostBasis,
 				unrealisedGain,
-				cryptocurrency,
-				portfolioSnapshot: data.portfolioSnapshot,
+				assets,
+				portfolioSnapshot: data?.portfolioSnapshot,
 			}
 		}),
 	allocation: publicProcedure

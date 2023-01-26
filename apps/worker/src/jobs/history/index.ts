@@ -1,5 +1,5 @@
 import { Progress } from "../../util"
-import { calculateCryptoTotals } from "./cryptocurrency"
+import { calculateAssetsTotals } from "./assets"
 import { prisma } from "database"
 import { Decimal } from "database/generated/prisma-client/runtime"
 
@@ -17,12 +17,12 @@ export const history = async () => {
 
 	const results: { user?: string; status: string }[] = []
 
-	// Cryptocurrency portfolioSnapshot
+	// Assets portfolioSnapshot
 	await Promise.all(
 		users.map(async ({ id: userId }) => {
 			try {
 				/** Calculate overview totals to store for history */
-				const totals = await calculateCryptoTotals(userId)
+				const totals = await calculateAssetsTotals(userId)
 				/** Create new portfolioSnapshot entry */
 				const response = await prisma.portfolioSnapshot.create({
 					data: {

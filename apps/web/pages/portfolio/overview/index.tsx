@@ -5,8 +5,9 @@ import * as ChartJs from "chart.js"
 import currency from "currency.js"
 import IncomeOverviewCard from "~/components/Cryptocurrency/Income"
 import { Layout } from "~/components/Cryptocurrency/Layout"
-import { AccountsList } from "~/components/Portfolio/AccountsList"
 import { ControlBar } from "~/components/Portfolio/ControlBar"
+import { AllocationPieChart } from "~/components/Portfolio/Overview/AllocationPieChart"
+import { OverviewAccountsList } from "~/components/Portfolio/Overview/OverviewAccountsList"
 import OverviewCard from "~/components/Portfolio/Overview/OverviewCard"
 
 ChartJs.Chart.register(
@@ -54,14 +55,14 @@ function Overview() {
 			<GridItem area={"overview"}>
 				<OverviewCard />
 			</GridItem>
-			<GridItem area={"income"}>
-				<IncomeOverviewCard />
+			<GridItem area={"allocation"}>
+				<AllocationPieChart />
 			</GridItem>
 			<GridItem area={"control"}>
 				<ControlBar />
 			</GridItem>
 			<GridItem area={"assets"}>
-				<AccountsList />
+				<OverviewAccountsList />
 			</GridItem>
 		</Layout>
 	)

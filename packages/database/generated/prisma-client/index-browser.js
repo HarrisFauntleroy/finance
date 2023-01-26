@@ -211,7 +211,7 @@ exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
   userId: 'userId'
 });
 
-exports.Prisma.AssetCategoryScalarFieldEnum = makeEnum({
+exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   icon: 'icon',
@@ -240,8 +240,6 @@ exports.Prisma.AssetScalarFieldEnum = makeEnum({
   apiKey: 'apiKey',
   apiSecret: 'apiSecret',
   walletAddress: 'walletAddress',
-  value: 'value',
-  valueLastUpdated: 'valueLastUpdated',
   balance: 'balance',
   costBasis: 'costBasis',
   realisedGain: 'realisedGain',
@@ -257,7 +255,8 @@ exports.Prisma.AssetScalarFieldEnum = makeEnum({
   categoryId: 'categoryId',
   marketId: 'marketId',
   parentId: 'parentId',
-  userId: 'userId'
+  userId: 'userId',
+  status: 'status'
 });
 
 exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
@@ -443,10 +442,24 @@ exports.Category = makeEnum({
   CUSTOM: 'CUSTOM',
   MORTGAGE: 'MORTGAGE',
   PROPERTY: 'PROPERTY',
-  SECURITY: 'SECURITY',
-  CREDIT_CARD: 'CREDIT_CARD',
+  INVESTMENT: 'INVESTMENT',
+  CREDIT: 'CREDIT',
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   SUPERANNUATION: 'SUPERANNUATION'
+});
+
+exports.AssetStatus = makeEnum({
+  CONNECTED: 'CONNECTED',
+  CONNECTION_FAILED: 'CONNECTION_FAILED',
+  DISCONNECTED: 'DISCONNECTED',
+  PENDING_CONNECTION: 'PENDING_CONNECTION',
+  ERROR: 'ERROR',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  MAINTENANCE: 'MAINTENANCE',
+  BLOCKED: 'BLOCKED',
+  UNKNOWN: 'UNKNOWN',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
 });
 
 exports.MarketType = makeEnum({
@@ -469,7 +482,7 @@ exports.Prisma.ModelName = makeEnum({
   Budget: 'Budget',
   BudgetEnvelope: 'BudgetEnvelope',
   BudgetTransaction: 'BudgetTransaction',
-  AssetCategory: 'AssetCategory',
+  CustomAssetCategory: 'CustomAssetCategory',
   AssetLabel: 'AssetLabel',
   Asset: 'Asset',
   AssetTransaction: 'AssetTransaction',

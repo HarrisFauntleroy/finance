@@ -28,6 +28,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("user_accounts")
 }
 
 model Session {
@@ -36,6 +37,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
 }
 
 model User {
@@ -62,6 +65,8 @@ model User {
   CashSnapshot       CashSnapshot[]
   PropertySnapshot   PropertySnapshot[]
   SecuritySnapshot   SecuritySnapshot[]
+
+  @@map("user")
 }
 
 model VerificationToken {
@@ -70,6 +75,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("user_jwt")
 }
 
 model Settings {
@@ -85,17 +91,22 @@ model Settings {
   deletedAt            DateTime?
 
   @@unique([id, userId])
+  @@map("user_settings")
 }
 
 enum ColorScheme {
   LIGHT
   DARK
   TBA
+
+  @@map("user_color_scheme")
 }
 
 enum Role {
   USER
   ADMIN
+
+  @@map("user_role")
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -235,7 +246,7 @@ model BudgetTransaction {
 // EG 
 // const assets = await prisma.item.findMany({
 //   where: {
-//     type: AssetCategory.CRYPTOCURRENCY,
+//     type: CustomAssetCategory.CRYPTOCURRENCY,
 //     labels: {
 //       some: {
 //         name: "MyLabel",
@@ -263,7 +274,7 @@ model BudgetTransaction {
 
 // const customAssets = await prisma.item.findMany({
 //   where: {
-//     type: AssetCategory.CUSTOM,
+//     type: CustomAssetCategory.CUSTOM,
 //     customCategory: {
 //       name: "MyCustomCategory",
 //     },
@@ -279,13 +290,13 @@ enum Category {
   CUSTOM // represents a custom asset or liability
   MORTGAGE
   PROPERTY
-  SECURITY
-  CREDIT_CARD
+  INVESTMENT
+  CREDIT
   CRYPTOCURRENCY
   SUPERANNUATION
 }
 
-model AssetCategory {
+model CustomAssetCategory {
   id        String    @id @default(cuid())
   name      String
   icon      String?
@@ -309,7 +320,7 @@ model AssetLabel {
 }
 
 model Asset {
-  id                     String    @id @default(cuid())
+  id                     String   @id @default(cuid())
   // The name of the asset, such as "Bitcoin" or "Tesla Stock"
   name                   String
   institution            String?
@@ -320,15 +331,12 @@ model Asset {
   apiSecret              String?
   // The address of the wallet where the asset is stored, if applicable.
   walletAddress          String?
-  // The current value of the asset, this is based on the market data of the specific asset and it can be fluctuating based on the market data.
-  value                  Decimal
-  valueLastUpdated       DateTime?
   // The balance of the asset, for example the number of shares or tokens that the user owns.
-  balance                Decimal   @default(0)
+  balance                Decimal  @default(0)
   // The total cost of purchasing the asset, including any fees or expenses.
-  costBasis              Decimal   @default(0)
+  costBasis              Decimal  @default(0)
   // The profit or loss from the sale of the asset, calculated as the sale price minus the cost basis.
-  realisedGain           Decimal   @default(0)
+  realisedGain           Decimal  @default(0)
   // The desired balance of the asset, for example the number of shares or tokens that the user wants to own.
   targetBalance          Decimal?
   // The balance of the asset that earns interest, for example a savings account balance.
@@ -349,7 +357,7 @@ model Asset {
   category       Category?
   categoryId     String?
   // Reference to the category of the asset, for example "Cryptocurrency" or "Stock"
-  customCategory AssetCategory? @relation(fields: [categoryId], references: [id])
+  customCategory CustomAssetCategory? @relation(fields: [categoryId], references: [id])
 
   // Connection to market data for crypto, stock, metal prices etc.
   marketId String?
@@ -363,6 +371,22 @@ model Asset {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status AssetStatus? @default(ACTIVE)
+}
+
+enum AssetStatus {
+  CONNECTED
+  CONNECTION_FAILED
+  DISCONNECTED
+  PENDING_CONNECTION
+  ERROR
+  UNAUTHORIZED
+  MAINTENANCE
+  BLOCKED
+  UNKNOWN
+  ACTIVE
+  INACTIVE
 }
 
 model AssetTransaction {
@@ -560,23 +584,23 @@ enum MarketType {
 
 model Market {
   id                    String           @id @unique @default(cuid())
-  name                  String
+  name                  String?
   ticker                String
   description           String?
   currency              String
-  price                 Decimal          @default(0)
-  priceChange24h        Decimal          @default(0)
-  priceChange24hPercent Decimal          @default(0)
-  marketCap             Decimal          @default(0)
-  marketCapRank         Decimal          @default(0)
+  price                 Decimal?
+  priceChange24h        Decimal?
+  priceChange24hPercent Decimal?
+  marketCap             Decimal?
+  marketCapRank         Decimal?
   type                  MarketType
   image                 String?
-  Cryptocurrency        Cryptocurrency[]
+  linked_assets         Asset[]
   createdAt             DateTime         @default(now())
   updatedAt             DateTime         @default(now()) @updatedAt
   deleted               Boolean          @default(false)
   deletedAt             DateTime?
-  Asset                 Asset[]
+  Cryptocurrency        Cryptocurrency[]
 
   @@unique([ticker, type])
 }

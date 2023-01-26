@@ -1,13 +1,8 @@
 import { publicProcedure, router } from "../../trpc"
-import {
-	CryptoSelectSchema,
-	CryptocurrencySchema,
-	CryptocurrencySchemaWithId,
-} from "./schema"
 import { TRPCError } from "@trpc/server"
 import {
-	calculateCryptoOverview,
-	calculateManyCrypto,
+	calculateAssetOverview,
+	calculateManyAsset,
 	getExchangeRates,
 } from "common"
 import { prisma } from "database"
@@ -15,41 +10,17 @@ import { MarketType } from "database/generated/prisma-client"
 import { z } from "zod"
 
 /**
- * Routers: Cryptocurrency
+ * Routers: Asset
  * @Queries
- * cryptocurrency.byId ✅
- * cryptocurrency.byUserId ✅
+ * asset.byId ✅
+ * asset.byUserId ✅
  * @Mutations
- * cryptocurrency.create ✅
- * cryptocurrency.update ✅
- * cryptocurrency.delete ✅
+ * asset.create ✅
+ * asset.update ✅
+ * asset.delete ✅
  */
 
-export const cryptocurrencyRouter = router({
-	create: publicProcedure
-		.input(CryptocurrencySchema)
-		.mutation(async ({ input }) => {
-			return prisma.cryptocurrency.create({
-				data: input,
-				select: CryptoSelectSchema,
-			})
-		}),
-	createChild: publicProcedure
-		.input(CryptocurrencySchema)
-		.mutation(async ({ input }) => {
-			return prisma.cryptocurrency.create({
-				data: input,
-				// select: CryptoSelectSchema,
-				include: {
-					Children: {
-						include: {
-							Children: true,
-							market: true,
-						},
-					},
-				},
-			})
-		}),
+export const assetRouter = router({
 	all: publicProcedure
 		.input(
 			z.object({
@@ -58,13 +29,13 @@ export const cryptocurrencyRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { id } = input
-			const cryptocurrency = await prisma.cryptocurrency.findUnique({
+			const asset = await prisma.asset.findUnique({
 				where: {
 					id,
 				},
 				include: {
 					market: true,
-					Children: true,
+					subAssets: true,
 					user: {
 						select: {
 							settings: {
@@ -76,14 +47,14 @@ export const cryptocurrencyRouter = router({
 					},
 				},
 			})
-			if (!cryptocurrency) {
+			if (!asset) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No cryptocurrency with id '${id}'`,
+					message: `No asset with id '${id}'`,
 				})
 			}
 
-			return cryptocurrency
+			return asset
 		}),
 	byId: publicProcedure
 		.input(
@@ -93,13 +64,13 @@ export const cryptocurrencyRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { id } = input
-			const cryptocurrency = await prisma.cryptocurrency.findUnique({
+			const asset = await prisma.asset.findUnique({
 				where: {
 					id,
 				},
 				include: {
 					market: true,
-					Children: true,
+					subAssets: true,
 					user: {
 						select: {
 							settings: {
@@ -111,14 +82,14 @@ export const cryptocurrencyRouter = router({
 					},
 				},
 			})
-			if (!cryptocurrency) {
+			if (!asset) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No cryptocurrency with id '${id}'`,
+					message: `No asset with id '${id}'`,
 				})
 			}
 
-			return cryptocurrency
+			return asset
 		}),
 	byUserId: publicProcedure
 		.input(
@@ -129,7 +100,7 @@ export const cryptocurrencyRouter = router({
 		.query(async ({ input }) => {
 			const { userId } = input
 
-			const data = await prisma.cryptocurrency.findMany({
+			const data = await prisma.asset.findMany({
 				where: {
 					userId,
 					// This keeps sub accounts nested
@@ -137,7 +108,7 @@ export const cryptocurrencyRouter = router({
 				},
 				include: {
 					market: true,
-					Children: {
+					subAssets: {
 						include: {
 							// Needed for price data
 							// Could lean this out
@@ -177,15 +148,15 @@ export const cryptocurrencyRouter = router({
 			/** Convert array to object */
 			const exchangeRates = getExchangeRates(markets)
 
-			// If no cryptocurrency was found for the user, throw an error
+			// If no asset was found for the user, throw an error
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No cryptocurrency with userId '${userId}'`,
+					message: `No asset with userId '${userId}'`,
 				})
 			}
-			// Calculate the cryptocurrency values using the provided data, exchange rates, and user currency
-			return calculateManyCrypto({
+			// Calculate the asset values using the provided data, exchange rates, and user currency
+			return calculateManyAsset({
 				data: data,
 				exchangeRates,
 				userCurrency,
@@ -200,16 +171,16 @@ export const cryptocurrencyRouter = router({
 		.query(async ({ input }) => {
 			// Destructure the userId from the input object
 			const { userId } = input
-			// Fetch the cryptocurrency data for the user with the specified userId
-			// Include the market data, children of the cryptocurrency, and the user's settings
-			const data = await prisma.cryptocurrency.findMany({
+			// Fetch the asset data for the user with the specified userId
+			// Include the market data, children of the asset, and the user's settings
+			const data = await prisma.asset.findMany({
 				where: {
 					userId,
 					parentId: null,
 				},
 				include: {
 					market: true,
-					Children: true,
+					subAssets: true,
 				},
 			})
 			// Fetch the user's settings
@@ -239,12 +210,12 @@ export const cryptocurrencyRouter = router({
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No cryptocurrency with userId '${userId}'`,
+					message: `No asset with userId '${userId}'`,
 				})
 			}
 
-			/** Calculate cryptocurrency for overview */
-			const cryptocurrency = calculateManyCrypto({
+			/** Calculate asset for overview */
+			const asset = calculateManyAsset({
 				data,
 				exchangeRates,
 				userCurrency,
@@ -257,7 +228,7 @@ export const cryptocurrencyRouter = router({
 				unrealisedGain,
 				saleableValue,
 				totalEstimatedYearlyReturn,
-			} = calculateCryptoOverview({ data: cryptocurrency })
+			} = calculateAssetOverview({ data: asset })
 
 			return {
 				totalValue: totalValue,
@@ -275,7 +246,7 @@ export const cryptocurrencyRouter = router({
 		)
 		.query(async ({ input }) => {
 			const { userId } = input
-			const data = await prisma.cryptocurrency.findMany({
+			const data = await prisma.asset.findMany({
 				where: {
 					userId,
 				},
@@ -290,40 +261,9 @@ export const cryptocurrencyRouter = router({
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No cryptocurrency with userId '${userId}'`,
+					message: `No asset with userId '${userId}'`,
 				})
 			}
 			return data
-		}),
-	update: publicProcedure
-		.input(
-			z.object({
-				id: z.string(),
-				userId: z.string(),
-				data: CryptocurrencySchemaWithId,
-			})
-		)
-		.mutation(async ({ input }) => {
-			const { id, data } = input
-			return prisma.cryptocurrency.update({
-				where: { id },
-				data,
-				select: CryptoSelectSchema,
-			})
-		}),
-	delete: publicProcedure
-		.input(
-			z.object({
-				id: z.string(),
-			})
-		)
-		.mutation(async ({ input }) => {
-			const { id } = input
-			await prisma.cryptocurrency.delete({
-				where: { id },
-			})
-			return {
-				id,
-			}
 		}),
 })

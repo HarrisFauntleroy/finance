@@ -4,7 +4,8 @@
  * Style: Golden Ratio
  *
  */
-import { ReactNode, useState } from "react"
+import type { ReactNode } from "react"
+import { useState } from "react"
 import React from "react"
 
 import { NoteForm } from "../Form"
@@ -22,7 +23,7 @@ import {
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react"
-import { Note } from "database-notes/generated/prisma-client"
+import type { Note } from "database-notes/generated/prisma-client"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { MdLogin, MdLogout } from "react-icons/md"
 import { MarkdownEditor } from "ui"

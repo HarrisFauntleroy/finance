@@ -1,8 +1,8 @@
 import { publicProcedure, router } from "../../trpc"
 import { TRPCError } from "@trpc/server"
 import {
-	calculateCryptoOverview,
-	calculateManyCrypto,
+	calculateAssetOverview,
+	calculateManyAsset,
 	getExchangeRates,
 } from "common"
 import { prisma } from "database"
@@ -194,7 +194,76 @@ export const assetRouter = router({
 				})
 			}
 			// Calculate the asset values using the provided data, exchange rates, and user currency
-			return calculateManyCrypto({
+			return calculateManyAsset({
+				data,
+				exchangeRates,
+				userCurrency,
+			})
+		}),
+	overviewAccountsListbyUserId: publicProcedure
+		.input(
+			z.object({
+				userId: z.string(),
+			})
+		)
+		.query(async ({ input }) => {
+			const { userId } = input
+
+			const data = await prisma.asset.findMany({
+				where: {
+					userId,
+					// This keeps sub accounts nested
+					parentId: null,
+				},
+				include: {
+					market: true,
+					subAssets: {
+						include: {
+							market: true,
+						},
+					},
+					user: {
+						select: {
+							settings: {
+								select: {
+									userCurrency: true,
+								},
+							},
+						},
+					},
+				},
+			})
+			const { userCurrency } = await prisma.settings.findFirstOrThrow({
+				where: {
+					userId,
+				},
+			})
+
+			// Fetch the market rates
+			const markets = await prisma.market.findMany({
+				where: {
+					type: MarketType.CASH,
+				},
+				select: {
+					currency: true,
+					price: true,
+					name: true,
+					ticker: true,
+				},
+			})
+
+			/** Convert array to object */
+			const exchangeRates = getExchangeRates(markets)
+
+			// If no asset was found for the user, throw an error
+			if (!data) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `No asset with userId '${userId}'`,
+				})
+			}
+			// Calculate the asset values using the provided data, exchange rates, and user currency
+			return calculateManyAsset({
 				data,
 				exchangeRates,
 				userCurrency,
@@ -253,7 +322,7 @@ export const assetRouter = router({
 			}
 
 			/** Calculate asset for overview */
-			const asset = calculateManyCrypto({
+			const asset = calculateManyAsset({
 				data,
 				exchangeRates,
 				userCurrency,
@@ -266,7 +335,7 @@ export const assetRouter = router({
 				unrealisedGain,
 				saleableValue,
 				totalEstimatedYearlyReturn,
-			} = calculateCryptoOverview({ data: asset })
+			} = calculateAssetOverview({ data: asset })
 
 			return {
 				totalValue: totalValue,

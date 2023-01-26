@@ -177,10 +177,10 @@ export type BudgetTransaction = {
 }
 
 /**
- * Model AssetCategory
+ * Model CustomAssetCategory
  * 
  */
-export type AssetCategory = {
+export type CustomAssetCategory = {
   id: string
   name: string
   icon: string | null
@@ -217,8 +217,6 @@ export type Asset = {
   apiKey: string | null
   apiSecret: string | null
   walletAddress: string | null
-  value: Prisma.Decimal
-  valueLastUpdated: Date | null
   balance: Prisma.Decimal
   costBasis: Prisma.Decimal
   realisedGain: Prisma.Decimal
@@ -235,6 +233,7 @@ export type Asset = {
   marketId: string | null
   parentId: string | null
   userId: string
+  status: AssetStatus | null
 }
 
 /**
@@ -395,15 +394,15 @@ export type Cryptocurrency = {
  */
 export type Market = {
   id: string
-  name: string
+  name: string | null
   ticker: string
   description: string | null
   currency: string
-  price: Prisma.Decimal
-  priceChange24h: Prisma.Decimal
-  priceChange24hPercent: Prisma.Decimal
-  marketCap: Prisma.Decimal
-  marketCapRank: Prisma.Decimal
+  price: Prisma.Decimal | null
+  priceChange24h: Prisma.Decimal | null
+  priceChange24hPercent: Prisma.Decimal | null
+  marketCap: Prisma.Decimal | null
+  marketCapRank: Prisma.Decimal | null
   type: MarketType
   image: string | null
   createdAt: Date
@@ -463,13 +462,30 @@ export const Category: {
   CUSTOM: 'CUSTOM',
   MORTGAGE: 'MORTGAGE',
   PROPERTY: 'PROPERTY',
-  SECURITY: 'SECURITY',
-  CREDIT_CARD: 'CREDIT_CARD',
+  INVESTMENT: 'INVESTMENT',
+  CREDIT: 'CREDIT',
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   SUPERANNUATION: 'SUPERANNUATION'
 };
 
 export type Category = (typeof Category)[keyof typeof Category]
+
+
+export const AssetStatus: {
+  CONNECTED: 'CONNECTED',
+  CONNECTION_FAILED: 'CONNECTION_FAILED',
+  DISCONNECTED: 'DISCONNECTED',
+  PENDING_CONNECTION: 'PENDING_CONNECTION',
+  ERROR: 'ERROR',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  MAINTENANCE: 'MAINTENANCE',
+  BLOCKED: 'BLOCKED',
+  UNKNOWN: 'UNKNOWN',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+};
+
+export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
 
 
 export const MarketType: {
@@ -725,14 +741,14 @@ export class PrismaClient<
   get budgetTransaction(): Prisma.BudgetTransactionDelegate<GlobalReject>;
 
   /**
-   * `prisma.assetCategory`: Exposes CRUD operations for the **AssetCategory** model.
+   * `prisma.customAssetCategory`: Exposes CRUD operations for the **CustomAssetCategory** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more AssetCategories
-    * const assetCategories = await prisma.assetCategory.findMany()
+    * // Fetch zero or more CustomAssetCategories
+    * const customAssetCategories = await prisma.customAssetCategory.findMany()
     * ```
     */
-  get assetCategory(): Prisma.AssetCategoryDelegate<GlobalReject>;
+  get customAssetCategory(): Prisma.CustomAssetCategoryDelegate<GlobalReject>;
 
   /**
    * `prisma.assetLabel`: Exposes CRUD operations for the **AssetLabel** model.
@@ -1311,7 +1327,7 @@ export namespace Prisma {
     Budget: 'Budget',
     BudgetEnvelope: 'BudgetEnvelope',
     BudgetTransaction: 'BudgetTransaction',
-    AssetCategory: 'AssetCategory',
+    CustomAssetCategory: 'CustomAssetCategory',
     AssetLabel: 'AssetLabel',
     Asset: 'Asset',
     AssetTransaction: 'AssetTransaction',
@@ -1652,35 +1668,35 @@ export namespace Prisma {
 
 
   /**
-   * Count Type AssetCategoryCountOutputType
+   * Count Type CustomAssetCategoryCountOutputType
    */
 
 
-  export type AssetCategoryCountOutputType = {
+  export type CustomAssetCategoryCountOutputType = {
     assets: number
   }
 
-  export type AssetCategoryCountOutputTypeSelect = {
+  export type CustomAssetCategoryCountOutputTypeSelect = {
     assets?: boolean
   }
 
-  export type AssetCategoryCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | AssetCategoryCountOutputTypeArgs,
+  export type CustomAssetCategoryCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | CustomAssetCategoryCountOutputTypeArgs,
     U = keyof S
       > = S extends true
-        ? AssetCategoryCountOutputType
+        ? CustomAssetCategoryCountOutputType
     : S extends undefined
     ? never
-    : S extends AssetCategoryCountOutputTypeArgs
+    : S extends CustomAssetCategoryCountOutputTypeArgs
     ?'include' extends U
-    ? AssetCategoryCountOutputType 
+    ? CustomAssetCategoryCountOutputType 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof AssetCategoryCountOutputType ? AssetCategoryCountOutputType[P] : never
+    P extends keyof CustomAssetCategoryCountOutputType ? CustomAssetCategoryCountOutputType[P] : never
   } 
-    : AssetCategoryCountOutputType
-  : AssetCategoryCountOutputType
+    : CustomAssetCategoryCountOutputType
+  : CustomAssetCategoryCountOutputType
 
 
 
@@ -1688,14 +1704,14 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * AssetCategoryCountOutputType without action
+   * CustomAssetCategoryCountOutputType without action
    */
-  export type AssetCategoryCountOutputTypeArgs = {
+  export type CustomAssetCategoryCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategoryCountOutputType
+     * Select specific fields to fetch from the CustomAssetCategoryCountOutputType
      * 
     **/
-    select?: AssetCategoryCountOutputTypeSelect | null
+    select?: CustomAssetCategoryCountOutputTypeSelect | null
   }
 
 
@@ -1808,13 +1824,13 @@ export namespace Prisma {
 
 
   export type MarketCountOutputType = {
+    linked_assets: number
     Cryptocurrency: number
-    Asset: number
   }
 
   export type MarketCountOutputTypeSelect = {
+    linked_assets?: boolean
     Cryptocurrency?: boolean
-    Asset?: boolean
   }
 
   export type MarketCountOutputTypeGetPayload<
@@ -11596,17 +11612,17 @@ export namespace Prisma {
 
 
   /**
-   * Model AssetCategory
+   * Model CustomAssetCategory
    */
 
 
-  export type AggregateAssetCategory = {
-    _count: AssetCategoryCountAggregateOutputType | null
-    _min: AssetCategoryMinAggregateOutputType | null
-    _max: AssetCategoryMaxAggregateOutputType | null
+  export type AggregateCustomAssetCategory = {
+    _count: CustomAssetCategoryCountAggregateOutputType | null
+    _min: CustomAssetCategoryMinAggregateOutputType | null
+    _max: CustomAssetCategoryMaxAggregateOutputType | null
   }
 
-  export type AssetCategoryMinAggregateOutputType = {
+  export type CustomAssetCategoryMinAggregateOutputType = {
     id: string | null
     name: string | null
     icon: string | null
@@ -11616,7 +11632,7 @@ export namespace Prisma {
     deletedAt: Date | null
   }
 
-  export type AssetCategoryMaxAggregateOutputType = {
+  export type CustomAssetCategoryMaxAggregateOutputType = {
     id: string | null
     name: string | null
     icon: string | null
@@ -11626,7 +11642,7 @@ export namespace Prisma {
     deletedAt: Date | null
   }
 
-  export type AssetCategoryCountAggregateOutputType = {
+  export type CustomAssetCategoryCountAggregateOutputType = {
     id: number
     name: number
     icon: number
@@ -11638,7 +11654,7 @@ export namespace Prisma {
   }
 
 
-  export type AssetCategoryMinAggregateInputType = {
+  export type CustomAssetCategoryMinAggregateInputType = {
     id?: true
     name?: true
     icon?: true
@@ -11648,7 +11664,7 @@ export namespace Prisma {
     deletedAt?: true
   }
 
-  export type AssetCategoryMaxAggregateInputType = {
+  export type CustomAssetCategoryMaxAggregateInputType = {
     id?: true
     name?: true
     icon?: true
@@ -11658,7 +11674,7 @@ export namespace Prisma {
     deletedAt?: true
   }
 
-  export type AssetCategoryCountAggregateInputType = {
+  export type CustomAssetCategoryCountAggregateInputType = {
     id?: true
     name?: true
     icon?: true
@@ -11669,85 +11685,85 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type AssetCategoryAggregateArgs = {
+  export type CustomAssetCategoryAggregateArgs = {
     /**
-     * Filter which AssetCategory to aggregate.
+     * Filter which CustomAssetCategory to aggregate.
      * 
     **/
-    where?: AssetCategoryWhereInput
+    where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AssetCategories to fetch.
+     * Determine the order of CustomAssetCategories to fetch.
      * 
     **/
-    orderBy?: Enumerable<AssetCategoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      * 
     **/
-    cursor?: AssetCategoryWhereUniqueInput
+    cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AssetCategories from the position of the cursor.
+     * Take `±n` CustomAssetCategories from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AssetCategories.
+     * Skip the first `n` CustomAssetCategories.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned AssetCategories
+     * Count returned CustomAssetCategories
     **/
-    _count?: true | AssetCategoryCountAggregateInputType
+    _count?: true | CustomAssetCategoryCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AssetCategoryMinAggregateInputType
+    _min?: CustomAssetCategoryMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AssetCategoryMaxAggregateInputType
+    _max?: CustomAssetCategoryMaxAggregateInputType
   }
 
-  export type GetAssetCategoryAggregateType<T extends AssetCategoryAggregateArgs> = {
-        [P in keyof T & keyof AggregateAssetCategory]: P extends '_count' | 'count'
+  export type GetCustomAssetCategoryAggregateType<T extends CustomAssetCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomAssetCategory]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAssetCategory[P]>
-      : GetScalarType<T[P], AggregateAssetCategory[P]>
+        : GetScalarType<T[P], AggregateCustomAssetCategory[P]>
+      : GetScalarType<T[P], AggregateCustomAssetCategory[P]>
   }
 
 
 
 
-  export type AssetCategoryGroupByArgs = {
-    where?: AssetCategoryWhereInput
-    orderBy?: Enumerable<AssetCategoryOrderByWithAggregationInput>
-    by: Array<AssetCategoryScalarFieldEnum>
-    having?: AssetCategoryScalarWhereWithAggregatesInput
+  export type CustomAssetCategoryGroupByArgs = {
+    where?: CustomAssetCategoryWhereInput
+    orderBy?: Enumerable<CustomAssetCategoryOrderByWithAggregationInput>
+    by: Array<CustomAssetCategoryScalarFieldEnum>
+    having?: CustomAssetCategoryScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AssetCategoryCountAggregateInputType | true
-    _min?: AssetCategoryMinAggregateInputType
-    _max?: AssetCategoryMaxAggregateInputType
+    _count?: CustomAssetCategoryCountAggregateInputType | true
+    _min?: CustomAssetCategoryMinAggregateInputType
+    _max?: CustomAssetCategoryMaxAggregateInputType
   }
 
 
-  export type AssetCategoryGroupByOutputType = {
+  export type CustomAssetCategoryGroupByOutputType = {
     id: string
     name: string
     icon: string | null
@@ -11755,26 +11771,26 @@ export namespace Prisma {
     updatedAt: Date
     deleted: boolean
     deletedAt: Date | null
-    _count: AssetCategoryCountAggregateOutputType | null
-    _min: AssetCategoryMinAggregateOutputType | null
-    _max: AssetCategoryMaxAggregateOutputType | null
+    _count: CustomAssetCategoryCountAggregateOutputType | null
+    _min: CustomAssetCategoryMinAggregateOutputType | null
+    _max: CustomAssetCategoryMaxAggregateOutputType | null
   }
 
-  type GetAssetCategoryGroupByPayload<T extends AssetCategoryGroupByArgs> = PrismaPromise<
+  type GetCustomAssetCategoryGroupByPayload<T extends CustomAssetCategoryGroupByArgs> = PrismaPromise<
     Array<
-      PickArray<AssetCategoryGroupByOutputType, T['by']> &
+      PickArray<CustomAssetCategoryGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AssetCategoryGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof CustomAssetCategoryGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AssetCategoryGroupByOutputType[P]>
-            : GetScalarType<T[P], AssetCategoryGroupByOutputType[P]>
+              : GetScalarType<T[P], CustomAssetCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomAssetCategoryGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AssetCategorySelect = {
+  export type CustomAssetCategorySelect = {
     id?: boolean
     name?: boolean
     icon?: boolean
@@ -11783,151 +11799,151 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: boolean
     assets?: boolean | AssetFindManyArgs
-    _count?: boolean | AssetCategoryCountOutputTypeArgs
+    _count?: boolean | CustomAssetCategoryCountOutputTypeArgs
   }
 
-  export type AssetCategoryInclude = {
+  export type CustomAssetCategoryInclude = {
     assets?: boolean | AssetFindManyArgs
-    _count?: boolean | AssetCategoryCountOutputTypeArgs
+    _count?: boolean | CustomAssetCategoryCountOutputTypeArgs
   }
 
-  export type AssetCategoryGetPayload<
-    S extends boolean | null | undefined | AssetCategoryArgs,
+  export type CustomAssetCategoryGetPayload<
+    S extends boolean | null | undefined | CustomAssetCategoryArgs,
     U = keyof S
       > = S extends true
-        ? AssetCategory
+        ? CustomAssetCategory
     : S extends undefined
     ? never
-    : S extends AssetCategoryArgs | AssetCategoryFindManyArgs
+    : S extends CustomAssetCategoryArgs | CustomAssetCategoryFindManyArgs
     ?'include' extends U
-    ? AssetCategory  & {
+    ? CustomAssetCategory  & {
     [P in TrueKeys<S['include']>]:
         P extends 'assets' ? Array < AssetGetPayload<S['include'][P]>>  :
-        P extends '_count' ? AssetCategoryCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends '_count' ? CustomAssetCategoryCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'assets' ? Array < AssetGetPayload<S['select'][P]>>  :
-        P extends '_count' ? AssetCategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AssetCategory ? AssetCategory[P] : never
+        P extends '_count' ? CustomAssetCategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomAssetCategory ? CustomAssetCategory[P] : never
   } 
-    : AssetCategory
-  : AssetCategory
+    : CustomAssetCategory
+  : CustomAssetCategory
 
 
-  type AssetCategoryCountArgs = Merge<
-    Omit<AssetCategoryFindManyArgs, 'select' | 'include'> & {
-      select?: AssetCategoryCountAggregateInputType | true
+  type CustomAssetCategoryCountArgs = Merge<
+    Omit<CustomAssetCategoryFindManyArgs, 'select' | 'include'> & {
+      select?: CustomAssetCategoryCountAggregateInputType | true
     }
   >
 
-  export interface AssetCategoryDelegate<GlobalRejectSettings> {
+  export interface CustomAssetCategoryDelegate<GlobalRejectSettings> {
     /**
-     * Find zero or one AssetCategory that matches the filter.
-     * @param {AssetCategoryFindUniqueArgs} args - Arguments to find a AssetCategory
+     * Find zero or one CustomAssetCategory that matches the filter.
+     * @param {CustomAssetCategoryFindUniqueArgs} args - Arguments to find a CustomAssetCategory
      * @example
-     * // Get one AssetCategory
-     * const assetCategory = await prisma.assetCategory.findUnique({
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends AssetCategoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, AssetCategoryFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AssetCategory'> extends True ? CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory | null >, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T> | null >>
+    findUnique<T extends CustomAssetCategoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CustomAssetCategoryFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CustomAssetCategory'> extends True ? CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>
 
     /**
-     * Find the first AssetCategory that matches the filter.
+     * Find the first CustomAssetCategory that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryFindFirstArgs} args - Arguments to find a AssetCategory
+     * @param {CustomAssetCategoryFindFirstArgs} args - Arguments to find a CustomAssetCategory
      * @example
-     * // Get one AssetCategory
-     * const assetCategory = await prisma.assetCategory.findFirst({
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends AssetCategoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, AssetCategoryFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AssetCategory'> extends True ? CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory | null >, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T> | null >>
+    findFirst<T extends CustomAssetCategoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CustomAssetCategoryFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CustomAssetCategory'> extends True ? CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>
 
     /**
-     * Find zero or more AssetCategories that matches the filter.
+     * Find zero or more CustomAssetCategories that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {CustomAssetCategoryFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all AssetCategories
-     * const assetCategories = await prisma.assetCategory.findMany()
+     * // Get all CustomAssetCategories
+     * const customAssetCategories = await prisma.customAssetCategory.findMany()
      * 
-     * // Get first 10 AssetCategories
-     * const assetCategories = await prisma.assetCategory.findMany({ take: 10 })
+     * // Get first 10 CustomAssetCategories
+     * const customAssetCategories = await prisma.customAssetCategory.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const assetCategoryWithIdOnly = await prisma.assetCategory.findMany({ select: { id: true } })
+     * const customAssetCategoryWithIdOnly = await prisma.customAssetCategory.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends AssetCategoryFindManyArgs>(
-      args?: SelectSubset<T, AssetCategoryFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<AssetCategory>>, PrismaPromise<Array<AssetCategoryGetPayload<T>>>>
+    findMany<T extends CustomAssetCategoryFindManyArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<CustomAssetCategory>>, PrismaPromise<Array<CustomAssetCategoryGetPayload<T>>>>
 
     /**
-     * Create a AssetCategory.
-     * @param {AssetCategoryCreateArgs} args - Arguments to create a AssetCategory.
+     * Create a CustomAssetCategory.
+     * @param {CustomAssetCategoryCreateArgs} args - Arguments to create a CustomAssetCategory.
      * @example
-     * // Create one AssetCategory
-     * const AssetCategory = await prisma.assetCategory.create({
+     * // Create one CustomAssetCategory
+     * const CustomAssetCategory = await prisma.customAssetCategory.create({
      *   data: {
-     *     // ... data to create a AssetCategory
+     *     // ... data to create a CustomAssetCategory
      *   }
      * })
      * 
     **/
-    create<T extends AssetCategoryCreateArgs>(
-      args: SelectSubset<T, AssetCategoryCreateArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    create<T extends CustomAssetCategoryCreateArgs>(
+      args: SelectSubset<T, CustomAssetCategoryCreateArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Create many AssetCategories.
-     *     @param {AssetCategoryCreateManyArgs} args - Arguments to create many AssetCategories.
+     * Create many CustomAssetCategories.
+     *     @param {CustomAssetCategoryCreateManyArgs} args - Arguments to create many CustomAssetCategories.
      *     @example
-     *     // Create many AssetCategories
-     *     const assetCategory = await prisma.assetCategory.createMany({
+     *     // Create many CustomAssetCategories
+     *     const customAssetCategory = await prisma.customAssetCategory.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends AssetCategoryCreateManyArgs>(
-      args?: SelectSubset<T, AssetCategoryCreateManyArgs>
+    createMany<T extends CustomAssetCategoryCreateManyArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryCreateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Delete a AssetCategory.
-     * @param {AssetCategoryDeleteArgs} args - Arguments to delete one AssetCategory.
+     * Delete a CustomAssetCategory.
+     * @param {CustomAssetCategoryDeleteArgs} args - Arguments to delete one CustomAssetCategory.
      * @example
-     * // Delete one AssetCategory
-     * const AssetCategory = await prisma.assetCategory.delete({
+     * // Delete one CustomAssetCategory
+     * const CustomAssetCategory = await prisma.customAssetCategory.delete({
      *   where: {
-     *     // ... filter to delete one AssetCategory
+     *     // ... filter to delete one CustomAssetCategory
      *   }
      * })
      * 
     **/
-    delete<T extends AssetCategoryDeleteArgs>(
-      args: SelectSubset<T, AssetCategoryDeleteArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    delete<T extends CustomAssetCategoryDeleteArgs>(
+      args: SelectSubset<T, CustomAssetCategoryDeleteArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Update one AssetCategory.
-     * @param {AssetCategoryUpdateArgs} args - Arguments to update one AssetCategory.
+     * Update one CustomAssetCategory.
+     * @param {CustomAssetCategoryUpdateArgs} args - Arguments to update one CustomAssetCategory.
      * @example
-     * // Update one AssetCategory
-     * const assetCategory = await prisma.assetCategory.update({
+     * // Update one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11937,34 +11953,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends AssetCategoryUpdateArgs>(
-      args: SelectSubset<T, AssetCategoryUpdateArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    update<T extends CustomAssetCategoryUpdateArgs>(
+      args: SelectSubset<T, CustomAssetCategoryUpdateArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Delete zero or more AssetCategories.
-     * @param {AssetCategoryDeleteManyArgs} args - Arguments to filter AssetCategories to delete.
+     * Delete zero or more CustomAssetCategories.
+     * @param {CustomAssetCategoryDeleteManyArgs} args - Arguments to filter CustomAssetCategories to delete.
      * @example
-     * // Delete a few AssetCategories
-     * const { count } = await prisma.assetCategory.deleteMany({
+     * // Delete a few CustomAssetCategories
+     * const { count } = await prisma.customAssetCategory.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends AssetCategoryDeleteManyArgs>(
-      args?: SelectSubset<T, AssetCategoryDeleteManyArgs>
+    deleteMany<T extends CustomAssetCategoryDeleteManyArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AssetCategories.
+     * Update zero or more CustomAssetCategories.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {CustomAssetCategoryUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many AssetCategories
-     * const assetCategory = await prisma.assetCategory.updateMany({
+     * // Update many CustomAssetCategories
+     * const customAssetCategory = await prisma.customAssetCategory.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11974,93 +11990,93 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends AssetCategoryUpdateManyArgs>(
-      args: SelectSubset<T, AssetCategoryUpdateManyArgs>
+    updateMany<T extends CustomAssetCategoryUpdateManyArgs>(
+      args: SelectSubset<T, CustomAssetCategoryUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one AssetCategory.
-     * @param {AssetCategoryUpsertArgs} args - Arguments to update or create a AssetCategory.
+     * Create or update one CustomAssetCategory.
+     * @param {CustomAssetCategoryUpsertArgs} args - Arguments to update or create a CustomAssetCategory.
      * @example
-     * // Update or create a AssetCategory
-     * const assetCategory = await prisma.assetCategory.upsert({
+     * // Update or create a CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.upsert({
      *   create: {
-     *     // ... data to create a AssetCategory
+     *     // ... data to create a CustomAssetCategory
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the AssetCategory we want to update
+     *     // ... the filter for the CustomAssetCategory we want to update
      *   }
      * })
     **/
-    upsert<T extends AssetCategoryUpsertArgs>(
-      args: SelectSubset<T, AssetCategoryUpsertArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    upsert<T extends CustomAssetCategoryUpsertArgs>(
+      args: SelectSubset<T, CustomAssetCategoryUpsertArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Find one AssetCategory that matches the filter or throw
+     * Find one CustomAssetCategory that matches the filter or throw
      * `NotFoundError` if no matches were found.
-     * @param {AssetCategoryFindUniqueOrThrowArgs} args - Arguments to find a AssetCategory
+     * @param {CustomAssetCategoryFindUniqueOrThrowArgs} args - Arguments to find a CustomAssetCategory
      * @example
-     * // Get one AssetCategory
-     * const assetCategory = await prisma.assetCategory.findUniqueOrThrow({
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends AssetCategoryFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetCategoryFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    findUniqueOrThrow<T extends CustomAssetCategoryFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Find the first AssetCategory that matches the filter or
+     * Find the first CustomAssetCategory that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryFindFirstOrThrowArgs} args - Arguments to find a AssetCategory
+     * @param {CustomAssetCategoryFindFirstOrThrowArgs} args - Arguments to find a CustomAssetCategory
      * @example
-     * // Get one AssetCategory
-     * const assetCategory = await prisma.assetCategory.findFirstOrThrow({
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends AssetCategoryFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetCategoryFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory>, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T>>>
+    findFirstOrThrow<T extends CustomAssetCategoryFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
 
     /**
-     * Count the number of AssetCategories.
+     * Count the number of CustomAssetCategories.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryCountArgs} args - Arguments to filter AssetCategories to count.
+     * @param {CustomAssetCategoryCountArgs} args - Arguments to filter CustomAssetCategories to count.
      * @example
-     * // Count the number of AssetCategories
-     * const count = await prisma.assetCategory.count({
+     * // Count the number of CustomAssetCategories
+     * const count = await prisma.customAssetCategory.count({
      *   where: {
-     *     // ... the filter for the AssetCategories we want to count
+     *     // ... the filter for the CustomAssetCategories we want to count
      *   }
      * })
     **/
-    count<T extends AssetCategoryCountArgs>(
-      args?: Subset<T, AssetCategoryCountArgs>,
+    count<T extends CustomAssetCategoryCountArgs>(
+      args?: Subset<T, CustomAssetCategoryCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AssetCategoryCountAggregateOutputType>
+          : GetScalarType<T['select'], CustomAssetCategoryCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a AssetCategory.
+     * Allows you to perform aggregations operations on a CustomAssetCategory.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {CustomAssetCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -12080,13 +12096,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AssetCategoryAggregateArgs>(args: Subset<T, AssetCategoryAggregateArgs>): PrismaPromise<GetAssetCategoryAggregateType<T>>
+    aggregate<T extends CustomAssetCategoryAggregateArgs>(args: Subset<T, CustomAssetCategoryAggregateArgs>): PrismaPromise<GetCustomAssetCategoryAggregateType<T>>
 
     /**
-     * Group by AssetCategory.
+     * Group by CustomAssetCategory.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetCategoryGroupByArgs} args - Group by arguments.
+     * @param {CustomAssetCategoryGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -12101,14 +12117,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AssetCategoryGroupByArgs,
+      T extends CustomAssetCategoryGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AssetCategoryGroupByArgs['orderBy'] }
-        : { orderBy?: AssetCategoryGroupByArgs['orderBy'] },
+        ? { orderBy: CustomAssetCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: CustomAssetCategoryGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -12157,16 +12173,16 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AssetCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetCategoryGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CustomAssetCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomAssetCategoryGroupByPayload<T> : PrismaPromise<InputErrors>
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for AssetCategory.
+   * The delegate class that acts as a "Promise-like" for CustomAssetCategory.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AssetCategoryClient<T> implements PrismaPromise<T> {
+  export class Prisma__CustomAssetCategoryClient<T> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -12211,30 +12227,30 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * AssetCategory base type for findUnique actions
+   * CustomAssetCategory base type for findUnique actions
    */
-  export type AssetCategoryFindUniqueArgsBase = {
+  export type CustomAssetCategoryFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * Filter, which AssetCategory to fetch.
+     * Filter, which CustomAssetCategory to fetch.
      * 
     **/
-    where: AssetCategoryWhereUniqueInput
+    where: CustomAssetCategoryWhereUniqueInput
   }
 
   /**
-   * AssetCategory: findUnique
+   * CustomAssetCategory: findUnique
    */
-  export interface AssetCategoryFindUniqueArgs extends AssetCategoryFindUniqueArgsBase {
+  export interface CustomAssetCategoryFindUniqueArgs extends CustomAssetCategoryFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -12244,65 +12260,65 @@ export namespace Prisma {
       
 
   /**
-   * AssetCategory base type for findFirst actions
+   * CustomAssetCategory base type for findFirst actions
    */
-  export type AssetCategoryFindFirstArgsBase = {
+  export type CustomAssetCategoryFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * Filter, which AssetCategory to fetch.
+     * Filter, which CustomAssetCategory to fetch.
      * 
     **/
-    where?: AssetCategoryWhereInput
+    where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AssetCategories to fetch.
+     * Determine the order of CustomAssetCategories to fetch.
      * 
     **/
-    orderBy?: Enumerable<AssetCategoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AssetCategories.
+     * Sets the position for searching for CustomAssetCategories.
      * 
     **/
-    cursor?: AssetCategoryWhereUniqueInput
+    cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AssetCategories from the position of the cursor.
+     * Take `±n` CustomAssetCategories from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AssetCategories.
+     * Skip the first `n` CustomAssetCategories.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AssetCategories.
+     * Filter by unique combinations of CustomAssetCategories.
      * 
     **/
-    distinct?: Enumerable<AssetCategoryScalarFieldEnum>
+    distinct?: Enumerable<CustomAssetCategoryScalarFieldEnum>
   }
 
   /**
-   * AssetCategory: findFirst
+   * CustomAssetCategory: findFirst
    */
-  export interface AssetCategoryFindFirstArgs extends AssetCategoryFindFirstArgsBase {
+  export interface CustomAssetCategoryFindFirstArgs extends CustomAssetCategoryFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -12312,227 +12328,227 @@ export namespace Prisma {
       
 
   /**
-   * AssetCategory findMany
+   * CustomAssetCategory findMany
    */
-  export type AssetCategoryFindManyArgs = {
+  export type CustomAssetCategoryFindManyArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * Filter, which AssetCategories to fetch.
+     * Filter, which CustomAssetCategories to fetch.
      * 
     **/
-    where?: AssetCategoryWhereInput
+    where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AssetCategories to fetch.
+     * Determine the order of CustomAssetCategories to fetch.
      * 
     **/
-    orderBy?: Enumerable<AssetCategoryOrderByWithRelationInput>
+    orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AssetCategories.
+     * Sets the position for listing CustomAssetCategories.
      * 
     **/
-    cursor?: AssetCategoryWhereUniqueInput
+    cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AssetCategories from the position of the cursor.
+     * Take `±n` CustomAssetCategories from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AssetCategories.
+     * Skip the first `n` CustomAssetCategories.
      * 
     **/
     skip?: number
-    distinct?: Enumerable<AssetCategoryScalarFieldEnum>
+    distinct?: Enumerable<CustomAssetCategoryScalarFieldEnum>
   }
 
 
   /**
-   * AssetCategory create
+   * CustomAssetCategory create
    */
-  export type AssetCategoryCreateArgs = {
+  export type CustomAssetCategoryCreateArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * The data needed to create a AssetCategory.
+     * The data needed to create a CustomAssetCategory.
      * 
     **/
-    data: XOR<AssetCategoryCreateInput, AssetCategoryUncheckedCreateInput>
+    data: XOR<CustomAssetCategoryCreateInput, CustomAssetCategoryUncheckedCreateInput>
   }
 
 
   /**
-   * AssetCategory createMany
+   * CustomAssetCategory createMany
    */
-  export type AssetCategoryCreateManyArgs = {
+  export type CustomAssetCategoryCreateManyArgs = {
     /**
-     * The data used to create many AssetCategories.
+     * The data used to create many CustomAssetCategories.
      * 
     **/
-    data: Enumerable<AssetCategoryCreateManyInput>
+    data: Enumerable<CustomAssetCategoryCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * AssetCategory update
+   * CustomAssetCategory update
    */
-  export type AssetCategoryUpdateArgs = {
+  export type CustomAssetCategoryUpdateArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * The data needed to update a AssetCategory.
+     * The data needed to update a CustomAssetCategory.
      * 
     **/
-    data: XOR<AssetCategoryUpdateInput, AssetCategoryUncheckedUpdateInput>
+    data: XOR<CustomAssetCategoryUpdateInput, CustomAssetCategoryUncheckedUpdateInput>
     /**
-     * Choose, which AssetCategory to update.
+     * Choose, which CustomAssetCategory to update.
      * 
     **/
-    where: AssetCategoryWhereUniqueInput
+    where: CustomAssetCategoryWhereUniqueInput
   }
 
 
   /**
-   * AssetCategory updateMany
+   * CustomAssetCategory updateMany
    */
-  export type AssetCategoryUpdateManyArgs = {
+  export type CustomAssetCategoryUpdateManyArgs = {
     /**
-     * The data used to update AssetCategories.
+     * The data used to update CustomAssetCategories.
      * 
     **/
-    data: XOR<AssetCategoryUpdateManyMutationInput, AssetCategoryUncheckedUpdateManyInput>
+    data: XOR<CustomAssetCategoryUpdateManyMutationInput, CustomAssetCategoryUncheckedUpdateManyInput>
     /**
-     * Filter which AssetCategories to update
+     * Filter which CustomAssetCategories to update
      * 
     **/
-    where?: AssetCategoryWhereInput
+    where?: CustomAssetCategoryWhereInput
   }
 
 
   /**
-   * AssetCategory upsert
+   * CustomAssetCategory upsert
    */
-  export type AssetCategoryUpsertArgs = {
+  export type CustomAssetCategoryUpsertArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * The filter to search for the AssetCategory to update in case it exists.
+     * The filter to search for the CustomAssetCategory to update in case it exists.
      * 
     **/
-    where: AssetCategoryWhereUniqueInput
+    where: CustomAssetCategoryWhereUniqueInput
     /**
-     * In case the AssetCategory found by the `where` argument doesn't exist, create a new AssetCategory with this data.
+     * In case the CustomAssetCategory found by the `where` argument doesn't exist, create a new CustomAssetCategory with this data.
      * 
     **/
-    create: XOR<AssetCategoryCreateInput, AssetCategoryUncheckedCreateInput>
+    create: XOR<CustomAssetCategoryCreateInput, CustomAssetCategoryUncheckedCreateInput>
     /**
-     * In case the AssetCategory was found with the provided `where` argument, update it with this data.
+     * In case the CustomAssetCategory was found with the provided `where` argument, update it with this data.
      * 
     **/
-    update: XOR<AssetCategoryUpdateInput, AssetCategoryUncheckedUpdateInput>
+    update: XOR<CustomAssetCategoryUpdateInput, CustomAssetCategoryUncheckedUpdateInput>
   }
 
 
   /**
-   * AssetCategory delete
+   * CustomAssetCategory delete
    */
-  export type AssetCategoryDeleteArgs = {
+  export type CustomAssetCategoryDeleteArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
     /**
-     * Filter which AssetCategory to delete.
+     * Filter which CustomAssetCategory to delete.
      * 
     **/
-    where: AssetCategoryWhereUniqueInput
+    where: CustomAssetCategoryWhereUniqueInput
   }
 
 
   /**
-   * AssetCategory deleteMany
+   * CustomAssetCategory deleteMany
    */
-  export type AssetCategoryDeleteManyArgs = {
+  export type CustomAssetCategoryDeleteManyArgs = {
     /**
-     * Filter which AssetCategories to delete
+     * Filter which CustomAssetCategories to delete
      * 
     **/
-    where?: AssetCategoryWhereInput
+    where?: CustomAssetCategoryWhereInput
   }
 
 
   /**
-   * AssetCategory: findUniqueOrThrow
+   * CustomAssetCategory: findUniqueOrThrow
    */
-  export type AssetCategoryFindUniqueOrThrowArgs = AssetCategoryFindUniqueArgsBase
+  export type CustomAssetCategoryFindUniqueOrThrowArgs = CustomAssetCategoryFindUniqueArgsBase
       
 
   /**
-   * AssetCategory: findFirstOrThrow
+   * CustomAssetCategory: findFirstOrThrow
    */
-  export type AssetCategoryFindFirstOrThrowArgs = AssetCategoryFindFirstArgsBase
+  export type CustomAssetCategoryFindFirstOrThrowArgs = CustomAssetCategoryFindFirstArgsBase
       
 
   /**
-   * AssetCategory without action
+   * CustomAssetCategory without action
    */
-  export type AssetCategoryArgs = {
+  export type CustomAssetCategoryArgs = {
     /**
-     * Select specific fields to fetch from the AssetCategory
+     * Select specific fields to fetch from the CustomAssetCategory
      * 
     **/
-    select?: AssetCategorySelect | null
+    select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: AssetCategoryInclude | null
+    include?: CustomAssetCategoryInclude | null
   }
 
 
@@ -13497,7 +13513,6 @@ export namespace Prisma {
   }
 
   export type AssetAvgAggregateOutputType = {
-    value: Decimal | null
     balance: Decimal | null
     costBasis: Decimal | null
     realisedGain: Decimal | null
@@ -13507,7 +13522,6 @@ export namespace Prisma {
   }
 
   export type AssetSumAggregateOutputType = {
-    value: Decimal | null
     balance: Decimal | null
     costBasis: Decimal | null
     realisedGain: Decimal | null
@@ -13524,8 +13538,6 @@ export namespace Prisma {
     apiKey: string | null
     apiSecret: string | null
     walletAddress: string | null
-    value: Decimal | null
-    valueLastUpdated: Date | null
     balance: Decimal | null
     costBasis: Decimal | null
     realisedGain: Decimal | null
@@ -13542,6 +13554,7 @@ export namespace Prisma {
     marketId: string | null
     parentId: string | null
     userId: string | null
+    status: AssetStatus | null
   }
 
   export type AssetMaxAggregateOutputType = {
@@ -13552,8 +13565,6 @@ export namespace Prisma {
     apiKey: string | null
     apiSecret: string | null
     walletAddress: string | null
-    value: Decimal | null
-    valueLastUpdated: Date | null
     balance: Decimal | null
     costBasis: Decimal | null
     realisedGain: Decimal | null
@@ -13570,6 +13581,7 @@ export namespace Prisma {
     marketId: string | null
     parentId: string | null
     userId: string | null
+    status: AssetStatus | null
   }
 
   export type AssetCountAggregateOutputType = {
@@ -13580,8 +13592,6 @@ export namespace Prisma {
     apiKey: number
     apiSecret: number
     walletAddress: number
-    value: number
-    valueLastUpdated: number
     balance: number
     costBasis: number
     realisedGain: number
@@ -13598,12 +13608,12 @@ export namespace Prisma {
     marketId: number
     parentId: number
     userId: number
+    status: number
     _all: number
   }
 
 
   export type AssetAvgAggregateInputType = {
-    value?: true
     balance?: true
     costBasis?: true
     realisedGain?: true
@@ -13613,7 +13623,6 @@ export namespace Prisma {
   }
 
   export type AssetSumAggregateInputType = {
-    value?: true
     balance?: true
     costBasis?: true
     realisedGain?: true
@@ -13630,8 +13639,6 @@ export namespace Prisma {
     apiKey?: true
     apiSecret?: true
     walletAddress?: true
-    value?: true
-    valueLastUpdated?: true
     balance?: true
     costBasis?: true
     realisedGain?: true
@@ -13648,6 +13655,7 @@ export namespace Prisma {
     marketId?: true
     parentId?: true
     userId?: true
+    status?: true
   }
 
   export type AssetMaxAggregateInputType = {
@@ -13658,8 +13666,6 @@ export namespace Prisma {
     apiKey?: true
     apiSecret?: true
     walletAddress?: true
-    value?: true
-    valueLastUpdated?: true
     balance?: true
     costBasis?: true
     realisedGain?: true
@@ -13676,6 +13682,7 @@ export namespace Prisma {
     marketId?: true
     parentId?: true
     userId?: true
+    status?: true
   }
 
   export type AssetCountAggregateInputType = {
@@ -13686,8 +13693,6 @@ export namespace Prisma {
     apiKey?: true
     apiSecret?: true
     walletAddress?: true
-    value?: true
-    valueLastUpdated?: true
     balance?: true
     costBasis?: true
     realisedGain?: true
@@ -13704,6 +13709,7 @@ export namespace Prisma {
     marketId?: true
     parentId?: true
     userId?: true
+    status?: true
     _all?: true
   }
 
@@ -13807,8 +13813,6 @@ export namespace Prisma {
     apiKey: string | null
     apiSecret: string | null
     walletAddress: string | null
-    value: Decimal
-    valueLastUpdated: Date | null
     balance: Decimal
     costBasis: Decimal
     realisedGain: Decimal
@@ -13825,6 +13829,7 @@ export namespace Prisma {
     marketId: string | null
     parentId: string | null
     userId: string
+    status: AssetStatus | null
     _count: AssetCountAggregateOutputType | null
     _avg: AssetAvgAggregateOutputType | null
     _sum: AssetSumAggregateOutputType | null
@@ -13854,8 +13859,6 @@ export namespace Prisma {
     apiKey?: boolean
     apiSecret?: boolean
     walletAddress?: boolean
-    value?: boolean
-    valueLastUpdated?: boolean
     balance?: boolean
     costBasis?: boolean
     realisedGain?: boolean
@@ -13870,7 +13873,7 @@ export namespace Prisma {
     labels?: boolean | AssetLabelFindManyArgs
     category?: boolean
     categoryId?: boolean
-    customCategory?: boolean | AssetCategoryArgs
+    customCategory?: boolean | CustomAssetCategoryArgs
     marketId?: boolean
     market?: boolean | MarketArgs
     parentId?: boolean
@@ -13879,12 +13882,13 @@ export namespace Prisma {
     transactions?: boolean | AssetTransactionFindManyArgs
     userId?: boolean
     user?: boolean | UserArgs
+    status?: boolean
     _count?: boolean | AssetCountOutputTypeArgs
   }
 
   export type AssetInclude = {
     labels?: boolean | AssetLabelFindManyArgs
-    customCategory?: boolean | AssetCategoryArgs
+    customCategory?: boolean | CustomAssetCategoryArgs
     market?: boolean | MarketArgs
     parent?: boolean | AssetArgs
     subAssets?: boolean | AssetFindManyArgs
@@ -13905,7 +13909,7 @@ export namespace Prisma {
     ? Asset  & {
     [P in TrueKeys<S['include']>]:
         P extends 'labels' ? Array < AssetLabelGetPayload<S['include'][P]>>  :
-        P extends 'customCategory' ? AssetCategoryGetPayload<S['include'][P]> | null :
+        P extends 'customCategory' ? CustomAssetCategoryGetPayload<S['include'][P]> | null :
         P extends 'market' ? MarketGetPayload<S['include'][P]> | null :
         P extends 'parent' ? AssetGetPayload<S['include'][P]> | null :
         P extends 'subAssets' ? Array < AssetGetPayload<S['include'][P]>>  :
@@ -13917,7 +13921,7 @@ export namespace Prisma {
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'labels' ? Array < AssetLabelGetPayload<S['select'][P]>>  :
-        P extends 'customCategory' ? AssetCategoryGetPayload<S['select'][P]> | null :
+        P extends 'customCategory' ? CustomAssetCategoryGetPayload<S['select'][P]> | null :
         P extends 'market' ? MarketGetPayload<S['select'][P]> | null :
         P extends 'parent' ? AssetGetPayload<S['select'][P]> | null :
         P extends 'subAssets' ? Array < AssetGetPayload<S['select'][P]>>  :
@@ -14299,7 +14303,7 @@ export namespace Prisma {
 
     labels<T extends AssetLabelFindManyArgs = {}>(args?: Subset<T, AssetLabelFindManyArgs>): CheckSelect<T, PrismaPromise<Array<AssetLabel>>, PrismaPromise<Array<AssetLabelGetPayload<T>>>>;
 
-    customCategory<T extends AssetCategoryArgs = {}>(args?: Subset<T, AssetCategoryArgs>): CheckSelect<T, Prisma__AssetCategoryClient<AssetCategory | null >, Prisma__AssetCategoryClient<AssetCategoryGetPayload<T> | null >>;
+    customCategory<T extends CustomAssetCategoryArgs = {}>(args?: Subset<T, CustomAssetCategoryArgs>): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>;
 
     market<T extends MarketArgs = {}>(args?: Subset<T, MarketArgs>): CheckSelect<T, Prisma__MarketClient<Market | null >, Prisma__MarketClient<MarketGetPayload<T> | null >>;
 
@@ -22299,15 +22303,15 @@ export namespace Prisma {
 
   export type MarketGroupByOutputType = {
     id: string
-    name: string
+    name: string | null
     ticker: string
     description: string | null
     currency: string
-    price: Decimal
-    priceChange24h: Decimal
-    priceChange24hPercent: Decimal
-    marketCap: Decimal
-    marketCapRank: Decimal
+    price: Decimal | null
+    priceChange24h: Decimal | null
+    priceChange24hPercent: Decimal | null
+    marketCap: Decimal | null
+    marketCapRank: Decimal | null
     type: MarketType
     image: string | null
     createdAt: Date
@@ -22348,18 +22352,18 @@ export namespace Prisma {
     marketCapRank?: boolean
     type?: boolean
     image?: boolean
-    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
+    linked_assets?: boolean | AssetFindManyArgs
     createdAt?: boolean
     updatedAt?: boolean
     deleted?: boolean
     deletedAt?: boolean
-    Asset?: boolean | AssetFindManyArgs
+    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
     _count?: boolean | MarketCountOutputTypeArgs
   }
 
   export type MarketInclude = {
+    linked_assets?: boolean | AssetFindManyArgs
     Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
-    Asset?: boolean | AssetFindManyArgs
     _count?: boolean | MarketCountOutputTypeArgs
   }
 
@@ -22374,15 +22378,15 @@ export namespace Prisma {
     ?'include' extends U
     ? Market  & {
     [P in TrueKeys<S['include']>]:
+        P extends 'linked_assets' ? Array < AssetGetPayload<S['include'][P]>>  :
         P extends 'Cryptocurrency' ? Array < CryptocurrencyGetPayload<S['include'][P]>>  :
-        P extends 'Asset' ? Array < AssetGetPayload<S['include'][P]>>  :
         P extends '_count' ? MarketCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
+        P extends 'linked_assets' ? Array < AssetGetPayload<S['select'][P]>>  :
         P extends 'Cryptocurrency' ? Array < CryptocurrencyGetPayload<S['select'][P]>>  :
-        P extends 'Asset' ? Array < AssetGetPayload<S['select'][P]>>  :
         P extends '_count' ? MarketCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Market ? Market[P] : never
   } 
     : Market
@@ -22757,9 +22761,9 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    Cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
+    linked_assets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
 
-    Asset<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+    Cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -23274,7 +23278,7 @@ export namespace Prisma {
   export type BudgetTransactionScalarFieldEnum = (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum]
 
 
-  export const AssetCategoryScalarFieldEnum: {
+  export const CustomAssetCategoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
     icon: 'icon',
@@ -23284,7 +23288,7 @@ export namespace Prisma {
     deletedAt: 'deletedAt'
   };
 
-  export type AssetCategoryScalarFieldEnum = (typeof AssetCategoryScalarFieldEnum)[keyof typeof AssetCategoryScalarFieldEnum]
+  export type CustomAssetCategoryScalarFieldEnum = (typeof CustomAssetCategoryScalarFieldEnum)[keyof typeof CustomAssetCategoryScalarFieldEnum]
 
 
   export const AssetLabelScalarFieldEnum: {
@@ -23309,8 +23313,6 @@ export namespace Prisma {
     apiKey: 'apiKey',
     apiSecret: 'apiSecret',
     walletAddress: 'walletAddress',
-    value: 'value',
-    valueLastUpdated: 'valueLastUpdated',
     balance: 'balance',
     costBasis: 'costBasis',
     realisedGain: 'realisedGain',
@@ -23326,7 +23328,8 @@ export namespace Prisma {
     categoryId: 'categoryId',
     marketId: 'marketId',
     parentId: 'parentId',
-    userId: 'userId'
+    userId: 'userId',
+    status: 'status'
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
@@ -24208,10 +24211,10 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter | string
   }
 
-  export type AssetCategoryWhereInput = {
-    AND?: Enumerable<AssetCategoryWhereInput>
-    OR?: Enumerable<AssetCategoryWhereInput>
-    NOT?: Enumerable<AssetCategoryWhereInput>
+  export type CustomAssetCategoryWhereInput = {
+    AND?: Enumerable<CustomAssetCategoryWhereInput>
+    OR?: Enumerable<CustomAssetCategoryWhereInput>
+    NOT?: Enumerable<CustomAssetCategoryWhereInput>
     id?: StringFilter | string
     name?: StringFilter | string
     icon?: StringNullableFilter | string | null
@@ -24222,7 +24225,7 @@ export namespace Prisma {
     assets?: AssetListRelationFilter
   }
 
-  export type AssetCategoryOrderByWithRelationInput = {
+  export type CustomAssetCategoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
@@ -24233,11 +24236,11 @@ export namespace Prisma {
     assets?: AssetOrderByRelationAggregateInput
   }
 
-  export type AssetCategoryWhereUniqueInput = {
+  export type CustomAssetCategoryWhereUniqueInput = {
     id?: string
   }
 
-  export type AssetCategoryOrderByWithAggregationInput = {
+  export type CustomAssetCategoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
@@ -24245,15 +24248,15 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deleted?: SortOrder
     deletedAt?: SortOrder
-    _count?: AssetCategoryCountOrderByAggregateInput
-    _max?: AssetCategoryMaxOrderByAggregateInput
-    _min?: AssetCategoryMinOrderByAggregateInput
+    _count?: CustomAssetCategoryCountOrderByAggregateInput
+    _max?: CustomAssetCategoryMaxOrderByAggregateInput
+    _min?: CustomAssetCategoryMinOrderByAggregateInput
   }
 
-  export type AssetCategoryScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<AssetCategoryScalarWhereWithAggregatesInput>
-    OR?: Enumerable<AssetCategoryScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<AssetCategoryScalarWhereWithAggregatesInput>
+  export type CustomAssetCategoryScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CustomAssetCategoryScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CustomAssetCategoryScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CustomAssetCategoryScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     icon?: StringNullableWithAggregatesFilter | string | null
@@ -24333,8 +24336,6 @@ export namespace Prisma {
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
     walletAddress?: StringNullableFilter | string | null
-    value?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: DateTimeNullableFilter | Date | string | null
     balance?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
@@ -24349,7 +24350,7 @@ export namespace Prisma {
     labels?: AssetLabelListRelationFilter
     category?: EnumCategoryNullableFilter | Category | null
     categoryId?: StringNullableFilter | string | null
-    customCategory?: XOR<AssetCategoryRelationFilter, AssetCategoryWhereInput> | null
+    customCategory?: XOR<CustomAssetCategoryRelationFilter, CustomAssetCategoryWhereInput> | null
     marketId?: StringNullableFilter | string | null
     market?: XOR<MarketRelationFilter, MarketWhereInput> | null
     parentId?: StringNullableFilter | string | null
@@ -24358,6 +24359,7 @@ export namespace Prisma {
     transactions?: AssetTransactionListRelationFilter
     userId?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    status?: EnumAssetStatusNullableFilter | AssetStatus | null
   }
 
   export type AssetOrderByWithRelationInput = {
@@ -24368,8 +24370,6 @@ export namespace Prisma {
     apiKey?: SortOrder
     apiSecret?: SortOrder
     walletAddress?: SortOrder
-    value?: SortOrder
-    valueLastUpdated?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -24384,7 +24384,7 @@ export namespace Prisma {
     labels?: AssetLabelOrderByRelationAggregateInput
     category?: SortOrder
     categoryId?: SortOrder
-    customCategory?: AssetCategoryOrderByWithRelationInput
+    customCategory?: CustomAssetCategoryOrderByWithRelationInput
     marketId?: SortOrder
     market?: MarketOrderByWithRelationInput
     parentId?: SortOrder
@@ -24393,6 +24393,7 @@ export namespace Prisma {
     transactions?: AssetTransactionOrderByRelationAggregateInput
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    status?: SortOrder
   }
 
   export type AssetWhereUniqueInput = {
@@ -24407,8 +24408,6 @@ export namespace Prisma {
     apiKey?: SortOrder
     apiSecret?: SortOrder
     walletAddress?: SortOrder
-    value?: SortOrder
-    valueLastUpdated?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -24425,6 +24424,7 @@ export namespace Prisma {
     marketId?: SortOrder
     parentId?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     _count?: AssetCountOrderByAggregateInput
     _avg?: AssetAvgOrderByAggregateInput
     _max?: AssetMaxOrderByAggregateInput
@@ -24443,8 +24443,6 @@ export namespace Prisma {
     apiKey?: StringNullableWithAggregatesFilter | string | null
     apiSecret?: StringNullableWithAggregatesFilter | string | null
     walletAddress?: StringNullableWithAggregatesFilter | string | null
-    value?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: DateTimeNullableWithAggregatesFilter | Date | string | null
     balance?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
@@ -24461,6 +24459,7 @@ export namespace Prisma {
     marketId?: StringNullableWithAggregatesFilter | string | null
     parentId?: StringNullableWithAggregatesFilter | string | null
     userId?: StringWithAggregatesFilter | string
+    status?: EnumAssetStatusNullableWithAggregatesFilter | AssetStatus | null
   }
 
   export type AssetTransactionWhereInput = {
@@ -25096,23 +25095,23 @@ export namespace Prisma {
     OR?: Enumerable<MarketWhereInput>
     NOT?: Enumerable<MarketWhereInput>
     id?: StringFilter | string
-    name?: StringFilter | string
+    name?: StringNullableFilter | string | null
     ticker?: StringFilter | string
     description?: StringNullableFilter | string | null
     currency?: StringFilter | string
-    price?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    price?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    marketCap?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: DecimalNullableFilter | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFilter | MarketType
     image?: StringNullableFilter | string | null
-    Cryptocurrency?: CryptocurrencyListRelationFilter
+    linked_assets?: AssetListRelationFilter
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     deleted?: BoolFilter | boolean
     deletedAt?: DateTimeNullableFilter | Date | string | null
-    Asset?: AssetListRelationFilter
+    Cryptocurrency?: CryptocurrencyListRelationFilter
   }
 
   export type MarketOrderByWithRelationInput = {
@@ -25128,12 +25127,12 @@ export namespace Prisma {
     marketCapRank?: SortOrder
     type?: SortOrder
     image?: SortOrder
-    Cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
+    linked_assets?: AssetOrderByRelationAggregateInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deleted?: SortOrder
     deletedAt?: SortOrder
-    Asset?: AssetOrderByRelationAggregateInput
+    Cryptocurrency?: CryptocurrencyOrderByRelationAggregateInput
   }
 
   export type MarketWhereUniqueInput = {
@@ -25170,15 +25169,15 @@ export namespace Prisma {
     OR?: Enumerable<MarketScalarWhereWithAggregatesInput>
     NOT?: Enumerable<MarketScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    name?: StringWithAggregatesFilter | string
+    name?: StringNullableWithAggregatesFilter | string | null
     ticker?: StringWithAggregatesFilter | string
     description?: StringNullableWithAggregatesFilter | string | null
     currency?: StringWithAggregatesFilter | string
-    price?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    price?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    marketCap?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: DecimalNullableWithAggregatesFilter | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeWithAggregatesFilter | MarketType
     image?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -26111,7 +26110,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AssetCategoryCreateInput = {
+  export type CustomAssetCategoryCreateInput = {
     id?: string
     name: string
     icon?: string | null
@@ -26122,7 +26121,7 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutCustomCategoryInput
   }
 
-  export type AssetCategoryUncheckedCreateInput = {
+  export type CustomAssetCategoryUncheckedCreateInput = {
     id?: string
     name: string
     icon?: string | null
@@ -26133,7 +26132,7 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutCustomCategoryInput
   }
 
-  export type AssetCategoryUpdateInput = {
+  export type CustomAssetCategoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26144,7 +26143,7 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutCustomCategoryNestedInput
   }
 
-  export type AssetCategoryUncheckedUpdateInput = {
+  export type CustomAssetCategoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26155,7 +26154,7 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutCustomCategoryNestedInput
   }
 
-  export type AssetCategoryCreateManyInput = {
+  export type CustomAssetCategoryCreateManyInput = {
     id?: string
     name: string
     icon?: string | null
@@ -26165,7 +26164,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type AssetCategoryUpdateManyMutationInput = {
+  export type CustomAssetCategoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26175,7 +26174,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AssetCategoryUncheckedUpdateManyInput = {
+  export type CustomAssetCategoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26269,8 +26268,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -26284,12 +26281,13 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateInput = {
@@ -26300,8 +26298,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -26321,6 +26317,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetUpdateInput = {
@@ -26331,8 +26328,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26346,12 +26341,13 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateInput = {
@@ -26362,8 +26358,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26383,6 +26377,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetCreateManyInput = {
@@ -26393,8 +26388,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -26411,6 +26404,7 @@ export namespace Prisma {
     marketId?: string | null
     parentId?: string | null
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetUpdateManyMutationInput = {
@@ -26421,8 +26415,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26435,6 +26427,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateManyInput = {
@@ -26445,8 +26438,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26463,6 +26454,7 @@ export namespace Prisma {
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetTransactionCreateInput = {
@@ -27329,99 +27321,99 @@ export namespace Prisma {
 
   export type MarketCreateInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
-    Cryptocurrency?: CryptocurrencyCreateNestedManyWithoutMarketInput
+    linked_assets?: AssetCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
     deletedAt?: Date | string | null
-    Asset?: AssetCreateNestedManyWithoutMarketInput
+    Cryptocurrency?: CryptocurrencyCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUncheckedCreateInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
-    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
+    linked_assets?: AssetUncheckedCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
     deletedAt?: Date | string | null
-    Asset?: AssetUncheckedCreateNestedManyWithoutMarketInput
+    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    Cryptocurrency?: CryptocurrencyUpdateManyWithoutMarketNestedInput
+    linked_assets?: AssetUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Asset?: AssetUpdateManyWithoutMarketNestedInput
+    Cryptocurrency?: CryptocurrencyUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
+    linked_assets?: AssetUncheckedUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Asset?: AssetUncheckedUpdateManyWithoutMarketNestedInput
+    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketCreateManyInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
     createdAt?: Date | string
@@ -27432,15 +27424,15 @@ export namespace Prisma {
 
   export type MarketUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27451,15 +27443,15 @@ export namespace Prisma {
 
   export type MarketUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28318,7 +28310,7 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter
   }
 
-  export type AssetCategoryCountOrderByAggregateInput = {
+  export type CustomAssetCategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
@@ -28328,7 +28320,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type AssetCategoryMaxOrderByAggregateInput = {
+  export type CustomAssetCategoryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
@@ -28338,7 +28330,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type AssetCategoryMinOrderByAggregateInput = {
+  export type CustomAssetCategoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
@@ -28406,14 +28398,21 @@ export namespace Prisma {
     not?: NestedEnumCategoryNullableFilter | Category | null
   }
 
-  export type AssetCategoryRelationFilter = {
-    is?: AssetCategoryWhereInput | null
-    isNot?: AssetCategoryWhereInput | null
+  export type CustomAssetCategoryRelationFilter = {
+    is?: CustomAssetCategoryWhereInput | null
+    isNot?: CustomAssetCategoryWhereInput | null
   }
 
   export type MarketRelationFilter = {
     is?: MarketWhereInput | null
     isNot?: MarketWhereInput | null
+  }
+
+  export type EnumAssetStatusNullableFilter = {
+    equals?: AssetStatus | null
+    in?: Enumerable<AssetStatus> | null
+    notIn?: Enumerable<AssetStatus> | null
+    not?: NestedEnumAssetStatusNullableFilter | AssetStatus | null
   }
 
   export type AssetLabelOrderByRelationAggregateInput = {
@@ -28428,8 +28427,6 @@ export namespace Prisma {
     apiKey?: SortOrder
     apiSecret?: SortOrder
     walletAddress?: SortOrder
-    value?: SortOrder
-    valueLastUpdated?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -28446,10 +28443,10 @@ export namespace Prisma {
     marketId?: SortOrder
     parentId?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
   }
 
   export type AssetAvgOrderByAggregateInput = {
-    value?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -28466,8 +28463,6 @@ export namespace Prisma {
     apiKey?: SortOrder
     apiSecret?: SortOrder
     walletAddress?: SortOrder
-    value?: SortOrder
-    valueLastUpdated?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -28484,6 +28479,7 @@ export namespace Prisma {
     marketId?: SortOrder
     parentId?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
   }
 
   export type AssetMinOrderByAggregateInput = {
@@ -28494,8 +28490,6 @@ export namespace Prisma {
     apiKey?: SortOrder
     apiSecret?: SortOrder
     walletAddress?: SortOrder
-    value?: SortOrder
-    valueLastUpdated?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -28512,10 +28506,10 @@ export namespace Prisma {
     marketId?: SortOrder
     parentId?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
   }
 
   export type AssetSumOrderByAggregateInput = {
-    value?: SortOrder
     balance?: SortOrder
     costBasis?: SortOrder
     realisedGain?: SortOrder
@@ -28542,6 +28536,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedEnumCategoryNullableFilter
     _max?: NestedEnumCategoryNullableFilter
+  }
+
+  export type EnumAssetStatusNullableWithAggregatesFilter = {
+    equals?: AssetStatus | null
+    in?: Enumerable<AssetStatus> | null
+    notIn?: Enumerable<AssetStatus> | null
+    not?: NestedEnumAssetStatusNullableWithAggregatesFilter | AssetStatus | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedEnumAssetStatusNullableFilter
+    _max?: NestedEnumAssetStatusNullableFilter
   }
 
   export type AssetTransactionCountOrderByAggregateInput = {
@@ -30052,15 +30056,15 @@ export namespace Prisma {
     connect?: Enumerable<AssetLabelWhereUniqueInput>
   }
 
-  export type AssetCategoryCreateNestedOneWithoutAssetsInput = {
-    create?: XOR<AssetCategoryCreateWithoutAssetsInput, AssetCategoryUncheckedCreateWithoutAssetsInput>
-    connectOrCreate?: AssetCategoryCreateOrConnectWithoutAssetsInput
-    connect?: AssetCategoryWhereUniqueInput
+  export type CustomAssetCategoryCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<CustomAssetCategoryCreateWithoutAssetsInput, CustomAssetCategoryUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: CustomAssetCategoryCreateOrConnectWithoutAssetsInput
+    connect?: CustomAssetCategoryWhereUniqueInput
   }
 
-  export type MarketCreateNestedOneWithoutAssetInput = {
-    create?: XOR<MarketCreateWithoutAssetInput, MarketUncheckedCreateWithoutAssetInput>
-    connectOrCreate?: MarketCreateOrConnectWithoutAssetInput
+  export type MarketCreateNestedOneWithoutLinked_assetsInput = {
+    create?: XOR<MarketCreateWithoutLinked_assetsInput, MarketUncheckedCreateWithoutLinked_assetsInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutLinked_assetsInput
     connect?: MarketWhereUniqueInput
   }
 
@@ -30133,24 +30137,24 @@ export namespace Prisma {
     set?: Category | null
   }
 
-  export type AssetCategoryUpdateOneWithoutAssetsNestedInput = {
-    create?: XOR<AssetCategoryCreateWithoutAssetsInput, AssetCategoryUncheckedCreateWithoutAssetsInput>
-    connectOrCreate?: AssetCategoryCreateOrConnectWithoutAssetsInput
-    upsert?: AssetCategoryUpsertWithoutAssetsInput
+  export type CustomAssetCategoryUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<CustomAssetCategoryCreateWithoutAssetsInput, CustomAssetCategoryUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: CustomAssetCategoryCreateOrConnectWithoutAssetsInput
+    upsert?: CustomAssetCategoryUpsertWithoutAssetsInput
     disconnect?: boolean
     delete?: boolean
-    connect?: AssetCategoryWhereUniqueInput
-    update?: XOR<AssetCategoryUpdateWithoutAssetsInput, AssetCategoryUncheckedUpdateWithoutAssetsInput>
+    connect?: CustomAssetCategoryWhereUniqueInput
+    update?: XOR<CustomAssetCategoryUpdateWithoutAssetsInput, CustomAssetCategoryUncheckedUpdateWithoutAssetsInput>
   }
 
-  export type MarketUpdateOneWithoutAssetNestedInput = {
-    create?: XOR<MarketCreateWithoutAssetInput, MarketUncheckedCreateWithoutAssetInput>
-    connectOrCreate?: MarketCreateOrConnectWithoutAssetInput
-    upsert?: MarketUpsertWithoutAssetInput
+  export type MarketUpdateOneWithoutLinked_assetsNestedInput = {
+    create?: XOR<MarketCreateWithoutLinked_assetsInput, MarketUncheckedCreateWithoutLinked_assetsInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutLinked_assetsInput
+    upsert?: MarketUpsertWithoutLinked_assetsInput
     disconnect?: boolean
     delete?: boolean
     connect?: MarketWhereUniqueInput
-    update?: XOR<MarketUpdateWithoutAssetInput, MarketUncheckedUpdateWithoutAssetInput>
+    update?: XOR<MarketUpdateWithoutLinked_assetsInput, MarketUncheckedUpdateWithoutLinked_assetsInput>
   }
 
   export type AssetUpdateOneWithoutSubAssetsNestedInput = {
@@ -30197,6 +30201,10 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAssetsInput
     connect?: UserWhereUniqueInput
     update?: XOR<UserUpdateWithoutAssetsInput, UserUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type NullableEnumAssetStatusFieldUpdateOperationsInput = {
+    set?: AssetStatus | null
   }
 
   export type AssetLabelUncheckedUpdateManyWithoutAssetNestedInput = {
@@ -30429,13 +30437,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<CryptocurrencyScalarWhereInput>
   }
 
-  export type CryptocurrencyCreateNestedManyWithoutMarketInput = {
-    create?: XOR<Enumerable<CryptocurrencyCreateWithoutMarketInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutMarketInput>>
-    connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutMarketInput>
-    createMany?: CryptocurrencyCreateManyMarketInputEnvelope
-    connect?: Enumerable<CryptocurrencyWhereUniqueInput>
-  }
-
   export type AssetCreateNestedManyWithoutMarketInput = {
     create?: XOR<Enumerable<AssetCreateWithoutMarketInput>, Enumerable<AssetUncheckedCreateWithoutMarketInput>>
     connectOrCreate?: Enumerable<AssetCreateOrConnectWithoutMarketInput>
@@ -30443,7 +30444,7 @@ export namespace Prisma {
     connect?: Enumerable<AssetWhereUniqueInput>
   }
 
-  export type CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput = {
+  export type CryptocurrencyCreateNestedManyWithoutMarketInput = {
     create?: XOR<Enumerable<CryptocurrencyCreateWithoutMarketInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutMarketInput>>
     connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutMarketInput>
     createMany?: CryptocurrencyCreateManyMarketInputEnvelope
@@ -30457,22 +30458,15 @@ export namespace Prisma {
     connect?: Enumerable<AssetWhereUniqueInput>
   }
 
-  export type EnumMarketTypeFieldUpdateOperationsInput = {
-    set?: MarketType
-  }
-
-  export type CryptocurrencyUpdateManyWithoutMarketNestedInput = {
+  export type CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput = {
     create?: XOR<Enumerable<CryptocurrencyCreateWithoutMarketInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutMarketInput>>
     connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutMarketInput>
-    upsert?: Enumerable<CryptocurrencyUpsertWithWhereUniqueWithoutMarketInput>
     createMany?: CryptocurrencyCreateManyMarketInputEnvelope
-    set?: Enumerable<CryptocurrencyWhereUniqueInput>
-    disconnect?: Enumerable<CryptocurrencyWhereUniqueInput>
-    delete?: Enumerable<CryptocurrencyWhereUniqueInput>
     connect?: Enumerable<CryptocurrencyWhereUniqueInput>
-    update?: Enumerable<CryptocurrencyUpdateWithWhereUniqueWithoutMarketInput>
-    updateMany?: Enumerable<CryptocurrencyUpdateManyWithWhereWithoutMarketInput>
-    deleteMany?: Enumerable<CryptocurrencyScalarWhereInput>
+  }
+
+  export type EnumMarketTypeFieldUpdateOperationsInput = {
+    set?: MarketType
   }
 
   export type AssetUpdateManyWithoutMarketNestedInput = {
@@ -30489,7 +30483,7 @@ export namespace Prisma {
     deleteMany?: Enumerable<AssetScalarWhereInput>
   }
 
-  export type CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput = {
+  export type CryptocurrencyUpdateManyWithoutMarketNestedInput = {
     create?: XOR<Enumerable<CryptocurrencyCreateWithoutMarketInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutMarketInput>>
     connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutMarketInput>
     upsert?: Enumerable<CryptocurrencyUpsertWithWhereUniqueWithoutMarketInput>
@@ -30515,6 +30509,20 @@ export namespace Prisma {
     update?: Enumerable<AssetUpdateWithWhereUniqueWithoutMarketInput>
     updateMany?: Enumerable<AssetUpdateManyWithWhereWithoutMarketInput>
     deleteMany?: Enumerable<AssetScalarWhereInput>
+  }
+
+  export type CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<Enumerable<CryptocurrencyCreateWithoutMarketInput>, Enumerable<CryptocurrencyUncheckedCreateWithoutMarketInput>>
+    connectOrCreate?: Enumerable<CryptocurrencyCreateOrConnectWithoutMarketInput>
+    upsert?: Enumerable<CryptocurrencyUpsertWithWhereUniqueWithoutMarketInput>
+    createMany?: CryptocurrencyCreateManyMarketInputEnvelope
+    set?: Enumerable<CryptocurrencyWhereUniqueInput>
+    disconnect?: Enumerable<CryptocurrencyWhereUniqueInput>
+    delete?: Enumerable<CryptocurrencyWhereUniqueInput>
+    connect?: Enumerable<CryptocurrencyWhereUniqueInput>
+    update?: Enumerable<CryptocurrencyUpdateWithWhereUniqueWithoutMarketInput>
+    updateMany?: Enumerable<CryptocurrencyUpdateManyWithWhereWithoutMarketInput>
+    deleteMany?: Enumerable<CryptocurrencyScalarWhereInput>
   }
 
   export type NestedStringFilter = {
@@ -30810,6 +30818,13 @@ export namespace Prisma {
     not?: NestedEnumCategoryNullableFilter | Category | null
   }
 
+  export type NestedEnumAssetStatusNullableFilter = {
+    equals?: AssetStatus | null
+    in?: Enumerable<AssetStatus> | null
+    notIn?: Enumerable<AssetStatus> | null
+    not?: NestedEnumAssetStatusNullableFilter | AssetStatus | null
+  }
+
   export type NestedEnumAccountConnectionNullableWithAggregatesFilter = {
     equals?: AccountConnection | null
     in?: Enumerable<AccountConnection> | null
@@ -30828,6 +30843,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedEnumCategoryNullableFilter
     _max?: NestedEnumCategoryNullableFilter
+  }
+
+  export type NestedEnumAssetStatusNullableWithAggregatesFilter = {
+    equals?: AssetStatus | null
+    in?: Enumerable<AssetStatus> | null
+    notIn?: Enumerable<AssetStatus> | null
+    not?: NestedEnumAssetStatusNullableWithAggregatesFilter | AssetStatus | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedEnumAssetStatusNullableFilter
+    _max?: NestedEnumAssetStatusNullableFilter
   }
 
   export type NestedEnumMarketTypeFilter = {
@@ -31205,8 +31230,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -31220,11 +31243,12 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutUserInput = {
@@ -31235,8 +31259,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -31255,6 +31277,7 @@ export namespace Prisma {
     parentId?: string | null
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutUserInput = {
@@ -31757,8 +31780,6 @@ export namespace Prisma {
     apiKey?: StringNullableFilter | string | null
     apiSecret?: StringNullableFilter | string | null
     walletAddress?: StringNullableFilter | string | null
-    value?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: DateTimeNullableFilter | Date | string | null
     balance?: DecimalFilter | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFilter | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFilter | Decimal | DecimalJsLike | number | string
@@ -31775,6 +31796,7 @@ export namespace Prisma {
     marketId?: StringNullableFilter | string | null
     parentId?: StringNullableFilter | string | null
     userId?: StringFilter | string
+    status?: EnumAssetStatusNullableFilter | AssetStatus | null
   }
 
   export type AssetTransactionUpsertWithWhereUniqueWithoutUserInput = {
@@ -32804,8 +32826,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -32819,11 +32839,12 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    market?: MarketCreateNestedOneWithoutAssetInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutCustomCategoryInput = {
@@ -32834,8 +32855,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -32854,6 +32873,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutCustomCategoryInput = {
@@ -32890,8 +32910,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -32904,12 +32922,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     account?: AccountConnection | null
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutLabelsInput = {
@@ -32920,8 +32939,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -32940,6 +32957,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutLabelsInput = {
@@ -32960,8 +32978,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -32974,12 +32990,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutLabelsInput = {
@@ -32990,8 +33007,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33010,6 +33025,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetLabelCreateWithoutAssetInput = {
@@ -33042,7 +33058,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AssetCategoryCreateWithoutAssetsInput = {
+  export type CustomAssetCategoryCreateWithoutAssetsInput = {
     id?: string
     name: string
     icon?: string | null
@@ -33052,7 +33068,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type AssetCategoryUncheckedCreateWithoutAssetsInput = {
+  export type CustomAssetCategoryUncheckedCreateWithoutAssetsInput = {
     id?: string
     name: string
     icon?: string | null
@@ -33062,54 +33078,54 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type AssetCategoryCreateOrConnectWithoutAssetsInput = {
-    where: AssetCategoryWhereUniqueInput
-    create: XOR<AssetCategoryCreateWithoutAssetsInput, AssetCategoryUncheckedCreateWithoutAssetsInput>
+  export type CustomAssetCategoryCreateOrConnectWithoutAssetsInput = {
+    where: CustomAssetCategoryWhereUniqueInput
+    create: XOR<CustomAssetCategoryCreateWithoutAssetsInput, CustomAssetCategoryUncheckedCreateWithoutAssetsInput>
   }
 
-  export type MarketCreateWithoutAssetInput = {
+  export type MarketCreateWithoutLinked_assetsInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
     Cryptocurrency?: CryptocurrencyCreateNestedManyWithoutMarketInput
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
   }
 
-  export type MarketUncheckedCreateWithoutAssetInput = {
+  export type MarketUncheckedCreateWithoutLinked_assetsInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
-    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
     deletedAt?: Date | string | null
+    Cryptocurrency?: CryptocurrencyUncheckedCreateNestedManyWithoutMarketInput
   }
 
-  export type MarketCreateOrConnectWithoutAssetInput = {
+  export type MarketCreateOrConnectWithoutLinked_assetsInput = {
     where: MarketWhereUniqueInput
-    create: XOR<MarketCreateWithoutAssetInput, MarketUncheckedCreateWithoutAssetInput>
+    create: XOR<MarketCreateWithoutLinked_assetsInput, MarketUncheckedCreateWithoutLinked_assetsInput>
   }
 
   export type AssetCreateWithoutSubAssetsInput = {
@@ -33120,8 +33136,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33135,11 +33149,12 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutSubAssetsInput = {
@@ -33150,8 +33165,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33170,6 +33183,7 @@ export namespace Prisma {
     parentId?: string | null
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutSubAssetsInput = {
@@ -33185,8 +33199,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33200,11 +33212,12 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutParentInput = {
@@ -33215,8 +33228,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33235,6 +33246,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutParentInput = {
@@ -33392,12 +33404,12 @@ export namespace Prisma {
     assetId?: StringNullableFilter | string | null
   }
 
-  export type AssetCategoryUpsertWithoutAssetsInput = {
-    update: XOR<AssetCategoryUpdateWithoutAssetsInput, AssetCategoryUncheckedUpdateWithoutAssetsInput>
-    create: XOR<AssetCategoryCreateWithoutAssetsInput, AssetCategoryUncheckedCreateWithoutAssetsInput>
+  export type CustomAssetCategoryUpsertWithoutAssetsInput = {
+    update: XOR<CustomAssetCategoryUpdateWithoutAssetsInput, CustomAssetCategoryUncheckedUpdateWithoutAssetsInput>
+    create: XOR<CustomAssetCategoryCreateWithoutAssetsInput, CustomAssetCategoryUncheckedCreateWithoutAssetsInput>
   }
 
-  export type AssetCategoryUpdateWithoutAssetsInput = {
+  export type CustomAssetCategoryUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33407,7 +33419,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type AssetCategoryUncheckedUpdateWithoutAssetsInput = {
+  export type CustomAssetCategoryUncheckedUpdateWithoutAssetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33417,49 +33429,49 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type MarketUpsertWithoutAssetInput = {
-    update: XOR<MarketUpdateWithoutAssetInput, MarketUncheckedUpdateWithoutAssetInput>
-    create: XOR<MarketCreateWithoutAssetInput, MarketUncheckedCreateWithoutAssetInput>
+  export type MarketUpsertWithoutLinked_assetsInput = {
+    update: XOR<MarketUpdateWithoutLinked_assetsInput, MarketUncheckedUpdateWithoutLinked_assetsInput>
+    create: XOR<MarketCreateWithoutLinked_assetsInput, MarketUncheckedCreateWithoutLinked_assetsInput>
   }
 
-  export type MarketUpdateWithoutAssetInput = {
+  export type MarketUpdateWithoutLinked_assetsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     Cryptocurrency?: CryptocurrencyUpdateManyWithoutMarketNestedInput
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type MarketUncheckedUpdateWithoutAssetInput = {
+  export type MarketUncheckedUpdateWithoutLinked_assetsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Cryptocurrency?: CryptocurrencyUncheckedUpdateManyWithoutMarketNestedInput
   }
 
   export type AssetUpsertWithoutSubAssetsInput = {
@@ -33475,8 +33487,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33490,11 +33500,12 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutSubAssetsInput = {
@@ -33505,8 +33516,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33525,6 +33534,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUpsertWithWhereUniqueWithoutParentInput = {
@@ -33622,8 +33632,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33637,11 +33645,12 @@ export namespace Prisma {
     account?: AccountConnection | null
     labels?: AssetLabelCreateNestedManyWithoutAssetInput
     category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    market?: MarketCreateNestedOneWithoutAssetInput
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    market?: MarketCreateNestedOneWithoutLinked_assetsInput
     parent?: AssetCreateNestedOneWithoutSubAssetsInput
     subAssets?: AssetCreateNestedManyWithoutParentInput
     user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
   }
 
   export type AssetUncheckedCreateWithoutTransactionsInput = {
@@ -33652,8 +33661,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -33672,6 +33679,7 @@ export namespace Prisma {
     parentId?: string | null
     subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetCreateOrConnectWithoutTransactionsInput = {
@@ -33747,8 +33755,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33762,11 +33768,12 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutTransactionsInput = {
@@ -33777,8 +33784,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -33797,6 +33802,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type UserUpsertWithoutAssetTransactionsInput = {
@@ -34406,42 +34412,42 @@ export namespace Prisma {
 
   export type MarketCreateWithoutCryptocurrencyInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
+    linked_assets?: AssetCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
     deletedAt?: Date | string | null
-    Asset?: AssetCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUncheckedCreateWithoutCryptocurrencyInput = {
     id?: string
-    name: string
+    name?: string | null
     ticker: string
     description?: string | null
     currency: string
-    price?: Decimal | DecimalJsLike | number | string
-    priceChange24h?: Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: Decimal | DecimalJsLike | number | string
-    marketCap?: Decimal | DecimalJsLike | number | string
-    marketCapRank?: Decimal | DecimalJsLike | number | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: Decimal | DecimalJsLike | number | string | null
+    marketCap?: Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: Decimal | DecimalJsLike | number | string | null
     type: MarketType
     image?: string | null
+    linked_assets?: AssetUncheckedCreateNestedManyWithoutMarketInput
     createdAt?: Date | string
     updatedAt?: Date | string
     deleted?: boolean
     deletedAt?: Date | string | null
-    Asset?: AssetUncheckedCreateNestedManyWithoutMarketInput
   }
 
   export type MarketCreateOrConnectWithoutCryptocurrencyInput = {
@@ -34618,42 +34624,42 @@ export namespace Prisma {
 
   export type MarketUpdateWithoutCryptocurrencyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    linked_assets?: AssetUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Asset?: AssetUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketUncheckedUpdateWithoutCryptocurrencyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     ticker?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     currency?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24h?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceChange24hPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCap?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    marketCapRank?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24h?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    priceChange24hPercent?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCap?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    marketCapRank?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     type?: EnumMarketTypeFieldUpdateOperationsInput | MarketType
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    linked_assets?: AssetUncheckedUpdateManyWithoutMarketNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Asset?: AssetUncheckedUpdateManyWithoutMarketNestedInput
   }
 
   export type CryptocurrencyUpsertWithoutChildrenInput = {
@@ -34778,6 +34784,74 @@ export namespace Prisma {
     SecuritySnapshot?: SecuritySnapshotUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type AssetCreateWithoutMarketInput = {
+    id?: string
+    name: string
+    institution?: string | null
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    labels?: AssetLabelCreateNestedManyWithoutAssetInput
+    category?: Category | null
+    customCategory?: CustomAssetCategoryCreateNestedOneWithoutAssetsInput
+    parent?: AssetCreateNestedOneWithoutSubAssetsInput
+    subAssets?: AssetCreateNestedManyWithoutParentInput
+    transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
+    user: UserCreateNestedOneWithoutAssetsInput
+    status?: AssetStatus | null
+  }
+
+  export type AssetUncheckedCreateWithoutMarketInput = {
+    id?: string
+    name: string
+    institution?: string | null
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
+    category?: Category | null
+    categoryId?: string | null
+    parentId?: string | null
+    subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
+    transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
+    userId: string
+    status?: AssetStatus | null
+  }
+
+  export type AssetCreateOrConnectWithoutMarketInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutMarketInput, AssetUncheckedCreateWithoutMarketInput>
+  }
+
+  export type AssetCreateManyMarketInputEnvelope = {
+    data: Enumerable<AssetCreateManyMarketInput>
+    skipDuplicates?: boolean
+  }
+
   export type CryptocurrencyCreateWithoutMarketInput = {
     id?: string
     displayName: string
@@ -34834,74 +34908,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AssetCreateWithoutMarketInput = {
-    id?: string
-    name: string
-    institution?: string | null
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    labels?: AssetLabelCreateNestedManyWithoutAssetInput
-    category?: Category | null
-    customCategory?: AssetCategoryCreateNestedOneWithoutAssetsInput
-    parent?: AssetCreateNestedOneWithoutSubAssetsInput
-    subAssets?: AssetCreateNestedManyWithoutParentInput
-    transactions?: AssetTransactionCreateNestedManyWithoutRelatedAssetInput
-    user: UserCreateNestedOneWithoutAssetsInput
-  }
-
-  export type AssetUncheckedCreateWithoutMarketInput = {
-    id?: string
-    name: string
-    institution?: string | null
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    labels?: AssetLabelUncheckedCreateNestedManyWithoutAssetInput
-    category?: Category | null
-    categoryId?: string | null
-    parentId?: string | null
-    subAssets?: AssetUncheckedCreateNestedManyWithoutParentInput
-    transactions?: AssetTransactionUncheckedCreateNestedManyWithoutRelatedAssetInput
-    userId: string
-  }
-
-  export type AssetCreateOrConnectWithoutMarketInput = {
+  export type AssetUpsertWithWhereUniqueWithoutMarketInput = {
     where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutMarketInput, AssetUncheckedUpdateWithoutMarketInput>
     create: XOR<AssetCreateWithoutMarketInput, AssetUncheckedCreateWithoutMarketInput>
   }
 
-  export type AssetCreateManyMarketInputEnvelope = {
-    data: Enumerable<AssetCreateManyMarketInput>
-    skipDuplicates?: boolean
+  export type AssetUpdateWithWhereUniqueWithoutMarketInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutMarketInput, AssetUncheckedUpdateWithoutMarketInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutMarketInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutLinked_assetsInput>
   }
 
   export type CryptocurrencyUpsertWithWhereUniqueWithoutMarketInput = {
@@ -34918,22 +34938,6 @@ export namespace Prisma {
   export type CryptocurrencyUpdateManyWithWhereWithoutMarketInput = {
     where: CryptocurrencyScalarWhereInput
     data: XOR<CryptocurrencyUpdateManyMutationInput, CryptocurrencyUncheckedUpdateManyWithoutCryptocurrencyInput>
-  }
-
-  export type AssetUpsertWithWhereUniqueWithoutMarketInput = {
-    where: AssetWhereUniqueInput
-    update: XOR<AssetUpdateWithoutMarketInput, AssetUncheckedUpdateWithoutMarketInput>
-    create: XOR<AssetCreateWithoutMarketInput, AssetUncheckedCreateWithoutMarketInput>
-  }
-
-  export type AssetUpdateWithWhereUniqueWithoutMarketInput = {
-    where: AssetWhereUniqueInput
-    data: XOR<AssetUpdateWithoutMarketInput, AssetUncheckedUpdateWithoutMarketInput>
-  }
-
-  export type AssetUpdateManyWithWhereWithoutMarketInput = {
-    where: AssetScalarWhereInput
-    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutAssetInput>
   }
 
   export type AccountCreateManyUserInput = {
@@ -34992,8 +34996,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -35009,6 +35011,7 @@ export namespace Prisma {
     categoryId?: string | null
     marketId?: string | null
     parentId?: string | null
+    status?: AssetStatus | null
   }
 
   export type AssetTransactionCreateManyUserInput = {
@@ -35290,8 +35293,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -35305,11 +35306,12 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutUserInput = {
@@ -35320,8 +35322,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -35340,6 +35340,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateManyWithoutAssetsInput = {
@@ -35350,8 +35351,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -35367,6 +35366,7 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetTransactionUpdateWithoutUserInput = {
@@ -35938,8 +35938,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -35955,6 +35953,7 @@ export namespace Prisma {
     marketId?: string | null
     parentId?: string | null
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetUpdateWithoutCustomCategoryInput = {
@@ -35965,8 +35964,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -35980,11 +35977,12 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     parent?: AssetUpdateOneWithoutSubAssetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutCustomCategoryInput = {
@@ -35995,8 +35993,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -36015,6 +36011,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetLabelCreateManyAssetInput = {
@@ -36035,8 +36032,6 @@ export namespace Prisma {
     apiKey?: string | null
     apiSecret?: string | null
     walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
     balance?: Decimal | DecimalJsLike | number | string
     costBasis?: Decimal | DecimalJsLike | number | string
     realisedGain?: Decimal | DecimalJsLike | number | string
@@ -36052,6 +36047,7 @@ export namespace Prisma {
     categoryId?: string | null
     marketId?: string | null
     userId: string
+    status?: AssetStatus | null
   }
 
   export type AssetTransactionCreateManyRelatedAssetInput = {
@@ -36117,8 +36113,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -36132,11 +36126,12 @@ export namespace Prisma {
     account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
     labels?: AssetLabelUpdateManyWithoutAssetNestedInput
     category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    market?: MarketUpdateOneWithoutAssetNestedInput
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    market?: MarketUpdateOneWithoutLinked_assetsNestedInput
     subAssets?: AssetUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
     user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateWithoutParentInput = {
@@ -36147,8 +36142,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -36167,6 +36160,7 @@ export namespace Prisma {
     subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
     transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetUncheckedUpdateManyWithoutSubAssetsInput = {
@@ -36177,8 +36171,6 @@ export namespace Prisma {
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
     walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -36194,6 +36186,7 @@ export namespace Prisma {
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     marketId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type AssetTransactionUpdateWithoutRelatedAssetInput = {
@@ -36361,6 +36354,32 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type AssetCreateManyMarketInput = {
+    id?: string
+    name: string
+    institution?: string | null
+    currency: string
+    apiKey?: string | null
+    apiSecret?: string | null
+    walletAddress?: string | null
+    balance?: Decimal | DecimalJsLike | number | string
+    costBasis?: Decimal | DecimalJsLike | number | string
+    realisedGain?: Decimal | DecimalJsLike | number | string
+    targetBalance?: Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
+    incomeRate?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
+    account?: AccountConnection | null
+    category?: Category | null
+    categoryId?: string | null
+    parentId?: string | null
+    userId: string
+    status?: AssetStatus | null
+  }
+
   export type CryptocurrencyCreateManyMarketInput = {
     id?: string
     displayName: string
@@ -36383,31 +36402,88 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type AssetCreateManyMarketInput = {
-    id?: string
-    name: string
-    institution?: string | null
-    currency: string
-    apiKey?: string | null
-    apiSecret?: string | null
-    walletAddress?: string | null
-    value: Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: Date | string | null
-    balance?: Decimal | DecimalJsLike | number | string
-    costBasis?: Decimal | DecimalJsLike | number | string
-    realisedGain?: Decimal | DecimalJsLike | number | string
-    targetBalance?: Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: Decimal | DecimalJsLike | number | string | null
-    incomeRate?: Decimal | DecimalJsLike | number | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deleted?: boolean
-    deletedAt?: Date | string | null
-    account?: AccountConnection | null
-    category?: Category | null
-    categoryId?: string | null
-    parentId?: string | null
-    userId: string
+  export type AssetUpdateWithoutMarketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    labels?: AssetLabelUpdateManyWithoutAssetNestedInput
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
+    customCategory?: CustomAssetCategoryUpdateOneWithoutAssetsNestedInput
+    parent?: AssetUpdateOneWithoutSubAssetsNestedInput
+    subAssets?: AssetUpdateManyWithoutParentNestedInput
+    transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
+    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
+  }
+
+  export type AssetUncheckedUpdateWithoutMarketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
+    transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutLinked_assetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    institution?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
+    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: NullableEnumAssetStatusFieldUpdateOperationsInput | AssetStatus | null
   }
 
   export type CryptocurrencyUpdateWithoutMarketInput = {
@@ -36454,93 +36530,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type AssetUpdateWithoutMarketInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    institution?: NullableStringFieldUpdateOperationsInput | string | null
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    labels?: AssetLabelUpdateManyWithoutAssetNestedInput
-    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    customCategory?: AssetCategoryUpdateOneWithoutAssetsNestedInput
-    parent?: AssetUpdateOneWithoutSubAssetsNestedInput
-    subAssets?: AssetUpdateManyWithoutParentNestedInput
-    transactions?: AssetTransactionUpdateManyWithoutRelatedAssetNestedInput
-    user?: UserUpdateOneRequiredWithoutAssetsNestedInput
-  }
-
-  export type AssetUncheckedUpdateWithoutMarketInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    institution?: NullableStringFieldUpdateOperationsInput | string | null
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    labels?: AssetLabelUncheckedUpdateManyWithoutAssetNestedInput
-    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    subAssets?: AssetUncheckedUpdateManyWithoutParentNestedInput
-    transactions?: AssetTransactionUncheckedUpdateManyWithoutRelatedAssetNestedInput
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssetUncheckedUpdateManyWithoutAssetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    institution?: NullableStringFieldUpdateOperationsInput | string | null
-    currency?: StringFieldUpdateOperationsInput | string
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    apiSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    walletAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    valueLastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    costBasis?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    realisedGain?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    targetBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    interestBearingBalance?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    account?: NullableEnumAccountConnectionFieldUpdateOperationsInput | AccountConnection | null
-    category?: NullableEnumCategoryFieldUpdateOperationsInput | Category | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
 

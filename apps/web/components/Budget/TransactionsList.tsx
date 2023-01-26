@@ -5,7 +5,7 @@ import type { CalculatedCryptocurrency } from "common"
 import { useSession } from "next-auth/react"
 import { Card, Table } from "ui"
 import TableSubComponent from "~/components/Cryptocurrency/SubRow"
-import { cryptoColumns } from "~/components/Portfolio/Asset/columns"
+import { cryptoColumns } from "~/components/Portfolio/Accounts/columns"
 import { trpc } from "~/utils/trpc"
 
 export const BudgetTransactions = () => {

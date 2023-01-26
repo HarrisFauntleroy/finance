@@ -1,21 +1,21 @@
-import { ExchangeRates } from "../../finance/forex"
 import { sumArrayByKey } from "../../helpers"
 import { divide, lessThan, multiply, subtract } from "../../math"
 import { convertCurrency } from "../currency"
+import { ExchangeRates } from "../forex"
 import currency from "currency.js"
-import { Cryptocurrency, Market } from "database/generated/prisma-client"
+import { Asset, Market } from "database/generated/prisma-client"
 
-export type CryptoComplete = Cryptocurrency & {
+export type AssetComplete = Asset & {
 	user?: {
 		settings: {
 			userCurrency: string
 		} | null
 	}
 	market?: Market | null
-	Children: CryptoCompleteChild[]
+	sub_assets: AssetCompleteChild[]
 }
 
-export type CryptoCompleteChild = Cryptocurrency & {
+export type AssetCompleteChild = Asset & {
 	user?: {
 		settings: {
 			userCurrency: string
@@ -25,26 +25,26 @@ export type CryptoCompleteChild = Cryptocurrency & {
 }
 
 // Remove nested children
-export type ChildrenOmitChildren = Omit<CryptoComplete, "Children">
+export type sub_assetsOmitsub_assets = Omit<AssetComplete, "sub_assets">
 
-/** Extends cryptocurrency type with all relations */
-export interface CryptoAndChildrenComplete
-	extends Omit<CryptoComplete, "Children"> {
+/** Extends asset type with all relations */
+export interface AssetAndsub_assetsComplete
+	extends Omit<AssetComplete, "sub_assets"> {
 	// Re add children without nesting
-	Children?: ChildrenOmitChildren[]
+	sub_assets?: sub_assetsOmitsub_assets[]
 }
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 // TODO break all of these into their own files
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export type CryptoOmitCostBasisAndChildren = Omit<
-	CryptoComplete,
-	"costBasis" | "Children"
+export type AssetOmitCostBasisAndsub_assets = Omit<
+	AssetComplete,
+	"costBasis" | "sub_assets"
 >
 
 /** Calculated values */
-export interface CryptoSummaryOutput extends CryptoOmitCostBasisAndChildren {
+export interface AssetSummaryOutput extends AssetOmitCostBasisAndsub_assets {
 	unrealisedGainPercentage: string
 	estimatedStakingYield: string
 	estimatedYearlyReturn: string
@@ -55,35 +55,35 @@ export interface CryptoSummaryOutput extends CryptoOmitCostBasisAndChildren {
 	averageCost: string
 	costBasis: string
 	shouldSell: boolean
-	Children?: CryptoOmitCostBasisAndChildren[]
+	sub_assets?: AssetOmitCostBasisAndsub_assets[]
 	saleable: string
 	value: string
 	price: string
 }
 
-export function calculateCryptoSummary(
-	crypto: ChildrenOmitChildren,
+export function calculateAssetSummary(
+	asset: sub_assetsOmitsub_assets,
 	exchangeRates: ExchangeRates,
 	toCurrency = "usd"
-): CryptoSummaryOutput {
+): AssetSummaryOutput {
 	const price = convertCurrency({
 		exchangeRates,
-		fromCurrency: crypto?.market?.currency || crypto.currency,
+		fromCurrency: asset?.market?.currency || asset.currency,
 		toCurrency: toCurrency,
-		amount: crypto?.market?.price.toString() || 0,
+		amount: asset?.market?.price?.toString() || 0,
 	})
 
 	const costBasis = convertCurrency({
 		exchangeRates,
-		fromCurrency: crypto.currency,
+		fromCurrency: asset.currency,
 		toCurrency: toCurrency,
-		amount: crypto.costBasis.toString(),
+		amount: asset.costBasis.toString(),
 	})
 
-	const balance = String(crypto?.balance)
-	const targetBalance = String(crypto.targetBalance)
-	const incomeRate = String(crypto.incomeRate)
-	const interestBearingBalance = String(crypto.interestBearingBalance)
+	const balance = String(asset?.balance)
+	const targetBalance = String(asset.targetBalance)
+	const incomeRate = String(asset.incomeRate)
+	const interestBearingBalance = String(asset.interestBearingBalance)
 
 	const value = multiply(balance, price)
 	const unrealisedGain = subtract(value, costBasis)
@@ -100,7 +100,7 @@ export function calculateCryptoSummary(
 	const shouldSell = lessThan(averageCost, price)
 
 	return {
-		...crypto,
+		...asset,
 		shouldSell,
 		belowTargetBalance,
 		value: value,
@@ -122,7 +122,7 @@ export function calculateCryptoSummary(
 
 export interface NestedAccountTotals {
 	value: string
-	Children: CryptoSummaryOutput[]
+	sub_assets: AssetSummaryOutput[]
 	averageCost: string
 	costBasis: string
 	saleableValue: string
@@ -131,22 +131,22 @@ export interface NestedAccountTotals {
 }
 
 export function calculateNestedAccountTotals(
-	Children: CryptoSummaryOutput[]
+	sub_assets: AssetSummaryOutput[]
 ): NestedAccountTotals {
-	const unrealisedGain = sumArrayByKey(Children, "unrealisedGain")
+	const unrealisedGain = sumArrayByKey(sub_assets, "unrealisedGain")
 	const unrealisedGainPercentage = sumArrayByKey(
-		Children,
+		sub_assets,
 		"unrealisedGainPercentage"
 	)
 	// Average cost doesn't need to be known on sub accounts?
 	const averageCost = "0.00"
-	const costBasis = sumArrayByKey(Children, "costBasis")
-	const value = sumArrayByKey(Children, "value")
-	const saleableValue = sumArrayByKey(Children, "saleableValue")
+	const costBasis = sumArrayByKey(sub_assets, "costBasis")
+	const value = sumArrayByKey(sub_assets, "value")
+	const saleableValue = sumArrayByKey(sub_assets, "saleableValue")
 
 	return {
 		value,
-		Children,
+		sub_assets,
 		averageCost,
 		costBasis,
 		saleableValue,
@@ -157,35 +157,35 @@ export function calculateNestedAccountTotals(
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export interface CalculateOneCryptoInput {
-	crypto: CryptoComplete
+export interface CalculateOneAssetInput {
+	asset: AssetComplete
 	exchangeRates: ExchangeRates
 	userCurrency: string
 }
 
-export function calculateOneCrypto({
-	crypto,
+export function calculateOneAsset({
+	asset,
 	exchangeRates,
 	userCurrency,
-}: CalculateOneCryptoInput): CryptoSummaryOutput {
+}: CalculateOneAssetInput): AssetSummaryOutput {
 	/**
-	 * Calculate the summary for the main crypto account
+	 * Calculate the summary for the main asset account
 	 */
-	const finalData = calculateCryptoSummary(crypto, exchangeRates, userCurrency)
+	const finalData = calculateAssetSummary(asset, exchangeRates, userCurrency)
 
 	/**
-	 * Calculate the summary for any children crypto accounts
+	 * Calculate the summary for any children asset accounts
 	 * Mainly applicable to sub accounts like exchanges
 	 */
-	const Children = crypto.Children?.map((child) =>
-		calculateCryptoSummary(child, exchangeRates, userCurrency)
+	const sub_assets = asset.sub_assets?.map((child) =>
+		calculateAssetSummary(child, exchangeRates, userCurrency)
 	)
 
 	/** Calculate totals for nested accounts */
-	if (Children !== undefined && Children.length > 0) {
+	if (sub_assets !== undefined && sub_assets.length > 0) {
 		return {
 			...finalData,
-			...calculateNestedAccountTotals(Children),
+			...calculateNestedAccountTotals(sub_assets),
 		}
 	}
 
@@ -194,28 +194,28 @@ export function calculateOneCrypto({
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export interface CryptoSummaryInput {
-	data: CryptoComplete[]
+export interface AssetSummaryInput {
+	data: AssetComplete[]
 	exchangeRates: ExchangeRates
 	userCurrency: string
 }
 
-export function calculateManyCrypto({
+export function calculateManyAsset({
 	data,
 	userCurrency,
 	exchangeRates,
-}: CryptoSummaryInput) {
-	return data.map((crypto) =>
-		calculateOneCrypto({ crypto, userCurrency, exchangeRates })
+}: AssetSummaryInput) {
+	return data.map((asset) =>
+		calculateOneAsset({ asset, userCurrency, exchangeRates })
 	)
 }
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export function calculateCryptoOverview({
+export function calculateAssetOverview({
 	data,
 }: {
-	data: CryptoSummaryOutput[]
+	data: AssetSummaryOutput[]
 }) {
 	/** Calculate Overview totals */
 
@@ -243,6 +243,6 @@ export function calculateCryptoOverview({
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export function calculateCryptoIncome() {
+export function calculateAssetIncome() {
 	return console.log("TODO: calculate income summary")
 }

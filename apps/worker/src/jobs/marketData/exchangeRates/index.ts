@@ -2,7 +2,7 @@ import { Progress } from "../../../util"
 import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
-import { MarketType } from "database/generated/prisma-client"
+import { Category } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
 
 interface OpenExchangeRatesResponse {
@@ -19,7 +19,7 @@ class MarketUpdater {
 	) {
 		return exchangeRates.map(({ name, id, price }) => ({
 			name: String(name),
-			type: MarketType.CASH,
+			type: Category.CASH,
 			ticker: String(id).toLowerCase(),
 			currency: String(id).toLowerCase(),
 			price: new Decimal(String(price)),
@@ -39,7 +39,7 @@ class MarketUpdater {
 					where: {
 						ticker_type: {
 							ticker: cash?.ticker,
-							type: MarketType.CASH,
+							type: Category.CASH,
 						},
 					},
 					create: cash,

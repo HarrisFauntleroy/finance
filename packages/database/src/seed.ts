@@ -1,8 +1,12 @@
-import { AccountConnection, Category, Prisma } from "../generated/prisma-client"
+import {
+	AccountConnection,
+	Category,
+	MarketType,
+} from "../generated/prisma-client"
 import { Decimal } from "../generated/prisma-client/runtime"
 import { prisma } from "./"
 
-const userId = "clcvyobal0014a4vdk760peym"
+const userId = "cldcccmxr00064qvd106zmbff"
 
 const cryptos = [
 	// {
@@ -68,9 +72,7 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "0x3F8D494285c17df1889aAd531fFdC42cC28d323F",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
-		balance: new Decimal(0),
+		balance: new Decimal(3),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
 		targetBalance: new Decimal(0),
@@ -89,8 +91,6 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
 		balance: new Decimal(-1462.98),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
@@ -98,7 +98,7 @@ const cryptos = [
 		interestBearingBalance: new Decimal(0),
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
-		category: Category.CREDIT_CARD,
+		category: Category.CREDIT,
 		userId,
 	},
 	{
@@ -109,9 +109,7 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
-		balance: new Decimal(-16865),
+		balance: new Decimal(16865),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
 		targetBalance: new Decimal(0),
@@ -129,8 +127,6 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "",
-		value: new Decimal(12973.44),
-		valueLastUpdated: new Date(),
 		balance: new Decimal(12983.35),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
@@ -138,8 +134,30 @@ const cryptos = [
 		interestBearingBalance: new Decimal(0),
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
-		category: Category.SECURITY,
+		category: Category.INVESTMENT,
 		userId,
+		// subAssets: [
+		// 	{
+		// 		parentId: "seeded-self-wealth",
+		// 		id: "seeded-self-wealth-vdhg",
+		// 		name: "VDHG",
+		// 		marketId: `vdhg_${Category.INVESTMENT}`,
+		// 		institution: "Vanguard",
+		// 		currency: "aud",
+		// 		apiKey: "",
+		// 		apiSecret: "",
+		// 		walletAddress: "",
+		// 		balance: new Decimal(237),
+		// 		costBasis: new Decimal(0),
+		// 		realisedGain: new Decimal(0),
+		// 		targetBalance: new Decimal(0),
+		// 		interestBearingBalance: new Decimal(0),
+		// 		incomeRate: new Decimal(0),
+		// 		account: AccountConnection.NONE,
+		// 		category: Category.INVESTMENT,
+		// 		userId,
+		// 	},
+		// ],
 	},
 	{
 		id: "seeded-swyftx",
@@ -150,8 +168,6 @@ const cryptos = [
 		apiSecret:
 			"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJrVTRRelF6TlRaQk5rTkNORGsyTnpnME9EYzNOVEZGTWpaRE9USTRNalV6UXpVNE1UUkROUSJ9.eyJodHRwczovL3N3eWZ0eC5jb20uYXUvLWp0aSI6IjA5NGU0NGZlLWY1MWQtNDA2MS1hMmYzLTBhNTJkYWJjZTQ5MCIsImh0dHBzOi8vc3d5ZnR4LmNvbS5hdS8tbWZhX2VuYWJsZWQiOnRydWUsImh0dHBzOi8vc3d5ZnR4LmNvbS5hdS8tY291bnRyeV9uYW1lIjoiQXVzdHJhbGlhIiwiaHR0cHM6Ly9zd3lmdHguY29tLmF1Ly1jaXR5X25hbWUiOiJTeWRuZXkiLCJpc3MiOiJodHRwczovL3N3eWZ0eC5hdS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjEyMWZkM2EwZjk5MTkwMDY5ZjdlNTVkIiwiYXVkIjoiaHR0cHM6Ly9hcGkuc3d5ZnR4LmNvbS5hdS8iLCJpYXQiOjE2NjQ4NTUxNTIsImV4cCI6MTY2NTQ1OTk1MiwiYXpwIjoiRVF3M2ZhQXhPVGhSWVRaeXkxdWxaRGk4REhSQVlkRU8iLCJzY29wZSI6ImFwcC5hY2NvdW50LnRheC1yZXBvcnQgYXBwLmFjY291bnQuYmFsYW5jZSBhcHAuYWNjb3VudC5yZWFkIGFwcC5hZGRyZXNzLnJlYWQgYXBwLmZ1bmRzLnJlYWQgYXBwLm9yZGVycy5yZWFkIG9mZmxpbmVfYWNjZXNzIiwiZ3R5IjoicGFzc3dvcmQifQ.uZFX8YqMDOCdnHDQggFbbyjurvIQ8opZD-fx5f3hUNXaMfkGfbZ5Dr7l7J1TAhvUwU6xI8a-X2snATOGVLyRlXk714pGZvtPc9gL2ERtIg5oCQW0_Kq43iF3Alyck-Tb99nAsGTv32o5oRX47yhXQeQTXsUeGIkwro12ApLm6N5DH2yO7Z2I8U4oJXuRvOagpPF-3IWWRG-97SldFMavpE1qVstz6ONTtNolVQ5v5O7aaBu-fMT1rRLkSPkhBeu6aL3mDCWhkDX5Nz2TRrBv0e9gw3-SQrowICIEQlUgn1s1sdmwCJ_-OtTHdzDKLhCbftgmllXMu6qMUa5BgUYq-A",
 		walletAddress: "",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
 		balance: new Decimal(0),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
@@ -170,8 +186,6 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
 		balance: new Decimal(0),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
@@ -179,7 +193,7 @@ const cryptos = [
 		interestBearingBalance: new Decimal(0),
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
-		category: Category.SECURITY,
+		category: Category.INVESTMENT,
 		userId,
 		subAssets: [
 			{
@@ -191,9 +205,7 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
-				balance: new Decimal(0),
+				balance: new Decimal(450),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
 				targetBalance: new Decimal(0),
@@ -212,8 +224,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -233,8 +243,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -255,8 +263,6 @@ const cryptos = [
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "",
-		value: new Decimal(0),
-		valueLastUpdated: new Date(),
 		balance: new Decimal(0),
 		costBasis: new Decimal(0),
 		realisedGain: new Decimal(0),
@@ -264,7 +270,7 @@ const cryptos = [
 		interestBearingBalance: new Decimal(0),
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
-		category: Category.SUPERANNUATION,
+		category: Category.CASH,
 		userId,
 		subAssets: [
 			{
@@ -276,8 +282,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(782.5),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -297,8 +301,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(473.57),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -318,8 +320,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -339,8 +339,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -360,8 +358,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(200),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -381,8 +377,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -402,8 +396,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(1000),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -423,8 +415,6 @@ const cryptos = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				value: new Decimal(0),
-				valueLastUpdated: new Date(),
 				balance: new Decimal(3000),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -447,19 +437,42 @@ const cryptos = [
 	try {
 		for (const crypto of cryptos) {
 			const { subAssets, ...data } = crypto
-			await prisma.asset.upsert({
-				where: { id: crypto.id },
-				create: data,
-				update: data,
-			})
-
-			crypto.subAssets?.map(async (subData) => {
-				await prisma.asset.upsert({
-					where: { id: subData.id },
-					create: subData,
-					update: subData,
+			prisma.asset
+				.upsert({
+					where: { id: crypto.id },
+					create: data,
+					update: data,
 				})
-			})
+				.then((assetUpsertResult) => {
+					crypto.subAssets?.map(async (subData) => {
+						await prisma.asset
+							.upsert({
+								where: { id: subData.id },
+								create: { ...subData },
+								update: subData,
+							})
+							.then(() => {
+								if (assetUpsertResult.marketId) {
+									prisma.market.upsert({
+										where: {
+											id: assetUpsertResult.marketId,
+										},
+										create: {
+											id: assetUpsertResult.marketId,
+											ticker: assetUpsertResult?.marketId?.split("_")[0],
+											currency: assetUpsertResult.currency,
+											type: MarketType[
+												assetUpsertResult?.marketId?.split(
+													"_"
+												)[1] as keyof typeof MarketType
+											],
+										},
+										update: { id: assetUpsertResult.marketId },
+									})
+								}
+							})
+					})
+				})
 		}
 	} catch (error) {
 		console.log(`seed: ${error}`)

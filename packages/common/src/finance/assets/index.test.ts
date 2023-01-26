@@ -1,8 +1,8 @@
 import { getExchangeRates } from "../forex"
-import { CryptoComplete, calculateManyCrypto } from "./helpers"
-import { CalculatedCryptocurrency } from "./types"
+import { AssetComplete, calculateManyAsset } from "./helpers"
+import { CalculatedAsset } from "./types"
 import { prisma } from "database"
-import { MarketType } from "database/generated/prisma-client"
+import { Category, MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
 
 const userId = "cl9jeoob60000vd275r4fadgr"
@@ -11,11 +11,11 @@ const todaysDate = new Date()
 
 const descriptionText = "Description text"
 
-const testData: CryptoComplete[] = [
+const testData: AssetComplete[] = [
 	{
 		id: "2171207410873287419832471",
 		userId: userId,
-		displayName: "Bitcoin",
+		name: "Bitcoin",
 		balance: new Decimal(1),
 		currency: "AUD",
 		marketId: "BTC",
@@ -31,8 +31,12 @@ const testData: CryptoComplete[] = [
 		updatedAt: todaysDate,
 		deleted: false,
 		deletedAt: null,
-		accountConnection: null,
-		Children: [],
+		account: null,
+		institution: "",
+		category: Category.CRYPTOCURRENCY,
+		categoryId: null,
+		status: "ACTIVE",
+		sub_assets: [],
 		parentId: "43209489012480234802",
 		market: {
 			id: "",
@@ -56,7 +60,7 @@ const testData: CryptoComplete[] = [
 	{
 		id: "43209489012480234802",
 		userId: userId,
-		displayName: "Swyftx",
+		name: "Swyftx",
 		balance: new Decimal(0),
 		realisedGain: new Decimal(0),
 		currency: "AUD",
@@ -71,15 +75,19 @@ const testData: CryptoComplete[] = [
 		createdAt: todaysDate,
 		updatedAt: todaysDate,
 		deleted: false,
+		categoryId: null,
+		institution: "",
+		category: Category.CRYPTOCURRENCY,
+		status: "ACTIVE",
 		deletedAt: null,
-		accountConnection: "SWYFTX",
+		account: "SWYFTX",
 		parentId: null,
 		market: null,
-		Children: [
+		sub_assets: [
 			{
 				id: "2171207410873287419832471",
 				userId: userId,
-				displayName: "Bitcoin",
+				name: "Bitcoin",
 				balance: new Decimal(1),
 				currency: "AUD",
 				marketId: "BTC",
@@ -91,11 +99,15 @@ const testData: CryptoComplete[] = [
 				walletAddress: null,
 				apiKey: null,
 				apiSecret: null,
+				account: null,
+				categoryId: null,
+				institution: "",
+				category: Category.CRYPTOCURRENCY,
+				status: "ACTIVE",
 				createdAt: todaysDate,
 				updatedAt: todaysDate,
 				deleted: false,
 				deletedAt: null,
-				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
 					id: "",
@@ -119,7 +131,7 @@ const testData: CryptoComplete[] = [
 			{
 				id: "209184092180928301283901",
 				userId: userId,
-				displayName: "Ethereum",
+				name: "Ethereum",
 				balance: new Decimal(1),
 				currency: "AUD",
 				marketId: "ETH",
@@ -128,6 +140,11 @@ const testData: CryptoComplete[] = [
 				interestBearingBalance: new Decimal(0),
 				incomeRate: new Decimal(0),
 				realisedGain: new Decimal(0),
+				account: null,
+				categoryId: null,
+				institution: "",
+				category: Category.CRYPTOCURRENCY,
+				status: "ACTIVE",
 				walletAddress: null,
 				apiKey: null,
 				apiSecret: null,
@@ -135,7 +152,6 @@ const testData: CryptoComplete[] = [
 				updatedAt: todaysDate,
 				deleted: false,
 				deletedAt: null,
-				accountConnection: null,
 				parentId: "43209489012480234802",
 				market: {
 					id: "",
@@ -160,7 +176,7 @@ const testData: CryptoComplete[] = [
 	},
 ]
 
-const expectedResult: CalculatedCryptocurrency[] = [
+const expectedResult: CalculatedAsset[] = [
 	{
 		apiKey: null,
 		userId: userId,
@@ -175,10 +191,14 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		amountStaked: "0",
 		costBasis: "25000.00",
 		saleableValue: "0.00",
-		displayName: "Bitcoin",
+		name: "Bitcoin",
 		averageCost: "25000.00",
-		accountConnection: null,
-		Children: [],
+		account: null,
+		institution: "",
+		category: Category.CRYPTOCURRENCY,
+		status: "ACTIVE",
+		categoryId: "",
+		sub_assets: [],
 		balance: new Decimal(1),
 		belowTargetBalance: true,
 		unrealisedGain: "7939.38",
@@ -217,7 +237,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 	{
 		id: "43209489012480234802",
 		userId: userId,
-		displayName: "Swyftx",
+		name: "Swyftx",
 		balance: new Decimal(0),
 		realisedGain: new Decimal(0),
 		currency: "AUD",
@@ -233,22 +253,26 @@ const expectedResult: CalculatedCryptocurrency[] = [
 		updatedAt: todaysDate,
 		deleted: false,
 		deletedAt: null,
-		accountConnection: "SWYFTX",
+		account: "SWYFTX",
 		parentId: null,
 		market: null,
 		estimatedYearlyReturn: "0.00",
 		estimatedStakingYield: "0.00",
 		unrealisedGain: "-14060.62",
+		institution: "",
+		category: Category.CRYPTOCURRENCY,
+		status: "ACTIVE",
 		averageCost: "0.00",
 		unrealisedGainPercentage: "-0.56",
 		saleable: "0.00",
+		categoryId: null,
 		saleableValue: "0.00",
 		amountStaked: "0",
 		value: "35939.38",
 		price: "0.00",
 		belowTargetBalance: false,
 		shouldSell: false,
-		Children: [
+		sub_assets: [
 			{
 				apiKey: null,
 				userId: userId,
@@ -257,15 +281,19 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				marketId: "BTC",
 				saleable: "0.00",
 				shouldSell: true,
+				institution: "",
+				category: Category.CRYPTOCURRENCY,
+				status: "ACTIVE",
 				price: "32939.38",
 				value: "32939.38",
 				walletAddress: null,
 				amountStaked: "0",
 				costBasis: "25000.00",
+				categoryId: null,
 				saleableValue: "0.00",
-				displayName: "Bitcoin",
+				name: "Bitcoin",
 				averageCost: "25000.00",
-				accountConnection: null,
+				account: null,
 				balance: new Decimal(1),
 				deleted: false,
 				deletedAt: null,
@@ -306,9 +334,10 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				apiKey: null,
 				apiSecret: null,
 				averageCost: "25000.00",
-				accountConnection: null,
+				account: null,
 				costBasis: "25000.00",
 				createdAt: todaysDate,
+
 				currency: "AUD",
 				estimatedYearlyReturn: "0.00",
 				estimatedStakingYield: "0.00",
@@ -332,7 +361,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 					deletedAt: null,
 				},
 				marketId: "ETH",
-				displayName: "Ethereum",
+				name: "Ethereum",
 				parentId: "43209489012480234802",
 				price: "3000.00",
 				unrealisedGainPercentage: "-0.88",
@@ -344,6 +373,10 @@ const expectedResult: CalculatedCryptocurrency[] = [
 				targetBalance: new Decimal(1),
 				balance: new Decimal(1),
 				realisedGain: new Decimal(0),
+				institution: "",
+				category: Category.CRYPTOCURRENCY,
+				categoryId: null,
+				status: "ACTIVE",
 				unrealisedGain: "-22000.00",
 				updatedAt: todaysDate,
 				userId: userId,
@@ -357,7 +390,7 @@ const expectedResult: CalculatedCryptocurrency[] = [
 	},
 ]
 
-test("Calculates an accounts total from its sub-accounts. Like crypto imported from an exchange", async () => {
+test("Calculates an accounts total from its sub-accounts. Like asset imported from an exchange", async () => {
 	// Fetch the market rates
 	const markets = await prisma.market.findMany({
 		where: {
@@ -375,7 +408,7 @@ test("Calculates an accounts total from its sub-accounts. Like crypto imported f
 	const exchangeRates = getExchangeRates(markets)
 
 	expect(
-		calculateManyCrypto({
+		calculateManyAsset({
 			data: testData,
 			exchangeRates,
 			userCurrency: "AUD",

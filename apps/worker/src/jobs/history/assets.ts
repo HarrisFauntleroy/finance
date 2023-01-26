@@ -1,13 +1,13 @@
 import { TRPCError } from "@trpc/server"
 import {
-	calculateCryptoOverview,
-	calculateManyCrypto,
+	calculateAssetsOverview,
+	calculateManyAssets,
 	getExchangeRates,
 } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 
-export const calculateCryptoTotals = async (userId: string) => {
+export const calculateAssetsTotals = async (userId: string) => {
 	const user = await prisma.user.findUnique({
 		where: {
 			id: userId,
@@ -53,14 +53,14 @@ export const calculateCryptoTotals = async (userId: string) => {
 	}
 
 	/** Calculate cryptocurrency for overview */
-	const cryptocurrency = calculateManyCrypto({
+	const cryptocurrency = calculateManyAssets({
 		data: user?.cryptocurrency,
 		exchangeRates,
 		userCurrency,
 	})
 
 	const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-		calculateCryptoOverview({ data: cryptocurrency })
+		calculateAssetsOverview({ data: cryptocurrency })
 
 	return {
 		currency: userCurrency,

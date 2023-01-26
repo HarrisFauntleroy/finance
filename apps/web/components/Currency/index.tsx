@@ -2,13 +2,13 @@ import { useContext } from "react"
 
 import { chakra } from "@chakra-ui/react"
 import currency from "currency.js"
-import type { Decimal } from "database/generated/prisma-client/runtime"
 import { useSession } from "next-auth/react"
 import { PrivacyContext } from "~/components/Providers/Privacy"
 import { trpc } from "~/utils/trpc"
 
 interface CurrencyProps {
-	value?: string | number | Decimal | currency
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	value?: any
 	minimumFractionDigits?: number
 	maximumFractionDigits?: number
 }

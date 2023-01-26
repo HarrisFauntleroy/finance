@@ -1,5 +1,6 @@
 import React from "react"
 
+import AccountsPage from "../../components/Portfolio/Hello"
 import Accounts from "./accounts"
 import Overview from "./overview"
 import Statistics from "./statistics"
@@ -24,6 +25,7 @@ const Portfolio = () => {
 						<Tab>Accounts</Tab>
 						<Tab>Transactions</Tab>
 						<Tab>Statistics</Tab>
+						<Tab>Hello</Tab>
 					</TabList>
 					<TabPanels height="100%" padding="8px">
 						<TabPanel padding={0} height="100%">
@@ -45,6 +47,9 @@ const Portfolio = () => {
 							<Stack paddingY="8px">
 								<Statistics />
 							</Stack>
+						</TabPanel>
+						<TabPanel>
+							<AccountsPage />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

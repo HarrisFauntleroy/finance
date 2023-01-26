@@ -76,6 +76,8 @@
 		}
 	},
 	"dependencies": {
+		"apexcharts": "*",
+		"react-apexcharts": "*",
 		"@bull-board/api": "^4.7.0",
 		"@bull-board/express": "4.9.0",
 		"@chakra-ui/icons": "2.0.15",

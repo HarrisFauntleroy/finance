@@ -2,29 +2,17 @@ import React from "react"
 
 import { Stat } from "../Stat"
 import { Flex } from "@chakra-ui/react"
-import { useSession } from "next-auth/react"
-import { trpc } from "~/utils/trpc"
 
 function IncomeOverviewCard() {
-	const session = useSession()
-	const userId = session?.data?.userId
-
-	const { data } = trpc.cryptocurrency.overviewByUserId.useQuery({
-		userId: userId || "",
-	})
-
 	return (
 		<Flex flexDir="column" height="100%" gap="8px">
 			<Flex height="100%" flex={1} gap="8px">
-				<Stat
-					value={data?.totalEstimatedYearlyReturn}
-					label="Staking returns daily"
-				/>
-				<Stat />
+				<Stat label="Statistic WIP" />
+				<Stat label="Statistic WIP" />
 			</Flex>
 			<Flex height="100%" flex={1} gap="8px">
-				<Stat />
-				<Stat />
+				<Stat label="Statistic WIP" />
+				<Stat label="Statistic WIP" />
 			</Flex>
 		</Flex>
 		// <Card width='100%' height='100%' flex={1}>

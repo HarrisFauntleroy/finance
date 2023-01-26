@@ -6,23 +6,21 @@ import { Grid } from "@chakra-ui/react"
 export const Layout = ({ children }: PropsWithChildren) => {
 	return (
 		<Grid
-			paddingY="8px"
-			height="100%"
-			gridAutoFlow="dense"
 			templateAreas={{
-				sm: `"overview overview allocation allocation"
-						 "control control control control"
-						 "assets assets assets assets"`,
+				sm: `"overview allocation"
+						 "chart chart"
+						 "income history"`,
 				base: `"overview"
-							 "allocation"
-							 "assets"`,
+							 "history"
+							 "chart"
+							 "income"`,
 			}}
 			gridTemplateRows={{
-				sm: "max-content max-content 1fr",
-				base: "repeat(3, max-content)",
+				sm: "234px 1fr 1fr",
+				base: "repeat(4,max-content)",
 			}}
 			gridTemplateColumns={{
-				sm: "repeat(4, 1fr)",
+				sm: "repeat(2, minmax(0,1fr))",
 				base: "100%",
 			}}
 			gap={{ base: 0, sm: 2 }}
