@@ -136,6 +136,7 @@ const cryptos = [
 		account: AccountConnection.NONE,
 		category: Category.INVESTMENT,
 		userId,
+		// GET TRANSACTIONS WORKING?
 		// subAssets: [
 		// 	{
 		// 		parentId: "seeded-self-wealth",

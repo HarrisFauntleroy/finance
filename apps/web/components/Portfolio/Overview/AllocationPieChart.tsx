@@ -1,6 +1,5 @@
 import React from "react"
 
-import { logger } from "common"
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
 import ChartScaffold from "~/components/Chart"
@@ -14,13 +13,7 @@ export const AllocationPieChart = () => {
 		userId: userId || "",
 	})
 
-	// const { } = Object.entries(allocationData).map(([key, value]) => {
-	// 	const labels =
-	// })
-
 	const series = Object.values(allocationData || {})
-
-	logger.info(allocationData)
 
 	const options = {
 		chart: {
