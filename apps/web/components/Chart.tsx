@@ -8,25 +8,26 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
 interface ChartScaffoldProps {
 	options?: ApexCharts.ApexOptions
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	series?: any
 	style?: CSSProperties
 	type?:
-		| "area"
-		| "line"
-		| "bar"
-		| "scatter"
-		| "bubble"
-		| "pie"
-		| "polarArea"
-		| "radar"
-		| "histogram"
-		| "donut"
-		| "radialBar"
-		| "heatmap"
-		| "treemap"
-		| "boxPlot"
-		| "candlestick"
-		| "rangeBar"
+	| "area"
+	| "line"
+	| "bar"
+	| "scatter"
+	| "bubble"
+	| "pie"
+	| "polarArea"
+	| "radar"
+	| "histogram"
+	| "donut"
+	| "radialBar"
+	| "heatmap"
+	| "treemap"
+	| "boxPlot"
+	| "candlestick"
+	| "rangeBar"
 }
 
 const ChartScaffold = ({

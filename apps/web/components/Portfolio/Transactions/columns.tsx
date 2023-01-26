@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "@chakra-ui/react"
+import { List, ListItem, Text } from "@chakra-ui/react"
 import type { ColumnDef } from "@tanstack/react-table"
 import type { AssetTransaction } from "database/generated/prisma-client"
 import Currency from "~/components/Currency"
@@ -58,7 +58,7 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
 				original: { quantity },
 			},
 		}) => {
-			return <Text>{quantity.toString()}</Text>
+			return <Text>{quantity?.toString()}</Text>
 		},
 	},
 	{
@@ -124,7 +124,7 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
 				original: { market },
 			},
 		}) => {
-			return <Text>{market}</Text>
+			return <List>{market && Object.entries(market).map(([key, value]) => <ListItem key={key + value}>{`${key} ${value}`}</ListItem>)}</List>
 		},
 	},
 	{

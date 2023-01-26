@@ -365,8 +365,8 @@ model Asset {
 
   // If the asset is a sub-asset, it will have a parent asset, these fields represent the parent asset
   parentId     String?
-  parent       Asset?             @relation("sub_assets", fields: [parentId], references: [id])
-  subAssets    Asset[]            @relation("sub_assets")
+  parent       Asset?             @relation("subAssets", fields: [parentId], references: [id])
+  subAssets    Asset[]            @relation("subAssets")
   transactions AssetTransaction[]
 
   userId String

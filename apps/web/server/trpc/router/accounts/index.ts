@@ -65,7 +65,7 @@ export const accountsRouter = router({
 					assets: {
 						include: {
 							market: true,
-							subAsset: true,
+							subAssets: true,
 						},
 					},
 					portfolioSnapshot: true,

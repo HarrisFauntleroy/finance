@@ -36,7 +36,7 @@ const testData: AssetComplete[] = [
 		category: Category.CRYPTOCURRENCY,
 		categoryId: null,
 		status: "ACTIVE",
-		sub_assets: [],
+		subAssets: [],
 		parentId: "43209489012480234802",
 		market: {
 			id: "",
@@ -83,7 +83,7 @@ const testData: AssetComplete[] = [
 		account: "SWYFTX",
 		parentId: null,
 		market: null,
-		sub_assets: [
+		subAssets: [
 			{
 				id: "2171207410873287419832471",
 				userId: userId,
@@ -198,7 +198,7 @@ const expectedResult: CalculatedAsset[] = [
 		category: Category.CRYPTOCURRENCY,
 		status: "ACTIVE",
 		categoryId: "",
-		sub_assets: [],
+		subAssets: [],
 		balance: new Decimal(1),
 		belowTargetBalance: true,
 		unrealisedGain: "7939.38",
@@ -272,7 +272,7 @@ const expectedResult: CalculatedAsset[] = [
 		price: "0.00",
 		belowTargetBalance: false,
 		shouldSell: false,
-		sub_assets: [
+		subAssets: [
 			{
 				apiKey: null,
 				userId: userId,

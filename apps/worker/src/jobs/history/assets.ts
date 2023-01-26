@@ -14,10 +14,14 @@ export const calculateAssetsTotals = async (userId: string) => {
 		},
 		select: {
 			id: true,
-			cryptocurrency: {
+			assets: {
 				include: {
 					market: true,
-					Children: true,
+					subAssets: {
+						include: {
+							market: true,
+						},
+					},
 				},
 			},
 		},
@@ -54,7 +58,7 @@ export const calculateAssetsTotals = async (userId: string) => {
 
 	/** Calculate cryptocurrency for overview */
 	const cryptocurrency = calculateManyAsset({
-		data: user?.cryptocurrency,
+		data: user.assets,
 		exchangeRates,
 		userCurrency,
 	})

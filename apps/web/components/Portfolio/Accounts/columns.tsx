@@ -19,16 +19,18 @@ import Link from "next/link"
 import { MdCompareArrows } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
 import Currency from "~/components/Currency"
+import type { RouterOutput } from "~/utils/trpc"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const portfolioOverviewColumns: ColumnDef<any>[] = [
+type ColumnInput = RouterOutput["assets"]["byUserId"]
+
+export const portfolioOverviewColumns: ColumnDef<ColumnInput[0]>[] = [
 	{
 		header: "Display Name",
 		accessorKey: "name",
 		cell: ({
 			row: {
 				getToggleExpandedHandler,
-				original: { name, market, sub_assets },
+				original: { name, market, subAssets },
 			},
 		}) => {
 			return (
@@ -42,15 +44,15 @@ export const portfolioOverviewColumns: ColumnDef<any>[] = [
 					>
 						<Avatar
 							_hover={{ transform: "scale(1.05)" }}
-							name={market?.name}
-							title={market?.name}
+							name={market?.name || ""}
+							title={market?.name || ""}
 							src={market?.image || ""}
 						/>
-						{sub_assets?.map(({ id, market: childMarket }) => (
+						{subAssets?.map(({ id, market: childMarket }) => (
 							<Avatar
 								key={id}
-								name={childMarket?.name}
-								title={childMarket?.name}
+								name={childMarket?.name || ""}
+								title={childMarket?.name || ""}
 								src={childMarket?.image || ""}
 							/>
 						))}

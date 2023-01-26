@@ -1,8 +1,2 @@
-[35mui:lint:fix[0m: cache hit, replaying output [2ma073111f0be97b44[0m
-[35mui:lint:fix: [0m$ eslint . --fix
-[35mui:lint:fix: [0m
-[35mui:lint:fix: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/ui/src/components/Autocomplete.tsx
-[35mui:lint:fix: [0m  23:8  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-[35mui:lint:fix: [0m
-[35mui:lint:fix: [0m✖ 1 problem (0 errors, 1 warning)
-[35mui:lint:fix: [0m
+[34mui:lint:fix[0m: cache hit, replaying output [2m4114a8976820fa0a[0m
+[34mui:lint:fix: [0m$ eslint . --fix

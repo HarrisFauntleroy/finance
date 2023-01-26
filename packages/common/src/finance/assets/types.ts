@@ -3,14 +3,14 @@ import { Market, Asset as PrismaAsset } from "database/generated/prisma-client"
 /** Extends cryptocurrency type with all relations */
 export interface Asset extends PrismaAsset {
 	market: Market | null
-	sub_assets?: Asset[]
+	subAssets?: Asset[]
 }
 
 /** The calculated output with additional values */
 export interface CalculatedAsset extends Omit<PrismaAsset, "costBasis"> {
 	market: Market | null
-	/** sub_assets are only calculated one level deep */
-	sub_assets?: Omit<CalculatedAsset, "sub_assets">[]
+	/** subAssets are only calculated one level deep */
+	subAssets?: Omit<CalculatedAsset, "subAssets">[]
 	value: string
 	price: string
 	costBasis: string

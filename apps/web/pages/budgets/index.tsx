@@ -12,7 +12,7 @@ import { Page } from "ui"
 import { BudgetsList } from "~/components/Budget/BudgetsList"
 import { BudgetOverview } from "~/components/Budget/Overview"
 import { Statistics } from "~/components/Budget/Statistics"
-import { BudgetTransactions } from "~/components/Budget/TransactionsList"
+import { TransactionsList } from "~/components/Budget/Transactions"
 
 function Budgets() {
 	return (
@@ -38,7 +38,7 @@ function Budgets() {
 						</TabPanel>
 						<TabPanel padding={0} height="100%">
 							<Stack paddingY="8px">
-								<BudgetTransactions />
+								<TransactionsList />
 							</Stack>
 						</TabPanel>
 						<TabPanel padding={0} height="100%">

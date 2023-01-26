@@ -1,2 +1,2 @@
-[36mworker:lint:fix[0m: cache hit, replaying output [2m55800ad475332854[0m
-[36mworker:lint:fix: [0m$ eslint . --fix
+[33mworker:lint:fix[0m: cache hit, replaying output [2mee33f97fb0f3aa38[0m
+[33mworker:lint:fix: [0m$ eslint . --fix

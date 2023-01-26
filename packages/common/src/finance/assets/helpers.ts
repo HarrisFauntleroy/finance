@@ -12,7 +12,7 @@ export type AssetComplete = Asset & {
 		} | null
 	}
 	market?: Market | null
-	sub_assets: AssetCompleteChild[]
+	subAssets: AssetCompleteChild[]
 }
 
 export type AssetCompleteChild = Asset & {
@@ -25,26 +25,26 @@ export type AssetCompleteChild = Asset & {
 }
 
 // Remove nested children
-export type sub_assetsOmitsub_assets = Omit<AssetComplete, "sub_assets">
+export type subAssetsOmitsubAssets = Omit<AssetComplete, "subAssets">
 
 /** Extends asset type with all relations */
-export interface AssetAndsub_assetsComplete
-	extends Omit<AssetComplete, "sub_assets"> {
+export interface AssetAndsubAssetsComplete
+	extends Omit<AssetComplete, "subAssets"> {
 	// Re add children without nesting
-	sub_assets?: sub_assetsOmitsub_assets[]
+	subAssets?: subAssetsOmitsubAssets[]
 }
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 // TODO break all of these into their own files
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export type AssetOmitCostBasisAndsub_assets = Omit<
+export type AssetOmitCostBasisAndsubAssets = Omit<
 	AssetComplete,
-	"costBasis" | "sub_assets"
+	"costBasis" | "subAssets"
 >
 
 /** Calculated values */
-export interface AssetSummaryOutput extends AssetOmitCostBasisAndsub_assets {
+export interface AssetSummaryOutput extends AssetOmitCostBasisAndsubAssets {
 	unrealisedGainPercentage: string
 	estimatedStakingYield: string
 	estimatedYearlyReturn: string
@@ -55,14 +55,14 @@ export interface AssetSummaryOutput extends AssetOmitCostBasisAndsub_assets {
 	averageCost: string
 	costBasis: string
 	shouldSell: boolean
-	sub_assets?: AssetOmitCostBasisAndsub_assets[]
+	subAssets?: AssetOmitCostBasisAndsubAssets[]
 	saleable: string
 	value: string
 	price: string
 }
 
 export function calculateAssetSummary(
-	asset: sub_assetsOmitsub_assets,
+	asset: subAssetsOmitsubAssets,
 	exchangeRates: ExchangeRates,
 	toCurrency = "usd"
 ): AssetSummaryOutput {
@@ -122,7 +122,7 @@ export function calculateAssetSummary(
 
 export interface NestedAccountTotals {
 	value: string
-	sub_assets: AssetSummaryOutput[]
+	subAssets: AssetSummaryOutput[]
 	averageCost: string
 	costBasis: string
 	saleableValue: string
@@ -131,22 +131,22 @@ export interface NestedAccountTotals {
 }
 
 export function calculateNestedAccountTotals(
-	sub_assets: AssetSummaryOutput[]
+	subAssets: AssetSummaryOutput[]
 ): NestedAccountTotals {
-	const unrealisedGain = sumArrayByKey(sub_assets, "unrealisedGain")
+	const unrealisedGain = sumArrayByKey(subAssets, "unrealisedGain")
 	const unrealisedGainPercentage = sumArrayByKey(
-		sub_assets,
+		subAssets,
 		"unrealisedGainPercentage"
 	)
 	// Average cost doesn't need to be known on sub accounts?
 	const averageCost = "0.00"
-	const costBasis = sumArrayByKey(sub_assets, "costBasis")
-	const value = sumArrayByKey(sub_assets, "value")
-	const saleableValue = sumArrayByKey(sub_assets, "saleableValue")
+	const costBasis = sumArrayByKey(subAssets, "costBasis")
+	const value = sumArrayByKey(subAssets, "value")
+	const saleableValue = sumArrayByKey(subAssets, "saleableValue")
 
 	return {
 		value,
-		sub_assets,
+		subAssets,
 		averageCost,
 		costBasis,
 		saleableValue,
@@ -177,15 +177,15 @@ export function calculateOneAsset({
 	 * Calculate the summary for any children asset accounts
 	 * Mainly applicable to sub accounts like exchanges
 	 */
-	const sub_assets = asset.sub_assets?.map((child) =>
+	const subAssets = asset.subAssets?.map((child) =>
 		calculateAssetSummary(child, exchangeRates, userCurrency)
 	)
 
 	/** Calculate totals for nested accounts */
-	if (sub_assets !== undefined && sub_assets.length > 0) {
+	if (subAssets !== undefined && subAssets.length > 0) {
 		return {
 			...finalData,
-			...calculateNestedAccountTotals(sub_assets),
+			...calculateNestedAccountTotals(subAssets),
 		}
 	}
 

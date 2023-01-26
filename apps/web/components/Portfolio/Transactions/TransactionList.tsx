@@ -3,9 +3,9 @@ import React from "react"
 import { Stack } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
-import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { transactionsListColumns } from "~/components/Portfolio/Transactions/columns"
 import { trpc } from "~/utils/trpc"
+import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 
 export const TransactionsList = () => {
 	const session = useSession()
@@ -17,7 +17,7 @@ export const TransactionsList = () => {
 
 	return (
 		<Table
-			id="cryptocurrencyOverview"
+			id="assetOverview"
 			data={data || []}
 			columns={transactionsListColumns}
 			getRowCanExpand
@@ -28,7 +28,7 @@ export const TransactionsList = () => {
 				(props?.row?.original?.Children?.length || 0) > 0 ? (
 					<Stack>
 						<Table
-							id="cryptocurrencyOverview"
+							id="assetOverview"
 							data={props?.row?.original?.Children || []}
 							columns={transactionsListColumns}
 							getRowCanExpand
