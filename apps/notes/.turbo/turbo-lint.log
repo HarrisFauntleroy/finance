@@ -1,9 +1,0 @@
-[35mweb:lint[0m: cache hit, replaying output [2m93cbe8c36d1fd886[0m
-[35mweb:lint: [0m$ next lint
-[35mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
-[35mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
-[35mweb:lint: [0mwarn  - You have enabled experimental feature (appDir) in next.config.js.
-[35mweb:lint: [0mwarn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
-[35mweb:lint: [0m
-[35mweb:lint: [0minfo  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
-[35mweb:lint: [0m✔ No ESLint warnings or errors

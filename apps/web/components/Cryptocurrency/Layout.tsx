@@ -11,15 +11,18 @@ export const Layout = ({ children }: PropsWithChildren) => {
 			gridAutoFlow="dense"
 			templateAreas={{
 				sm: `"overview overview allocation allocation"
-						 "control control control control"
-						 "assets assets assets assets"`,
+						 "chart chart chart chart"
+						 "assets assets assets assets"
+						 "history history history history"`,
 				base: `"overview"
 							 "allocation"
-							 "assets"`,
+							 "chart"
+							 "assets"
+							 "history"`,
 			}}
 			gridTemplateRows={{
-				sm: "max-content max-content 1fr",
-				base: "repeat(3, max-content)",
+				sm: "max-content max-content max-content 1fr max-content",
+				base: "repeat(4, max-content)",
 			}}
 			gridTemplateColumns={{
 				sm: "repeat(4, 1fr)",

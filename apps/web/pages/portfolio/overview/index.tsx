@@ -4,8 +4,9 @@ import { GridItem } from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
 import currency from "currency.js"
 import { Layout } from "~/components/Cryptocurrency/Layout"
-import { ControlBar } from "~/components/Portfolio/ControlBar"
 import { AllocationPieChart } from "~/components/Portfolio/Overview/AllocationPieChart"
+import { HistorySnapshots } from "~/components/Portfolio/Overview/HistorySnapshots"
+import { NetWorthCostBasisChart } from "~/components/Portfolio/Overview/NetWorthCostBasisChart"
 import { OverviewAccountsList } from "~/components/Portfolio/Overview/OverviewAccountsList"
 import OverviewCard from "~/components/Portfolio/Overview/OverviewCard"
 
@@ -57,11 +58,14 @@ function Overview() {
 			<GridItem area={"allocation"}>
 				<AllocationPieChart />
 			</GridItem>
-			<GridItem area={"control"}>
-				<ControlBar />
+			<GridItem area={"chart"}>
+				<NetWorthCostBasisChart />
 			</GridItem>
 			<GridItem area={"assets"}>
 				<OverviewAccountsList />
+			</GridItem>
+			<GridItem area={"history"}>
+				<HistorySnapshots />
 			</GridItem>
 		</Layout>
 	)
