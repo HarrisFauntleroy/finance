@@ -18,7 +18,7 @@ function OverviewCard() {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.cryptocurrency.overviewByUserId.useQuery({
+	const { data } = trpc.assets.overviewByUserId.useQuery({
 		userId: userId || "",
 	})
 

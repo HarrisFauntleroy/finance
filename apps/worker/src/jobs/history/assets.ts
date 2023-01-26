@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server"
 import {
-	calculateAssetsOverview,
-	calculateManyAssets,
+	calculateAssetOverview,
+	calculateManyAsset,
 	getExchangeRates,
 } from "common"
 import { prisma } from "database"
@@ -53,14 +53,14 @@ export const calculateAssetsTotals = async (userId: string) => {
 	}
 
 	/** Calculate cryptocurrency for overview */
-	const cryptocurrency = calculateManyAssets({
+	const cryptocurrency = calculateManyAsset({
 		data: user?.cryptocurrency,
 		exchangeRates,
 		userCurrency,
 	})
 
 	const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-		calculateAssetsOverview({ data: cryptocurrency })
+		calculateAssetOverview({ data: cryptocurrency })
 
 	return {
 		currency: userCurrency,

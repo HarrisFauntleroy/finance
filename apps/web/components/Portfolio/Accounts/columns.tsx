@@ -1,6 +1,5 @@
 import React from "react"
 
-import type { AssetsByUserIdQueryOutput } from "./AccountsList"
 import {
 	Avatar,
 	AvatarGroup,
@@ -21,7 +20,8 @@ import { MdCompareArrows } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
 import Currency from "~/components/Currency"
 
-export const portfolioOverviewColumns: ColumnDef<AssetsByUserIdQueryOutput>[] =
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const portfolioOverviewColumns: ColumnDef<any>[] =
 	[
 		{
 			header: "Display Name",

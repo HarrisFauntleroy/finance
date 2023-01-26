@@ -29,7 +29,7 @@ import { MdLogin, MdLogout } from "react-icons/md"
 import { MarkdownEditor } from "ui"
 import { trpc } from "~/utils/trpc"
 
-export default function Layout({ children }: { children?: ReactNode }) {
+export default function Layout() {
 	const [currentNote, setCurrentNote] = useState<Note>()
 	const session = useSession()
 	const userId = session.data?.userId
