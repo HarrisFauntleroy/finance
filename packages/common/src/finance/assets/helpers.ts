@@ -2,7 +2,7 @@ import { sumArrayByKey } from "../../helpers"
 import { divide, lessThan, multiply, subtract } from "../../math"
 import { convertCurrency } from "../currency"
 import currency from "currency.js"
-import { Asset, Market } from "database/generated/prisma-client"
+import { Asset, Category, Market } from "database/generated/prisma-client"
 
 export type AssetComplete = Asset & {
 	user?: {
@@ -79,12 +79,19 @@ export function calculateAssetSummary(
 		amount: asset.costBasis.toString(),
 	})
 
-	const balance = String(asset?.balance)
-	const targetBalance = String(asset.targetBalance)
-	const incomeRate = String(asset.incomeRate)
-	const interestBearingBalance = String(asset.interestBearingBalance)
+	const balance = asset?.balance?.toString() || "0"
 
-	const value = multiply(balance, price)
+	let value
+	if (price && asset.category === Category.CRYPTOCURRENCY) {
+		value = multiply(balance.toString(), price.toString())
+	} else {
+		value = balance
+	}
+
+	const targetBalance = asset.targetBalance?.toString() || "0"
+	const incomeRate = asset.incomeRate?.toString() || "0"
+	const interestBearingBalance = asset.interestBearingBalance?.toString() || "0"
+
 	const unrealisedGain = subtract(value, costBasis)
 	const unrealisedGainPercentage = divide(unrealisedGain, costBasis)
 	const averageCost = divide(costBasis, balance)
@@ -156,43 +163,6 @@ export function calculateNestedAccountTotals(
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export interface CalculateOneAssetInput {
-	asset: AssetComplete
-	exchangeRates: Record<string, string>
-	userCurrency: string
-}
-
-export function calculateOneAsset({
-	asset,
-	exchangeRates,
-	userCurrency,
-}: CalculateOneAssetInput): AssetSummaryOutput {
-	/**
-	 * Calculate the summary for the main asset account
-	 */
-	const finalData = calculateAssetSummary(asset, exchangeRates, userCurrency)
-
-	/**
-	 * Calculate the summary for any children asset accounts
-	 * Mainly applicable to sub accounts like exchanges
-	 */
-	const subAssets = asset.subAssets?.map((child) =>
-		calculateAssetSummary(child, exchangeRates, userCurrency)
-	)
-
-	/** Calculate totals for nested accounts */
-	if (subAssets !== undefined && subAssets.length > 0) {
-		return {
-			...finalData,
-			...calculateNestedAccountTotals(subAssets),
-		}
-	}
-
-	return finalData
-}
-
-/** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-
 export interface AssetSummaryInput {
 	data: AssetComplete[]
 	exchangeRates: Record<string, string>
@@ -204,32 +174,49 @@ export function calculateManyAsset({
 	userCurrency,
 	exchangeRates,
 }: AssetSummaryInput) {
-	return data.map((asset) =>
-		calculateOneAsset({ asset, userCurrency, exchangeRates })
-	)
+	return data.map((asset) => {
+		/**
+		 * Calculate the summary for the main asset account
+		 */
+		const finalData = calculateAssetSummary(asset, exchangeRates, userCurrency)
+
+		/**
+		 * Calculate the summary for any children asset accounts
+		 * Mainly applicable to sub accounts like exchanges
+		 */
+		const subAssets = asset.subAssets?.map((child) =>
+			calculateAssetSummary(child, exchangeRates, userCurrency)
+		)
+
+		/** Calculate totals for nested accounts */
+		if (subAssets !== undefined && subAssets.length > 0) {
+			return {
+				...finalData,
+				...calculateNestedAccountTotals(subAssets),
+			}
+		}
+
+		return finalData
+	})
 }
 
 /** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-export function calculateAssetOverview({
-	data,
-}: {
-	data: AssetSummaryOutput[]
-}) {
-	/** Calculate Overview totals */
+export function calculateAssetOverview(data: AssetSummaryOutput[]) {
+	const totalValue = sumArrayByKey(data, "value").toString()
 
-	const totalValue = sumArrayByKey(data, "value")
+	const totalCostBasis = sumArrayByKey(data, "costBasis").toString()
 
-	const totalCostBasis = sumArrayByKey(data, "costBasis")
+	const unrealisedGain = currency(totalValue)
+		.subtract(totalCostBasis)
+		.toString()
 
-	const unrealisedGain = currency(totalValue).subtract(totalCostBasis)
-
-	const saleableValue = sumArrayByKey(data, "saleableValue")
+	const saleableValue = sumArrayByKey(data, "saleableValue").toString()
 
 	const totalEstimatedYearlyReturn = sumArrayByKey(
 		data,
 		"estimatedYearlyReturn"
-	)
+	).toString()
 
 	return {
 		totalValue,

@@ -2,7 +2,6 @@ import { getExchangeRates, getUserCurrency } from "../../util"
 import { TRPCError } from "@trpc/server"
 import { calculateAssetOverview, calculateManyAsset } from "common"
 import { prisma } from "database"
-import { MarketType } from "database/generated/prisma-client"
 
 export const calculateAssetsTotals = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -35,22 +34,22 @@ export const calculateAssetsTotals = async (userId: string) => {
 		})
 	}
 
-	/** Calculate cryptocurrency for overview */
-	const cryptocurrency = calculateManyAsset({
+	/** Calculate assets for overview */
+	const assets = calculateManyAsset({
 		data: user.assets,
 		exchangeRates,
 		userCurrency,
 	})
 
 	const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-		calculateAssetOverview({ data: cryptocurrency })
+		calculateAssetOverview(assets)
 
 	return {
 		currency: userCurrency,
-		totalValue: totalValue.toString(),
-		costBasis: totalCostBasis.toString(),
-		unrealisedGain: unrealisedGain.toString(),
+		totalValue: totalValue,
+		costBasis: totalCostBasis,
+		unrealisedGain: unrealisedGain,
 		realisedGain: "0",
-		saleableValue: saleableValue.toString(),
+		saleableValue: saleableValue,
 	}
 }

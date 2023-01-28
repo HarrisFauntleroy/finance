@@ -1,7 +1,7 @@
 import { publicProcedure, router } from "../../trpc"
 import { AssetWithIdZod, AssetWithParentId, AssetZod } from "./zod"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAsset } from "common"
+import { calculateAssetOverview, calculateManyAsset, logger } from "common"
 import { prisma } from "database"
 import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
@@ -211,49 +211,39 @@ export const assetRouter = router({
 				userId: z.string(),
 			})
 		)
-		.query(async ({ input: { userId } }) => {
-			const userCurrency = await getUserCurrency(userId)
-			const exchangeRates = await getExchangeRates()
-			const data = await prisma.asset.findMany({
-				where: {
-					userId,
-					parentId: null,
-				},
-				include: {
-					market: true,
-					subAssets: true,
-				},
-			})
-
-			if (!data) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: `No asset with userId '${userId}'`,
-				})
-			}
-
-			const asset = calculateManyAsset({
-				data,
-				exchangeRates,
-				userCurrency,
-			})
-
-			const {
-				totalValue,
-				totalCostBasis,
-				unrealisedGain,
-				saleableValue,
-				totalEstimatedYearlyReturn,
-			} = calculateAssetOverview({ data: asset })
-
-			return {
-				totalValue: totalValue,
-				saleableValue: saleableValue,
-				totalCostBasis: totalCostBasis,
-				unrealisedGain: unrealisedGain,
-				totalEstimatedYearlyReturn: totalEstimatedYearlyReturn,
-			}
-		}),
+		.query(async ({ input: { userId } }) =>
+			getUserCurrency(userId)
+				.then((userCurrency) =>
+					prisma.asset
+						.findMany({
+							where: {
+								userId,
+								parentId: null,
+							},
+							include: {
+								market: true,
+								subAssets: true,
+							},
+						})
+						.then((data) =>
+							getExchangeRates().then((exchangeRates) => {
+								const calculatedAssets = calculateManyAsset({
+									data,
+									exchangeRates,
+									userCurrency,
+								})
+								return calculateAssetOverview(calculatedAssets)
+							})
+						)
+						.catch(() => {
+							throw new TRPCError({
+								code: "NOT_FOUND",
+								message: `No assets found for user with id: '${userId}'`,
+							})
+						})
+				)
+				.catch(logger.error)
+		),
 	targets: publicProcedure
 		.input(
 			z.object({

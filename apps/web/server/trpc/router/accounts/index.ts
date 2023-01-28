@@ -5,9 +5,7 @@ import {
 	calculateAssetOverview,
 	calculateManyAsset,
 	convertCurrency,
-	logger,
 	multiply,
-	sumArrayByKey,
 } from "common"
 import currencyjs from "currency.js"
 import { prisma } from "database"
@@ -78,10 +76,6 @@ export async function getPortfolioAllocation(userId: string): Promise<
 		return { value: value.toString(), category }
 	})
 
-	const totalValue = sumArrayByKey(mapped, "value")
-
-	logger.info("totalValue", totalValue)
-
 	return sumGroupByCategory(mapped, "category")
 }
 
@@ -138,7 +132,7 @@ export const accountsRouter = router({
 
 			// Calculate the total value, saleable value, total cost basis, and unrealised gain for the assets
 			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-				calculateAssetOverview({ data: assets })
+				calculateAssetOverview(assets)
 
 			// Return the calculated values and the user's assets and accounts history
 			return {

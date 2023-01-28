@@ -172,7 +172,7 @@ export const assetRouter = router({
 			}
 
 			/** Calculate asset for overview */
-			const asset = calculateManyAsset({
+			const assets = calculateManyAsset({
 				data,
 				exchangeRates,
 				userCurrency,
@@ -185,7 +185,7 @@ export const assetRouter = router({
 				unrealisedGain,
 				saleableValue,
 				totalEstimatedYearlyReturn,
-			} = calculateAssetOverview({ data: asset })
+			} = calculateAssetOverview(assets)
 
 			return {
 				totalValue: totalValue,
