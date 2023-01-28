@@ -1,7 +1,6 @@
 import { sumArrayByKey } from "../../helpers"
 import { divide, lessThan, multiply, subtract } from "../../math"
 import { convertCurrency } from "../currency"
-import { ExchangeRates } from "../forex"
 import currency from "currency.js"
 import { Asset, Market } from "database/generated/prisma-client"
 
@@ -63,7 +62,7 @@ export interface AssetSummaryOutput extends AssetOmitCostBasisAndsubAssets {
 
 export function calculateAssetSummary(
 	asset: subAssetsOmitsubAssets,
-	exchangeRates: ExchangeRates,
+	exchangeRates: Record<string, string>,
 	toCurrency = "usd"
 ): AssetSummaryOutput {
 	const price = convertCurrency({
@@ -159,7 +158,7 @@ export function calculateNestedAccountTotals(
 
 export interface CalculateOneAssetInput {
 	asset: AssetComplete
-	exchangeRates: ExchangeRates
+	exchangeRates: Record<string, string>
 	userCurrency: string
 }
 
@@ -196,7 +195,7 @@ export function calculateOneAsset({
 
 export interface AssetSummaryInput {
 	data: AssetComplete[]
-	exchangeRates: ExchangeRates
+	exchangeRates: Record<string, string>
 	userCurrency: string
 }
 

@@ -9,6 +9,7 @@ import {
 	Th,
 	Tr,
 } from "@chakra-ui/react"
+import { logger } from "common"
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
 import Currency from "~/components/Currency"
@@ -21,6 +22,8 @@ function OverviewCard() {
 	const { data } = trpc.assets.overviewByUserId.useQuery({
 		userId: userId || "",
 	})
+
+	logger.info("data", data)
 
 	return (
 		<Card>

@@ -1,9 +1,6 @@
+import { getExchangeRates, getUserCurrency } from "../../util"
 import { TRPCError } from "@trpc/server"
-import {
-	calculateAssetOverview,
-	calculateManyAsset,
-	getExchangeRates,
-} from "common"
+import { calculateAssetOverview, calculateManyAsset } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 
@@ -26,28 +23,10 @@ export const calculateAssetsTotals = async (userId: string) => {
 			},
 		},
 	})
-	const settings = await prisma.settings.findFirstOrThrow({
-		where: {
-			userId,
-		},
-	})
-	const userCurrency = settings.userCurrency
 
-	// Fetch the market rates
-	const markets = await prisma.market.findMany({
-		where: {
-			type: MarketType.CASH,
-		},
-		select: {
-			currency: true,
-			price: true,
-			name: true,
-			ticker: true,
-		},
-	})
+	const userCurrency = await getUserCurrency(userId)
 
-	/** Convert array to object */
-	const exchangeRates = getExchangeRates(markets)
+	const exchangeRates = await getExchangeRates()
 
 	if (!user) {
 		throw new TRPCError({

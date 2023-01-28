@@ -1,5 +1,4 @@
 import { divide, multiply } from "../math"
-import { ExchangeRates } from "./forex"
 import currency, { Any } from "currency.js"
 
 export function getConversionRate(
@@ -27,7 +26,7 @@ export function convertCurrency({
 	toCurrency,
 	amount,
 }: {
-	exchangeRates: ExchangeRates
+	exchangeRates: Record<string, string>
 	fromCurrency: string
 	toCurrency: string
 	amount: Any

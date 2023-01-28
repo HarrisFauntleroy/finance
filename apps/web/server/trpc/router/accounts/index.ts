@@ -3,40 +3,85 @@ import { TRPCError } from "@trpc/server"
 import {
 	calculateAssetOverview,
 	calculateManyAsset,
-	getExchangeRates,
+	convertCurrency,
+	logger,
+	multiply,
+	sumArrayByKey,
 } from "common"
+import currencyjs from "currency.js"
 import { prisma } from "database"
-import type {
-	Category,
-	CustomAssetCategory,
-} from "database/generated/prisma-client"
-import { MarketType } from "database/generated/prisma-client"
+import { Category } from "database/generated/prisma-client"
 import type { Decimal } from "database/generated/prisma-client/runtime"
 import { z } from "zod"
+import { getExchangeRates, getUserCurrency } from "~/server/api"
+
+const sumGroupByCategory = (arr: any[], category: string) =>
+	arr.reduce(
+		(
+			grouped: { [x: string]: { add: (arg0: any) => any } },
+			obj: { [x: string]: string | number; value: any }
+		) => {
+			if (!grouped[obj[category]]) grouped[obj[category]] = currencyjs(0)
+			grouped[obj[category]] = grouped[obj[category]].add(obj.value)
+			return grouped
+		},
+		{}
+	)
 
 export async function getPortfolioAllocation(userId: string): Promise<
 	{
+		name: string
 		balance: Decimal
+		currency: string
 		category: Category | null
-		customCategory: CustomAssetCategory | null
 		market: {
+			currency: string
 			price: Decimal | null
 		} | null
 	}[]
 > {
-	return await prisma.asset.findMany({
+	const results = await prisma.asset.findMany({
 		where: { userId },
 		select: {
+			name: true,
 			balance: true,
+			currency: true,
 			category: true,
-			customCategory: true,
 			market: {
 				select: {
 					price: true,
+					currency: true,
 				},
 			},
 		},
 	})
+
+	const userCurrency = await getUserCurrency(userId)
+
+	const exchangeRates = await getExchangeRates()
+
+	// This piece of magic returns an object with a key for each category for a pie chart with a value
+	const mapped = results.map(({ market, balance, category, currency }) => {
+		const price = convertCurrency({
+			exchangeRates,
+			fromCurrency: market?.currency || currency,
+			toCurrency: userCurrency,
+			amount: market?.price?.toString() || 0,
+		})
+		let value
+		if (price && category === Category.CRYPTOCURRENCY) {
+			value = multiply(balance.toString(), price.toString())
+		} else {
+			value = balance
+		}
+		return { value: value.toString(), category }
+	})
+
+	const totalValue = sumArrayByKey(mapped, "value")
+
+	logger.info("totalValue", totalValue)
+
+	return sumGroupByCategory(mapped, "category")
 }
 
 /**
@@ -71,26 +116,10 @@ export const accountsRouter = router({
 					portfolioSnapshot: true,
 				},
 			})
-			const { userCurrency } = await prisma.settings.findFirstOrThrow({
-				where: {
-					userId,
-				},
-			})
 
-			const markets = await prisma.market.findMany({
-				where: {
-					type: MarketType.CASH,
-				},
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
-				},
-			})
+			const userCurrency = await getUserCurrency(userId)
 
-			/** Convert array to object */
-			const exchangeRates = getExchangeRates(markets)
+			const exchangeRates = await getExchangeRates()
 
 			if (!data) {
 				throw new TRPCError({
@@ -129,7 +158,6 @@ export const accountsRouter = router({
 		.query(async ({ input }) => {
 			// Destructure the userId from the input object
 			const { userId } = input
-
 			return getPortfolioAllocation(userId)
 		}),
 	historyByUserId: publicProcedure

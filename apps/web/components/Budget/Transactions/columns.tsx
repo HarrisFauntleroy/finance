@@ -124,7 +124,14 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
 				original: { market },
 			},
 		}) => {
-			return <List>{market && Object.entries(market).map(([key, value]) => <ListItem key={key + value}>{`${key} ${value}`}</ListItem>)}</List>
+			return (
+				<List>
+					{market &&
+						Object.entries(market).map(([key, value]) => (
+							<ListItem key={key + value}>{`${key} ${value}`}</ListItem>
+						))}
+				</List>
+			)
 		},
 	},
 	{

@@ -1,9 +1,31 @@
-import { getExchangeRates } from "../forex"
+import { flattenArrToObj } from "../../helpers"
 import { AssetComplete, calculateManyAsset } from "./helpers"
 import { CalculatedAsset } from "./types"
 import { prisma } from "database"
 import { Category, MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime"
+
+const getExchangeRates = async (): Promise<Record<string, string>> => {
+	// Fetch the market rates
+	const markets = await prisma.market.findMany({
+		where: {
+			type: MarketType.CASH,
+		},
+		select: {
+			currency: true,
+			price: true,
+			name: true,
+			ticker: true,
+		},
+	})
+	const market = markets?.map(({ price, ...rest }) => {
+		return {
+			...rest,
+			price: price?.toString(),
+		}
+	})
+	return flattenArrToObj(market, "ticker", "price")
+}
 
 const userId = "cl9jeoob60000vd275r4fadgr"
 
@@ -405,7 +427,7 @@ test("Calculates an accounts total from its sub-accounts. Like asset imported fr
 	})
 
 	/** Convert array to object */
-	const exchangeRates = getExchangeRates(markets)
+	const exchangeRates = await getExchangeRates()
 
 	expect(
 		calculateManyAsset({

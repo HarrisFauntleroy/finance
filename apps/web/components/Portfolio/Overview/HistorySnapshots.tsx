@@ -1,14 +1,20 @@
-import React from "react"
+import React, { useMemo } from "react"
 
 import { historySnapshotColumns } from "../columns"
-import { Skeleton, Text } from "@chakra-ui/react"
+import { Stack, Text } from "@chakra-ui/react"
+import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Card, Table } from "ui"
+import ChartScaffold from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
 
 export const HistorySnapshots = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
+
+	const { data } = trpc.accounts.historyByUserId.useQuery({
+		userId: userId || "",
+	})
 
 	const { data: historyData } = trpc.accounts.historyByUserId.useQuery({
 		userId: userId || "",
@@ -18,17 +24,33 @@ export const HistorySnapshots = () => {
 	const tableData =
 		historyData?.portfolioSnapshot && Array.from(historyData?.portfolioSnapshot)
 
+	const barSeries = useMemo(
+		() =>
+			data?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
+				y: totalValue,
+				x: format(new Date(createdAt), "dd MMM"),
+			})),
+		[data?.portfolioSnapshot]
+	)
+
+	const options = {
+		chart: {
+			title: "hello",
+			id: "apexchart-example",
+		},
+	}
+
 	return (
 		<Card>
-			<Text
-				variant="h3"
-				fontSize={{ base: "lg", sm: "2xl" }}
-				fontWeight="bold"
-				lineHeight="1.2"
-			>
-				History Snapshots
-			</Text>
-			<Skeleton rounded="xl" isLoaded={!!tableData}>
+			<Stack>
+				<Text
+					variant="h3"
+					fontSize={{ base: "lg", sm: "2xl" }}
+					fontWeight="bold"
+					lineHeight="1.2"
+				>
+					History Snapshots
+				</Text>
 				<Table
 					pageSize={4}
 					columns={historySnapshotColumns}
@@ -48,7 +70,12 @@ export const HistorySnapshots = () => {
 							.reverse() || []
 					}
 				/>
-			</Skeleton>
+				<ChartScaffold
+					type="bar"
+					options={options}
+					series={[{ data: barSeries }]}
+				/>
+			</Stack>
 		</Card>
 	)
 }

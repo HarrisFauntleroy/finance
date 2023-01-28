@@ -63,7 +63,7 @@ Prisma.NullTypes = {
 }
 
 
-const path = require('path')
+  const path = require('path')
 
 const { findSync } = require('./runtime')
 const fs = require('fs')
@@ -76,8 +76,8 @@ const regularDirname = hasDirname && fs.existsSync(path.join(__dirname, 'schema.
 
 // if the client has been bundled, we need to look for the folders
 const foundDirname = !regularDirname && findSync(process.cwd(), [
-  "generated/prisma-client",
-  "prisma-client",
+    "generated/prisma-client",
+    "prisma-client",
 ], ['d'], ['d'], 1)[0]
 
 const dirname = regularDirname || foundDirname || __dirname
@@ -544,8 +544,8 @@ config.dirname = dirname
 const { warnEnvConflicts } = require('./runtime/index')
 
 warnEnvConflicts({
-  rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(dirname, config.relativeEnvPaths.rootEnvPath),
-  schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(dirname, config.relativeEnvPaths.schemaEnvPath)
+    rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(dirname, config.relativeEnvPaths.rootEnvPath),
+    schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(dirname, config.relativeEnvPaths.schemaEnvPath)
 })
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient

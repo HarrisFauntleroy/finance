@@ -3,9 +3,9 @@ import React from "react"
 import { Stack } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
+import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { transactionsListColumns } from "~/components/Portfolio/Transactions/columns"
 import { trpc } from "~/utils/trpc"
-import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 
 export const TransactionsList = () => {
 	const session = useSession()

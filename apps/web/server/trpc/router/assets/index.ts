@@ -1,17 +1,10 @@
 import { publicProcedure, router } from "../../trpc"
 import { TRPCError } from "@trpc/server"
-import {
-	calculateAssetOverview,
-	calculateManyAsset,
-	getExchangeRates,
-} from "common"
+import { calculateAssetOverview, calculateManyAsset } from "common"
 import { prisma } from "database"
-import {
-	AccountConnection,
-	Category,
-	MarketType,
-} from "database/generated/prisma-client"
+import { AccountConnection, Category } from "database/generated/prisma-client"
 import { z } from "zod"
+import { getExchangeRates, getUserCurrency } from "~/server/api"
 import { decimal } from "~/utils/decimal"
 
 /**
@@ -164,27 +157,10 @@ export const assetRouter = router({
 					},
 				},
 			})
-			const { userCurrency } = await prisma.settings.findFirstOrThrow({
-				where: {
-					userId,
-				},
-			})
 
-			// Fetch the market rates
-			const markets = await prisma.market.findMany({
-				where: {
-					type: MarketType.CASH,
-				},
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
-				},
-			})
+			const userCurrency = await getUserCurrency(userId)
 
-			/** Convert array to object */
-			const exchangeRates = getExchangeRates(markets)
+			const exchangeRates = await getExchangeRates()
 
 			// If no asset was found for the user, throw an error
 			if (!data) {
@@ -239,21 +215,8 @@ export const assetRouter = router({
 				},
 			})
 
-			// Fetch the market rates
-			const markets = await prisma.market.findMany({
-				where: {
-					type: MarketType.CASH,
-				},
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
-				},
-			})
-
 			/** Convert array to object */
-			const exchangeRates = getExchangeRates(markets)
+			const exchangeRates = await getExchangeRates()
 
 			// If no asset was found for the user, throw an error
 			if (!data) {
@@ -290,29 +253,10 @@ export const assetRouter = router({
 					subAssets: true,
 				},
 			})
-			// Fetch the user's settings
-			const settings = await prisma.settings.findFirstOrThrow({
-				where: {
-					userId,
-				},
-			})
-			// Get the user's preferred currency
-			const userCurrency = settings.userCurrency
-			// Fetch the market rates
-			const markets = await prisma.market.findMany({
-				where: {
-					type: MarketType.CASH,
-				},
-				select: {
-					currency: true,
-					price: true,
-					name: true,
-					ticker: true,
-				},
-			})
 
-			/** Convert array to object */
-			const exchangeRates = getExchangeRates(markets)
+			const userCurrency = await getUserCurrency(userId)
+
+			const exchangeRates = await getExchangeRates()
 
 			if (!data) {
 				throw new TRPCError({
