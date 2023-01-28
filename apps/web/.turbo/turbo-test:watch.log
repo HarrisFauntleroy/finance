@@ -1,14 +1,12 @@
-[34mweb:test:watch[0m: cache hit, replaying output [2m067e727b13f47285[0m
-[34mweb:test:watch: [0m$ yarn test --watch
-[34mweb:test:watch: [0m$ jest --passWithNoTests --watch
-[34mweb:test:watch: [0mNo tests found related to files changed since last commit.
+[34mweb:test:watch[0m: cache hit, replaying output [2mfaa0df24af0cceef[0m
+[34mweb:test:watch: [0m$ yarn test --watchAll
+[34mweb:test:watch: [0m$ jest --passWithNoTests --watchAll
+[34mweb:test:watch: [0mPASS components/Form/Form.test.ts
+[34mweb:test:watch: [0m  ✎ todo Add tests for Form
 [34mweb:test:watch: [0m
-[34mweb:test:watch: [0mPASS src/components/Table/Table.test.ts
-[34mweb:test:watch: [0mPASS src/components/Form/Form.test.ts
-[34mweb:test:watch: [0m
-[34mweb:test:watch: [0mTest Suites: 2 passed, 2 total
-[34mweb:test:watch: [0mTests:       2 todo, 2 total
+[34mweb:test:watch: [0mTest Suites: 1 passed, 1 total
+[34mweb:test:watch: [0mTests:       1 todo, 1 total
 [34mweb:test:watch: [0mSnapshots:   0 total
-[34mweb:test:watch: [0mTime:        3.747 s
-[34mweb:test:watch: [0mRan all test suites related to changed files.
+[34mweb:test:watch: [0mTime:        4.193 s
+[34mweb:test:watch: [0mRan all test suites.
 [34mweb:test:watch: [0m

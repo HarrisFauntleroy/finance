@@ -5,7 +5,7 @@ import { Stack, Text } from "@chakra-ui/react"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Card, Table } from "ui"
-import ChartScaffold from "~/components/Chart"
+import Chart from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
 
 export const HistorySnapshots = () => {
@@ -70,11 +70,7 @@ export const HistorySnapshots = () => {
 							.reverse() || []
 					}
 				/>
-				<ChartScaffold
-					type="bar"
-					options={options}
-					series={[{ data: barSeries }]}
-				/>
+				<Chart type="bar" options={options} series={[{ data: barSeries }]} />
 			</Stack>
 		</Card>
 	)

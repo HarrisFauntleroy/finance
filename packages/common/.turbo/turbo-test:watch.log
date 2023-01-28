@@ -1,0 +1,167 @@
+[36mcommon:test:watch[0m: cache hit, replaying output [2mcb93e1d2af8860dd[0m
+[36mcommon:test:watch: [0m$ yarn test --watchAll
+[36mcommon:test:watch: [0m$ jest --passWithNoTests --watchAll
+[36mcommon:test:watch: [0mPASS src/math/average/average.test.ts
+[36mcommon:test:watch: [0mFAIL src/finance/currency.test.ts
+[36mcommon:test:watch: [0m  ● getConversionRate › should return the correct conversion rate
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    expect(received).toEqual(expected) // deep equality
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    Expected: "0.80"
+[36mcommon:test:watch: [0m    Received: "0"
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      14 | 		const result = getConversionRate(rates, fromCurrency, toCurrency).value
+[36mcommon:test:watch: [0m      15 |
+[36mcommon:test:watch: [0m    > 16 | 		expect(result).toEqual(expected)
+[36mcommon:test:watch: [0m         | 		               ^
+[36mcommon:test:watch: [0m      17 | 	})
+[36mcommon:test:watch: [0m      18 |
+[36mcommon:test:watch: [0m      19 | 	it("should return an error if the from currency is invalid", () => {
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/currency.test.ts:16:18)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m  ● getConversionRate › should return an error if the to currency is invalid
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    expect(received).toEqual(expected) // deep equality
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    - Expected  - 1
+[36mcommon:test:watch: [0m    + Received  + 1
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      Object {
+[36mcommon:test:watch: [0m    -   "error": "Invalid to currency: INVALID",
+[36mcommon:test:watch: [0m    +   "error": "Invalid from currency: USD",
+[36mcommon:test:watch: [0m        "value": "0",
+[36mcommon:test:watch: [0m      }
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      44 | 		const result = getConversionRate(rates, fromCurrency, toCurrency)
+[36mcommon:test:watch: [0m      45 |
+[36mcommon:test:watch: [0m    > 46 | 		expect(result).toEqual(expected)
+[36mcommon:test:watch: [0m         | 		               ^
+[36mcommon:test:watch: [0m      47 | 	})
+[36mcommon:test:watch: [0m      48 | })
+[36mcommon:test:watch: [0m      49 |
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/currency.test.ts:46:18)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m  ● convertCurrency › should convert the currency correctly
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    expect(received).toEqual(expected) // deep equality
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    Expected: "80.00"
+[36mcommon:test:watch: [0m    Received: "0.00"
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      69 | 		}).toString()
+[36mcommon:test:watch: [0m      70 |
+[36mcommon:test:watch: [0m    > 71 | 		expect(result).toEqual(expected)
+[36mcommon:test:watch: [0m         | 		               ^
+[36mcommon:test:watch: [0m      72 | 	})
+[36mcommon:test:watch: [0m      73 |
+[36mcommon:test:watch: [0m      74 | 	it("should return 0 if the amount is 0", () => {
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/currency.test.ts:71:18)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m  ● convertCurrency › should return the same amount if the currencies are the same
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    expect(received).toEqual(expected) // deep equality
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    Expected: "100.00"
+[36mcommon:test:watch: [0m    Received: "0.00"
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      111 | 		}).toString()
+[36mcommon:test:watch: [0m      112 |
+[36mcommon:test:watch: [0m    > 113 | 		expect(result).toEqual(expected)
+[36mcommon:test:watch: [0m          | 		               ^
+[36mcommon:test:watch: [0m      114 | 	})
+[36mcommon:test:watch: [0m      115 | })
+[36mcommon:test:watch: [0m      116 |
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/currency.test.ts:113:18)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0mPASS src/helpers/array.test.ts
+[36mcommon:test:watch: [0mts-jest[ts-jest-transformer] (WARN) Got a `.js` file to compile while `allowJs` option is not set to `true` (file: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/dist/index.js). To fix this:
+[36mcommon:test:watch: [0m  - if you want TypeScript to process JS files, set `allowJs` to `true` in your TypeScript config (usually tsconfig.json)
+[36mcommon:test:watch: [0m  - if you do not want TypeScript to process your `.js` files, in your Jest config change the `transform` key which value is `ts-jest` so that it does not match `.js` files anymore
+[36mcommon:test:watch: [0mts-jest[ts-jest-transformer] (WARN) Got a `.js` file to compile while `allowJs` option is not set to `true` (file: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/index.js). To fix this:
+[36mcommon:test:watch: [0m  - if you want TypeScript to process JS files, set `allowJs` to `true` in your TypeScript config (usually tsconfig.json)
+[36mcommon:test:watch: [0m  - if you do not want TypeScript to process your `.js` files, in your Jest config change the `transform` key which value is `ts-jest` so that it does not match `.js` files anymore
+[36mcommon:test:watch: [0mPASS src/helpers/flatten/flatten.test.ts
+[36mcommon:test:watch: [0m  ● Console
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    console.log
+[36mcommon:test:watch: [0m      { a: 1, c: 2, d: 3 }
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/helpers/flatten/flatten.test.ts:21:11)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    console.log
+[36mcommon:test:watch: [0m      { a: 1, c: 2, d: 3 }
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/helpers/flatten/flatten.test.ts:22:11)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0mPASS src/finance/helpers/burnRate/burnRate.test.ts
+[36mcommon:test:watch: [0m  ● Console
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    console.log
+[36mcommon:test:watch: [0m      [
+[36mcommon:test:watch: [0m        { date: 2022-01-01T00:00:00.000Z, value: 30 },
+[36mcommon:test:watch: [0m        { date: 2022-01-02T00:00:00.000Z, value: 20 },
+[36mcommon:test:watch: [0m        { date: 2022-01-03T00:00:00.000Z, value: 10 }
+[36mcommon:test:watch: [0m      ]
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/helpers/burnRate/burnRate.test.ts:38:11)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0mPASS src/finance/helpers/burnRate/calculateNumDaysInPeriod.test.ts
+[36mcommon:test:watch: [0mPASS src/math/percentageDifference.test.ts
+[36mcommon:test:watch: [0mts-jest[ts-jest-transformer] (WARN) Got a `.js` file to compile while `allowJs` option is not set to `true` (file: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/generated/prisma-client/runtime/index.js). To fix this:
+[36mcommon:test:watch: [0m  - if you want TypeScript to process JS files, set `allowJs` to `true` in your TypeScript config (usually tsconfig.json)
+[36mcommon:test:watch: [0m  - if you do not want TypeScript to process your `.js` files, in your Jest config change the `transform` key which value is `ts-jest` so that it does not match `.js` files anymore
+[36mcommon:test:watch: [0mPASS src/math/percentageChange.test.ts
+[36mcommon:test:watch: [0mFAIL src/finance/assets/index.test.ts
+[36mcommon:test:watch: [0m  ● Calculates an accounts total from its sub-accounts. Like asset imported from an exchange
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    expect(received).toEqual(expected) // deep equality
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    - Expected  - 2
+[36mcommon:test:watch: [0m    + Received  + 2
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m    @@ -6,11 +6,11 @@
+[36mcommon:test:watch: [0m          "apiSecret": null,
+[36mcommon:test:watch: [0m          "averageCost": "25000.00",
+[36mcommon:test:watch: [0m          "balance": "1",
+[36mcommon:test:watch: [0m          "belowTargetBalance": true,
+[36mcommon:test:watch: [0m          "category": "CRYPTOCURRENCY",
+[36mcommon:test:watch: [0m    -     "categoryId": "",
+[36mcommon:test:watch: [0m    +     "categoryId": null,
+[36mcommon:test:watch: [0m          "costBasis": "25000.00",
+[36mcommon:test:watch: [0m          "createdAt": 2023-01-28T10:07:25.243Z,
+[36mcommon:test:watch: [0m          "currency": "AUD",
+[36mcommon:test:watch: [0m          "deleted": false,
+[36mcommon:test:watch: [0m          "deletedAt": null,
+[36mcommon:test:watch: [0m    @@ -188,11 +188,11 @@
+[36mcommon:test:watch: [0m              "parentId": "43209489012480234802",
+[36mcommon:test:watch: [0m              "price": "3000.00",
+[36mcommon:test:watch: [0m              "realisedGain": "0",
+[36mcommon:test:watch: [0m              "saleable": "0.00",
+[36mcommon:test:watch: [0m              "saleableValue": "0.00",
+[36mcommon:test:watch: [0m    -         "shouldSell": true,
+[36mcommon:test:watch: [0m    +         "shouldSell": false,
+[36mcommon:test:watch: [0m              "status": "ACTIVE",
+[36mcommon:test:watch: [0m              "targetBalance": "1",
+[36mcommon:test:watch: [0m              "unrealisedGain": "-22000.00",
+[36mcommon:test:watch: [0m              "unrealisedGainPercentage": "-0.88",
+[36mcommon:test:watch: [0m              "updatedAt": 2023-01-28T10:07:25.243Z,
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      436 | 			userCurrency: "AUD",
+[36mcommon:test:watch: [0m      437 | 		})
+[36mcommon:test:watch: [0m    > 438 | 	).toEqual(expectedResult)
+[36mcommon:test:watch: [0m          | 	  ^
+[36mcommon:test:watch: [0m      439 | })
+[36mcommon:test:watch: [0m      440 |
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0m      at Object.<anonymous> (src/finance/assets/index.test.ts:438:4)
+[36mcommon:test:watch: [0m
+[36mcommon:test:watch: [0mTest Suites: 2 failed, 7 passed, 9 total
+[36mcommon:test:watch: [0mTests:       5 failed, 19 passed, 24 total
+[36mcommon:test:watch: [0mSnapshots:   0 total
+[36mcommon:test:watch: [0mTime:        3.686 s
+[36mcommon:test:watch: [0mRan all test suites.
+[36mcommon:test:watch: [0m

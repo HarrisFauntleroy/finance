@@ -1,5 +1,5 @@
 export * from "./assets"
 export * from "./transactions"
-export * from "./helpers"
+export * from "./maths"
 export * from "./ideas"
 export * from "./currency"

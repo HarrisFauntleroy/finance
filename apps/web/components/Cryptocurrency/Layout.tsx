@@ -10,7 +10,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
 			height="100%"
 			gridAutoFlow="dense"
 			templateAreas={{
-				sm: `"overview overview allocation allocation"
+				sm: `"overview overview overview allocation"
 						 "chart chart chart chart"
 						 "assets assets assets assets"
 						 "history history history history"`,
@@ -21,7 +21,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
 							 "history"`,
 			}}
 			gridTemplateRows={{
-				sm: "max-content max-content max-content 1fr max-content",
+				sm: "200px max-content max-content 1fr max-content",
 				base: "repeat(4, max-content)",
 			}}
 			gridTemplateColumns={{

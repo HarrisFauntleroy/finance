@@ -41,13 +41,11 @@ export const NetWorthCostBasisChart = () => {
 		userId: userId || "",
 	})
 
-	/** Show months and dates */
 	const labels = data?.portfolioSnapshot.map(({ createdAt }) =>
 		format(new Date(createdAt), "dd MMM")
 	)
 
 	const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA")
-
 	const netWorthBg = useColorModeValue("#48BB78", "#805AD5")
 
 	const lineData = useMemo(

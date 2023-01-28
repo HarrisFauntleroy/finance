@@ -1,6 +1,5 @@
 import React from "react"
 
-import { logger } from "common"
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
 import ChartScaffold from "~/components/Chart"
@@ -16,20 +15,13 @@ export const AllocationPieChart = () => {
 
 	const series = Object.values(allocationData || {})
 
-	logger.info(allocationData)
-
 	const options = {
-		chart: {
-			width: 380,
-		},
+		chart: {},
 		labels: Object.keys(allocationData || {}),
 		responsive: [
 			{
-				breakpoint: 480,
 				options: {
-					chart: {
-						width: 200,
-					},
+					chart: {},
 					legend: {
 						position: "bottom",
 					},

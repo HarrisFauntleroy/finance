@@ -1,11 +1,10 @@
 import { publicProcedure, router } from "../../trpc"
+import { AssetWithIdZod, AssetWithParentId, AssetZod } from "./zod"
 import { TRPCError } from "@trpc/server"
 import { calculateAssetOverview, calculateManyAsset } from "common"
 import { prisma } from "database"
-import { AccountConnection, Category } from "database/generated/prisma-client"
 import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
-import { decimal } from "~/utils/decimal"
 
 /**
  * Routers: Asset
@@ -17,32 +16,6 @@ import { decimal } from "~/utils/decimal"
  * asset.update ✅
  * asset.delete ✅
  */
-
-const AssetZod = z.object({
-	userId: z.string(),
-	name: z.string(),
-	connection: z.nativeEnum(AccountConnection).nullable(),
-	currency: z.string().max(3).min(3),
-	value: decimal(),
-	category: z.nativeEnum(Category),
-	marketId: z.string().nullable(),
-	balance: decimal().default(0),
-	targetBalance: decimal().default(0),
-	costBasis: decimal().default(0),
-	interestBearingBalance: decimal().default(0),
-	incomeRate: decimal().default(0),
-	walletAddress: z.string().nullable(),
-	apiKey: z.string().nullable(),
-	apiSecret: z.string().nullable(),
-})
-
-const AssetWithIdZod = AssetZod.extend({
-	id: z.string(),
-})
-
-const AssetWithParentId = AssetZod.extend({
-	parentId: z.string(),
-})
 
 export const assetRouter = router({
 	create: publicProcedure.input(AssetZod).mutation(async ({ input: data }) => {
@@ -238,11 +211,9 @@ export const assetRouter = router({
 				userId: z.string(),
 			})
 		)
-		.query(async ({ input }) => {
-			// Destructure the userId from the input object
-			const { userId } = input
-			// Fetch the asset data for the user with the specified userId
-			// Include the market data, children of the asset, and the user's settings
+		.query(async ({ input: { userId } }) => {
+			const userCurrency = await getUserCurrency(userId)
+			const exchangeRates = await getExchangeRates()
 			const data = await prisma.asset.findMany({
 				where: {
 					userId,
@@ -254,10 +225,6 @@ export const assetRouter = router({
 				},
 			})
 
-			const userCurrency = await getUserCurrency(userId)
-
-			const exchangeRates = await getExchangeRates()
-
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
@@ -265,14 +232,12 @@ export const assetRouter = router({
 				})
 			}
 
-			/** Calculate asset for overview */
 			const asset = calculateManyAsset({
 				data,
 				exchangeRates,
 				userCurrency,
 			})
 
-			/** Overview should be its own router */
 			const {
 				totalValue,
 				totalCostBasis,
