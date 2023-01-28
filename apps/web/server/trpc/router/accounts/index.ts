@@ -178,6 +178,7 @@ export const accountsRouter = router({
 					message: `No portfolioSnapshot with userId '${userId}'`,
 				})
 			}
+			// TODO would be nice if current total value and cost basis were in this as most recent data point
 			return portfolioSnapshot
 		}),
 })
