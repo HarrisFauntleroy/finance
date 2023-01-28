@@ -174,6 +174,10 @@ export type BudgetTransaction = {
   imageId: string | null
   budgetEnvelopeId: string | null
   userId: string
+  createdAt: Date
+  updatedAt: Date
+  deleted: boolean
+  deletedAt: Date | null
 }
 
 /**
@@ -890,7 +894,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 4.1.1
-   * Query Engine version: 8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+   * Query Engine version: 272861e07ab64f234d3ffc4094e32bd61775599c
    */
   export type PrismaVersion = {
     client: string
@@ -10549,6 +10553,10 @@ export namespace Prisma {
     imageId: string | null
     budgetEnvelopeId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetTransactionMaxAggregateOutputType = {
@@ -10574,6 +10582,10 @@ export namespace Prisma {
     imageId: string | null
     budgetEnvelopeId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deleted: boolean | null
+    deletedAt: Date | null
   }
 
   export type BudgetTransactionCountAggregateOutputType = {
@@ -10599,6 +10611,10 @@ export namespace Prisma {
     imageId: number
     budgetEnvelopeId: number
     userId: number
+    createdAt: number
+    updatedAt: number
+    deleted: number
+    deletedAt: number
     _all: number
   }
 
@@ -10642,6 +10658,10 @@ export namespace Prisma {
     imageId?: true
     budgetEnvelopeId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetTransactionMaxAggregateInputType = {
@@ -10667,6 +10687,10 @@ export namespace Prisma {
     imageId?: true
     budgetEnvelopeId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
   }
 
   export type BudgetTransactionCountAggregateInputType = {
@@ -10692,6 +10716,10 @@ export namespace Prisma {
     imageId?: true
     budgetEnvelopeId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    deleted?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -10810,6 +10838,10 @@ export namespace Prisma {
     imageId: string | null
     budgetEnvelopeId: string | null
     userId: string
+    createdAt: Date
+    updatedAt: Date
+    deleted: boolean
+    deletedAt: Date | null
     _count: BudgetTransactionCountAggregateOutputType | null
     _avg: BudgetTransactionAvgAggregateOutputType | null
     _sum: BudgetTransactionSumAggregateOutputType | null
@@ -10856,6 +10888,10 @@ export namespace Prisma {
     budgetEnvelope?: boolean | BudgetEnvelopeArgs
     user?: boolean | UserArgs
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deleted?: boolean
+    deletedAt?: boolean
   }
 
   export type BudgetTransactionInclude = {
@@ -23272,7 +23308,11 @@ export namespace Prisma {
     imageName: 'imageName',
     imageId: 'imageId',
     budgetEnvelopeId: 'budgetEnvelopeId',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
   export type BudgetTransactionScalarFieldEnum = (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum]
@@ -24120,6 +24160,10 @@ export namespace Prisma {
     budgetEnvelope?: XOR<BudgetEnvelopeRelationFilter, BudgetEnvelopeWhereInput> | null
     user?: XOR<UserRelationFilter, UserWhereInput>
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type BudgetTransactionOrderByWithRelationInput = {
@@ -24147,6 +24191,10 @@ export namespace Prisma {
     budgetEnvelope?: BudgetEnvelopeOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetTransactionWhereUniqueInput = {
@@ -24176,6 +24224,10 @@ export namespace Prisma {
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
     _count?: BudgetTransactionCountOrderByAggregateInput
     _avg?: BudgetTransactionAvgOrderByAggregateInput
     _max?: BudgetTransactionMaxOrderByAggregateInput
@@ -24209,6 +24261,10 @@ export namespace Prisma {
     imageId?: StringNullableWithAggregatesFilter | string | null
     budgetEnvelopeId?: StringNullableWithAggregatesFilter | string | null
     userId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    deleted?: BoolWithAggregatesFilter | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type CustomAssetCategoryWhereInput = {
@@ -25960,6 +26016,10 @@ export namespace Prisma {
     imageId?: string | null
     budgetEnvelope?: BudgetEnvelopeCreateNestedOneWithoutTransactionsInput
     user: UserCreateNestedOneWithoutBudgetTransactionsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUncheckedCreateInput = {
@@ -25985,6 +26045,10 @@ export namespace Prisma {
     imageId?: string | null
     budgetEnvelopeId?: string | null
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUpdateInput = {
@@ -26010,6 +26074,10 @@ export namespace Prisma {
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelope?: BudgetEnvelopeUpdateOneWithoutTransactionsNestedInput
     user?: UserUpdateOneRequiredWithoutBudgetTransactionsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateInput = {
@@ -26035,6 +26103,10 @@ export namespace Prisma {
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionCreateManyInput = {
@@ -26060,6 +26132,10 @@ export namespace Prisma {
     imageId?: string | null
     budgetEnvelopeId?: string | null
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUpdateManyMutationInput = {
@@ -26083,6 +26159,10 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateManyInput = {
@@ -26108,6 +26188,10 @@ export namespace Prisma {
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CustomAssetCategoryCreateInput = {
@@ -28226,6 +28310,10 @@ export namespace Prisma {
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetTransactionAvgOrderByAggregateInput = {
@@ -28259,6 +28347,10 @@ export namespace Prisma {
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetTransactionMinOrderByAggregateInput = {
@@ -28284,6 +28376,10 @@ export namespace Prisma {
     imageId?: SortOrder
     budgetEnvelopeId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deleted?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type BudgetTransactionSumOrderByAggregateInput = {
@@ -31186,6 +31282,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelope?: BudgetEnvelopeCreateNestedOneWithoutTransactionsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUncheckedCreateWithoutUserInput = {
@@ -31210,6 +31310,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelopeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionCreateOrConnectWithoutUserInput = {
@@ -31751,6 +31855,10 @@ export namespace Prisma {
     imageId?: StringNullableFilter | string | null
     budgetEnvelopeId?: StringNullableFilter | string | null
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    deleted?: BoolFilter | boolean
+    deletedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type AssetUpsertWithWhereUniqueWithoutUserInput = {
@@ -32569,6 +32677,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     user: UserCreateNestedOneWithoutBudgetTransactionsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUncheckedCreateWithoutBudgetEnvelopeInput = {
@@ -32593,6 +32705,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionCreateOrConnectWithoutBudgetEnvelopeInput = {
@@ -34986,6 +35102,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     budgetEnvelopeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type AssetCreateManyUserInput = {
@@ -35235,6 +35355,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelope?: BudgetEnvelopeUpdateOneWithoutTransactionsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateWithoutUserInput = {
@@ -35259,6 +35383,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateManyWithoutBudgetTransactionsInput = {
@@ -35283,6 +35411,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     budgetEnvelopeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssetUpdateWithoutUserInput = {
@@ -35856,6 +35988,10 @@ export namespace Prisma {
     imageName?: string | null
     imageId?: string | null
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deleted?: boolean
+    deletedAt?: Date | string | null
   }
 
   export type BudgetTransactionUpdateWithoutBudgetEnvelopeInput = {
@@ -35880,6 +36016,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutBudgetTransactionsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateWithoutBudgetEnvelopeInput = {
@@ -35904,6 +36044,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BudgetTransactionUncheckedUpdateManyWithoutTransactionsInput = {
@@ -35928,6 +36072,10 @@ export namespace Prisma {
     imageName?: NullableStringFieldUpdateOperationsInput | string | null
     imageId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssetCreateManyCustomCategoryInput = {

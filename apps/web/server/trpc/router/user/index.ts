@@ -115,7 +115,7 @@ export const userRouter = router({
 	findUsersWithBudget: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
-				budget: {
+				budgets: {
 					some: {},
 				},
 			},

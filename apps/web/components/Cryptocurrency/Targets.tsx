@@ -14,7 +14,7 @@ export const Targets = () => {
 	const userId = session?.data?.userId
 
 	// Use the trpc hook to make a query for the user's cryptocurrency targets
-	const { data } = trpc.cryptocurrency.targets.useQuery({
+	const { data } = trpc.assets.targets.useQuery({
 		userId: userId || "",
 	})
 
@@ -25,11 +25,11 @@ export const Targets = () => {
 				<Text>Target achieved</Text>
 				<Stack width="200px" maxHeight="300px" overflow="scroll">
 					{data?.map(
-						({ balance, targetBalance, marketId, displayName }) =>
+						({ balance, targetBalance, marketId, name }) =>
 							Number(targetBalance) > 0 && (
 								<Stack key={`progress${balance}`}>
 									<Flex justifyContent="space-between">
-										<Text>{marketId || displayName}</Text>
+										<Text>{marketId || name}</Text>
 										<Text>
 											{Number(balance) === 0
 												? 100
@@ -56,7 +56,7 @@ export const Targets = () => {
 										}
 									>
 										<ProgressLabel>
-											{balance > targetBalance
+											{balance > (targetBalance || 0)
 												? "OVER"
 												: balance === targetBalance
 												? "HOLDIng"

@@ -103,7 +103,7 @@ const CryptoComparison = () => {
 											width={1}
 											height={1}
 											alt=""
-											src={crypto.image || crypto.name}
+											src={crypto.image || crypto.name || ""}
 										/>
 										<Text>
 											{crypto.name} ({crypto.ticker})

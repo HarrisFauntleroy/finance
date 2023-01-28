@@ -13,7 +13,7 @@ import {
 	StatNumber,
 } from "@chakra-ui/react"
 import type { Row } from "@tanstack/react-table"
-import type { CalculatedCryptocurrency } from "common"
+import type { CalculatedAsset } from "common"
 import { percentageChange } from "common"
 import currency from "currency.js"
 import { Card, Debug, Grid, inDev } from "ui"
@@ -33,7 +33,7 @@ interface TableSubComponentProps<TData> {
 	row: Row<TData>
 }
 
-function TableSubComponent<TData extends CalculatedCryptocurrency>({
+function TableSubComponent<TData extends CalculatedAsset>({
 	row: {
 		original: { averageCost, price, ...original },
 	},

@@ -235,6 +235,11 @@ model BudgetTransaction {
   budgetEnvelope   BudgetEnvelope? @relation(fields: [budgetEnvelopeId], references: [id])
   user             User            @relation(fields: [userId], references: [id])
   userId           String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
