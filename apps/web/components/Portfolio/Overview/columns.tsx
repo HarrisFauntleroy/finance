@@ -165,7 +165,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
 								</Flex>
 							</>
 						) : (
-							<Currency value={balance} />
+							<Currency value={value} />
 						)}
 					</Stack>
 				</Tooltip>

@@ -1,4 +1,4 @@
-import { sumArrayByKey } from "../../helpers"
+import { logger, sumArrayByKey } from "../../helpers"
 import { divide, lessThan, multiply, subtract } from "../../math"
 import { convertCurrency } from "../currency"
 import currency from "currency.js"
@@ -178,25 +178,29 @@ export function calculateManyAsset({
 		/**
 		 * Calculate the summary for the main asset account
 		 */
-		const finalData = calculateAssetSummary(asset, exchangeRates, userCurrency)
+		const calculatedAsset = calculateAssetSummary(
+			asset,
+			exchangeRates,
+			userCurrency
+		)
 
 		/**
 		 * Calculate the summary for any children asset accounts
 		 * Mainly applicable to sub accounts like exchanges
 		 */
-		const subAssets = asset.subAssets?.map((child) =>
+		const calculatedSubAssets = asset.subAssets?.map((child) =>
 			calculateAssetSummary(child, exchangeRates, userCurrency)
 		)
 
 		/** Calculate totals for nested accounts */
-		if (subAssets !== undefined && subAssets.length > 0) {
+		if (calculatedSubAssets !== undefined && calculatedSubAssets.length > 0) {
 			return {
-				...finalData,
-				...calculateNestedAccountTotals(subAssets),
+				...calculatedAsset,
+				...calculateNestedAccountTotals(calculatedSubAssets),
 			}
 		}
 
-		return finalData
+		return calculatedAsset
 	})
 }
 

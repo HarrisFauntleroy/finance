@@ -114,9 +114,11 @@ export const assetRouter = router({
 				},
 				include: {
 					market: true,
+					transactions: true,
 					subAssets: {
 						include: {
 							market: true,
+							transactions: true,
 						},
 					},
 					user: {
@@ -132,17 +134,15 @@ export const assetRouter = router({
 			})
 
 			const userCurrency = await getUserCurrency(userId)
-
 			const exchangeRates = await getExchangeRates()
 
-			// If no asset was found for the user, throw an error
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: `No asset with userId '${userId}'`,
 				})
 			}
-			// Calculate the asset values using the provided data, exchange rates, and user currency
+
 			return calculateManyAsset({
 				data,
 				exchangeRates,

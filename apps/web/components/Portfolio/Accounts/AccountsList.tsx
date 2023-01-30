@@ -27,9 +27,9 @@ export const AccountsList = () => {
 			filterEnabled
 			paginationEnabled
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			renderSubComponent={(props: any) =>
-				(props?.row?.original?.Children?.length || 0) > 0 ? (
-					<Stack>
+			renderSubComponent={(props: any) => (
+				<Stack>
+					{(props?.row?.original?.Children?.length || 0) > 0 && (
 						<Table
 							id="cryptocurrencyOverview"
 							data={props?.row?.original?.Children || []}
@@ -38,12 +38,10 @@ export const AccountsList = () => {
 							renderSubComponent={TableSubComponent}
 							paginationEnabled
 						/>
-						<TableSubComponent row={props.row} />
-					</Stack>
-				) : (
+					)}
 					<TableSubComponent row={props.row} />
-				)
-			}
+				</Stack>
+			)}
 		/>
 	)
 }

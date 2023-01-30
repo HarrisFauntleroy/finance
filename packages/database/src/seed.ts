@@ -1,14 +1,18 @@
 import {
 	AccountConnection,
+	Asset,
+	AssetStatus,
+	AssetTransaction,
 	Category,
 	MarketType,
 } from "../generated/prisma-client"
 import { Decimal } from "../generated/prisma-client/runtime"
 import { prisma } from "./"
+import { logger } from "common"
 
 const userId = "cldcccmxr00064qvd106zmbff"
 
-const cryptos = [
+const assets = [
 	// {
 	// 	// Credit Card
 	// 	name: "American Express",
@@ -69,6 +73,7 @@ const cryptos = [
 		id: "seeded-ethereum",
 		name: "Ethereum",
 		currency: "aud",
+		institution: null,
 		apiKey: "",
 		apiSecret: "",
 		walletAddress: "0x3F8D494285c17df1889aAd531fFdC42cC28d323F",
@@ -81,7 +86,10 @@ const cryptos = [
 		account: AccountConnection.NONE,
 		category: Category.CRYPTOCURRENCY,
 		marketId: `eth_${Category.CRYPTOCURRENCY}`,
+		status: AssetStatus.ACTIVE,
 		userId,
+		categoryId: null,
+		parentId: null,
 	},
 	{
 		id: "seeded-amex",
@@ -99,7 +107,10 @@ const cryptos = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.CREDIT,
+		status: AssetStatus.ACTIVE,
 		userId,
+		categoryId: null,
+		parentId: null,
 	},
 	{
 		id: "seeded-australian-retirement-trust",
@@ -117,12 +128,16 @@ const cryptos = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.SUPERANNUATION,
+		status: AssetStatus.ACTIVE,
 		userId,
+		categoryId: null,
+		parentId: null,
 	},
 	{
 		id: "seeded-self-wealth",
 		name: "Selfwealth",
 		institution: "Selfwealth",
+		parentId: null,
 		currency: "aud",
 		apiKey: "",
 		apiSecret: "",
@@ -135,30 +150,77 @@ const cryptos = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.INVESTMENT,
+		status: AssetStatus.ACTIVE,
 		userId,
-		// GET TRANSACTIONS WORKING?
-		// subAssets: [
-		// 	{
-		// 		parentId: "seeded-self-wealth",
-		// 		id: "seeded-self-wealth-vdhg",
-		// 		name: "VDHG",
-		// 		marketId: `vdhg_${Category.INVESTMENT}`,
-		// 		institution: "Vanguard",
-		// 		currency: "aud",
-		// 		apiKey: "",
-		// 		apiSecret: "",
-		// 		walletAddress: "",
-		// 		balance: new Decimal(237),
-		// 		costBasis: new Decimal(0),
-		// 		realisedGain: new Decimal(0),
-		// 		targetBalance: new Decimal(0),
-		// 		interestBearingBalance: new Decimal(0),
-		// 		incomeRate: new Decimal(0),
-		// 		account: AccountConnection.NONE,
-		// 		category: Category.INVESTMENT,
-		// 		userId,
-		// 	},
-		// ],
+		categoryId: null,
+		transactions: [
+			{
+				id: "",
+				timestamp: new Date(),
+				pricePerUnit: new Decimal(0),
+				baseCurrency: "aud",
+				quantity: new Decimal(0),
+				quantityFilled: new Decimal(0),
+				fee: new Decimal(0),
+				valueInBaseCurrency: new Decimal(0),
+				fromAsset: "",
+				toAsset: "",
+				market: "",
+				transactionType: "",
+				expiry: "",
+				transactionHash: "",
+				description: "",
+				memo: "",
+				relatedAssetId: "",
+				userId: "",
+			},
+		],
+		subAssets: [
+			{
+				parentId: "seeded-self-wealth",
+				id: "seeded-self-wealth-vdhg",
+				name: "VDHG",
+				institution: "Vanguard",
+				currency: "aud",
+				apiKey: "",
+				marketId: `vdhg_${Category.INVESTMENT}`,
+				apiSecret: "",
+				walletAddress: "",
+				balance: new Decimal(232),
+				costBasis: new Decimal(0),
+				realisedGain: new Decimal(0),
+				targetBalance: new Decimal(0),
+				interestBearingBalance: new Decimal(0),
+				incomeRate: new Decimal(0),
+				account: AccountConnection.NONE,
+				category: Category.INVESTMENT,
+				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
+				transactions: [
+					{
+						id: "seeded-self-wealth-vdhg-tx-1",
+						timestamp: new Date(),
+						pricePerUnit: new Decimal(55),
+						baseCurrency: "aud",
+						quantity: new Decimal(0),
+						quantityFilled: new Decimal(0),
+						fee: new Decimal(0),
+						valueInBaseCurrency: new Decimal(0),
+						fromAsset: "",
+						toAsset: "",
+						market: "",
+						transactionType: "",
+						expiry: "",
+						transactionHash: "",
+						description: "",
+						memo: "",
+						relatedAssetId: "",
+						userId: "",
+					},
+				],
+			},
+		],
 	},
 	{
 		id: "seeded-swyftx",
@@ -178,6 +240,9 @@ const cryptos = [
 		account: AccountConnection.SWYFTX,
 		category: Category.CRYPTOCURRENCY,
 		userId,
+		categoryId: null,
+		status: AssetStatus.ACTIVE,
+		parentId: null,
 	},
 	{
 		id: "seeded-crypto-dot-com",
@@ -196,6 +261,9 @@ const cryptos = [
 		account: AccountConnection.NONE,
 		category: Category.INVESTMENT,
 		userId,
+		categoryId: null,
+		status: AssetStatus.ACTIVE,
+		parentId: null,
 		subAssets: [
 			{
 				parentId: "seeded-crypto-dot-com",
@@ -215,6 +283,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-crypto-dot-com",
@@ -234,6 +304,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-crypto-dot-com",
@@ -253,6 +325,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 		],
 	},
@@ -273,6 +347,8 @@ const cryptos = [
 		account: AccountConnection.NONE,
 		category: Category.CASH,
 		userId,
+		categoryId: null,
+		parentId: null,
 		subAssets: [
 			{
 				parentId: "seeded-macquarie-bank",
@@ -292,6 +368,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -311,6 +389,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -330,6 +410,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -349,6 +431,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -368,6 +452,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -387,6 +473,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -406,6 +494,8 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -425,18 +515,63 @@ const cryptos = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
 			},
 		],
 	},
-	// {
-	// 	// Cryptocurrency
-	// 	name: "Ergo",
-	// },
 ]
+
+type OmitFromAsset =
+	| "createdAt"
+	| "updatedAt"
+	| "deletedAt"
+	| "deleted"
+	| "marketId"
+
+type AssetWithRelatioms = Omit<Asset, OmitFromAsset> & {
+	subAssets?: Asset[]
+	transactions?: AssetTransaction[]
+	marketId?: string | null
+}
+
+const upsertTransactions = (transactions: AssetTransaction[]) =>
+	transactions.forEach((transaction) => {
+		prisma.assetTransaction.upsert({
+			where: { id: transaction.id },
+			create: transaction,
+			update: transaction,
+		})
+	})
+
+const upsertAssets = (assets: AssetWithRelatioms[]) =>
+	assets.forEach((asset) => {
+		const { subAssets, transactions, ...data } = asset
+		logger.info("Assets...")
+		prisma.asset.upsert({
+			where: { id: asset.id },
+			create: data,
+			update: data,
+		})
+		if (subAssets) {
+			logger.info("Sub assets...")
+			subAssets.forEach((subAsset) => {
+				prisma.asset.upsert({
+					where: { id: subAsset.id },
+					create: subAsset,
+					update: subAsset,
+				})
+			})
+		}
+		if (transactions) {
+			logger.info("Transactions...")
+			upsertTransactions(transactions)
+		}
+	})
 
 ;(async () => {
 	try {
-		for (const crypto of cryptos) {
+		for (const crypto of assets) {
 			const { subAssets, ...data } = crypto
 			prisma.asset
 				.upsert({
