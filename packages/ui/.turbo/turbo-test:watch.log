@@ -1,5 +1,0 @@
-[35mui:test:watch[0m: cache hit, replaying output [2m565412f42a40b4ce[0m
-[35mui:test:watch: [0m$ yarn test --watchAll
-[35mui:test:watch: [0m$ jest --passWithNoTests --watchAll
-[35mui:test:watch: [0mNo tests found, exiting with code 0
-[35mui:test:watch: [0m

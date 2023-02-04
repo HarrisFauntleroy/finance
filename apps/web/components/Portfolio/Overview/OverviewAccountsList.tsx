@@ -11,11 +11,11 @@ import TableSubComponent from "~/components/Portfolio/Overview/TableSubRow"
 import { overviewAccountsListColumns } from "~/components/Portfolio/Overview/columns"
 import { trpc } from "~/utils/trpc"
 
-const TransactionTable = ({ data }: { data: AssetTransaction[] }) => {
-	return data.length > 0 ? (
+const TransactionTable = ({ transactions }: { transactions: AssetTransaction[] }) => {
+	return transactions.length > 0 ? (
 		<Table
 			id="portfolioOverviewAssetTransactions"
-			data={data || []}
+			data={transactions || []}
 			columns={transactionsListColumns}
 			getRowCanExpand
 			filterEnabled
@@ -26,12 +26,11 @@ const TransactionTable = ({ data }: { data: AssetTransaction[] }) => {
 	)
 }
 
-/** This will show assets, optionally sub assets, and transactions for both */
-const AssetTable = ({ data }: { data?: AssetSummaryOutput[] }) => {
-	return data && data?.length > 0 ? (
+const AssetTable = ({ assets }: { assets?: AssetSummaryOutput[] }) => {
+	return assets && assets?.length > 0 ? (
 		<Table
 			id="portfolioOverviewAssets"
-			data={data || []}
+			data={assets || []}
 			columns={overviewAccountsListColumns}
 			getRowCanExpand
 			filterEnabled
@@ -41,8 +40,8 @@ const AssetTable = ({ data }: { data?: AssetSummaryOutput[] }) => {
 				const { subAssets, transactions } = props.row.original
 				return (
 					<Stack>
-						<AssetTable data={subAssets} />
-						<TransactionTable data={transactions} />
+						<AssetTable assets={subAssets} />
+						<TransactionTable transactions={transactions} />
 						{/* Optional debug stuff  */}
 						<TableSubComponent row={props.row} />
 					</Stack>
@@ -66,7 +65,7 @@ export const OverviewAccountsList = () => {
 		<Stack>
 			<ControlBar />
 			{/* This should take an array of Assets */}
-			<AssetTable data={data} />
+			<AssetTable assets={data} />
 		</Stack>
 	)
 }

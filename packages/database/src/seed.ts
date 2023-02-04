@@ -4,15 +4,23 @@ import {
 	AssetStatus,
 	AssetTransaction,
 	Category,
-	MarketType,
 } from "../generated/prisma-client"
 import { Decimal } from "../generated/prisma-client/runtime"
 import { prisma } from "./"
 import { logger } from "common"
 
+type AssetWithRelations = Omit<
+	Asset,
+	"createdAt" | "updatedAt" | "deletedAt" | "deleted" | "marketId"
+> & {
+	subAssets?: Asset[]
+	transactions?: AssetTransaction[]
+	marketId?: string | null
+}
+
 const userId = "cldcccmxr00064qvd106zmbff"
 
-const assets = [
+const assets: AssetWithRelations[] = [
 	// {
 	// 	// Credit Card
 	// 	name: "American Express",
@@ -86,6 +94,28 @@ const assets = [
 		account: AccountConnection.NONE,
 		category: Category.CRYPTOCURRENCY,
 		marketId: `eth_${Category.CRYPTOCURRENCY}`,
+		status: AssetStatus.ACTIVE,
+		userId,
+		categoryId: null,
+		parentId: null,
+	},
+	{
+		id: "seeded-evmos",
+		name: "Evmos",
+		currency: "aud",
+		institution: null,
+		apiKey: "",
+		apiSecret: "",
+		walletAddress: "",
+		balance: new Decimal(365.77),
+		costBasis: new Decimal(0),
+		realisedGain: new Decimal(0),
+		targetBalance: new Decimal(0),
+		interestBearingBalance: new Decimal(0),
+		incomeRate: new Decimal(0),
+		account: AccountConnection.NONE,
+		category: Category.CRYPTOCURRENCY,
+		marketId: `evmos_${Category.CRYPTOCURRENCY}`,
 		status: AssetStatus.ACTIVE,
 		userId,
 		categoryId: null,
@@ -167,7 +197,7 @@ const assets = [
 				toAsset: "",
 				market: "",
 				transactionType: "",
-				expiry: "",
+				expiry: null,
 				transactionHash: "",
 				description: "",
 				memo: "",
@@ -522,19 +552,6 @@ const assets = [
 	},
 ]
 
-type OmitFromAsset =
-	| "createdAt"
-	| "updatedAt"
-	| "deletedAt"
-	| "deleted"
-	| "marketId"
-
-type AssetWithRelatioms = Omit<Asset, OmitFromAsset> & {
-	subAssets?: Asset[]
-	transactions?: AssetTransaction[]
-	marketId?: string | null
-}
-
 const upsertTransactions = (transactions: AssetTransaction[]) =>
 	transactions.forEach((transaction) => {
 		prisma.assetTransaction.upsert({
@@ -544,7 +561,7 @@ const upsertTransactions = (transactions: AssetTransaction[]) =>
 		})
 	})
 
-const upsertAssets = (assets: AssetWithRelatioms[]) =>
+const upsertAssets = (assets: AssetWithRelations[]) =>
 	assets.forEach((asset) => {
 		const { subAssets, transactions, ...data } = asset
 		logger.info("Assets...")
@@ -555,13 +572,7 @@ const upsertAssets = (assets: AssetWithRelatioms[]) =>
 		})
 		if (subAssets) {
 			logger.info("Sub assets...")
-			subAssets.forEach((subAsset) => {
-				prisma.asset.upsert({
-					where: { id: subAsset.id },
-					create: subAsset,
-					update: subAsset,
-				})
-			})
+			upsertAssets(subAssets)
 		}
 		if (transactions) {
 			logger.info("Transactions...")
@@ -570,50 +581,15 @@ const upsertAssets = (assets: AssetWithRelatioms[]) =>
 	})
 
 ;(async () => {
+	logger.info("Starting")
 	try {
-		for (const crypto of assets) {
-			const { subAssets, ...data } = crypto
-			prisma.asset
-				.upsert({
-					where: { id: crypto.id },
-					create: data,
-					update: data,
-				})
-				.then((assetUpsertResult) => {
-					crypto.subAssets?.map(async (subData) => {
-						await prisma.asset
-							.upsert({
-								where: { id: subData.id },
-								create: { ...subData },
-								update: subData,
-							})
-							.then(() => {
-								if (assetUpsertResult.marketId) {
-									prisma.market.upsert({
-										where: {
-											id: assetUpsertResult.marketId,
-										},
-										create: {
-											id: assetUpsertResult.marketId,
-											ticker: assetUpsertResult?.marketId?.split("_")[0],
-											currency: assetUpsertResult.currency,
-											type: MarketType[
-												assetUpsertResult?.marketId?.split(
-													"_"
-												)[1] as keyof typeof MarketType
-											],
-										},
-										update: { id: assetUpsertResult.marketId },
-									})
-								}
-							})
-					})
-				})
-		}
+		logger.info("Attempting to upsertAssets")
+		upsertAssets(assets)
 	} catch (error) {
-		console.log(`seed: ${error}`)
+		logger.info(`Error while upserting Assets ${error}`)
 		process.exit(1)
 	} finally {
+		logger.info("Finished")
 		await prisma.$disconnect()
 	}
 })()

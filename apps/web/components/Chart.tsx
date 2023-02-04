@@ -12,22 +12,22 @@ interface ChartScaffoldProps {
 	options?: ApexCharts.ApexOptions
 	style?: CSSProperties
 	type:
-		| "area"
-		| "line"
-		| "bar"
-		| "scatter"
-		| "bubble"
-		| "pie"
-		| "polarArea"
-		| "radar"
-		| "histogram"
-		| "donut"
-		| "radialBar"
-		| "heatmap"
-		| "treemap"
-		| "boxPlot"
-		| "candlestick"
-		| "rangeBar"
+	| "area"
+	| "line"
+	| "bar"
+	| "scatter"
+	| "bubble"
+	| "pie"
+	| "polarArea"
+	| "radar"
+	| "histogram"
+	| "donut"
+	| "radialBar"
+	| "heatmap"
+	| "treemap"
+	| "boxPlot"
+	| "candlestick"
+	| "rangeBar"
 }
 
 const ChartScaffold = (props: ChartScaffoldProps) => {

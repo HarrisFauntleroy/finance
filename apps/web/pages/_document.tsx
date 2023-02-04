@@ -7,6 +7,7 @@ import React from "react"
 
 import { ColorModeScript } from "@chakra-ui/react"
 import { Head, Html, Main, NextScript } from "next/document"
+import { theme } from "~/styles/theme"
 
 function Document() {
 	return (
@@ -44,7 +45,7 @@ function Document() {
 				/>
 			</Head>
 			<body>
-				<ColorModeScript initialColorMode="system" />
+				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
 				<Main />
 				<NextScript />
 			</body>

@@ -12,15 +12,6 @@
 			}
 		]
 	},
-	"include": [
-		"**/*.config.js",
-		"**/*.js",
-		"**/*.jsx",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.stories.jsx",
-		".next/types/**/*.ts",
-		"hooks/useLagRadar.js"
-	],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["**/node_modules"]
 }

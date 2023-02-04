@@ -1,21 +1,18 @@
-import React from "react"
+import React from "react";
+import { storiesOf } from "@storybook/react";
+import { Button } from "./Button";
 
-import { Button } from "./Button"
-import type { ComponentMeta, ComponentStory } from "@storybook/react"
-
-export default {
-	title: "Button",
-	component: Button,
-} as ComponentMeta<typeof Button>
-
-export const Primary: ComponentStory<typeof Button> = () => (
-	<Button backgroundColor="#ff0">Button</Button>
-)
-
-export const Secondary: ComponentStory<typeof Button> = () => (
-	<Button backgroundColor="#ff0">😄👍😍💯</Button>
-)
-
-export const Tertiary: ComponentStory<typeof Button> = () => (
-	<Button backgroundColor="#ff0">📚📕📈🤓</Button>
-)
+storiesOf("Button", module)
+	.add("with text", () => <Button>Hello Button</Button>)
+	.add("with emoji", () => (
+		<Button>
+			<span role="img" aria-label="so cool">
+				😀 😎 👍 💯
+			</span>
+		</Button>
+	))
+	.add("with custom styles", () => (
+		<Button fontWeight="bold" color="blue.500">
+			Custom styles
+		</Button>
+	));

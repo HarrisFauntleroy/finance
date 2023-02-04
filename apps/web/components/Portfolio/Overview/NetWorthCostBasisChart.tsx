@@ -41,7 +41,7 @@ export const NetWorthCostBasisChart = () => {
 		userId: userId || "",
 	})
 
-	const labels = data?.portfolioSnapshot.map(({ createdAt }) =>
+	const labels = data?.portfolioSnapshot?.map(({ createdAt }) =>
 		format(new Date(createdAt), "dd MMM")
 	)
 

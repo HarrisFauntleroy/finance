@@ -1,5 +1,0 @@
-[32mworker:test:watch[0m: cache hit, replaying output [2m2404d73919ecaac6[0m
-[32mworker:test:watch: [0m$ yarn test --watchAll
-[32mworker:test:watch: [0m$ jest --passWithNoTests --watchAll
-[32mworker:test:watch: [0mNo tests found, exiting with code 0
-[32mworker:test:watch: [0m

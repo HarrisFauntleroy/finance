@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useMemo } from "react"
 
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
 import ChartScaffold from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
+import currency from "currency.js"
 
 export const AllocationPieChart = () => {
 	const session = useSession()
@@ -15,20 +16,22 @@ export const AllocationPieChart = () => {
 
 	const series = Object.values(allocationData || {})
 
-	const options = {
-		chart: {},
+	const options = useMemo(() => ({
+		chart: {
+			type: 'pie' as const,
+		},
 		labels: Object.keys(allocationData || {}),
-		responsive: [
-			{
-				options: {
-					chart: {},
-					legend: {
-						position: "bottom",
-					},
-				},
+		legend: {
+			enabled: true,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			formatter: function (_val: any, opt: any) {
+				return opt.w.globals.labels[opt.seriesIndex].slice(0, 6) + ":  " + currency(opt.w.globals.series[opt.seriesIndex]).format()
 			},
-		],
-	}
+		},
+		dataLabels: {
+			enabled: true,
+		},
+	}), [allocationData])
 
 	return (
 		<Card>

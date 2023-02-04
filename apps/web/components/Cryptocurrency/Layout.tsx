@@ -10,7 +10,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
 			height="100%"
 			gridAutoFlow="dense"
 			templateAreas={{
-				sm: `"overview overview overview allocation"
+				sm: `"overview overview allocation allocation"
 						 "chart chart chart chart"
 						 "assets assets assets assets"
 						 "history history history history"`,

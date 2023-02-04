@@ -1,9 +1,71 @@
-import { logger, sumArrayByKey } from "../../helpers"
+import { sumArrayByKey } from "../../helpers"
 import { divide, lessThan, multiply, subtract } from "../../math"
 import { convertCurrency } from "../currency"
 import currency from "currency.js"
-import { Asset, Category, Market } from "database/generated/prisma-client"
+import {
+	Category,
+	Market,
+	Asset as PrismaAsset,
+	AssetTransaction as PrismaAssetTransaction,
+} from "database/generated/prisma-client"
 
+/**
+ * New and improved
+ */
+
+interface Asset extends PrismaAsset {
+	subAssets?: Asset[]
+	transactions?: AssetTransaction[]
+}
+
+interface CalculatedAsset extends PrismaAsset {
+	subAssets?: CalculatedAsset[]
+	transactions?: CalculatedAssetTransaction[]
+}
+
+interface AssetTransaction extends PrismaAssetTransaction {}
+
+interface CalculatedAssetTransaction extends PrismaAssetTransaction {}
+
+export function calculateAssetTransaction(
+	transaction: AssetTransaction
+): CalculatedAssetTransaction {
+	return transaction
+}
+
+export function calculateAssetTransactions(
+	transactions: AssetTransaction[]
+): CalculatedAssetTransaction[] {
+	return transactions.map((transaction) => {
+		return {
+			...transaction,
+		}
+	})
+}
+
+export function calculateAsset(asset: Asset): CalculatedAsset {
+	let assetData = asset
+
+	return {
+		...assetData,
+		// 	...(asset.subAssets && {
+		// 		subAssets: calculateAssets(asset.subAssets),
+		// 	}),
+		// 	...(asset.transactions && {
+		// 		transactions: calculateAssetTransactions(asset.transactions),
+		// 	}),
+	}
+}
+
+export function calculateAssets(assets: Asset[]): CalculatedAsset[] {
+	return assets.map((asset) => {
+		return calculateAsset(asset)
+	})
+}
+
+/**
+ * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ */
 export type AssetComplete = Asset & {
 	user?: {
 		settings: {
@@ -23,19 +85,15 @@ export type AssetCompleteChild = Asset & {
 	market?: Market | null
 }
 
-// Remove nested children
 export type subAssetsOmitsubAssets = Omit<AssetComplete, "subAssets">
 
 /** Extends asset type with all relations */
 export interface AssetAndsubAssetsComplete
 	extends Omit<AssetComplete, "subAssets"> {
 	// Re add children without nesting
+	// why?
 	subAssets?: subAssetsOmitsubAssets[]
 }
-
-/** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-// TODO break all of these into their own files
-/** =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 export type AssetOmitCostBasisAndsubAssets = Omit<
 	AssetComplete,

@@ -29,16 +29,12 @@ interface SettingsFormProps {
 }
 
 export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
-	/** Session from next-auth */
 	const session = useSession()
-	/** userId */
 	const userId = session.data?.userId
-	/** Toast controls */
 	const toast = useToast()
 
 	const updatesettings = trpc.settings.update.useMutation()
 
-	/** Fetch list of assets for form autocomplete */
 	const { data: currencies } = trpc.markets.forex.useQuery()
 
 	const methods = useForm<Settings>({
@@ -52,7 +48,6 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
 		formState: { errors },
 	} = methods
 
-	/** React hook form memoizes values by default, so when defaultValues changes we reset the form */
 	useEffect(() => reset(defaultValues), [defaultValues, reset])
 
 	const onFormSubmit = (data: Settings) => {
