@@ -165,7 +165,7 @@
 		"remark-math": "^5.1.1",
 		"remark-mermaid": "^0.2.0",
 		"remark-mermaidjs": "^4.1.1",
-		"sharp": "0.31.2",
+		"sharp": "0.31.3",
 		"start-server-and-test": "1.14.0",
 		"superjson": "1.9.1",
 		"swagger-ui-react": "4.15.5",
