@@ -110,7 +110,7 @@
 		"@types/react-syntax-highlighter": "^15.5.5",
 		"@typescript-eslint/eslint-plugin": "^5.39.0",
 		"@uiw/react-markdown-preview": "^4.1.6",
-		"@uiw/react-md-editor": "3.6.0",
+		"@uiw/react-md-editor": "3.20.2",
 		"apexcharts": "*",
 		"axios": "1.2.6",
 		"bullmq": "2.4.0",
