@@ -1,0 +1,19 @@
+[36mui:build[0m: cache hit, replaying output [2m667947c51250339a[0m
+[36mui:build: [0m$ tsup src/index.ts --format esm,cjs --dts --external react
+[36mui:build: [0mCLI Building entry: src/index.ts
+[36mui:build: [0mCLI Using tsconfig: tsconfig.json
+[36mui:build: [0mCLI tsup v6.5.0
+[36mui:build: [0mCLI Using tsup config: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/ui/tsup.config.ts
+[36mui:build: [0mCLI Target: es2021
+[36mui:build: [0mCLI Cleaning output folder
+[36mui:build: [0mESM Build start
+[36mui:build: [0mCJS Build start
+[36mui:build: [0mCJS dist/index.js     65.08 KB
+[36mui:build: [0mCJS dist/index.js.map 89.74 KB
+[36mui:build: [0mCJS ⚡️ Build success in 31ms
+[36mui:build: [0mESM dist/index.mjs     57.51 KB
+[36mui:build: [0mESM dist/index.mjs.map 90.70 KB
+[36mui:build: [0mESM ⚡️ Build success in 31ms
+[36mui:build: [0mDTS Build start
+[36mui:build: [0mDTS ⚡️ Build success in 5035ms
+[36mui:build: [0mDTS dist/index.d.ts 7.95 KB
