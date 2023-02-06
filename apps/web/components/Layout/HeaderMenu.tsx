@@ -27,8 +27,6 @@ export const HeaderMenuMobile = () => {
 	const { colorMode, toggleColorMode } = useColorMode()
 	const bg = useColorModeValue("white", "gray.800")
 
-
-
 	return (
 		<Menu>
 			<MenuButton

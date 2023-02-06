@@ -1,26 +1,145 @@
 import {
 	AccountConnection,
 	Asset,
+	AssetLabel,
 	AssetStatus,
 	AssetTransaction,
 	Category,
+	Prisma,
 } from "../generated/prisma-client"
 import { Decimal } from "../generated/prisma-client/runtime"
 import { prisma } from "./"
 import { logger } from "common"
 
-type AssetWithRelations = Omit<
-	Asset,
-	"createdAt" | "updatedAt" | "deletedAt" | "deleted" | "marketId"
-> & {
-	subAssets?: Asset[]
-	transactions?: AssetTransaction[]
-	marketId?: string | null
-}
+const selectAssetLabel = Prisma.validator<Prisma.AssetLabelSelect>()({
+	id: true,
+	name: true,
+	icon: true,
+	assetId: true,
+	createdAt: false,
+	updatedAt: false,
+	deletedAt: false,
+	deleted: false,
+})
+
+const selectAssetTransaction =
+	Prisma.validator<Prisma.AssetTransactionSelect>()({
+		id: true,
+		timestamp: true,
+		pricePerUnit: true,
+		baseCurrency: true,
+		quantity: true,
+		quantityFilled: true,
+		fee: true,
+		valueInBaseCurrency: true,
+		fromAsset: true,
+		toAsset: true,
+		market: true,
+		transactionType: true,
+		expiry: true,
+		status: true,
+		transactionHash: true,
+		description: true,
+		memo: true,
+		relatedAssetId: true,
+		relatedAsset: false,
+		user: false,
+		userId: true,
+		createdAt: false,
+		updatedAt: false,
+		deletedAt: false,
+		deleted: false,
+	})
+
+const selectSubAsset = Prisma.validator<Prisma.AssetSelect>()({
+	id: true,
+	name: true,
+	institution: true,
+	currency: true,
+	apiKey: true,
+	apiSecret: true,
+	walletAddress: true,
+	balance: true,
+	costBasis: true,
+	realisedGain: true,
+	targetBalance: true,
+	interestBearingBalance: true,
+	incomeRate: true,
+	account: true,
+	labels: { select: selectAssetLabel },
+	category: true,
+	categoryId: true,
+	customCategory: false,
+	marketId: true,
+	market: false,
+	parentId: true,
+	parent: false,
+	subAssets: true,
+	transactions: { select: selectAssetTransaction },
+	userId: true,
+	status: true,
+	createdAt: false,
+	updatedAt: false,
+	deletedAt: false,
+	deleted: false,
+})
+
+const selectAsset = Prisma.validator<Prisma.AssetSelect>()({
+	id: true,
+	name: true,
+	institution: true,
+	currency: true,
+	apiKey: true,
+	apiSecret: true,
+	walletAddress: true,
+	balance: true,
+	costBasis: true,
+	realisedGain: true,
+	targetBalance: true,
+	interestBearingBalance: true,
+	incomeRate: true,
+	account: true,
+	labels: { select: selectAssetLabel },
+	category: true,
+	categoryId: true,
+	customCategory: false,
+	marketId: true,
+	market: false,
+	parentId: true,
+	parent: false,
+	subAssets: { select: selectSubAsset },
+	transactions: { select: selectAssetTransaction },
+	userId: true,
+	status: true,
+	createdAt: false,
+	updatedAt: false,
+	deletedAt: false,
+	deleted: false,
+})
+
+const assetArgs = Prisma.validator<Prisma.AssetArgs>()({
+	select: selectAsset,
+})
+
+type AssetsWithSubAssetsAndTransactions = Prisma.AssetGetPayload<
+	typeof assetArgs
+>
+
+// const assetArgs = Prisma.validator<Prisma.AssetArgs>()({
+// 	include: {
+// 		transactions: true,
+// 		subAssets: true,
+// 		labels: true,
+// 	},
+// })
+
+// type AssetsWithSubAssetsAndTransactions = Prisma.AssetGetPayload<
+// 	typeof assetArgs
+// >
 
 const userId = "cldcccmxr00064qvd106zmbff"
 
-const assets: AssetWithRelations[] = [
+const assets: AssetsWithSubAssetsAndTransactions[] = [
 	// {
 	// 	// Credit Card
 	// 	name: "American Express",
@@ -94,10 +213,13 @@ const assets: AssetWithRelations[] = [
 		account: AccountConnection.NONE,
 		category: Category.CRYPTOCURRENCY,
 		marketId: `eth_${Category.CRYPTOCURRENCY}`,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		userId,
+		subAssets: [],
 		categoryId: null,
 		parentId: null,
+		transactions: [],
+		labels: [],
 	},
 	{
 		id: "seeded-evmos",
@@ -116,10 +238,20 @@ const assets: AssetWithRelations[] = [
 		account: AccountConnection.NONE,
 		category: Category.CRYPTOCURRENCY,
 		marketId: `evmos_${Category.CRYPTOCURRENCY}`,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		userId,
+		subAssets: [],
 		categoryId: null,
 		parentId: null,
+		transactions: [],
+		labels: [
+			{
+				id: "seed-label",
+				name: "seed-label",
+				icon: "seed-label",
+				assetId: "seeded-evmos",
+			},
+		],
 	},
 	{
 		id: "seeded-amex",
@@ -137,10 +269,14 @@ const assets: AssetWithRelations[] = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.CREDIT,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		userId,
+		subAssets: [],
 		categoryId: null,
 		parentId: null,
+		transactions: [],
+		labels: [],
+		marketId: null,
 	},
 	{
 		id: "seeded-australian-retirement-trust",
@@ -158,10 +294,14 @@ const assets: AssetWithRelations[] = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.SUPERANNUATION,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		userId,
+		subAssets: [],
 		categoryId: null,
 		parentId: null,
+		transactions: [],
+		labels: [],
+		marketId: null,
 	},
 	{
 		id: "seeded-self-wealth",
@@ -180,31 +320,12 @@ const assets: AssetWithRelations[] = [
 		incomeRate: new Decimal(0),
 		account: AccountConnection.NONE,
 		category: Category.INVESTMENT,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		userId,
 		categoryId: null,
-		transactions: [
-			{
-				id: "",
-				timestamp: new Date(),
-				pricePerUnit: new Decimal(0),
-				baseCurrency: "aud",
-				quantity: new Decimal(0),
-				quantityFilled: new Decimal(0),
-				fee: new Decimal(0),
-				valueInBaseCurrency: new Decimal(0),
-				fromAsset: "",
-				toAsset: "",
-				market: "",
-				transactionType: "",
-				expiry: null,
-				transactionHash: "",
-				description: "",
-				memo: "",
-				relatedAssetId: "",
-				userId: "",
-			},
-		],
+		marketId: null,
+		transactions: [],
+		labels: [],
 		subAssets: [
 			{
 				parentId: "seeded-self-wealth",
@@ -226,27 +347,30 @@ const assets: AssetWithRelations[] = [
 				category: Category.INVESTMENT,
 				userId,
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
+				labels: [],
+				subAssets: [],
 				transactions: [
 					{
 						id: "seeded-self-wealth-vdhg-tx-1",
-						timestamp: new Date(),
-						pricePerUnit: new Decimal(55),
+						timestamp: new Date("2023-01-23 13:34:15"),
+						pricePerUnit: new Decimal(55.7),
 						baseCurrency: "aud",
-						quantity: new Decimal(0),
-						quantityFilled: new Decimal(0),
-						fee: new Decimal(0),
-						valueInBaseCurrency: new Decimal(0),
-						fromAsset: "",
-						toAsset: "",
-						market: "",
-						transactionType: "",
-						expiry: "",
+						quantity: new Decimal(16),
+						quantityFilled: new Decimal(16),
+						fee: new Decimal(9.5),
+						valueInBaseCurrency: new Decimal(891.2),
+						fromAsset: "aud",
+						toAsset: "vdhg",
+						market: "asx",
+						transactionType: "buy",
+						expiry: new Date("2023-01-23T00:00:00.000Z"),
+						status: "filled",
 						transactionHash: "",
 						description: "",
 						memo: "",
-						relatedAssetId: "",
-						userId: "",
+						relatedAssetId: "cldh9eaoe1166govdd1moep73",
+						userId: "cldcccmxr00064qvd106zmbff",
 					},
 				],
 			},
@@ -270,9 +394,13 @@ const assets: AssetWithRelations[] = [
 		account: AccountConnection.SWYFTX,
 		category: Category.CRYPTOCURRENCY,
 		userId,
+		marketId: null,
+		subAssets: [],
 		categoryId: null,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
 		parentId: null,
+		transactions: [],
+		labels: [],
 	},
 	{
 		id: "seeded-crypto-dot-com",
@@ -292,7 +420,10 @@ const assets: AssetWithRelations[] = [
 		category: Category.INVESTMENT,
 		userId,
 		categoryId: null,
-		status: AssetStatus.ACTIVE,
+		status: "ACTIVE",
+		marketId: null,
+		transactions: [],
+		labels: [],
 		parentId: null,
 		subAssets: [
 			{
@@ -313,8 +444,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				marketId: null,
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
+				subAssets: [],
+				transactions: [],
+				labels: [],
 			},
 			{
 				parentId: "seeded-crypto-dot-com",
@@ -334,8 +469,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				marketId: null,
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
+				transactions: [],
+				subAssets: [],
+				labels: [],
 			},
 			{
 				parentId: "seeded-crypto-dot-com",
@@ -355,8 +494,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CRYPTOCURRENCY,
 				userId,
+				marketId: null,
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
+				transactions: [],
+				subAssets: [],
+				labels: [],
 			},
 		],
 	},
@@ -377,6 +520,10 @@ const assets: AssetWithRelations[] = [
 		account: AccountConnection.NONE,
 		category: Category.CASH,
 		userId,
+		transactions: [],
+		labels: [],
+		status: "ACTIVE",
+		marketId: null,
 		categoryId: null,
 		parentId: null,
 		subAssets: [
@@ -398,8 +545,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				subAssets: [],
+				transactions: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -408,6 +559,7 @@ const assets: AssetWithRelations[] = [
 				institution: "Macquarie Bank",
 				currency: "aud",
 				apiKey: "",
+				subAssets: [],
 				apiSecret: "",
 				walletAddress: "",
 				balance: new Decimal(473.57),
@@ -419,8 +571,11 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				transactions: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -440,8 +595,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				subAssets: [],
+				transactions: [],
+				labels: [],
+				marketId: null,
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -452,6 +611,7 @@ const assets: AssetWithRelations[] = [
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
+				subAssets: [],
 				balance: new Decimal(0),
 				costBasis: new Decimal(0),
 				realisedGain: new Decimal(0),
@@ -461,8 +621,11 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				transactions: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -482,8 +645,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				subAssets: [],
+				transactions: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -502,9 +669,13 @@ const assets: AssetWithRelations[] = [
 				incomeRate: new Decimal(0),
 				account: AccountConnection.NONE,
 				category: Category.CASH,
+				subAssets: [],
 				userId,
+				marketId: null,
+				transactions: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -524,8 +695,12 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				transactions: [],
+				subAssets: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 			{
 				parentId: "seeded-macquarie-bank",
@@ -545,40 +720,75 @@ const assets: AssetWithRelations[] = [
 				account: AccountConnection.NONE,
 				category: Category.CASH,
 				userId,
+				marketId: null,
+				transactions: [],
+				subAssets: [],
+				labels: [],
 				categoryId: null,
-				status: AssetStatus.ACTIVE,
+				status: "ACTIVE",
 			},
 		],
 	},
 ]
 
-const upsertTransactions = (transactions: AssetTransaction[]) =>
-	transactions.forEach((transaction) => {
-		prisma.assetTransaction.upsert({
-			where: { id: transaction.id },
-			create: transaction,
-			update: transaction,
-		})
-	})
+// Exclude keys from asset
+function exclude<User, Key extends keyof User>(
+	user: User,
+	keys: Key[]
+): Omit<User, Key> {
+	for (let key of keys) {
+		delete user[key]
+	}
+	return user
+}
 
-const upsertAssets = (assets: AssetWithRelations[]) =>
-	assets.forEach((asset) => {
-		const { subAssets, transactions, ...data } = asset
-		logger.info("Assets...")
-		prisma.asset.upsert({
+type IgnoreTypes = "createdAt" | "updatedAt" | "deletedAt" | "deleted"
+
+function upsertTransactions(
+	transactions: Omit<AssetTransaction, IgnoreTypes>[]
+) {
+	return transactions.forEach(
+		async (transaction) =>
+			await prisma.assetTransaction.upsert({
+				where: { id: transaction.id },
+				create: transaction,
+				update: transaction,
+			})
+	)
+}
+
+function upsertLabels(labels: Omit<AssetLabel, IgnoreTypes>[]) {
+	return labels.forEach(
+		async (label) =>
+			await prisma.assetLabel.upsert({
+				where: { id: label.id },
+				create: label,
+				update: label,
+			})
+	)
+}
+
+function upsertAssets(
+	assets: Omit<AssetsWithSubAssetsAndTransactions, IgnoreTypes>[]
+) {
+	return assets.forEach(async (asset) => {
+		const { subAssets, transactions, labels, marketId, ...data } = asset
+		await prisma.asset.upsert({
 			where: { id: asset.id },
 			create: data,
 			update: data,
 		})
 		if (subAssets) {
-			logger.info("Sub assets...")
 			upsertAssets(subAssets)
 		}
 		if (transactions) {
-			logger.info("Transactions...")
 			upsertTransactions(transactions)
 		}
+		if (labels) {
+			upsertLabels(labels)
+		}
 	})
+}
 
 ;(async () => {
 	logger.info("Starting")

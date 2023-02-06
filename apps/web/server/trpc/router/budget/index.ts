@@ -1,23 +1,11 @@
 import { publicProcedure, router } from "../../trpc"
-import { BudgetSchema } from "./schema"
+import { BudgetSchema } from "../budgetEnvelope/schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
 import { decimal } from "~/utils/decimal"
 
-/**
- * Routers: Budget
- * @Queries
- * budget.byId ✅
- * budget.byUserId ✅
- * @Mutations
- * budget.create ✅
- * budget.update ✅
- * budget.delete ✅
- */
-
 export const budgetRouter = router({
-	// Firstly, create a budget.
 	create: publicProcedure
 		.input(
 			z.object({
@@ -32,6 +20,7 @@ export const budgetRouter = router({
 				select: BudgetSchema,
 			})
 		}),
+
 	update: publicProcedure
 		.input(
 			z.object({
@@ -43,19 +32,19 @@ export const budgetRouter = router({
 		)
 		.mutation(async ({ input }) => {
 			const { id, ...data } = input
-			const budgetResponse = await prisma.budget.update({
-				where: { id },
-				data,
-				select: BudgetSchema,
-			})
-			if (!budgetResponse) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: `No budget with id '${id}'`,
+			return await prisma.budget
+				.update({
+					where: { id },
+					data,
+					select: BudgetSchema,
 				})
-			}
-			return budgetResponse
+				.catch(() => {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+					})
+				})
 		}),
+
 	byId: publicProcedure
 		.input(
 			z.object({
@@ -78,6 +67,7 @@ export const budgetRouter = router({
 			}
 			return budgetResponse
 		}),
+
 	byUserId: publicProcedure
 		.input(
 			z.object({
@@ -103,6 +93,7 @@ export const budgetRouter = router({
 			}
 			return budgetResponse
 		}),
+
 	transactionsByUserId: publicProcedure
 		.input(
 			z.object({
@@ -127,6 +118,7 @@ export const budgetRouter = router({
 			}
 			return budgetResponse
 		}),
+
 	// transactionsByUserId: publicProcedure
 	// 	.input(
 	// 		z.object({
@@ -148,6 +140,7 @@ export const budgetRouter = router({
 	// 		}
 	// 		return budgetResponse
 	// 	}),
+
 	delete: publicProcedure
 		.input(
 			z.object({

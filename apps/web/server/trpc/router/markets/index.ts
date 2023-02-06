@@ -1,42 +1,41 @@
 import { publicProcedure, router } from "../../trpc"
-import { MarketSchema, MarketSelectSchema } from "./schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { z } from "zod"
+import { decimal } from "~/utils/decimal"
 
-/**
- * Routers: Markets
- * @Queries
- * markets.byId ✅
- * markets.byUserId ✅
- * @Mutations
- * markets.create ✅
- * markets.update ✅
- * markets.delete ✅
- */
+export const createMarketInput = z.object({
+	name: z.string(),
+	ticker: z.string(),
+	description: z.string(),
+	currency: z.string(),
+	price: decimal(),
+	priceChange24h: decimal(),
+	priceChange24hPercent: decimal(),
+	marketCap: decimal(),
+	marketCapRank: decimal(),
+	type: z.nativeEnum(MarketType),
+	image: z.string(),
+	createdAt: z.date(),
+	updatedAt: z.date(),
+})
+
+export const updateMarketInput = createMarketInput.extend({
+	id: z.string(),
+})
 
 export const marketsRouter = router({
-	create: publicProcedure.input(MarketSchema).mutation(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
-	read: publicProcedure.input(MarketSchema).query(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
+	create: publicProcedure
+		.input(createMarketInput)
+		.mutation(async ({ input: data }) => {
+			return prisma.market.create({ data })
+		}),
+
 	update: publicProcedure
-		.input(
-			z.object({
-				name: z.string(),
-				ticker: z.string(),
-				type: z.nativeEnum(MarketType),
-				userId: z.string(),
-				data: MarketSchema,
-			})
-		)
-		.mutation(async ({ input }) => {
-			const { ticker, type, data } = input
+		.input(updateMarketInput)
+		.mutation(async ({ input: data }) => {
+			const { ticker, type } = data
 			return prisma.market.update({
 				where: {
 					ticker_type: {
@@ -45,9 +44,9 @@ export const marketsRouter = router({
 					},
 				},
 				data,
-				select: MarketSelectSchema,
 			})
 		}),
+
 	// Soft delete, worker clears all things that are marked deleted after 7 days by the worker app
 	delete: publicProcedure
 		.input(
@@ -71,6 +70,7 @@ export const marketsRouter = router({
 				},
 			})
 		}),
+
 	deleteQueue: publicProcedure.query(async () => {
 		return prisma.market.findMany({
 			where: {
@@ -79,16 +79,16 @@ export const marketsRouter = router({
 		})
 	}),
 
-	all: publicProcedure.input(MarketSchema).query(async () => {
+	all: publicProcedure.input(createMarketInput).query(async () => {
 		const market = await prisma.market.findMany()
 		if (!market) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
-				message: "Cannot find list of cryptocurrencies from [all]",
 			})
 		}
 		return market
 	}),
+
 	byName: publicProcedure
 		.input(
 			z.object({
@@ -98,7 +98,7 @@ export const marketsRouter = router({
 			})
 		)
 		.query(async ({ input }) => {
-			const { name, ticker, type } = input
+			const { ticker, type } = input
 			const market = await prisma.market.findUnique({
 				where: {
 					ticker_type: {
@@ -106,18 +106,16 @@ export const marketsRouter = router({
 						type,
 					},
 				},
-				select: MarketSelectSchema,
 			})
 			if (!market) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No market with name '${name}'`,
 				})
 			}
-
 			return market
 		}),
-	listMarkets: publicProcedure.input(MarketSchema).query(async () => {
+
+	listMarkets: publicProcedure.input(createMarketInput).query(async () => {
 		const market = await prisma.market.findMany({
 			select: {
 				name: true,
@@ -128,11 +126,11 @@ export const marketsRouter = router({
 		if (!market) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
-				message: "Cannot find list of Markets",
 			})
 		}
 		return market
 	}),
+
 	forex: publicProcedure.query(async () => {
 		const market = await prisma.market.findMany({
 			where: {
@@ -152,11 +150,11 @@ export const marketsRouter = router({
 		if (!market) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
-				message: "Cannot find list of Currencies",
 			})
 		}
 		return market
 	}),
+
 	cryptocurrency: publicProcedure.query(async () => {
 		const cryptocurrency = await prisma.market.findMany({
 			where: {
@@ -180,7 +178,6 @@ export const marketsRouter = router({
 		if (!cryptocurrency) {
 			throw new TRPCError({
 				code: "NOT_FOUND",
-				message: "Cannot find list of Cryptocurrency",
 			})
 		}
 		return cryptocurrency

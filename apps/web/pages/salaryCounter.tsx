@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from "react"
-import { useSpring, animated } from "react-spring"
+import React, { useEffect, useState } from "react"
+
+import {
+	Center,
+	Divider,
+	Flex,
+	FormControl,
+	FormLabel,
+	Heading,
+	Input,
+	Select,
+	Stack,
+} from "@chakra-ui/react"
 import { divide, multiply } from "common"
 import { differenceInSeconds, isAfter } from "date-fns"
-import { Center, Divider, Flex, FormControl, FormLabel, Heading, Input, Select, Stack } from "@chakra-ui/react"
+import { animated, useSpring } from "react-spring"
 
 const IncomeCounter = () => {
 	const [income, setIncome] = useState(125000)
@@ -14,27 +25,39 @@ const IncomeCounter = () => {
 	const [weeksWorked, setWeeksWorked] = useState(52)
 	const [hoursPerWeek, setHoursPerWeek] = useState(38)
 
-	const handleIncomeChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+	const handleIncomeChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setIncome(Number(e.target.value))
 	}
 
-	const handleFrequencyChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleFrequencyChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setFrequency(e.target.value)
 	}
 
-	const handleWeeksWorkedChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleWeeksWorkedChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setWeeksWorked(Number(e.target.value))
 	}
 
-	const handleHoursPerWeekChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleHoursPerWeekChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setHoursPerWeek(Number(e.target.value))
 	}
 
-	const handleStartTimeChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleStartTimeChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setStartTime(e.target.value)
 	}
 
-	const handleEndTimeChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleEndTimeChange = (e: {
+		target: { value: React.SetStateAction<string> }
+	}) => {
 		setEndTime(e.target.value)
 	}
 
@@ -64,18 +87,19 @@ const IncomeCounter = () => {
 			const timeElapsedInSeconds = differenceInSeconds(start, new Date())
 			const currentEarnings = multiply(earningsPerSecond, timeElapsedInSeconds)
 
-			// It could possibly reflect the time of day using emojis as well such as sunrise, sunset, morning, evening, night, sleeping, working, etc, 
-
+			// It could possibly reflect the time of day using emojis as well such as sunrise, sunset, morning, evening, night, sleeping, working, etc,
 
 			if (isAfter(new Date(), end)) {
-				setText(`🏝️ End of the day, total earned: $${Number(divide(multiply(earningsPerHour, hoursPerWeek), 5))}`)
+				setText(
+					`🏝️ End of the day, total earned: $${Number(
+						divide(multiply(earningsPerHour, hoursPerWeek), 5)
+					)}`
+				)
 				setCounter(Number(divide(multiply(earningsPerHour, hoursPerWeek), 5)))
-			}
-			else {
+			} else {
 				setText("Working... 👨‍🌾")
 				setCounter(Math.abs(Number(currentEarnings)))
 			}
-
 		}, 1000)
 
 		return () => clearInterval(intervalId)
@@ -87,20 +111,23 @@ const IncomeCounter = () => {
 	})
 
 	return (
-		<Stack >
-			<Center padding='16px'>
+		<Stack>
+			<Center padding="16px">
 				<Stack>
 					<Flex>
-						<Heading style={{ display: "flex", flexDirection: "row" }}>$
-							<animated.div>{props.counter.interpolate(val => val.toFixed(2))}</animated.div>
+						<Heading style={{ display: "flex", flexDirection: "row" }}>
+							$
+							<animated.div>
+								{props.counter.interpolate((val) => val.toFixed(2))}
+							</animated.div>
 						</Heading>
 					</Flex>
 					<Heading>{text}</Heading>
 				</Stack>
 			</Center>
 			<Divider />
-			<Center padding='16px'>
-				<Stack >
+			<Center padding="16px">
+				<Stack>
 					<FormControl>
 						<FormLabel>Income:</FormLabel>
 						<Input type="number" value={income} onChange={handleIncomeChange} />

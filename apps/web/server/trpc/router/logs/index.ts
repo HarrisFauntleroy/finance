@@ -1,21 +1,17 @@
 import { publicProcedure, router } from "../../trpc"
+import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
-
-/**
- * Routers: Log
- * @Queries
- * log.byId ✅
- * log.byUserId ✅
- * @Mutations
- * log.create ✅
- * log.update ✅
- * log.delete ✅
- */
 
 export const logRouter = router({
 	read: publicProcedure.query(async () => {
-		return await prisma.log.findMany({
-			orderBy: { createdAt: "desc" },
-		})
+		return await prisma.log
+			.findMany({
+				orderBy: { createdAt: "desc" },
+			})
+			.catch(() => {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+				})
+			})
 	}),
 })

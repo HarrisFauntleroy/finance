@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { publicProcedure, router } from "../../trpc"
+import { byUserId } from "../schema"
 import { TRPCError } from "@trpc/server"
 import {
 	calculateAssetOverview,
@@ -11,7 +12,6 @@ import currencyjs from "currency.js"
 import { prisma } from "database"
 import { Category } from "database/generated/prisma-client"
 import type { Decimal } from "database/generated/prisma-client/runtime"
-import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
 
 const sumGroupByCategory = (arr: any[], category: string) =>
@@ -56,7 +56,6 @@ export async function getPortfolioAllocation(userId: string): Promise<
 	})
 
 	const userCurrency = await getUserCurrency(userId)
-
 	const exchangeRates = await getExchangeRates()
 
 	// This piece of magic returns an object with a key for each category for a pie chart with a value
@@ -79,23 +78,10 @@ export async function getPortfolioAllocation(userId: string): Promise<
 	return sumGroupByCategory(mapped, "category")
 }
 
-/**
- * Routers: Accounts
- * @Queries
- * accounts.byUserId ✅
- * accounts.historyByUserId ✅
- */
-
 export const accountsRouter = router({
 	byUserId: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-			})
-		)
-		.query(async ({ input }) => {
-			const { userId } = input
-
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
 			const data = await prisma.user.findUnique({
 				where: {
 					id: userId,
@@ -112,29 +98,24 @@ export const accountsRouter = router({
 				},
 			})
 
-			const userCurrency = await getUserCurrency(userId)
-
-			const exchangeRates = await getExchangeRates()
-
 			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No user with userId '${userId}'`,
 				})
 			}
 
-			/** Calculate assets for overview */
+			const userCurrency = await getUserCurrency(userId)
+			const exchangeRates = await getExchangeRates()
+
 			const assets = calculateManyAsset({
-				data: data.assets,
+				data: data?.assets,
 				exchangeRates,
 				userCurrency,
 			})
 
-			// Calculate the total value, saleable value, total cost basis, and unrealised gain for the assets
 			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
 				calculateAssetOverview(assets)
 
-			// Return the calculated values and the user's assets and accounts history
 			return {
 				totalValue,
 				saleableValue,
@@ -144,26 +125,18 @@ export const accountsRouter = router({
 				portfolioSnapshot: data?.portfolioSnapshot,
 			}
 		}),
+
 	allocation: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-			})
-		)
-		.query(async ({ input }) => {
-			// Destructure the userId from the input object
-			const { userId } = input
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
 			return getPortfolioAllocation(userId)
 		}),
+
 	historyByUserId: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-			})
-		)
-		.query(async ({ input }) => {
-			const { userId } = input
-			const portfolioSnapshot = await prisma.user.findUnique({
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			// TODO would be nice if current total value and cost basis were in this as most recent data point
+			const data = await prisma.user.findUnique({
 				where: {
 					id: userId,
 				},
@@ -172,13 +145,13 @@ export const accountsRouter = router({
 					portfolioSnapshot: true,
 				},
 			})
-			if (!portfolioSnapshot) {
+
+			if (!data) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: `No portfolioSnapshot with userId '${userId}'`,
 				})
 			}
-			// TODO would be nice if current total value and cost basis were in this as most recent data point
-			return portfolioSnapshot
+
+			return data
 		}),
 })

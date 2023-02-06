@@ -1,6 +1,7 @@
-import React from "react";
-import { storiesOf } from "@storybook/react";
-import { Button } from "./Button";
+import React from "react"
+
+import { Button } from "./Button"
+import { storiesOf } from "@storybook/react"
 
 storiesOf("Button", module)
 	.add("with text", () => <Button>Hello Button</Button>)
@@ -15,4 +16,4 @@ storiesOf("Button", module)
 		<Button fontWeight="bold" color="blue.500">
 			Custom styles
 		</Button>
-	));
+	))

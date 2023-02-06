@@ -1,8 +1,9 @@
+import { prisma } from "database"
 import { AccountConnection, Category } from "database/generated/prisma-client"
 import { z } from "zod"
 import { decimal } from "~/utils/decimal"
 
-export const AssetZod = z.object({
+export const createAssetInput = z.object({
 	userId: z.string(),
 	name: z.string(),
 	connection: z.nativeEnum(AccountConnection).nullable(),
@@ -20,10 +21,6 @@ export const AssetZod = z.object({
 	apiSecret: z.string().nullable(),
 })
 
-export const AssetWithIdZod = AssetZod.extend({
-	id: z.string(),
-})
-
-export const AssetWithParentId = AssetZod.extend({
-	parentId: z.string(),
-})
+export async function createAsset(data: z.infer<typeof createAssetInput>) {
+	return await prisma.asset.create({ data })
+}

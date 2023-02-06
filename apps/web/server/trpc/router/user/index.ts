@@ -1,63 +1,37 @@
 import { publicProcedure, router } from "../../trpc"
-import { UserSchema, UserSelectSchema } from "./schema"
+import { byId } from "../schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
 
-/**
- * Routers: User
- * @Queries
- * user.byId ✅
- * user.byUserId ✅
- * @Mutations
- * user.create ✅
- * user.update ✅
- * user.delete ✅
- */
-
 export const userRouter = router({
-	create: publicProcedure.input(UserSchema).mutation(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
 	all: publicProcedure.query(async () => {
-		const users = await prisma.user.findMany({
-			select: {
-				id: true,
-				name: true,
-				image: true,
-				role: true,
-			},
-		})
-		if (!users) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: `No users found'`,
-			})
-		}
-
-		return users
-	}),
-	update: publicProcedure.input(UserSchema).mutation(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
-	// Soft delete, worker clears all things that are marked deleted after 7 days by the worker app
-	delete: publicProcedure
-		.input(
-			z.object({
-				id: z.string(),
-			})
-		)
-		.mutation(async ({ input }) => {
-			return prisma.user.update({
-				where: { id: input.id },
-				data: {
-					deletedAt: new Date(),
-					deleted: true,
+		return await prisma.user
+			.findMany({
+				select: {
+					id: true,
+					name: true,
+					image: true,
+					role: true,
 				},
 			})
-		}),
+			.catch(() => {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+				})
+			})
+	}),
+
+	delete: publicProcedure.input(byId).mutation(async ({ input }) => {
+		return prisma.user.update({
+			where: { id: input.id },
+			data: {
+				deletedAt: new Date(),
+				deleted: true,
+			},
+		})
+	}),
+
 	deleteQueue: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -65,13 +39,20 @@ export const userRouter = router({
 			},
 		})
 	}),
-	byId: publicProcedure.input(UserSchema).query(async ({ input }) => {
+
+	byId: publicProcedure.input(byId).query(async ({ input }) => {
 		const { id } = input
 		const user = await prisma.user.findUnique({
 			where: {
 				id,
 			},
-			select: UserSelectSchema,
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				image: true,
+				role: true,
+			},
 		})
 		if (!user) {
 			throw new TRPCError({
@@ -82,6 +63,7 @@ export const userRouter = router({
 
 		return user
 	}),
+
 	findVerifiedUsers: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -91,6 +73,7 @@ export const userRouter = router({
 			},
 		})
 	}),
+
 	findAdminUsers: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -98,6 +81,7 @@ export const userRouter = router({
 			},
 		})
 	}),
+
 	findUsersWithProviderAccount: publicProcedure
 		.input(z.object({ provider: z.string() }))
 		.query(async ({ input }) => {
@@ -112,6 +96,7 @@ export const userRouter = router({
 				},
 			})
 		}),
+
 	findUsersWithBudget: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -121,6 +106,7 @@ export const userRouter = router({
 			},
 		})
 	}),
+
 	findUsersWithCryptocurrency: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -130,6 +116,7 @@ export const userRouter = router({
 			},
 		})
 	}),
+
 	findUsersWithSession: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {
@@ -139,6 +126,7 @@ export const userRouter = router({
 			},
 		})
 	}),
+
 	findInactiveUsers: publicProcedure.query(async () => {
 		return prisma.user.findMany({
 			where: {

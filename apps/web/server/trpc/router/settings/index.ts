@@ -1,19 +1,8 @@
 import { publicProcedure, router } from "../../trpc"
-import { SettingsSchema, SettingsSelectSchema } from "./schema"
+import { byUserId } from "../schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
-
-/**
- * Routers: Settings
- * @Queries
- * settings.byId ✅
- * settings.byUserId ✅
- * @Mutations
- * settings.create ✅
- * settings.update ✅
- * settings.delete ✅
- */
 
 export const settingsRouter = router({
 	create: publicProcedure
@@ -29,10 +18,6 @@ export const settingsRouter = router({
 				data: input,
 			})
 		}),
-	read: publicProcedure.input(SettingsSchema).query(async ({ input }) => {
-		// TODO
-		console.log("input", input)
-	}),
 
 	/**
 	 * When a user signs in
@@ -53,9 +38,18 @@ export const settingsRouter = router({
 				where: { userId: input.userId },
 				update: input,
 				create: input,
-				select: SettingsSelectSchema,
+				select: {
+					id: true,
+					userId: true,
+					userCurrency: true,
+					userLanguage: true,
+					preferredColorScheme: true,
+					deleted: true,
+					deletedAt: true,
+				},
 			})
 		}),
+
 	// Soft delete, worker clears all things that are marked deleted after 7 days by the worker app
 	delete: publicProcedure
 		.input(
@@ -72,6 +66,7 @@ export const settingsRouter = router({
 				},
 			})
 		}),
+
 	deleteQueue: publicProcedure.query(async () => {
 		return prisma.settings.findMany({
 			where: {
@@ -79,27 +74,29 @@ export const settingsRouter = router({
 			},
 		})
 	}),
-	byUserId: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-			})
-		)
-		.query(async ({ input }) => {
-			const { userId } = input
-			const settings = await prisma.settings.findUnique({
-				where: {
-					userId,
-				},
-				select: SettingsSelectSchema,
-			})
-			if (!settings) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: `No settings with userId '${userId}'`,
-				})
-			}
 
-			return settings
+	byUserId: publicProcedure
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			return await prisma.settings
+				.findUnique({
+					where: {
+						userId,
+					},
+					select: {
+						id: true,
+						userId: true,
+						userCurrency: true,
+						userLanguage: true,
+						preferredColorScheme: true,
+						deleted: true,
+						deletedAt: true,
+					},
+				})
+				.catch(() => {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+					})
+				})
 		}),
 })

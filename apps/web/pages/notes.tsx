@@ -1,7 +1,8 @@
+import { useCallback, useState } from "react"
+
 import { Box, Grid } from "@chakra-ui/react"
 import type { NextPage } from "next"
 import Head from "next/head"
-import { useState, useCallback } from "react"
 import Editor from "~/components/Notes/Editor"
 import Preview from "~/components/Notes/Preview"
 
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
 				<Grid
 					height="100%"
 					width="100%"
-					gridAutoFlow='dense'
+					gridAutoFlow="dense"
 					templateAreas={{
 						base: `"editor preview"`,
 					}}

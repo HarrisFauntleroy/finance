@@ -1,4 +1,4 @@
-import type { ThemeConfig } from "@chakra-ui/react";
+import type { ThemeConfig } from "@chakra-ui/react"
 import { extendTheme } from "@chakra-ui/react"
 import type { GlobalStyleProps } from "@chakra-ui/theme-tools"
 import { StepsStyleConfig as Steps } from "chakra-ui-steps"
@@ -120,9 +120,9 @@ const components = {
 						},
 					},
 					"input:not(:placeholder-shown) + label, .chakra-select__wrapper + label":
-					{
-						...activeLabelStyles,
-					},
+						{
+							...activeLabelStyles,
+						},
 					label: {
 						top: 0,
 						left: 0,
@@ -142,7 +142,7 @@ const components = {
 }
 
 const config: ThemeConfig = {
-	initialColorMode: 'light',
+	initialColorMode: "light",
 	useSystemColorMode: false,
 }
 

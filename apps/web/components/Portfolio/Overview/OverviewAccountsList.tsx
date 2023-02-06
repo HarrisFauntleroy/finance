@@ -11,7 +11,11 @@ import TableSubComponent from "~/components/Portfolio/Overview/TableSubRow"
 import { overviewAccountsListColumns } from "~/components/Portfolio/Overview/columns"
 import { trpc } from "~/utils/trpc"
 
-const TransactionTable = ({ transactions }: { transactions: AssetTransaction[] }) => {
+const TransactionTable = ({
+	transactions,
+}: {
+	transactions: AssetTransaction[]
+}) => {
 	return transactions.length > 0 ? (
 		<Table
 			id="portfolioOverviewAssetTransactions"
