@@ -32,8 +32,7 @@ const currencies = ["USD", "EUR", "GBP", "JPY"]
 const CryptoComparison = () => {
 	const [selectedCurrency, setSelectedCurrency] = useState<string>("USD")
 	const [coinToCompare, setcoinToCompare] = useState<Crypto>()
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [coinToCompareAgainst, setCoinToCompareAgainst] = useState<Crypto>()
+	const [, setCoinToCompareAgainst] = useState<Crypto>()
 
 	const handleSelectCrypto1 = (crypto: Crypto) => {
 		setcoinToCompare(crypto)

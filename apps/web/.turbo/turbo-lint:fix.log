@@ -1,12 +1,25 @@
-[34mweb:lint:fix[0m: cache hit, replaying output [2m648a69bd54a16b69[0m
+[34mweb:lint:fix[0m: cache hit, replaying output [2me7f812f18a865d3f[0m
+[34mweb:lint:fix: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.41.0"
 [34mweb:lint:fix: [0m$ eslint . --fix
 [34mweb:lint:fix: [0mPages directory cannot be found at . If using a custom path, please configure with the `no-html-link-for-pages` rule in your eslint config file.
 [34mweb:lint:fix: [0m
-[34mweb:lint:fix: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/server/trpc/router/accounts/index.ts
-[34mweb:lint:fix: [0m  18:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-[34mweb:lint:fix: [0m  21:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-[34mweb:lint:fix: [0m  21:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-[34mweb:lint:fix: [0m  22:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+[34mweb:lint:fix: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/next-sitemap.config.js
+[34mweb:lint:fix: [0m  0:0  error  Parsing error: ESLint was configured to run on `<tsconfigRootDir>/next-sitemap.config.js` using `parserOptions.project`: <tsconfigRootDir>/../../../../../../../../users/harrisfauntleroy/documents/code/personal/elixir.money-monorepo/apps/web/tsconfig.json
+[34mweb:lint:fix: [0mHowever, that TSConfig does not include this file. Either:
+[34mweb:lint:fix: [0m- Change ESLint's list of included files to not include this file
+[34mweb:lint:fix: [0m- Change that TSConfig to include this file
+[34mweb:lint:fix: [0m- Create a new TSConfig that includes this file and include it in your parserOptions.project
+[34mweb:lint:fix: [0mSee the typescript-eslint docs for more info: https://typescript-eslint.io/linting/troubleshooting##i-get-errors-telling-me-eslint-was-configured-to-run--however-that-tsconfig-does-not--none-of-those-tsconfigs-include-this-file
 [34mweb:lint:fix: [0m
-[34mweb:lint:fix: [0m✖ 4 problems (0 errors, 4 warnings)
+[34mweb:lint:fix: [0m/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/next.config.js
+[34mweb:lint:fix: [0m  0:0  error  Parsing error: ESLint was configured to run on `<tsconfigRootDir>/next.config.js` using `parserOptions.project`: <tsconfigRootDir>/../../../../../../../../users/harrisfauntleroy/documents/code/personal/elixir.money-monorepo/apps/web/tsconfig.json
+[34mweb:lint:fix: [0mHowever, that TSConfig does not include this file. Either:
+[34mweb:lint:fix: [0m- Change ESLint's list of included files to not include this file
+[34mweb:lint:fix: [0m- Change that TSConfig to include this file
+[34mweb:lint:fix: [0m- Create a new TSConfig that includes this file and include it in your parserOptions.project
+[34mweb:lint:fix: [0mSee the typescript-eslint docs for more info: https://typescript-eslint.io/linting/troubleshooting##i-get-errors-telling-me-eslint-was-configured-to-run--however-that-tsconfig-does-not--none-of-those-tsconfigs-include-this-file
 [34mweb:lint:fix: [0m
+[34mweb:lint:fix: [0m✖ 2 problems (2 errors, 0 warnings)
+[34mweb:lint:fix: [0m
+[34mweb:lint:fix: [0merror Command failed with exit code 1.
+[34mweb:lint:fix: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -3,8 +3,7 @@ import React from "react"
 import { MarketType } from "database/generated/prisma-client"
 import NextError from "next/error"
 import { useRouter } from "next/router"
-import { Debug } from "ui"
-import { Page } from "ui"
+import { Debug, Page } from "ui"
 import { trpc } from "~/utils/trpc"
 
 const MarketViewPage = () => {

@@ -47,7 +47,6 @@ export async function getTransactionHistory(
 }
 
 export async function updateEtherumBalances() {
-	// Get all cryptocurrencies with type 'crypto', market ID 'eth', and a non-null wallet address
 	const cryptocurrencies = await prisma.cryptocurrency.findMany({
 		where: {
 			market: {
@@ -67,10 +66,8 @@ export async function updateEtherumBalances() {
 	const progress = new Progress(cryptocurrencies.length)
 	progress.start("Ethereum")
 
-	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
 		try {
-			// Get the account balance and linked transactions
 			const balance = await getBalance(cryptocurrency.walletAddress as string)
 
 			// const transactions = await getTransactionHistory(

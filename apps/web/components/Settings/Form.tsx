@@ -22,11 +22,11 @@ import { useSession } from "next-auth/react"
 import { FormProvider, useForm } from "react-hook-form"
 import { Debug, Drawer, TextInput } from "ui"
 import { defaultToast } from "~/utils/toast"
-import type { RouterOutput } from "~/utils/trpc";
+import type { RouterOutput } from "~/utils/trpc"
 import { trpc } from "~/utils/trpc"
 
 interface SettingsFormProps {
-	defaultValues?: RouterOutput['settings']['byUserId']
+	defaultValues?: RouterOutput["settings"]["byUserId"]
 }
 
 export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
@@ -49,7 +49,9 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
 		formState: { errors },
 	} = methods
 
-	useEffect(() => { if (defaultValues) reset(defaultValues) }, [defaultValues, reset])
+	useEffect(() => {
+		if (defaultValues) reset(defaultValues)
+	}, [defaultValues, reset])
 
 	const onFormSubmit = (data: Settings) => {
 		if (userId) {

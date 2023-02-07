@@ -1,9 +1,13 @@
 import React from "react"
 
-import type { UseDisclosureProps } from "@chakra-ui/react"
-import { Text } from "@chakra-ui/react"
-import { DrawerFooter } from "@chakra-ui/react"
-import { Drawer, DrawerContent, DrawerOverlay } from "@chakra-ui/react"
+import {
+	Drawer,
+	DrawerContent,
+	DrawerFooter,
+	DrawerOverlay,
+	Text,
+	type UseDisclosureProps,
+} from "@chakra-ui/react"
 import type { Role } from "database/generated/prisma-client"
 import Link from "next/link"
 import type { IconType } from "react-icons"

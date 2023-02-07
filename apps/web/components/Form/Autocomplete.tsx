@@ -59,9 +59,9 @@ export const Autocomplete = <T extends Record<string, any>[]>({
 							}}
 						/>
 						<AutoCompleteList>
-							{data?.map((option, oid) => (
+							{data?.map((option) => (
 								<AutoCompleteItem
-									key={`option-${oid}`}
+									key={option.id}
 									value={option.ticker}
 									textTransform="capitalize"
 								>

@@ -20,12 +20,9 @@ export default function Header({ onOpen }: HeaderProps) {
 	const location = useRouter()
 
 	/** Remove query params from pathname */
-	const pathName = location?.asPath.split("?")[0]
-	/**
-	 * Splits path into an array of elements
-	 * removing empty spaces and # symbols in the process
-	 */
-	const pathArray = pathName?.replace(/#/g, "")?.split("/").filter(Boolean)
+	const path = location?.asPath.split("?")[0]
+
+	const formattedPath = path?.replace(/#/g, "")?.split("/").filter(Boolean)
 
 	const desktop = useBreakpointValue({ base: false, sm: true })
 
@@ -49,15 +46,15 @@ export default function Header({ onOpen }: HeaderProps) {
 					style={{ margin: "8px" }}
 					overflow="scroll"
 				>
-					<BreadcrumbItem isCurrentPage={pathName === "/"}>
+					<BreadcrumbItem isCurrentPage={path === "/"}>
 						<BreadcrumbLink href="/">Home</BreadcrumbLink>
 					</BreadcrumbItem>
-					{pathArray?.map((path, index) => (
+					{formattedPath?.map((section) => (
 						<BreadcrumbItem
-							key={`breadcrumbs${index}`}
-							isCurrentPage={pathName?.replace("/", "") === path}
+							key={section}
+							isCurrentPage={section?.replace("/", "") === section}
 						>
-							<BreadcrumbLink href={`/${path}`}>{path}</BreadcrumbLink>
+							<BreadcrumbLink href={`/${section}`}>{section}</BreadcrumbLink>
 						</BreadcrumbItem>
 					))}
 				</Breadcrumb>
