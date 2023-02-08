@@ -27,7 +27,7 @@ export const DeleteBudget = ({ id }: DeleteBudgetProps) => {
 					return deleteBudget.mutateAsync({ id })
 				}
 				return toast({
-					title: `No budget found, missing ID`,
+					title: "No budget found, missing ID",
 					status: "error",
 				})
 			}}

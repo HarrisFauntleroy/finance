@@ -27,7 +27,7 @@ export const DeleteAsset = ({ id }: DeleteAssetProps) => {
 					return deleteAccount.mutateAsync({ id })
 				}
 				return toast({
-					title: `No assets found, missing ID`,
+					title: "No assets found, missing ID",
 					status: "error",
 				})
 			}}

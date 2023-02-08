@@ -51,7 +51,7 @@ const Index = () => {
 				<Heading>Admin dashboard</Heading>
 				<Csv />
 				Hello
-				<MarkdownEditor markdown={``} />
+				<MarkdownEditor markdown={""} />
 				<Text textAlign="left" width="100%" fontSize="2xl">
 					Stats
 				</Text>

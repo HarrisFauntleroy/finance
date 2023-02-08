@@ -8,7 +8,7 @@ This is the monorepo for the Elixir.money project. It contains the following app
 ### Utilities
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
+- [Rome](https://rome.tools/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 - [Prisma](https://prisma.io/) for database ORM
 - [Docker Compose](https://docs.docker.com/compose/) for local database

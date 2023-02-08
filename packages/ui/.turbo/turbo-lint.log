@@ -1,0 +1,3 @@
+[32mui:lint[0m: cache hit, replaying output [2m78f7299ad3229fb8[0m
+[32mui:lint: [0m$ next lint
+[32mui:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root

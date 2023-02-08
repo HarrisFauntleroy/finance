@@ -46,7 +46,7 @@ class MarketUpdater {
 					update: cash,
 				})
 				.then(() => progress.increment())
-				.catch((err) => logger.error("error", cash.ticker + " " + err))
+				.catch((err) => logger.error("error", `${cash.ticker} ${err}`))
 		}
 
 		progress.stop("Exchange Rates")
@@ -77,8 +77,8 @@ class MarketUpdater {
 				"/latest.json?show_alternative=false"
 			)
 
-			delete exchange.disclaimer
-			delete exchange.license
+			exchange.disclaimer = undefined
+			exchange.license = undefined
 
 			const exchangeRates: OpenExchangeRatesResponse[] = Object.entries(
 				exchange?.rates || {}

@@ -737,7 +737,7 @@ function exclude<User, Key extends keyof User>(
 	keys: Key[]
 ): Omit<User, Key> {
 	for (let key of keys) {
-		delete user[key]
+		user[key] = undefined
 	}
 	return user
 }
@@ -789,7 +789,6 @@ function upsertAssets(
 		}
 	})
 }
-
 ;(async () => {
 	logger.info("Starting")
 	try {

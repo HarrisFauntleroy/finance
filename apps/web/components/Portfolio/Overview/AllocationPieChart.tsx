@@ -26,11 +26,10 @@ export const AllocationPieChart = () => {
 				enabled: true,
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				formatter: function (_val: any, opt: any) {
-					return (
-						opt.w.globals.labels[opt.seriesIndex].slice(0, 6) +
-						":  " +
-						currency(opt.w.globals.series[opt.seriesIndex]).format()
-					)
+					return `${opt.w.globals.labels[opt.seriesIndex].slice(
+						0,
+						6
+					)}:  ${currency(opt.w.globals.series[opt.seriesIndex]).format()}`
 				},
 			},
 			dataLabels: {

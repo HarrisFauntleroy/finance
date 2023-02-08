@@ -27,7 +27,7 @@ export const DeleteTransaction = ({ id }: DeleteTransactionProps) => {
 					return deleteTransaction.mutateAsync({ id })
 				}
 				return toast({
-					title: `No transaction found, missing ID`,
+					title: "No transaction found, missing ID",
 					status: "error",
 				})
 			}}

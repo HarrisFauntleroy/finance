@@ -35,7 +35,7 @@ Chart.register(
 )
 
 const Index: NextPageWithLayout = () => {
-	return <Page title="Home" padding="8px" gap="8px"></Page>
+	return <Page title="Home" padding="8px" gap="8px" />
 }
 
 Index.auth = false

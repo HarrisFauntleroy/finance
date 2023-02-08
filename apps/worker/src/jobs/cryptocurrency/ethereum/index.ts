@@ -1,9 +1,9 @@
 import { Progress } from "../../../util"
+import { createWeb3Instance } from "./web3"
 import { logger } from "common"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import dotenv from "dotenv"
-import { createWeb3Instance } from "./web3"
 
 dotenv.config()
 

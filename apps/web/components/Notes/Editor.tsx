@@ -28,7 +28,7 @@ const Editor = (props: Props) => {
 		}
 	}, [editorView])
 
-	return <div ref={refContainer}></div>
+	return <div ref={refContainer} />
 }
 
 export default Editor

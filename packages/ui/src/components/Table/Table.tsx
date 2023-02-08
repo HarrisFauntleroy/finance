@@ -106,7 +106,7 @@ export const Table = <TData extends object>({
 			globalFilter,
 			pagination,
 		},
-		getRowCanExpand: () => getRowCanExpand || false,
+		getRowCanExpand: () => getRowCanExpand,
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),

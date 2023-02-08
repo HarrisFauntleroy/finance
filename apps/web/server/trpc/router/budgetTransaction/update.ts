@@ -9,5 +9,8 @@ export const updatBudgetransactionInput = createBudgetTransactionInput.extend({
 export async function updatBudgetransaction(
 	data: z.infer<typeof updatBudgetransactionInput>
 ) {
-	return await prisma.budgetTransaction.update({ where: { id: data.id }, data })
+	return await prisma.budgetTransaction.update({
+		where: { id: data.id },
+		data,
+	})
 }

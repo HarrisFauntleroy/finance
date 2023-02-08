@@ -19,7 +19,7 @@ export class MarketUpdater {
 
 	private async fetchFromCoingecko(page: number): Promise<CoinGeckoResponse[]> {
 		return axios
-			.get(this.baseUrl + "/coins/markets", {
+			.get(`${this.baseUrl}/coins/markets`, {
 				params: {
 					vs_currency: this.baseCurrency,
 					order: "market_cap_desc",
@@ -79,7 +79,7 @@ export class MarketUpdater {
 					create: crypto,
 					update: crypto,
 				})
-				.catch((err) => logger.error("error", crypto.ticker + " " + err))
+				.catch((err) => logger.error("error", `${crypto.ticker} ${err}`))
 		}
 	}
 

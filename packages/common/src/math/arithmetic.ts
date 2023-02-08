@@ -36,7 +36,7 @@ export function lessThanOrEqualTo(n1: Input, n2: Input): boolean {
 }
 
 export function equalTo(n1: Input, n2: Input): boolean {
-	return currency(n1).value == currency(n2).value
+	return currency(n1).value === currency(n2).value
 }
 
 export function strictlyEqualTo(n1: Input, n2: Input): boolean {
