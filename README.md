@@ -5,7 +5,7 @@ This is the monorepo for the Elixir.money project. It contains the following app
 [![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=master)](https://travis-ci.org/elixir-money/monorepo)
 [![Coverage Status](https://coveralls.io/repos/github/elixir-money/monorepo/badge.svg)](https://coveralls.io/github/elixir-money/monorepo)
 
-### Utilities
+## Utilities
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting

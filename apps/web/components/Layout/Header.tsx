@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
-import { HeaderMenuDesktop, HeaderMenuMobile } from "./HeaderMenu"
-import type { UseDisclosureProps } from "@chakra-ui/react"
+import { HeaderMenuDesktop, HeaderMenuMobile } from "./HeaderMenu";
+import type { UseDisclosureProps } from "@chakra-ui/react";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -10,21 +10,21 @@ import {
 	Flex,
 	IconButton,
 	useBreakpointValue,
-} from "@chakra-ui/react"
-import { useRouter } from "next/router"
-import { FiMenu } from "react-icons/fi"
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { FiMenu } from "react-icons/fi";
 
-type HeaderProps = UseDisclosureProps
+type HeaderProps = UseDisclosureProps;
 
 export default function Header({ onOpen }: HeaderProps) {
-	const location = useRouter()
+	const location = useRouter();
 
 	/** Remove query params from pathname */
-	const path = location?.asPath.split("?")[0]
+	const path = location?.asPath.split("?")[0];
 
-	const formattedPath = path?.replace(/#/g, "")?.split("/").filter(Boolean)
+	const formattedPath = path?.replace(/#/g, "")?.split("/").filter(Boolean);
 
-	const desktop = useBreakpointValue({ base: false, sm: true })
+	const desktop = useBreakpointValue({ base: false, sm: true });
 
 	return (
 		<>
@@ -35,7 +35,7 @@ export default function Header({ onOpen }: HeaderProps) {
 				justify={{ base: "space-between" }}
 				w="full"
 				px="4"
-				pl={{ base: "8px", md: "64px", lg: "200px" }}
+				pl={{ base: "8px", sm: "64px", lg: "200px" }}
 				boxShadow="sm"
 				height="64px"
 			>
@@ -61,7 +61,7 @@ export default function Header({ onOpen }: HeaderProps) {
 				<Flex gap={2}>
 					<IconButton
 						aria-label="Menu"
-						display={{ base: "flex", md: "none" }}
+						display={{ base: "flex", sm: "none" }}
 						onClick={onOpen}
 						icon={<FiMenu />}
 						size="sm"
@@ -71,5 +71,5 @@ export default function Header({ onOpen }: HeaderProps) {
 			</Flex>
 			<Divider />
 		</>
-	)
+	);
 }

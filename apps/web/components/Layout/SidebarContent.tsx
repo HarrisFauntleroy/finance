@@ -1,6 +1,6 @@
-import React from "react"
+import React from "react";
 
-import type { BoxProps } from "@chakra-ui/react"
+import type { BoxProps } from "@chakra-ui/react";
 import {
 	Box,
 	Center,
@@ -8,15 +8,15 @@ import {
 	Stack,
 	Text,
 	useColorModeValue,
-} from "@chakra-ui/react"
-import Image from "next/image"
-import Link from "next/link"
-import type { SidebarLink } from "~/components/Layout/Sidebar"
-import { SidebarItem } from "~/components/Layout/SidebarItem"
+} from "@chakra-ui/react";
+import Image from "next/image";
+import Link from "next/link";
+import type { SidebarLink } from "~/components/Layout/Sidebar";
+import { SidebarItem } from "~/components/Layout/SidebarItem";
 
 interface SidebarContentProps extends BoxProps {
-	links: SidebarLink[]
-	drawer?: boolean
+	links: SidebarLink[];
+	drawer?: boolean;
 }
 
 export function SidebarContent({
@@ -37,7 +37,7 @@ export function SidebarContent({
 			overflowX="hidden"
 			overflowY="auto"
 			shadow="2xl"
-			w={{ base: 0, md: "64px", lg: "200px" }}
+			w={{ base: 0, sm: "64px", lg: "200px" }}
 			{...props}
 		>
 			<Link href="/">
@@ -45,7 +45,7 @@ export function SidebarContent({
 					height="64px"
 					justifyContent={{
 						base: drawer ? "left" : "center",
-						md: drawer ? "left" : "center",
+						sm: drawer ? "left" : "center",
 					}}
 				>
 					<Image src="/images/logodark.png" height="32" width="32" alt="logo" />
@@ -54,7 +54,7 @@ export function SidebarContent({
 						ml="2"
 						fontSize="2xl"
 						fontWeight="semibold"
-						display={{ md: "none", lg: "unset" }}
+						display={{ sm: "none", lg: "unset" }}
 					>
 						Elixir Money
 					</Text>
@@ -75,5 +75,5 @@ export function SidebarContent({
 				))}
 			</Stack>
 		</Box>
-	)
+	);
 }

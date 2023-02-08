@@ -26,9 +26,17 @@ export async function getBalance(walletAddress: string): Promise<string> {
 	throw new Error("Invalid address!")
 }
 
+type TransactionHistory = {
+	blockNumber: number | null
+	from: string
+	to: string | null
+	value: string
+	status: boolean
+}
+
 export async function getTransactionHistory(
 	walletAddress: string
-): Promise<any[]> {
+): Promise<TransactionHistory[]> {
 	const transactionCount = await web3.eth.getTransactionCount(walletAddress)
 
 	const transactionHistory = []
