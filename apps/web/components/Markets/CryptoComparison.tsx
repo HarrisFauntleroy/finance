@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useState } from "react"
+import React, { useMemo, useState } from "react";
 
 import {
 	Avatar,
@@ -11,67 +11,67 @@ import {
 	Select,
 	Stack,
 	Text,
-} from "@chakra-ui/react"
-import { divide, multiply, subtract } from "common"
-import currency from "currency.js"
-import Image from "next/image"
-import { Card, Grid } from "ui"
-import { trpc } from "~/utils/trpc"
+} from "@chakra-ui/react";
+import { divide, multiply, subtract } from "common";
+import currency from "currency.js";
+import Image from "next/image";
+import { Card, Grid } from "ui";
+import { trpc } from "~/utils/trpc";
 
 interface Crypto {
-	name: string
-	ticker: string
-	marketCap: number
-	price: number
-	potentialPrice?: number
-	potentialUpside?: number
+	name: string;
+	ticker: string;
+	marketCap: number;
+	price: number;
+	potentialPrice?: number;
+	potentialUpside?: number;
 }
 
-const currencies = ["USD", "EUR", "GBP", "JPY"]
+const currencies = ["USD", "EUR", "GBP", "JPY"];
 
 const CryptoComparison = () => {
-	const [selectedCurrency, setSelectedCurrency] = useState<string>("USD")
-	const [coinToCompare, setcoinToCompare] = useState<Crypto>()
-	const [, setCoinToCompareAgainst] = useState<Crypto>()
+	const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
+	const [coinToCompare, setcoinToCompare] = useState<Crypto>();
+	const [, setCoinToCompareAgainst] = useState<Crypto>();
 
 	const handleSelectCrypto1 = (crypto: Crypto) => {
-		setcoinToCompare(crypto)
-	}
+		setcoinToCompare(crypto);
+	};
 
 	const handleSelectCrypto2 = (crypto: Crypto) => {
-		setCoinToCompareAgainst(crypto)
-	}
+		setCoinToCompareAgainst(crypto);
+	};
 
 	const handleSelectCurrency = (input: string) => {
-		setSelectedCurrency(input)
-	}
+		setSelectedCurrency(input);
+	};
 
-	const { data } = trpc.markets.cryptocurrency.useQuery()
+	const { data } = trpc.markets.cryptocurrency.useQuery();
 
 	const calculatedValues = useMemo(
 		() =>
 			data?.map((crypto) => {
 				const potentialPrice = multiply(
 					divide(String(crypto?.marketCap), String(coinToCompare?.marketCap)),
-					String(coinToCompare?.price)
-				)
+					String(coinToCompare?.price),
+				);
 
 				const potentialUpside = multiply(
 					divide(
 						subtract(potentialPrice, String(crypto.price)),
-						String(crypto.price)
+						String(crypto.price),
 					),
-					-100
-				)
+					-100,
+				);
 
 				return {
 					potentialPrice,
 					potentialUpside,
 					...crypto,
-				}
+				};
 			}),
-		[coinToCompare?.marketCap, coinToCompare?.price, data]
-	)
+		[coinToCompare?.marketCap, coinToCompare?.price, data],
+	);
 
 	return (
 		<Stack>
@@ -91,7 +91,7 @@ const CryptoComparison = () => {
 							onChange={(e) =>
 								// eslint-disable-next-line @typescript-eslint/no-explicit-any
 								handleSelectCrypto1(
-									(data as Record<string, any>)[e.target.value]
+									(data as Record<string, any>)[e.target.value],
 								)
 							}
 						>
@@ -162,7 +162,7 @@ const CryptoComparison = () => {
 						onChange={(e) =>
 							// eslint-disable-next-line @typescript-eslint/no-explicit-any
 							handleSelectCrypto2(
-								(data as Record<string, any>)?.[e.target.value]
+								(data as Record<string, any>)?.[e.target.value],
 							)
 						}
 					>
@@ -175,7 +175,7 @@ const CryptoComparison = () => {
 				</Card>
 			</Grid>
 		</Stack>
-	)
-}
+	);
+};
 
-export default CryptoComparison
+export default CryptoComparison;
