@@ -12,7 +12,8 @@ import { logger, mapWithMatchingData } from "common"
 import { prisma } from "database"
 import {
 	AccountConnection,
-	Cryptocurrency,
+	Asset,
+	AssetStatus,
 	MarketType,
 } from "database/generated/prisma-client"
 import dotenv from "dotenv"
@@ -131,12 +132,12 @@ const updateOneUser = async (secrets: {
 			stakingBalance,
 			marketId,
 		}): Omit<
-			Cryptocurrency,
-			"createdAt" | "updatedAt" | "id" | "currency" | "deleted" | "deletedAt"
+			Asset,
+			"id" | "createdAt" | "updatedAt" | "deletedAt" | "deleted"
 		> => {
 			return {
 				userId: secrets.userId,
-				displayName: name,
+				name: name,
 				parentId: secrets?.id,
 				marketId: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
 				interestBearingBalance: toDecimal(stakingBalance),
@@ -148,19 +149,24 @@ const updateOneUser = async (secrets: {
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",
-				accountConnection: "NONE",
+				account: AccountConnection.NONE,
+				institution: "Swyftx",
+				category: null,
+				categoryId: null,
+				status: AssetStatus.ACTIVE,
+				currency: "aud",
 			}
 		}
 	)
 
-	const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
+	const { subAssets } = await prisma.asset.findFirstOrThrow({
 		where: {
 			userId: secrets.userId,
-			accountConnection: AccountConnection.SWYFTX,
+			account: AccountConnection.SWYFTX,
 		},
 		select: {
 			id: true,
-			Children: {
+			subAssets: {
 				select: {
 					id: true,
 					marketId: true,
@@ -170,19 +176,19 @@ const updateOneUser = async (secrets: {
 	})
 
 	formattedData?.map(async (crypto) => {
-		const existingCrypto = Children.find(
+		const existingCrypto = subAssets.find(
 			(child) => child.marketId === crypto.marketId
 		)
 
 		if (existingCrypto?.id)
-			prisma.cryptocurrency
+			prisma.asset
 				.update({
 					where: { id: existingCrypto?.id },
 					data: crypto,
 				})
 				.catch(logger.error)
 		else
-			prisma.cryptocurrency
+			prisma.asset
 				.create({
 					data: crypto,
 				})
@@ -191,10 +197,10 @@ const updateOneUser = async (secrets: {
 }
 
 export const swyftx = () =>
-	prisma.cryptocurrency
+	prisma.asset
 		.findMany({
 			where: {
-				accountConnection: AccountConnection.SWYFTX,
+				account: AccountConnection.SWYFTX,
 				apiKey: { not: null },
 				apiSecret: { not: null },
 			},

@@ -1,37 +1,38 @@
-import React from "react"
+import React from "react";
 
-import SEO from "../next-seo.config"
-import { trpc } from "../utils/trpc"
-import Auth from "./auth"
-import type { Role } from "database/generated/prisma-client"
-import { type NextPage } from "next"
-import { type Session } from "next-auth"
-import { SessionProvider } from "next-auth/react"
-import { DefaultSeo } from "next-seo"
-import { type AppProps } from "next/app"
-import Layout from "~/components/Layout"
-import { AppContext } from "~/components/Providers"
+import SEO from "../next-seo.config";
+import { trpc } from "../utils/trpc";
+import Auth from "./auth";
+import type { Role } from "database/generated/prisma-client";
+import { type NextPage } from "next";
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import { DefaultSeo } from "next-seo";
+import { type AppProps } from "next/app";
+import Layout from "~/components/Layout";
+import { AppContext } from "~/components/Providers";
+import { initI18n } from "./i18n";
 
 export type WithAuth = {
-	auth: boolean
-}
+	auth: boolean;
+};
 
 export type WithRole = {
-	roles?: Role[]
-}
+	roles?: Role[];
+};
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
 	P,
 	IP
 > & {
-	getLayout?: (page: React.ReactElement) => React.ReactNode
+	getLayout?: (page: React.ReactElement) => React.ReactNode;
 } & WithAuth &
-	WithRole
+	WithRole;
 
 type AppPropsWithLayout = AppProps<{ session: Session | null }> & {
-	Component: NextPageWithLayout
-	session?: Session
-}
+	Component: NextPageWithLayout;
+	session?: Session;
+};
 
 const MyApp = ({
 	Component,
@@ -46,14 +47,16 @@ const MyApp = ({
 				</Layout>
 			) : (
 				<Layout>{page}</Layout>
-			))
+			));
+
+	initI18n();
 
 	return (
 		<SessionProvider session={session}>
 			<DefaultSeo {...SEO} />
 			<AppContext>{getLayout(<Component {...pageProps} />)}</AppContext>
 		</SessionProvider>
-	)
-}
+	);
+};
 
-export default trpc.withTRPC(MyApp)
+export default trpc.withTRPC(MyApp);

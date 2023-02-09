@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
 import {
 	Center,
@@ -10,105 +10,108 @@ import {
 	Input,
 	Select,
 	Stack,
-} from "@chakra-ui/react"
-import { divide, multiply } from "common"
-import { differenceInSeconds, isAfter } from "date-fns"
-import { animated, useSpring } from "react-spring"
+} from "@chakra-ui/react";
+import { divide, multiply } from "common";
+import { differenceInSeconds, isAfter } from "date-fns";
+import { animated, useSpring } from "react-spring";
+import { useTranslation } from "react-i18next";
 
 const IncomeCounter = () => {
-	const [income, setIncome] = useState(125000)
-	const [frequency, setFrequency] = useState("Annually")
-	const [text, setText] = useState("")
-	const [startTime, setStartTime] = useState("09:00")
-	const [endTime, setEndTime] = useState("17:00")
-	const [counter, setCounter] = useState(0)
-	const [weeksWorked, setWeeksWorked] = useState(52)
-	const [hoursPerWeek, setHoursPerWeek] = useState(38)
+	const [income, setIncome] = useState(125000);
+	const [frequency, setFrequency] = useState("annually");
+	const [text, setText] = useState("");
+	const [startTime, setStartTime] = useState("09:00");
+	const [endTime, setEndTime] = useState("17:00");
+	const [counter, setCounter] = useState(0);
+	const [weeksWorked, setWeeksWorked] = useState(52);
+	const [hoursPerWeek, setHoursPerWeek] = useState(38);
 
 	const handleIncomeChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setIncome(Number(e.target.value))
-	}
+		setIncome(Number(e.target.value));
+	};
 
 	const handleFrequencyChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setFrequency(e.target.value)
-	}
+		setFrequency(e.target.value);
+	};
 
 	const handleWeeksWorkedChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setWeeksWorked(Number(e.target.value))
-	}
+		setWeeksWorked(Number(e.target.value));
+	};
 
 	const handleHoursPerWeekChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setHoursPerWeek(Number(e.target.value))
-	}
+		setHoursPerWeek(Number(e.target.value));
+	};
 
 	const handleStartTimeChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setStartTime(e.target.value)
-	}
+		setStartTime(e.target.value);
+	};
 
 	const handleEndTimeChange = (e: {
-		target: { value: React.SetStateAction<string> }
+		target: { value: React.SetStateAction<string> };
 	}) => {
-		setEndTime(e.target.value)
-	}
+		setEndTime(e.target.value);
+	};
 
 	// Tax rate, or some simple way to factor in net/gross pay and tax and such would be useful
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			const earningsPerWeek = divide(income, weeksWorked)
-			const earningsPerHour = divide(earningsPerWeek, hoursPerWeek)
-			const earningsPerMinute = divide(earningsPerHour, 60)
-			const earningsPerSecond = divide(earningsPerMinute, 60)
+			const earningsPerWeek = divide(income, weeksWorked);
+			const earningsPerHour = divide(earningsPerWeek, hoursPerWeek);
+			const earningsPerMinute = divide(earningsPerHour, 60);
+			const earningsPerSecond = divide(earningsPerMinute, 60);
 
-			const currentDate = new Date()
+			const currentDate = new Date();
 			const start = new Date(
 				currentDate.getFullYear(),
 				currentDate.getMonth(),
 				currentDate.getDate(),
-				Number(...startTime.split(":"))
-			)
+				Number(...startTime.split(":")),
+			);
 			const end = new Date(
 				currentDate.getFullYear(),
 				currentDate.getMonth(),
 				currentDate.getDate(),
-				Number(...endTime.split(":"))
-			)
+				Number(...endTime.split(":")),
+			);
 
-			const timeElapsedInSeconds = differenceInSeconds(start, new Date())
-			const currentEarnings = multiply(earningsPerSecond, timeElapsedInSeconds)
+			const timeElapsedInSeconds = differenceInSeconds(start, new Date());
+			const currentEarnings = multiply(earningsPerSecond, timeElapsedInSeconds);
 
 			// It could possibly reflect the time of day using emojis as well such as sunrise, sunset, morning, evening, night, sleeping, working, etc,
 
 			if (isAfter(new Date(), end)) {
 				setText(
 					`🏝️ End of the day, total earned: $${Number(
-						divide(multiply(earningsPerHour, hoursPerWeek), 5)
-					)}`
-				)
-				setCounter(Number(divide(multiply(earningsPerHour, hoursPerWeek), 5)))
+						divide(multiply(earningsPerHour, hoursPerWeek), 5),
+					)}`,
+				);
+				setCounter(Number(divide(multiply(earningsPerHour, hoursPerWeek), 5)));
 			} else {
-				setText("Working... 👨‍🌾")
-				setCounter(Math.abs(Number(currentEarnings)))
+				setText("Working... 👨‍🌾");
+				setCounter(Math.abs(Number(currentEarnings)));
 			}
-		}, 1000)
+		}, 1000);
 
-		return () => clearInterval(intervalId)
-	}, [income, frequency, startTime, endTime, weeksWorked, hoursPerWeek])
+		return () => clearInterval(intervalId);
+	}, [income, frequency, startTime, endTime, weeksWorked, hoursPerWeek]);
 
 	const props = useSpring({
 		from: { counter: 0 },
 		to: { counter },
-	})
+	});
+
+	const { t } = useTranslation();
 
 	return (
 		<Stack>
@@ -121,6 +124,7 @@ const IncomeCounter = () => {
 								{props.counter.interpolate((val) => val.toFixed(2))}
 							</animated.div>
 						</Heading>
+						{t("Translated Text")}
 					</Flex>
 					<Heading>{text}</Heading>
 				</Stack>
@@ -172,7 +176,7 @@ const IncomeCounter = () => {
 				</Stack>
 			</Center>
 		</Stack>
-	)
-}
+	);
+};
 
-export default IncomeCounter
+export default IncomeCounter;

@@ -1,26 +1,25 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "~/*": [
-        "./*"
-      ]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "**/node_modules"
-  ]
+	"extends": "tsconfig/nextjs.json",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": "./",
+		"paths": {
+			"~/*": ["./*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	},
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js",
+		"**/*.jsx",
+		".next/types/**/*.ts",
+		"./i18next-parser.config.js"
+	],
+	"exclude": ["**/node_modules"]
 }
