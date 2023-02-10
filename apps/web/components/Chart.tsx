@@ -1,16 +1,16 @@
-import type { CSSProperties } from "react"
-import React from "react"
+import type { CSSProperties } from "react";
+import React from "react";
 
-import { Skeleton } from "@chakra-ui/react"
-import dynamic from "next/dynamic"
+import { Skeleton } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface ChartScaffoldProps {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	series: any
-	options?: ApexCharts.ApexOptions
-	style?: CSSProperties
+	series: any;
+	options?: ApexCharts.ApexOptions;
+	style?: CSSProperties;
 	type:
 		| "area"
 		| "line"
@@ -27,7 +27,7 @@ interface ChartScaffoldProps {
 		| "treemap"
 		| "boxPlot"
 		| "candlestick"
-		| "rangeBar"
+		| "rangeBar";
 }
 
 const ChartScaffold = (props: ChartScaffoldProps) => {
@@ -39,7 +39,7 @@ const ChartScaffold = (props: ChartScaffoldProps) => {
 		>
 			<Chart height="100%" width="100%" {...props} />
 		</Skeleton>
-	)
-}
+	);
+};
 
-export default ChartScaffold
+export default ChartScaffold;

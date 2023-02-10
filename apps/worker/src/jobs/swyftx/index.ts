@@ -8,11 +8,10 @@ import {
 	Transaction,
 } from "./types"
 import axios from "axios"
-import { logger, mapWithMatchingData } from "common"
+import { logger } from "common"
 import { prisma } from "database"
 import {
 	AccountConnection,
-	Asset,
 	AssetStatus,
 	MarketType,
 } from "database/generated/prisma-client"
@@ -126,18 +125,10 @@ const updateOneUser = async (secrets: {
 	const accounts = await getSwyftxAccount(secrets)
 
 	const formattedData = accounts?.balance.map(
-		({
-			name,
-			availableBalance,
-			stakingBalance,
-			marketId,
-		}): Omit<
-			Asset,
-			"id" | "createdAt" | "updatedAt" | "deletedAt" | "deleted"
-		> => {
+		({ name, availableBalance, stakingBalance, marketId }) => {
 			return {
-				userId: secrets.userId,
 				name: name,
+				userId: secrets.userId,
 				parentId: secrets?.id,
 				marketId: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
 				interestBearingBalance: toDecimal(stakingBalance),
@@ -151,10 +142,8 @@ const updateOneUser = async (secrets: {
 				walletAddress: "",
 				account: AccountConnection.NONE,
 				institution: "Swyftx",
-				category: null,
-				categoryId: null,
 				status: AssetStatus.ACTIVE,
-				currency: "aud",
+				currency: marketId.toLowerCase(),
 			}
 		}
 	)
@@ -176,21 +165,58 @@ const updateOneUser = async (secrets: {
 	})
 
 	formattedData?.map(async (crypto) => {
+		// What is happening here
 		const existingCrypto = subAssets.find(
 			(child) => child.marketId === crypto.marketId
 		)
+
+		const { marketId, userId, parentId, ...remainder } = crypto
 
 		if (existingCrypto?.id)
 			prisma.asset
 				.update({
 					where: { id: existingCrypto?.id },
-					data: crypto,
+					data: {
+						...remainder,
+						user: {
+							create: { id: userId },
+						},
+						parent: {
+							connect: { id: parentId },
+						},
+						market: {
+							connectOrCreate: {
+								where: {
+									id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+								},
+								create: {
+									id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+									ticker: marketId.toLowerCase(),
+									currency: marketId.toLowerCase(),
+									type: MarketType.CRYPTOCURRENCY,
+								},
+							},
+						},
+					},
 				})
 				.catch(logger.error)
 		else
 			prisma.asset
 				.create({
-					data: crypto,
+					data: {
+						...remainder,
+						user: {
+							connect: { id: userId },
+						},
+						parent: {
+							connect: { id: parentId },
+						},
+						market: {
+							connect: {
+								id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+							},
+						},
+					},
 				})
 				.catch(logger.error)
 	})

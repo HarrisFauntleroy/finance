@@ -14,6 +14,13 @@ import { Category } from "database/generated/prisma-client"
 import type { Decimal } from "database/generated/prisma-client/runtime"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
 
+async function getAssetsWithMarket(userId: string) {
+	return await prisma.asset.findMany({
+		where: { userId, category: { not: null } },
+		include: { market: true },
+	})
+}
+
 const sumGroupByCategory = (arr: any[], category: string) =>
 	arr.reduce(
 		(
@@ -27,39 +34,24 @@ const sumGroupByCategory = (arr: any[], category: string) =>
 		{}
 	)
 
-export async function getPortfolioAllocation(userId: string): Promise<
-	{
-		name: string
-		balance: Decimal
+type PortfolioAllocation = {
+	name: string
+	balance: Decimal
+	currency: string
+	category: Category | null
+	market: {
 		currency: string
-		category: Category | null
-		market: {
-			currency: string
-			price: Decimal | null
-		} | null
-	}[]
-> {
-	const results = await prisma.asset.findMany({
-		where: { userId },
-		select: {
-			name: true,
-			balance: true,
-			currency: true,
-			category: true,
-			market: {
-				select: {
-					price: true,
-					currency: true,
-				},
-			},
-		},
-	})
+		price: Decimal | null
+	} | null
+}
 
+export async function getPortfolioAllocation(
+	userId: string
+): Promise<PortfolioAllocation[]> {
+	const assets = await getAssetsWithMarket(userId)
 	const userCurrency = await getUserCurrency(userId)
 	const exchangeRates = await getExchangeRates()
-
-	// This piece of magic returns an object with a key for each category for a pie chart with a value
-	const mapped = results.map(({ market, balance, category, currency }) => {
+	const mapped = assets.map(({ market, balance, category, currency }) => {
 		const price = convertCurrency({
 			exchangeRates,
 			fromCurrency: market?.currency || currency,
