@@ -24,6 +24,7 @@ import type { Prisma } from "database/generated/prisma-client"
 import { subtract, multiply, divide, lessThan } from "common"
 import type { Decimal } from "database/generated/prisma-client/runtime"
 import { trpc } from "~/utils/trpc"
+import { Heading } from "@chakra-ui/react"
 
 Chart.register(
 	CategoryScale,
@@ -37,8 +38,6 @@ Chart.register(
 	Legend,
 	Filler
 )
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 type AssetInput = Prisma.AssetGetPayload<{
 	include: { market: true }
@@ -59,7 +58,7 @@ class Asset {
 
 	interestBearingBalance: string
 
-	constructor(options: AssetInput) {
+	constructor(options?: AssetInput) {
 		this.price = options?.market?.price || "0"
 		this.balance = options?.balance || "0"
 		this.value = multiply(this.price, this.balance)
@@ -109,7 +108,7 @@ class Asset {
 		return this.averageCost < this.price
 	}
 
-	get allGetters() {
+	get computedProperties() {
 		return {
 			...this,
 			unrealizedGain: this.unrealizedGain,
@@ -136,10 +135,9 @@ class Asset {
 // shouldSell: boolean
 // subAssets?: AssetOmitCostBasisAndsubAssets[]
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-const AssetCard = ({ asset }: { asset?: Asset | null }) => {
-	return <div>{JSON.stringify(asset?.allGetters)}</div>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const JSONObjectViewer = ({ data }: { data?: Record<string, any> | null }) => {
+	return <pre>{JSON.stringify(data, null, "\t")}</pre>
 }
 
 const Index: NextPageWithLayout = () => {
@@ -147,11 +145,15 @@ const Index: NextPageWithLayout = () => {
 		id: "cldwad5ab00465avd6tpjbezj",
 	})
 
-	const asset = data && Asset.create(data)
+	const asset1 = data && new Asset()
+	const asset2 = data && new Asset(data)
 
 	return (
 		<Page title="Home" padding="8px" gap="8px">
-			<AssetCard asset={asset} />
+			<Heading>Without provided Asset</Heading>
+			<JSONObjectViewer data={asset1?.computedProperties} />
+			<Heading>With provided Asset</Heading>
+			<JSONObjectViewer data={asset2?.computedProperties} />
 		</Page>
 	)
 }
