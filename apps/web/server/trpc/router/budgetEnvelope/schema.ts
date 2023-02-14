@@ -10,7 +10,7 @@ import { decimal } from "~/utils/decimal"
 //   user         User             @relation(fields: [userId], references: [id])
 //   envelopes    BudgetEnvelope[]
 //   income       Income[]
-//   totalBalance Decimal          @default(0)
+//   totalBalance String          @default(0)
 //   createdAt    DateTime         @default(now())
 //   updatedAt    DateTime         @default(now()) @updatedAt
 //   deleted      Boolean          @default(false)

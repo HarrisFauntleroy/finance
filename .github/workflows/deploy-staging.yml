@@ -1,0 +1,36 @@
+name: Deploy to staging
+# Maybe prod can be on tagged branches.
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t worker .
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - name: Push Docker image
+        run: docker push myapp
+
+      - name: Deploy to Home Server
+        env:
+          DOCKER_HOST: ssh://myuser@myhome.server
+          DOCKER_CONTEXT: home-server
+        run: |
+          docker context create $DOCKER_CONTEXT --docker "host=$DOCKER_HOST"
+          docker context use $DOCKER_CONTEXT
+          docker run -d --name myapp -p 80:80 myapp

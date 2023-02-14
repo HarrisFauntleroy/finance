@@ -65,7 +65,7 @@ export async function updateOsmosisBalances() {
 		// Update the cryptocurrency in the database with the new balance and transactions
 		await prisma.cryptocurrency.update({
 			data: {
-				balance: balanceInOsmo,
+				balance: balanceInOsmo.toString(),
 				// transactions,
 			},
 

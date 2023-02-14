@@ -1,7 +1,6 @@
 import { Progress } from "../../util"
 import { calculateAssetsTotals } from "./assets"
 import { prisma } from "database"
-import { Decimal } from "database/generated/prisma-client/runtime"
 
 export const history = async () => {
 	/** Get userId of signed in user */
@@ -28,11 +27,11 @@ export const history = async () => {
 					data: {
 						userId,
 						currency: totals.currency,
-						costBasis: new Decimal(totals.costBasis),
-						totalValue: new Decimal(totals.totalValue),
-						realisedGain: new Decimal(totals.realisedGain),
-						saleableValue: new Decimal(totals.saleableValue),
-						unrealisedGain: new Decimal(totals.unrealisedGain),
+						costBasis: totals.costBasis,
+						totalValue: totals.totalValue,
+						realisedGain: totals.realisedGain,
+						saleableValue: totals.saleableValue,
+						unrealisedGain: totals.unrealisedGain,
 					},
 					select: {
 						id: true,

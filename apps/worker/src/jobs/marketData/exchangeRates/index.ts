@@ -3,7 +3,6 @@ import axios from "axios"
 import { logger } from "common"
 import { prisma } from "database"
 import { Category } from "database/generated/prisma-client"
-import { Decimal } from "database/generated/prisma-client/runtime"
 
 interface OpenExchangeRatesResponse {
 	id: string
@@ -22,7 +21,7 @@ class MarketUpdater {
 			type: Category.CASH,
 			ticker: String(id).toLowerCase(),
 			currency: String(id).toLowerCase(),
-			price: new Decimal(String(price)),
+			price: String(price),
 		}))
 	}
 

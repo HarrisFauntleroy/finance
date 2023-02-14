@@ -1,4 +1,4 @@
-import { Progress, toDecimal } from "../../util"
+import { Progress } from "../../util"
 import {
 	Balance,
 	Secrets,
@@ -131,12 +131,12 @@ const updateOneUser = async (secrets: {
 				userId: secrets.userId,
 				parentId: secrets?.id,
 				marketId: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
-				interestBearingBalance: toDecimal(stakingBalance),
-				balance: toDecimal(availableBalance),
-				costBasis: toDecimal(0),
-				targetBalance: toDecimal(0),
-				incomeRate: toDecimal(0),
-				realisedGain: toDecimal(0),
+				interestBearingBalance: stakingBalance,
+				balance: availableBalance,
+				costBasis: "0",
+				targetBalance: "0",
+				incomeRate: "0",
+				realisedGain: "0",
 				apiKey: "",
 				apiSecret: "",
 				walletAddress: "",

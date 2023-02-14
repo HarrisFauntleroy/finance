@@ -5,12 +5,11 @@ import {
 	calculateAssetOverview,
 	calculateManyAssets,
 	convertCurrency,
-	sumGroupByCategory,
 	multiply,
+	sumGroupByCategory,
 } from "common"
 import { prisma } from "database"
 import { Category } from "database/generated/prisma-client"
-import type { Decimal } from "database/generated/prisma-client/runtime"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
 
 async function getAssetsWithMarket(userId: string) {
@@ -22,12 +21,12 @@ async function getAssetsWithMarket(userId: string) {
 
 type PortfolioAllocation = {
 	name: string
-	balance: Decimal
+	balance: string
 	currency: string
 	category: Category | null
 	market: {
 		currency: string
-		price: Decimal | null
+		price: string | null
 	} | null
 }
 

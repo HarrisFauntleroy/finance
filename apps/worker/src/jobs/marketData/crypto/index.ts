@@ -4,7 +4,7 @@
  * We update the database with price so that weekly/monthly portfolioSnapshot show price of balance at the time of snapshot were current
  *
  */
-import { Progress, toDecimal } from "../../../util"
+import { Progress } from "../../../util"
 import { CoinGeckoResponse, ParsedCrypto } from "./types"
 import axios from "axios"
 import { logger } from "common"
@@ -54,12 +54,12 @@ export class MarketUpdater {
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: symbol,
 				currency: this.baseCurrency.toLowerCase(),
-				price: toDecimal(current_price).toDecimalPlaces(10),
-				priceChange24h: toDecimal(price_change_24h),
-				priceChange24hPercent: toDecimal(price_change_percentage_24h),
+				price: String(current_price),
+				priceChange24h: String(price_change_24h),
+				priceChange24hPercent: String(price_change_percentage_24h),
 				image: image,
-				marketCap: toDecimal(market_cap),
-				marketCapRank: toDecimal(market_cap_rank),
+				marketCap: String(market_cap),
+				marketCapRank: String(market_cap_rank),
 			})
 		)
 	}

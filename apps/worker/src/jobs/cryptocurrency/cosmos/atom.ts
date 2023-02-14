@@ -60,7 +60,7 @@ export async function updateAtomBalances() {
 		if (cryptocurrency.walletAddress)
 			try {
 				const balance = await getAtomBalance(
-					cryptocurrency.walletAddress as string
+					cryptocurrency.walletAddress
 				).catch(logger.error)
 
 				const balanceInCosmos = new Decimal(String(balance?.amount)).times(
@@ -70,7 +70,7 @@ export async function updateAtomBalances() {
 				// Update the cryptocurrency in the database with the new balance and transactions
 				await prisma.cryptocurrency.update({
 					data: {
-						balance: balanceInCosmos,
+						balance: balanceInCosmos.toString(),
 						// transactions,
 					},
 

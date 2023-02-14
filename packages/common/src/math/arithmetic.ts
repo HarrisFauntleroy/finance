@@ -1,5 +1,4 @@
 import currency, { Any } from "currency.js"
-import { Decimal } from "database/generated/prisma-client/runtime"
 
 type Input = Any
 

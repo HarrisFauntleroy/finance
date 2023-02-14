@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react"
 import { divide, multiply, subtract } from "common"
 import currency from "currency.js"
-import type { Decimal } from "database/generated/prisma-client/runtime"
 import Image from "next/image"
 import { Card, Grid } from "ui"
 import { trpc } from "~/utils/trpc"
@@ -26,11 +25,11 @@ type CryptoToCompare = {
 	updatedAt: Date
 	ticker: string
 	currency: string
-	price: Decimal | null
-	priceChange24h: Decimal | null
-	priceChange24hPercent: Decimal | null
-	marketCap: Decimal | null
-	marketCapRank: Decimal | null
+	price: string | null
+	priceChange24h: string | null
+	priceChange24hPercent: string | null
+	marketCap: string | null
+	marketCapRank: string | null
 	image: string | null
 }
 

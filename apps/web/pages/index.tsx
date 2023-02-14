@@ -5,6 +5,7 @@
  */
 import React from "react"
 
+import { Heading } from "@chakra-ui/react"
 import {
 	ArcElement,
 	BarElement,
@@ -18,13 +19,11 @@ import {
 	Title,
 	Tooltip,
 } from "chart.js"
+import { divide, lessThan, multiply, subtract } from "common"
+import type { Prisma } from "database/generated/prisma-client"
 import { Page } from "ui"
 import type { NextPageWithLayout } from "~/pages/_app"
-import type { Prisma } from "database/generated/prisma-client"
-import { subtract, multiply, divide, lessThan } from "common"
-import type { Decimal } from "database/generated/prisma-client/runtime"
 import { trpc } from "~/utils/trpc"
-import { Heading } from "@chakra-ui/react"
 
 Chart.register(
 	CategoryScale,
@@ -72,7 +71,7 @@ class Asset {
 		return new Asset(options)
 	}
 
-	toString(value?: string | Decimal | null) {
+	toString(value?: string | null) {
 		return String(value)
 	}
 
