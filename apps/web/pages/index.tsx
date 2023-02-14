@@ -18,11 +18,11 @@ import {
 	Title,
 	Tooltip,
 } from "chart.js"
-import { divide, lessThan, multiply, subtract } from "common"
-import type { Prisma } from "database/generated/prisma-client"
-import type { Decimal } from "database/generated/prisma-client/runtime"
 import { Page } from "ui"
 import type { NextPageWithLayout } from "~/pages/_app"
+import type { Prisma } from "database/generated/prisma-client"
+import { subtract, multiply, divide, lessThan } from "common"
+import type { Decimal } from "database/generated/prisma-client/runtime"
 import { trpc } from "~/utils/trpc"
 
 Chart.register(
@@ -60,7 +60,6 @@ class Asset {
 	interestBearingBalance: string
 
 	constructor(options: AssetInput) {
-		// Price will be zero if unknown.
 		this.price = options?.market?.price || "0"
 		this.balance = options?.balance || "0"
 		this.value = multiply(this.price, this.balance)
@@ -139,8 +138,8 @@ class Asset {
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const AssetCard = ({ asset }: { asset: Asset }) => {
-	return <div>{JSON.stringify(asset.allGetters)}</div>
+const AssetCard = ({ asset }: { asset?: Asset | null }) => {
+	return <div>{JSON.stringify(asset?.allGetters)}</div>
 }
 
 const Index: NextPageWithLayout = () => {
@@ -148,11 +147,11 @@ const Index: NextPageWithLayout = () => {
 		id: "cldwad5ab00465avd6tpjbezj",
 	})
 
-	const a = Asset.create(data)
+	const asset = data && Asset.create(data)
 
 	return (
 		<Page title="Home" padding="8px" gap="8px">
-			<AssetCard asset={a} />
+			<AssetCard asset={asset} />
 		</Page>
 	)
 }
