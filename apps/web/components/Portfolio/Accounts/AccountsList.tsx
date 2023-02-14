@@ -1,22 +1,22 @@
-import React from "react";
+import React from "react"
 
-import { Stack } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
-import { Table } from "ui";
-import TableSubComponent from "~/components/Cryptocurrency/SubRow";
-import { portfolioOverviewColumns } from "~/components/Portfolio/Accounts/columns";
-import type { RouterOutput } from "~/utils/trpc";
-import { trpc } from "~/utils/trpc";
+import { Stack } from "@chakra-ui/react"
+import { useSession } from "next-auth/react"
+import { Table } from "ui"
+import TableSubComponent from "~/components/Cryptocurrency/SubRow"
+import { portfolioOverviewColumns } from "~/components/Portfolio/Accounts/columns"
+import type { RouterOutput } from "~/utils/trpc"
+import { trpc } from "~/utils/trpc"
 
-export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"];
+export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"]
 
 export const AccountsList = () => {
-	const session = useSession();
-	const userId = session?.data?.userId;
+	const session = useSession()
+	const userId = session?.data?.userId
 
 	const { data } = trpc.assets.byUserId.useQuery({
 		userId: userId || "",
-	});
+	})
 
 	return (
 		<Table
@@ -43,5 +43,5 @@ export const AccountsList = () => {
 				</Stack>
 			)}
 		/>
-	);
-};
+	)
+}

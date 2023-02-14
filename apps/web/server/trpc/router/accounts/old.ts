@@ -1,6 +1,6 @@
 import { publicProcedure, router } from "../../trpc"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAsset } from "common"
+import { calculateAssetOverview, calculateManyAssets } from "common"
 import { prisma } from "database"
 import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
@@ -135,7 +135,7 @@ export const assetRouter = router({
 				})
 			}
 			// Calculate the asset values using the provided data, exchange rates, and user currency
-			return calculateManyAsset({
+			return calculateManyAssets({
 				data: data,
 				exchangeRates,
 				userCurrency,
@@ -172,7 +172,7 @@ export const assetRouter = router({
 			}
 
 			/** Calculate asset for overview */
-			const assets = calculateManyAsset({
+			const assets = calculateManyAssets({
 				data,
 				exchangeRates,
 				userCurrency,

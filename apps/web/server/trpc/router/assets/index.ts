@@ -4,7 +4,7 @@ import { createAsset, createAssetInput } from "./create"
 import { deleteAsset } from "./delete"
 import { updateAsset, updateAssetInput } from "./update"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAsset, logger } from "common"
+import { calculateAssetOverview, calculateManyAssets, logger } from "common"
 import { prisma } from "database"
 import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
@@ -92,7 +92,7 @@ export const assetRouter = router({
 		const userCurrency = await getUserCurrency(userId)
 		const exchangeRates = await getExchangeRates()
 
-		return calculateManyAsset({
+		return calculateManyAssets({
 			data,
 			exchangeRates,
 			userCurrency,
@@ -137,7 +137,7 @@ export const assetRouter = router({
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
 
-			return calculateManyAsset({
+			return calculateManyAssets({
 				data,
 				exchangeRates,
 				userCurrency,
@@ -162,7 +162,7 @@ export const assetRouter = router({
 						})
 						.then((data) =>
 							getExchangeRates().then((exchangeRates) => {
-								const calculatedAssets = calculateManyAsset({
+								const calculatedAssets = calculateManyAssets({
 									data,
 									exchangeRates,
 									userCurrency,

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
 	Drawer,
@@ -7,23 +7,23 @@ import {
 	DrawerOverlay,
 	Text,
 	type UseDisclosureProps,
-} from "@chakra-ui/react";
-import type { Role } from "database/generated/prisma-client";
-import Link from "next/link";
-import type { IconType } from "react-icons";
-import { SidebarContent } from "~/components/Layout/SidebarContent";
+} from "@chakra-ui/react"
+import type { Role } from "database/generated/prisma-client"
+import Link from "next/link"
+import type { IconType } from "react-icons"
+import { SidebarContent } from "~/components/Layout/SidebarContent"
 
 export interface SidebarLink {
-	href: string;
-	icon: IconType;
-	label: string;
-	role?: Role;
+	href: string
+	icon: IconType
+	label: string
+	role?: Role
 }
 
 interface SidebarProps extends Omit<UseDisclosureProps, "isOpen" | "onClose"> {
-	links: SidebarLink[];
-	isOpen: boolean;
-	onClose(): void;
+	links: SidebarLink[]
+	isOpen: boolean
+	onClose(): void
 }
 
 export default function Sidebar({ links, ...props }: SidebarProps) {
@@ -48,5 +48,5 @@ export default function Sidebar({ links, ...props }: SidebarProps) {
 				</DrawerFooter>
 			</Drawer>
 		</>
-	);
+	)
 }

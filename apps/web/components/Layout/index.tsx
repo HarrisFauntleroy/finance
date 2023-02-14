@@ -4,30 +4,30 @@
  * Style: Golden Ratio
  *
  */
-import type { PropsWithChildren } from "react";
-import React from "react";
+import type { PropsWithChildren } from "react"
+import React from "react"
 
 import {
 	Grid,
 	GridItem,
 	useColorModeValue,
 	useDisclosure,
-} from "@chakra-ui/react";
-import { Role } from "database/generated/prisma-client";
-import { BsBank } from "react-icons/bs";
+} from "@chakra-ui/react"
+import { Role } from "database/generated/prisma-client"
+import { BsBank } from "react-icons/bs"
 import {
 	MdAdminPanelSettings,
 	MdMultilineChart,
 	MdSavings,
-} from "react-icons/md";
-import { Footer } from "ui";
-import Header from "~/components/Layout/Header";
-import Sidebar from "~/components/Layout/Sidebar";
-import useLagRadar from "~/hooks/useLagRadar";
+} from "react-icons/md"
+import { Footer } from "ui"
+import Header from "~/components/Layout/Header"
+import Sidebar from "~/components/Layout/Sidebar"
+import useLagRadar from "~/hooks/useLagRadar"
 
 export default function Layout({ children }: PropsWithChildren) {
-	useLagRadar();
-	const disclosure = useDisclosure();
+	useLagRadar()
+	const disclosure = useDisclosure()
 
 	const links = [
 		{ href: "/portfolio", icon: BsBank, label: "Accounts" },
@@ -43,7 +43,7 @@ export default function Layout({ children }: PropsWithChildren) {
 			label: "Admin",
 			role: Role.ADMIN,
 		},
-	];
+	]
 
 	return (
 		<Grid
@@ -79,5 +79,5 @@ export default function Layout({ children }: PropsWithChildren) {
 				<Footer />
 			</GridItem>
 		</Grid>
-	);
+	)
 }

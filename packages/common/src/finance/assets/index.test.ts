@@ -1,5 +1,5 @@
 import { flattenArrToObj } from "../../helpers"
-import { AssetComplete, calculateManyAsset } from "./helpers"
+import { AssetComplete, calculateManyAssets } from "./helpers"
 import { CalculatedAsset } from "./types"
 import { prisma } from "database"
 import { Category, MarketType } from "database/generated/prisma-client"
@@ -430,7 +430,7 @@ test("Calculates an accounts total from its sub-accounts. Like asset imported fr
 	const exchangeRates = await getExchangeRates()
 
 	expect(
-		calculateManyAsset({
+		calculateManyAssets({
 			data: testData,
 			exchangeRates,
 			userCurrency: "AUD",

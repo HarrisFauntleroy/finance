@@ -156,7 +156,7 @@ model Budget {
   user         User             @relation(fields: [userId], references: [id])
   envelopes    BudgetEnvelope[]
   income       Income[]
-  totalBalance Decimal          @default(0)
+  totalBalance String           @default("0")
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @default(now()) @updatedAt
   deleted      Boolean          @default(false)
@@ -169,8 +169,8 @@ model BudgetEnvelope {
   name            String
   budget          Budget              @relation(fields: [budgetId], references: [id])
   transactions    BudgetTransaction[]
-  remainingAmount Decimal             @default(0)
-  totalAmount     Decimal             @default(0)
+  remainingAmount String              @default("0")
+  totalAmount     String              @default("0")
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @default(now()) @updatedAt
   deleted         Boolean             @default(false)
@@ -183,19 +183,19 @@ model BudgetTransaction {
   // ISO-8601 format
   timestamp           DateTime
   // The price of a single unit of the asset being bought or sold
-  pricePerUnit        Decimal   @default(0)
+  pricePerUnit        String    @default("0")
   // The settlement currency in which the pricePerUnit is denominated
   // ISO-4217 format
   baseCurrency        String
   // The number of units of the asset being bought or sold
-  quantity            Decimal   @default(0)
+  quantity            String    @default("0")
   // The number of units of the asset that have been filled in the transaction
   // (optional field, may not be applicable to all transactions)
-  quantityFilled      Decimal?
+  quantityFilled      String?
   // The fee associated with the transaction in the base currency
-  fee                 Decimal   @default(0)
+  fee                 String    @default("0")
   // The total value of the transaction in the base currency
-  valueInBaseCurrency Decimal   @default(0)
+  valueInBaseCurrency String    @default("0")
   // The asset being sold in the transaction)
   fromAsset           String?
   // The asset being bought in the transaction
@@ -229,7 +229,7 @@ model BudgetTransaction {
   // orderType String?
 
   // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
-  // limitPrice Decimal?
+  // limitPrice String?
 
   budgetEnvelopeId String?
   budgetEnvelope   BudgetEnvelope? @relation(fields: [budgetEnvelopeId], references: [id])
@@ -325,7 +325,7 @@ model AssetLabel {
 }
 
 model Asset {
-  id                     String   @id @default(cuid())
+  id                     String  @id @default(cuid())
   // The name of the asset, such as "Bitcoin" or "Tesla Stock"
   name                   String
   institution            String?
@@ -337,17 +337,17 @@ model Asset {
   // The address of the wallet where the asset is stored, if applicable.
   walletAddress          String?
   // The balance of the asset, for example the number of shares or tokens that the user owns.
-  balance                Decimal  @default(0)
+  balance                String  @default("0")
   // The total cost of purchasing the asset, including any fees or expenses.
-  costBasis              Decimal  @default(0)
+  costBasis              String  @default("0")
   // The profit or loss from the sale of the asset, calculated as the sale price minus the cost basis.
-  realisedGain           Decimal  @default(0)
+  realisedGain           String  @default("0")
   // The desired balance of the asset, for example the number of shares or tokens that the user wants to own.
-  targetBalance          Decimal?
+  targetBalance          String?
   // The balance of the asset that earns interest, for example a savings account balance.
-  interestBearingBalance Decimal?
+  interestBearingBalance String?
   // The income rate of the asset, for example the annual percentage rate of a savings account.
-  incomeRate             Decimal?
+  incomeRate             String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -400,19 +400,19 @@ model AssetTransaction {
   // ISO-8601 format
   timestamp           DateTime?
   // The price of a single unit of the asset being bought or sold
-  pricePerUnit        Decimal?
+  pricePerUnit        String?
   // The settlement currency in which the pricePerUnit is denominated
   // ISO-4217 format
   baseCurrency        String
   // The number of units of the asset being bought or sold
-  quantity            Decimal
+  quantity            String
   // The number of units of the asset that have been filled in the transaction
   // (optional field, may not be applicable to all transactions)
-  quantityFilled      Decimal?
+  quantityFilled      String?
   // The fee associated with the transaction in the base currency
-  fee                 Decimal?
+  fee                 String?
   // The total value of the transaction in the base currency
-  valueInBaseCurrency Decimal?
+  valueInBaseCurrency String?
   // The asset being sold in the transaction)
   fromAsset           String?
   // The asset being bought in the transaction
@@ -441,7 +441,7 @@ model AssetTransaction {
   // orderType String?
 
   // The limit price of a limit order, if applicable. This can be useful for understanding the conditions under which the order was placed and for determining whether the order was filled at the desired price.
-  // limitPrice Decimal?
+  // limitPrice String?
 
   relatedAssetId String?
   relatedAsset   Asset?  @relation(fields: [relatedAssetId], references: [id])
@@ -461,11 +461,11 @@ model AssetTransaction {
 model PortfolioSnapshot {
   id             String    @id @unique @default(cuid())
   currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
+  totalValue     String
+  costBasis      String
+  unrealisedGain String
+  realisedGain   String
+  saleableValue  String
   userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -479,11 +479,11 @@ model PortfolioSnapshot {
 model CryptoSnapshot {
   id             String    @id @unique @default(cuid())
   currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
+  totalValue     String
+  costBasis      String
+  unrealisedGain String
+  realisedGain   String
+  saleableValue  String
   userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -497,11 +497,11 @@ model CryptoSnapshot {
 model CashSnapshot {
   id             String    @id @unique @default(cuid())
   currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
+  totalValue     String
+  costBasis      String
+  unrealisedGain String
+  realisedGain   String
+  saleableValue  String
   userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -515,11 +515,11 @@ model CashSnapshot {
 model PropertySnapshot {
   id             String    @id @unique @default(cuid())
   currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
+  totalValue     String
+  costBasis      String
+  unrealisedGain String
+  realisedGain   String
+  saleableValue  String
   userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -533,11 +533,11 @@ model PropertySnapshot {
 model SecuritySnapshot {
   id             String    @id @unique @default(cuid())
   currency       String
-  totalValue     Decimal
-  costBasis      Decimal
-  unrealisedGain Decimal
-  realisedGain   Decimal
-  saleableValue  Decimal
+  totalValue     String
+  costBasis      String
+  unrealisedGain String
+  realisedGain   String
+  saleableValue  String
   userId         String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -554,15 +554,15 @@ model Cryptocurrency {
   id                     String             @id @unique @default(cuid())
   displayName            String
   currency               String             @default("usd")
-  balance                Decimal            @default(0)
-  costBasis              Decimal            @default(0)
-  realisedGain           Decimal            @default(0)
+  balance                String             @default("0")
+  costBasis              String             @default("0")
+  realisedGain           String             @default("0")
   apiKey                 String?
   apiSecret              String?
   walletAddress          String?
-  targetBalance          Decimal            @default(0)
-  interestBearingBalance Decimal            @default(0)
-  incomeRate             Decimal            @default(0)
+  targetBalance          String             @default("0")
+  interestBearingBalance String             @default("0")
+  incomeRate             String             @default("0")
   accountConnection      AccountConnection? @default(NONE)
 
   marketId  String?
@@ -593,11 +593,11 @@ model Market {
   ticker                String
   description           String?
   currency              String
-  price                 Decimal?
-  priceChange24h        Decimal?
-  priceChange24hPercent Decimal?
-  marketCap             Decimal?
-  marketCapRank         Decimal?
+  price                 String?
+  priceChange24h        String?
+  priceChange24hPercent String?
+  marketCap             String?
+  marketCapRank         String?
   type                  MarketType
   image                 String?
   linked_assets         Asset[]

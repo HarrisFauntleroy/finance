@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-import type { BoxProps } from "@chakra-ui/react";
+import type { BoxProps } from "@chakra-ui/react"
 import {
 	Box,
 	Center,
@@ -8,15 +8,15 @@ import {
 	Stack,
 	Text,
 	useColorModeValue,
-} from "@chakra-ui/react";
-import Image from "next/image";
-import Link from "next/link";
-import type { SidebarLink } from "~/components/Layout/Sidebar";
-import { SidebarItem } from "~/components/Layout/SidebarItem";
+} from "@chakra-ui/react"
+import Image from "next/image"
+import Link from "next/link"
+import type { SidebarLink } from "~/components/Layout/Sidebar"
+import { SidebarItem } from "~/components/Layout/SidebarItem"
 
 interface SidebarContentProps extends BoxProps {
-	links: SidebarLink[];
-	drawer?: boolean;
+	links: SidebarLink[]
+	drawer?: boolean
 }
 
 export function SidebarContent({
@@ -75,5 +75,5 @@ export function SidebarContent({
 				))}
 			</Stack>
 		</Box>
-	);
+	)
 }

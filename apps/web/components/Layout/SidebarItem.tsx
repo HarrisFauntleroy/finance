@@ -1,19 +1,19 @@
-import React from "react";
+import React from "react"
 
-import { Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
-import { Role } from "database/generated/prisma-client";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import type { IconType } from "react-icons";
+import { Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
+import { Role } from "database/generated/prisma-client"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import type { IconType } from "react-icons"
 
 type SidebarItemProps = {
-	label: string;
-	icon: IconType;
-	href?: string;
-	drawer?: boolean;
-	role?: Role;
-};
+	label: string
+	icon: IconType
+	href?: string
+	drawer?: boolean
+	role?: Role
+}
 
 export function SidebarItem({
 	icon,
@@ -22,16 +22,16 @@ export function SidebarItem({
 	href,
 	role,
 }: SidebarItemProps) {
-	const { data } = useSession();
-	const userRole = data?.user.role;
-	const color = useColorModeValue("gray.600", "gray.300");
-	const bg = useColorModeValue("gray.100", "gray.800");
+	const { data } = useSession()
+	const userRole = data?.user.role
+	const color = useColorModeValue("gray.600", "gray.300")
+	const bg = useColorModeValue("gray.100", "gray.800")
 
-	const color2 = useColorModeValue("inherit", "gray.400");
-	const color3 = useColorModeValue("gray.900", "gray.200");
+	const color2 = useColorModeValue("inherit", "gray.400")
+	const color3 = useColorModeValue("gray.900", "gray.200")
 
-	const router = useRouter();
-	const isActive = router.pathname === href;
+	const router = useRouter()
+	const isActive = router.pathname === href
 
 	return (
 		<React.Fragment>
@@ -73,5 +73,5 @@ export function SidebarItem({
 					</Link>
 				))}
 		</React.Fragment>
-	);
+	)
 }

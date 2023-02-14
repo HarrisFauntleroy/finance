@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
-import { HeaderMenuDesktop, HeaderMenuMobile } from "./HeaderMenu";
-import type { UseDisclosureProps } from "@chakra-ui/react";
+import { HeaderMenuDesktop, HeaderMenuMobile } from "./HeaderMenu"
+import type { UseDisclosureProps } from "@chakra-ui/react"
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -10,21 +10,21 @@ import {
 	Flex,
 	IconButton,
 	useBreakpointValue,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { FiMenu } from "react-icons/fi";
+} from "@chakra-ui/react"
+import { useRouter } from "next/router"
+import { FiMenu } from "react-icons/fi"
 
-type HeaderProps = UseDisclosureProps;
+type HeaderProps = UseDisclosureProps
 
 export default function Header({ onOpen }: HeaderProps) {
-	const location = useRouter();
+	const location = useRouter()
 
 	/** Remove query params from pathname */
-	const path = location?.asPath.split("?")[0];
+	const path = location?.asPath.split("?")[0]
 
-	const formattedPath = path?.replace(/#/g, "")?.split("/").filter(Boolean);
+	const formattedPath = path?.replace(/#/g, "")?.split("/").filter(Boolean)
 
-	const desktop = useBreakpointValue({ base: false, sm: true });
+	const desktop = useBreakpointValue({ base: false, sm: true })
 
 	return (
 		<>
@@ -71,5 +71,5 @@ export default function Header({ onOpen }: HeaderProps) {
 			</Flex>
 			<Divider />
 		</>
-	);
+	)
 }

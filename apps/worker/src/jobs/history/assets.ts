@@ -1,6 +1,6 @@
 import { getExchangeRates, getUserCurrency } from "../../util"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAsset } from "common"
+import { calculateAssetOverview, calculateManyAssets } from "common"
 import { prisma } from "database"
 
 export const calculateAssetsTotals = async (userId: string) => {
@@ -35,7 +35,7 @@ export const calculateAssetsTotals = async (userId: string) => {
 	}
 
 	/** Calculate assets for overview */
-	const assets = calculateManyAsset({
+	const assets = calculateManyAssets({
 		data: user.assets,
 		exchangeRates,
 		userCurrency,

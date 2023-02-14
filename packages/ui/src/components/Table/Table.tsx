@@ -23,6 +23,7 @@ import type {
 	ColumnFiltersState,
 	FilterFn,
 	PaginationState,
+	Row,
 	SortingState,
 } from "@tanstack/react-table"
 import {
@@ -106,7 +107,7 @@ export const Table = <TData extends object>({
 			globalFilter,
 			pagination,
 		},
-		getRowCanExpand: () => getRowCanExpand,
+		getRowCanExpand: () => getRowCanExpand || false,
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),

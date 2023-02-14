@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react"
 
 import {
 	Avatar,
@@ -11,72 +11,72 @@ import {
 	Select,
 	Stack,
 	Text,
-} from "@chakra-ui/react";
-import { divide, multiply, subtract } from "common";
-import currency from "currency.js";
-import Image from "next/image";
-import { Card, Grid } from "ui";
-import { trpc } from "~/utils/trpc";
-import type { Decimal } from "database/generated/prisma-client/runtime";
+} from "@chakra-ui/react"
+import { divide, multiply, subtract } from "common"
+import currency from "currency.js"
+import type { Decimal } from "database/generated/prisma-client/runtime"
+import Image from "next/image"
+import { Card, Grid } from "ui"
+import { trpc } from "~/utils/trpc"
 
-const currencies = ["USD", "EUR", "GBP", "JPY"];
+const currencies = ["USD", "EUR", "GBP", "JPY"]
 
 type CryptoToCompare = {
-	name: string | null;
-	updatedAt: Date;
-	ticker: string;
-	currency: string;
-	price: Decimal | null;
-	priceChange24h: Decimal | null;
-	priceChange24hPercent: Decimal | null;
-	marketCap: Decimal | null;
-	marketCapRank: Decimal | null;
-	image: string | null;
-};
+	name: string | null
+	updatedAt: Date
+	ticker: string
+	currency: string
+	price: Decimal | null
+	priceChange24h: Decimal | null
+	priceChange24hPercent: Decimal | null
+	marketCap: Decimal | null
+	marketCapRank: Decimal | null
+	image: string | null
+}
 
 const CryptoComparison = () => {
-	const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
-	const [coinToCompare, setcoinToCompare] = useState<CryptoToCompare>();
-	const [, setCoinToCompareAgainst] = useState<CryptoToCompare>();
+	const [selectedCurrency, setSelectedCurrency] = useState<string>("USD")
+	const [coinToCompare, setcoinToCompare] = useState<CryptoToCompare>()
+	const [, setCoinToCompareAgainst] = useState<CryptoToCompare>()
 
 	const handleSelectCrypto1 = (crypto: CryptoToCompare) => {
-		setcoinToCompare(crypto);
-	};
+		setcoinToCompare(crypto)
+	}
 
 	const handleSelectCrypto2 = (crypto: CryptoToCompare) => {
-		setCoinToCompareAgainst(crypto);
-	};
+		setCoinToCompareAgainst(crypto)
+	}
 
 	const handleSelectCurrency = (input: string) => {
-		setSelectedCurrency(input);
-	};
+		setSelectedCurrency(input)
+	}
 
-	const { data } = trpc.markets.cryptocurrency.useQuery();
+	const { data } = trpc.markets.cryptocurrency.useQuery()
 
 	const calculatedValues = useMemo(
 		() =>
 			data?.map((crypto) => {
 				const potentialPrice = multiply(
 					divide(String(crypto?.marketCap), String(coinToCompare?.marketCap)),
-					String(coinToCompare?.price),
-				);
+					String(coinToCompare?.price)
+				)
 
 				const potentialUpside = multiply(
 					divide(
 						subtract(potentialPrice, String(crypto.price)),
-						String(crypto.price),
+						String(crypto.price)
 					),
-					-100,
-				);
+					-100
+				)
 
 				return {
 					potentialPrice,
 					potentialUpside,
 					...crypto,
-				};
+				}
 			}),
-		[coinToCompare?.marketCap, coinToCompare?.price, data],
-	);
+		[coinToCompare?.marketCap, coinToCompare?.price, data]
+	)
 
 	return (
 		<Grid
@@ -93,10 +93,10 @@ const CryptoComparison = () => {
 						width="100%"
 						defaultValue={coinToCompare?.ticker}
 						onChange={(event) => {
-							const { value } = event.target;
-							const firstCrypto = data?.[Number(value)];
+							const { value } = event.target
+							const firstCrypto = data?.[Number(value)]
 							if (firstCrypto) {
-								handleSelectCrypto1(firstCrypto);
+								handleSelectCrypto1(firstCrypto)
 							}
 						}}
 					>
@@ -165,10 +165,10 @@ const CryptoComparison = () => {
 				<label>Select Crypto to compare</label>
 				<select
 					onChange={(event) => {
-						const { value } = event.target;
-						const secondCrypto = data?.[Number(value)];
+						const { value } = event.target
+						const secondCrypto = data?.[Number(value)]
 						if (secondCrypto) {
-							handleSelectCrypto2(secondCrypto);
+							handleSelectCrypto2(secondCrypto)
 						}
 					}}
 				>
@@ -180,7 +180,7 @@ const CryptoComparison = () => {
 				</select>
 			</Card>
 		</Grid>
-	);
-};
+	)
+}
 
-export default CryptoComparison;
+export default CryptoComparison

@@ -122,7 +122,7 @@ export interface AssetSummaryOutput extends AssetOmitCostBasisAndsubAssets {
 	price: string
 }
 
-export function calculateAssetSummary(
+export function calculateAssetDetails(
 	asset: subAssetsOmitsubAssets,
 	exchangeRates: Record<string, string>,
 	toCurrency = "usd"
@@ -143,12 +143,10 @@ export function calculateAssetSummary(
 
 	const balance = asset?.balance?.toString() || "0"
 
-	let value
-	if (price && asset.category === Category.CRYPTOCURRENCY) {
-		value = multiply(balance.toString(), price.toString())
-	} else {
-		value = balance
-	}
+	const value =
+		asset.category === Category.CRYPTOCURRENCY
+			? multiply(balance, price)
+			: balance
 
 	const targetBalance = asset.targetBalance?.toString() || "0"
 	const incomeRate = asset.incomeRate?.toString() || "0"
@@ -231,38 +229,27 @@ export interface AssetSummaryInput {
 	userCurrency: string
 }
 
-export function calculateManyAsset({
+export function calculateManyAssets({
 	data,
 	userCurrency,
 	exchangeRates,
 }: AssetSummaryInput) {
 	return data.map((asset) => {
-		/**
-		 * Calculate the summary for the main asset account
-		 */
-		const calculatedAsset = calculateAssetSummary(
+		const calculatedAsset = calculateAssetDetails(
 			asset,
 			exchangeRates,
 			userCurrency
 		)
-
-		/**
-		 * Calculate the summary for any children asset accounts
-		 * Mainly applicable to sub accounts like exchanges
-		 */
 		const calculatedSubAssets = asset.subAssets?.map((child) =>
-			calculateAssetSummary(child, exchangeRates, userCurrency)
+			calculateAssetDetails(child, exchangeRates, userCurrency)
 		)
 
-		/** Calculate totals for nested accounts */
-		if (calculatedSubAssets !== undefined && calculatedSubAssets.length > 0) {
-			return {
-				...calculatedAsset,
-				...calculateNestedAccountTotals(calculatedSubAssets),
-			}
-		}
-
-		return calculatedAsset
+		return calculatedSubAssets && calculatedSubAssets.length > 0
+			? {
+					...calculatedAsset,
+					...calculateNestedAccountTotals(calculatedSubAssets),
+			  }
+			: calculatedAsset
 	})
 }
 

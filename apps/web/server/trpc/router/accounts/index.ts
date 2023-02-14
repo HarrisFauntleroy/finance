@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { publicProcedure, router } from "../../trpc"
 import { byUserId } from "../schema"
 import { TRPCError } from "@trpc/server"
 import {
 	calculateAssetOverview,
-	calculateManyAsset,
+	calculateManyAssets,
 	convertCurrency,
 	multiply,
 } from "common"
-import currencyjs from "currency.js"
 import { prisma } from "database"
 import { Category } from "database/generated/prisma-client"
 import type { Decimal } from "database/generated/prisma-client/runtime"
@@ -20,19 +18,6 @@ async function getAssetsWithMarket(userId: string) {
 		include: { market: true },
 	})
 }
-
-const sumGroupByCategory = (arr: any[], category: string) =>
-	arr.reduce(
-		(
-			grouped: { [x: string]: { add: (arg0: any) => any } },
-			obj: { [x: string]: string | number; value: any }
-		) => {
-			if (!grouped[obj[category]]) grouped[obj[category]] = currencyjs(0)
-			grouped[obj[category]] = grouped[obj[category]].add(obj.value)
-			return grouped
-		},
-		{}
-	)
 
 type PortfolioAllocation = {
 	name: string
@@ -99,7 +84,7 @@ export const accountsRouter = router({
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
 
-			const assets = calculateManyAsset({
+			const assets = calculateManyAssets({
 				data: data?.assets,
 				exchangeRates,
 				userCurrency,
