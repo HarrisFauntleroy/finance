@@ -212,7 +212,7 @@
 		"dotenv": "16.0.3",
 		"eslint": "^8.27.0",
 		"eslint-config-airbnb-typescript": "^17.0.0",
-		"eslint-config-hardcore": "25.2.0",
+		"eslint-config-hardcore": "26.0.1",
 		"eslint-config-next": "12.3.4",
 		"eslint-config-prettier": "8.6.0",
 		"eslint-config-sznm": "1.0.2",
