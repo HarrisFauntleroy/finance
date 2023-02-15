@@ -1,16 +1,15 @@
 import { prisma } from "database"
 import { date, z } from "zod"
-import { decimal } from "~/utils/decimal"
 
 export const createAssetTransactionInput = z.object({
 	userId: z.string(),
 	timestamp: date().nullable(),
-	pricePerUnit: decimal().nullable(),
+	pricePerUnit: z.string().nullable(),
 	baseCurrency: z.string(),
-	quantity: decimal(),
-	quantityFilled: decimal().nullable(),
-	fee: decimal().nullable(),
-	valueInBaseCurrency: decimal().nullable(),
+	quantity: z.string(),
+	quantityFilled: z.string().nullable(),
+	fee: z.string().nullable(),
+	valueInBaseCurrency: z.string().nullable(),
 	fromAsset: z.string().nullable(),
 	toAsset: z.string(),
 	market: z.string().nullable(),
