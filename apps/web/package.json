@@ -109,7 +109,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.39.0",
 		"apexcharts": "*",
 		"axios": "1.2.6",
-		"bullmq": "2.4.0",
+		"bullmq": "3.6.6",
 		"chakra-ui-steps": "^1.8.0",
 		"chart.js": "3.9.1",
 		"codemirror": "^6.0.1",
