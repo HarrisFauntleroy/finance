@@ -1,7 +1,0 @@
-[35mworker:lint[0m: cache hit, replaying output [2m74815ac00b835754[0m
-[35mworker:lint: [0m$ next lint
-[35mworker:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/worker/.env.local
-[35mworker:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/worker/.env
-[35mworker:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
-[35mworker:lint: [0merror Command failed with exit code 1.
-[35mworker:lint: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

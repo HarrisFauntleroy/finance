@@ -1,4 +1,3 @@
-// Refactored code:
 import type { NextApiRequest, NextApiResponse } from "next"
 
 const authorized = (req: NextApiRequest): boolean => {
@@ -14,9 +13,10 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	if (authorized(req)) {
-		res.json("YES")
+	const isAuthorized = authorized(req)
+	if (isAuthorized) {
+		res.status(200).json({ statusCode: 200, message: "Success" })
 	} else {
-		res.json("NO")
+		res.status(500).json({ statusCode: 500, message: "Failure" })
 	}
 }

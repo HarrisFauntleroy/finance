@@ -1,5 +1,0 @@
-[35mcommon:lint[0m: cache hit, replaying output [2m8c5daf573aefa6c6[0m
-[35mcommon:lint: [0m$ next lint
-[35mcommon:lint: [0m> Couldn't find a `pages` directory. Please create one under the project root
-[35mcommon:lint: [0merror Command failed with exit code 1.
-[35mcommon:lint: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -87,8 +87,6 @@ General
 - 📜 Automatic API documentation [(Swagger)](https://swagger.io/solutions/api-documentation/)
 - 🔍 Clean Code Analysis with [SonarCloud](https://sonarcloud.io)
 
-- ✅ Commit conventions enforced with [Commitzen](https://www.npmjs.com/package/commitizen)
-
 ## Setup
 
 yarn:
