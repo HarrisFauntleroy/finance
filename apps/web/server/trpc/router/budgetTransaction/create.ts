@@ -1,7 +1,6 @@
 import { prisma } from "database"
 import { AccountConnection, Category } from "database/generated/prisma-client"
 import { date, z } from "zod"
-import { decimal } from "~/utils/decimal"
 
 const CurrencyType = z.string().regex(/^[A-Z]{3}$/)
 
@@ -10,18 +9,18 @@ export const createBudgetTransactionInput = z.object({
 	name: z.string(),
 	accountConnection: z.nativeEnum(AccountConnection).nullable(),
 	currency: CurrencyType,
-	value: decimal(),
+	value: z.string(),
 	category: z.nativeEnum(Category),
 	marketId: z.string().nullable(),
-	balance: decimal().default(0),
-	targetBalance: decimal().default(0),
+	balance: z.string(),
+	targetBalance: z.string(),
 	timestamp: date(),
 	baseCurrency: z.string(),
 	toAsset: z.string(),
 	fromAsset: z.string().nullable(),
-	costBasis: decimal().default(0),
-	interestBearingBalance: decimal().default(0),
-	incomeRate: decimal().default(0),
+	costBasis: z.string(),
+	interestBearingBalance: z.string(),
+	incomeRate: z.string(),
 	walletAddress: z.string().nullable(),
 	transactionType: z.string(),
 	transactionHash: z.string(),

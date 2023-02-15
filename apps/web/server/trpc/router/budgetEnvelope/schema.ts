@@ -1,6 +1,5 @@
 import { Prisma } from "database/generated/prisma-client"
 import { z } from "zod"
-import { decimal } from "~/utils/decimal"
 
 /** Prisma schemas for retrieving data */
 // model Budget {
@@ -44,7 +43,7 @@ export const BudgetSchema = Prisma.validator<Prisma.BudgetSelect>()({
 
 export const BudgetSchemaZod = z.object({
 	name: z.string(),
-	totalBalance: decimal(),
+	totalBalance: z.string(),
 	createdAt: z.date(),
 	updatedAt: z.date(),
 })

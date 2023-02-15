@@ -3,18 +3,17 @@ import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { z } from "zod"
-import { decimal } from "~/utils/decimal"
 
 export const createMarketInput = z.object({
 	name: z.string(),
 	ticker: z.string(),
 	description: z.string(),
 	currency: z.string(),
-	price: decimal(),
-	priceChange24h: decimal(),
-	priceChange24hPercent: decimal(),
-	marketCap: decimal(),
-	marketCapRank: decimal(),
+	price: z.string(),
+	priceChange24h: z.string(),
+	priceChange24hPercent: z.string(),
+	marketCap: z.string(),
+	marketCapRank: z.string(),
 	type: z.nativeEnum(MarketType),
 	image: z.string(),
 	createdAt: z.date(),

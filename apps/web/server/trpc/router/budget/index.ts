@@ -3,7 +3,6 @@ import { BudgetSchema } from "../budgetEnvelope/schema"
 import { TRPCError } from "@trpc/server"
 import { prisma } from "database"
 import { z } from "zod"
-import { decimal } from "~/utils/decimal"
 
 export const budgetRouter = router({
 	create: publicProcedure
@@ -11,7 +10,7 @@ export const budgetRouter = router({
 			z.object({
 				name: z.string(),
 				userId: z.string(),
-				totalBalance: decimal(),
+				totalBalance: z.string(),
 			})
 		)
 		.mutation(async ({ input }) => {
@@ -27,7 +26,7 @@ export const budgetRouter = router({
 				id: z.string(),
 				name: z.string(),
 				userId: z.string(),
-				totalBalance: decimal(),
+				totalBalance: z.string(),
 			})
 		)
 		.mutation(async ({ input }) => {
