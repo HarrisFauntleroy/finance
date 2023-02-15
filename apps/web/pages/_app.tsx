@@ -1,9 +1,9 @@
 import React from "react"
 
+import { initI18n } from "../i18n"
 import SEO from "../next-seo.config"
 import { trpc } from "../utils/trpc"
 import Auth from "./auth"
-import { initI18n } from "./i18n"
 import type { Role } from "database/generated/prisma-client"
 import { type NextPage } from "next"
 import { type Session } from "next-auth"
