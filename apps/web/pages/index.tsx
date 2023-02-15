@@ -42,7 +42,7 @@ type AssetInput = Prisma.AssetGetPayload<{
 	include: { market: true }
 }>
 
-class Asset {
+export class Asset {
 	price: string
 
 	balance: string

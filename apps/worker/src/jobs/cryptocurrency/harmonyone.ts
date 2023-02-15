@@ -33,14 +33,6 @@ export async function getBalance(walletAddress: string): Promise<string> {
 	throw new Error("Invalid address!")
 }
 
-// export async function getTransactionHistory(
-// 	walletAddress: string
-// ): Promise<any[]> {
-// 	// TODO
-// 	// const transactionCount =
-// 	// return transactionHistory
-// }
-
 export async function updateHarmonyBalances() {
 	// Get all cryptocurrencies with type 'crypto', market ID 'eth', and a non-null wallet address
 	const cryptocurrencies = await prisma.cryptocurrency.findMany({

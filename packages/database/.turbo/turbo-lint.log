@@ -1,0 +1,7 @@
+[35mdatabase:lint[0m: cache hit, replaying output [2m8828896c840cad9f[0m
+[35mdatabase:lint: [0m$ next lint
+[35mdatabase:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/.env
+[35mdatabase:lint: [0mFailed to load config "airbnb-typescript" to extend from.
+[35mdatabase:lint: [0mReferenced from: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/.eslintrc.js
+[35mdatabase:lint: [0merror Command failed with exit code 1.
+[35mdatabase:lint: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -3,17 +3,18 @@
 	"parserOptions": {
 		"project": "./tsconfig.json"
 	},
+	"root": true,
+	"plugins": ["@typescript-eslint", "import", "prettier"],
 	"extends": [
-		"next",
+		"airbnb-typescript/base",
+		"prettier",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:sonarjs/recommended",
-		"airbnb-typescript",
-		"airbnb/hooks",
-		"prettier"
+		"plugin:import/typescript"
 	],
 	"env": {
 		"browser": true,
 		"node": true,
+		"jest": true,
 		"es6": true
 	},
 	"rules": {

@@ -1,10 +1,11 @@
-[34mweb:lint[0m: cache hit, replaying output [2m42d947f0a8c299a0[0m
-[34mweb:lint: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.41.0"
-[34mweb:lint: [0m$ next lint
-[34mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
-[34mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
-[34mweb:lint: [0mwarn  - You have enabled experimental features (appDir, esmExternals) in next.config.js.
-[34mweb:lint: [0mwarn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
-[34mweb:lint: [0m
-[34mweb:lint: [0minfo  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
-[34mweb:lint: [0m✔ No ESLint warnings or errors
+[33mweb:lint[0m: cache hit, replaying output [2m897968c5c67529c9[0m
+[33mweb:lint: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.41.0"
+[33mweb:lint: [0m$ next lint
+[33mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
+[33mweb:lint: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
+[33mweb:lint: [0mwarn  - You have enabled experimental features (appDir, esmExternals) in next.config.js.
+[33mweb:lint: [0mwarn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
+[33mweb:lint: [0m
+[33mweb:lint: [0minfo  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
+[33mweb:lint: [0mFailed to load config "airbnb-typescript" to extend from.
+[33mweb:lint: [0mReferenced from: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.eslintrc.json

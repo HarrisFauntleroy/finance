@@ -1,0 +1,19 @@
+[36mworker:build[0m: cache hit, replaying output [2mad7474100551cacc[0m
+[36mworker:build: [0m$ tsup
+[36mworker:build: [0mCLI Building entry: src/index.ts
+[36mworker:build: [0mCLI Using tsconfig: tsconfig.json
+[36mworker:build: [0mCLI tsup v5.12.9
+[36mworker:build: [0mCLI Using tsup config: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/worker/tsup.config.ts
+[36mworker:build: [0mCLI Target: node12
+[36mworker:build: [0mCLI Cleaning output folder
+[36mworker:build: [0mCJS Build start
+[36mworker:build: [0mESM Build start
+[36mworker:build: [0mCJS ⚡️ Build success in 52ms
+[36mworker:build: [0mESM ⚡️ Build success in 52ms
+[36mworker:build: [0mESM dist/index.mjs     179.41 KB
+[36mworker:build: [0mESM dist/index.mjs.map 310.43 KB
+[36mworker:build: [0mCJS dist/index.js     180.94 KB
+[36mworker:build: [0mCJS dist/index.js.map 310.71 KB
+[36mworker:build: [0mDTS Build start
+[36mworker:build: [0mDTS ⚡️ Build success in 3060ms
+[36mworker:build: [0mDTS dist/index.d.ts 1.00 B

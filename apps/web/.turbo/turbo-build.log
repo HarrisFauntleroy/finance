@@ -1,5 +1,5 @@
-[32mweb:build[0m: cache hit, replaying output [2mb05ef29d0fa4f7b2[0m
-[32mweb:build: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.41.0"
+[32mweb:build[0m: cache hit, replaying output [2m186ef5f8d7696f4a[0m
+[32mweb:build: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.51.0"
 [32mweb:build: [0m$ prisma generate
 [32mweb:build: [0mEnvironment variables loaded from .env
 [32mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
@@ -22,12 +22,7 @@
 [32mweb:build: [0m
 [32mweb:build: [0minfo  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
 [32mweb:build: [0minfo  - Linting and checking validity of types...
-[32mweb:build: [0mWe detected TypeScript in your project and reconfigured your tsconfig.json file for you. Strict-mode is set to false by default.
-[32mweb:build: [0m
-[32mweb:build: [0mThe following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
-[32mweb:build: [0m
-[32mweb:build: [0m	- include was updated to add '.next/types/**/*.ts'
-[32mweb:build: [0m
+[32mweb:build: [0mwarn  - The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config
 [32mweb:build: [0minfo  - Creating an optimized production build...
 [32mweb:build: [0minfo  - Compiled successfully
 [32mweb:build: [0minfo  - Collecting page data...
@@ -37,53 +32,51 @@
 [32mweb:build: [0mLearn more: https://nextjs.org/docs/messages/api-routes-static-export
 [32mweb:build: [0minfo  - Generating static pages (0/21)
 [32mweb:build: [0minfo  - Generating static pages (5/21)
-[32mweb:build: [0mreact-spring: The "interpolate" function is deprecated in v9 (use "to" instead)
 [32mweb:build: [0minfo  - Generating static pages (10/21)
+[32mweb:build: [0mreact-spring: The "interpolate" function is deprecated in v9 (use "to" instead)
 [32mweb:build: [0minfo  - Generating static pages (15/21)
 [32mweb:build: [0minfo  - Generating static pages (21/21)
 [32mweb:build: [0minfo  - Finalizing page optimization...
 [32mweb:build: [0m
 [32mweb:build: [0mRoute (pages)                              Size     First Load JS
-[32mweb:build: [0m┌ ○ /                                      350 B          1.18 MB
-[32mweb:build: [0m├   /_app                                  0 B            1.11 MB
-[32mweb:build: [0m├ ○ /404                                   186 B          1.11 MB
-[32mweb:build: [0m├ ○ /admin                                 10.8 kB        1.12 MB
-[32mweb:build: [0m├ λ /api                                   0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/auth/[...nextauth]                0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/authenticated                     0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/cron                              0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/doc                               0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/exchangeRates                     0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/restricted                        0 B            1.11 MB
-[32mweb:build: [0m├ λ /api/trpc/[trpc]                       0 B            1.11 MB
-[32mweb:build: [0m├ λ /auth                                  185 B          1.11 MB
-[32mweb:build: [0m├ λ /auth/signin                           534 B          1.11 MB
-[32mweb:build: [0m├ ○ /budgets                               5.55 kB        1.14 MB
-[32mweb:build: [0m├ ○ /dev                                   416 B          1.11 MB
-[32mweb:build: [0m├ ○ /dev/docs                              1.91 kB        1.12 MB
+[32mweb:build: [0m┌ ○ /                                      987 B           1.2 MB
+[32mweb:build: [0m├   /_app                                  0 B            1.13 MB
+[32mweb:build: [0m├ ○ /404                                   186 B          1.13 MB
+[32mweb:build: [0m├ ○ /admin                                 10.8 kB        1.14 MB
+[32mweb:build: [0m├ λ /api/auth/[...nextauth]                0 B            1.13 MB
+[32mweb:build: [0m├ λ /api/auth/bearerToken                  0 B            1.13 MB
+[32mweb:build: [0m├ λ /api/auth/getServerSession             0 B            1.13 MB
+[32mweb:build: [0m├ λ /api/auth/hasUserSession               0 B            1.13 MB
+[32mweb:build: [0m├ λ /api/doc                               0 B            1.13 MB
+[32mweb:build: [0m├ λ /api/trpc/[trpc]                       0 B            1.13 MB
+[32mweb:build: [0m├ λ /auth                                  185 B          1.13 MB
+[32mweb:build: [0m├ λ /auth/signin                           534 B          1.13 MB
+[32mweb:build: [0m├ ○ /budgets                               5.17 kB        1.16 MB
+[32mweb:build: [0m├ ○ /dev                                   416 B          1.13 MB
+[32mweb:build: [0m├ ○ /dev/docs                              1.91 kB        1.14 MB
 [32mweb:build: [0m├   └ css/4056bf6b4062f30e.css             22.1 kB
-[32mweb:build: [0m├ ○ /dev/roadmap                           724 B          1.11 MB
-[32mweb:build: [0m├ ○ /dev/stack                             750 B          1.11 MB
-[32mweb:build: [0m├ ○ /markets                               7.92 kB        1.13 MB
-[32mweb:build: [0m├ ○ /markets/crypto/[crypto]               701 B          1.11 MB
-[32mweb:build: [0m├ ○ /markets/forex/[forex]                 691 B          1.11 MB
-[32mweb:build: [0m├ ○ /notes (339 ms)                        432 kB         1.55 MB
+[32mweb:build: [0m├ ○ /dev/roadmap                           724 B          1.13 MB
+[32mweb:build: [0m├ ○ /dev/stack                             750 B          1.13 MB
+[32mweb:build: [0m├ ○ /markets                               7.92 kB        1.15 MB
+[32mweb:build: [0m├ ○ /markets/crypto/[crypto]               701 B          1.13 MB
+[32mweb:build: [0m├ ○ /markets/forex/[forex]                 691 B          1.13 MB
+[32mweb:build: [0m├ ○ /notes                                 432 kB         1.57 MB
 [32mweb:build: [0m├   └ css/2a508bf540bfd513.css             4.29 kB
-[32mweb:build: [0m├ ○ /portfolio                             5.83 kB        1.23 MB
-[32mweb:build: [0m├ ○ /portfolio/accounts                    4.36 kB        1.14 MB
-[32mweb:build: [0m├ ○ /portfolio/overview                    224 B          1.22 MB
-[32mweb:build: [0m├ ○ /portfolio/statistics                  312 B          1.11 MB
-[32mweb:build: [0m├ ○ /portfolio/transactions                2.85 kB        1.13 MB
-[32mweb:build: [0m├ ○ /pricing                               391 B          1.11 MB
-[32mweb:build: [0m├ ○ /profile                               2.29 kB        1.13 MB
-[32mweb:build: [0m└ ○ /salaryCounter                         21.6 kB        1.13 MB
-[32mweb:build: [0m+ First Load JS shared by all              1.11 MB
+[32mweb:build: [0m├ ○ /portfolio                             5.47 kB        1.25 MB
+[32mweb:build: [0m├ ○ /portfolio/accounts                    3.99 kB        1.17 MB
+[32mweb:build: [0m├ ○ /portfolio/overview                    1.15 kB        1.24 MB
+[32mweb:build: [0m├ ○ /portfolio/statistics                  312 B          1.13 MB
+[32mweb:build: [0m├ ○ /portfolio/transactions                2.45 kB        1.15 MB
+[32mweb:build: [0m├ ○ /pricing                               391 B          1.13 MB
+[32mweb:build: [0m├ ○ /profile                               2.28 kB        1.15 MB
+[32mweb:build: [0m└ ○ /salaryCounter                         21.6 kB        1.16 MB
+[32mweb:build: [0m+ First Load JS shared by all              1.13 MB
 [32mweb:build: [0m  ├ chunks/framework-f29e48ae95cae5a3.js   45.2 kB
 [32mweb:build: [0m  ├ chunks/main-c11ef1fdb5801a5f.js        27 kB
-[32mweb:build: [0m  ├ chunks/pages/_app-5fd5fe83598193ea.js  1.04 MB
-[32mweb:build: [0m  └ chunks/webpack-7d9798f3a5c3f38a.js     3.56 kB
+[32mweb:build: [0m  ├ chunks/pages/_app-618b63bb5512ec30.js  1.06 MB
+[32mweb:build: [0m  └ chunks/webpack-7654145e2fe590fd.js     3.56 kB
 [32mweb:build: [0m
-[32mweb:build: [0mƒ Middleware                               41 kB
+[32mweb:build: [0mƒ Middleware                               39 kB
 [32mweb:build: [0m
 [32mweb:build: [0mλ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 [32mweb:build: [0m○  (Static)  automatically rendered as static HTML (uses no initial props)

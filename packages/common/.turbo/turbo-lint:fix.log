@@ -1,0 +1,15 @@
+[36mcommon:lint:fix[0m: cache hit, replaying output [2m289f147ee430ef3f[0m
+[36mcommon:lint:fix: [0m$ eslint . --fix
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0mOops! Something went wrong! :(
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0mESLint: 8.29.0
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0mESLint couldn't find the config "airbnb-typescript" to extend from. Please check that the name of the config is correct.
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0mThe config "airbnb-typescript" was referenced from the config file in "/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/.eslintrc.js".
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0mIf you still have problems, please stop by https://eslint.org/chat/help to chat with the team.
+[36mcommon:lint:fix: [0m
+[36mcommon:lint:fix: [0merror Command failed with exit code 2.
+[36mcommon:lint:fix: [0minfo Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
