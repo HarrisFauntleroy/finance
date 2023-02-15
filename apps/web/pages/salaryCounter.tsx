@@ -121,7 +121,7 @@ const IncomeCounter = () => {
 						<Heading style={{ display: "flex", flexDirection: "row" }}>
 							$
 							<animated.div>
-								{props.counter.interpolate((val) => val.toFixed(2))}
+								{props.counter.to((val) => val.toFixed(2))}
 							</animated.div>
 						</Heading>
 						{t("Translated Text")}
