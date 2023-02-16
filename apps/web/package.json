@@ -97,7 +97,7 @@
 		"@types/react-syntax-highlighter": "^15.5.5",
 		"apexcharts": "*",
 		"axios": "1.2.6",
-		"chakra-ui-steps": "^1.8.0",
+		"chakra-ui-steps": "^2.0.0",
 		"chart.js": "3.9.1",
 		"codemirror": "^6.0.1",
 		"common": "*",
