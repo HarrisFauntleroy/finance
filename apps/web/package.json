@@ -98,7 +98,7 @@
 		"apexcharts": "*",
 		"axios": "1.2.6",
 		"chakra-ui-steps": "^1.8.0",
-		"chart.js": "3.9.1",
+		"chart.js": "4.2.1",
 		"codemirror": "^6.0.1",
 		"common": "*",
 		"currency.js": "2.0.4",
