@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
   Decimal,
-  objectEnumValues
+  objectEnumValues,
+  makeStrictEnum
 } = require('./runtime/index-browser')
 
 
@@ -12,12 +13,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.1.1
- * Query Engine version: 8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+ * Prisma Client JS version: 4.10.1
+ * Query Engine version: aead147aa326ccb985dcfed5b065b4fdabd44b19
  */
 Prisma.prismaVersion = {
-  client: "4.1.1",
-  engine: "8d8414deb360336e4698a65aa45a1fbaf1ce13d8"
+  client: "4.10.1",
+  engine: "aead147aa326ccb985dcfed5b065b4fdabd44b19"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -67,6 +68,7 @@ In case this error is unexpected for you, please report it in https://github.com
 )}
 Prisma.validator = () => (val) => val
 
+
 /**
  * Shorthand utilities for JSON filtering
  */
@@ -100,129 +102,6 @@ exports.Prisma.AccountScalarFieldEnum = makeEnum({
   scope: 'scope',
   id_token: 'id_token',
   session_state: 'session_state'
-});
-
-exports.Prisma.SessionScalarFieldEnum = makeEnum({
-  id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires'
-});
-
-exports.Prisma.UserScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt',
-  role: 'role'
-});
-
-exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
-});
-
-exports.Prisma.SettingsScalarFieldEnum = makeEnum({
-  id: 'id',
-  userId: 'userId',
-  preferredColorScheme: 'preferredColorScheme',
-  userCurrency: 'userCurrency',
-  userLanguage: 'userLanguage',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.LogScalarFieldEnum = makeEnum({
-  id: 'id',
-  type: 'type',
-  message: 'message',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.IncomeScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  payFrequency: 'payFrequency',
-  grossAmount: 'grossAmount',
-  grossFrequency: 'grossFrequency',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.BudgetScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  userId: 'userId',
-  totalBalance: 'totalBalance',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
-  id: 'id',
-  budgetId: 'budgetId',
-  name: 'name',
-  remainingAmount: 'remainingAmount',
-  totalAmount: 'totalAmount',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
-  id: 'id',
-  timestamp: 'timestamp',
-  pricePerUnit: 'pricePerUnit',
-  baseCurrency: 'baseCurrency',
-  quantity: 'quantity',
-  quantityFilled: 'quantityFilled',
-  fee: 'fee',
-  valueInBaseCurrency: 'valueInBaseCurrency',
-  fromAsset: 'fromAsset',
-  toAsset: 'toAsset',
-  market: 'market',
-  transactionType: 'transactionType',
-  expiry: 'expiry',
-  status: 'status',
-  transactionHash: 'transactionHash',
-  description: 'description',
-  memo: 'memo',
-  imageUrl: 'imageUrl',
-  imageName: 'imageName',
-  imageId: 'imageId',
-  budgetEnvelopeId: 'budgetEnvelopeId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  icon: 'icon',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
 });
 
 exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
@@ -289,29 +168,51 @@ exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
   id: 'id',
-  currency: 'currency',
-  totalValue: 'totalValue',
-  costBasis: 'costBasis',
-  unrealisedGain: 'unrealisedGain',
-  realisedGain: 'realisedGain',
-  saleableValue: 'saleableValue',
-  userId: 'userId',
+  budgetId: 'budgetId',
+  name: 'name',
+  remainingAmount: 'remainingAmount',
+  totalAmount: 'totalAmount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetScalarFieldEnum = makeEnum({
   id: 'id',
-  currency: 'currency',
-  totalValue: 'totalValue',
-  costBasis: 'costBasis',
-  unrealisedGain: 'unrealisedGain',
-  realisedGain: 'realisedGain',
-  saleableValue: 'saleableValue',
+  name: 'name',
+  userId: 'userId',
+  totalBalance: 'totalBalance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
+exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
+  id: 'id',
+  timestamp: 'timestamp',
+  pricePerUnit: 'pricePerUnit',
+  baseCurrency: 'baseCurrency',
+  quantity: 'quantity',
+  quantityFilled: 'quantityFilled',
+  fee: 'fee',
+  valueInBaseCurrency: 'valueInBaseCurrency',
+  fromAsset: 'fromAsset',
+  toAsset: 'toAsset',
+  market: 'market',
+  transactionType: 'transactionType',
+  expiry: 'expiry',
+  status: 'status',
+  transactionHash: 'transactionHash',
+  description: 'description',
+  memo: 'memo',
+  imageUrl: 'imageUrl',
+  imageName: 'imageName',
+  imageId: 'imageId',
+  budgetEnvelopeId: 'budgetEnvelopeId',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -334,22 +235,7 @@ exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
-  id: 'id',
-  currency: 'currency',
-  totalValue: 'totalValue',
-  costBasis: 'costBasis',
-  unrealisedGain: 'unrealisedGain',
-  realisedGain: 'realisedGain',
-  saleableValue: 'saleableValue',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deleted: 'deleted',
-  deletedAt: 'deletedAt'
-});
-
-exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -387,6 +273,39 @@ exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
+exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  icon: 'icon',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
+exports.Prisma.IncomeScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  payFrequency: 'payFrequency',
+  grossAmount: 'grossAmount',
+  grossFrequency: 'grossFrequency',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
+exports.Prisma.LogScalarFieldEnum = makeEnum({
+  id: 'id',
+  type: 'type',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
 exports.Prisma.MarketScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
@@ -406,50 +325,109 @@ exports.Prisma.MarketScalarFieldEnum = makeEnum({
   deletedAt: 'deletedAt'
 });
 
-exports.Prisma.SortOrder = makeEnum({
-  asc: 'asc',
-  desc: 'desc'
+exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
+  id: 'id',
+  currency: 'currency',
+  totalValue: 'totalValue',
+  costBasis: 'costBasis',
+  unrealisedGain: 'unrealisedGain',
+  realisedGain: 'realisedGain',
+  saleableValue: 'saleableValue',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
+});
+
+exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
+  id: 'id',
+  currency: 'currency',
+  totalValue: 'totalValue',
+  costBasis: 'costBasis',
+  unrealisedGain: 'unrealisedGain',
+  realisedGain: 'realisedGain',
+  saleableValue: 'saleableValue',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 });
 
 exports.Prisma.QueryMode = makeEnum({
   default: 'default',
   insensitive: 'insensitive'
 });
-exports.Role = makeEnum({
-  USER: 'USER',
-  ADMIN: 'ADMIN'
+
+exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
+  id: 'id',
+  currency: 'currency',
+  totalValue: 'totalValue',
+  costBasis: 'costBasis',
+  unrealisedGain: 'unrealisedGain',
+  realisedGain: 'realisedGain',
+  saleableValue: 'saleableValue',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 });
 
-exports.ColorScheme = makeEnum({
-  LIGHT: 'LIGHT',
-  DARK: 'DARK',
-  TBA: 'TBA'
+exports.Prisma.SessionScalarFieldEnum = makeEnum({
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId',
+  expires: 'expires'
 });
 
-exports.LogType = makeEnum({
-  info: 'info',
-  warn: 'warn',
-  error: 'error',
-  trace: 'trace',
-  debug: 'debug'
+exports.Prisma.SettingsScalarFieldEnum = makeEnum({
+  id: 'id',
+  userId: 'userId',
+  preferredColorScheme: 'preferredColorScheme',
+  userCurrency: 'userCurrency',
+  userLanguage: 'userLanguage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 });
 
+exports.Prisma.SortOrder = makeEnum({
+  asc: 'asc',
+  desc: 'desc'
+});
+
+exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
+  Serializable: 'Serializable'
+});
+
+exports.Prisma.UserScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt',
+  role: 'role'
+});
+
+exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
+  identifier: 'identifier',
+  token: 'token',
+  expires: 'expires'
+});
 exports.AccountConnection = makeEnum({
   NONE: 'NONE',
   SWYFTX: 'SWYFTX',
   COINSPOT: 'COINSPOT'
-});
-
-exports.Category = makeEnum({
-  LOAN: 'LOAN',
-  CASH: 'CASH',
-  CUSTOM: 'CUSTOM',
-  MORTGAGE: 'MORTGAGE',
-  PROPERTY: 'PROPERTY',
-  INVESTMENT: 'INVESTMENT',
-  CREDIT: 'CREDIT',
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
-  SUPERANNUATION: 'SUPERANNUATION'
 });
 
 exports.AssetStatus = makeEnum({
@@ -466,6 +444,32 @@ exports.AssetStatus = makeEnum({
   INACTIVE: 'INACTIVE'
 });
 
+exports.Category = makeEnum({
+  LOAN: 'LOAN',
+  CASH: 'CASH',
+  CUSTOM: 'CUSTOM',
+  MORTGAGE: 'MORTGAGE',
+  PROPERTY: 'PROPERTY',
+  INVESTMENT: 'INVESTMENT',
+  CREDIT: 'CREDIT',
+  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
+  SUPERANNUATION: 'SUPERANNUATION'
+});
+
+exports.ColorScheme = makeEnum({
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
+  TBA: 'TBA'
+});
+
+exports.LogType = makeEnum({
+  info: 'info',
+  warn: 'warn',
+  error: 'error',
+  trace: 'trace',
+  debug: 'debug'
+});
+
 exports.MarketType = makeEnum({
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   STOCK: 'STOCK',
@@ -473,6 +477,11 @@ exports.MarketType = makeEnum({
   METAL: 'METAL',
   OTHER: 'OTHER',
   CASH: 'CASH'
+});
+
+exports.Role = makeEnum({
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 });
 
 exports.Prisma.ModelName = makeEnum({

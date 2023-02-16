@@ -8,13 +8,13 @@ WORKDIR /usr/src/worker
 COPY . .
 
 # Install dependencies
-RUN yarn install
+RUN pnpm install
 
 # Compile typescript
-RUN yarn build
+RUN pnpm build
 
 # Copy files
 COPY . /usr/src/worker
 
 # Start production server
-CMD "yarn start"
+CMD "pnpm start"

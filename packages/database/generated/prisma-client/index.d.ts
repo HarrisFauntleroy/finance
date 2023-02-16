@@ -3,12 +3,10 @@
  * Client
 **/
 
-import * as runtime from './runtime/index';
-declare const prisma: unique symbol
-export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
+import * as runtime from './runtime/library';
 type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
+  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends Prisma.PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
 };
 
 
@@ -423,12 +421,45 @@ export type Market = {
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-export const Role: {
-  USER: 'USER',
-  ADMIN: 'ADMIN'
+export const AccountConnection: {
+  NONE: 'NONE',
+  SWYFTX: 'SWYFTX',
+  COINSPOT: 'COINSPOT'
 };
 
-export type Role = (typeof Role)[keyof typeof Role]
+export type AccountConnection = (typeof AccountConnection)[keyof typeof AccountConnection]
+
+
+export const AssetStatus: {
+  CONNECTED: 'CONNECTED',
+  CONNECTION_FAILED: 'CONNECTION_FAILED',
+  DISCONNECTED: 'DISCONNECTED',
+  PENDING_CONNECTION: 'PENDING_CONNECTION',
+  ERROR: 'ERROR',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  MAINTENANCE: 'MAINTENANCE',
+  BLOCKED: 'BLOCKED',
+  UNKNOWN: 'UNKNOWN',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+};
+
+export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
+
+
+export const Category: {
+  LOAN: 'LOAN',
+  CASH: 'CASH',
+  CUSTOM: 'CUSTOM',
+  MORTGAGE: 'MORTGAGE',
+  PROPERTY: 'PROPERTY',
+  INVESTMENT: 'INVESTMENT',
+  CREDIT: 'CREDIT',
+  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
+  SUPERANNUATION: 'SUPERANNUATION'
+};
+
+export type Category = (typeof Category)[keyof typeof Category]
 
 
 export const ColorScheme: {
@@ -451,47 +482,6 @@ export const LogType: {
 export type LogType = (typeof LogType)[keyof typeof LogType]
 
 
-export const AccountConnection: {
-  NONE: 'NONE',
-  SWYFTX: 'SWYFTX',
-  COINSPOT: 'COINSPOT'
-};
-
-export type AccountConnection = (typeof AccountConnection)[keyof typeof AccountConnection]
-
-
-export const Category: {
-  LOAN: 'LOAN',
-  CASH: 'CASH',
-  CUSTOM: 'CUSTOM',
-  MORTGAGE: 'MORTGAGE',
-  PROPERTY: 'PROPERTY',
-  INVESTMENT: 'INVESTMENT',
-  CREDIT: 'CREDIT',
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY',
-  SUPERANNUATION: 'SUPERANNUATION'
-};
-
-export type Category = (typeof Category)[keyof typeof Category]
-
-
-export const AssetStatus: {
-  CONNECTED: 'CONNECTED',
-  CONNECTION_FAILED: 'CONNECTION_FAILED',
-  DISCONNECTED: 'DISCONNECTED',
-  PENDING_CONNECTION: 'PENDING_CONNECTION',
-  ERROR: 'ERROR',
-  UNAUTHORIZED: 'UNAUTHORIZED',
-  MAINTENANCE: 'MAINTENANCE',
-  BLOCKED: 'BLOCKED',
-  UNKNOWN: 'UNKNOWN',
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
-};
-
-export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
-
-
 export const MarketType: {
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   STOCK: 'STOCK',
@@ -502,6 +492,14 @@ export const MarketType: {
 };
 
 export type MarketType = (typeof MarketType)[keyof typeof MarketType]
+
+
+export const Role: {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
 
 
 /**
@@ -521,35 +519,10 @@ export type MarketType = (typeof MarketType)[keyof typeof MarketType]
 export class PrismaClient<
   T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
   U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
-  GlobalReject = 'rejectOnNotFound' extends keyof T
+  GlobalReject extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
     : false
       > {
-      /**
-       * @private
-       */
-      private fetcher;
-      /**
-       * @private
-       */
-      private readonly dmmf;
-      /**
-       * @private
-       */
-      private connectionPromise?;
-      /**
-       * @private
-       */
-      private disconnectionPromise?;
-      /**
-       * @private
-       */
-      private readonly engineConfig;
-      /**
-       * @private
-       */
-      private readonly measurePerformance;
-
     /**
    * ##  Prisma Client ʲˢ
    * 
@@ -592,7 +565,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -604,7 +577,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -615,7 +588,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -627,7 +600,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -642,7 +615,9 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>;
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>
+
+  $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
    * `prisma.account`: Exposes CRUD operations for the **Account** model.
@@ -858,6 +833,8 @@ export class PrismaClient<
 export namespace Prisma {
   export import DMMF = runtime.DMMF
 
+  export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+
   /**
    * Prisma Errors
    */
@@ -887,14 +864,15 @@ export namespace Prisma {
   /**
    * Metrics 
    */
-  export import Metrics = runtime.Metrics
-  export import Metric = runtime.Metric
-  export import MetricHistogram = runtime.MetricHistogram
-  export import MetricHistogramBucket = runtime.MetricHistogramBucket
+  export type Metrics = runtime.Metrics
+  export type Metric<T> = runtime.Metric<T>
+  export type MetricHistogram = runtime.MetricHistogram
+  export type MetricHistogramBucket = runtime.MetricHistogramBucket
+
 
   /**
-   * Prisma Client JS version: 4.1.1
-   * Query Engine version: 8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+   * Prisma Client JS version: 4.10.1
+   * Query Engine version: aead147aa326ccb985dcfed5b065b4fdabd44b19
    */
   export type PrismaVersion = {
     client: string
@@ -1058,9 +1036,9 @@ export namespace Prisma {
     [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
   }[keyof T]
 
-  export type TruthyKeys<T> = {
-    [key in keyof T]: T[key] extends false | undefined | null ? never : key
-  }[keyof T]
+  export type TruthyKeys<T> = keyof {
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
+  }
 
   export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
 
@@ -1113,7 +1091,7 @@ export namespace Prisma {
   ? False
   : T extends Date
   ? False
-  : T extends Buffer
+  : T extends Uint8Array
   ? False
   : T extends BigInt
   ? False
@@ -1198,6 +1176,16 @@ export namespace Prisma {
     [P in K]: T;
   };
 
+  // cause typescript not to expand types and preserve names
+  type NoExpand<T> = T extends unknown ? T : never;
+
+  // this type assumes the passed object is entirely optional
+  type AtLeast<O extends object, K extends string> = NoExpand<
+    O extends unknown
+    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
+      | {[P in keyof O as P extends K ? K : never]-?: O[P]} & O
+    : never>;
+
   type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
 
   export type Strict<U extends object> = ComputeRaw<_Strict<U>>;
@@ -1248,19 +1236,11 @@ export namespace Prisma {
 
   export type Keys<U extends Union> = U extends unknown ? keyof U : never
 
-  type Exact<A, W = unknown> = 
-  W extends unknown ? A extends Narrowable ? Cast<A, W> : Cast<
-  {[K in keyof A]: K extends keyof W ? Exact<A[K], W[K]> : never},
-  {[K in keyof W]: K extends keyof A ? Exact<A[K], W[K]> : W[K]}>
-  : never;
-
-  type Narrowable = string | number | boolean | bigint;
-
   type Cast<A, B> = A extends B ? A : B;
 
   export const type: unique symbol;
 
-  export function validator<V>(): <S>(select: Exact<S, V>) => S;
+  export function validator<V>(): <S>(select: runtime.Types.Utils.LegacyExact<S, V>) => S;
 
   /**
    * Used by group by
@@ -1310,15 +1290,11 @@ export namespace Prisma {
    */
   type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
 
-  class PrismaClientFetcher {
-    private readonly prisma;
-    private readonly debug;
-    private readonly hooks?;
-    constructor(prisma: PrismaClient<any, any>, debug?: boolean, hooks?: Hooks | undefined);
-    request<T>(document: any, dataPath?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string): Promise<T>;
-    sanitizeMessage(message: string): string;
-    protected unpack(document: any, data: any, path: string[], rootField?: string, isList?: boolean): any;
-  }
+
+  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
+
+  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
+
 
   export const ModelName: {
     Account: 'Account',
@@ -1351,6 +1327,7 @@ export namespace Prisma {
     db?: Datasource
   }
 
+  export type DefaultPrismaClient = PrismaClient
   export type RejectOnNotFound = boolean | ((error: Error) => Error)
   export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound }
   export type RejectPerOperation =  { [P in "findUnique" | "findFirst"]?: RejectPerModel | RejectOnNotFound } 
@@ -1391,7 +1368,7 @@ export namespace Prisma {
      */
     rejectOnNotFound?: RejectOnNotFound | RejectPerOperation
     /**
-     * Overwrites the datasource url from your prisma.schema file
+     * Overwrites the datasource url from your schema.prisma file
      */
     datasources?: Datasources
 
@@ -1417,10 +1394,6 @@ export namespace Prisma {
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
     log?: Array<LogLevel | LogDefinition>
-  }
-
-  export type Hooks = {
-    beforeRequest?: (options: { query: string, path: string[], rootField?: string, typeName?: string, document: any }) => any
   }
 
   /* Types for Logging */
@@ -1470,7 +1443,7 @@ export namespace Prisma {
     | 'findRaw'
 
   /**
-   * These options are being passed in to the middleware as "params"
+   * These options are being passed into the middleware as "params"
    */
   export type MiddlewareParams = {
     model?: ModelName
@@ -1490,6 +1463,11 @@ export namespace Prisma {
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+
+  /**
+   * `PrismaClient` proxy available in interactive transactions.
+   */
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'>
 
   export type Datasource = {
     url?: string
@@ -1535,23 +1513,18 @@ export namespace Prisma {
     SecuritySnapshot?: boolean
   }
 
-  export type UserCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | UserCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? UserCountOutputType
-    : S extends undefined
-    ? never
-    : S extends UserCountOutputTypeArgs
-    ?'include' extends U
+  export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserCountOutputTypeArgs)
     ? UserCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (UserCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
   } 
-    : UserCountOutputType
-  : UserCountOutputType
+      : UserCountOutputType
 
 
 
@@ -1564,8 +1537,7 @@ export namespace Prisma {
   export type UserCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the UserCountOutputType
-     * 
-    **/
+     */
     select?: UserCountOutputTypeSelect | null
   }
 
@@ -1586,23 +1558,18 @@ export namespace Prisma {
     income?: boolean
   }
 
-  export type BudgetCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | BudgetCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? BudgetCountOutputType
-    : S extends undefined
-    ? never
-    : S extends BudgetCountOutputTypeArgs
-    ?'include' extends U
+  export type BudgetCountOutputTypeGetPayload<S extends boolean | null | undefined | BudgetCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BudgetCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (BudgetCountOutputTypeArgs)
     ? BudgetCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (BudgetCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof BudgetCountOutputType ? BudgetCountOutputType[P] : never
   } 
-    : BudgetCountOutputType
-  : BudgetCountOutputType
+      : BudgetCountOutputType
 
 
 
@@ -1615,8 +1582,7 @@ export namespace Prisma {
   export type BudgetCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the BudgetCountOutputType
-     * 
-    **/
+     */
     select?: BudgetCountOutputTypeSelect | null
   }
 
@@ -1635,23 +1601,18 @@ export namespace Prisma {
     transactions?: boolean
   }
 
-  export type BudgetEnvelopeCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | BudgetEnvelopeCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? BudgetEnvelopeCountOutputType
-    : S extends undefined
-    ? never
-    : S extends BudgetEnvelopeCountOutputTypeArgs
-    ?'include' extends U
+  export type BudgetEnvelopeCountOutputTypeGetPayload<S extends boolean | null | undefined | BudgetEnvelopeCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BudgetEnvelopeCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (BudgetEnvelopeCountOutputTypeArgs)
     ? BudgetEnvelopeCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (BudgetEnvelopeCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof BudgetEnvelopeCountOutputType ? BudgetEnvelopeCountOutputType[P] : never
   } 
-    : BudgetEnvelopeCountOutputType
-  : BudgetEnvelopeCountOutputType
+      : BudgetEnvelopeCountOutputType
 
 
 
@@ -1664,8 +1625,7 @@ export namespace Prisma {
   export type BudgetEnvelopeCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelopeCountOutputType
-     * 
-    **/
+     */
     select?: BudgetEnvelopeCountOutputTypeSelect | null
   }
 
@@ -1684,23 +1644,18 @@ export namespace Prisma {
     assets?: boolean
   }
 
-  export type CustomAssetCategoryCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | CustomAssetCategoryCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? CustomAssetCategoryCountOutputType
-    : S extends undefined
-    ? never
-    : S extends CustomAssetCategoryCountOutputTypeArgs
-    ?'include' extends U
+  export type CustomAssetCategoryCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomAssetCategoryCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CustomAssetCategoryCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (CustomAssetCategoryCountOutputTypeArgs)
     ? CustomAssetCategoryCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CustomAssetCategoryCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof CustomAssetCategoryCountOutputType ? CustomAssetCategoryCountOutputType[P] : never
   } 
-    : CustomAssetCategoryCountOutputType
-  : CustomAssetCategoryCountOutputType
+      : CustomAssetCategoryCountOutputType
 
 
 
@@ -1713,8 +1668,7 @@ export namespace Prisma {
   export type CustomAssetCategoryCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategoryCountOutputType
-     * 
-    **/
+     */
     select?: CustomAssetCategoryCountOutputTypeSelect | null
   }
 
@@ -1737,23 +1691,18 @@ export namespace Prisma {
     transactions?: boolean
   }
 
-  export type AssetCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | AssetCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? AssetCountOutputType
-    : S extends undefined
-    ? never
-    : S extends AssetCountOutputTypeArgs
-    ?'include' extends U
+  export type AssetCountOutputTypeGetPayload<S extends boolean | null | undefined | AssetCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AssetCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AssetCountOutputTypeArgs)
     ? AssetCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (AssetCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof AssetCountOutputType ? AssetCountOutputType[P] : never
   } 
-    : AssetCountOutputType
-  : AssetCountOutputType
+      : AssetCountOutputType
 
 
 
@@ -1766,8 +1715,7 @@ export namespace Prisma {
   export type AssetCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the AssetCountOutputType
-     * 
-    **/
+     */
     select?: AssetCountOutputTypeSelect | null
   }
 
@@ -1786,23 +1734,18 @@ export namespace Prisma {
     Children?: boolean
   }
 
-  export type CryptocurrencyCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | CryptocurrencyCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? CryptocurrencyCountOutputType
-    : S extends undefined
-    ? never
-    : S extends CryptocurrencyCountOutputTypeArgs
-    ?'include' extends U
+  export type CryptocurrencyCountOutputTypeGetPayload<S extends boolean | null | undefined | CryptocurrencyCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CryptocurrencyCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (CryptocurrencyCountOutputTypeArgs)
     ? CryptocurrencyCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CryptocurrencyCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof CryptocurrencyCountOutputType ? CryptocurrencyCountOutputType[P] : never
   } 
-    : CryptocurrencyCountOutputType
-  : CryptocurrencyCountOutputType
+      : CryptocurrencyCountOutputType
 
 
 
@@ -1815,8 +1758,7 @@ export namespace Prisma {
   export type CryptocurrencyCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the CryptocurrencyCountOutputType
-     * 
-    **/
+     */
     select?: CryptocurrencyCountOutputTypeSelect | null
   }
 
@@ -1837,23 +1779,18 @@ export namespace Prisma {
     Cryptocurrency?: boolean
   }
 
-  export type MarketCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | MarketCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? MarketCountOutputType
-    : S extends undefined
-    ? never
-    : S extends MarketCountOutputTypeArgs
-    ?'include' extends U
+  export type MarketCountOutputTypeGetPayload<S extends boolean | null | undefined | MarketCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? MarketCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (MarketCountOutputTypeArgs)
     ? MarketCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (MarketCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof MarketCountOutputType ? MarketCountOutputType[P] : never
   } 
-    : MarketCountOutputType
-  : MarketCountOutputType
+      : MarketCountOutputType
 
 
 
@@ -1866,8 +1803,7 @@ export namespace Prisma {
   export type MarketCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the MarketCountOutputType
-     * 
-    **/
+     */
     select?: MarketCountOutputTypeSelect | null
   }
 
@@ -2002,36 +1938,31 @@ export namespace Prisma {
   export type AccountAggregateArgs = {
     /**
      * Filter which Account to aggregate.
-     * 
-    **/
+     */
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Accounts to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Accounts from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Accounts.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -2079,7 +2010,7 @@ export namespace Prisma {
   export type AccountGroupByArgs = {
     where?: AccountWhereInput
     orderBy?: Enumerable<AccountOrderByWithAggregationInput>
-    by: Array<AccountScalarFieldEnum>
+    by: AccountScalarFieldEnum[]
     having?: AccountScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -2111,7 +2042,7 @@ export namespace Prisma {
     _max: AccountMaxAggregateOutputType | null
   }
 
-  type GetAccountGroupByPayload<T extends AccountGroupByArgs> = PrismaPromise<
+  type GetAccountGroupByPayload<T extends AccountGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AccountGroupByOutputType, T['by']> &
         {
@@ -2141,39 +2072,35 @@ export namespace Prisma {
     user?: boolean | UserArgs
   }
 
+
   export type AccountInclude = {
     user?: boolean | UserArgs
   }
 
-  export type AccountGetPayload<
-    S extends boolean | null | undefined | AccountArgs,
-    U = keyof S
-      > = S extends true
-        ? Account
-    : S extends undefined
-    ? never
-    : S extends AccountArgs | AccountFindManyArgs
-    ?'include' extends U
+  export type AccountGetPayload<S extends boolean | null | undefined | AccountArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Account :
+    S extends undefined ? never :
+    S extends { include: any } & (AccountArgs | AccountFindManyArgs)
     ? Account  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (AccountArgs | AccountFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Account ? Account[P] : never
   } 
-    : Account
-  : Account
+      : Account
 
 
-  type AccountCountArgs = Merge<
+  type AccountCountArgs = 
     Omit<AccountFindManyArgs, 'select' | 'include'> & {
       select?: AccountCountAggregateInputType | true
     }
-  >
 
-  export interface AccountDelegate<GlobalRejectSettings> {
+  export interface AccountDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Account that matches the filter.
      * @param {AccountFindUniqueArgs} args - Arguments to find a Account
@@ -2187,7 +2114,23 @@ export namespace Prisma {
     **/
     findUnique<T extends AccountFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AccountFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Account'> extends True ? CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>> : CheckSelect<T, Prisma__AccountClient<Account | null >, Prisma__AccountClient<AccountGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
+
+    /**
+     * Find one Account that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AccountFindUniqueOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Find the first Account that matches the filter.
@@ -2204,7 +2147,25 @@ export namespace Prisma {
     **/
     findFirst<T extends AccountFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AccountFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Account'> extends True ? CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>> : CheckSelect<T, Prisma__AccountClient<Account | null >, Prisma__AccountClient<AccountGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
+
+    /**
+     * Find the first Account that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindFirstOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AccountFindFirstOrThrowArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Find zero or more Accounts that matches the filter.
@@ -2224,7 +2185,7 @@ export namespace Prisma {
     **/
     findMany<T extends AccountFindManyArgs>(
       args?: SelectSubset<T, AccountFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Account>>, PrismaPromise<Array<AccountGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<AccountGetPayload<T>>>
 
     /**
      * Create a Account.
@@ -2240,7 +2201,7 @@ export namespace Prisma {
     **/
     create<T extends AccountCreateArgs>(
       args: SelectSubset<T, AccountCreateArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Create many Accounts.
@@ -2256,7 +2217,7 @@ export namespace Prisma {
     **/
     createMany<T extends AccountCreateManyArgs>(
       args?: SelectSubset<T, AccountCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Account.
@@ -2272,7 +2233,7 @@ export namespace Prisma {
     **/
     delete<T extends AccountDeleteArgs>(
       args: SelectSubset<T, AccountDeleteArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Update one Account.
@@ -2291,7 +2252,7 @@ export namespace Prisma {
     **/
     update<T extends AccountUpdateArgs>(
       args: SelectSubset<T, AccountUpdateArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Delete zero or more Accounts.
@@ -2307,7 +2268,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends AccountDeleteManyArgs>(
       args?: SelectSubset<T, AccountDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Accounts.
@@ -2328,7 +2289,7 @@ export namespace Prisma {
     **/
     updateMany<T extends AccountUpdateManyArgs>(
       args: SelectSubset<T, AccountUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Account.
@@ -2349,41 +2310,7 @@ export namespace Prisma {
     **/
     upsert<T extends AccountUpsertArgs>(
       args: SelectSubset<T, AccountUpsertArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
-
-    /**
-     * Find one Account that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {AccountFindUniqueOrThrowArgs} args - Arguments to find a Account
-     * @example
-     * // Get one Account
-     * const account = await prisma.account.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
-
-    /**
-     * Find the first Account that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccountFindFirstOrThrowArgs} args - Arguments to find a Account
-     * @example
-     * // Get one Account
-     * const account = await prisma.account.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AccountFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AccountClient<Account>, Prisma__AccountClient<AccountGetPayload<T>>>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
 
     /**
      * Count the number of Accounts.
@@ -2400,7 +2327,7 @@ export namespace Prisma {
     **/
     count<T extends AccountCountArgs>(
       args?: Subset<T, AccountCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -2432,7 +2359,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AccountAggregateArgs>(args: Subset<T, AccountAggregateArgs>): PrismaPromise<GetAccountAggregateType<T>>
+    aggregate<T extends AccountAggregateArgs>(args: Subset<T, AccountAggregateArgs>): Prisma.PrismaPromise<GetAccountAggregateType<T>>
 
     /**
      * Group by Account.
@@ -2509,7 +2436,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -2518,10 +2446,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AccountClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__AccountClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -2532,10 +2458,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -2560,6 +2486,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -2568,23 +2496,20 @@ export namespace Prisma {
   export type AccountFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * Filter, which Account to fetch.
-     * 
-    **/
+     */
     where: AccountWhereUniqueInput
   }
 
   /**
-   * Account: findUnique
+   * Account findUnique
    */
   export interface AccountFindUniqueArgs extends AccountFindUniqueArgsBase {
    /**
@@ -2596,63 +2521,74 @@ export namespace Prisma {
       
 
   /**
+   * Account findUniqueOrThrow
+   */
+  export type AccountFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+
+  /**
    * Account base type for findFirst actions
    */
   export type AccountFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * Filter, which Account to fetch.
-     * 
-    **/
+     */
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Accounts to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Accounts.
-     * 
-    **/
+     */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Accounts from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Accounts.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Accounts.
-     * 
-    **/
+     */
     distinct?: Enumerable<AccountScalarFieldEnum>
   }
 
   /**
-   * Account: findFirst
+   * Account findFirst
    */
   export interface AccountFindFirstArgs extends AccountFindFirstArgsBase {
    /**
@@ -2664,51 +2600,93 @@ export namespace Prisma {
       
 
   /**
-   * Account findMany
+   * Account findFirstOrThrow
    */
-  export type AccountFindManyArgs = {
+  export type AccountFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
-     * Filter, which Accounts to fetch.
-     * 
-    **/
+     * Filter, which Account to fetch.
+     */
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Accounts to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Accounts.
-     * 
-    **/
+     * Sets the position for searching for Accounts.
+     */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Accounts from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Accounts.
+     */
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
+
+  /**
+   * Account findMany
+   */
+  export type AccountFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
     skip?: number
     distinct?: Enumerable<AccountScalarFieldEnum>
   }
@@ -2720,18 +2698,15 @@ export namespace Prisma {
   export type AccountCreateArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * The data needed to create a Account.
-     * 
-    **/
+     */
     data: XOR<AccountCreateInput, AccountUncheckedCreateInput>
   }
 
@@ -2742,8 +2717,7 @@ export namespace Prisma {
   export type AccountCreateManyArgs = {
     /**
      * The data used to create many Accounts.
-     * 
-    **/
+     */
     data: Enumerable<AccountCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -2755,23 +2729,19 @@ export namespace Prisma {
   export type AccountUpdateArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * The data needed to update a Account.
-     * 
-    **/
+     */
     data: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
     /**
      * Choose, which Account to update.
-     * 
-    **/
+     */
     where: AccountWhereUniqueInput
   }
 
@@ -2782,13 +2752,11 @@ export namespace Prisma {
   export type AccountUpdateManyArgs = {
     /**
      * The data used to update Accounts.
-     * 
-    **/
+     */
     data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
     /**
      * Filter which Accounts to update
-     * 
-    **/
+     */
     where?: AccountWhereInput
   }
 
@@ -2799,28 +2767,23 @@ export namespace Prisma {
   export type AccountUpsertArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * The filter to search for the Account to update in case it exists.
-     * 
-    **/
+     */
     where: AccountWhereUniqueInput
     /**
      * In case the Account found by the `where` argument doesn't exist, create a new Account with this data.
-     * 
-    **/
+     */
     create: XOR<AccountCreateInput, AccountUncheckedCreateInput>
     /**
      * In case the Account was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
   }
 
@@ -2831,18 +2794,15 @@ export namespace Prisma {
   export type AccountDeleteArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
     /**
      * Filter which Account to delete.
-     * 
-    **/
+     */
     where: AccountWhereUniqueInput
   }
 
@@ -2853,23 +2813,10 @@ export namespace Prisma {
   export type AccountDeleteManyArgs = {
     /**
      * Filter which Accounts to delete
-     * 
-    **/
+     */
     where?: AccountWhereInput
   }
 
-
-  /**
-   * Account: findUniqueOrThrow
-   */
-  export type AccountFindUniqueOrThrowArgs = AccountFindUniqueArgsBase
-      
-
-  /**
-   * Account: findFirstOrThrow
-   */
-  export type AccountFindFirstOrThrowArgs = AccountFindFirstArgsBase
-      
 
   /**
    * Account without action
@@ -2877,13 +2824,11 @@ export namespace Prisma {
   export type AccountArgs = {
     /**
      * Select specific fields to fetch from the Account
-     * 
-    **/
+     */
     select?: AccountSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AccountInclude | null
   }
 
@@ -2948,36 +2893,31 @@ export namespace Prisma {
   export type SessionAggregateArgs = {
     /**
      * Filter which Session to aggregate.
-     * 
-    **/
+     */
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Sessions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Sessions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Sessions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -3013,7 +2953,7 @@ export namespace Prisma {
   export type SessionGroupByArgs = {
     where?: SessionWhereInput
     orderBy?: Enumerable<SessionOrderByWithAggregationInput>
-    by: Array<SessionScalarFieldEnum>
+    by: SessionScalarFieldEnum[]
     having?: SessionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -3033,7 +2973,7 @@ export namespace Prisma {
     _max: SessionMaxAggregateOutputType | null
   }
 
-  type GetSessionGroupByPayload<T extends SessionGroupByArgs> = PrismaPromise<
+  type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<SessionGroupByOutputType, T['by']> &
         {
@@ -3055,39 +2995,35 @@ export namespace Prisma {
     user?: boolean | UserArgs
   }
 
+
   export type SessionInclude = {
     user?: boolean | UserArgs
   }
 
-  export type SessionGetPayload<
-    S extends boolean | null | undefined | SessionArgs,
-    U = keyof S
-      > = S extends true
-        ? Session
-    : S extends undefined
-    ? never
-    : S extends SessionArgs | SessionFindManyArgs
-    ?'include' extends U
+  export type SessionGetPayload<S extends boolean | null | undefined | SessionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Session :
+    S extends undefined ? never :
+    S extends { include: any } & (SessionArgs | SessionFindManyArgs)
     ? Session  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (SessionArgs | SessionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Session ? Session[P] : never
   } 
-    : Session
-  : Session
+      : Session
 
 
-  type SessionCountArgs = Merge<
+  type SessionCountArgs = 
     Omit<SessionFindManyArgs, 'select' | 'include'> & {
       select?: SessionCountAggregateInputType | true
     }
-  >
 
-  export interface SessionDelegate<GlobalRejectSettings> {
+  export interface SessionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Session that matches the filter.
      * @param {SessionFindUniqueArgs} args - Arguments to find a Session
@@ -3101,7 +3037,23 @@ export namespace Prisma {
     **/
     findUnique<T extends SessionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, SessionFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Session'> extends True ? CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>> : CheckSelect<T, Prisma__SessionClient<Session | null >, Prisma__SessionClient<SessionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
+
+    /**
+     * Find one Session that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SessionFindUniqueOrThrowArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Find the first Session that matches the filter.
@@ -3118,7 +3070,25 @@ export namespace Prisma {
     **/
     findFirst<T extends SessionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, SessionFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Session'> extends True ? CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>> : CheckSelect<T, Prisma__SessionClient<Session | null >, Prisma__SessionClient<SessionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
+
+    /**
+     * Find the first Session that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionFindFirstOrThrowArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SessionFindFirstOrThrowArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Find zero or more Sessions that matches the filter.
@@ -3138,7 +3108,7 @@ export namespace Prisma {
     **/
     findMany<T extends SessionFindManyArgs>(
       args?: SelectSubset<T, SessionFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Session>>, PrismaPromise<Array<SessionGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<SessionGetPayload<T>>>
 
     /**
      * Create a Session.
@@ -3154,7 +3124,7 @@ export namespace Prisma {
     **/
     create<T extends SessionCreateArgs>(
       args: SelectSubset<T, SessionCreateArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Create many Sessions.
@@ -3170,7 +3140,7 @@ export namespace Prisma {
     **/
     createMany<T extends SessionCreateManyArgs>(
       args?: SelectSubset<T, SessionCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Session.
@@ -3186,7 +3156,7 @@ export namespace Prisma {
     **/
     delete<T extends SessionDeleteArgs>(
       args: SelectSubset<T, SessionDeleteArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Update one Session.
@@ -3205,7 +3175,7 @@ export namespace Prisma {
     **/
     update<T extends SessionUpdateArgs>(
       args: SelectSubset<T, SessionUpdateArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Delete zero or more Sessions.
@@ -3221,7 +3191,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends SessionDeleteManyArgs>(
       args?: SelectSubset<T, SessionDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Sessions.
@@ -3242,7 +3212,7 @@ export namespace Prisma {
     **/
     updateMany<T extends SessionUpdateManyArgs>(
       args: SelectSubset<T, SessionUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Session.
@@ -3263,41 +3233,7 @@ export namespace Prisma {
     **/
     upsert<T extends SessionUpsertArgs>(
       args: SelectSubset<T, SessionUpsertArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
-
-    /**
-     * Find one Session that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {SessionFindUniqueOrThrowArgs} args - Arguments to find a Session
-     * @example
-     * // Get one Session
-     * const session = await prisma.session.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
-
-    /**
-     * Find the first Session that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionFindFirstOrThrowArgs} args - Arguments to find a Session
-     * @example
-     * // Get one Session
-     * const session = await prisma.session.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SessionFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__SessionClient<Session>, Prisma__SessionClient<SessionGetPayload<T>>>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
 
     /**
      * Count the number of Sessions.
@@ -3314,7 +3250,7 @@ export namespace Prisma {
     **/
     count<T extends SessionCountArgs>(
       args?: Subset<T, SessionCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -3346,7 +3282,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SessionAggregateArgs>(args: Subset<T, SessionAggregateArgs>): PrismaPromise<GetSessionAggregateType<T>>
+    aggregate<T extends SessionAggregateArgs>(args: Subset<T, SessionAggregateArgs>): Prisma.PrismaPromise<GetSessionAggregateType<T>>
 
     /**
      * Group by Session.
@@ -3423,7 +3359,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSessionGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -3432,10 +3369,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__SessionClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__SessionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -3446,10 +3381,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -3474,6 +3409,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -3482,23 +3419,20 @@ export namespace Prisma {
   export type SessionFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * Filter, which Session to fetch.
-     * 
-    **/
+     */
     where: SessionWhereUniqueInput
   }
 
   /**
-   * Session: findUnique
+   * Session findUnique
    */
   export interface SessionFindUniqueArgs extends SessionFindUniqueArgsBase {
    /**
@@ -3510,63 +3444,74 @@ export namespace Prisma {
       
 
   /**
+   * Session findUniqueOrThrow
+   */
+  export type SessionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Session to fetch.
+     */
+    where: SessionWhereUniqueInput
+  }
+
+
+  /**
    * Session base type for findFirst actions
    */
   export type SessionFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * Filter, which Session to fetch.
-     * 
-    **/
+     */
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Sessions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Sessions.
-     * 
-    **/
+     */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Sessions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Sessions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Sessions.
-     * 
-    **/
+     */
     distinct?: Enumerable<SessionScalarFieldEnum>
   }
 
   /**
-   * Session: findFirst
+   * Session findFirst
    */
   export interface SessionFindFirstArgs extends SessionFindFirstArgsBase {
    /**
@@ -3578,51 +3523,93 @@ export namespace Prisma {
       
 
   /**
-   * Session findMany
+   * Session findFirstOrThrow
    */
-  export type SessionFindManyArgs = {
+  export type SessionFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
-     * Filter, which Sessions to fetch.
-     * 
-    **/
+     * Filter, which Session to fetch.
+     */
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Sessions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Sessions.
-     * 
-    **/
+     * Sets the position for searching for Sessions.
+     */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Sessions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Sessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Sessions.
+     */
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+
+  /**
+   * Session findMany
+   */
+  export type SessionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Sessions to fetch.
+     */
+    where?: SessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sessions to fetch.
+     */
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Sessions.
+     */
+    cursor?: SessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sessions.
+     */
     skip?: number
     distinct?: Enumerable<SessionScalarFieldEnum>
   }
@@ -3634,18 +3621,15 @@ export namespace Prisma {
   export type SessionCreateArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * The data needed to create a Session.
-     * 
-    **/
+     */
     data: XOR<SessionCreateInput, SessionUncheckedCreateInput>
   }
 
@@ -3656,8 +3640,7 @@ export namespace Prisma {
   export type SessionCreateManyArgs = {
     /**
      * The data used to create many Sessions.
-     * 
-    **/
+     */
     data: Enumerable<SessionCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -3669,23 +3652,19 @@ export namespace Prisma {
   export type SessionUpdateArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * The data needed to update a Session.
-     * 
-    **/
+     */
     data: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
     /**
      * Choose, which Session to update.
-     * 
-    **/
+     */
     where: SessionWhereUniqueInput
   }
 
@@ -3696,13 +3675,11 @@ export namespace Prisma {
   export type SessionUpdateManyArgs = {
     /**
      * The data used to update Sessions.
-     * 
-    **/
+     */
     data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyInput>
     /**
      * Filter which Sessions to update
-     * 
-    **/
+     */
     where?: SessionWhereInput
   }
 
@@ -3713,28 +3690,23 @@ export namespace Prisma {
   export type SessionUpsertArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * The filter to search for the Session to update in case it exists.
-     * 
-    **/
+     */
     where: SessionWhereUniqueInput
     /**
      * In case the Session found by the `where` argument doesn't exist, create a new Session with this data.
-     * 
-    **/
+     */
     create: XOR<SessionCreateInput, SessionUncheckedCreateInput>
     /**
      * In case the Session was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
   }
 
@@ -3745,18 +3717,15 @@ export namespace Prisma {
   export type SessionDeleteArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
     /**
      * Filter which Session to delete.
-     * 
-    **/
+     */
     where: SessionWhereUniqueInput
   }
 
@@ -3767,23 +3736,10 @@ export namespace Prisma {
   export type SessionDeleteManyArgs = {
     /**
      * Filter which Sessions to delete
-     * 
-    **/
+     */
     where?: SessionWhereInput
   }
 
-
-  /**
-   * Session: findUniqueOrThrow
-   */
-  export type SessionFindUniqueOrThrowArgs = SessionFindUniqueArgsBase
-      
-
-  /**
-   * Session: findFirstOrThrow
-   */
-  export type SessionFindFirstOrThrowArgs = SessionFindFirstArgsBase
-      
 
   /**
    * Session without action
@@ -3791,13 +3747,11 @@ export namespace Prisma {
   export type SessionArgs = {
     /**
      * Select specific fields to fetch from the Session
-     * 
-    **/
+     */
     select?: SessionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SessionInclude | null
   }
 
@@ -3898,36 +3852,31 @@ export namespace Prisma {
   export type UserAggregateArgs = {
     /**
      * Filter which User to aggregate.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -3963,7 +3912,7 @@ export namespace Prisma {
   export type UserGroupByArgs = {
     where?: UserWhereInput
     orderBy?: Enumerable<UserOrderByWithAggregationInput>
-    by: Array<UserScalarFieldEnum>
+    by: UserScalarFieldEnum[]
     having?: UserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -3989,7 +3938,7 @@ export namespace Prisma {
     _max: UserMaxAggregateOutputType | null
   }
 
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = PrismaPromise<
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<UserGroupByOutputType, T['by']> &
         {
@@ -4014,50 +3963,47 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: boolean
     role?: boolean
-    accounts?: boolean | AccountFindManyArgs
-    budgets?: boolean | BudgetFindManyArgs
-    budgetTransactions?: boolean | BudgetTransactionFindManyArgs
-    assets?: boolean | AssetFindManyArgs
-    assetTransactions?: boolean | AssetTransactionFindManyArgs
-    cryptocurrency?: boolean | CryptocurrencyFindManyArgs
-    sessions?: boolean | SessionFindManyArgs
+    accounts?: boolean | User$accountsArgs
+    budgets?: boolean | User$budgetsArgs
+    budgetTransactions?: boolean | User$budgetTransactionsArgs
+    assets?: boolean | User$assetsArgs
+    assetTransactions?: boolean | User$assetTransactionsArgs
+    cryptocurrency?: boolean | User$cryptocurrencyArgs
+    sessions?: boolean | User$sessionsArgs
     settings?: boolean | SettingsArgs
-    portfolioSnapshot?: boolean | PortfolioSnapshotFindManyArgs
-    CryptoSnapshot?: boolean | CryptoSnapshotFindManyArgs
-    CashSnapshot?: boolean | CashSnapshotFindManyArgs
-    PropertySnapshot?: boolean | PropertySnapshotFindManyArgs
-    SecuritySnapshot?: boolean | SecuritySnapshotFindManyArgs
+    portfolioSnapshot?: boolean | User$portfolioSnapshotArgs
+    CryptoSnapshot?: boolean | User$CryptoSnapshotArgs
+    CashSnapshot?: boolean | User$CashSnapshotArgs
+    PropertySnapshot?: boolean | User$PropertySnapshotArgs
+    SecuritySnapshot?: boolean | User$SecuritySnapshotArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
+
 
   export type UserInclude = {
-    accounts?: boolean | AccountFindManyArgs
-    budgets?: boolean | BudgetFindManyArgs
-    budgetTransactions?: boolean | BudgetTransactionFindManyArgs
-    assets?: boolean | AssetFindManyArgs
-    assetTransactions?: boolean | AssetTransactionFindManyArgs
-    cryptocurrency?: boolean | CryptocurrencyFindManyArgs
-    sessions?: boolean | SessionFindManyArgs
+    accounts?: boolean | User$accountsArgs
+    budgets?: boolean | User$budgetsArgs
+    budgetTransactions?: boolean | User$budgetTransactionsArgs
+    assets?: boolean | User$assetsArgs
+    assetTransactions?: boolean | User$assetTransactionsArgs
+    cryptocurrency?: boolean | User$cryptocurrencyArgs
+    sessions?: boolean | User$sessionsArgs
     settings?: boolean | SettingsArgs
-    portfolioSnapshot?: boolean | PortfolioSnapshotFindManyArgs
-    CryptoSnapshot?: boolean | CryptoSnapshotFindManyArgs
-    CashSnapshot?: boolean | CashSnapshotFindManyArgs
-    PropertySnapshot?: boolean | PropertySnapshotFindManyArgs
-    SecuritySnapshot?: boolean | SecuritySnapshotFindManyArgs
+    portfolioSnapshot?: boolean | User$portfolioSnapshotArgs
+    CryptoSnapshot?: boolean | User$CryptoSnapshotArgs
+    CashSnapshot?: boolean | User$CashSnapshotArgs
+    PropertySnapshot?: boolean | User$PropertySnapshotArgs
+    SecuritySnapshot?: boolean | User$SecuritySnapshotArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
-  export type UserGetPayload<
-    S extends boolean | null | undefined | UserArgs,
-    U = keyof S
-      > = S extends true
-        ? User
-    : S extends undefined
-    ? never
-    : S extends UserArgs | UserFindManyArgs
-    ?'include' extends U
+  export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? User :
+    S extends undefined ? never :
+    S extends { include: any } & (UserArgs | UserFindManyArgs)
     ? User  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
         P extends 'budgets' ? Array < BudgetGetPayload<S['include'][P]>>  :
         P extends 'budgetTransactions' ? Array < BudgetTransactionGetPayload<S['include'][P]>>  :
@@ -4073,9 +4019,9 @@ export namespace Prisma {
         P extends 'SecuritySnapshot' ? Array < SecuritySnapshotGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (UserArgs | UserFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
         P extends 'budgets' ? Array < BudgetGetPayload<S['select'][P]>>  :
         P extends 'budgetTransactions' ? Array < BudgetTransactionGetPayload<S['select'][P]>>  :
@@ -4091,17 +4037,16 @@ export namespace Prisma {
         P extends 'SecuritySnapshot' ? Array < SecuritySnapshotGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
-    : User
-  : User
+      : User
 
 
-  type UserCountArgs = Merge<
+  type UserCountArgs = 
     Omit<UserFindManyArgs, 'select' | 'include'> & {
       select?: UserCountAggregateInputType | true
     }
-  >
 
-  export interface UserDelegate<GlobalRejectSettings> {
+  export interface UserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one User that matches the filter.
      * @param {UserFindUniqueArgs} args - Arguments to find a User
@@ -4115,7 +4060,23 @@ export namespace Prisma {
     **/
     findUnique<T extends UserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, UserFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User'> extends True ? CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>> : CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
+
+    /**
+     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Find the first User that matches the filter.
@@ -4132,7 +4093,25 @@ export namespace Prisma {
     **/
     findFirst<T extends UserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, UserFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User'> extends True ? CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>> : CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserFindFirstOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Find zero or more Users that matches the filter.
@@ -4152,7 +4131,7 @@ export namespace Prisma {
     **/
     findMany<T extends UserFindManyArgs>(
       args?: SelectSubset<T, UserFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<User>>, PrismaPromise<Array<UserGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<UserGetPayload<T>>>
 
     /**
      * Create a User.
@@ -4168,7 +4147,7 @@ export namespace Prisma {
     **/
     create<T extends UserCreateArgs>(
       args: SelectSubset<T, UserCreateArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Create many Users.
@@ -4184,7 +4163,7 @@ export namespace Prisma {
     **/
     createMany<T extends UserCreateManyArgs>(
       args?: SelectSubset<T, UserCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a User.
@@ -4200,7 +4179,7 @@ export namespace Prisma {
     **/
     delete<T extends UserDeleteArgs>(
       args: SelectSubset<T, UserDeleteArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Update one User.
@@ -4219,7 +4198,7 @@ export namespace Prisma {
     **/
     update<T extends UserUpdateArgs>(
       args: SelectSubset<T, UserUpdateArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Delete zero or more Users.
@@ -4235,7 +4214,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends UserDeleteManyArgs>(
       args?: SelectSubset<T, UserDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Users.
@@ -4256,7 +4235,7 @@ export namespace Prisma {
     **/
     updateMany<T extends UserUpdateManyArgs>(
       args: SelectSubset<T, UserUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one User.
@@ -4277,41 +4256,7 @@ export namespace Prisma {
     **/
     upsert<T extends UserUpsertArgs>(
       args: SelectSubset<T, UserUpsertArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
-
-    /**
-     * Find one User that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
-
-    /**
-     * Find the first User that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
      * Count the number of Users.
@@ -4328,7 +4273,7 @@ export namespace Prisma {
     **/
     count<T extends UserCountArgs>(
       args?: Subset<T, UserCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -4360,7 +4305,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): PrismaPromise<GetUserAggregateType<T>>
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
 
     /**
      * Group by User.
@@ -4437,7 +4382,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -4446,10 +4392,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__UserClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__UserClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -4460,34 +4404,34 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    accounts<T extends AccountFindManyArgs = {}>(args?: Subset<T, AccountFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Account>>, PrismaPromise<Array<AccountGetPayload<T>>>>;
+    accounts<T extends User$accountsArgs= {}>(args?: Subset<T, User$accountsArgs>): Prisma.PrismaPromise<Array<AccountGetPayload<T>>| Null>;
 
-    budgets<T extends BudgetFindManyArgs = {}>(args?: Subset<T, BudgetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Budget>>, PrismaPromise<Array<BudgetGetPayload<T>>>>;
+    budgets<T extends User$budgetsArgs= {}>(args?: Subset<T, User$budgetsArgs>): Prisma.PrismaPromise<Array<BudgetGetPayload<T>>| Null>;
 
-    budgetTransactions<T extends BudgetTransactionFindManyArgs = {}>(args?: Subset<T, BudgetTransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<BudgetTransaction>>, PrismaPromise<Array<BudgetTransactionGetPayload<T>>>>;
+    budgetTransactions<T extends User$budgetTransactionsArgs= {}>(args?: Subset<T, User$budgetTransactionsArgs>): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>>| Null>;
 
-    assets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+    assets<T extends User$assetsArgs= {}>(args?: Subset<T, User$assetsArgs>): Prisma.PrismaPromise<Array<AssetGetPayload<T>>| Null>;
 
-    assetTransactions<T extends AssetTransactionFindManyArgs = {}>(args?: Subset<T, AssetTransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<AssetTransaction>>, PrismaPromise<Array<AssetTransactionGetPayload<T>>>>;
+    assetTransactions<T extends User$assetTransactionsArgs= {}>(args?: Subset<T, User$assetTransactionsArgs>): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>>| Null>;
 
-    cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
+    cryptocurrency<T extends User$cryptocurrencyArgs= {}>(args?: Subset<T, User$cryptocurrencyArgs>): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>>| Null>;
 
-    sessions<T extends SessionFindManyArgs = {}>(args?: Subset<T, SessionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Session>>, PrismaPromise<Array<SessionGetPayload<T>>>>;
+    sessions<T extends User$sessionsArgs= {}>(args?: Subset<T, User$sessionsArgs>): Prisma.PrismaPromise<Array<SessionGetPayload<T>>| Null>;
 
-    settings<T extends SettingsArgs = {}>(args?: Subset<T, SettingsArgs>): CheckSelect<T, Prisma__SettingsClient<Settings | null >, Prisma__SettingsClient<SettingsGetPayload<T> | null >>;
+    settings<T extends SettingsArgs= {}>(args?: Subset<T, SettingsArgs>): Prisma__SettingsClient<SettingsGetPayload<T> | Null>;
 
-    portfolioSnapshot<T extends PortfolioSnapshotFindManyArgs = {}>(args?: Subset<T, PortfolioSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<PortfolioSnapshot>>, PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>>;
+    portfolioSnapshot<T extends User$portfolioSnapshotArgs= {}>(args?: Subset<T, User$portfolioSnapshotArgs>): Prisma.PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>| Null>;
 
-    CryptoSnapshot<T extends CryptoSnapshotFindManyArgs = {}>(args?: Subset<T, CryptoSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<CryptoSnapshot>>, PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>>;
+    CryptoSnapshot<T extends User$CryptoSnapshotArgs= {}>(args?: Subset<T, User$CryptoSnapshotArgs>): Prisma.PrismaPromise<Array<CryptoSnapshotGetPayload<T>>| Null>;
 
-    CashSnapshot<T extends CashSnapshotFindManyArgs = {}>(args?: Subset<T, CashSnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<CashSnapshot>>, PrismaPromise<Array<CashSnapshotGetPayload<T>>>>;
+    CashSnapshot<T extends User$CashSnapshotArgs= {}>(args?: Subset<T, User$CashSnapshotArgs>): Prisma.PrismaPromise<Array<CashSnapshotGetPayload<T>>| Null>;
 
-    PropertySnapshot<T extends PropertySnapshotFindManyArgs = {}>(args?: Subset<T, PropertySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<PropertySnapshot>>, PrismaPromise<Array<PropertySnapshotGetPayload<T>>>>;
+    PropertySnapshot<T extends User$PropertySnapshotArgs= {}>(args?: Subset<T, User$PropertySnapshotArgs>): Prisma.PrismaPromise<Array<PropertySnapshotGetPayload<T>>| Null>;
 
-    SecuritySnapshot<T extends SecuritySnapshotFindManyArgs = {}>(args?: Subset<T, SecuritySnapshotFindManyArgs>): CheckSelect<T, PrismaPromise<Array<SecuritySnapshot>>, PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>>;
+    SecuritySnapshot<T extends User$SecuritySnapshotArgs= {}>(args?: Subset<T, User$SecuritySnapshotArgs>): Prisma.PrismaPromise<Array<SecuritySnapshotGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4512,6 +4456,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -4520,23 +4466,20 @@ export namespace Prisma {
   export type UserFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
   /**
-   * User: findUnique
+   * User findUnique
    */
   export interface UserFindUniqueArgs extends UserFindUniqueArgsBase {
    /**
@@ -4548,63 +4491,74 @@ export namespace Prisma {
       
 
   /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+
+  /**
    * User base type for findFirst actions
    */
   export type UserFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Users.
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Users.
-     * 
-    **/
+     */
     distinct?: Enumerable<UserScalarFieldEnum>
   }
 
   /**
-   * User: findFirst
+   * User findFirst
    */
   export interface UserFindFirstArgs extends UserFindFirstArgsBase {
    /**
@@ -4616,51 +4570,93 @@ export namespace Prisma {
       
 
   /**
-   * User findMany
+   * User findFirstOrThrow
    */
-  export type UserFindManyArgs = {
+  export type UserFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
-     * Filter, which Users to fetch.
-     * 
-    **/
+     * Filter, which User to fetch.
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Users.
-     * 
-    **/
+     * Sets the position for searching for Users.
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Users.
+     */
+    distinct?: Enumerable<UserScalarFieldEnum>
+  }
+
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
     skip?: number
     distinct?: Enumerable<UserScalarFieldEnum>
   }
@@ -4672,18 +4668,15 @@ export namespace Prisma {
   export type UserCreateArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The data needed to create a User.
-     * 
-    **/
+     */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
@@ -4694,8 +4687,7 @@ export namespace Prisma {
   export type UserCreateManyArgs = {
     /**
      * The data used to create many Users.
-     * 
-    **/
+     */
     data: Enumerable<UserCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -4707,23 +4699,19 @@ export namespace Prisma {
   export type UserUpdateArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The data needed to update a User.
-     * 
-    **/
+     */
     data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
     /**
      * Choose, which User to update.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -4734,13 +4722,11 @@ export namespace Prisma {
   export type UserUpdateManyArgs = {
     /**
      * The data used to update Users.
-     * 
-    **/
+     */
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
     /**
      * Filter which Users to update
-     * 
-    **/
+     */
     where?: UserWhereInput
   }
 
@@ -4751,28 +4737,23 @@ export namespace Prisma {
   export type UserUpsertArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The filter to search for the User to update in case it exists.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
     /**
      * In case the User found by the `where` argument doesn't exist, create a new User with this data.
-     * 
-    **/
+     */
     create: XOR<UserCreateInput, UserUncheckedCreateInput>
     /**
      * In case the User was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
@@ -4783,18 +4764,15 @@ export namespace Prisma {
   export type UserDeleteArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter which User to delete.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -4805,23 +4783,262 @@ export namespace Prisma {
   export type UserDeleteManyArgs = {
     /**
      * Filter which Users to delete
-     * 
-    **/
+     */
     where?: UserWhereInput
   }
 
 
   /**
-   * User: findUniqueOrThrow
+   * User.accounts
    */
-  export type UserFindUniqueOrThrowArgs = UserFindUniqueArgsBase
-      
+  export type User$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    where?: AccountWhereInput
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    cursor?: AccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
 
   /**
-   * User: findFirstOrThrow
+   * User.budgets
    */
-  export type UserFindFirstOrThrowArgs = UserFindFirstArgsBase
-      
+  export type User$budgetsArgs = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetInclude | null
+    where?: BudgetWhereInput
+    orderBy?: Enumerable<BudgetOrderByWithRelationInput>
+    cursor?: BudgetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BudgetScalarFieldEnum>
+  }
+
+
+  /**
+   * User.budgetTransactions
+   */
+  export type User$budgetTransactionsArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetTransaction
+     */
+    select?: BudgetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetTransactionInclude | null
+    where?: BudgetTransactionWhereInput
+    orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
+    cursor?: BudgetTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BudgetTransactionScalarFieldEnum>
+  }
+
+
+  /**
+   * User.assets
+   */
+  export type User$assetsArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    where?: AssetWhereInput
+    orderBy?: Enumerable<AssetOrderByWithRelationInput>
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetScalarFieldEnum>
+  }
+
+
+  /**
+   * User.assetTransactions
+   */
+  export type User$assetTransactionsArgs = {
+    /**
+     * Select specific fields to fetch from the AssetTransaction
+     */
+    select?: AssetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetTransactionInclude | null
+    where?: AssetTransactionWhereInput
+    orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
+    cursor?: AssetTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetTransactionScalarFieldEnum>
+  }
+
+
+  /**
+   * User.cryptocurrency
+   */
+  export type User$cryptocurrencyArgs = {
+    /**
+     * Select specific fields to fetch from the Cryptocurrency
+     */
+    select?: CryptocurrencySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptocurrencyInclude | null
+    where?: CryptocurrencyWhereInput
+    orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
+    cursor?: CryptocurrencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
+  }
+
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    where?: SessionWhereInput
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+
+  /**
+   * User.portfolioSnapshot
+   */
+  export type User$portfolioSnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     */
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PortfolioSnapshotInclude | null
+    where?: PortfolioSnapshotWhereInput
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
+    cursor?: PortfolioSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * User.CryptoSnapshot
+   */
+  export type User$CryptoSnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the CryptoSnapshot
+     */
+    select?: CryptoSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptoSnapshotInclude | null
+    where?: CryptoSnapshotWhereInput
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
+    cursor?: CryptoSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * User.CashSnapshot
+   */
+  export type User$CashSnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     */
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CashSnapshotInclude | null
+    where?: CashSnapshotWhereInput
+    orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
+    cursor?: CashSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CashSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * User.PropertySnapshot
+   */
+  export type User$PropertySnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     */
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PropertySnapshotInclude | null
+    where?: PropertySnapshotWhereInput
+    orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
+    cursor?: PropertySnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * User.SecuritySnapshot
+   */
+  export type User$SecuritySnapshotArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     */
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SecuritySnapshotInclude | null
+    where?: SecuritySnapshotWhereInput
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
+    cursor?: SecuritySnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
+  }
+
 
   /**
    * User without action
@@ -4829,13 +5046,11 @@ export namespace Prisma {
   export type UserArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
   }
 
@@ -4894,36 +5109,31 @@ export namespace Prisma {
   export type VerificationTokenAggregateArgs = {
     /**
      * Filter which VerificationToken to aggregate.
-     * 
-    **/
+     */
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of VerificationTokens to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` VerificationTokens from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` VerificationTokens.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -4959,7 +5169,7 @@ export namespace Prisma {
   export type VerificationTokenGroupByArgs = {
     where?: VerificationTokenWhereInput
     orderBy?: Enumerable<VerificationTokenOrderByWithAggregationInput>
-    by: Array<VerificationTokenScalarFieldEnum>
+    by: VerificationTokenScalarFieldEnum[]
     having?: VerificationTokenScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -4978,7 +5188,7 @@ export namespace Prisma {
     _max: VerificationTokenMaxAggregateOutputType | null
   }
 
-  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = PrismaPromise<
+  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<VerificationTokenGroupByOutputType, T['by']> &
         {
@@ -4998,32 +5208,28 @@ export namespace Prisma {
     expires?: boolean
   }
 
-  export type VerificationTokenGetPayload<
-    S extends boolean | null | undefined | VerificationTokenArgs,
-    U = keyof S
-      > = S extends true
-        ? VerificationToken
-    : S extends undefined
-    ? never
-    : S extends VerificationTokenArgs | VerificationTokenFindManyArgs
-    ?'include' extends U
+
+  export type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? VerificationToken :
+    S extends undefined ? never :
+    S extends { include: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
     ? VerificationToken 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof VerificationToken ? VerificationToken[P] : never
   } 
-    : VerificationToken
-  : VerificationToken
+      : VerificationToken
 
 
-  type VerificationTokenCountArgs = Merge<
+  type VerificationTokenCountArgs = 
     Omit<VerificationTokenFindManyArgs, 'select' | 'include'> & {
       select?: VerificationTokenCountAggregateInputType | true
     }
-  >
 
-  export interface VerificationTokenDelegate<GlobalRejectSettings> {
+  export interface VerificationTokenDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one VerificationToken that matches the filter.
      * @param {VerificationTokenFindUniqueArgs} args - Arguments to find a VerificationToken
@@ -5037,7 +5243,23 @@ export namespace Prisma {
     **/
     findUnique<T extends VerificationTokenFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, VerificationTokenFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'VerificationToken'> extends True ? CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>> : CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken | null >, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
+
+    /**
+     * Find one VerificationToken that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Find the first VerificationToken that matches the filter.
@@ -5054,7 +5276,25 @@ export namespace Prisma {
     **/
     findFirst<T extends VerificationTokenFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, VerificationTokenFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'VerificationToken'> extends True ? CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>> : CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken | null >, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
+
+    /**
+     * Find the first VerificationToken that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Find zero or more VerificationTokens that matches the filter.
@@ -5074,7 +5314,7 @@ export namespace Prisma {
     **/
     findMany<T extends VerificationTokenFindManyArgs>(
       args?: SelectSubset<T, VerificationTokenFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<VerificationToken>>, PrismaPromise<Array<VerificationTokenGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<VerificationTokenGetPayload<T>>>
 
     /**
      * Create a VerificationToken.
@@ -5090,7 +5330,7 @@ export namespace Prisma {
     **/
     create<T extends VerificationTokenCreateArgs>(
       args: SelectSubset<T, VerificationTokenCreateArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Create many VerificationTokens.
@@ -5106,7 +5346,7 @@ export namespace Prisma {
     **/
     createMany<T extends VerificationTokenCreateManyArgs>(
       args?: SelectSubset<T, VerificationTokenCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a VerificationToken.
@@ -5122,7 +5362,7 @@ export namespace Prisma {
     **/
     delete<T extends VerificationTokenDeleteArgs>(
       args: SelectSubset<T, VerificationTokenDeleteArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Update one VerificationToken.
@@ -5141,7 +5381,7 @@ export namespace Prisma {
     **/
     update<T extends VerificationTokenUpdateArgs>(
       args: SelectSubset<T, VerificationTokenUpdateArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Delete zero or more VerificationTokens.
@@ -5157,7 +5397,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends VerificationTokenDeleteManyArgs>(
       args?: SelectSubset<T, VerificationTokenDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more VerificationTokens.
@@ -5178,7 +5418,7 @@ export namespace Prisma {
     **/
     updateMany<T extends VerificationTokenUpdateManyArgs>(
       args: SelectSubset<T, VerificationTokenUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one VerificationToken.
@@ -5199,41 +5439,7 @@ export namespace Prisma {
     **/
     upsert<T extends VerificationTokenUpsertArgs>(
       args: SelectSubset<T, VerificationTokenUpsertArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
-
-    /**
-     * Find one VerificationToken that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
-     * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
-
-    /**
-     * Find the first VerificationToken that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
-     * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__VerificationTokenClient<VerificationToken>, Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
 
     /**
      * Count the number of VerificationTokens.
@@ -5250,7 +5456,7 @@ export namespace Prisma {
     **/
     count<T extends VerificationTokenCountArgs>(
       args?: Subset<T, VerificationTokenCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -5282,7 +5488,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): PrismaPromise<GetVerificationTokenAggregateType<T>>
+    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
 
     /**
      * Group by VerificationToken.
@@ -5359,7 +5565,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -5368,10 +5575,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__VerificationTokenClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__VerificationTokenClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -5382,8 +5587,8 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
 
     private get _document();
@@ -5409,6 +5614,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -5417,18 +5624,16 @@ export namespace Prisma {
   export type VerificationTokenFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * Filter, which VerificationToken to fetch.
-     * 
-    **/
+     */
     where: VerificationTokenWhereUniqueInput
   }
 
   /**
-   * VerificationToken: findUnique
+   * VerificationToken findUnique
    */
   export interface VerificationTokenFindUniqueArgs extends VerificationTokenFindUniqueArgsBase {
    /**
@@ -5440,58 +5645,66 @@ export namespace Prisma {
       
 
   /**
+   * VerificationToken findUniqueOrThrow
+   */
+  export type VerificationTokenFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+
+  /**
    * VerificationToken base type for findFirst actions
    */
   export type VerificationTokenFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * Filter, which VerificationToken to fetch.
-     * 
-    **/
+     */
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of VerificationTokens to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for VerificationTokens.
-     * 
-    **/
+     */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` VerificationTokens from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` VerificationTokens.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of VerificationTokens.
-     * 
-    **/
+     */
     distinct?: Enumerable<VerificationTokenScalarFieldEnum>
   }
 
   /**
-   * VerificationToken: findFirst
+   * VerificationToken findFirst
    */
   export interface VerificationTokenFindFirstArgs extends VerificationTokenFindFirstArgsBase {
    /**
@@ -5503,46 +5716,85 @@ export namespace Prisma {
       
 
   /**
-   * VerificationToken findMany
+   * VerificationToken findFirstOrThrow
    */
-  export type VerificationTokenFindManyArgs = {
+  export type VerificationTokenFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
-     * Filter, which VerificationTokens to fetch.
-     * 
-    **/
+     * Filter, which VerificationToken to fetch.
+     */
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of VerificationTokens to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing VerificationTokens.
-     * 
-    **/
+     * Sets the position for searching for VerificationTokens.
+     */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` VerificationTokens from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: Enumerable<VerificationTokenScalarFieldEnum>
+  }
+
+
+  /**
+   * VerificationToken findMany
+   */
+  export type VerificationTokenFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationTokens to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
     skip?: number
     distinct?: Enumerable<VerificationTokenScalarFieldEnum>
   }
@@ -5554,13 +5806,11 @@ export namespace Prisma {
   export type VerificationTokenCreateArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * The data needed to create a VerificationToken.
-     * 
-    **/
+     */
     data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
   }
 
@@ -5571,8 +5821,7 @@ export namespace Prisma {
   export type VerificationTokenCreateManyArgs = {
     /**
      * The data used to create many VerificationTokens.
-     * 
-    **/
+     */
     data: Enumerable<VerificationTokenCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -5584,18 +5833,15 @@ export namespace Prisma {
   export type VerificationTokenUpdateArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * The data needed to update a VerificationToken.
-     * 
-    **/
+     */
     data: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
     /**
      * Choose, which VerificationToken to update.
-     * 
-    **/
+     */
     where: VerificationTokenWhereUniqueInput
   }
 
@@ -5606,13 +5852,11 @@ export namespace Prisma {
   export type VerificationTokenUpdateManyArgs = {
     /**
      * The data used to update VerificationTokens.
-     * 
-    **/
+     */
     data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
     /**
      * Filter which VerificationTokens to update
-     * 
-    **/
+     */
     where?: VerificationTokenWhereInput
   }
 
@@ -5623,23 +5867,19 @@ export namespace Prisma {
   export type VerificationTokenUpsertArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * The filter to search for the VerificationToken to update in case it exists.
-     * 
-    **/
+     */
     where: VerificationTokenWhereUniqueInput
     /**
      * In case the VerificationToken found by the `where` argument doesn't exist, create a new VerificationToken with this data.
-     * 
-    **/
+     */
     create: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
     /**
      * In case the VerificationToken was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
   }
 
@@ -5650,13 +5890,11 @@ export namespace Prisma {
   export type VerificationTokenDeleteArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
     /**
      * Filter which VerificationToken to delete.
-     * 
-    **/
+     */
     where: VerificationTokenWhereUniqueInput
   }
 
@@ -5667,23 +5905,10 @@ export namespace Prisma {
   export type VerificationTokenDeleteManyArgs = {
     /**
      * Filter which VerificationTokens to delete
-     * 
-    **/
+     */
     where?: VerificationTokenWhereInput
   }
 
-
-  /**
-   * VerificationToken: findUniqueOrThrow
-   */
-  export type VerificationTokenFindUniqueOrThrowArgs = VerificationTokenFindUniqueArgsBase
-      
-
-  /**
-   * VerificationToken: findFirstOrThrow
-   */
-  export type VerificationTokenFindFirstOrThrowArgs = VerificationTokenFindFirstArgsBase
-      
 
   /**
    * VerificationToken without action
@@ -5691,8 +5916,7 @@ export namespace Prisma {
   export type VerificationTokenArgs = {
     /**
      * Select specific fields to fetch from the VerificationToken
-     * 
-    **/
+     */
     select?: VerificationTokenSelect | null
   }
 
@@ -5787,36 +6011,31 @@ export namespace Prisma {
   export type SettingsAggregateArgs = {
     /**
      * Filter which Settings to aggregate.
-     * 
-    **/
+     */
     where?: SettingsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Settings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SettingsOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: SettingsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Settings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Settings.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -5852,7 +6071,7 @@ export namespace Prisma {
   export type SettingsGroupByArgs = {
     where?: SettingsWhereInput
     orderBy?: Enumerable<SettingsOrderByWithAggregationInput>
-    by: Array<SettingsScalarFieldEnum>
+    by: SettingsScalarFieldEnum[]
     having?: SettingsScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -5877,7 +6096,7 @@ export namespace Prisma {
     _max: SettingsMaxAggregateOutputType | null
   }
 
-  type GetSettingsGroupByPayload<T extends SettingsGroupByArgs> = PrismaPromise<
+  type GetSettingsGroupByPayload<T extends SettingsGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<SettingsGroupByOutputType, T['by']> &
         {
@@ -5904,39 +6123,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type SettingsInclude = {
     user?: boolean | UserArgs
   }
 
-  export type SettingsGetPayload<
-    S extends boolean | null | undefined | SettingsArgs,
-    U = keyof S
-      > = S extends true
-        ? Settings
-    : S extends undefined
-    ? never
-    : S extends SettingsArgs | SettingsFindManyArgs
-    ?'include' extends U
+  export type SettingsGetPayload<S extends boolean | null | undefined | SettingsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Settings :
+    S extends undefined ? never :
+    S extends { include: any } & (SettingsArgs | SettingsFindManyArgs)
     ? Settings  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (SettingsArgs | SettingsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Settings ? Settings[P] : never
   } 
-    : Settings
-  : Settings
+      : Settings
 
 
-  type SettingsCountArgs = Merge<
+  type SettingsCountArgs = 
     Omit<SettingsFindManyArgs, 'select' | 'include'> & {
       select?: SettingsCountAggregateInputType | true
     }
-  >
 
-  export interface SettingsDelegate<GlobalRejectSettings> {
+  export interface SettingsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Settings that matches the filter.
      * @param {SettingsFindUniqueArgs} args - Arguments to find a Settings
@@ -5950,7 +6165,23 @@ export namespace Prisma {
     **/
     findUnique<T extends SettingsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, SettingsFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Settings'> extends True ? CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>> : CheckSelect<T, Prisma__SettingsClient<Settings | null >, Prisma__SettingsClient<SettingsGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Settings'> extends True ? Prisma__SettingsClient<SettingsGetPayload<T>> : Prisma__SettingsClient<SettingsGetPayload<T> | null, null>
+
+    /**
+     * Find one Settings that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SettingsFindUniqueOrThrowArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SettingsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SettingsFindUniqueOrThrowArgs>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Find the first Settings that matches the filter.
@@ -5967,7 +6198,25 @@ export namespace Prisma {
     **/
     findFirst<T extends SettingsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, SettingsFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Settings'> extends True ? CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>> : CheckSelect<T, Prisma__SettingsClient<Settings | null >, Prisma__SettingsClient<SettingsGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Settings'> extends True ? Prisma__SettingsClient<SettingsGetPayload<T>> : Prisma__SettingsClient<SettingsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Settings that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsFindFirstOrThrowArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SettingsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SettingsFindFirstOrThrowArgs>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Find zero or more Settings that matches the filter.
@@ -5987,7 +6236,7 @@ export namespace Prisma {
     **/
     findMany<T extends SettingsFindManyArgs>(
       args?: SelectSubset<T, SettingsFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Settings>>, PrismaPromise<Array<SettingsGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<SettingsGetPayload<T>>>
 
     /**
      * Create a Settings.
@@ -6003,7 +6252,7 @@ export namespace Prisma {
     **/
     create<T extends SettingsCreateArgs>(
       args: SelectSubset<T, SettingsCreateArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Create many Settings.
@@ -6019,7 +6268,7 @@ export namespace Prisma {
     **/
     createMany<T extends SettingsCreateManyArgs>(
       args?: SelectSubset<T, SettingsCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Settings.
@@ -6035,7 +6284,7 @@ export namespace Prisma {
     **/
     delete<T extends SettingsDeleteArgs>(
       args: SelectSubset<T, SettingsDeleteArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Update one Settings.
@@ -6054,7 +6303,7 @@ export namespace Prisma {
     **/
     update<T extends SettingsUpdateArgs>(
       args: SelectSubset<T, SettingsUpdateArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Delete zero or more Settings.
@@ -6070,7 +6319,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends SettingsDeleteManyArgs>(
       args?: SelectSubset<T, SettingsDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Settings.
@@ -6091,7 +6340,7 @@ export namespace Prisma {
     **/
     updateMany<T extends SettingsUpdateManyArgs>(
       args: SelectSubset<T, SettingsUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Settings.
@@ -6112,41 +6361,7 @@ export namespace Prisma {
     **/
     upsert<T extends SettingsUpsertArgs>(
       args: SelectSubset<T, SettingsUpsertArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
-
-    /**
-     * Find one Settings that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {SettingsFindUniqueOrThrowArgs} args - Arguments to find a Settings
-     * @example
-     * // Get one Settings
-     * const settings = await prisma.settings.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends SettingsFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SettingsFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
-
-    /**
-     * Find the first Settings that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SettingsFindFirstOrThrowArgs} args - Arguments to find a Settings
-     * @example
-     * // Get one Settings
-     * const settings = await prisma.settings.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends SettingsFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SettingsFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__SettingsClient<Settings>, Prisma__SettingsClient<SettingsGetPayload<T>>>
+    ): Prisma__SettingsClient<SettingsGetPayload<T>>
 
     /**
      * Count the number of Settings.
@@ -6163,7 +6378,7 @@ export namespace Prisma {
     **/
     count<T extends SettingsCountArgs>(
       args?: Subset<T, SettingsCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -6195,7 +6410,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SettingsAggregateArgs>(args: Subset<T, SettingsAggregateArgs>): PrismaPromise<GetSettingsAggregateType<T>>
+    aggregate<T extends SettingsAggregateArgs>(args: Subset<T, SettingsAggregateArgs>): Prisma.PrismaPromise<GetSettingsAggregateType<T>>
 
     /**
      * Group by Settings.
@@ -6272,7 +6487,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingsGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -6281,10 +6497,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__SettingsClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__SettingsClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -6295,10 +6509,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -6323,6 +6537,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -6331,23 +6547,20 @@ export namespace Prisma {
   export type SettingsFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * Filter, which Settings to fetch.
-     * 
-    **/
+     */
     where: SettingsWhereUniqueInput
   }
 
   /**
-   * Settings: findUnique
+   * Settings findUnique
    */
   export interface SettingsFindUniqueArgs extends SettingsFindUniqueArgsBase {
    /**
@@ -6359,63 +6572,74 @@ export namespace Prisma {
       
 
   /**
+   * Settings findUniqueOrThrow
+   */
+  export type SettingsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingsInclude | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where: SettingsWhereUniqueInput
+  }
+
+
+  /**
    * Settings base type for findFirst actions
    */
   export type SettingsFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * Filter, which Settings to fetch.
-     * 
-    **/
+     */
     where?: SettingsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Settings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SettingsOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Settings.
-     * 
-    **/
+     */
     cursor?: SettingsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Settings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Settings.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Settings.
-     * 
-    **/
+     */
     distinct?: Enumerable<SettingsScalarFieldEnum>
   }
 
   /**
-   * Settings: findFirst
+   * Settings findFirst
    */
   export interface SettingsFindFirstArgs extends SettingsFindFirstArgsBase {
    /**
@@ -6427,51 +6651,93 @@ export namespace Prisma {
       
 
   /**
-   * Settings findMany
+   * Settings findFirstOrThrow
    */
-  export type SettingsFindManyArgs = {
+  export type SettingsFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * Filter, which Settings to fetch.
-     * 
-    **/
+     */
     where?: SettingsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Settings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SettingsOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Settings.
-     * 
-    **/
+     * Sets the position for searching for Settings.
+     */
     cursor?: SettingsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Settings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: Enumerable<SettingsScalarFieldEnum>
+  }
+
+
+  /**
+   * Settings findMany
+   */
+  export type SettingsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingsInclude | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: Enumerable<SettingsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Settings.
+     */
+    cursor?: SettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
     skip?: number
     distinct?: Enumerable<SettingsScalarFieldEnum>
   }
@@ -6483,18 +6749,15 @@ export namespace Prisma {
   export type SettingsCreateArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * The data needed to create a Settings.
-     * 
-    **/
+     */
     data: XOR<SettingsCreateInput, SettingsUncheckedCreateInput>
   }
 
@@ -6505,8 +6768,7 @@ export namespace Prisma {
   export type SettingsCreateManyArgs = {
     /**
      * The data used to create many Settings.
-     * 
-    **/
+     */
     data: Enumerable<SettingsCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -6518,23 +6780,19 @@ export namespace Prisma {
   export type SettingsUpdateArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * The data needed to update a Settings.
-     * 
-    **/
+     */
     data: XOR<SettingsUpdateInput, SettingsUncheckedUpdateInput>
     /**
      * Choose, which Settings to update.
-     * 
-    **/
+     */
     where: SettingsWhereUniqueInput
   }
 
@@ -6545,13 +6803,11 @@ export namespace Prisma {
   export type SettingsUpdateManyArgs = {
     /**
      * The data used to update Settings.
-     * 
-    **/
+     */
     data: XOR<SettingsUpdateManyMutationInput, SettingsUncheckedUpdateManyInput>
     /**
      * Filter which Settings to update
-     * 
-    **/
+     */
     where?: SettingsWhereInput
   }
 
@@ -6562,28 +6818,23 @@ export namespace Prisma {
   export type SettingsUpsertArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * The filter to search for the Settings to update in case it exists.
-     * 
-    **/
+     */
     where: SettingsWhereUniqueInput
     /**
      * In case the Settings found by the `where` argument doesn't exist, create a new Settings with this data.
-     * 
-    **/
+     */
     create: XOR<SettingsCreateInput, SettingsUncheckedCreateInput>
     /**
      * In case the Settings was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<SettingsUpdateInput, SettingsUncheckedUpdateInput>
   }
 
@@ -6594,18 +6845,15 @@ export namespace Prisma {
   export type SettingsDeleteArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
     /**
      * Filter which Settings to delete.
-     * 
-    **/
+     */
     where: SettingsWhereUniqueInput
   }
 
@@ -6616,23 +6864,10 @@ export namespace Prisma {
   export type SettingsDeleteManyArgs = {
     /**
      * Filter which Settings to delete
-     * 
-    **/
+     */
     where?: SettingsWhereInput
   }
 
-
-  /**
-   * Settings: findUniqueOrThrow
-   */
-  export type SettingsFindUniqueOrThrowArgs = SettingsFindUniqueArgsBase
-      
-
-  /**
-   * Settings: findFirstOrThrow
-   */
-  export type SettingsFindFirstOrThrowArgs = SettingsFindFirstArgsBase
-      
 
   /**
    * Settings without action
@@ -6640,13 +6875,11 @@ export namespace Prisma {
   export type SettingsArgs = {
     /**
      * Select specific fields to fetch from the Settings
-     * 
-    **/
+     */
     select?: SettingsSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SettingsInclude | null
   }
 
@@ -6729,36 +6962,31 @@ export namespace Prisma {
   export type LogAggregateArgs = {
     /**
      * Filter which Log to aggregate.
-     * 
-    **/
+     */
     where?: LogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Logs to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<LogOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: LogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Logs from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Logs.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -6794,7 +7022,7 @@ export namespace Prisma {
   export type LogGroupByArgs = {
     where?: LogWhereInput
     orderBy?: Enumerable<LogOrderByWithAggregationInput>
-    by: Array<LogScalarFieldEnum>
+    by: LogScalarFieldEnum[]
     having?: LogScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -6817,7 +7045,7 @@ export namespace Prisma {
     _max: LogMaxAggregateOutputType | null
   }
 
-  type GetLogGroupByPayload<T extends LogGroupByArgs> = PrismaPromise<
+  type GetLogGroupByPayload<T extends LogGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<LogGroupByOutputType, T['by']> &
         {
@@ -6841,32 +7069,28 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type LogGetPayload<
-    S extends boolean | null | undefined | LogArgs,
-    U = keyof S
-      > = S extends true
-        ? Log
-    : S extends undefined
-    ? never
-    : S extends LogArgs | LogFindManyArgs
-    ?'include' extends U
+
+  export type LogGetPayload<S extends boolean | null | undefined | LogArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Log :
+    S extends undefined ? never :
+    S extends { include: any } & (LogArgs | LogFindManyArgs)
     ? Log 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (LogArgs | LogFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
     P extends keyof Log ? Log[P] : never
   } 
-    : Log
-  : Log
+      : Log
 
 
-  type LogCountArgs = Merge<
+  type LogCountArgs = 
     Omit<LogFindManyArgs, 'select' | 'include'> & {
       select?: LogCountAggregateInputType | true
     }
-  >
 
-  export interface LogDelegate<GlobalRejectSettings> {
+  export interface LogDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Log that matches the filter.
      * @param {LogFindUniqueArgs} args - Arguments to find a Log
@@ -6880,7 +7104,23 @@ export namespace Prisma {
     **/
     findUnique<T extends LogFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, LogFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Log'> extends True ? CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>> : CheckSelect<T, Prisma__LogClient<Log | null >, Prisma__LogClient<LogGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Log'> extends True ? Prisma__LogClient<LogGetPayload<T>> : Prisma__LogClient<LogGetPayload<T> | null, null>
+
+    /**
+     * Find one Log that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {LogFindUniqueOrThrowArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends LogFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, LogFindUniqueOrThrowArgs>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Find the first Log that matches the filter.
@@ -6897,7 +7137,25 @@ export namespace Prisma {
     **/
     findFirst<T extends LogFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, LogFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Log'> extends True ? CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>> : CheckSelect<T, Prisma__LogClient<Log | null >, Prisma__LogClient<LogGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Log'> extends True ? Prisma__LogClient<LogGetPayload<T>> : Prisma__LogClient<LogGetPayload<T> | null, null>
+
+    /**
+     * Find the first Log that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LogFindFirstOrThrowArgs} args - Arguments to find a Log
+     * @example
+     * // Get one Log
+     * const log = await prisma.log.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends LogFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, LogFindFirstOrThrowArgs>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Find zero or more Logs that matches the filter.
@@ -6917,7 +7175,7 @@ export namespace Prisma {
     **/
     findMany<T extends LogFindManyArgs>(
       args?: SelectSubset<T, LogFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Log>>, PrismaPromise<Array<LogGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<LogGetPayload<T>>>
 
     /**
      * Create a Log.
@@ -6933,7 +7191,7 @@ export namespace Prisma {
     **/
     create<T extends LogCreateArgs>(
       args: SelectSubset<T, LogCreateArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Create many Logs.
@@ -6949,7 +7207,7 @@ export namespace Prisma {
     **/
     createMany<T extends LogCreateManyArgs>(
       args?: SelectSubset<T, LogCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Log.
@@ -6965,7 +7223,7 @@ export namespace Prisma {
     **/
     delete<T extends LogDeleteArgs>(
       args: SelectSubset<T, LogDeleteArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Update one Log.
@@ -6984,7 +7242,7 @@ export namespace Prisma {
     **/
     update<T extends LogUpdateArgs>(
       args: SelectSubset<T, LogUpdateArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Delete zero or more Logs.
@@ -7000,7 +7258,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends LogDeleteManyArgs>(
       args?: SelectSubset<T, LogDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Logs.
@@ -7021,7 +7279,7 @@ export namespace Prisma {
     **/
     updateMany<T extends LogUpdateManyArgs>(
       args: SelectSubset<T, LogUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Log.
@@ -7042,41 +7300,7 @@ export namespace Prisma {
     **/
     upsert<T extends LogUpsertArgs>(
       args: SelectSubset<T, LogUpsertArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
-
-    /**
-     * Find one Log that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {LogFindUniqueOrThrowArgs} args - Arguments to find a Log
-     * @example
-     * // Get one Log
-     * const log = await prisma.log.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends LogFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, LogFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
-
-    /**
-     * Find the first Log that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LogFindFirstOrThrowArgs} args - Arguments to find a Log
-     * @example
-     * // Get one Log
-     * const log = await prisma.log.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends LogFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, LogFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__LogClient<Log>, Prisma__LogClient<LogGetPayload<T>>>
+    ): Prisma__LogClient<LogGetPayload<T>>
 
     /**
      * Count the number of Logs.
@@ -7093,7 +7317,7 @@ export namespace Prisma {
     **/
     count<T extends LogCountArgs>(
       args?: Subset<T, LogCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -7125,7 +7349,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends LogAggregateArgs>(args: Subset<T, LogAggregateArgs>): PrismaPromise<GetLogAggregateType<T>>
+    aggregate<T extends LogAggregateArgs>(args: Subset<T, LogAggregateArgs>): Prisma.PrismaPromise<GetLogAggregateType<T>>
 
     /**
      * Group by Log.
@@ -7202,7 +7426,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, LogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLogGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, LogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -7211,10 +7436,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__LogClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__LogClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -7225,8 +7448,8 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
 
     private get _document();
@@ -7252,6 +7475,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -7260,18 +7485,16 @@ export namespace Prisma {
   export type LogFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * Filter, which Log to fetch.
-     * 
-    **/
+     */
     where: LogWhereUniqueInput
   }
 
   /**
-   * Log: findUnique
+   * Log findUnique
    */
   export interface LogFindUniqueArgs extends LogFindUniqueArgsBase {
    /**
@@ -7283,58 +7506,66 @@ export namespace Prisma {
       
 
   /**
+   * Log findUniqueOrThrow
+   */
+  export type LogFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     */
+    select?: LogSelect | null
+    /**
+     * Filter, which Log to fetch.
+     */
+    where: LogWhereUniqueInput
+  }
+
+
+  /**
    * Log base type for findFirst actions
    */
   export type LogFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * Filter, which Log to fetch.
-     * 
-    **/
+     */
     where?: LogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Logs to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<LogOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Logs.
-     * 
-    **/
+     */
     cursor?: LogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Logs from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Logs.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Logs.
-     * 
-    **/
+     */
     distinct?: Enumerable<LogScalarFieldEnum>
   }
 
   /**
-   * Log: findFirst
+   * Log findFirst
    */
   export interface LogFindFirstArgs extends LogFindFirstArgsBase {
    /**
@@ -7346,46 +7577,85 @@ export namespace Prisma {
       
 
   /**
-   * Log findMany
+   * Log findFirstOrThrow
    */
-  export type LogFindManyArgs = {
+  export type LogFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
-     * Filter, which Logs to fetch.
-     * 
-    **/
+     * Filter, which Log to fetch.
+     */
     where?: LogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Logs to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<LogOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Logs.
-     * 
-    **/
+     * Sets the position for searching for Logs.
+     */
     cursor?: LogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Logs from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Logs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Logs.
+     */
+    distinct?: Enumerable<LogScalarFieldEnum>
+  }
+
+
+  /**
+   * Log findMany
+   */
+  export type LogFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Log
+     */
+    select?: LogSelect | null
+    /**
+     * Filter, which Logs to fetch.
+     */
+    where?: LogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Logs to fetch.
+     */
+    orderBy?: Enumerable<LogOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Logs.
+     */
+    cursor?: LogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Logs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Logs.
+     */
     skip?: number
     distinct?: Enumerable<LogScalarFieldEnum>
   }
@@ -7397,13 +7667,11 @@ export namespace Prisma {
   export type LogCreateArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * The data needed to create a Log.
-     * 
-    **/
+     */
     data: XOR<LogCreateInput, LogUncheckedCreateInput>
   }
 
@@ -7414,8 +7682,7 @@ export namespace Prisma {
   export type LogCreateManyArgs = {
     /**
      * The data used to create many Logs.
-     * 
-    **/
+     */
     data: Enumerable<LogCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -7427,18 +7694,15 @@ export namespace Prisma {
   export type LogUpdateArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * The data needed to update a Log.
-     * 
-    **/
+     */
     data: XOR<LogUpdateInput, LogUncheckedUpdateInput>
     /**
      * Choose, which Log to update.
-     * 
-    **/
+     */
     where: LogWhereUniqueInput
   }
 
@@ -7449,13 +7713,11 @@ export namespace Prisma {
   export type LogUpdateManyArgs = {
     /**
      * The data used to update Logs.
-     * 
-    **/
+     */
     data: XOR<LogUpdateManyMutationInput, LogUncheckedUpdateManyInput>
     /**
      * Filter which Logs to update
-     * 
-    **/
+     */
     where?: LogWhereInput
   }
 
@@ -7466,23 +7728,19 @@ export namespace Prisma {
   export type LogUpsertArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * The filter to search for the Log to update in case it exists.
-     * 
-    **/
+     */
     where: LogWhereUniqueInput
     /**
      * In case the Log found by the `where` argument doesn't exist, create a new Log with this data.
-     * 
-    **/
+     */
     create: XOR<LogCreateInput, LogUncheckedCreateInput>
     /**
      * In case the Log was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<LogUpdateInput, LogUncheckedUpdateInput>
   }
 
@@ -7493,13 +7751,11 @@ export namespace Prisma {
   export type LogDeleteArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
     /**
      * Filter which Log to delete.
-     * 
-    **/
+     */
     where: LogWhereUniqueInput
   }
 
@@ -7510,23 +7766,10 @@ export namespace Prisma {
   export type LogDeleteManyArgs = {
     /**
      * Filter which Logs to delete
-     * 
-    **/
+     */
     where?: LogWhereInput
   }
 
-
-  /**
-   * Log: findUniqueOrThrow
-   */
-  export type LogFindUniqueOrThrowArgs = LogFindUniqueArgsBase
-      
-
-  /**
-   * Log: findFirstOrThrow
-   */
-  export type LogFindFirstOrThrowArgs = LogFindFirstArgsBase
-      
 
   /**
    * Log without action
@@ -7534,8 +7777,7 @@ export namespace Prisma {
   export type LogArgs = {
     /**
      * Select specific fields to fetch from the Log
-     * 
-    **/
+     */
     select?: LogSelect | null
   }
 
@@ -7636,36 +7878,31 @@ export namespace Prisma {
   export type IncomeAggregateArgs = {
     /**
      * Filter which Income to aggregate.
-     * 
-    **/
+     */
     where?: IncomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Incomes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<IncomeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: IncomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Incomes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Incomes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -7701,7 +7938,7 @@ export namespace Prisma {
   export type IncomeGroupByArgs = {
     where?: IncomeWhereInput
     orderBy?: Enumerable<IncomeOrderByWithAggregationInput>
-    by: Array<IncomeScalarFieldEnum>
+    by: IncomeScalarFieldEnum[]
     having?: IncomeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -7727,7 +7964,7 @@ export namespace Prisma {
     _max: IncomeMaxAggregateOutputType | null
   }
 
-  type GetIncomeGroupByPayload<T extends IncomeGroupByArgs> = PrismaPromise<
+  type GetIncomeGroupByPayload<T extends IncomeGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<IncomeGroupByOutputType, T['by']> &
         {
@@ -7755,39 +7992,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type IncomeInclude = {
     budget?: boolean | BudgetArgs
   }
 
-  export type IncomeGetPayload<
-    S extends boolean | null | undefined | IncomeArgs,
-    U = keyof S
-      > = S extends true
-        ? Income
-    : S extends undefined
-    ? never
-    : S extends IncomeArgs | IncomeFindManyArgs
-    ?'include' extends U
+  export type IncomeGetPayload<S extends boolean | null | undefined | IncomeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Income :
+    S extends undefined ? never :
+    S extends { include: any } & (IncomeArgs | IncomeFindManyArgs)
     ? Income  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'budget' ? BudgetGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (IncomeArgs | IncomeFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'budget' ? BudgetGetPayload<S['select'][P]> :  P extends keyof Income ? Income[P] : never
   } 
-    : Income
-  : Income
+      : Income
 
 
-  type IncomeCountArgs = Merge<
+  type IncomeCountArgs = 
     Omit<IncomeFindManyArgs, 'select' | 'include'> & {
       select?: IncomeCountAggregateInputType | true
     }
-  >
 
-  export interface IncomeDelegate<GlobalRejectSettings> {
+  export interface IncomeDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Income that matches the filter.
      * @param {IncomeFindUniqueArgs} args - Arguments to find a Income
@@ -7801,7 +8034,23 @@ export namespace Prisma {
     **/
     findUnique<T extends IncomeFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, IncomeFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Income'> extends True ? CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>> : CheckSelect<T, Prisma__IncomeClient<Income | null >, Prisma__IncomeClient<IncomeGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Income'> extends True ? Prisma__IncomeClient<IncomeGetPayload<T>> : Prisma__IncomeClient<IncomeGetPayload<T> | null, null>
+
+    /**
+     * Find one Income that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {IncomeFindUniqueOrThrowArgs} args - Arguments to find a Income
+     * @example
+     * // Get one Income
+     * const income = await prisma.income.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends IncomeFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, IncomeFindUniqueOrThrowArgs>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Find the first Income that matches the filter.
@@ -7818,7 +8067,25 @@ export namespace Prisma {
     **/
     findFirst<T extends IncomeFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, IncomeFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Income'> extends True ? CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>> : CheckSelect<T, Prisma__IncomeClient<Income | null >, Prisma__IncomeClient<IncomeGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Income'> extends True ? Prisma__IncomeClient<IncomeGetPayload<T>> : Prisma__IncomeClient<IncomeGetPayload<T> | null, null>
+
+    /**
+     * Find the first Income that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IncomeFindFirstOrThrowArgs} args - Arguments to find a Income
+     * @example
+     * // Get one Income
+     * const income = await prisma.income.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends IncomeFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, IncomeFindFirstOrThrowArgs>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Find zero or more Incomes that matches the filter.
@@ -7838,7 +8105,7 @@ export namespace Prisma {
     **/
     findMany<T extends IncomeFindManyArgs>(
       args?: SelectSubset<T, IncomeFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Income>>, PrismaPromise<Array<IncomeGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<IncomeGetPayload<T>>>
 
     /**
      * Create a Income.
@@ -7854,7 +8121,7 @@ export namespace Prisma {
     **/
     create<T extends IncomeCreateArgs>(
       args: SelectSubset<T, IncomeCreateArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Create many Incomes.
@@ -7870,7 +8137,7 @@ export namespace Prisma {
     **/
     createMany<T extends IncomeCreateManyArgs>(
       args?: SelectSubset<T, IncomeCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Income.
@@ -7886,7 +8153,7 @@ export namespace Prisma {
     **/
     delete<T extends IncomeDeleteArgs>(
       args: SelectSubset<T, IncomeDeleteArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Update one Income.
@@ -7905,7 +8172,7 @@ export namespace Prisma {
     **/
     update<T extends IncomeUpdateArgs>(
       args: SelectSubset<T, IncomeUpdateArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Delete zero or more Incomes.
@@ -7921,7 +8188,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends IncomeDeleteManyArgs>(
       args?: SelectSubset<T, IncomeDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Incomes.
@@ -7942,7 +8209,7 @@ export namespace Prisma {
     **/
     updateMany<T extends IncomeUpdateManyArgs>(
       args: SelectSubset<T, IncomeUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Income.
@@ -7963,41 +8230,7 @@ export namespace Prisma {
     **/
     upsert<T extends IncomeUpsertArgs>(
       args: SelectSubset<T, IncomeUpsertArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
-
-    /**
-     * Find one Income that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {IncomeFindUniqueOrThrowArgs} args - Arguments to find a Income
-     * @example
-     * // Get one Income
-     * const income = await prisma.income.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends IncomeFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, IncomeFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
-
-    /**
-     * Find the first Income that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {IncomeFindFirstOrThrowArgs} args - Arguments to find a Income
-     * @example
-     * // Get one Income
-     * const income = await prisma.income.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends IncomeFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, IncomeFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__IncomeClient<Income>, Prisma__IncomeClient<IncomeGetPayload<T>>>
+    ): Prisma__IncomeClient<IncomeGetPayload<T>>
 
     /**
      * Count the number of Incomes.
@@ -8014,7 +8247,7 @@ export namespace Prisma {
     **/
     count<T extends IncomeCountArgs>(
       args?: Subset<T, IncomeCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -8046,7 +8279,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends IncomeAggregateArgs>(args: Subset<T, IncomeAggregateArgs>): PrismaPromise<GetIncomeAggregateType<T>>
+    aggregate<T extends IncomeAggregateArgs>(args: Subset<T, IncomeAggregateArgs>): Prisma.PrismaPromise<GetIncomeAggregateType<T>>
 
     /**
      * Group by Income.
@@ -8123,7 +8356,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, IncomeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIncomeGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, IncomeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIncomeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -8132,10 +8366,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__IncomeClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__IncomeClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -8146,10 +8378,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    budget<T extends BudgetArgs = {}>(args?: Subset<T, BudgetArgs>): CheckSelect<T, Prisma__BudgetClient<Budget | null >, Prisma__BudgetClient<BudgetGetPayload<T> | null >>;
+    budget<T extends BudgetArgs= {}>(args?: Subset<T, BudgetArgs>): Prisma__BudgetClient<BudgetGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -8174,6 +8406,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -8182,23 +8416,20 @@ export namespace Prisma {
   export type IncomeFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * Filter, which Income to fetch.
-     * 
-    **/
+     */
     where: IncomeWhereUniqueInput
   }
 
   /**
-   * Income: findUnique
+   * Income findUnique
    */
   export interface IncomeFindUniqueArgs extends IncomeFindUniqueArgsBase {
    /**
@@ -8210,63 +8441,74 @@ export namespace Prisma {
       
 
   /**
+   * Income findUniqueOrThrow
+   */
+  export type IncomeFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Income
+     */
+    select?: IncomeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: IncomeInclude | null
+    /**
+     * Filter, which Income to fetch.
+     */
+    where: IncomeWhereUniqueInput
+  }
+
+
+  /**
    * Income base type for findFirst actions
    */
   export type IncomeFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * Filter, which Income to fetch.
-     * 
-    **/
+     */
     where?: IncomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Incomes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<IncomeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Incomes.
-     * 
-    **/
+     */
     cursor?: IncomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Incomes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Incomes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Incomes.
-     * 
-    **/
+     */
     distinct?: Enumerable<IncomeScalarFieldEnum>
   }
 
   /**
-   * Income: findFirst
+   * Income findFirst
    */
   export interface IncomeFindFirstArgs extends IncomeFindFirstArgsBase {
    /**
@@ -8278,51 +8520,93 @@ export namespace Prisma {
       
 
   /**
-   * Income findMany
+   * Income findFirstOrThrow
    */
-  export type IncomeFindManyArgs = {
+  export type IncomeFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
-     * Filter, which Incomes to fetch.
-     * 
-    **/
+     * Filter, which Income to fetch.
+     */
     where?: IncomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Incomes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<IncomeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Incomes.
-     * 
-    **/
+     * Sets the position for searching for Incomes.
+     */
     cursor?: IncomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Incomes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Incomes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Incomes.
+     */
+    distinct?: Enumerable<IncomeScalarFieldEnum>
+  }
+
+
+  /**
+   * Income findMany
+   */
+  export type IncomeFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Income
+     */
+    select?: IncomeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: IncomeInclude | null
+    /**
+     * Filter, which Incomes to fetch.
+     */
+    where?: IncomeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Incomes to fetch.
+     */
+    orderBy?: Enumerable<IncomeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Incomes.
+     */
+    cursor?: IncomeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Incomes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Incomes.
+     */
     skip?: number
     distinct?: Enumerable<IncomeScalarFieldEnum>
   }
@@ -8334,18 +8618,15 @@ export namespace Prisma {
   export type IncomeCreateArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * The data needed to create a Income.
-     * 
-    **/
+     */
     data: XOR<IncomeCreateInput, IncomeUncheckedCreateInput>
   }
 
@@ -8356,8 +8637,7 @@ export namespace Prisma {
   export type IncomeCreateManyArgs = {
     /**
      * The data used to create many Incomes.
-     * 
-    **/
+     */
     data: Enumerable<IncomeCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -8369,23 +8649,19 @@ export namespace Prisma {
   export type IncomeUpdateArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * The data needed to update a Income.
-     * 
-    **/
+     */
     data: XOR<IncomeUpdateInput, IncomeUncheckedUpdateInput>
     /**
      * Choose, which Income to update.
-     * 
-    **/
+     */
     where: IncomeWhereUniqueInput
   }
 
@@ -8396,13 +8672,11 @@ export namespace Prisma {
   export type IncomeUpdateManyArgs = {
     /**
      * The data used to update Incomes.
-     * 
-    **/
+     */
     data: XOR<IncomeUpdateManyMutationInput, IncomeUncheckedUpdateManyInput>
     /**
      * Filter which Incomes to update
-     * 
-    **/
+     */
     where?: IncomeWhereInput
   }
 
@@ -8413,28 +8687,23 @@ export namespace Prisma {
   export type IncomeUpsertArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * The filter to search for the Income to update in case it exists.
-     * 
-    **/
+     */
     where: IncomeWhereUniqueInput
     /**
      * In case the Income found by the `where` argument doesn't exist, create a new Income with this data.
-     * 
-    **/
+     */
     create: XOR<IncomeCreateInput, IncomeUncheckedCreateInput>
     /**
      * In case the Income was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<IncomeUpdateInput, IncomeUncheckedUpdateInput>
   }
 
@@ -8445,18 +8714,15 @@ export namespace Prisma {
   export type IncomeDeleteArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
     /**
      * Filter which Income to delete.
-     * 
-    **/
+     */
     where: IncomeWhereUniqueInput
   }
 
@@ -8467,23 +8733,10 @@ export namespace Prisma {
   export type IncomeDeleteManyArgs = {
     /**
      * Filter which Incomes to delete
-     * 
-    **/
+     */
     where?: IncomeWhereInput
   }
 
-
-  /**
-   * Income: findUniqueOrThrow
-   */
-  export type IncomeFindUniqueOrThrowArgs = IncomeFindUniqueArgsBase
-      
-
-  /**
-   * Income: findFirstOrThrow
-   */
-  export type IncomeFindFirstOrThrowArgs = IncomeFindFirstArgsBase
-      
 
   /**
    * Income without action
@@ -8491,13 +8744,11 @@ export namespace Prisma {
   export type IncomeArgs = {
     /**
      * Select specific fields to fetch from the Income
-     * 
-    **/
+     */
     select?: IncomeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: IncomeInclude | null
   }
 
@@ -8586,36 +8837,31 @@ export namespace Prisma {
   export type BudgetAggregateArgs = {
     /**
      * Filter which Budget to aggregate.
-     * 
-    **/
+     */
     where?: BudgetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Budgets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: BudgetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Budgets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Budgets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -8651,7 +8897,7 @@ export namespace Prisma {
   export type BudgetGroupByArgs = {
     where?: BudgetWhereInput
     orderBy?: Enumerable<BudgetOrderByWithAggregationInput>
-    by: Array<BudgetScalarFieldEnum>
+    by: BudgetScalarFieldEnum[]
     having?: BudgetScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -8675,7 +8921,7 @@ export namespace Prisma {
     _max: BudgetMaxAggregateOutputType | null
   }
 
-  type GetBudgetGroupByPayload<T extends BudgetGroupByArgs> = PrismaPromise<
+  type GetBudgetGroupByPayload<T extends BudgetGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<BudgetGroupByOutputType, T['by']> &
         {
@@ -8694,8 +8940,8 @@ export namespace Prisma {
     name?: boolean
     userId?: boolean
     user?: boolean | UserArgs
-    envelopes?: boolean | BudgetEnvelopeFindManyArgs
-    income?: boolean | IncomeFindManyArgs
+    envelopes?: boolean | Budget$envelopesArgs
+    income?: boolean | Budget$incomeArgs
     totalBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8704,48 +8950,44 @@ export namespace Prisma {
     _count?: boolean | BudgetCountOutputTypeArgs
   }
 
+
   export type BudgetInclude = {
     user?: boolean | UserArgs
-    envelopes?: boolean | BudgetEnvelopeFindManyArgs
-    income?: boolean | IncomeFindManyArgs
+    envelopes?: boolean | Budget$envelopesArgs
+    income?: boolean | Budget$incomeArgs
     _count?: boolean | BudgetCountOutputTypeArgs
   }
 
-  export type BudgetGetPayload<
-    S extends boolean | null | undefined | BudgetArgs,
-    U = keyof S
-      > = S extends true
-        ? Budget
-    : S extends undefined
-    ? never
-    : S extends BudgetArgs | BudgetFindManyArgs
-    ?'include' extends U
+  export type BudgetGetPayload<S extends boolean | null | undefined | BudgetArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Budget :
+    S extends undefined ? never :
+    S extends { include: any } & (BudgetArgs | BudgetFindManyArgs)
     ? Budget  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :
         P extends 'envelopes' ? Array < BudgetEnvelopeGetPayload<S['include'][P]>>  :
         P extends 'income' ? Array < IncomeGetPayload<S['include'][P]>>  :
         P extends '_count' ? BudgetCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (BudgetArgs | BudgetFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :
         P extends 'envelopes' ? Array < BudgetEnvelopeGetPayload<S['select'][P]>>  :
         P extends 'income' ? Array < IncomeGetPayload<S['select'][P]>>  :
         P extends '_count' ? BudgetCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Budget ? Budget[P] : never
   } 
-    : Budget
-  : Budget
+      : Budget
 
 
-  type BudgetCountArgs = Merge<
+  type BudgetCountArgs = 
     Omit<BudgetFindManyArgs, 'select' | 'include'> & {
       select?: BudgetCountAggregateInputType | true
     }
-  >
 
-  export interface BudgetDelegate<GlobalRejectSettings> {
+  export interface BudgetDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Budget that matches the filter.
      * @param {BudgetFindUniqueArgs} args - Arguments to find a Budget
@@ -8759,7 +9001,23 @@ export namespace Prisma {
     **/
     findUnique<T extends BudgetFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, BudgetFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Budget'> extends True ? CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>> : CheckSelect<T, Prisma__BudgetClient<Budget | null >, Prisma__BudgetClient<BudgetGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Budget'> extends True ? Prisma__BudgetClient<BudgetGetPayload<T>> : Prisma__BudgetClient<BudgetGetPayload<T> | null, null>
+
+    /**
+     * Find one Budget that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BudgetFindUniqueOrThrowArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BudgetFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BudgetFindUniqueOrThrowArgs>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Find the first Budget that matches the filter.
@@ -8776,7 +9034,25 @@ export namespace Prisma {
     **/
     findFirst<T extends BudgetFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, BudgetFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Budget'> extends True ? CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>> : CheckSelect<T, Prisma__BudgetClient<Budget | null >, Prisma__BudgetClient<BudgetGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Budget'> extends True ? Prisma__BudgetClient<BudgetGetPayload<T>> : Prisma__BudgetClient<BudgetGetPayload<T> | null, null>
+
+    /**
+     * Find the first Budget that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetFindFirstOrThrowArgs} args - Arguments to find a Budget
+     * @example
+     * // Get one Budget
+     * const budget = await prisma.budget.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BudgetFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BudgetFindFirstOrThrowArgs>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Find zero or more Budgets that matches the filter.
@@ -8796,7 +9072,7 @@ export namespace Prisma {
     **/
     findMany<T extends BudgetFindManyArgs>(
       args?: SelectSubset<T, BudgetFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Budget>>, PrismaPromise<Array<BudgetGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<BudgetGetPayload<T>>>
 
     /**
      * Create a Budget.
@@ -8812,7 +9088,7 @@ export namespace Prisma {
     **/
     create<T extends BudgetCreateArgs>(
       args: SelectSubset<T, BudgetCreateArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Create many Budgets.
@@ -8828,7 +9104,7 @@ export namespace Prisma {
     **/
     createMany<T extends BudgetCreateManyArgs>(
       args?: SelectSubset<T, BudgetCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Budget.
@@ -8844,7 +9120,7 @@ export namespace Prisma {
     **/
     delete<T extends BudgetDeleteArgs>(
       args: SelectSubset<T, BudgetDeleteArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Update one Budget.
@@ -8863,7 +9139,7 @@ export namespace Prisma {
     **/
     update<T extends BudgetUpdateArgs>(
       args: SelectSubset<T, BudgetUpdateArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Delete zero or more Budgets.
@@ -8879,7 +9155,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends BudgetDeleteManyArgs>(
       args?: SelectSubset<T, BudgetDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Budgets.
@@ -8900,7 +9176,7 @@ export namespace Prisma {
     **/
     updateMany<T extends BudgetUpdateManyArgs>(
       args: SelectSubset<T, BudgetUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Budget.
@@ -8921,41 +9197,7 @@ export namespace Prisma {
     **/
     upsert<T extends BudgetUpsertArgs>(
       args: SelectSubset<T, BudgetUpsertArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
-
-    /**
-     * Find one Budget that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {BudgetFindUniqueOrThrowArgs} args - Arguments to find a Budget
-     * @example
-     * // Get one Budget
-     * const budget = await prisma.budget.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends BudgetFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
-
-    /**
-     * Find the first Budget that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BudgetFindFirstOrThrowArgs} args - Arguments to find a Budget
-     * @example
-     * // Get one Budget
-     * const budget = await prisma.budget.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends BudgetFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetClient<Budget>, Prisma__BudgetClient<BudgetGetPayload<T>>>
+    ): Prisma__BudgetClient<BudgetGetPayload<T>>
 
     /**
      * Count the number of Budgets.
@@ -8972,7 +9214,7 @@ export namespace Prisma {
     **/
     count<T extends BudgetCountArgs>(
       args?: Subset<T, BudgetCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -9004,7 +9246,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BudgetAggregateArgs>(args: Subset<T, BudgetAggregateArgs>): PrismaPromise<GetBudgetAggregateType<T>>
+    aggregate<T extends BudgetAggregateArgs>(args: Subset<T, BudgetAggregateArgs>): Prisma.PrismaPromise<GetBudgetAggregateType<T>>
 
     /**
      * Group by Budget.
@@ -9081,7 +9323,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BudgetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BudgetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -9090,10 +9333,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BudgetClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__BudgetClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -9104,14 +9345,14 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
-    envelopes<T extends BudgetEnvelopeFindManyArgs = {}>(args?: Subset<T, BudgetEnvelopeFindManyArgs>): CheckSelect<T, PrismaPromise<Array<BudgetEnvelope>>, PrismaPromise<Array<BudgetEnvelopeGetPayload<T>>>>;
+    envelopes<T extends Budget$envelopesArgs= {}>(args?: Subset<T, Budget$envelopesArgs>): Prisma.PrismaPromise<Array<BudgetEnvelopeGetPayload<T>>| Null>;
 
-    income<T extends IncomeFindManyArgs = {}>(args?: Subset<T, IncomeFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Income>>, PrismaPromise<Array<IncomeGetPayload<T>>>>;
+    income<T extends Budget$incomeArgs= {}>(args?: Subset<T, Budget$incomeArgs>): Prisma.PrismaPromise<Array<IncomeGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -9136,6 +9377,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -9144,23 +9387,20 @@ export namespace Prisma {
   export type BudgetFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * Filter, which Budget to fetch.
-     * 
-    **/
+     */
     where: BudgetWhereUniqueInput
   }
 
   /**
-   * Budget: findUnique
+   * Budget findUnique
    */
   export interface BudgetFindUniqueArgs extends BudgetFindUniqueArgsBase {
    /**
@@ -9172,63 +9412,74 @@ export namespace Prisma {
       
 
   /**
+   * Budget findUniqueOrThrow
+   */
+  export type BudgetFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetInclude | null
+    /**
+     * Filter, which Budget to fetch.
+     */
+    where: BudgetWhereUniqueInput
+  }
+
+
+  /**
    * Budget base type for findFirst actions
    */
   export type BudgetFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * Filter, which Budget to fetch.
-     * 
-    **/
+     */
     where?: BudgetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Budgets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Budgets.
-     * 
-    **/
+     */
     cursor?: BudgetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Budgets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Budgets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Budgets.
-     * 
-    **/
+     */
     distinct?: Enumerable<BudgetScalarFieldEnum>
   }
 
   /**
-   * Budget: findFirst
+   * Budget findFirst
    */
   export interface BudgetFindFirstArgs extends BudgetFindFirstArgsBase {
    /**
@@ -9240,51 +9491,93 @@ export namespace Prisma {
       
 
   /**
-   * Budget findMany
+   * Budget findFirstOrThrow
    */
-  export type BudgetFindManyArgs = {
+  export type BudgetFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
-     * Filter, which Budgets to fetch.
-     * 
-    **/
+     * Filter, which Budget to fetch.
+     */
     where?: BudgetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Budgets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Budgets.
-     * 
-    **/
+     * Sets the position for searching for Budgets.
+     */
     cursor?: BudgetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Budgets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Budgets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Budgets.
+     */
+    distinct?: Enumerable<BudgetScalarFieldEnum>
+  }
+
+
+  /**
+   * Budget findMany
+   */
+  export type BudgetFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetInclude | null
+    /**
+     * Filter, which Budgets to fetch.
+     */
+    where?: BudgetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Budgets to fetch.
+     */
+    orderBy?: Enumerable<BudgetOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Budgets.
+     */
+    cursor?: BudgetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Budgets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Budgets.
+     */
     skip?: number
     distinct?: Enumerable<BudgetScalarFieldEnum>
   }
@@ -9296,18 +9589,15 @@ export namespace Prisma {
   export type BudgetCreateArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * The data needed to create a Budget.
-     * 
-    **/
+     */
     data: XOR<BudgetCreateInput, BudgetUncheckedCreateInput>
   }
 
@@ -9318,8 +9608,7 @@ export namespace Prisma {
   export type BudgetCreateManyArgs = {
     /**
      * The data used to create many Budgets.
-     * 
-    **/
+     */
     data: Enumerable<BudgetCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -9331,23 +9620,19 @@ export namespace Prisma {
   export type BudgetUpdateArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * The data needed to update a Budget.
-     * 
-    **/
+     */
     data: XOR<BudgetUpdateInput, BudgetUncheckedUpdateInput>
     /**
      * Choose, which Budget to update.
-     * 
-    **/
+     */
     where: BudgetWhereUniqueInput
   }
 
@@ -9358,13 +9643,11 @@ export namespace Prisma {
   export type BudgetUpdateManyArgs = {
     /**
      * The data used to update Budgets.
-     * 
-    **/
+     */
     data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyInput>
     /**
      * Filter which Budgets to update
-     * 
-    **/
+     */
     where?: BudgetWhereInput
   }
 
@@ -9375,28 +9658,23 @@ export namespace Prisma {
   export type BudgetUpsertArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * The filter to search for the Budget to update in case it exists.
-     * 
-    **/
+     */
     where: BudgetWhereUniqueInput
     /**
      * In case the Budget found by the `where` argument doesn't exist, create a new Budget with this data.
-     * 
-    **/
+     */
     create: XOR<BudgetCreateInput, BudgetUncheckedCreateInput>
     /**
      * In case the Budget was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<BudgetUpdateInput, BudgetUncheckedUpdateInput>
   }
 
@@ -9407,18 +9685,15 @@ export namespace Prisma {
   export type BudgetDeleteArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
     /**
      * Filter which Budget to delete.
-     * 
-    **/
+     */
     where: BudgetWhereUniqueInput
   }
 
@@ -9429,23 +9704,52 @@ export namespace Prisma {
   export type BudgetDeleteManyArgs = {
     /**
      * Filter which Budgets to delete
-     * 
-    **/
+     */
     where?: BudgetWhereInput
   }
 
 
   /**
-   * Budget: findUniqueOrThrow
+   * Budget.envelopes
    */
-  export type BudgetFindUniqueOrThrowArgs = BudgetFindUniqueArgsBase
-      
+  export type Budget$envelopesArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetEnvelope
+     */
+    select?: BudgetEnvelopeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetEnvelopeInclude | null
+    where?: BudgetEnvelopeWhereInput
+    orderBy?: Enumerable<BudgetEnvelopeOrderByWithRelationInput>
+    cursor?: BudgetEnvelopeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BudgetEnvelopeScalarFieldEnum>
+  }
+
 
   /**
-   * Budget: findFirstOrThrow
+   * Budget.income
    */
-  export type BudgetFindFirstOrThrowArgs = BudgetFindFirstArgsBase
-      
+  export type Budget$incomeArgs = {
+    /**
+     * Select specific fields to fetch from the Income
+     */
+    select?: IncomeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: IncomeInclude | null
+    where?: IncomeWhereInput
+    orderBy?: Enumerable<IncomeOrderByWithRelationInput>
+    cursor?: IncomeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<IncomeScalarFieldEnum>
+  }
+
 
   /**
    * Budget without action
@@ -9453,13 +9757,11 @@ export namespace Prisma {
   export type BudgetArgs = {
     /**
      * Select specific fields to fetch from the Budget
-     * 
-    **/
+     */
     select?: BudgetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetInclude | null
   }
 
@@ -9554,36 +9856,31 @@ export namespace Prisma {
   export type BudgetEnvelopeAggregateArgs = {
     /**
      * Filter which BudgetEnvelope to aggregate.
-     * 
-    **/
+     */
     where?: BudgetEnvelopeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetEnvelopes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetEnvelopeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: BudgetEnvelopeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetEnvelopes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetEnvelopes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -9619,7 +9916,7 @@ export namespace Prisma {
   export type BudgetEnvelopeGroupByArgs = {
     where?: BudgetEnvelopeWhereInput
     orderBy?: Enumerable<BudgetEnvelopeOrderByWithAggregationInput>
-    by: Array<BudgetEnvelopeScalarFieldEnum>
+    by: BudgetEnvelopeScalarFieldEnum[]
     having?: BudgetEnvelopeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -9644,7 +9941,7 @@ export namespace Prisma {
     _max: BudgetEnvelopeMaxAggregateOutputType | null
   }
 
-  type GetBudgetEnvelopeGroupByPayload<T extends BudgetEnvelopeGroupByArgs> = PrismaPromise<
+  type GetBudgetEnvelopeGroupByPayload<T extends BudgetEnvelopeGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<BudgetEnvelopeGroupByOutputType, T['by']> &
         {
@@ -9663,7 +9960,7 @@ export namespace Prisma {
     budgetId?: boolean
     name?: boolean
     budget?: boolean | BudgetArgs
-    transactions?: boolean | BudgetTransactionFindManyArgs
+    transactions?: boolean | BudgetEnvelope$transactionsArgs
     remainingAmount?: boolean
     totalAmount?: boolean
     createdAt?: boolean
@@ -9673,45 +9970,41 @@ export namespace Prisma {
     _count?: boolean | BudgetEnvelopeCountOutputTypeArgs
   }
 
+
   export type BudgetEnvelopeInclude = {
     budget?: boolean | BudgetArgs
-    transactions?: boolean | BudgetTransactionFindManyArgs
+    transactions?: boolean | BudgetEnvelope$transactionsArgs
     _count?: boolean | BudgetEnvelopeCountOutputTypeArgs
   }
 
-  export type BudgetEnvelopeGetPayload<
-    S extends boolean | null | undefined | BudgetEnvelopeArgs,
-    U = keyof S
-      > = S extends true
-        ? BudgetEnvelope
-    : S extends undefined
-    ? never
-    : S extends BudgetEnvelopeArgs | BudgetEnvelopeFindManyArgs
-    ?'include' extends U
+  export type BudgetEnvelopeGetPayload<S extends boolean | null | undefined | BudgetEnvelopeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BudgetEnvelope :
+    S extends undefined ? never :
+    S extends { include: any } & (BudgetEnvelopeArgs | BudgetEnvelopeFindManyArgs)
     ? BudgetEnvelope  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'budget' ? BudgetGetPayload<S['include'][P]> :
         P extends 'transactions' ? Array < BudgetTransactionGetPayload<S['include'][P]>>  :
         P extends '_count' ? BudgetEnvelopeCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (BudgetEnvelopeArgs | BudgetEnvelopeFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'budget' ? BudgetGetPayload<S['select'][P]> :
         P extends 'transactions' ? Array < BudgetTransactionGetPayload<S['select'][P]>>  :
         P extends '_count' ? BudgetEnvelopeCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BudgetEnvelope ? BudgetEnvelope[P] : never
   } 
-    : BudgetEnvelope
-  : BudgetEnvelope
+      : BudgetEnvelope
 
 
-  type BudgetEnvelopeCountArgs = Merge<
+  type BudgetEnvelopeCountArgs = 
     Omit<BudgetEnvelopeFindManyArgs, 'select' | 'include'> & {
       select?: BudgetEnvelopeCountAggregateInputType | true
     }
-  >
 
-  export interface BudgetEnvelopeDelegate<GlobalRejectSettings> {
+  export interface BudgetEnvelopeDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one BudgetEnvelope that matches the filter.
      * @param {BudgetEnvelopeFindUniqueArgs} args - Arguments to find a BudgetEnvelope
@@ -9725,7 +10018,23 @@ export namespace Prisma {
     **/
     findUnique<T extends BudgetEnvelopeFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, BudgetEnvelopeFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BudgetEnvelope'> extends True ? CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>> : CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope | null >, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BudgetEnvelope'> extends True ? Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>> : Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null, null>
+
+    /**
+     * Find one BudgetEnvelope that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BudgetEnvelopeFindUniqueOrThrowArgs} args - Arguments to find a BudgetEnvelope
+     * @example
+     * // Get one BudgetEnvelope
+     * const budgetEnvelope = await prisma.budgetEnvelope.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BudgetEnvelopeFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BudgetEnvelopeFindUniqueOrThrowArgs>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Find the first BudgetEnvelope that matches the filter.
@@ -9742,7 +10051,25 @@ export namespace Prisma {
     **/
     findFirst<T extends BudgetEnvelopeFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, BudgetEnvelopeFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BudgetEnvelope'> extends True ? CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>> : CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope | null >, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BudgetEnvelope'> extends True ? Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>> : Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null, null>
+
+    /**
+     * Find the first BudgetEnvelope that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetEnvelopeFindFirstOrThrowArgs} args - Arguments to find a BudgetEnvelope
+     * @example
+     * // Get one BudgetEnvelope
+     * const budgetEnvelope = await prisma.budgetEnvelope.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BudgetEnvelopeFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BudgetEnvelopeFindFirstOrThrowArgs>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Find zero or more BudgetEnvelopes that matches the filter.
@@ -9762,7 +10089,7 @@ export namespace Prisma {
     **/
     findMany<T extends BudgetEnvelopeFindManyArgs>(
       args?: SelectSubset<T, BudgetEnvelopeFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<BudgetEnvelope>>, PrismaPromise<Array<BudgetEnvelopeGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<BudgetEnvelopeGetPayload<T>>>
 
     /**
      * Create a BudgetEnvelope.
@@ -9778,7 +10105,7 @@ export namespace Prisma {
     **/
     create<T extends BudgetEnvelopeCreateArgs>(
       args: SelectSubset<T, BudgetEnvelopeCreateArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Create many BudgetEnvelopes.
@@ -9794,7 +10121,7 @@ export namespace Prisma {
     **/
     createMany<T extends BudgetEnvelopeCreateManyArgs>(
       args?: SelectSubset<T, BudgetEnvelopeCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a BudgetEnvelope.
@@ -9810,7 +10137,7 @@ export namespace Prisma {
     **/
     delete<T extends BudgetEnvelopeDeleteArgs>(
       args: SelectSubset<T, BudgetEnvelopeDeleteArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Update one BudgetEnvelope.
@@ -9829,7 +10156,7 @@ export namespace Prisma {
     **/
     update<T extends BudgetEnvelopeUpdateArgs>(
       args: SelectSubset<T, BudgetEnvelopeUpdateArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Delete zero or more BudgetEnvelopes.
@@ -9845,7 +10172,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends BudgetEnvelopeDeleteManyArgs>(
       args?: SelectSubset<T, BudgetEnvelopeDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more BudgetEnvelopes.
@@ -9866,7 +10193,7 @@ export namespace Prisma {
     **/
     updateMany<T extends BudgetEnvelopeUpdateManyArgs>(
       args: SelectSubset<T, BudgetEnvelopeUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one BudgetEnvelope.
@@ -9887,41 +10214,7 @@ export namespace Prisma {
     **/
     upsert<T extends BudgetEnvelopeUpsertArgs>(
       args: SelectSubset<T, BudgetEnvelopeUpsertArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
-
-    /**
-     * Find one BudgetEnvelope that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {BudgetEnvelopeFindUniqueOrThrowArgs} args - Arguments to find a BudgetEnvelope
-     * @example
-     * // Get one BudgetEnvelope
-     * const budgetEnvelope = await prisma.budgetEnvelope.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends BudgetEnvelopeFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
-
-    /**
-     * Find the first BudgetEnvelope that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BudgetEnvelopeFindFirstOrThrowArgs} args - Arguments to find a BudgetEnvelope
-     * @example
-     * // Get one BudgetEnvelope
-     * const budgetEnvelope = await prisma.budgetEnvelope.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends BudgetEnvelopeFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope>, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>>
+    ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
 
     /**
      * Count the number of BudgetEnvelopes.
@@ -9938,7 +10231,7 @@ export namespace Prisma {
     **/
     count<T extends BudgetEnvelopeCountArgs>(
       args?: Subset<T, BudgetEnvelopeCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -9970,7 +10263,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BudgetEnvelopeAggregateArgs>(args: Subset<T, BudgetEnvelopeAggregateArgs>): PrismaPromise<GetBudgetEnvelopeAggregateType<T>>
+    aggregate<T extends BudgetEnvelopeAggregateArgs>(args: Subset<T, BudgetEnvelopeAggregateArgs>): Prisma.PrismaPromise<GetBudgetEnvelopeAggregateType<T>>
 
     /**
      * Group by BudgetEnvelope.
@@ -10047,7 +10340,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BudgetEnvelopeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetEnvelopeGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BudgetEnvelopeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetEnvelopeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -10056,10 +10350,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BudgetEnvelopeClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__BudgetEnvelopeClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -10070,12 +10362,12 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    budget<T extends BudgetArgs = {}>(args?: Subset<T, BudgetArgs>): CheckSelect<T, Prisma__BudgetClient<Budget | null >, Prisma__BudgetClient<BudgetGetPayload<T> | null >>;
+    budget<T extends BudgetArgs= {}>(args?: Subset<T, BudgetArgs>): Prisma__BudgetClient<BudgetGetPayload<T> | Null>;
 
-    transactions<T extends BudgetTransactionFindManyArgs = {}>(args?: Subset<T, BudgetTransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<BudgetTransaction>>, PrismaPromise<Array<BudgetTransactionGetPayload<T>>>>;
+    transactions<T extends BudgetEnvelope$transactionsArgs= {}>(args?: Subset<T, BudgetEnvelope$transactionsArgs>): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -10100,6 +10392,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -10108,23 +10402,20 @@ export namespace Prisma {
   export type BudgetEnvelopeFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * Filter, which BudgetEnvelope to fetch.
-     * 
-    **/
+     */
     where: BudgetEnvelopeWhereUniqueInput
   }
 
   /**
-   * BudgetEnvelope: findUnique
+   * BudgetEnvelope findUnique
    */
   export interface BudgetEnvelopeFindUniqueArgs extends BudgetEnvelopeFindUniqueArgsBase {
    /**
@@ -10136,63 +10427,74 @@ export namespace Prisma {
       
 
   /**
+   * BudgetEnvelope findUniqueOrThrow
+   */
+  export type BudgetEnvelopeFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetEnvelope
+     */
+    select?: BudgetEnvelopeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetEnvelopeInclude | null
+    /**
+     * Filter, which BudgetEnvelope to fetch.
+     */
+    where: BudgetEnvelopeWhereUniqueInput
+  }
+
+
+  /**
    * BudgetEnvelope base type for findFirst actions
    */
   export type BudgetEnvelopeFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * Filter, which BudgetEnvelope to fetch.
-     * 
-    **/
+     */
     where?: BudgetEnvelopeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetEnvelopes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetEnvelopeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for BudgetEnvelopes.
-     * 
-    **/
+     */
     cursor?: BudgetEnvelopeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetEnvelopes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetEnvelopes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of BudgetEnvelopes.
-     * 
-    **/
+     */
     distinct?: Enumerable<BudgetEnvelopeScalarFieldEnum>
   }
 
   /**
-   * BudgetEnvelope: findFirst
+   * BudgetEnvelope findFirst
    */
   export interface BudgetEnvelopeFindFirstArgs extends BudgetEnvelopeFindFirstArgsBase {
    /**
@@ -10204,51 +10506,93 @@ export namespace Prisma {
       
 
   /**
-   * BudgetEnvelope findMany
+   * BudgetEnvelope findFirstOrThrow
    */
-  export type BudgetEnvelopeFindManyArgs = {
+  export type BudgetEnvelopeFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
-     * Filter, which BudgetEnvelopes to fetch.
-     * 
-    **/
+     * Filter, which BudgetEnvelope to fetch.
+     */
     where?: BudgetEnvelopeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetEnvelopes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetEnvelopeOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing BudgetEnvelopes.
-     * 
-    **/
+     * Sets the position for searching for BudgetEnvelopes.
+     */
     cursor?: BudgetEnvelopeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetEnvelopes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetEnvelopes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of BudgetEnvelopes.
+     */
+    distinct?: Enumerable<BudgetEnvelopeScalarFieldEnum>
+  }
+
+
+  /**
+   * BudgetEnvelope findMany
+   */
+  export type BudgetEnvelopeFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetEnvelope
+     */
+    select?: BudgetEnvelopeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetEnvelopeInclude | null
+    /**
+     * Filter, which BudgetEnvelopes to fetch.
+     */
+    where?: BudgetEnvelopeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BudgetEnvelopes to fetch.
+     */
+    orderBy?: Enumerable<BudgetEnvelopeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BudgetEnvelopes.
+     */
+    cursor?: BudgetEnvelopeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BudgetEnvelopes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BudgetEnvelopes.
+     */
     skip?: number
     distinct?: Enumerable<BudgetEnvelopeScalarFieldEnum>
   }
@@ -10260,18 +10604,15 @@ export namespace Prisma {
   export type BudgetEnvelopeCreateArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * The data needed to create a BudgetEnvelope.
-     * 
-    **/
+     */
     data: XOR<BudgetEnvelopeCreateInput, BudgetEnvelopeUncheckedCreateInput>
   }
 
@@ -10282,8 +10623,7 @@ export namespace Prisma {
   export type BudgetEnvelopeCreateManyArgs = {
     /**
      * The data used to create many BudgetEnvelopes.
-     * 
-    **/
+     */
     data: Enumerable<BudgetEnvelopeCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -10295,23 +10635,19 @@ export namespace Prisma {
   export type BudgetEnvelopeUpdateArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * The data needed to update a BudgetEnvelope.
-     * 
-    **/
+     */
     data: XOR<BudgetEnvelopeUpdateInput, BudgetEnvelopeUncheckedUpdateInput>
     /**
      * Choose, which BudgetEnvelope to update.
-     * 
-    **/
+     */
     where: BudgetEnvelopeWhereUniqueInput
   }
 
@@ -10322,13 +10658,11 @@ export namespace Prisma {
   export type BudgetEnvelopeUpdateManyArgs = {
     /**
      * The data used to update BudgetEnvelopes.
-     * 
-    **/
+     */
     data: XOR<BudgetEnvelopeUpdateManyMutationInput, BudgetEnvelopeUncheckedUpdateManyInput>
     /**
      * Filter which BudgetEnvelopes to update
-     * 
-    **/
+     */
     where?: BudgetEnvelopeWhereInput
   }
 
@@ -10339,28 +10673,23 @@ export namespace Prisma {
   export type BudgetEnvelopeUpsertArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * The filter to search for the BudgetEnvelope to update in case it exists.
-     * 
-    **/
+     */
     where: BudgetEnvelopeWhereUniqueInput
     /**
      * In case the BudgetEnvelope found by the `where` argument doesn't exist, create a new BudgetEnvelope with this data.
-     * 
-    **/
+     */
     create: XOR<BudgetEnvelopeCreateInput, BudgetEnvelopeUncheckedCreateInput>
     /**
      * In case the BudgetEnvelope was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<BudgetEnvelopeUpdateInput, BudgetEnvelopeUncheckedUpdateInput>
   }
 
@@ -10371,18 +10700,15 @@ export namespace Prisma {
   export type BudgetEnvelopeDeleteArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
     /**
      * Filter which BudgetEnvelope to delete.
-     * 
-    **/
+     */
     where: BudgetEnvelopeWhereUniqueInput
   }
 
@@ -10393,23 +10719,31 @@ export namespace Prisma {
   export type BudgetEnvelopeDeleteManyArgs = {
     /**
      * Filter which BudgetEnvelopes to delete
-     * 
-    **/
+     */
     where?: BudgetEnvelopeWhereInput
   }
 
 
   /**
-   * BudgetEnvelope: findUniqueOrThrow
+   * BudgetEnvelope.transactions
    */
-  export type BudgetEnvelopeFindUniqueOrThrowArgs = BudgetEnvelopeFindUniqueArgsBase
-      
+  export type BudgetEnvelope$transactionsArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetTransaction
+     */
+    select?: BudgetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetTransactionInclude | null
+    where?: BudgetTransactionWhereInput
+    orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
+    cursor?: BudgetTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BudgetTransactionScalarFieldEnum>
+  }
 
-  /**
-   * BudgetEnvelope: findFirstOrThrow
-   */
-  export type BudgetEnvelopeFindFirstOrThrowArgs = BudgetEnvelopeFindFirstArgsBase
-      
 
   /**
    * BudgetEnvelope without action
@@ -10417,13 +10751,11 @@ export namespace Prisma {
   export type BudgetEnvelopeArgs = {
     /**
      * Select specific fields to fetch from the BudgetEnvelope
-     * 
-    **/
+     */
     select?: BudgetEnvelopeSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetEnvelopeInclude | null
   }
 
@@ -10620,36 +10952,31 @@ export namespace Prisma {
   export type BudgetTransactionAggregateArgs = {
     /**
      * Filter which BudgetTransaction to aggregate.
-     * 
-    **/
+     */
     where?: BudgetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: BudgetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetTransactions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -10685,7 +11012,7 @@ export namespace Prisma {
   export type BudgetTransactionGroupByArgs = {
     where?: BudgetTransactionWhereInput
     orderBy?: Enumerable<BudgetTransactionOrderByWithAggregationInput>
-    by: Array<BudgetTransactionScalarFieldEnum>
+    by: BudgetTransactionScalarFieldEnum[]
     having?: BudgetTransactionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -10727,7 +11054,7 @@ export namespace Prisma {
     _max: BudgetTransactionMaxAggregateOutputType | null
   }
 
-  type GetBudgetTransactionGroupByPayload<T extends BudgetTransactionGroupByArgs> = PrismaPromise<
+  type GetBudgetTransactionGroupByPayload<T extends BudgetTransactionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<BudgetTransactionGroupByOutputType, T['by']> &
         {
@@ -10772,42 +11099,38 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type BudgetTransactionInclude = {
     budgetEnvelope?: boolean | BudgetEnvelopeArgs
     user?: boolean | UserArgs
   }
 
-  export type BudgetTransactionGetPayload<
-    S extends boolean | null | undefined | BudgetTransactionArgs,
-    U = keyof S
-      > = S extends true
-        ? BudgetTransaction
-    : S extends undefined
-    ? never
-    : S extends BudgetTransactionArgs | BudgetTransactionFindManyArgs
-    ?'include' extends U
+  export type BudgetTransactionGetPayload<S extends boolean | null | undefined | BudgetTransactionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BudgetTransaction :
+    S extends undefined ? never :
+    S extends { include: any } & (BudgetTransactionArgs | BudgetTransactionFindManyArgs)
     ? BudgetTransaction  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['include'][P]> | null :
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (BudgetTransactionArgs | BudgetTransactionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'budgetEnvelope' ? BudgetEnvelopeGetPayload<S['select'][P]> | null :
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof BudgetTransaction ? BudgetTransaction[P] : never
   } 
-    : BudgetTransaction
-  : BudgetTransaction
+      : BudgetTransaction
 
 
-  type BudgetTransactionCountArgs = Merge<
+  type BudgetTransactionCountArgs = 
     Omit<BudgetTransactionFindManyArgs, 'select' | 'include'> & {
       select?: BudgetTransactionCountAggregateInputType | true
     }
-  >
 
-  export interface BudgetTransactionDelegate<GlobalRejectSettings> {
+  export interface BudgetTransactionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one BudgetTransaction that matches the filter.
      * @param {BudgetTransactionFindUniqueArgs} args - Arguments to find a BudgetTransaction
@@ -10821,7 +11144,23 @@ export namespace Prisma {
     **/
     findUnique<T extends BudgetTransactionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, BudgetTransactionFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BudgetTransaction'> extends True ? CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>> : CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction | null >, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BudgetTransaction'> extends True ? Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>> : Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T> | null, null>
+
+    /**
+     * Find one BudgetTransaction that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BudgetTransactionFindUniqueOrThrowArgs} args - Arguments to find a BudgetTransaction
+     * @example
+     * // Get one BudgetTransaction
+     * const budgetTransaction = await prisma.budgetTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BudgetTransactionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BudgetTransactionFindUniqueOrThrowArgs>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Find the first BudgetTransaction that matches the filter.
@@ -10838,7 +11177,25 @@ export namespace Prisma {
     **/
     findFirst<T extends BudgetTransactionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, BudgetTransactionFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BudgetTransaction'> extends True ? CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>> : CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction | null >, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BudgetTransaction'> extends True ? Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>> : Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T> | null, null>
+
+    /**
+     * Find the first BudgetTransaction that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BudgetTransactionFindFirstOrThrowArgs} args - Arguments to find a BudgetTransaction
+     * @example
+     * // Get one BudgetTransaction
+     * const budgetTransaction = await prisma.budgetTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BudgetTransactionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BudgetTransactionFindFirstOrThrowArgs>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Find zero or more BudgetTransactions that matches the filter.
@@ -10858,7 +11215,7 @@ export namespace Prisma {
     **/
     findMany<T extends BudgetTransactionFindManyArgs>(
       args?: SelectSubset<T, BudgetTransactionFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<BudgetTransaction>>, PrismaPromise<Array<BudgetTransactionGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>>>
 
     /**
      * Create a BudgetTransaction.
@@ -10874,7 +11231,7 @@ export namespace Prisma {
     **/
     create<T extends BudgetTransactionCreateArgs>(
       args: SelectSubset<T, BudgetTransactionCreateArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Create many BudgetTransactions.
@@ -10890,7 +11247,7 @@ export namespace Prisma {
     **/
     createMany<T extends BudgetTransactionCreateManyArgs>(
       args?: SelectSubset<T, BudgetTransactionCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a BudgetTransaction.
@@ -10906,7 +11263,7 @@ export namespace Prisma {
     **/
     delete<T extends BudgetTransactionDeleteArgs>(
       args: SelectSubset<T, BudgetTransactionDeleteArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Update one BudgetTransaction.
@@ -10925,7 +11282,7 @@ export namespace Prisma {
     **/
     update<T extends BudgetTransactionUpdateArgs>(
       args: SelectSubset<T, BudgetTransactionUpdateArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Delete zero or more BudgetTransactions.
@@ -10941,7 +11298,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends BudgetTransactionDeleteManyArgs>(
       args?: SelectSubset<T, BudgetTransactionDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more BudgetTransactions.
@@ -10962,7 +11319,7 @@ export namespace Prisma {
     **/
     updateMany<T extends BudgetTransactionUpdateManyArgs>(
       args: SelectSubset<T, BudgetTransactionUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one BudgetTransaction.
@@ -10983,41 +11340,7 @@ export namespace Prisma {
     **/
     upsert<T extends BudgetTransactionUpsertArgs>(
       args: SelectSubset<T, BudgetTransactionUpsertArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
-
-    /**
-     * Find one BudgetTransaction that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {BudgetTransactionFindUniqueOrThrowArgs} args - Arguments to find a BudgetTransaction
-     * @example
-     * // Get one BudgetTransaction
-     * const budgetTransaction = await prisma.budgetTransaction.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends BudgetTransactionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetTransactionFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
-
-    /**
-     * Find the first BudgetTransaction that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BudgetTransactionFindFirstOrThrowArgs} args - Arguments to find a BudgetTransaction
-     * @example
-     * // Get one BudgetTransaction
-     * const budgetTransaction = await prisma.budgetTransaction.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends BudgetTransactionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetTransactionFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__BudgetTransactionClient<BudgetTransaction>, Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>>
+    ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
 
     /**
      * Count the number of BudgetTransactions.
@@ -11034,7 +11357,7 @@ export namespace Prisma {
     **/
     count<T extends BudgetTransactionCountArgs>(
       args?: Subset<T, BudgetTransactionCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -11066,7 +11389,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BudgetTransactionAggregateArgs>(args: Subset<T, BudgetTransactionAggregateArgs>): PrismaPromise<GetBudgetTransactionAggregateType<T>>
+    aggregate<T extends BudgetTransactionAggregateArgs>(args: Subset<T, BudgetTransactionAggregateArgs>): Prisma.PrismaPromise<GetBudgetTransactionAggregateType<T>>
 
     /**
      * Group by BudgetTransaction.
@@ -11143,7 +11466,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BudgetTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetTransactionGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BudgetTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBudgetTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -11152,10 +11476,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BudgetTransactionClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__BudgetTransactionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -11166,12 +11488,12 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    budgetEnvelope<T extends BudgetEnvelopeArgs = {}>(args?: Subset<T, BudgetEnvelopeArgs>): CheckSelect<T, Prisma__BudgetEnvelopeClient<BudgetEnvelope | null >, Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null >>;
+    budgetEnvelope<T extends BudgetEnvelopeArgs= {}>(args?: Subset<T, BudgetEnvelopeArgs>): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | Null>;
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -11196,6 +11518,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -11204,23 +11528,20 @@ export namespace Prisma {
   export type BudgetTransactionFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * Filter, which BudgetTransaction to fetch.
-     * 
-    **/
+     */
     where: BudgetTransactionWhereUniqueInput
   }
 
   /**
-   * BudgetTransaction: findUnique
+   * BudgetTransaction findUnique
    */
   export interface BudgetTransactionFindUniqueArgs extends BudgetTransactionFindUniqueArgsBase {
    /**
@@ -11232,63 +11553,74 @@ export namespace Prisma {
       
 
   /**
+   * BudgetTransaction findUniqueOrThrow
+   */
+  export type BudgetTransactionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetTransaction
+     */
+    select?: BudgetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetTransactionInclude | null
+    /**
+     * Filter, which BudgetTransaction to fetch.
+     */
+    where: BudgetTransactionWhereUniqueInput
+  }
+
+
+  /**
    * BudgetTransaction base type for findFirst actions
    */
   export type BudgetTransactionFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * Filter, which BudgetTransaction to fetch.
-     * 
-    **/
+     */
     where?: BudgetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for BudgetTransactions.
-     * 
-    **/
+     */
     cursor?: BudgetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetTransactions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of BudgetTransactions.
-     * 
-    **/
+     */
     distinct?: Enumerable<BudgetTransactionScalarFieldEnum>
   }
 
   /**
-   * BudgetTransaction: findFirst
+   * BudgetTransaction findFirst
    */
   export interface BudgetTransactionFindFirstArgs extends BudgetTransactionFindFirstArgsBase {
    /**
@@ -11300,51 +11632,93 @@ export namespace Prisma {
       
 
   /**
-   * BudgetTransaction findMany
+   * BudgetTransaction findFirstOrThrow
    */
-  export type BudgetTransactionFindManyArgs = {
+  export type BudgetTransactionFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
-     * Filter, which BudgetTransactions to fetch.
-     * 
-    **/
+     * Filter, which BudgetTransaction to fetch.
+     */
     where?: BudgetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of BudgetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing BudgetTransactions.
-     * 
-    **/
+     * Sets the position for searching for BudgetTransactions.
+     */
     cursor?: BudgetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` BudgetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` BudgetTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of BudgetTransactions.
+     */
+    distinct?: Enumerable<BudgetTransactionScalarFieldEnum>
+  }
+
+
+  /**
+   * BudgetTransaction findMany
+   */
+  export type BudgetTransactionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the BudgetTransaction
+     */
+    select?: BudgetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BudgetTransactionInclude | null
+    /**
+     * Filter, which BudgetTransactions to fetch.
+     */
+    where?: BudgetTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BudgetTransactions to fetch.
+     */
+    orderBy?: Enumerable<BudgetTransactionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BudgetTransactions.
+     */
+    cursor?: BudgetTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BudgetTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BudgetTransactions.
+     */
     skip?: number
     distinct?: Enumerable<BudgetTransactionScalarFieldEnum>
   }
@@ -11356,18 +11730,15 @@ export namespace Prisma {
   export type BudgetTransactionCreateArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * The data needed to create a BudgetTransaction.
-     * 
-    **/
+     */
     data: XOR<BudgetTransactionCreateInput, BudgetTransactionUncheckedCreateInput>
   }
 
@@ -11378,8 +11749,7 @@ export namespace Prisma {
   export type BudgetTransactionCreateManyArgs = {
     /**
      * The data used to create many BudgetTransactions.
-     * 
-    **/
+     */
     data: Enumerable<BudgetTransactionCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -11391,23 +11761,19 @@ export namespace Prisma {
   export type BudgetTransactionUpdateArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * The data needed to update a BudgetTransaction.
-     * 
-    **/
+     */
     data: XOR<BudgetTransactionUpdateInput, BudgetTransactionUncheckedUpdateInput>
     /**
      * Choose, which BudgetTransaction to update.
-     * 
-    **/
+     */
     where: BudgetTransactionWhereUniqueInput
   }
 
@@ -11418,13 +11784,11 @@ export namespace Prisma {
   export type BudgetTransactionUpdateManyArgs = {
     /**
      * The data used to update BudgetTransactions.
-     * 
-    **/
+     */
     data: XOR<BudgetTransactionUpdateManyMutationInput, BudgetTransactionUncheckedUpdateManyInput>
     /**
      * Filter which BudgetTransactions to update
-     * 
-    **/
+     */
     where?: BudgetTransactionWhereInput
   }
 
@@ -11435,28 +11799,23 @@ export namespace Prisma {
   export type BudgetTransactionUpsertArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * The filter to search for the BudgetTransaction to update in case it exists.
-     * 
-    **/
+     */
     where: BudgetTransactionWhereUniqueInput
     /**
      * In case the BudgetTransaction found by the `where` argument doesn't exist, create a new BudgetTransaction with this data.
-     * 
-    **/
+     */
     create: XOR<BudgetTransactionCreateInput, BudgetTransactionUncheckedCreateInput>
     /**
      * In case the BudgetTransaction was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<BudgetTransactionUpdateInput, BudgetTransactionUncheckedUpdateInput>
   }
 
@@ -11467,18 +11826,15 @@ export namespace Prisma {
   export type BudgetTransactionDeleteArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
     /**
      * Filter which BudgetTransaction to delete.
-     * 
-    **/
+     */
     where: BudgetTransactionWhereUniqueInput
   }
 
@@ -11489,23 +11845,10 @@ export namespace Prisma {
   export type BudgetTransactionDeleteManyArgs = {
     /**
      * Filter which BudgetTransactions to delete
-     * 
-    **/
+     */
     where?: BudgetTransactionWhereInput
   }
 
-
-  /**
-   * BudgetTransaction: findUniqueOrThrow
-   */
-  export type BudgetTransactionFindUniqueOrThrowArgs = BudgetTransactionFindUniqueArgsBase
-      
-
-  /**
-   * BudgetTransaction: findFirstOrThrow
-   */
-  export type BudgetTransactionFindFirstOrThrowArgs = BudgetTransactionFindFirstArgsBase
-      
 
   /**
    * BudgetTransaction without action
@@ -11513,13 +11856,11 @@ export namespace Prisma {
   export type BudgetTransactionArgs = {
     /**
      * Select specific fields to fetch from the BudgetTransaction
-     * 
-    **/
+     */
     select?: BudgetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: BudgetTransactionInclude | null
   }
 
@@ -11602,36 +11943,31 @@ export namespace Prisma {
   export type CustomAssetCategoryAggregateArgs = {
     /**
      * Filter which CustomAssetCategory to aggregate.
-     * 
-    **/
+     */
     where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CustomAssetCategories to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CustomAssetCategories from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CustomAssetCategories.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -11667,7 +12003,7 @@ export namespace Prisma {
   export type CustomAssetCategoryGroupByArgs = {
     where?: CustomAssetCategoryWhereInput
     orderBy?: Enumerable<CustomAssetCategoryOrderByWithAggregationInput>
-    by: Array<CustomAssetCategoryScalarFieldEnum>
+    by: CustomAssetCategoryScalarFieldEnum[]
     having?: CustomAssetCategoryScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -11690,7 +12026,7 @@ export namespace Prisma {
     _max: CustomAssetCategoryMaxAggregateOutputType | null
   }
 
-  type GetCustomAssetCategoryGroupByPayload<T extends CustomAssetCategoryGroupByArgs> = PrismaPromise<
+  type GetCustomAssetCategoryGroupByPayload<T extends CustomAssetCategoryGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CustomAssetCategoryGroupByOutputType, T['by']> &
         {
@@ -11712,46 +12048,42 @@ export namespace Prisma {
     updatedAt?: boolean
     deleted?: boolean
     deletedAt?: boolean
-    assets?: boolean | AssetFindManyArgs
+    assets?: boolean | CustomAssetCategory$assetsArgs
     _count?: boolean | CustomAssetCategoryCountOutputTypeArgs
   }
+
 
   export type CustomAssetCategoryInclude = {
-    assets?: boolean | AssetFindManyArgs
+    assets?: boolean | CustomAssetCategory$assetsArgs
     _count?: boolean | CustomAssetCategoryCountOutputTypeArgs
   }
 
-  export type CustomAssetCategoryGetPayload<
-    S extends boolean | null | undefined | CustomAssetCategoryArgs,
-    U = keyof S
-      > = S extends true
-        ? CustomAssetCategory
-    : S extends undefined
-    ? never
-    : S extends CustomAssetCategoryArgs | CustomAssetCategoryFindManyArgs
-    ?'include' extends U
+  export type CustomAssetCategoryGetPayload<S extends boolean | null | undefined | CustomAssetCategoryArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CustomAssetCategory :
+    S extends undefined ? never :
+    S extends { include: any } & (CustomAssetCategoryArgs | CustomAssetCategoryFindManyArgs)
     ? CustomAssetCategory  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'assets' ? Array < AssetGetPayload<S['include'][P]>>  :
         P extends '_count' ? CustomAssetCategoryCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CustomAssetCategoryArgs | CustomAssetCategoryFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'assets' ? Array < AssetGetPayload<S['select'][P]>>  :
         P extends '_count' ? CustomAssetCategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomAssetCategory ? CustomAssetCategory[P] : never
   } 
-    : CustomAssetCategory
-  : CustomAssetCategory
+      : CustomAssetCategory
 
 
-  type CustomAssetCategoryCountArgs = Merge<
+  type CustomAssetCategoryCountArgs = 
     Omit<CustomAssetCategoryFindManyArgs, 'select' | 'include'> & {
       select?: CustomAssetCategoryCountAggregateInputType | true
     }
-  >
 
-  export interface CustomAssetCategoryDelegate<GlobalRejectSettings> {
+  export interface CustomAssetCategoryDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one CustomAssetCategory that matches the filter.
      * @param {CustomAssetCategoryFindUniqueArgs} args - Arguments to find a CustomAssetCategory
@@ -11765,7 +12097,23 @@ export namespace Prisma {
     **/
     findUnique<T extends CustomAssetCategoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CustomAssetCategoryFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CustomAssetCategory'> extends True ? CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CustomAssetCategory'> extends True ? Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>> : Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null, null>
+
+    /**
+     * Find one CustomAssetCategory that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CustomAssetCategoryFindUniqueOrThrowArgs} args - Arguments to find a CustomAssetCategory
+     * @example
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CustomAssetCategoryFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryFindUniqueOrThrowArgs>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Find the first CustomAssetCategory that matches the filter.
@@ -11782,7 +12130,25 @@ export namespace Prisma {
     **/
     findFirst<T extends CustomAssetCategoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CustomAssetCategoryFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CustomAssetCategory'> extends True ? CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>> : CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CustomAssetCategory'> extends True ? Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>> : Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null, null>
+
+    /**
+     * Find the first CustomAssetCategory that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomAssetCategoryFindFirstOrThrowArgs} args - Arguments to find a CustomAssetCategory
+     * @example
+     * // Get one CustomAssetCategory
+     * const customAssetCategory = await prisma.customAssetCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CustomAssetCategoryFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CustomAssetCategoryFindFirstOrThrowArgs>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Find zero or more CustomAssetCategories that matches the filter.
@@ -11802,7 +12168,7 @@ export namespace Prisma {
     **/
     findMany<T extends CustomAssetCategoryFindManyArgs>(
       args?: SelectSubset<T, CustomAssetCategoryFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<CustomAssetCategory>>, PrismaPromise<Array<CustomAssetCategoryGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<CustomAssetCategoryGetPayload<T>>>
 
     /**
      * Create a CustomAssetCategory.
@@ -11818,7 +12184,7 @@ export namespace Prisma {
     **/
     create<T extends CustomAssetCategoryCreateArgs>(
       args: SelectSubset<T, CustomAssetCategoryCreateArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Create many CustomAssetCategories.
@@ -11834,7 +12200,7 @@ export namespace Prisma {
     **/
     createMany<T extends CustomAssetCategoryCreateManyArgs>(
       args?: SelectSubset<T, CustomAssetCategoryCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a CustomAssetCategory.
@@ -11850,7 +12216,7 @@ export namespace Prisma {
     **/
     delete<T extends CustomAssetCategoryDeleteArgs>(
       args: SelectSubset<T, CustomAssetCategoryDeleteArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Update one CustomAssetCategory.
@@ -11869,7 +12235,7 @@ export namespace Prisma {
     **/
     update<T extends CustomAssetCategoryUpdateArgs>(
       args: SelectSubset<T, CustomAssetCategoryUpdateArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Delete zero or more CustomAssetCategories.
@@ -11885,7 +12251,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends CustomAssetCategoryDeleteManyArgs>(
       args?: SelectSubset<T, CustomAssetCategoryDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more CustomAssetCategories.
@@ -11906,7 +12272,7 @@ export namespace Prisma {
     **/
     updateMany<T extends CustomAssetCategoryUpdateManyArgs>(
       args: SelectSubset<T, CustomAssetCategoryUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one CustomAssetCategory.
@@ -11927,41 +12293,7 @@ export namespace Prisma {
     **/
     upsert<T extends CustomAssetCategoryUpsertArgs>(
       args: SelectSubset<T, CustomAssetCategoryUpsertArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
-
-    /**
-     * Find one CustomAssetCategory that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {CustomAssetCategoryFindUniqueOrThrowArgs} args - Arguments to find a CustomAssetCategory
-     * @example
-     * // Get one CustomAssetCategory
-     * const customAssetCategory = await prisma.customAssetCategory.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends CustomAssetCategoryFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
-
-    /**
-     * Find the first CustomAssetCategory that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomAssetCategoryFindFirstOrThrowArgs} args - Arguments to find a CustomAssetCategory
-     * @example
-     * // Get one CustomAssetCategory
-     * const customAssetCategory = await prisma.customAssetCategory.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends CustomAssetCategoryFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory>, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>>
+    ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
 
     /**
      * Count the number of CustomAssetCategories.
@@ -11978,7 +12310,7 @@ export namespace Prisma {
     **/
     count<T extends CustomAssetCategoryCountArgs>(
       args?: Subset<T, CustomAssetCategoryCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -12010,7 +12342,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CustomAssetCategoryAggregateArgs>(args: Subset<T, CustomAssetCategoryAggregateArgs>): PrismaPromise<GetCustomAssetCategoryAggregateType<T>>
+    aggregate<T extends CustomAssetCategoryAggregateArgs>(args: Subset<T, CustomAssetCategoryAggregateArgs>): Prisma.PrismaPromise<GetCustomAssetCategoryAggregateType<T>>
 
     /**
      * Group by CustomAssetCategory.
@@ -12087,7 +12419,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CustomAssetCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomAssetCategoryGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CustomAssetCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomAssetCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -12096,10 +12429,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CustomAssetCategoryClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__CustomAssetCategoryClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -12110,10 +12441,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    assets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+    assets<T extends CustomAssetCategory$assetsArgs= {}>(args?: Subset<T, CustomAssetCategory$assetsArgs>): Prisma.PrismaPromise<Array<AssetGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -12138,6 +12469,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -12146,23 +12479,20 @@ export namespace Prisma {
   export type CustomAssetCategoryFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * Filter, which CustomAssetCategory to fetch.
-     * 
-    **/
+     */
     where: CustomAssetCategoryWhereUniqueInput
   }
 
   /**
-   * CustomAssetCategory: findUnique
+   * CustomAssetCategory findUnique
    */
   export interface CustomAssetCategoryFindUniqueArgs extends CustomAssetCategoryFindUniqueArgsBase {
    /**
@@ -12174,63 +12504,74 @@ export namespace Prisma {
       
 
   /**
+   * CustomAssetCategory findUniqueOrThrow
+   */
+  export type CustomAssetCategoryFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the CustomAssetCategory
+     */
+    select?: CustomAssetCategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CustomAssetCategoryInclude | null
+    /**
+     * Filter, which CustomAssetCategory to fetch.
+     */
+    where: CustomAssetCategoryWhereUniqueInput
+  }
+
+
+  /**
    * CustomAssetCategory base type for findFirst actions
    */
   export type CustomAssetCategoryFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * Filter, which CustomAssetCategory to fetch.
-     * 
-    **/
+     */
     where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CustomAssetCategories to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for CustomAssetCategories.
-     * 
-    **/
+     */
     cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CustomAssetCategories from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CustomAssetCategories.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of CustomAssetCategories.
-     * 
-    **/
+     */
     distinct?: Enumerable<CustomAssetCategoryScalarFieldEnum>
   }
 
   /**
-   * CustomAssetCategory: findFirst
+   * CustomAssetCategory findFirst
    */
   export interface CustomAssetCategoryFindFirstArgs extends CustomAssetCategoryFindFirstArgsBase {
    /**
@@ -12242,51 +12583,93 @@ export namespace Prisma {
       
 
   /**
-   * CustomAssetCategory findMany
+   * CustomAssetCategory findFirstOrThrow
    */
-  export type CustomAssetCategoryFindManyArgs = {
+  export type CustomAssetCategoryFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
-     * Filter, which CustomAssetCategories to fetch.
-     * 
-    **/
+     * Filter, which CustomAssetCategory to fetch.
+     */
     where?: CustomAssetCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CustomAssetCategories to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CustomAssetCategories.
-     * 
-    **/
+     * Sets the position for searching for CustomAssetCategories.
+     */
     cursor?: CustomAssetCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CustomAssetCategories from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CustomAssetCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of CustomAssetCategories.
+     */
+    distinct?: Enumerable<CustomAssetCategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * CustomAssetCategory findMany
+   */
+  export type CustomAssetCategoryFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the CustomAssetCategory
+     */
+    select?: CustomAssetCategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CustomAssetCategoryInclude | null
+    /**
+     * Filter, which CustomAssetCategories to fetch.
+     */
+    where?: CustomAssetCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomAssetCategories to fetch.
+     */
+    orderBy?: Enumerable<CustomAssetCategoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomAssetCategories.
+     */
+    cursor?: CustomAssetCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomAssetCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomAssetCategories.
+     */
     skip?: number
     distinct?: Enumerable<CustomAssetCategoryScalarFieldEnum>
   }
@@ -12298,18 +12681,15 @@ export namespace Prisma {
   export type CustomAssetCategoryCreateArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * The data needed to create a CustomAssetCategory.
-     * 
-    **/
+     */
     data: XOR<CustomAssetCategoryCreateInput, CustomAssetCategoryUncheckedCreateInput>
   }
 
@@ -12320,8 +12700,7 @@ export namespace Prisma {
   export type CustomAssetCategoryCreateManyArgs = {
     /**
      * The data used to create many CustomAssetCategories.
-     * 
-    **/
+     */
     data: Enumerable<CustomAssetCategoryCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -12333,23 +12712,19 @@ export namespace Prisma {
   export type CustomAssetCategoryUpdateArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * The data needed to update a CustomAssetCategory.
-     * 
-    **/
+     */
     data: XOR<CustomAssetCategoryUpdateInput, CustomAssetCategoryUncheckedUpdateInput>
     /**
      * Choose, which CustomAssetCategory to update.
-     * 
-    **/
+     */
     where: CustomAssetCategoryWhereUniqueInput
   }
 
@@ -12360,13 +12735,11 @@ export namespace Prisma {
   export type CustomAssetCategoryUpdateManyArgs = {
     /**
      * The data used to update CustomAssetCategories.
-     * 
-    **/
+     */
     data: XOR<CustomAssetCategoryUpdateManyMutationInput, CustomAssetCategoryUncheckedUpdateManyInput>
     /**
      * Filter which CustomAssetCategories to update
-     * 
-    **/
+     */
     where?: CustomAssetCategoryWhereInput
   }
 
@@ -12377,28 +12750,23 @@ export namespace Prisma {
   export type CustomAssetCategoryUpsertArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * The filter to search for the CustomAssetCategory to update in case it exists.
-     * 
-    **/
+     */
     where: CustomAssetCategoryWhereUniqueInput
     /**
      * In case the CustomAssetCategory found by the `where` argument doesn't exist, create a new CustomAssetCategory with this data.
-     * 
-    **/
+     */
     create: XOR<CustomAssetCategoryCreateInput, CustomAssetCategoryUncheckedCreateInput>
     /**
      * In case the CustomAssetCategory was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CustomAssetCategoryUpdateInput, CustomAssetCategoryUncheckedUpdateInput>
   }
 
@@ -12409,18 +12777,15 @@ export namespace Prisma {
   export type CustomAssetCategoryDeleteArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
     /**
      * Filter which CustomAssetCategory to delete.
-     * 
-    **/
+     */
     where: CustomAssetCategoryWhereUniqueInput
   }
 
@@ -12431,23 +12796,31 @@ export namespace Prisma {
   export type CustomAssetCategoryDeleteManyArgs = {
     /**
      * Filter which CustomAssetCategories to delete
-     * 
-    **/
+     */
     where?: CustomAssetCategoryWhereInput
   }
 
 
   /**
-   * CustomAssetCategory: findUniqueOrThrow
+   * CustomAssetCategory.assets
    */
-  export type CustomAssetCategoryFindUniqueOrThrowArgs = CustomAssetCategoryFindUniqueArgsBase
-      
+  export type CustomAssetCategory$assetsArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    where?: AssetWhereInput
+    orderBy?: Enumerable<AssetOrderByWithRelationInput>
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetScalarFieldEnum>
+  }
 
-  /**
-   * CustomAssetCategory: findFirstOrThrow
-   */
-  export type CustomAssetCategoryFindFirstOrThrowArgs = CustomAssetCategoryFindFirstArgsBase
-      
 
   /**
    * CustomAssetCategory without action
@@ -12455,13 +12828,11 @@ export namespace Prisma {
   export type CustomAssetCategoryArgs = {
     /**
      * Select specific fields to fetch from the CustomAssetCategory
-     * 
-    **/
+     */
     select?: CustomAssetCategorySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CustomAssetCategoryInclude | null
   }
 
@@ -12550,36 +12921,31 @@ export namespace Prisma {
   export type AssetLabelAggregateArgs = {
     /**
      * Filter which AssetLabel to aggregate.
-     * 
-    **/
+     */
     where?: AssetLabelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetLabels to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetLabelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: AssetLabelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetLabels from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetLabels.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -12615,7 +12981,7 @@ export namespace Prisma {
   export type AssetLabelGroupByArgs = {
     where?: AssetLabelWhereInput
     orderBy?: Enumerable<AssetLabelOrderByWithAggregationInput>
-    by: Array<AssetLabelScalarFieldEnum>
+    by: AssetLabelScalarFieldEnum[]
     having?: AssetLabelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -12639,7 +13005,7 @@ export namespace Prisma {
     _max: AssetLabelMaxAggregateOutputType | null
   }
 
-  type GetAssetLabelGroupByPayload<T extends AssetLabelGroupByArgs> = PrismaPromise<
+  type GetAssetLabelGroupByPayload<T extends AssetLabelGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AssetLabelGroupByOutputType, T['by']> &
         {
@@ -12665,39 +13031,35 @@ export namespace Prisma {
     assetId?: boolean
   }
 
+
   export type AssetLabelInclude = {
     asset?: boolean | AssetArgs
   }
 
-  export type AssetLabelGetPayload<
-    S extends boolean | null | undefined | AssetLabelArgs,
-    U = keyof S
-      > = S extends true
-        ? AssetLabel
-    : S extends undefined
-    ? never
-    : S extends AssetLabelArgs | AssetLabelFindManyArgs
-    ?'include' extends U
+  export type AssetLabelGetPayload<S extends boolean | null | undefined | AssetLabelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AssetLabel :
+    S extends undefined ? never :
+    S extends { include: any } & (AssetLabelArgs | AssetLabelFindManyArgs)
     ? AssetLabel  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'asset' ? AssetGetPayload<S['include'][P]> | null :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (AssetLabelArgs | AssetLabelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'asset' ? AssetGetPayload<S['select'][P]> | null :  P extends keyof AssetLabel ? AssetLabel[P] : never
   } 
-    : AssetLabel
-  : AssetLabel
+      : AssetLabel
 
 
-  type AssetLabelCountArgs = Merge<
+  type AssetLabelCountArgs = 
     Omit<AssetLabelFindManyArgs, 'select' | 'include'> & {
       select?: AssetLabelCountAggregateInputType | true
     }
-  >
 
-  export interface AssetLabelDelegate<GlobalRejectSettings> {
+  export interface AssetLabelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one AssetLabel that matches the filter.
      * @param {AssetLabelFindUniqueArgs} args - Arguments to find a AssetLabel
@@ -12711,7 +13073,23 @@ export namespace Prisma {
     **/
     findUnique<T extends AssetLabelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AssetLabelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AssetLabel'> extends True ? CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>> : CheckSelect<T, Prisma__AssetLabelClient<AssetLabel | null >, Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AssetLabel'> extends True ? Prisma__AssetLabelClient<AssetLabelGetPayload<T>> : Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null, null>
+
+    /**
+     * Find one AssetLabel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AssetLabelFindUniqueOrThrowArgs} args - Arguments to find a AssetLabel
+     * @example
+     * // Get one AssetLabel
+     * const assetLabel = await prisma.assetLabel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AssetLabelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AssetLabelFindUniqueOrThrowArgs>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Find the first AssetLabel that matches the filter.
@@ -12728,7 +13106,25 @@ export namespace Prisma {
     **/
     findFirst<T extends AssetLabelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AssetLabelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AssetLabel'> extends True ? CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>> : CheckSelect<T, Prisma__AssetLabelClient<AssetLabel | null >, Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AssetLabel'> extends True ? Prisma__AssetLabelClient<AssetLabelGetPayload<T>> : Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null, null>
+
+    /**
+     * Find the first AssetLabel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetLabelFindFirstOrThrowArgs} args - Arguments to find a AssetLabel
+     * @example
+     * // Get one AssetLabel
+     * const assetLabel = await prisma.assetLabel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AssetLabelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AssetLabelFindFirstOrThrowArgs>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Find zero or more AssetLabels that matches the filter.
@@ -12748,7 +13144,7 @@ export namespace Prisma {
     **/
     findMany<T extends AssetLabelFindManyArgs>(
       args?: SelectSubset<T, AssetLabelFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<AssetLabel>>, PrismaPromise<Array<AssetLabelGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<AssetLabelGetPayload<T>>>
 
     /**
      * Create a AssetLabel.
@@ -12764,7 +13160,7 @@ export namespace Prisma {
     **/
     create<T extends AssetLabelCreateArgs>(
       args: SelectSubset<T, AssetLabelCreateArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Create many AssetLabels.
@@ -12780,7 +13176,7 @@ export namespace Prisma {
     **/
     createMany<T extends AssetLabelCreateManyArgs>(
       args?: SelectSubset<T, AssetLabelCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a AssetLabel.
@@ -12796,7 +13192,7 @@ export namespace Prisma {
     **/
     delete<T extends AssetLabelDeleteArgs>(
       args: SelectSubset<T, AssetLabelDeleteArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Update one AssetLabel.
@@ -12815,7 +13211,7 @@ export namespace Prisma {
     **/
     update<T extends AssetLabelUpdateArgs>(
       args: SelectSubset<T, AssetLabelUpdateArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Delete zero or more AssetLabels.
@@ -12831,7 +13227,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends AssetLabelDeleteManyArgs>(
       args?: SelectSubset<T, AssetLabelDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more AssetLabels.
@@ -12852,7 +13248,7 @@ export namespace Prisma {
     **/
     updateMany<T extends AssetLabelUpdateManyArgs>(
       args: SelectSubset<T, AssetLabelUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one AssetLabel.
@@ -12873,41 +13269,7 @@ export namespace Prisma {
     **/
     upsert<T extends AssetLabelUpsertArgs>(
       args: SelectSubset<T, AssetLabelUpsertArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
-
-    /**
-     * Find one AssetLabel that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {AssetLabelFindUniqueOrThrowArgs} args - Arguments to find a AssetLabel
-     * @example
-     * // Get one AssetLabel
-     * const assetLabel = await prisma.assetLabel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends AssetLabelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetLabelFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
-
-    /**
-     * Find the first AssetLabel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetLabelFindFirstOrThrowArgs} args - Arguments to find a AssetLabel
-     * @example
-     * // Get one AssetLabel
-     * const assetLabel = await prisma.assetLabel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends AssetLabelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetLabelFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetLabelClient<AssetLabel>, Prisma__AssetLabelClient<AssetLabelGetPayload<T>>>
+    ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
 
     /**
      * Count the number of AssetLabels.
@@ -12924,7 +13286,7 @@ export namespace Prisma {
     **/
     count<T extends AssetLabelCountArgs>(
       args?: Subset<T, AssetLabelCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -12956,7 +13318,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AssetLabelAggregateArgs>(args: Subset<T, AssetLabelAggregateArgs>): PrismaPromise<GetAssetLabelAggregateType<T>>
+    aggregate<T extends AssetLabelAggregateArgs>(args: Subset<T, AssetLabelAggregateArgs>): Prisma.PrismaPromise<GetAssetLabelAggregateType<T>>
 
     /**
      * Group by AssetLabel.
@@ -13033,7 +13395,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AssetLabelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetLabelGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AssetLabelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetLabelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -13042,10 +13405,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AssetLabelClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__AssetLabelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -13056,10 +13417,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    asset<T extends AssetArgs = {}>(args?: Subset<T, AssetArgs>): CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>;
+    asset<T extends AssetArgs= {}>(args?: Subset<T, AssetArgs>): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -13084,6 +13445,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -13092,23 +13455,20 @@ export namespace Prisma {
   export type AssetLabelFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * Filter, which AssetLabel to fetch.
-     * 
-    **/
+     */
     where: AssetLabelWhereUniqueInput
   }
 
   /**
-   * AssetLabel: findUnique
+   * AssetLabel findUnique
    */
   export interface AssetLabelFindUniqueArgs extends AssetLabelFindUniqueArgsBase {
    /**
@@ -13120,63 +13480,74 @@ export namespace Prisma {
       
 
   /**
+   * AssetLabel findUniqueOrThrow
+   */
+  export type AssetLabelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AssetLabel
+     */
+    select?: AssetLabelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetLabelInclude | null
+    /**
+     * Filter, which AssetLabel to fetch.
+     */
+    where: AssetLabelWhereUniqueInput
+  }
+
+
+  /**
    * AssetLabel base type for findFirst actions
    */
   export type AssetLabelFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * Filter, which AssetLabel to fetch.
-     * 
-    **/
+     */
     where?: AssetLabelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetLabels to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetLabelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for AssetLabels.
-     * 
-    **/
+     */
     cursor?: AssetLabelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetLabels from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetLabels.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of AssetLabels.
-     * 
-    **/
+     */
     distinct?: Enumerable<AssetLabelScalarFieldEnum>
   }
 
   /**
-   * AssetLabel: findFirst
+   * AssetLabel findFirst
    */
   export interface AssetLabelFindFirstArgs extends AssetLabelFindFirstArgsBase {
    /**
@@ -13188,51 +13559,93 @@ export namespace Prisma {
       
 
   /**
-   * AssetLabel findMany
+   * AssetLabel findFirstOrThrow
    */
-  export type AssetLabelFindManyArgs = {
+  export type AssetLabelFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
-     * Filter, which AssetLabels to fetch.
-     * 
-    **/
+     * Filter, which AssetLabel to fetch.
+     */
     where?: AssetLabelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetLabels to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetLabelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AssetLabels.
-     * 
-    **/
+     * Sets the position for searching for AssetLabels.
+     */
     cursor?: AssetLabelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetLabels from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetLabels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of AssetLabels.
+     */
+    distinct?: Enumerable<AssetLabelScalarFieldEnum>
+  }
+
+
+  /**
+   * AssetLabel findMany
+   */
+  export type AssetLabelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the AssetLabel
+     */
+    select?: AssetLabelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetLabelInclude | null
+    /**
+     * Filter, which AssetLabels to fetch.
+     */
+    where?: AssetLabelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetLabels to fetch.
+     */
+    orderBy?: Enumerable<AssetLabelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssetLabels.
+     */
+    cursor?: AssetLabelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetLabels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetLabels.
+     */
     skip?: number
     distinct?: Enumerable<AssetLabelScalarFieldEnum>
   }
@@ -13244,18 +13657,15 @@ export namespace Prisma {
   export type AssetLabelCreateArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * The data needed to create a AssetLabel.
-     * 
-    **/
+     */
     data: XOR<AssetLabelCreateInput, AssetLabelUncheckedCreateInput>
   }
 
@@ -13266,8 +13676,7 @@ export namespace Prisma {
   export type AssetLabelCreateManyArgs = {
     /**
      * The data used to create many AssetLabels.
-     * 
-    **/
+     */
     data: Enumerable<AssetLabelCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -13279,23 +13688,19 @@ export namespace Prisma {
   export type AssetLabelUpdateArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * The data needed to update a AssetLabel.
-     * 
-    **/
+     */
     data: XOR<AssetLabelUpdateInput, AssetLabelUncheckedUpdateInput>
     /**
      * Choose, which AssetLabel to update.
-     * 
-    **/
+     */
     where: AssetLabelWhereUniqueInput
   }
 
@@ -13306,13 +13711,11 @@ export namespace Prisma {
   export type AssetLabelUpdateManyArgs = {
     /**
      * The data used to update AssetLabels.
-     * 
-    **/
+     */
     data: XOR<AssetLabelUpdateManyMutationInput, AssetLabelUncheckedUpdateManyInput>
     /**
      * Filter which AssetLabels to update
-     * 
-    **/
+     */
     where?: AssetLabelWhereInput
   }
 
@@ -13323,28 +13726,23 @@ export namespace Prisma {
   export type AssetLabelUpsertArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * The filter to search for the AssetLabel to update in case it exists.
-     * 
-    **/
+     */
     where: AssetLabelWhereUniqueInput
     /**
      * In case the AssetLabel found by the `where` argument doesn't exist, create a new AssetLabel with this data.
-     * 
-    **/
+     */
     create: XOR<AssetLabelCreateInput, AssetLabelUncheckedCreateInput>
     /**
      * In case the AssetLabel was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<AssetLabelUpdateInput, AssetLabelUncheckedUpdateInput>
   }
 
@@ -13355,18 +13753,15 @@ export namespace Prisma {
   export type AssetLabelDeleteArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
     /**
      * Filter which AssetLabel to delete.
-     * 
-    **/
+     */
     where: AssetLabelWhereUniqueInput
   }
 
@@ -13377,23 +13772,10 @@ export namespace Prisma {
   export type AssetLabelDeleteManyArgs = {
     /**
      * Filter which AssetLabels to delete
-     * 
-    **/
+     */
     where?: AssetLabelWhereInput
   }
 
-
-  /**
-   * AssetLabel: findUniqueOrThrow
-   */
-  export type AssetLabelFindUniqueOrThrowArgs = AssetLabelFindUniqueArgsBase
-      
-
-  /**
-   * AssetLabel: findFirstOrThrow
-   */
-  export type AssetLabelFindFirstOrThrowArgs = AssetLabelFindFirstArgsBase
-      
 
   /**
    * AssetLabel without action
@@ -13401,13 +13783,11 @@ export namespace Prisma {
   export type AssetLabelArgs = {
     /**
      * Select specific fields to fetch from the AssetLabel
-     * 
-    **/
+     */
     select?: AssetLabelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetLabelInclude | null
   }
 
@@ -13592,36 +13972,31 @@ export namespace Prisma {
   export type AssetAggregateArgs = {
     /**
      * Filter which Asset to aggregate.
-     * 
-    **/
+     */
     where?: AssetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Assets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: AssetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Assets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Assets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -13657,7 +14032,7 @@ export namespace Prisma {
   export type AssetGroupByArgs = {
     where?: AssetWhereInput
     orderBy?: Enumerable<AssetOrderByWithAggregationInput>
-    by: Array<AssetScalarFieldEnum>
+    by: AssetScalarFieldEnum[]
     having?: AssetScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -13697,7 +14072,7 @@ export namespace Prisma {
     _max: AssetMaxAggregateOutputType | null
   }
 
-  type GetAssetGroupByPayload<T extends AssetGroupByArgs> = PrismaPromise<
+  type GetAssetGroupByPayload<T extends AssetGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AssetGroupByOutputType, T['by']> &
         {
@@ -13730,7 +14105,7 @@ export namespace Prisma {
     deleted?: boolean
     deletedAt?: boolean
     account?: boolean
-    labels?: boolean | AssetLabelFindManyArgs
+    labels?: boolean | Asset$labelsArgs
     category?: boolean
     categoryId?: boolean
     customCategory?: boolean | CustomAssetCategoryArgs
@@ -13738,36 +14113,33 @@ export namespace Prisma {
     market?: boolean | MarketArgs
     parentId?: boolean
     parent?: boolean | AssetArgs
-    subAssets?: boolean | AssetFindManyArgs
-    transactions?: boolean | AssetTransactionFindManyArgs
+    subAssets?: boolean | Asset$subAssetsArgs
+    transactions?: boolean | Asset$transactionsArgs
     userId?: boolean
     user?: boolean | UserArgs
     status?: boolean
     _count?: boolean | AssetCountOutputTypeArgs
   }
 
+
   export type AssetInclude = {
-    labels?: boolean | AssetLabelFindManyArgs
+    labels?: boolean | Asset$labelsArgs
     customCategory?: boolean | CustomAssetCategoryArgs
     market?: boolean | MarketArgs
     parent?: boolean | AssetArgs
-    subAssets?: boolean | AssetFindManyArgs
-    transactions?: boolean | AssetTransactionFindManyArgs
+    subAssets?: boolean | Asset$subAssetsArgs
+    transactions?: boolean | Asset$transactionsArgs
     user?: boolean | UserArgs
     _count?: boolean | AssetCountOutputTypeArgs
   }
 
-  export type AssetGetPayload<
-    S extends boolean | null | undefined | AssetArgs,
-    U = keyof S
-      > = S extends true
-        ? Asset
-    : S extends undefined
-    ? never
-    : S extends AssetArgs | AssetFindManyArgs
-    ?'include' extends U
+  export type AssetGetPayload<S extends boolean | null | undefined | AssetArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Asset :
+    S extends undefined ? never :
+    S extends { include: any } & (AssetArgs | AssetFindManyArgs)
     ? Asset  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'labels' ? Array < AssetLabelGetPayload<S['include'][P]>>  :
         P extends 'customCategory' ? CustomAssetCategoryGetPayload<S['include'][P]> | null :
         P extends 'market' ? MarketGetPayload<S['include'][P]> | null :
@@ -13777,9 +14149,9 @@ export namespace Prisma {
         P extends 'user' ? UserGetPayload<S['include'][P]> :
         P extends '_count' ? AssetCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (AssetArgs | AssetFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'labels' ? Array < AssetLabelGetPayload<S['select'][P]>>  :
         P extends 'customCategory' ? CustomAssetCategoryGetPayload<S['select'][P]> | null :
         P extends 'market' ? MarketGetPayload<S['select'][P]> | null :
@@ -13789,17 +14161,16 @@ export namespace Prisma {
         P extends 'user' ? UserGetPayload<S['select'][P]> :
         P extends '_count' ? AssetCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Asset ? Asset[P] : never
   } 
-    : Asset
-  : Asset
+      : Asset
 
 
-  type AssetCountArgs = Merge<
+  type AssetCountArgs = 
     Omit<AssetFindManyArgs, 'select' | 'include'> & {
       select?: AssetCountAggregateInputType | true
     }
-  >
 
-  export interface AssetDelegate<GlobalRejectSettings> {
+  export interface AssetDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Asset that matches the filter.
      * @param {AssetFindUniqueArgs} args - Arguments to find a Asset
@@ -13813,7 +14184,23 @@ export namespace Prisma {
     **/
     findUnique<T extends AssetFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AssetFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Asset'> extends True ? CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>> : CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Asset'> extends True ? Prisma__AssetClient<AssetGetPayload<T>> : Prisma__AssetClient<AssetGetPayload<T> | null, null>
+
+    /**
+     * Find one Asset that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AssetFindUniqueOrThrowArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AssetFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AssetFindUniqueOrThrowArgs>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Find the first Asset that matches the filter.
@@ -13830,7 +14217,25 @@ export namespace Prisma {
     **/
     findFirst<T extends AssetFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AssetFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Asset'> extends True ? CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>> : CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Asset'> extends True ? Prisma__AssetClient<AssetGetPayload<T>> : Prisma__AssetClient<AssetGetPayload<T> | null, null>
+
+    /**
+     * Find the first Asset that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetFindFirstOrThrowArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AssetFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AssetFindFirstOrThrowArgs>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Find zero or more Assets that matches the filter.
@@ -13850,7 +14255,7 @@ export namespace Prisma {
     **/
     findMany<T extends AssetFindManyArgs>(
       args?: SelectSubset<T, AssetFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<AssetGetPayload<T>>>
 
     /**
      * Create a Asset.
@@ -13866,7 +14271,7 @@ export namespace Prisma {
     **/
     create<T extends AssetCreateArgs>(
       args: SelectSubset<T, AssetCreateArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Create many Assets.
@@ -13882,7 +14287,7 @@ export namespace Prisma {
     **/
     createMany<T extends AssetCreateManyArgs>(
       args?: SelectSubset<T, AssetCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Asset.
@@ -13898,7 +14303,7 @@ export namespace Prisma {
     **/
     delete<T extends AssetDeleteArgs>(
       args: SelectSubset<T, AssetDeleteArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Update one Asset.
@@ -13917,7 +14322,7 @@ export namespace Prisma {
     **/
     update<T extends AssetUpdateArgs>(
       args: SelectSubset<T, AssetUpdateArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Delete zero or more Assets.
@@ -13933,7 +14338,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends AssetDeleteManyArgs>(
       args?: SelectSubset<T, AssetDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Assets.
@@ -13954,7 +14359,7 @@ export namespace Prisma {
     **/
     updateMany<T extends AssetUpdateManyArgs>(
       args: SelectSubset<T, AssetUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Asset.
@@ -13975,41 +14380,7 @@ export namespace Prisma {
     **/
     upsert<T extends AssetUpsertArgs>(
       args: SelectSubset<T, AssetUpsertArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
-
-    /**
-     * Find one Asset that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {AssetFindUniqueOrThrowArgs} args - Arguments to find a Asset
-     * @example
-     * // Get one Asset
-     * const asset = await prisma.asset.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends AssetFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
-
-    /**
-     * Find the first Asset that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetFindFirstOrThrowArgs} args - Arguments to find a Asset
-     * @example
-     * // Get one Asset
-     * const asset = await prisma.asset.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends AssetFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetClient<Asset>, Prisma__AssetClient<AssetGetPayload<T>>>
+    ): Prisma__AssetClient<AssetGetPayload<T>>
 
     /**
      * Count the number of Assets.
@@ -14026,7 +14397,7 @@ export namespace Prisma {
     **/
     count<T extends AssetCountArgs>(
       args?: Subset<T, AssetCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -14058,7 +14429,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AssetAggregateArgs>(args: Subset<T, AssetAggregateArgs>): PrismaPromise<GetAssetAggregateType<T>>
+    aggregate<T extends AssetAggregateArgs>(args: Subset<T, AssetAggregateArgs>): Prisma.PrismaPromise<GetAssetAggregateType<T>>
 
     /**
      * Group by Asset.
@@ -14135,7 +14506,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AssetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AssetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -14144,10 +14516,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AssetClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__AssetClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -14158,22 +14528,22 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    labels<T extends AssetLabelFindManyArgs = {}>(args?: Subset<T, AssetLabelFindManyArgs>): CheckSelect<T, PrismaPromise<Array<AssetLabel>>, PrismaPromise<Array<AssetLabelGetPayload<T>>>>;
+    labels<T extends Asset$labelsArgs= {}>(args?: Subset<T, Asset$labelsArgs>): Prisma.PrismaPromise<Array<AssetLabelGetPayload<T>>| Null>;
 
-    customCategory<T extends CustomAssetCategoryArgs = {}>(args?: Subset<T, CustomAssetCategoryArgs>): CheckSelect<T, Prisma__CustomAssetCategoryClient<CustomAssetCategory | null >, Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | null >>;
+    customCategory<T extends CustomAssetCategoryArgs= {}>(args?: Subset<T, CustomAssetCategoryArgs>): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T> | Null>;
 
-    market<T extends MarketArgs = {}>(args?: Subset<T, MarketArgs>): CheckSelect<T, Prisma__MarketClient<Market | null >, Prisma__MarketClient<MarketGetPayload<T> | null >>;
+    market<T extends MarketArgs= {}>(args?: Subset<T, MarketArgs>): Prisma__MarketClient<MarketGetPayload<T> | Null>;
 
-    parent<T extends AssetArgs = {}>(args?: Subset<T, AssetArgs>): CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>;
+    parent<T extends AssetArgs= {}>(args?: Subset<T, AssetArgs>): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
-    subAssets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+    subAssets<T extends Asset$subAssetsArgs= {}>(args?: Subset<T, Asset$subAssetsArgs>): Prisma.PrismaPromise<Array<AssetGetPayload<T>>| Null>;
 
-    transactions<T extends AssetTransactionFindManyArgs = {}>(args?: Subset<T, AssetTransactionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<AssetTransaction>>, PrismaPromise<Array<AssetTransactionGetPayload<T>>>>;
+    transactions<T extends Asset$transactionsArgs= {}>(args?: Subset<T, Asset$transactionsArgs>): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>>| Null>;
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -14198,6 +14568,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -14206,23 +14578,20 @@ export namespace Prisma {
   export type AssetFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * Filter, which Asset to fetch.
-     * 
-    **/
+     */
     where: AssetWhereUniqueInput
   }
 
   /**
-   * Asset: findUnique
+   * Asset findUnique
    */
   export interface AssetFindUniqueArgs extends AssetFindUniqueArgsBase {
    /**
@@ -14234,63 +14603,74 @@ export namespace Prisma {
       
 
   /**
+   * Asset findUniqueOrThrow
+   */
+  export type AssetFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    /**
+     * Filter, which Asset to fetch.
+     */
+    where: AssetWhereUniqueInput
+  }
+
+
+  /**
    * Asset base type for findFirst actions
    */
   export type AssetFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * Filter, which Asset to fetch.
-     * 
-    **/
+     */
     where?: AssetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Assets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Assets.
-     * 
-    **/
+     */
     cursor?: AssetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Assets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Assets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Assets.
-     * 
-    **/
+     */
     distinct?: Enumerable<AssetScalarFieldEnum>
   }
 
   /**
-   * Asset: findFirst
+   * Asset findFirst
    */
   export interface AssetFindFirstArgs extends AssetFindFirstArgsBase {
    /**
@@ -14302,51 +14682,93 @@ export namespace Prisma {
       
 
   /**
-   * Asset findMany
+   * Asset findFirstOrThrow
    */
-  export type AssetFindManyArgs = {
+  export type AssetFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
-     * Filter, which Assets to fetch.
-     * 
-    **/
+     * Filter, which Asset to fetch.
+     */
     where?: AssetWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Assets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Assets.
-     * 
-    **/
+     * Sets the position for searching for Assets.
+     */
     cursor?: AssetWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Assets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Assets.
+     */
+    distinct?: Enumerable<AssetScalarFieldEnum>
+  }
+
+
+  /**
+   * Asset findMany
+   */
+  export type AssetFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    /**
+     * Filter, which Assets to fetch.
+     */
+    where?: AssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assets to fetch.
+     */
+    orderBy?: Enumerable<AssetOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Assets.
+     */
+    cursor?: AssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assets.
+     */
     skip?: number
     distinct?: Enumerable<AssetScalarFieldEnum>
   }
@@ -14358,18 +14780,15 @@ export namespace Prisma {
   export type AssetCreateArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * The data needed to create a Asset.
-     * 
-    **/
+     */
     data: XOR<AssetCreateInput, AssetUncheckedCreateInput>
   }
 
@@ -14380,8 +14799,7 @@ export namespace Prisma {
   export type AssetCreateManyArgs = {
     /**
      * The data used to create many Assets.
-     * 
-    **/
+     */
     data: Enumerable<AssetCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -14393,23 +14811,19 @@ export namespace Prisma {
   export type AssetUpdateArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * The data needed to update a Asset.
-     * 
-    **/
+     */
     data: XOR<AssetUpdateInput, AssetUncheckedUpdateInput>
     /**
      * Choose, which Asset to update.
-     * 
-    **/
+     */
     where: AssetWhereUniqueInput
   }
 
@@ -14420,13 +14834,11 @@ export namespace Prisma {
   export type AssetUpdateManyArgs = {
     /**
      * The data used to update Assets.
-     * 
-    **/
+     */
     data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyInput>
     /**
      * Filter which Assets to update
-     * 
-    **/
+     */
     where?: AssetWhereInput
   }
 
@@ -14437,28 +14849,23 @@ export namespace Prisma {
   export type AssetUpsertArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * The filter to search for the Asset to update in case it exists.
-     * 
-    **/
+     */
     where: AssetWhereUniqueInput
     /**
      * In case the Asset found by the `where` argument doesn't exist, create a new Asset with this data.
-     * 
-    **/
+     */
     create: XOR<AssetCreateInput, AssetUncheckedCreateInput>
     /**
      * In case the Asset was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<AssetUpdateInput, AssetUncheckedUpdateInput>
   }
 
@@ -14469,18 +14876,15 @@ export namespace Prisma {
   export type AssetDeleteArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
     /**
      * Filter which Asset to delete.
-     * 
-    **/
+     */
     where: AssetWhereUniqueInput
   }
 
@@ -14491,23 +14895,73 @@ export namespace Prisma {
   export type AssetDeleteManyArgs = {
     /**
      * Filter which Assets to delete
-     * 
-    **/
+     */
     where?: AssetWhereInput
   }
 
 
   /**
-   * Asset: findUniqueOrThrow
+   * Asset.labels
    */
-  export type AssetFindUniqueOrThrowArgs = AssetFindUniqueArgsBase
-      
+  export type Asset$labelsArgs = {
+    /**
+     * Select specific fields to fetch from the AssetLabel
+     */
+    select?: AssetLabelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetLabelInclude | null
+    where?: AssetLabelWhereInput
+    orderBy?: Enumerable<AssetLabelOrderByWithRelationInput>
+    cursor?: AssetLabelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetLabelScalarFieldEnum>
+  }
+
 
   /**
-   * Asset: findFirstOrThrow
+   * Asset.subAssets
    */
-  export type AssetFindFirstOrThrowArgs = AssetFindFirstArgsBase
-      
+  export type Asset$subAssetsArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    where?: AssetWhereInput
+    orderBy?: Enumerable<AssetOrderByWithRelationInput>
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetScalarFieldEnum>
+  }
+
+
+  /**
+   * Asset.transactions
+   */
+  export type Asset$transactionsArgs = {
+    /**
+     * Select specific fields to fetch from the AssetTransaction
+     */
+    select?: AssetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetTransactionInclude | null
+    where?: AssetTransactionWhereInput
+    orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
+    cursor?: AssetTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetTransactionScalarFieldEnum>
+  }
+
 
   /**
    * Asset without action
@@ -14515,13 +14969,11 @@ export namespace Prisma {
   export type AssetArgs = {
     /**
      * Select specific fields to fetch from the Asset
-     * 
-    **/
+     */
     select?: AssetSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetInclude | null
   }
 
@@ -14700,36 +15152,31 @@ export namespace Prisma {
   export type AssetTransactionAggregateArgs = {
     /**
      * Filter which AssetTransaction to aggregate.
-     * 
-    **/
+     */
     where?: AssetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: AssetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetTransactions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -14765,7 +15212,7 @@ export namespace Prisma {
   export type AssetTransactionGroupByArgs = {
     where?: AssetTransactionWhereInput
     orderBy?: Enumerable<AssetTransactionOrderByWithAggregationInput>
-    by: Array<AssetTransactionScalarFieldEnum>
+    by: AssetTransactionScalarFieldEnum[]
     having?: AssetTransactionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -14804,7 +15251,7 @@ export namespace Prisma {
     _max: AssetTransactionMaxAggregateOutputType | null
   }
 
-  type GetAssetTransactionGroupByPayload<T extends AssetTransactionGroupByArgs> = PrismaPromise<
+  type GetAssetTransactionGroupByPayload<T extends AssetTransactionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AssetTransactionGroupByOutputType, T['by']> &
         {
@@ -14846,42 +15293,38 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type AssetTransactionInclude = {
     relatedAsset?: boolean | AssetArgs
     user?: boolean | UserArgs
   }
 
-  export type AssetTransactionGetPayload<
-    S extends boolean | null | undefined | AssetTransactionArgs,
-    U = keyof S
-      > = S extends true
-        ? AssetTransaction
-    : S extends undefined
-    ? never
-    : S extends AssetTransactionArgs | AssetTransactionFindManyArgs
-    ?'include' extends U
+  export type AssetTransactionGetPayload<S extends boolean | null | undefined | AssetTransactionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AssetTransaction :
+    S extends undefined ? never :
+    S extends { include: any } & (AssetTransactionArgs | AssetTransactionFindManyArgs)
     ? AssetTransaction  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'relatedAsset' ? AssetGetPayload<S['include'][P]> | null :
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (AssetTransactionArgs | AssetTransactionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'relatedAsset' ? AssetGetPayload<S['select'][P]> | null :
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof AssetTransaction ? AssetTransaction[P] : never
   } 
-    : AssetTransaction
-  : AssetTransaction
+      : AssetTransaction
 
 
-  type AssetTransactionCountArgs = Merge<
+  type AssetTransactionCountArgs = 
     Omit<AssetTransactionFindManyArgs, 'select' | 'include'> & {
       select?: AssetTransactionCountAggregateInputType | true
     }
-  >
 
-  export interface AssetTransactionDelegate<GlobalRejectSettings> {
+  export interface AssetTransactionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one AssetTransaction that matches the filter.
      * @param {AssetTransactionFindUniqueArgs} args - Arguments to find a AssetTransaction
@@ -14895,7 +15338,23 @@ export namespace Prisma {
     **/
     findUnique<T extends AssetTransactionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AssetTransactionFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AssetTransaction'> extends True ? CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>> : CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction | null >, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AssetTransaction'> extends True ? Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>> : Prisma__AssetTransactionClient<AssetTransactionGetPayload<T> | null, null>
+
+    /**
+     * Find one AssetTransaction that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AssetTransactionFindUniqueOrThrowArgs} args - Arguments to find a AssetTransaction
+     * @example
+     * // Get one AssetTransaction
+     * const assetTransaction = await prisma.assetTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AssetTransactionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AssetTransactionFindUniqueOrThrowArgs>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Find the first AssetTransaction that matches the filter.
@@ -14912,7 +15371,25 @@ export namespace Prisma {
     **/
     findFirst<T extends AssetTransactionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AssetTransactionFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AssetTransaction'> extends True ? CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>> : CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction | null >, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AssetTransaction'> extends True ? Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>> : Prisma__AssetTransactionClient<AssetTransactionGetPayload<T> | null, null>
+
+    /**
+     * Find the first AssetTransaction that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetTransactionFindFirstOrThrowArgs} args - Arguments to find a AssetTransaction
+     * @example
+     * // Get one AssetTransaction
+     * const assetTransaction = await prisma.assetTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AssetTransactionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AssetTransactionFindFirstOrThrowArgs>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Find zero or more AssetTransactions that matches the filter.
@@ -14932,7 +15409,7 @@ export namespace Prisma {
     **/
     findMany<T extends AssetTransactionFindManyArgs>(
       args?: SelectSubset<T, AssetTransactionFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<AssetTransaction>>, PrismaPromise<Array<AssetTransactionGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>>>
 
     /**
      * Create a AssetTransaction.
@@ -14948,7 +15425,7 @@ export namespace Prisma {
     **/
     create<T extends AssetTransactionCreateArgs>(
       args: SelectSubset<T, AssetTransactionCreateArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Create many AssetTransactions.
@@ -14964,7 +15441,7 @@ export namespace Prisma {
     **/
     createMany<T extends AssetTransactionCreateManyArgs>(
       args?: SelectSubset<T, AssetTransactionCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a AssetTransaction.
@@ -14980,7 +15457,7 @@ export namespace Prisma {
     **/
     delete<T extends AssetTransactionDeleteArgs>(
       args: SelectSubset<T, AssetTransactionDeleteArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Update one AssetTransaction.
@@ -14999,7 +15476,7 @@ export namespace Prisma {
     **/
     update<T extends AssetTransactionUpdateArgs>(
       args: SelectSubset<T, AssetTransactionUpdateArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Delete zero or more AssetTransactions.
@@ -15015,7 +15492,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends AssetTransactionDeleteManyArgs>(
       args?: SelectSubset<T, AssetTransactionDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more AssetTransactions.
@@ -15036,7 +15513,7 @@ export namespace Prisma {
     **/
     updateMany<T extends AssetTransactionUpdateManyArgs>(
       args: SelectSubset<T, AssetTransactionUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one AssetTransaction.
@@ -15057,41 +15534,7 @@ export namespace Prisma {
     **/
     upsert<T extends AssetTransactionUpsertArgs>(
       args: SelectSubset<T, AssetTransactionUpsertArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
-
-    /**
-     * Find one AssetTransaction that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {AssetTransactionFindUniqueOrThrowArgs} args - Arguments to find a AssetTransaction
-     * @example
-     * // Get one AssetTransaction
-     * const assetTransaction = await prisma.assetTransaction.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends AssetTransactionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetTransactionFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
-
-    /**
-     * Find the first AssetTransaction that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssetTransactionFindFirstOrThrowArgs} args - Arguments to find a AssetTransaction
-     * @example
-     * // Get one AssetTransaction
-     * const assetTransaction = await prisma.assetTransaction.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends AssetTransactionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetTransactionFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__AssetTransactionClient<AssetTransaction>, Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>>
+    ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
 
     /**
      * Count the number of AssetTransactions.
@@ -15108,7 +15551,7 @@ export namespace Prisma {
     **/
     count<T extends AssetTransactionCountArgs>(
       args?: Subset<T, AssetTransactionCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -15140,7 +15583,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AssetTransactionAggregateArgs>(args: Subset<T, AssetTransactionAggregateArgs>): PrismaPromise<GetAssetTransactionAggregateType<T>>
+    aggregate<T extends AssetTransactionAggregateArgs>(args: Subset<T, AssetTransactionAggregateArgs>): Prisma.PrismaPromise<GetAssetTransactionAggregateType<T>>
 
     /**
      * Group by AssetTransaction.
@@ -15217,7 +15660,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AssetTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetTransactionGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AssetTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -15226,10 +15670,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AssetTransactionClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__AssetTransactionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -15240,12 +15682,12 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    relatedAsset<T extends AssetArgs = {}>(args?: Subset<T, AssetArgs>): CheckSelect<T, Prisma__AssetClient<Asset | null >, Prisma__AssetClient<AssetGetPayload<T> | null >>;
+    relatedAsset<T extends AssetArgs= {}>(args?: Subset<T, AssetArgs>): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -15270,6 +15712,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -15278,23 +15722,20 @@ export namespace Prisma {
   export type AssetTransactionFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * Filter, which AssetTransaction to fetch.
-     * 
-    **/
+     */
     where: AssetTransactionWhereUniqueInput
   }
 
   /**
-   * AssetTransaction: findUnique
+   * AssetTransaction findUnique
    */
   export interface AssetTransactionFindUniqueArgs extends AssetTransactionFindUniqueArgsBase {
    /**
@@ -15306,63 +15747,74 @@ export namespace Prisma {
       
 
   /**
+   * AssetTransaction findUniqueOrThrow
+   */
+  export type AssetTransactionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AssetTransaction
+     */
+    select?: AssetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetTransactionInclude | null
+    /**
+     * Filter, which AssetTransaction to fetch.
+     */
+    where: AssetTransactionWhereUniqueInput
+  }
+
+
+  /**
    * AssetTransaction base type for findFirst actions
    */
   export type AssetTransactionFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * Filter, which AssetTransaction to fetch.
-     * 
-    **/
+     */
     where?: AssetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for AssetTransactions.
-     * 
-    **/
+     */
     cursor?: AssetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetTransactions.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of AssetTransactions.
-     * 
-    **/
+     */
     distinct?: Enumerable<AssetTransactionScalarFieldEnum>
   }
 
   /**
-   * AssetTransaction: findFirst
+   * AssetTransaction findFirst
    */
   export interface AssetTransactionFindFirstArgs extends AssetTransactionFindFirstArgsBase {
    /**
@@ -15374,51 +15826,93 @@ export namespace Prisma {
       
 
   /**
-   * AssetTransaction findMany
+   * AssetTransaction findFirstOrThrow
    */
-  export type AssetTransactionFindManyArgs = {
+  export type AssetTransactionFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
-     * Filter, which AssetTransactions to fetch.
-     * 
-    **/
+     * Filter, which AssetTransaction to fetch.
+     */
     where?: AssetTransactionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of AssetTransactions to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AssetTransactions.
-     * 
-    **/
+     * Sets the position for searching for AssetTransactions.
+     */
     cursor?: AssetTransactionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` AssetTransactions from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` AssetTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of AssetTransactions.
+     */
+    distinct?: Enumerable<AssetTransactionScalarFieldEnum>
+  }
+
+
+  /**
+   * AssetTransaction findMany
+   */
+  export type AssetTransactionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the AssetTransaction
+     */
+    select?: AssetTransactionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetTransactionInclude | null
+    /**
+     * Filter, which AssetTransactions to fetch.
+     */
+    where?: AssetTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssetTransactions to fetch.
+     */
+    orderBy?: Enumerable<AssetTransactionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssetTransactions.
+     */
+    cursor?: AssetTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssetTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssetTransactions.
+     */
     skip?: number
     distinct?: Enumerable<AssetTransactionScalarFieldEnum>
   }
@@ -15430,18 +15924,15 @@ export namespace Prisma {
   export type AssetTransactionCreateArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * The data needed to create a AssetTransaction.
-     * 
-    **/
+     */
     data: XOR<AssetTransactionCreateInput, AssetTransactionUncheckedCreateInput>
   }
 
@@ -15452,8 +15943,7 @@ export namespace Prisma {
   export type AssetTransactionCreateManyArgs = {
     /**
      * The data used to create many AssetTransactions.
-     * 
-    **/
+     */
     data: Enumerable<AssetTransactionCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -15465,23 +15955,19 @@ export namespace Prisma {
   export type AssetTransactionUpdateArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * The data needed to update a AssetTransaction.
-     * 
-    **/
+     */
     data: XOR<AssetTransactionUpdateInput, AssetTransactionUncheckedUpdateInput>
     /**
      * Choose, which AssetTransaction to update.
-     * 
-    **/
+     */
     where: AssetTransactionWhereUniqueInput
   }
 
@@ -15492,13 +15978,11 @@ export namespace Prisma {
   export type AssetTransactionUpdateManyArgs = {
     /**
      * The data used to update AssetTransactions.
-     * 
-    **/
+     */
     data: XOR<AssetTransactionUpdateManyMutationInput, AssetTransactionUncheckedUpdateManyInput>
     /**
      * Filter which AssetTransactions to update
-     * 
-    **/
+     */
     where?: AssetTransactionWhereInput
   }
 
@@ -15509,28 +15993,23 @@ export namespace Prisma {
   export type AssetTransactionUpsertArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * The filter to search for the AssetTransaction to update in case it exists.
-     * 
-    **/
+     */
     where: AssetTransactionWhereUniqueInput
     /**
      * In case the AssetTransaction found by the `where` argument doesn't exist, create a new AssetTransaction with this data.
-     * 
-    **/
+     */
     create: XOR<AssetTransactionCreateInput, AssetTransactionUncheckedCreateInput>
     /**
      * In case the AssetTransaction was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<AssetTransactionUpdateInput, AssetTransactionUncheckedUpdateInput>
   }
 
@@ -15541,18 +16020,15 @@ export namespace Prisma {
   export type AssetTransactionDeleteArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
     /**
      * Filter which AssetTransaction to delete.
-     * 
-    **/
+     */
     where: AssetTransactionWhereUniqueInput
   }
 
@@ -15563,23 +16039,10 @@ export namespace Prisma {
   export type AssetTransactionDeleteManyArgs = {
     /**
      * Filter which AssetTransactions to delete
-     * 
-    **/
+     */
     where?: AssetTransactionWhereInput
   }
 
-
-  /**
-   * AssetTransaction: findUniqueOrThrow
-   */
-  export type AssetTransactionFindUniqueOrThrowArgs = AssetTransactionFindUniqueArgsBase
-      
-
-  /**
-   * AssetTransaction: findFirstOrThrow
-   */
-  export type AssetTransactionFindFirstOrThrowArgs = AssetTransactionFindFirstArgsBase
-      
 
   /**
    * AssetTransaction without action
@@ -15587,13 +16050,11 @@ export namespace Prisma {
   export type AssetTransactionArgs = {
     /**
      * Select specific fields to fetch from the AssetTransaction
-     * 
-    **/
+     */
     select?: AssetTransactionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: AssetTransactionInclude | null
   }
 
@@ -15706,36 +16167,31 @@ export namespace Prisma {
   export type PortfolioSnapshotAggregateArgs = {
     /**
      * Filter which PortfolioSnapshot to aggregate.
-     * 
-    **/
+     */
     where?: PortfolioSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PortfolioSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: PortfolioSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PortfolioSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PortfolioSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -15771,7 +16227,7 @@ export namespace Prisma {
   export type PortfolioSnapshotGroupByArgs = {
     where?: PortfolioSnapshotWhereInput
     orderBy?: Enumerable<PortfolioSnapshotOrderByWithAggregationInput>
-    by: Array<PortfolioSnapshotScalarFieldEnum>
+    by: PortfolioSnapshotScalarFieldEnum[]
     having?: PortfolioSnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -15799,7 +16255,7 @@ export namespace Prisma {
     _max: PortfolioSnapshotMaxAggregateOutputType | null
   }
 
-  type GetPortfolioSnapshotGroupByPayload<T extends PortfolioSnapshotGroupByArgs> = PrismaPromise<
+  type GetPortfolioSnapshotGroupByPayload<T extends PortfolioSnapshotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<PortfolioSnapshotGroupByOutputType, T['by']> &
         {
@@ -15829,39 +16285,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type PortfolioSnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type PortfolioSnapshotGetPayload<
-    S extends boolean | null | undefined | PortfolioSnapshotArgs,
-    U = keyof S
-      > = S extends true
-        ? PortfolioSnapshot
-    : S extends undefined
-    ? never
-    : S extends PortfolioSnapshotArgs | PortfolioSnapshotFindManyArgs
-    ?'include' extends U
+  export type PortfolioSnapshotGetPayload<S extends boolean | null | undefined | PortfolioSnapshotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? PortfolioSnapshot :
+    S extends undefined ? never :
+    S extends { include: any } & (PortfolioSnapshotArgs | PortfolioSnapshotFindManyArgs)
     ? PortfolioSnapshot  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (PortfolioSnapshotArgs | PortfolioSnapshotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof PortfolioSnapshot ? PortfolioSnapshot[P] : never
   } 
-    : PortfolioSnapshot
-  : PortfolioSnapshot
+      : PortfolioSnapshot
 
 
-  type PortfolioSnapshotCountArgs = Merge<
+  type PortfolioSnapshotCountArgs = 
     Omit<PortfolioSnapshotFindManyArgs, 'select' | 'include'> & {
       select?: PortfolioSnapshotCountAggregateInputType | true
     }
-  >
 
-  export interface PortfolioSnapshotDelegate<GlobalRejectSettings> {
+  export interface PortfolioSnapshotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one PortfolioSnapshot that matches the filter.
      * @param {PortfolioSnapshotFindUniqueArgs} args - Arguments to find a PortfolioSnapshot
@@ -15875,7 +16327,23 @@ export namespace Prisma {
     **/
     findUnique<T extends PortfolioSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, PortfolioSnapshotFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PortfolioSnapshot'> extends True ? CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot | null >, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PortfolioSnapshot'> extends True ? Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>> : Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find one PortfolioSnapshot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PortfolioSnapshotFindUniqueOrThrowArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PortfolioSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotFindUniqueOrThrowArgs>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Find the first PortfolioSnapshot that matches the filter.
@@ -15892,7 +16360,25 @@ export namespace Prisma {
     **/
     findFirst<T extends PortfolioSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, PortfolioSnapshotFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PortfolioSnapshot'> extends True ? CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot | null >, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PortfolioSnapshot'> extends True ? Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>> : Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find the first PortfolioSnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PortfolioSnapshotFindFirstOrThrowArgs} args - Arguments to find a PortfolioSnapshot
+     * @example
+     * // Get one PortfolioSnapshot
+     * const portfolioSnapshot = await prisma.portfolioSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PortfolioSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PortfolioSnapshotFindFirstOrThrowArgs>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Find zero or more PortfolioSnapshots that matches the filter.
@@ -15912,7 +16398,7 @@ export namespace Prisma {
     **/
     findMany<T extends PortfolioSnapshotFindManyArgs>(
       args?: SelectSubset<T, PortfolioSnapshotFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<PortfolioSnapshot>>, PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>
 
     /**
      * Create a PortfolioSnapshot.
@@ -15928,7 +16414,7 @@ export namespace Prisma {
     **/
     create<T extends PortfolioSnapshotCreateArgs>(
       args: SelectSubset<T, PortfolioSnapshotCreateArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Create many PortfolioSnapshots.
@@ -15944,7 +16430,7 @@ export namespace Prisma {
     **/
     createMany<T extends PortfolioSnapshotCreateManyArgs>(
       args?: SelectSubset<T, PortfolioSnapshotCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a PortfolioSnapshot.
@@ -15960,7 +16446,7 @@ export namespace Prisma {
     **/
     delete<T extends PortfolioSnapshotDeleteArgs>(
       args: SelectSubset<T, PortfolioSnapshotDeleteArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Update one PortfolioSnapshot.
@@ -15979,7 +16465,7 @@ export namespace Prisma {
     **/
     update<T extends PortfolioSnapshotUpdateArgs>(
       args: SelectSubset<T, PortfolioSnapshotUpdateArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Delete zero or more PortfolioSnapshots.
@@ -15995,7 +16481,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends PortfolioSnapshotDeleteManyArgs>(
       args?: SelectSubset<T, PortfolioSnapshotDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more PortfolioSnapshots.
@@ -16016,7 +16502,7 @@ export namespace Prisma {
     **/
     updateMany<T extends PortfolioSnapshotUpdateManyArgs>(
       args: SelectSubset<T, PortfolioSnapshotUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one PortfolioSnapshot.
@@ -16037,41 +16523,7 @@ export namespace Prisma {
     **/
     upsert<T extends PortfolioSnapshotUpsertArgs>(
       args: SelectSubset<T, PortfolioSnapshotUpsertArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
-
-    /**
-     * Find one PortfolioSnapshot that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {PortfolioSnapshotFindUniqueOrThrowArgs} args - Arguments to find a PortfolioSnapshot
-     * @example
-     * // Get one PortfolioSnapshot
-     * const portfolioSnapshot = await prisma.portfolioSnapshot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends PortfolioSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
-
-    /**
-     * Find the first PortfolioSnapshot that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PortfolioSnapshotFindFirstOrThrowArgs} args - Arguments to find a PortfolioSnapshot
-     * @example
-     * // Get one PortfolioSnapshot
-     * const portfolioSnapshot = await prisma.portfolioSnapshot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends PortfolioSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__PortfolioSnapshotClient<PortfolioSnapshot>, Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>>
+    ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
 
     /**
      * Count the number of PortfolioSnapshots.
@@ -16088,7 +16540,7 @@ export namespace Prisma {
     **/
     count<T extends PortfolioSnapshotCountArgs>(
       args?: Subset<T, PortfolioSnapshotCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -16120,7 +16572,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PortfolioSnapshotAggregateArgs>(args: Subset<T, PortfolioSnapshotAggregateArgs>): PrismaPromise<GetPortfolioSnapshotAggregateType<T>>
+    aggregate<T extends PortfolioSnapshotAggregateArgs>(args: Subset<T, PortfolioSnapshotAggregateArgs>): Prisma.PrismaPromise<GetPortfolioSnapshotAggregateType<T>>
 
     /**
      * Group by PortfolioSnapshot.
@@ -16197,7 +16649,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PortfolioSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPortfolioSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PortfolioSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPortfolioSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -16206,10 +16659,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__PortfolioSnapshotClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__PortfolioSnapshotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -16220,10 +16671,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -16248,6 +16699,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -16256,23 +16709,20 @@ export namespace Prisma {
   export type PortfolioSnapshotFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * Filter, which PortfolioSnapshot to fetch.
-     * 
-    **/
+     */
     where: PortfolioSnapshotWhereUniqueInput
   }
 
   /**
-   * PortfolioSnapshot: findUnique
+   * PortfolioSnapshot findUnique
    */
   export interface PortfolioSnapshotFindUniqueArgs extends PortfolioSnapshotFindUniqueArgsBase {
    /**
@@ -16284,63 +16734,74 @@ export namespace Prisma {
       
 
   /**
+   * PortfolioSnapshot findUniqueOrThrow
+   */
+  export type PortfolioSnapshotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     */
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter, which PortfolioSnapshot to fetch.
+     */
+    where: PortfolioSnapshotWhereUniqueInput
+  }
+
+
+  /**
    * PortfolioSnapshot base type for findFirst actions
    */
   export type PortfolioSnapshotFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * Filter, which PortfolioSnapshot to fetch.
-     * 
-    **/
+     */
     where?: PortfolioSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PortfolioSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for PortfolioSnapshots.
-     * 
-    **/
+     */
     cursor?: PortfolioSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PortfolioSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PortfolioSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of PortfolioSnapshots.
-     * 
-    **/
+     */
     distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
   }
 
   /**
-   * PortfolioSnapshot: findFirst
+   * PortfolioSnapshot findFirst
    */
   export interface PortfolioSnapshotFindFirstArgs extends PortfolioSnapshotFindFirstArgsBase {
    /**
@@ -16352,51 +16813,93 @@ export namespace Prisma {
       
 
   /**
-   * PortfolioSnapshot findMany
+   * PortfolioSnapshot findFirstOrThrow
    */
-  export type PortfolioSnapshotFindManyArgs = {
+  export type PortfolioSnapshotFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
-     * Filter, which PortfolioSnapshots to fetch.
-     * 
-    **/
+     * Filter, which PortfolioSnapshot to fetch.
+     */
     where?: PortfolioSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PortfolioSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing PortfolioSnapshots.
-     * 
-    **/
+     * Sets the position for searching for PortfolioSnapshots.
+     */
     cursor?: PortfolioSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PortfolioSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PortfolioSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of PortfolioSnapshots.
+     */
+    distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * PortfolioSnapshot findMany
+   */
+  export type PortfolioSnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the PortfolioSnapshot
+     */
+    select?: PortfolioSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PortfolioSnapshotInclude | null
+    /**
+     * Filter, which PortfolioSnapshots to fetch.
+     */
+    where?: PortfolioSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PortfolioSnapshots to fetch.
+     */
+    orderBy?: Enumerable<PortfolioSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PortfolioSnapshots.
+     */
+    cursor?: PortfolioSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PortfolioSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PortfolioSnapshots.
+     */
     skip?: number
     distinct?: Enumerable<PortfolioSnapshotScalarFieldEnum>
   }
@@ -16408,18 +16911,15 @@ export namespace Prisma {
   export type PortfolioSnapshotCreateArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * The data needed to create a PortfolioSnapshot.
-     * 
-    **/
+     */
     data: XOR<PortfolioSnapshotCreateInput, PortfolioSnapshotUncheckedCreateInput>
   }
 
@@ -16430,8 +16930,7 @@ export namespace Prisma {
   export type PortfolioSnapshotCreateManyArgs = {
     /**
      * The data used to create many PortfolioSnapshots.
-     * 
-    **/
+     */
     data: Enumerable<PortfolioSnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -16443,23 +16942,19 @@ export namespace Prisma {
   export type PortfolioSnapshotUpdateArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * The data needed to update a PortfolioSnapshot.
-     * 
-    **/
+     */
     data: XOR<PortfolioSnapshotUpdateInput, PortfolioSnapshotUncheckedUpdateInput>
     /**
      * Choose, which PortfolioSnapshot to update.
-     * 
-    **/
+     */
     where: PortfolioSnapshotWhereUniqueInput
   }
 
@@ -16470,13 +16965,11 @@ export namespace Prisma {
   export type PortfolioSnapshotUpdateManyArgs = {
     /**
      * The data used to update PortfolioSnapshots.
-     * 
-    **/
+     */
     data: XOR<PortfolioSnapshotUpdateManyMutationInput, PortfolioSnapshotUncheckedUpdateManyInput>
     /**
      * Filter which PortfolioSnapshots to update
-     * 
-    **/
+     */
     where?: PortfolioSnapshotWhereInput
   }
 
@@ -16487,28 +16980,23 @@ export namespace Prisma {
   export type PortfolioSnapshotUpsertArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * The filter to search for the PortfolioSnapshot to update in case it exists.
-     * 
-    **/
+     */
     where: PortfolioSnapshotWhereUniqueInput
     /**
      * In case the PortfolioSnapshot found by the `where` argument doesn't exist, create a new PortfolioSnapshot with this data.
-     * 
-    **/
+     */
     create: XOR<PortfolioSnapshotCreateInput, PortfolioSnapshotUncheckedCreateInput>
     /**
      * In case the PortfolioSnapshot was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<PortfolioSnapshotUpdateInput, PortfolioSnapshotUncheckedUpdateInput>
   }
 
@@ -16519,18 +17007,15 @@ export namespace Prisma {
   export type PortfolioSnapshotDeleteArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
     /**
      * Filter which PortfolioSnapshot to delete.
-     * 
-    **/
+     */
     where: PortfolioSnapshotWhereUniqueInput
   }
 
@@ -16541,23 +17026,10 @@ export namespace Prisma {
   export type PortfolioSnapshotDeleteManyArgs = {
     /**
      * Filter which PortfolioSnapshots to delete
-     * 
-    **/
+     */
     where?: PortfolioSnapshotWhereInput
   }
 
-
-  /**
-   * PortfolioSnapshot: findUniqueOrThrow
-   */
-  export type PortfolioSnapshotFindUniqueOrThrowArgs = PortfolioSnapshotFindUniqueArgsBase
-      
-
-  /**
-   * PortfolioSnapshot: findFirstOrThrow
-   */
-  export type PortfolioSnapshotFindFirstOrThrowArgs = PortfolioSnapshotFindFirstArgsBase
-      
 
   /**
    * PortfolioSnapshot without action
@@ -16565,13 +17037,11 @@ export namespace Prisma {
   export type PortfolioSnapshotArgs = {
     /**
      * Select specific fields to fetch from the PortfolioSnapshot
-     * 
-    **/
+     */
     select?: PortfolioSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PortfolioSnapshotInclude | null
   }
 
@@ -16684,36 +17154,31 @@ export namespace Prisma {
   export type CryptoSnapshotAggregateArgs = {
     /**
      * Filter which CryptoSnapshot to aggregate.
-     * 
-    **/
+     */
     where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CryptoSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CryptoSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CryptoSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -16749,7 +17214,7 @@ export namespace Prisma {
   export type CryptoSnapshotGroupByArgs = {
     where?: CryptoSnapshotWhereInput
     orderBy?: Enumerable<CryptoSnapshotOrderByWithAggregationInput>
-    by: Array<CryptoSnapshotScalarFieldEnum>
+    by: CryptoSnapshotScalarFieldEnum[]
     having?: CryptoSnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -16777,7 +17242,7 @@ export namespace Prisma {
     _max: CryptoSnapshotMaxAggregateOutputType | null
   }
 
-  type GetCryptoSnapshotGroupByPayload<T extends CryptoSnapshotGroupByArgs> = PrismaPromise<
+  type GetCryptoSnapshotGroupByPayload<T extends CryptoSnapshotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CryptoSnapshotGroupByOutputType, T['by']> &
         {
@@ -16807,39 +17272,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type CryptoSnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type CryptoSnapshotGetPayload<
-    S extends boolean | null | undefined | CryptoSnapshotArgs,
-    U = keyof S
-      > = S extends true
-        ? CryptoSnapshot
-    : S extends undefined
-    ? never
-    : S extends CryptoSnapshotArgs | CryptoSnapshotFindManyArgs
-    ?'include' extends U
+  export type CryptoSnapshotGetPayload<S extends boolean | null | undefined | CryptoSnapshotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CryptoSnapshot :
+    S extends undefined ? never :
+    S extends { include: any } & (CryptoSnapshotArgs | CryptoSnapshotFindManyArgs)
     ? CryptoSnapshot  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CryptoSnapshotArgs | CryptoSnapshotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof CryptoSnapshot ? CryptoSnapshot[P] : never
   } 
-    : CryptoSnapshot
-  : CryptoSnapshot
+      : CryptoSnapshot
 
 
-  type CryptoSnapshotCountArgs = Merge<
+  type CryptoSnapshotCountArgs = 
     Omit<CryptoSnapshotFindManyArgs, 'select' | 'include'> & {
       select?: CryptoSnapshotCountAggregateInputType | true
     }
-  >
 
-  export interface CryptoSnapshotDelegate<GlobalRejectSettings> {
+  export interface CryptoSnapshotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one CryptoSnapshot that matches the filter.
      * @param {CryptoSnapshotFindUniqueArgs} args - Arguments to find a CryptoSnapshot
@@ -16853,7 +17314,23 @@ export namespace Prisma {
     **/
     findUnique<T extends CryptoSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CryptoSnapshotFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CryptoSnapshot'> extends True ? CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot | null >, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CryptoSnapshot'> extends True ? Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>> : Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find one CryptoSnapshot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CryptoSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CryptoSnapshot
+     * @example
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CryptoSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CryptoSnapshotFindUniqueOrThrowArgs>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Find the first CryptoSnapshot that matches the filter.
@@ -16870,7 +17347,25 @@ export namespace Prisma {
     **/
     findFirst<T extends CryptoSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CryptoSnapshotFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CryptoSnapshot'> extends True ? CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot | null >, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CryptoSnapshot'> extends True ? Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>> : Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find the first CryptoSnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoSnapshotFindFirstOrThrowArgs} args - Arguments to find a CryptoSnapshot
+     * @example
+     * // Get one CryptoSnapshot
+     * const cryptoSnapshot = await prisma.cryptoSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CryptoSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CryptoSnapshotFindFirstOrThrowArgs>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Find zero or more CryptoSnapshots that matches the filter.
@@ -16890,7 +17385,7 @@ export namespace Prisma {
     **/
     findMany<T extends CryptoSnapshotFindManyArgs>(
       args?: SelectSubset<T, CryptoSnapshotFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<CryptoSnapshot>>, PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>
 
     /**
      * Create a CryptoSnapshot.
@@ -16906,7 +17401,7 @@ export namespace Prisma {
     **/
     create<T extends CryptoSnapshotCreateArgs>(
       args: SelectSubset<T, CryptoSnapshotCreateArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Create many CryptoSnapshots.
@@ -16922,7 +17417,7 @@ export namespace Prisma {
     **/
     createMany<T extends CryptoSnapshotCreateManyArgs>(
       args?: SelectSubset<T, CryptoSnapshotCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a CryptoSnapshot.
@@ -16938,7 +17433,7 @@ export namespace Prisma {
     **/
     delete<T extends CryptoSnapshotDeleteArgs>(
       args: SelectSubset<T, CryptoSnapshotDeleteArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Update one CryptoSnapshot.
@@ -16957,7 +17452,7 @@ export namespace Prisma {
     **/
     update<T extends CryptoSnapshotUpdateArgs>(
       args: SelectSubset<T, CryptoSnapshotUpdateArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Delete zero or more CryptoSnapshots.
@@ -16973,7 +17468,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends CryptoSnapshotDeleteManyArgs>(
       args?: SelectSubset<T, CryptoSnapshotDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more CryptoSnapshots.
@@ -16994,7 +17489,7 @@ export namespace Prisma {
     **/
     updateMany<T extends CryptoSnapshotUpdateManyArgs>(
       args: SelectSubset<T, CryptoSnapshotUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one CryptoSnapshot.
@@ -17015,41 +17510,7 @@ export namespace Prisma {
     **/
     upsert<T extends CryptoSnapshotUpsertArgs>(
       args: SelectSubset<T, CryptoSnapshotUpsertArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
-
-    /**
-     * Find one CryptoSnapshot that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {CryptoSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CryptoSnapshot
-     * @example
-     * // Get one CryptoSnapshot
-     * const cryptoSnapshot = await prisma.cryptoSnapshot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends CryptoSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CryptoSnapshotFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
-
-    /**
-     * Find the first CryptoSnapshot that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CryptoSnapshotFindFirstOrThrowArgs} args - Arguments to find a CryptoSnapshot
-     * @example
-     * // Get one CryptoSnapshot
-     * const cryptoSnapshot = await prisma.cryptoSnapshot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends CryptoSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CryptoSnapshotFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__CryptoSnapshotClient<CryptoSnapshot>, Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>>
+    ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
 
     /**
      * Count the number of CryptoSnapshots.
@@ -17066,7 +17527,7 @@ export namespace Prisma {
     **/
     count<T extends CryptoSnapshotCountArgs>(
       args?: Subset<T, CryptoSnapshotCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -17098,7 +17559,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CryptoSnapshotAggregateArgs>(args: Subset<T, CryptoSnapshotAggregateArgs>): PrismaPromise<GetCryptoSnapshotAggregateType<T>>
+    aggregate<T extends CryptoSnapshotAggregateArgs>(args: Subset<T, CryptoSnapshotAggregateArgs>): Prisma.PrismaPromise<GetCryptoSnapshotAggregateType<T>>
 
     /**
      * Group by CryptoSnapshot.
@@ -17175,7 +17636,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CryptoSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptoSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CryptoSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptoSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -17184,10 +17646,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CryptoSnapshotClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__CryptoSnapshotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -17198,10 +17658,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -17226,6 +17686,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -17234,23 +17696,20 @@ export namespace Prisma {
   export type CryptoSnapshotFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * Filter, which CryptoSnapshot to fetch.
-     * 
-    **/
+     */
     where: CryptoSnapshotWhereUniqueInput
   }
 
   /**
-   * CryptoSnapshot: findUnique
+   * CryptoSnapshot findUnique
    */
   export interface CryptoSnapshotFindUniqueArgs extends CryptoSnapshotFindUniqueArgsBase {
    /**
@@ -17262,63 +17721,74 @@ export namespace Prisma {
       
 
   /**
+   * CryptoSnapshot findUniqueOrThrow
+   */
+  export type CryptoSnapshotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the CryptoSnapshot
+     */
+    select?: CryptoSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptoSnapshotInclude | null
+    /**
+     * Filter, which CryptoSnapshot to fetch.
+     */
+    where: CryptoSnapshotWhereUniqueInput
+  }
+
+
+  /**
    * CryptoSnapshot base type for findFirst actions
    */
   export type CryptoSnapshotFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * Filter, which CryptoSnapshot to fetch.
-     * 
-    **/
+     */
     where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CryptoSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for CryptoSnapshots.
-     * 
-    **/
+     */
     cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CryptoSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CryptoSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of CryptoSnapshots.
-     * 
-    **/
+     */
     distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
   }
 
   /**
-   * CryptoSnapshot: findFirst
+   * CryptoSnapshot findFirst
    */
   export interface CryptoSnapshotFindFirstArgs extends CryptoSnapshotFindFirstArgsBase {
    /**
@@ -17330,51 +17800,93 @@ export namespace Prisma {
       
 
   /**
-   * CryptoSnapshot findMany
+   * CryptoSnapshot findFirstOrThrow
    */
-  export type CryptoSnapshotFindManyArgs = {
+  export type CryptoSnapshotFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
-     * Filter, which CryptoSnapshots to fetch.
-     * 
-    **/
+     * Filter, which CryptoSnapshot to fetch.
+     */
     where?: CryptoSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CryptoSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CryptoSnapshots.
-     * 
-    **/
+     * Sets the position for searching for CryptoSnapshots.
+     */
     cursor?: CryptoSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CryptoSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CryptoSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of CryptoSnapshots.
+     */
+    distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * CryptoSnapshot findMany
+   */
+  export type CryptoSnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the CryptoSnapshot
+     */
+    select?: CryptoSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptoSnapshotInclude | null
+    /**
+     * Filter, which CryptoSnapshots to fetch.
+     */
+    where?: CryptoSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CryptoSnapshots to fetch.
+     */
+    orderBy?: Enumerable<CryptoSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CryptoSnapshots.
+     */
+    cursor?: CryptoSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CryptoSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CryptoSnapshots.
+     */
     skip?: number
     distinct?: Enumerable<CryptoSnapshotScalarFieldEnum>
   }
@@ -17386,18 +17898,15 @@ export namespace Prisma {
   export type CryptoSnapshotCreateArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * The data needed to create a CryptoSnapshot.
-     * 
-    **/
+     */
     data: XOR<CryptoSnapshotCreateInput, CryptoSnapshotUncheckedCreateInput>
   }
 
@@ -17408,8 +17917,7 @@ export namespace Prisma {
   export type CryptoSnapshotCreateManyArgs = {
     /**
      * The data used to create many CryptoSnapshots.
-     * 
-    **/
+     */
     data: Enumerable<CryptoSnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -17421,23 +17929,19 @@ export namespace Prisma {
   export type CryptoSnapshotUpdateArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * The data needed to update a CryptoSnapshot.
-     * 
-    **/
+     */
     data: XOR<CryptoSnapshotUpdateInput, CryptoSnapshotUncheckedUpdateInput>
     /**
      * Choose, which CryptoSnapshot to update.
-     * 
-    **/
+     */
     where: CryptoSnapshotWhereUniqueInput
   }
 
@@ -17448,13 +17952,11 @@ export namespace Prisma {
   export type CryptoSnapshotUpdateManyArgs = {
     /**
      * The data used to update CryptoSnapshots.
-     * 
-    **/
+     */
     data: XOR<CryptoSnapshotUpdateManyMutationInput, CryptoSnapshotUncheckedUpdateManyInput>
     /**
      * Filter which CryptoSnapshots to update
-     * 
-    **/
+     */
     where?: CryptoSnapshotWhereInput
   }
 
@@ -17465,28 +17967,23 @@ export namespace Prisma {
   export type CryptoSnapshotUpsertArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * The filter to search for the CryptoSnapshot to update in case it exists.
-     * 
-    **/
+     */
     where: CryptoSnapshotWhereUniqueInput
     /**
      * In case the CryptoSnapshot found by the `where` argument doesn't exist, create a new CryptoSnapshot with this data.
-     * 
-    **/
+     */
     create: XOR<CryptoSnapshotCreateInput, CryptoSnapshotUncheckedCreateInput>
     /**
      * In case the CryptoSnapshot was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CryptoSnapshotUpdateInput, CryptoSnapshotUncheckedUpdateInput>
   }
 
@@ -17497,18 +17994,15 @@ export namespace Prisma {
   export type CryptoSnapshotDeleteArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
     /**
      * Filter which CryptoSnapshot to delete.
-     * 
-    **/
+     */
     where: CryptoSnapshotWhereUniqueInput
   }
 
@@ -17519,23 +18013,10 @@ export namespace Prisma {
   export type CryptoSnapshotDeleteManyArgs = {
     /**
      * Filter which CryptoSnapshots to delete
-     * 
-    **/
+     */
     where?: CryptoSnapshotWhereInput
   }
 
-
-  /**
-   * CryptoSnapshot: findUniqueOrThrow
-   */
-  export type CryptoSnapshotFindUniqueOrThrowArgs = CryptoSnapshotFindUniqueArgsBase
-      
-
-  /**
-   * CryptoSnapshot: findFirstOrThrow
-   */
-  export type CryptoSnapshotFindFirstOrThrowArgs = CryptoSnapshotFindFirstArgsBase
-      
 
   /**
    * CryptoSnapshot without action
@@ -17543,13 +18024,11 @@ export namespace Prisma {
   export type CryptoSnapshotArgs = {
     /**
      * Select specific fields to fetch from the CryptoSnapshot
-     * 
-    **/
+     */
     select?: CryptoSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptoSnapshotInclude | null
   }
 
@@ -17662,36 +18141,31 @@ export namespace Prisma {
   export type CashSnapshotAggregateArgs = {
     /**
      * Filter which CashSnapshot to aggregate.
-     * 
-    **/
+     */
     where?: CashSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CashSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CashSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CashSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CashSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -17727,7 +18201,7 @@ export namespace Prisma {
   export type CashSnapshotGroupByArgs = {
     where?: CashSnapshotWhereInput
     orderBy?: Enumerable<CashSnapshotOrderByWithAggregationInput>
-    by: Array<CashSnapshotScalarFieldEnum>
+    by: CashSnapshotScalarFieldEnum[]
     having?: CashSnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -17755,7 +18229,7 @@ export namespace Prisma {
     _max: CashSnapshotMaxAggregateOutputType | null
   }
 
-  type GetCashSnapshotGroupByPayload<T extends CashSnapshotGroupByArgs> = PrismaPromise<
+  type GetCashSnapshotGroupByPayload<T extends CashSnapshotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CashSnapshotGroupByOutputType, T['by']> &
         {
@@ -17785,39 +18259,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type CashSnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type CashSnapshotGetPayload<
-    S extends boolean | null | undefined | CashSnapshotArgs,
-    U = keyof S
-      > = S extends true
-        ? CashSnapshot
-    : S extends undefined
-    ? never
-    : S extends CashSnapshotArgs | CashSnapshotFindManyArgs
-    ?'include' extends U
+  export type CashSnapshotGetPayload<S extends boolean | null | undefined | CashSnapshotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CashSnapshot :
+    S extends undefined ? never :
+    S extends { include: any } & (CashSnapshotArgs | CashSnapshotFindManyArgs)
     ? CashSnapshot  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CashSnapshotArgs | CashSnapshotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof CashSnapshot ? CashSnapshot[P] : never
   } 
-    : CashSnapshot
-  : CashSnapshot
+      : CashSnapshot
 
 
-  type CashSnapshotCountArgs = Merge<
+  type CashSnapshotCountArgs = 
     Omit<CashSnapshotFindManyArgs, 'select' | 'include'> & {
       select?: CashSnapshotCountAggregateInputType | true
     }
-  >
 
-  export interface CashSnapshotDelegate<GlobalRejectSettings> {
+  export interface CashSnapshotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one CashSnapshot that matches the filter.
      * @param {CashSnapshotFindUniqueArgs} args - Arguments to find a CashSnapshot
@@ -17831,7 +18301,23 @@ export namespace Prisma {
     **/
     findUnique<T extends CashSnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CashSnapshotFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CashSnapshot'> extends True ? CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot | null >, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CashSnapshot'> extends True ? Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>> : Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find one CashSnapshot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CashSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CashSnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CashSnapshotFindUniqueOrThrowArgs>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Find the first CashSnapshot that matches the filter.
@@ -17848,7 +18334,25 @@ export namespace Prisma {
     **/
     findFirst<T extends CashSnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CashSnapshotFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CashSnapshot'> extends True ? CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>> : CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot | null >, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CashSnapshot'> extends True ? Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>> : Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find the first CashSnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashSnapshotFindFirstOrThrowArgs} args - Arguments to find a CashSnapshot
+     * @example
+     * // Get one CashSnapshot
+     * const cashSnapshot = await prisma.cashSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CashSnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CashSnapshotFindFirstOrThrowArgs>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Find zero or more CashSnapshots that matches the filter.
@@ -17868,7 +18372,7 @@ export namespace Prisma {
     **/
     findMany<T extends CashSnapshotFindManyArgs>(
       args?: SelectSubset<T, CashSnapshotFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<CashSnapshot>>, PrismaPromise<Array<CashSnapshotGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<CashSnapshotGetPayload<T>>>
 
     /**
      * Create a CashSnapshot.
@@ -17884,7 +18388,7 @@ export namespace Prisma {
     **/
     create<T extends CashSnapshotCreateArgs>(
       args: SelectSubset<T, CashSnapshotCreateArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Create many CashSnapshots.
@@ -17900,7 +18404,7 @@ export namespace Prisma {
     **/
     createMany<T extends CashSnapshotCreateManyArgs>(
       args?: SelectSubset<T, CashSnapshotCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a CashSnapshot.
@@ -17916,7 +18420,7 @@ export namespace Prisma {
     **/
     delete<T extends CashSnapshotDeleteArgs>(
       args: SelectSubset<T, CashSnapshotDeleteArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Update one CashSnapshot.
@@ -17935,7 +18439,7 @@ export namespace Prisma {
     **/
     update<T extends CashSnapshotUpdateArgs>(
       args: SelectSubset<T, CashSnapshotUpdateArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Delete zero or more CashSnapshots.
@@ -17951,7 +18455,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends CashSnapshotDeleteManyArgs>(
       args?: SelectSubset<T, CashSnapshotDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more CashSnapshots.
@@ -17972,7 +18476,7 @@ export namespace Prisma {
     **/
     updateMany<T extends CashSnapshotUpdateManyArgs>(
       args: SelectSubset<T, CashSnapshotUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one CashSnapshot.
@@ -17993,41 +18497,7 @@ export namespace Prisma {
     **/
     upsert<T extends CashSnapshotUpsertArgs>(
       args: SelectSubset<T, CashSnapshotUpsertArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
-
-    /**
-     * Find one CashSnapshot that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {CashSnapshotFindUniqueOrThrowArgs} args - Arguments to find a CashSnapshot
-     * @example
-     * // Get one CashSnapshot
-     * const cashSnapshot = await prisma.cashSnapshot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends CashSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CashSnapshotFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
-
-    /**
-     * Find the first CashSnapshot that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CashSnapshotFindFirstOrThrowArgs} args - Arguments to find a CashSnapshot
-     * @example
-     * // Get one CashSnapshot
-     * const cashSnapshot = await prisma.cashSnapshot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends CashSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CashSnapshotFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__CashSnapshotClient<CashSnapshot>, Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>>
+    ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
 
     /**
      * Count the number of CashSnapshots.
@@ -18044,7 +18514,7 @@ export namespace Prisma {
     **/
     count<T extends CashSnapshotCountArgs>(
       args?: Subset<T, CashSnapshotCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -18076,7 +18546,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CashSnapshotAggregateArgs>(args: Subset<T, CashSnapshotAggregateArgs>): PrismaPromise<GetCashSnapshotAggregateType<T>>
+    aggregate<T extends CashSnapshotAggregateArgs>(args: Subset<T, CashSnapshotAggregateArgs>): Prisma.PrismaPromise<GetCashSnapshotAggregateType<T>>
 
     /**
      * Group by CashSnapshot.
@@ -18153,7 +18623,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CashSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCashSnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CashSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCashSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -18162,10 +18633,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CashSnapshotClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__CashSnapshotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -18176,10 +18645,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -18204,6 +18673,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -18212,23 +18683,20 @@ export namespace Prisma {
   export type CashSnapshotFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * Filter, which CashSnapshot to fetch.
-     * 
-    **/
+     */
     where: CashSnapshotWhereUniqueInput
   }
 
   /**
-   * CashSnapshot: findUnique
+   * CashSnapshot findUnique
    */
   export interface CashSnapshotFindUniqueArgs extends CashSnapshotFindUniqueArgsBase {
    /**
@@ -18240,63 +18708,74 @@ export namespace Prisma {
       
 
   /**
+   * CashSnapshot findUniqueOrThrow
+   */
+  export type CashSnapshotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     */
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter, which CashSnapshot to fetch.
+     */
+    where: CashSnapshotWhereUniqueInput
+  }
+
+
+  /**
    * CashSnapshot base type for findFirst actions
    */
   export type CashSnapshotFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * Filter, which CashSnapshot to fetch.
-     * 
-    **/
+     */
     where?: CashSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CashSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for CashSnapshots.
-     * 
-    **/
+     */
     cursor?: CashSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CashSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CashSnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of CashSnapshots.
-     * 
-    **/
+     */
     distinct?: Enumerable<CashSnapshotScalarFieldEnum>
   }
 
   /**
-   * CashSnapshot: findFirst
+   * CashSnapshot findFirst
    */
   export interface CashSnapshotFindFirstArgs extends CashSnapshotFindFirstArgsBase {
    /**
@@ -18308,51 +18787,93 @@ export namespace Prisma {
       
 
   /**
-   * CashSnapshot findMany
+   * CashSnapshot findFirstOrThrow
    */
-  export type CashSnapshotFindManyArgs = {
+  export type CashSnapshotFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
-     * Filter, which CashSnapshots to fetch.
-     * 
-    **/
+     * Filter, which CashSnapshot to fetch.
+     */
     where?: CashSnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CashSnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CashSnapshots.
-     * 
-    **/
+     * Sets the position for searching for CashSnapshots.
+     */
     cursor?: CashSnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CashSnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CashSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of CashSnapshots.
+     */
+    distinct?: Enumerable<CashSnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * CashSnapshot findMany
+   */
+  export type CashSnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the CashSnapshot
+     */
+    select?: CashSnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CashSnapshotInclude | null
+    /**
+     * Filter, which CashSnapshots to fetch.
+     */
+    where?: CashSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashSnapshots to fetch.
+     */
+    orderBy?: Enumerable<CashSnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CashSnapshots.
+     */
+    cursor?: CashSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashSnapshots.
+     */
     skip?: number
     distinct?: Enumerable<CashSnapshotScalarFieldEnum>
   }
@@ -18364,18 +18885,15 @@ export namespace Prisma {
   export type CashSnapshotCreateArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * The data needed to create a CashSnapshot.
-     * 
-    **/
+     */
     data: XOR<CashSnapshotCreateInput, CashSnapshotUncheckedCreateInput>
   }
 
@@ -18386,8 +18904,7 @@ export namespace Prisma {
   export type CashSnapshotCreateManyArgs = {
     /**
      * The data used to create many CashSnapshots.
-     * 
-    **/
+     */
     data: Enumerable<CashSnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -18399,23 +18916,19 @@ export namespace Prisma {
   export type CashSnapshotUpdateArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * The data needed to update a CashSnapshot.
-     * 
-    **/
+     */
     data: XOR<CashSnapshotUpdateInput, CashSnapshotUncheckedUpdateInput>
     /**
      * Choose, which CashSnapshot to update.
-     * 
-    **/
+     */
     where: CashSnapshotWhereUniqueInput
   }
 
@@ -18426,13 +18939,11 @@ export namespace Prisma {
   export type CashSnapshotUpdateManyArgs = {
     /**
      * The data used to update CashSnapshots.
-     * 
-    **/
+     */
     data: XOR<CashSnapshotUpdateManyMutationInput, CashSnapshotUncheckedUpdateManyInput>
     /**
      * Filter which CashSnapshots to update
-     * 
-    **/
+     */
     where?: CashSnapshotWhereInput
   }
 
@@ -18443,28 +18954,23 @@ export namespace Prisma {
   export type CashSnapshotUpsertArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * The filter to search for the CashSnapshot to update in case it exists.
-     * 
-    **/
+     */
     where: CashSnapshotWhereUniqueInput
     /**
      * In case the CashSnapshot found by the `where` argument doesn't exist, create a new CashSnapshot with this data.
-     * 
-    **/
+     */
     create: XOR<CashSnapshotCreateInput, CashSnapshotUncheckedCreateInput>
     /**
      * In case the CashSnapshot was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CashSnapshotUpdateInput, CashSnapshotUncheckedUpdateInput>
   }
 
@@ -18475,18 +18981,15 @@ export namespace Prisma {
   export type CashSnapshotDeleteArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
     /**
      * Filter which CashSnapshot to delete.
-     * 
-    **/
+     */
     where: CashSnapshotWhereUniqueInput
   }
 
@@ -18497,23 +19000,10 @@ export namespace Prisma {
   export type CashSnapshotDeleteManyArgs = {
     /**
      * Filter which CashSnapshots to delete
-     * 
-    **/
+     */
     where?: CashSnapshotWhereInput
   }
 
-
-  /**
-   * CashSnapshot: findUniqueOrThrow
-   */
-  export type CashSnapshotFindUniqueOrThrowArgs = CashSnapshotFindUniqueArgsBase
-      
-
-  /**
-   * CashSnapshot: findFirstOrThrow
-   */
-  export type CashSnapshotFindFirstOrThrowArgs = CashSnapshotFindFirstArgsBase
-      
 
   /**
    * CashSnapshot without action
@@ -18521,13 +19011,11 @@ export namespace Prisma {
   export type CashSnapshotArgs = {
     /**
      * Select specific fields to fetch from the CashSnapshot
-     * 
-    **/
+     */
     select?: CashSnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CashSnapshotInclude | null
   }
 
@@ -18640,36 +19128,31 @@ export namespace Prisma {
   export type PropertySnapshotAggregateArgs = {
     /**
      * Filter which PropertySnapshot to aggregate.
-     * 
-    **/
+     */
     where?: PropertySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PropertySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: PropertySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PropertySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PropertySnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -18705,7 +19188,7 @@ export namespace Prisma {
   export type PropertySnapshotGroupByArgs = {
     where?: PropertySnapshotWhereInput
     orderBy?: Enumerable<PropertySnapshotOrderByWithAggregationInput>
-    by: Array<PropertySnapshotScalarFieldEnum>
+    by: PropertySnapshotScalarFieldEnum[]
     having?: PropertySnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -18733,7 +19216,7 @@ export namespace Prisma {
     _max: PropertySnapshotMaxAggregateOutputType | null
   }
 
-  type GetPropertySnapshotGroupByPayload<T extends PropertySnapshotGroupByArgs> = PrismaPromise<
+  type GetPropertySnapshotGroupByPayload<T extends PropertySnapshotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<PropertySnapshotGroupByOutputType, T['by']> &
         {
@@ -18763,39 +19246,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type PropertySnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type PropertySnapshotGetPayload<
-    S extends boolean | null | undefined | PropertySnapshotArgs,
-    U = keyof S
-      > = S extends true
-        ? PropertySnapshot
-    : S extends undefined
-    ? never
-    : S extends PropertySnapshotArgs | PropertySnapshotFindManyArgs
-    ?'include' extends U
+  export type PropertySnapshotGetPayload<S extends boolean | null | undefined | PropertySnapshotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? PropertySnapshot :
+    S extends undefined ? never :
+    S extends { include: any } & (PropertySnapshotArgs | PropertySnapshotFindManyArgs)
     ? PropertySnapshot  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (PropertySnapshotArgs | PropertySnapshotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof PropertySnapshot ? PropertySnapshot[P] : never
   } 
-    : PropertySnapshot
-  : PropertySnapshot
+      : PropertySnapshot
 
 
-  type PropertySnapshotCountArgs = Merge<
+  type PropertySnapshotCountArgs = 
     Omit<PropertySnapshotFindManyArgs, 'select' | 'include'> & {
       select?: PropertySnapshotCountAggregateInputType | true
     }
-  >
 
-  export interface PropertySnapshotDelegate<GlobalRejectSettings> {
+  export interface PropertySnapshotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one PropertySnapshot that matches the filter.
      * @param {PropertySnapshotFindUniqueArgs} args - Arguments to find a PropertySnapshot
@@ -18809,7 +19288,23 @@ export namespace Prisma {
     **/
     findUnique<T extends PropertySnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, PropertySnapshotFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PropertySnapshot'> extends True ? CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot | null >, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PropertySnapshot'> extends True ? Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>> : Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find one PropertySnapshot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PropertySnapshotFindUniqueOrThrowArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PropertySnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PropertySnapshotFindUniqueOrThrowArgs>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Find the first PropertySnapshot that matches the filter.
@@ -18826,7 +19321,25 @@ export namespace Prisma {
     **/
     findFirst<T extends PropertySnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, PropertySnapshotFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PropertySnapshot'> extends True ? CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot | null >, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PropertySnapshot'> extends True ? Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>> : Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find the first PropertySnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertySnapshotFindFirstOrThrowArgs} args - Arguments to find a PropertySnapshot
+     * @example
+     * // Get one PropertySnapshot
+     * const propertySnapshot = await prisma.propertySnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PropertySnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PropertySnapshotFindFirstOrThrowArgs>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Find zero or more PropertySnapshots that matches the filter.
@@ -18846,7 +19359,7 @@ export namespace Prisma {
     **/
     findMany<T extends PropertySnapshotFindManyArgs>(
       args?: SelectSubset<T, PropertySnapshotFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<PropertySnapshot>>, PrismaPromise<Array<PropertySnapshotGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<PropertySnapshotGetPayload<T>>>
 
     /**
      * Create a PropertySnapshot.
@@ -18862,7 +19375,7 @@ export namespace Prisma {
     **/
     create<T extends PropertySnapshotCreateArgs>(
       args: SelectSubset<T, PropertySnapshotCreateArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Create many PropertySnapshots.
@@ -18878,7 +19391,7 @@ export namespace Prisma {
     **/
     createMany<T extends PropertySnapshotCreateManyArgs>(
       args?: SelectSubset<T, PropertySnapshotCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a PropertySnapshot.
@@ -18894,7 +19407,7 @@ export namespace Prisma {
     **/
     delete<T extends PropertySnapshotDeleteArgs>(
       args: SelectSubset<T, PropertySnapshotDeleteArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Update one PropertySnapshot.
@@ -18913,7 +19426,7 @@ export namespace Prisma {
     **/
     update<T extends PropertySnapshotUpdateArgs>(
       args: SelectSubset<T, PropertySnapshotUpdateArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Delete zero or more PropertySnapshots.
@@ -18929,7 +19442,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends PropertySnapshotDeleteManyArgs>(
       args?: SelectSubset<T, PropertySnapshotDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more PropertySnapshots.
@@ -18950,7 +19463,7 @@ export namespace Prisma {
     **/
     updateMany<T extends PropertySnapshotUpdateManyArgs>(
       args: SelectSubset<T, PropertySnapshotUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one PropertySnapshot.
@@ -18971,41 +19484,7 @@ export namespace Prisma {
     **/
     upsert<T extends PropertySnapshotUpsertArgs>(
       args: SelectSubset<T, PropertySnapshotUpsertArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
-
-    /**
-     * Find one PropertySnapshot that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {PropertySnapshotFindUniqueOrThrowArgs} args - Arguments to find a PropertySnapshot
-     * @example
-     * // Get one PropertySnapshot
-     * const propertySnapshot = await prisma.propertySnapshot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends PropertySnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PropertySnapshotFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
-
-    /**
-     * Find the first PropertySnapshot that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PropertySnapshotFindFirstOrThrowArgs} args - Arguments to find a PropertySnapshot
-     * @example
-     * // Get one PropertySnapshot
-     * const propertySnapshot = await prisma.propertySnapshot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends PropertySnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PropertySnapshotFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__PropertySnapshotClient<PropertySnapshot>, Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>>
+    ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
 
     /**
      * Count the number of PropertySnapshots.
@@ -19022,7 +19501,7 @@ export namespace Prisma {
     **/
     count<T extends PropertySnapshotCountArgs>(
       args?: Subset<T, PropertySnapshotCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -19054,7 +19533,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PropertySnapshotAggregateArgs>(args: Subset<T, PropertySnapshotAggregateArgs>): PrismaPromise<GetPropertySnapshotAggregateType<T>>
+    aggregate<T extends PropertySnapshotAggregateArgs>(args: Subset<T, PropertySnapshotAggregateArgs>): Prisma.PrismaPromise<GetPropertySnapshotAggregateType<T>>
 
     /**
      * Group by PropertySnapshot.
@@ -19131,7 +19610,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PropertySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropertySnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PropertySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropertySnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -19140,10 +19620,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__PropertySnapshotClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__PropertySnapshotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -19154,10 +19632,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -19182,6 +19660,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -19190,23 +19670,20 @@ export namespace Prisma {
   export type PropertySnapshotFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * Filter, which PropertySnapshot to fetch.
-     * 
-    **/
+     */
     where: PropertySnapshotWhereUniqueInput
   }
 
   /**
-   * PropertySnapshot: findUnique
+   * PropertySnapshot findUnique
    */
   export interface PropertySnapshotFindUniqueArgs extends PropertySnapshotFindUniqueArgsBase {
    /**
@@ -19218,63 +19695,74 @@ export namespace Prisma {
       
 
   /**
+   * PropertySnapshot findUniqueOrThrow
+   */
+  export type PropertySnapshotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     */
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter, which PropertySnapshot to fetch.
+     */
+    where: PropertySnapshotWhereUniqueInput
+  }
+
+
+  /**
    * PropertySnapshot base type for findFirst actions
    */
   export type PropertySnapshotFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * Filter, which PropertySnapshot to fetch.
-     * 
-    **/
+     */
     where?: PropertySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PropertySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for PropertySnapshots.
-     * 
-    **/
+     */
     cursor?: PropertySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PropertySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PropertySnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of PropertySnapshots.
-     * 
-    **/
+     */
     distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
   }
 
   /**
-   * PropertySnapshot: findFirst
+   * PropertySnapshot findFirst
    */
   export interface PropertySnapshotFindFirstArgs extends PropertySnapshotFindFirstArgsBase {
    /**
@@ -19286,51 +19774,93 @@ export namespace Prisma {
       
 
   /**
-   * PropertySnapshot findMany
+   * PropertySnapshot findFirstOrThrow
    */
-  export type PropertySnapshotFindManyArgs = {
+  export type PropertySnapshotFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
-     * Filter, which PropertySnapshots to fetch.
-     * 
-    **/
+     * Filter, which PropertySnapshot to fetch.
+     */
     where?: PropertySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of PropertySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing PropertySnapshots.
-     * 
-    **/
+     * Sets the position for searching for PropertySnapshots.
+     */
     cursor?: PropertySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` PropertySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` PropertySnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of PropertySnapshots.
+     */
+    distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * PropertySnapshot findMany
+   */
+  export type PropertySnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the PropertySnapshot
+     */
+    select?: PropertySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PropertySnapshotInclude | null
+    /**
+     * Filter, which PropertySnapshots to fetch.
+     */
+    where?: PropertySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertySnapshots to fetch.
+     */
+    orderBy?: Enumerable<PropertySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropertySnapshots.
+     */
+    cursor?: PropertySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertySnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertySnapshots.
+     */
     skip?: number
     distinct?: Enumerable<PropertySnapshotScalarFieldEnum>
   }
@@ -19342,18 +19872,15 @@ export namespace Prisma {
   export type PropertySnapshotCreateArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * The data needed to create a PropertySnapshot.
-     * 
-    **/
+     */
     data: XOR<PropertySnapshotCreateInput, PropertySnapshotUncheckedCreateInput>
   }
 
@@ -19364,8 +19891,7 @@ export namespace Prisma {
   export type PropertySnapshotCreateManyArgs = {
     /**
      * The data used to create many PropertySnapshots.
-     * 
-    **/
+     */
     data: Enumerable<PropertySnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -19377,23 +19903,19 @@ export namespace Prisma {
   export type PropertySnapshotUpdateArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * The data needed to update a PropertySnapshot.
-     * 
-    **/
+     */
     data: XOR<PropertySnapshotUpdateInput, PropertySnapshotUncheckedUpdateInput>
     /**
      * Choose, which PropertySnapshot to update.
-     * 
-    **/
+     */
     where: PropertySnapshotWhereUniqueInput
   }
 
@@ -19404,13 +19926,11 @@ export namespace Prisma {
   export type PropertySnapshotUpdateManyArgs = {
     /**
      * The data used to update PropertySnapshots.
-     * 
-    **/
+     */
     data: XOR<PropertySnapshotUpdateManyMutationInput, PropertySnapshotUncheckedUpdateManyInput>
     /**
      * Filter which PropertySnapshots to update
-     * 
-    **/
+     */
     where?: PropertySnapshotWhereInput
   }
 
@@ -19421,28 +19941,23 @@ export namespace Prisma {
   export type PropertySnapshotUpsertArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * The filter to search for the PropertySnapshot to update in case it exists.
-     * 
-    **/
+     */
     where: PropertySnapshotWhereUniqueInput
     /**
      * In case the PropertySnapshot found by the `where` argument doesn't exist, create a new PropertySnapshot with this data.
-     * 
-    **/
+     */
     create: XOR<PropertySnapshotCreateInput, PropertySnapshotUncheckedCreateInput>
     /**
      * In case the PropertySnapshot was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<PropertySnapshotUpdateInput, PropertySnapshotUncheckedUpdateInput>
   }
 
@@ -19453,18 +19968,15 @@ export namespace Prisma {
   export type PropertySnapshotDeleteArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
     /**
      * Filter which PropertySnapshot to delete.
-     * 
-    **/
+     */
     where: PropertySnapshotWhereUniqueInput
   }
 
@@ -19475,23 +19987,10 @@ export namespace Prisma {
   export type PropertySnapshotDeleteManyArgs = {
     /**
      * Filter which PropertySnapshots to delete
-     * 
-    **/
+     */
     where?: PropertySnapshotWhereInput
   }
 
-
-  /**
-   * PropertySnapshot: findUniqueOrThrow
-   */
-  export type PropertySnapshotFindUniqueOrThrowArgs = PropertySnapshotFindUniqueArgsBase
-      
-
-  /**
-   * PropertySnapshot: findFirstOrThrow
-   */
-  export type PropertySnapshotFindFirstOrThrowArgs = PropertySnapshotFindFirstArgsBase
-      
 
   /**
    * PropertySnapshot without action
@@ -19499,13 +19998,11 @@ export namespace Prisma {
   export type PropertySnapshotArgs = {
     /**
      * Select specific fields to fetch from the PropertySnapshot
-     * 
-    **/
+     */
     select?: PropertySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: PropertySnapshotInclude | null
   }
 
@@ -19618,36 +20115,31 @@ export namespace Prisma {
   export type SecuritySnapshotAggregateArgs = {
     /**
      * Filter which SecuritySnapshot to aggregate.
-     * 
-    **/
+     */
     where?: SecuritySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of SecuritySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: SecuritySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` SecuritySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` SecuritySnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -19683,7 +20175,7 @@ export namespace Prisma {
   export type SecuritySnapshotGroupByArgs = {
     where?: SecuritySnapshotWhereInput
     orderBy?: Enumerable<SecuritySnapshotOrderByWithAggregationInput>
-    by: Array<SecuritySnapshotScalarFieldEnum>
+    by: SecuritySnapshotScalarFieldEnum[]
     having?: SecuritySnapshotScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -19711,7 +20203,7 @@ export namespace Prisma {
     _max: SecuritySnapshotMaxAggregateOutputType | null
   }
 
-  type GetSecuritySnapshotGroupByPayload<T extends SecuritySnapshotGroupByArgs> = PrismaPromise<
+  type GetSecuritySnapshotGroupByPayload<T extends SecuritySnapshotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<SecuritySnapshotGroupByOutputType, T['by']> &
         {
@@ -19741,39 +20233,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
+
   export type SecuritySnapshotInclude = {
     user?: boolean | UserArgs
   }
 
-  export type SecuritySnapshotGetPayload<
-    S extends boolean | null | undefined | SecuritySnapshotArgs,
-    U = keyof S
-      > = S extends true
-        ? SecuritySnapshot
-    : S extends undefined
-    ? never
-    : S extends SecuritySnapshotArgs | SecuritySnapshotFindManyArgs
-    ?'include' extends U
+  export type SecuritySnapshotGetPayload<S extends boolean | null | undefined | SecuritySnapshotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? SecuritySnapshot :
+    S extends undefined ? never :
+    S extends { include: any } & (SecuritySnapshotArgs | SecuritySnapshotFindManyArgs)
     ? SecuritySnapshot  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'user' ? UserGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (SecuritySnapshotArgs | SecuritySnapshotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof SecuritySnapshot ? SecuritySnapshot[P] : never
   } 
-    : SecuritySnapshot
-  : SecuritySnapshot
+      : SecuritySnapshot
 
 
-  type SecuritySnapshotCountArgs = Merge<
+  type SecuritySnapshotCountArgs = 
     Omit<SecuritySnapshotFindManyArgs, 'select' | 'include'> & {
       select?: SecuritySnapshotCountAggregateInputType | true
     }
-  >
 
-  export interface SecuritySnapshotDelegate<GlobalRejectSettings> {
+  export interface SecuritySnapshotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one SecuritySnapshot that matches the filter.
      * @param {SecuritySnapshotFindUniqueArgs} args - Arguments to find a SecuritySnapshot
@@ -19787,7 +20275,23 @@ export namespace Prisma {
     **/
     findUnique<T extends SecuritySnapshotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, SecuritySnapshotFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SecuritySnapshot'> extends True ? CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot | null >, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SecuritySnapshot'> extends True ? Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>> : Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find one SecuritySnapshot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SecuritySnapshotFindUniqueOrThrowArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SecuritySnapshotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SecuritySnapshotFindUniqueOrThrowArgs>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Find the first SecuritySnapshot that matches the filter.
@@ -19804,7 +20308,25 @@ export namespace Prisma {
     **/
     findFirst<T extends SecuritySnapshotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, SecuritySnapshotFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SecuritySnapshot'> extends True ? CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>> : CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot | null >, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SecuritySnapshot'> extends True ? Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>> : Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T> | null, null>
+
+    /**
+     * Find the first SecuritySnapshot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySnapshotFindFirstOrThrowArgs} args - Arguments to find a SecuritySnapshot
+     * @example
+     * // Get one SecuritySnapshot
+     * const securitySnapshot = await prisma.securitySnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SecuritySnapshotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SecuritySnapshotFindFirstOrThrowArgs>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Find zero or more SecuritySnapshots that matches the filter.
@@ -19824,7 +20346,7 @@ export namespace Prisma {
     **/
     findMany<T extends SecuritySnapshotFindManyArgs>(
       args?: SelectSubset<T, SecuritySnapshotFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<SecuritySnapshot>>, PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>
 
     /**
      * Create a SecuritySnapshot.
@@ -19840,7 +20362,7 @@ export namespace Prisma {
     **/
     create<T extends SecuritySnapshotCreateArgs>(
       args: SelectSubset<T, SecuritySnapshotCreateArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Create many SecuritySnapshots.
@@ -19856,7 +20378,7 @@ export namespace Prisma {
     **/
     createMany<T extends SecuritySnapshotCreateManyArgs>(
       args?: SelectSubset<T, SecuritySnapshotCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a SecuritySnapshot.
@@ -19872,7 +20394,7 @@ export namespace Prisma {
     **/
     delete<T extends SecuritySnapshotDeleteArgs>(
       args: SelectSubset<T, SecuritySnapshotDeleteArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Update one SecuritySnapshot.
@@ -19891,7 +20413,7 @@ export namespace Prisma {
     **/
     update<T extends SecuritySnapshotUpdateArgs>(
       args: SelectSubset<T, SecuritySnapshotUpdateArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Delete zero or more SecuritySnapshots.
@@ -19907,7 +20429,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends SecuritySnapshotDeleteManyArgs>(
       args?: SelectSubset<T, SecuritySnapshotDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more SecuritySnapshots.
@@ -19928,7 +20450,7 @@ export namespace Prisma {
     **/
     updateMany<T extends SecuritySnapshotUpdateManyArgs>(
       args: SelectSubset<T, SecuritySnapshotUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one SecuritySnapshot.
@@ -19949,41 +20471,7 @@ export namespace Prisma {
     **/
     upsert<T extends SecuritySnapshotUpsertArgs>(
       args: SelectSubset<T, SecuritySnapshotUpsertArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
-
-    /**
-     * Find one SecuritySnapshot that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {SecuritySnapshotFindUniqueOrThrowArgs} args - Arguments to find a SecuritySnapshot
-     * @example
-     * // Get one SecuritySnapshot
-     * const securitySnapshot = await prisma.securitySnapshot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends SecuritySnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SecuritySnapshotFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
-
-    /**
-     * Find the first SecuritySnapshot that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SecuritySnapshotFindFirstOrThrowArgs} args - Arguments to find a SecuritySnapshot
-     * @example
-     * // Get one SecuritySnapshot
-     * const securitySnapshot = await prisma.securitySnapshot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends SecuritySnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SecuritySnapshotFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__SecuritySnapshotClient<SecuritySnapshot>, Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>>
+    ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
 
     /**
      * Count the number of SecuritySnapshots.
@@ -20000,7 +20488,7 @@ export namespace Prisma {
     **/
     count<T extends SecuritySnapshotCountArgs>(
       args?: Subset<T, SecuritySnapshotCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -20032,7 +20520,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SecuritySnapshotAggregateArgs>(args: Subset<T, SecuritySnapshotAggregateArgs>): PrismaPromise<GetSecuritySnapshotAggregateType<T>>
+    aggregate<T extends SecuritySnapshotAggregateArgs>(args: Subset<T, SecuritySnapshotAggregateArgs>): Prisma.PrismaPromise<GetSecuritySnapshotAggregateType<T>>
 
     /**
      * Group by SecuritySnapshot.
@@ -20109,7 +20597,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SecuritySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSecuritySnapshotGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SecuritySnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSecuritySnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -20118,10 +20607,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__SecuritySnapshotClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__SecuritySnapshotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -20132,10 +20619,10 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -20160,6 +20647,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -20168,23 +20657,20 @@ export namespace Prisma {
   export type SecuritySnapshotFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * Filter, which SecuritySnapshot to fetch.
-     * 
-    **/
+     */
     where: SecuritySnapshotWhereUniqueInput
   }
 
   /**
-   * SecuritySnapshot: findUnique
+   * SecuritySnapshot findUnique
    */
   export interface SecuritySnapshotFindUniqueArgs extends SecuritySnapshotFindUniqueArgsBase {
    /**
@@ -20196,63 +20682,74 @@ export namespace Prisma {
       
 
   /**
+   * SecuritySnapshot findUniqueOrThrow
+   */
+  export type SecuritySnapshotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     */
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter, which SecuritySnapshot to fetch.
+     */
+    where: SecuritySnapshotWhereUniqueInput
+  }
+
+
+  /**
    * SecuritySnapshot base type for findFirst actions
    */
   export type SecuritySnapshotFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * Filter, which SecuritySnapshot to fetch.
-     * 
-    **/
+     */
     where?: SecuritySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of SecuritySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for SecuritySnapshots.
-     * 
-    **/
+     */
     cursor?: SecuritySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` SecuritySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` SecuritySnapshots.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of SecuritySnapshots.
-     * 
-    **/
+     */
     distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
   }
 
   /**
-   * SecuritySnapshot: findFirst
+   * SecuritySnapshot findFirst
    */
   export interface SecuritySnapshotFindFirstArgs extends SecuritySnapshotFindFirstArgsBase {
    /**
@@ -20264,51 +20761,93 @@ export namespace Prisma {
       
 
   /**
-   * SecuritySnapshot findMany
+   * SecuritySnapshot findFirstOrThrow
    */
-  export type SecuritySnapshotFindManyArgs = {
+  export type SecuritySnapshotFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
-     * Filter, which SecuritySnapshots to fetch.
-     * 
-    **/
+     * Filter, which SecuritySnapshot to fetch.
+     */
     where?: SecuritySnapshotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of SecuritySnapshots to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing SecuritySnapshots.
-     * 
-    **/
+     * Sets the position for searching for SecuritySnapshots.
+     */
     cursor?: SecuritySnapshotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` SecuritySnapshots from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` SecuritySnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of SecuritySnapshots.
+     */
+    distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
+  }
+
+
+  /**
+   * SecuritySnapshot findMany
+   */
+  export type SecuritySnapshotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the SecuritySnapshot
+     */
+    select?: SecuritySnapshotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SecuritySnapshotInclude | null
+    /**
+     * Filter, which SecuritySnapshots to fetch.
+     */
+    where?: SecuritySnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySnapshots to fetch.
+     */
+    orderBy?: Enumerable<SecuritySnapshotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SecuritySnapshots.
+     */
+    cursor?: SecuritySnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySnapshots.
+     */
     skip?: number
     distinct?: Enumerable<SecuritySnapshotScalarFieldEnum>
   }
@@ -20320,18 +20859,15 @@ export namespace Prisma {
   export type SecuritySnapshotCreateArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * The data needed to create a SecuritySnapshot.
-     * 
-    **/
+     */
     data: XOR<SecuritySnapshotCreateInput, SecuritySnapshotUncheckedCreateInput>
   }
 
@@ -20342,8 +20878,7 @@ export namespace Prisma {
   export type SecuritySnapshotCreateManyArgs = {
     /**
      * The data used to create many SecuritySnapshots.
-     * 
-    **/
+     */
     data: Enumerable<SecuritySnapshotCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -20355,23 +20890,19 @@ export namespace Prisma {
   export type SecuritySnapshotUpdateArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * The data needed to update a SecuritySnapshot.
-     * 
-    **/
+     */
     data: XOR<SecuritySnapshotUpdateInput, SecuritySnapshotUncheckedUpdateInput>
     /**
      * Choose, which SecuritySnapshot to update.
-     * 
-    **/
+     */
     where: SecuritySnapshotWhereUniqueInput
   }
 
@@ -20382,13 +20913,11 @@ export namespace Prisma {
   export type SecuritySnapshotUpdateManyArgs = {
     /**
      * The data used to update SecuritySnapshots.
-     * 
-    **/
+     */
     data: XOR<SecuritySnapshotUpdateManyMutationInput, SecuritySnapshotUncheckedUpdateManyInput>
     /**
      * Filter which SecuritySnapshots to update
-     * 
-    **/
+     */
     where?: SecuritySnapshotWhereInput
   }
 
@@ -20399,28 +20928,23 @@ export namespace Prisma {
   export type SecuritySnapshotUpsertArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * The filter to search for the SecuritySnapshot to update in case it exists.
-     * 
-    **/
+     */
     where: SecuritySnapshotWhereUniqueInput
     /**
      * In case the SecuritySnapshot found by the `where` argument doesn't exist, create a new SecuritySnapshot with this data.
-     * 
-    **/
+     */
     create: XOR<SecuritySnapshotCreateInput, SecuritySnapshotUncheckedCreateInput>
     /**
      * In case the SecuritySnapshot was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<SecuritySnapshotUpdateInput, SecuritySnapshotUncheckedUpdateInput>
   }
 
@@ -20431,18 +20955,15 @@ export namespace Prisma {
   export type SecuritySnapshotDeleteArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
     /**
      * Filter which SecuritySnapshot to delete.
-     * 
-    **/
+     */
     where: SecuritySnapshotWhereUniqueInput
   }
 
@@ -20453,23 +20974,10 @@ export namespace Prisma {
   export type SecuritySnapshotDeleteManyArgs = {
     /**
      * Filter which SecuritySnapshots to delete
-     * 
-    **/
+     */
     where?: SecuritySnapshotWhereInput
   }
 
-
-  /**
-   * SecuritySnapshot: findUniqueOrThrow
-   */
-  export type SecuritySnapshotFindUniqueOrThrowArgs = SecuritySnapshotFindUniqueArgsBase
-      
-
-  /**
-   * SecuritySnapshot: findFirstOrThrow
-   */
-  export type SecuritySnapshotFindFirstOrThrowArgs = SecuritySnapshotFindFirstArgsBase
-      
 
   /**
    * SecuritySnapshot without action
@@ -20477,13 +20985,11 @@ export namespace Prisma {
   export type SecuritySnapshotArgs = {
     /**
      * Select specific fields to fetch from the SecuritySnapshot
-     * 
-    **/
+     */
     select?: SecuritySnapshotSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: SecuritySnapshotInclude | null
   }
 
@@ -20644,36 +21150,31 @@ export namespace Prisma {
   export type CryptocurrencyAggregateArgs = {
     /**
      * Filter which Cryptocurrency to aggregate.
-     * 
-    **/
+     */
     where?: CryptocurrencyWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Cryptocurrencies to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CryptocurrencyWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Cryptocurrencies from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Cryptocurrencies.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -20709,7 +21210,7 @@ export namespace Prisma {
   export type CryptocurrencyGroupByArgs = {
     where?: CryptocurrencyWhereInput
     orderBy?: Enumerable<CryptocurrencyOrderByWithAggregationInput>
-    by: Array<CryptocurrencyScalarFieldEnum>
+    by: CryptocurrencyScalarFieldEnum[]
     having?: CryptocurrencyScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -20745,7 +21246,7 @@ export namespace Prisma {
     _max: CryptocurrencyMaxAggregateOutputType | null
   }
 
-  type GetCryptocurrencyGroupByPayload<T extends CryptocurrencyGroupByArgs> = PrismaPromise<
+  type GetCryptocurrencyGroupByPayload<T extends CryptocurrencyGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CryptocurrencyGroupByOutputType, T['by']> &
         {
@@ -20777,7 +21278,7 @@ export namespace Prisma {
     market?: boolean | MarketArgs
     parentId?: boolean
     parent?: boolean | CryptocurrencyArgs
-    Children?: boolean | CryptocurrencyFindManyArgs
+    Children?: boolean | Cryptocurrency$ChildrenArgs
     userId?: boolean
     user?: boolean | UserArgs
     createdAt?: boolean
@@ -20787,51 +21288,47 @@ export namespace Prisma {
     _count?: boolean | CryptocurrencyCountOutputTypeArgs
   }
 
+
   export type CryptocurrencyInclude = {
     market?: boolean | MarketArgs
     parent?: boolean | CryptocurrencyArgs
-    Children?: boolean | CryptocurrencyFindManyArgs
+    Children?: boolean | Cryptocurrency$ChildrenArgs
     user?: boolean | UserArgs
     _count?: boolean | CryptocurrencyCountOutputTypeArgs
   }
 
-  export type CryptocurrencyGetPayload<
-    S extends boolean | null | undefined | CryptocurrencyArgs,
-    U = keyof S
-      > = S extends true
-        ? Cryptocurrency
-    : S extends undefined
-    ? never
-    : S extends CryptocurrencyArgs | CryptocurrencyFindManyArgs
-    ?'include' extends U
+  export type CryptocurrencyGetPayload<S extends boolean | null | undefined | CryptocurrencyArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Cryptocurrency :
+    S extends undefined ? never :
+    S extends { include: any } & (CryptocurrencyArgs | CryptocurrencyFindManyArgs)
     ? Cryptocurrency  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'market' ? MarketGetPayload<S['include'][P]> | null :
         P extends 'parent' ? CryptocurrencyGetPayload<S['include'][P]> | null :
         P extends 'Children' ? Array < CryptocurrencyGetPayload<S['include'][P]>>  :
         P extends 'user' ? UserGetPayload<S['include'][P]> :
         P extends '_count' ? CryptocurrencyCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (CryptocurrencyArgs | CryptocurrencyFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'market' ? MarketGetPayload<S['select'][P]> | null :
         P extends 'parent' ? CryptocurrencyGetPayload<S['select'][P]> | null :
         P extends 'Children' ? Array < CryptocurrencyGetPayload<S['select'][P]>>  :
         P extends 'user' ? UserGetPayload<S['select'][P]> :
         P extends '_count' ? CryptocurrencyCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Cryptocurrency ? Cryptocurrency[P] : never
   } 
-    : Cryptocurrency
-  : Cryptocurrency
+      : Cryptocurrency
 
 
-  type CryptocurrencyCountArgs = Merge<
+  type CryptocurrencyCountArgs = 
     Omit<CryptocurrencyFindManyArgs, 'select' | 'include'> & {
       select?: CryptocurrencyCountAggregateInputType | true
     }
-  >
 
-  export interface CryptocurrencyDelegate<GlobalRejectSettings> {
+  export interface CryptocurrencyDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Cryptocurrency that matches the filter.
      * @param {CryptocurrencyFindUniqueArgs} args - Arguments to find a Cryptocurrency
@@ -20845,7 +21342,23 @@ export namespace Prisma {
     **/
     findUnique<T extends CryptocurrencyFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CryptocurrencyFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Cryptocurrency'> extends True ? CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>> : CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency | null >, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Cryptocurrency'> extends True ? Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>> : Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null, null>
+
+    /**
+     * Find one Cryptocurrency that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CryptocurrencyFindUniqueOrThrowArgs} args - Arguments to find a Cryptocurrency
+     * @example
+     * // Get one Cryptocurrency
+     * const cryptocurrency = await prisma.cryptocurrency.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CryptocurrencyFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CryptocurrencyFindUniqueOrThrowArgs>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Find the first Cryptocurrency that matches the filter.
@@ -20862,7 +21375,25 @@ export namespace Prisma {
     **/
     findFirst<T extends CryptocurrencyFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CryptocurrencyFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Cryptocurrency'> extends True ? CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>> : CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency | null >, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Cryptocurrency'> extends True ? Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>> : Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null, null>
+
+    /**
+     * Find the first Cryptocurrency that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptocurrencyFindFirstOrThrowArgs} args - Arguments to find a Cryptocurrency
+     * @example
+     * // Get one Cryptocurrency
+     * const cryptocurrency = await prisma.cryptocurrency.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CryptocurrencyFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CryptocurrencyFindFirstOrThrowArgs>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Find zero or more Cryptocurrencies that matches the filter.
@@ -20882,7 +21413,7 @@ export namespace Prisma {
     **/
     findMany<T extends CryptocurrencyFindManyArgs>(
       args?: SelectSubset<T, CryptocurrencyFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>>>
 
     /**
      * Create a Cryptocurrency.
@@ -20898,7 +21429,7 @@ export namespace Prisma {
     **/
     create<T extends CryptocurrencyCreateArgs>(
       args: SelectSubset<T, CryptocurrencyCreateArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Create many Cryptocurrencies.
@@ -20914,7 +21445,7 @@ export namespace Prisma {
     **/
     createMany<T extends CryptocurrencyCreateManyArgs>(
       args?: SelectSubset<T, CryptocurrencyCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Cryptocurrency.
@@ -20930,7 +21461,7 @@ export namespace Prisma {
     **/
     delete<T extends CryptocurrencyDeleteArgs>(
       args: SelectSubset<T, CryptocurrencyDeleteArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Update one Cryptocurrency.
@@ -20949,7 +21480,7 @@ export namespace Prisma {
     **/
     update<T extends CryptocurrencyUpdateArgs>(
       args: SelectSubset<T, CryptocurrencyUpdateArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Delete zero or more Cryptocurrencies.
@@ -20965,7 +21496,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends CryptocurrencyDeleteManyArgs>(
       args?: SelectSubset<T, CryptocurrencyDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Cryptocurrencies.
@@ -20986,7 +21517,7 @@ export namespace Prisma {
     **/
     updateMany<T extends CryptocurrencyUpdateManyArgs>(
       args: SelectSubset<T, CryptocurrencyUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Cryptocurrency.
@@ -21007,41 +21538,7 @@ export namespace Prisma {
     **/
     upsert<T extends CryptocurrencyUpsertArgs>(
       args: SelectSubset<T, CryptocurrencyUpsertArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
-
-    /**
-     * Find one Cryptocurrency that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {CryptocurrencyFindUniqueOrThrowArgs} args - Arguments to find a Cryptocurrency
-     * @example
-     * // Get one Cryptocurrency
-     * const cryptocurrency = await prisma.cryptocurrency.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends CryptocurrencyFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CryptocurrencyFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
-
-    /**
-     * Find the first Cryptocurrency that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CryptocurrencyFindFirstOrThrowArgs} args - Arguments to find a Cryptocurrency
-     * @example
-     * // Get one Cryptocurrency
-     * const cryptocurrency = await prisma.cryptocurrency.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends CryptocurrencyFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CryptocurrencyFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency>, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>>
+    ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
 
     /**
      * Count the number of Cryptocurrencies.
@@ -21058,7 +21555,7 @@ export namespace Prisma {
     **/
     count<T extends CryptocurrencyCountArgs>(
       args?: Subset<T, CryptocurrencyCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -21090,7 +21587,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CryptocurrencyAggregateArgs>(args: Subset<T, CryptocurrencyAggregateArgs>): PrismaPromise<GetCryptocurrencyAggregateType<T>>
+    aggregate<T extends CryptocurrencyAggregateArgs>(args: Subset<T, CryptocurrencyAggregateArgs>): Prisma.PrismaPromise<GetCryptocurrencyAggregateType<T>>
 
     /**
      * Group by Cryptocurrency.
@@ -21167,7 +21664,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CryptocurrencyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptocurrencyGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CryptocurrencyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptocurrencyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -21176,10 +21674,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CryptocurrencyClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__CryptocurrencyClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -21190,16 +21686,16 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    market<T extends MarketArgs = {}>(args?: Subset<T, MarketArgs>): CheckSelect<T, Prisma__MarketClient<Market | null >, Prisma__MarketClient<MarketGetPayload<T> | null >>;
+    market<T extends MarketArgs= {}>(args?: Subset<T, MarketArgs>): Prisma__MarketClient<MarketGetPayload<T> | Null>;
 
-    parent<T extends CryptocurrencyArgs = {}>(args?: Subset<T, CryptocurrencyArgs>): CheckSelect<T, Prisma__CryptocurrencyClient<Cryptocurrency | null >, Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null >>;
+    parent<T extends CryptocurrencyArgs= {}>(args?: Subset<T, CryptocurrencyArgs>): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | Null>;
 
-    Children<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
+    Children<T extends Cryptocurrency$ChildrenArgs= {}>(args?: Subset<T, Cryptocurrency$ChildrenArgs>): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>>| Null>;
 
-    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -21224,6 +21720,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -21232,23 +21730,20 @@ export namespace Prisma {
   export type CryptocurrencyFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * Filter, which Cryptocurrency to fetch.
-     * 
-    **/
+     */
     where: CryptocurrencyWhereUniqueInput
   }
 
   /**
-   * Cryptocurrency: findUnique
+   * Cryptocurrency findUnique
    */
   export interface CryptocurrencyFindUniqueArgs extends CryptocurrencyFindUniqueArgsBase {
    /**
@@ -21260,63 +21755,74 @@ export namespace Prisma {
       
 
   /**
+   * Cryptocurrency findUniqueOrThrow
+   */
+  export type CryptocurrencyFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Cryptocurrency
+     */
+    select?: CryptocurrencySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptocurrencyInclude | null
+    /**
+     * Filter, which Cryptocurrency to fetch.
+     */
+    where: CryptocurrencyWhereUniqueInput
+  }
+
+
+  /**
    * Cryptocurrency base type for findFirst actions
    */
   export type CryptocurrencyFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * Filter, which Cryptocurrency to fetch.
-     * 
-    **/
+     */
     where?: CryptocurrencyWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Cryptocurrencies to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Cryptocurrencies.
-     * 
-    **/
+     */
     cursor?: CryptocurrencyWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Cryptocurrencies from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Cryptocurrencies.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Cryptocurrencies.
-     * 
-    **/
+     */
     distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
   }
 
   /**
-   * Cryptocurrency: findFirst
+   * Cryptocurrency findFirst
    */
   export interface CryptocurrencyFindFirstArgs extends CryptocurrencyFindFirstArgsBase {
    /**
@@ -21328,51 +21834,93 @@ export namespace Prisma {
       
 
   /**
-   * Cryptocurrency findMany
+   * Cryptocurrency findFirstOrThrow
    */
-  export type CryptocurrencyFindManyArgs = {
+  export type CryptocurrencyFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
-     * Filter, which Cryptocurrencies to fetch.
-     * 
-    **/
+     * Filter, which Cryptocurrency to fetch.
+     */
     where?: CryptocurrencyWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Cryptocurrencies to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Cryptocurrencies.
-     * 
-    **/
+     * Sets the position for searching for Cryptocurrencies.
+     */
     cursor?: CryptocurrencyWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Cryptocurrencies from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Cryptocurrencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Cryptocurrencies.
+     */
+    distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
+  }
+
+
+  /**
+   * Cryptocurrency findMany
+   */
+  export type CryptocurrencyFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Cryptocurrency
+     */
+    select?: CryptocurrencySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptocurrencyInclude | null
+    /**
+     * Filter, which Cryptocurrencies to fetch.
+     */
+    where?: CryptocurrencyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cryptocurrencies to fetch.
+     */
+    orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Cryptocurrencies.
+     */
+    cursor?: CryptocurrencyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cryptocurrencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cryptocurrencies.
+     */
     skip?: number
     distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
   }
@@ -21384,18 +21932,15 @@ export namespace Prisma {
   export type CryptocurrencyCreateArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * The data needed to create a Cryptocurrency.
-     * 
-    **/
+     */
     data: XOR<CryptocurrencyCreateInput, CryptocurrencyUncheckedCreateInput>
   }
 
@@ -21406,8 +21951,7 @@ export namespace Prisma {
   export type CryptocurrencyCreateManyArgs = {
     /**
      * The data used to create many Cryptocurrencies.
-     * 
-    **/
+     */
     data: Enumerable<CryptocurrencyCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -21419,23 +21963,19 @@ export namespace Prisma {
   export type CryptocurrencyUpdateArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * The data needed to update a Cryptocurrency.
-     * 
-    **/
+     */
     data: XOR<CryptocurrencyUpdateInput, CryptocurrencyUncheckedUpdateInput>
     /**
      * Choose, which Cryptocurrency to update.
-     * 
-    **/
+     */
     where: CryptocurrencyWhereUniqueInput
   }
 
@@ -21446,13 +21986,11 @@ export namespace Prisma {
   export type CryptocurrencyUpdateManyArgs = {
     /**
      * The data used to update Cryptocurrencies.
-     * 
-    **/
+     */
     data: XOR<CryptocurrencyUpdateManyMutationInput, CryptocurrencyUncheckedUpdateManyInput>
     /**
      * Filter which Cryptocurrencies to update
-     * 
-    **/
+     */
     where?: CryptocurrencyWhereInput
   }
 
@@ -21463,28 +22001,23 @@ export namespace Prisma {
   export type CryptocurrencyUpsertArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * The filter to search for the Cryptocurrency to update in case it exists.
-     * 
-    **/
+     */
     where: CryptocurrencyWhereUniqueInput
     /**
      * In case the Cryptocurrency found by the `where` argument doesn't exist, create a new Cryptocurrency with this data.
-     * 
-    **/
+     */
     create: XOR<CryptocurrencyCreateInput, CryptocurrencyUncheckedCreateInput>
     /**
      * In case the Cryptocurrency was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CryptocurrencyUpdateInput, CryptocurrencyUncheckedUpdateInput>
   }
 
@@ -21495,18 +22028,15 @@ export namespace Prisma {
   export type CryptocurrencyDeleteArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
     /**
      * Filter which Cryptocurrency to delete.
-     * 
-    **/
+     */
     where: CryptocurrencyWhereUniqueInput
   }
 
@@ -21517,23 +22047,31 @@ export namespace Prisma {
   export type CryptocurrencyDeleteManyArgs = {
     /**
      * Filter which Cryptocurrencies to delete
-     * 
-    **/
+     */
     where?: CryptocurrencyWhereInput
   }
 
 
   /**
-   * Cryptocurrency: findUniqueOrThrow
+   * Cryptocurrency.Children
    */
-  export type CryptocurrencyFindUniqueOrThrowArgs = CryptocurrencyFindUniqueArgsBase
-      
+  export type Cryptocurrency$ChildrenArgs = {
+    /**
+     * Select specific fields to fetch from the Cryptocurrency
+     */
+    select?: CryptocurrencySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptocurrencyInclude | null
+    where?: CryptocurrencyWhereInput
+    orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
+    cursor?: CryptocurrencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
+  }
 
-  /**
-   * Cryptocurrency: findFirstOrThrow
-   */
-  export type CryptocurrencyFindFirstOrThrowArgs = CryptocurrencyFindFirstArgsBase
-      
 
   /**
    * Cryptocurrency without action
@@ -21541,13 +22079,11 @@ export namespace Prisma {
   export type CryptocurrencyArgs = {
     /**
      * Select specific fields to fetch from the Cryptocurrency
-     * 
-    **/
+     */
     select?: CryptocurrencySelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CryptocurrencyInclude | null
   }
 
@@ -21684,36 +22220,31 @@ export namespace Prisma {
   export type MarketAggregateArgs = {
     /**
      * Filter which Market to aggregate.
-     * 
-    **/
+     */
     where?: MarketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Markets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<MarketOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: MarketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Markets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Markets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -21749,7 +22280,7 @@ export namespace Prisma {
   export type MarketGroupByArgs = {
     where?: MarketWhereInput
     orderBy?: Enumerable<MarketOrderByWithAggregationInput>
-    by: Array<MarketScalarFieldEnum>
+    by: MarketScalarFieldEnum[]
     having?: MarketScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -21781,7 +22312,7 @@ export namespace Prisma {
     _max: MarketMaxAggregateOutputType | null
   }
 
-  type GetMarketGroupByPayload<T extends MarketGroupByArgs> = PrismaPromise<
+  type GetMarketGroupByPayload<T extends MarketGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<MarketGroupByOutputType, T['by']> &
         {
@@ -21808,54 +22339,50 @@ export namespace Prisma {
     marketCapRank?: boolean
     type?: boolean
     image?: boolean
-    linked_assets?: boolean | AssetFindManyArgs
+    linked_assets?: boolean | Market$linked_assetsArgs
     createdAt?: boolean
     updatedAt?: boolean
     deleted?: boolean
     deletedAt?: boolean
-    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
+    Cryptocurrency?: boolean | Market$CryptocurrencyArgs
     _count?: boolean | MarketCountOutputTypeArgs
   }
+
 
   export type MarketInclude = {
-    linked_assets?: boolean | AssetFindManyArgs
-    Cryptocurrency?: boolean | CryptocurrencyFindManyArgs
+    linked_assets?: boolean | Market$linked_assetsArgs
+    Cryptocurrency?: boolean | Market$CryptocurrencyArgs
     _count?: boolean | MarketCountOutputTypeArgs
   }
 
-  export type MarketGetPayload<
-    S extends boolean | null | undefined | MarketArgs,
-    U = keyof S
-      > = S extends true
-        ? Market
-    : S extends undefined
-    ? never
-    : S extends MarketArgs | MarketFindManyArgs
-    ?'include' extends U
+  export type MarketGetPayload<S extends boolean | null | undefined | MarketArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Market :
+    S extends undefined ? never :
+    S extends { include: any } & (MarketArgs | MarketFindManyArgs)
     ? Market  & {
-    [P in TrueKeys<S['include']>]:
+    [P in TruthyKeys<S['include']>]:
         P extends 'linked_assets' ? Array < AssetGetPayload<S['include'][P]>>  :
         P extends 'Cryptocurrency' ? Array < CryptocurrencyGetPayload<S['include'][P]>>  :
         P extends '_count' ? MarketCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
+    : S extends { select: any } & (MarketArgs | MarketFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
         P extends 'linked_assets' ? Array < AssetGetPayload<S['select'][P]>>  :
         P extends 'Cryptocurrency' ? Array < CryptocurrencyGetPayload<S['select'][P]>>  :
         P extends '_count' ? MarketCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Market ? Market[P] : never
   } 
-    : Market
-  : Market
+      : Market
 
 
-  type MarketCountArgs = Merge<
+  type MarketCountArgs = 
     Omit<MarketFindManyArgs, 'select' | 'include'> & {
       select?: MarketCountAggregateInputType | true
     }
-  >
 
-  export interface MarketDelegate<GlobalRejectSettings> {
+  export interface MarketDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Market that matches the filter.
      * @param {MarketFindUniqueArgs} args - Arguments to find a Market
@@ -21869,7 +22396,23 @@ export namespace Prisma {
     **/
     findUnique<T extends MarketFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, MarketFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Market'> extends True ? CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>> : CheckSelect<T, Prisma__MarketClient<Market | null >, Prisma__MarketClient<MarketGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Market'> extends True ? Prisma__MarketClient<MarketGetPayload<T>> : Prisma__MarketClient<MarketGetPayload<T> | null, null>
+
+    /**
+     * Find one Market that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {MarketFindUniqueOrThrowArgs} args - Arguments to find a Market
+     * @example
+     * // Get one Market
+     * const market = await prisma.market.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends MarketFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MarketFindUniqueOrThrowArgs>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Find the first Market that matches the filter.
@@ -21886,7 +22429,25 @@ export namespace Prisma {
     **/
     findFirst<T extends MarketFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, MarketFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Market'> extends True ? CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>> : CheckSelect<T, Prisma__MarketClient<Market | null >, Prisma__MarketClient<MarketGetPayload<T> | null >>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Market'> extends True ? Prisma__MarketClient<MarketGetPayload<T>> : Prisma__MarketClient<MarketGetPayload<T> | null, null>
+
+    /**
+     * Find the first Market that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketFindFirstOrThrowArgs} args - Arguments to find a Market
+     * @example
+     * // Get one Market
+     * const market = await prisma.market.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends MarketFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MarketFindFirstOrThrowArgs>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Find zero or more Markets that matches the filter.
@@ -21906,7 +22467,7 @@ export namespace Prisma {
     **/
     findMany<T extends MarketFindManyArgs>(
       args?: SelectSubset<T, MarketFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<Market>>, PrismaPromise<Array<MarketGetPayload<T>>>>
+    ): Prisma.PrismaPromise<Array<MarketGetPayload<T>>>
 
     /**
      * Create a Market.
@@ -21922,7 +22483,7 @@ export namespace Prisma {
     **/
     create<T extends MarketCreateArgs>(
       args: SelectSubset<T, MarketCreateArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Create many Markets.
@@ -21938,7 +22499,7 @@ export namespace Prisma {
     **/
     createMany<T extends MarketCreateManyArgs>(
       args?: SelectSubset<T, MarketCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Market.
@@ -21954,7 +22515,7 @@ export namespace Prisma {
     **/
     delete<T extends MarketDeleteArgs>(
       args: SelectSubset<T, MarketDeleteArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Update one Market.
@@ -21973,7 +22534,7 @@ export namespace Prisma {
     **/
     update<T extends MarketUpdateArgs>(
       args: SelectSubset<T, MarketUpdateArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Delete zero or more Markets.
@@ -21989,7 +22550,7 @@ export namespace Prisma {
     **/
     deleteMany<T extends MarketDeleteManyArgs>(
       args?: SelectSubset<T, MarketDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Markets.
@@ -22010,7 +22571,7 @@ export namespace Prisma {
     **/
     updateMany<T extends MarketUpdateManyArgs>(
       args: SelectSubset<T, MarketUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Market.
@@ -22031,41 +22592,7 @@ export namespace Prisma {
     **/
     upsert<T extends MarketUpsertArgs>(
       args: SelectSubset<T, MarketUpsertArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
-
-    /**
-     * Find one Market that matches the filter or throw
-     * `NotFoundError` if no matches were found.
-     * @param {MarketFindUniqueOrThrowArgs} args - Arguments to find a Market
-     * @example
-     * // Get one Market
-     * const market = await prisma.market.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends MarketFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, MarketFindUniqueOrThrowArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
-
-    /**
-     * Find the first Market that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {MarketFindFirstOrThrowArgs} args - Arguments to find a Market
-     * @example
-     * // Get one Market
-     * const market = await prisma.market.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends MarketFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, MarketFindFirstOrThrowArgs>
-    ): CheckSelect<T, Prisma__MarketClient<Market>, Prisma__MarketClient<MarketGetPayload<T>>>
+    ): Prisma__MarketClient<MarketGetPayload<T>>
 
     /**
      * Count the number of Markets.
@@ -22082,7 +22609,7 @@ export namespace Prisma {
     **/
     count<T extends MarketCountArgs>(
       args?: Subset<T, MarketCountArgs>,
-    ): PrismaPromise<
+    ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
@@ -22114,7 +22641,7 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends MarketAggregateArgs>(args: Subset<T, MarketAggregateArgs>): PrismaPromise<GetMarketAggregateType<T>>
+    aggregate<T extends MarketAggregateArgs>(args: Subset<T, MarketAggregateArgs>): Prisma.PrismaPromise<GetMarketAggregateType<T>>
 
     /**
      * Group by Market.
@@ -22191,7 +22718,8 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, MarketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMarketGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, MarketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMarketGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
   }
 
   /**
@@ -22200,10 +22728,8 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__MarketClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__MarketClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -22214,12 +22740,12 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    linked_assets<T extends AssetFindManyArgs = {}>(args?: Subset<T, AssetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Asset>>, PrismaPromise<Array<AssetGetPayload<T>>>>;
+    linked_assets<T extends Market$linked_assetsArgs= {}>(args?: Subset<T, Market$linked_assetsArgs>): Prisma.PrismaPromise<Array<AssetGetPayload<T>>| Null>;
 
-    Cryptocurrency<T extends CryptocurrencyFindManyArgs = {}>(args?: Subset<T, CryptocurrencyFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Cryptocurrency>>, PrismaPromise<Array<CryptocurrencyGetPayload<T>>>>;
+    Cryptocurrency<T extends Market$CryptocurrencyArgs= {}>(args?: Subset<T, Market$CryptocurrencyArgs>): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -22244,6 +22770,8 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): Promise<T>;
   }
 
+
+
   // Custom InputTypes
 
   /**
@@ -22252,23 +22780,20 @@ export namespace Prisma {
   export type MarketFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * Filter, which Market to fetch.
-     * 
-    **/
+     */
     where: MarketWhereUniqueInput
   }
 
   /**
-   * Market: findUnique
+   * Market findUnique
    */
   export interface MarketFindUniqueArgs extends MarketFindUniqueArgsBase {
    /**
@@ -22280,63 +22805,74 @@ export namespace Prisma {
       
 
   /**
+   * Market findUniqueOrThrow
+   */
+  export type MarketFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Market
+     */
+    select?: MarketSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MarketInclude | null
+    /**
+     * Filter, which Market to fetch.
+     */
+    where: MarketWhereUniqueInput
+  }
+
+
+  /**
    * Market base type for findFirst actions
    */
   export type MarketFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * Filter, which Market to fetch.
-     * 
-    **/
+     */
     where?: MarketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Markets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<MarketOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Markets.
-     * 
-    **/
+     */
     cursor?: MarketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Markets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Markets.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Markets.
-     * 
-    **/
+     */
     distinct?: Enumerable<MarketScalarFieldEnum>
   }
 
   /**
-   * Market: findFirst
+   * Market findFirst
    */
   export interface MarketFindFirstArgs extends MarketFindFirstArgsBase {
    /**
@@ -22348,51 +22884,93 @@ export namespace Prisma {
       
 
   /**
-   * Market findMany
+   * Market findFirstOrThrow
    */
-  export type MarketFindManyArgs = {
+  export type MarketFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
-     * Filter, which Markets to fetch.
-     * 
-    **/
+     * Filter, which Market to fetch.
+     */
     where?: MarketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Markets to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<MarketOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Markets.
-     * 
-    **/
+     * Sets the position for searching for Markets.
+     */
     cursor?: MarketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Markets from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Markets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-    **/
+     * Filter by unique combinations of Markets.
+     */
+    distinct?: Enumerable<MarketScalarFieldEnum>
+  }
+
+
+  /**
+   * Market findMany
+   */
+  export type MarketFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Market
+     */
+    select?: MarketSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MarketInclude | null
+    /**
+     * Filter, which Markets to fetch.
+     */
+    where?: MarketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Markets to fetch.
+     */
+    orderBy?: Enumerable<MarketOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Markets.
+     */
+    cursor?: MarketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Markets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Markets.
+     */
     skip?: number
     distinct?: Enumerable<MarketScalarFieldEnum>
   }
@@ -22404,18 +22982,15 @@ export namespace Prisma {
   export type MarketCreateArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * The data needed to create a Market.
-     * 
-    **/
+     */
     data: XOR<MarketCreateInput, MarketUncheckedCreateInput>
   }
 
@@ -22426,8 +23001,7 @@ export namespace Prisma {
   export type MarketCreateManyArgs = {
     /**
      * The data used to create many Markets.
-     * 
-    **/
+     */
     data: Enumerable<MarketCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -22439,23 +23013,19 @@ export namespace Prisma {
   export type MarketUpdateArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * The data needed to update a Market.
-     * 
-    **/
+     */
     data: XOR<MarketUpdateInput, MarketUncheckedUpdateInput>
     /**
      * Choose, which Market to update.
-     * 
-    **/
+     */
     where: MarketWhereUniqueInput
   }
 
@@ -22466,13 +23036,11 @@ export namespace Prisma {
   export type MarketUpdateManyArgs = {
     /**
      * The data used to update Markets.
-     * 
-    **/
+     */
     data: XOR<MarketUpdateManyMutationInput, MarketUncheckedUpdateManyInput>
     /**
      * Filter which Markets to update
-     * 
-    **/
+     */
     where?: MarketWhereInput
   }
 
@@ -22483,28 +23051,23 @@ export namespace Prisma {
   export type MarketUpsertArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * The filter to search for the Market to update in case it exists.
-     * 
-    **/
+     */
     where: MarketWhereUniqueInput
     /**
      * In case the Market found by the `where` argument doesn't exist, create a new Market with this data.
-     * 
-    **/
+     */
     create: XOR<MarketCreateInput, MarketUncheckedCreateInput>
     /**
      * In case the Market was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<MarketUpdateInput, MarketUncheckedUpdateInput>
   }
 
@@ -22515,18 +23078,15 @@ export namespace Prisma {
   export type MarketDeleteArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
     /**
      * Filter which Market to delete.
-     * 
-    **/
+     */
     where: MarketWhereUniqueInput
   }
 
@@ -22537,23 +23097,52 @@ export namespace Prisma {
   export type MarketDeleteManyArgs = {
     /**
      * Filter which Markets to delete
-     * 
-    **/
+     */
     where?: MarketWhereInput
   }
 
 
   /**
-   * Market: findUniqueOrThrow
+   * Market.linked_assets
    */
-  export type MarketFindUniqueOrThrowArgs = MarketFindUniqueArgsBase
-      
+  export type Market$linked_assetsArgs = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AssetInclude | null
+    where?: AssetWhereInput
+    orderBy?: Enumerable<AssetOrderByWithRelationInput>
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AssetScalarFieldEnum>
+  }
+
 
   /**
-   * Market: findFirstOrThrow
+   * Market.Cryptocurrency
    */
-  export type MarketFindFirstOrThrowArgs = MarketFindFirstArgsBase
-      
+  export type Market$CryptocurrencyArgs = {
+    /**
+     * Select specific fields to fetch from the Cryptocurrency
+     */
+    select?: CryptocurrencySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CryptocurrencyInclude | null
+    where?: CryptocurrencyWhereInput
+    orderBy?: Enumerable<CryptocurrencyOrderByWithRelationInput>
+    cursor?: CryptocurrencyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CryptocurrencyScalarFieldEnum>
+  }
+
 
   /**
    * Market without action
@@ -22561,13 +23150,11 @@ export namespace Prisma {
   export type MarketArgs = {
     /**
      * Select specific fields to fetch from the Market
-     * 
-    **/
+     */
     select?: MarketSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: MarketInclude | null
   }
 
@@ -22596,159 +23183,6 @@ export namespace Prisma {
   };
 
   export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
-
-
-  export const SessionScalarFieldEnum: {
-    id: 'id',
-    sessionToken: 'sessionToken',
-    userId: 'userId',
-    expires: 'expires'
-  };
-
-  export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
-
-
-  export const UserScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    emailVerified: 'emailVerified',
-    image: 'image',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt',
-    role: 'role'
-  };
-
-  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-  export const VerificationTokenScalarFieldEnum: {
-    identifier: 'identifier',
-    token: 'token',
-    expires: 'expires'
-  };
-
-  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
-
-
-  export const SettingsScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    preferredColorScheme: 'preferredColorScheme',
-    userCurrency: 'userCurrency',
-    userLanguage: 'userLanguage',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
-
-
-  export const LogScalarFieldEnum: {
-    id: 'id',
-    type: 'type',
-    message: 'message',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
-
-
-  export const IncomeScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    payFrequency: 'payFrequency',
-    grossAmount: 'grossAmount',
-    grossFrequency: 'grossFrequency',
-    userId: 'userId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
-
-
-  export const BudgetScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    userId: 'userId',
-    totalBalance: 'totalBalance',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
-
-
-  export const BudgetEnvelopeScalarFieldEnum: {
-    id: 'id',
-    budgetId: 'budgetId',
-    name: 'name',
-    remainingAmount: 'remainingAmount',
-    totalAmount: 'totalAmount',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type BudgetEnvelopeScalarFieldEnum = (typeof BudgetEnvelopeScalarFieldEnum)[keyof typeof BudgetEnvelopeScalarFieldEnum]
-
-
-  export const BudgetTransactionScalarFieldEnum: {
-    id: 'id',
-    timestamp: 'timestamp',
-    pricePerUnit: 'pricePerUnit',
-    baseCurrency: 'baseCurrency',
-    quantity: 'quantity',
-    quantityFilled: 'quantityFilled',
-    fee: 'fee',
-    valueInBaseCurrency: 'valueInBaseCurrency',
-    fromAsset: 'fromAsset',
-    toAsset: 'toAsset',
-    market: 'market',
-    transactionType: 'transactionType',
-    expiry: 'expiry',
-    status: 'status',
-    transactionHash: 'transactionHash',
-    description: 'description',
-    memo: 'memo',
-    imageUrl: 'imageUrl',
-    imageName: 'imageName',
-    imageId: 'imageId',
-    budgetEnvelopeId: 'budgetEnvelopeId',
-    userId: 'userId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type BudgetTransactionScalarFieldEnum = (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum]
-
-
-  export const CustomAssetCategoryScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    icon: 'icon',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type CustomAssetCategoryScalarFieldEnum = (typeof CustomAssetCategoryScalarFieldEnum)[keyof typeof CustomAssetCategoryScalarFieldEnum]
 
 
   export const AssetLabelScalarFieldEnum: {
@@ -22824,14 +23258,57 @@ export namespace Prisma {
   export type AssetTransactionScalarFieldEnum = (typeof AssetTransactionScalarFieldEnum)[keyof typeof AssetTransactionScalarFieldEnum]
 
 
-  export const PortfolioSnapshotScalarFieldEnum: {
+  export const BudgetEnvelopeScalarFieldEnum: {
     id: 'id',
-    currency: 'currency',
-    totalValue: 'totalValue',
-    costBasis: 'costBasis',
-    unrealisedGain: 'unrealisedGain',
-    realisedGain: 'realisedGain',
-    saleableValue: 'saleableValue',
+    budgetId: 'budgetId',
+    name: 'name',
+    remainingAmount: 'remainingAmount',
+    totalAmount: 'totalAmount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type BudgetEnvelopeScalarFieldEnum = (typeof BudgetEnvelopeScalarFieldEnum)[keyof typeof BudgetEnvelopeScalarFieldEnum]
+
+
+  export const BudgetScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    userId: 'userId',
+    totalBalance: 'totalBalance',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
+
+
+  export const BudgetTransactionScalarFieldEnum: {
+    id: 'id',
+    timestamp: 'timestamp',
+    pricePerUnit: 'pricePerUnit',
+    baseCurrency: 'baseCurrency',
+    quantity: 'quantity',
+    quantityFilled: 'quantityFilled',
+    fee: 'fee',
+    valueInBaseCurrency: 'valueInBaseCurrency',
+    fromAsset: 'fromAsset',
+    toAsset: 'toAsset',
+    market: 'market',
+    transactionType: 'transactionType',
+    expiry: 'expiry',
+    status: 'status',
+    transactionHash: 'transactionHash',
+    description: 'description',
+    memo: 'memo',
+    imageUrl: 'imageUrl',
+    imageName: 'imageName',
+    imageId: 'imageId',
+    budgetEnvelopeId: 'budgetEnvelopeId',
     userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -22839,25 +23316,7 @@ export namespace Prisma {
     deletedAt: 'deletedAt'
   };
 
-  export type PortfolioSnapshotScalarFieldEnum = (typeof PortfolioSnapshotScalarFieldEnum)[keyof typeof PortfolioSnapshotScalarFieldEnum]
-
-
-  export const CryptoSnapshotScalarFieldEnum: {
-    id: 'id',
-    currency: 'currency',
-    totalValue: 'totalValue',
-    costBasis: 'costBasis',
-    unrealisedGain: 'unrealisedGain',
-    realisedGain: 'realisedGain',
-    saleableValue: 'saleableValue',
-    userId: 'userId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type CryptoSnapshotScalarFieldEnum = (typeof CryptoSnapshotScalarFieldEnum)[keyof typeof CryptoSnapshotScalarFieldEnum]
+  export type BudgetTransactionScalarFieldEnum = (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum]
 
 
   export const CashSnapshotScalarFieldEnum: {
@@ -22878,7 +23337,7 @@ export namespace Prisma {
   export type CashSnapshotScalarFieldEnum = (typeof CashSnapshotScalarFieldEnum)[keyof typeof CashSnapshotScalarFieldEnum]
 
 
-  export const PropertySnapshotScalarFieldEnum: {
+  export const CryptoSnapshotScalarFieldEnum: {
     id: 'id',
     currency: 'currency',
     totalValue: 'totalValue',
@@ -22893,25 +23352,7 @@ export namespace Prisma {
     deletedAt: 'deletedAt'
   };
 
-  export type PropertySnapshotScalarFieldEnum = (typeof PropertySnapshotScalarFieldEnum)[keyof typeof PropertySnapshotScalarFieldEnum]
-
-
-  export const SecuritySnapshotScalarFieldEnum: {
-    id: 'id',
-    currency: 'currency',
-    totalValue: 'totalValue',
-    costBasis: 'costBasis',
-    unrealisedGain: 'unrealisedGain',
-    realisedGain: 'realisedGain',
-    saleableValue: 'saleableValue',
-    userId: 'userId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deleted: 'deleted',
-    deletedAt: 'deletedAt'
-  };
-
-  export type SecuritySnapshotScalarFieldEnum = (typeof SecuritySnapshotScalarFieldEnum)[keyof typeof SecuritySnapshotScalarFieldEnum]
+  export type CryptoSnapshotScalarFieldEnum = (typeof CryptoSnapshotScalarFieldEnum)[keyof typeof CryptoSnapshotScalarFieldEnum]
 
 
   export const CryptocurrencyScalarFieldEnum: {
@@ -22940,6 +23381,48 @@ export namespace Prisma {
   export type CryptocurrencyScalarFieldEnum = (typeof CryptocurrencyScalarFieldEnum)[keyof typeof CryptocurrencyScalarFieldEnum]
 
 
+  export const CustomAssetCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    icon: 'icon',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type CustomAssetCategoryScalarFieldEnum = (typeof CustomAssetCategoryScalarFieldEnum)[keyof typeof CustomAssetCategoryScalarFieldEnum]
+
+
+  export const IncomeScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    payFrequency: 'payFrequency',
+    grossAmount: 'grossAmount',
+    grossFrequency: 'grossFrequency',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
+
+
+  export const LogScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    message: 'message',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
+
+
   export const MarketScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -22962,12 +23445,40 @@ export namespace Prisma {
   export type MarketScalarFieldEnum = (typeof MarketScalarFieldEnum)[keyof typeof MarketScalarFieldEnum]
 
 
-  export const SortOrder: {
-    asc: 'asc',
-    desc: 'desc'
+  export const PortfolioSnapshotScalarFieldEnum: {
+    id: 'id',
+    currency: 'currency',
+    totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
   };
 
-  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+  export type PortfolioSnapshotScalarFieldEnum = (typeof PortfolioSnapshotScalarFieldEnum)[keyof typeof PortfolioSnapshotScalarFieldEnum]
+
+
+  export const PropertySnapshotScalarFieldEnum: {
+    id: 'id',
+    currency: 'currency',
+    totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type PropertySnapshotScalarFieldEnum = (typeof PropertySnapshotScalarFieldEnum)[keyof typeof PropertySnapshotScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -22976,6 +23487,92 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const SecuritySnapshotScalarFieldEnum: {
+    id: 'id',
+    currency: 'currency',
+    totalValue: 'totalValue',
+    costBasis: 'costBasis',
+    unrealisedGain: 'unrealisedGain',
+    realisedGain: 'realisedGain',
+    saleableValue: 'saleableValue',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type SecuritySnapshotScalarFieldEnum = (typeof SecuritySnapshotScalarFieldEnum)[keyof typeof SecuritySnapshotScalarFieldEnum]
+
+
+  export const SessionScalarFieldEnum: {
+    id: 'id',
+    sessionToken: 'sessionToken',
+    userId: 'userId',
+    expires: 'expires'
+  };
+
+  export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+  export const SettingsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    preferredColorScheme: 'preferredColorScheme',
+    userCurrency: 'userCurrency',
+    userLanguage: 'userLanguage',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt'
+  };
+
+  export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
+
+
+  export const SortOrder: {
+    asc: 'asc',
+    desc: 'desc'
+  };
+
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
+    Serializable: 'Serializable'
+  };
+
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    emailVerified: 'emailVerified',
+    image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deleted: 'deleted',
+    deletedAt: 'deletedAt',
+    role: 'role'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const VerificationTokenScalarFieldEnum: {
+    identifier: 'identifier',
+    token: 'token',
+    expires: 'expires'
+  };
+
+  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
   /**

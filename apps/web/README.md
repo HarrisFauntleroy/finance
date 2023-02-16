@@ -89,11 +89,11 @@ General
 
 ## Setup
 
-yarn:
+pnpm:
 
 ```sh
 # Install dependencies
-yarn
+pnpm
 
 # Copy .env file and fill in values
 cp .env.template > .env
@@ -101,10 +101,10 @@ cp .env.template > .env
 # Deploy database to Docker
 # Run pending migrations
 # Seeds database 🌱
-yarn setup
+pnpm setup
 
 # Start development server
-yarn dev
+pnpm dev
 ```
 
 ### Requirements
@@ -133,44 +133,44 @@ https://github.com/prodrigestivill/docker-postgres-backup-local
 
 ```sh
 # Run the build scripts (including pre/post build) 🔨
-yarn build
+pnpm build
 
 # Update Swagger.json
-yarn swagger
+pnpm swagger
 
 # Resets database on Docker
-yarn reset-db
+pnpm reset-db
 
 # runs e2e tests on dev
-yarn test-dev
+pnpm test-dev
 
-# runs e2e tests on `next start` - requires `yarn build` before use
-yarn test-start
+# runs e2e tests on `next start` - requires `pnpm build` before use
+pnpm test-start
 
 # runs normal jest unit tests
-yarn test:unit
+pnpm test:unit
 
 # runs e2e tests
-yarn test:e2e
+pnpm test:e2e
 
 # Runs Prettier on all files
-yarn format
+pnpm format
 
 # Runs `next lint`
-yarn lint
+pnpm lint
 
 # Runs ESLint with the --fix flag
-# Runs `yarn format`
-yarn lint:fix
+# Runs `pnpm format`
+pnpm lint:fix
 
 # Generate prisma schema
-yarn prisma
+pnpm prisma
 
 # Format schema.prisma
-yarn prisma format
+pnpm prisma format
 
 # Launch prisma studio
-yarn prisma studio
+pnpm prisma studio
 
 # Deploy containers to a remote host using docker context
 docker context create <context-label> --docker "host=ssh://<username>@<address>"

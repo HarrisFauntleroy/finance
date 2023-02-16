@@ -1,11 +1,9 @@
-# Elixir.money Monorepo
-
-This is the monorepo for the Elixir.money project. It contains the following apps and packages:
+# Alchemical Finance Monorepo
 
 [![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=master)](https://travis-ci.org/elixir-money/monorepo)
 [![Coverage Status](https://coveralls.io/repos/github/elixir-money/monorepo/badge.svg)](https://coveralls.io/github/elixir-money/monorepo)
 
-## Utilities
+## Stack
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
@@ -39,7 +37,7 @@ To build all apps and packages, run the following command:
 
 ```bash
 cd my-turborepo
-yarn run build
+pnpm run build
 ```
 
 ### Develop
@@ -48,7 +46,7 @@ To develop all apps and packages, run the following command:
 
 ```bash
 cd my-turborepo
-yarn run dev
+pnpm run dev
 ```
 
 ### Docker Compose 🐳
@@ -85,11 +83,11 @@ npx prisma migrate dev
 If you need to push any existing migrations to the database, you can use either the Prisma db push or the Prisma migrate deploy command(s):
 
 ```bash
-yarn run db:push
+pnpm run db:push
 
 # OR
 
-yarn run db:migrate:deploy
+pnpm run db:migrate:deploy
 ```
 
 There is slight difference between the two commands & [Prisma offers a breakdown on which command is best to use](https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push#choosing-db-push-or-prisma-migrate).
@@ -101,7 +99,7 @@ To do this update check the seed script located in `packages/database/src/seed.t
 Once edited run the following command to run tell Prisma to run the seed script defined in the Prisma configuration:
 
 ```bash
-yarn run db:seed
+pnpm run db:seed
 ```
 
 ## Useful Links

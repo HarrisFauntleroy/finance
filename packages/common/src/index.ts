@@ -4,7 +4,7 @@ export * from "./math"
 export * from "./util"
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 export * from "./flattenObject"
-export * from "./Asset"
+export * from "./Asset/BreakItUp"
 export * from "./ideas"
 export * from "./isNegative"
 export * from "./isNumeric"

@@ -13,12 +13,14 @@ import {
 	createBullBoard,
 } from "@bull-board/express"
 import bodyParser from "body-parser"
-import { ConnectionOptions, Queue, Worker } from "bullmq"
+import { ConnectionOptions, Queue as QueueMQ, Worker } from "bullmq"
 import { logger } from "common"
 import dotenv from "dotenv"
 import express from "express"
 
 dotenv.config()
+
+const bullBoardPath = "/admin/queues"
 
 const connection: ConnectionOptions = {
 	host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
@@ -31,17 +33,18 @@ const queueOptions = {
 }
 
 const queueName = "Schedule tasks"
-const primaryQueue = new Queue(queueName, queueOptions)
+const primaryQueue = new QueueMQ(queueName, queueOptions)
 
 const serverAdapter = new ExpressAdapter()
-serverAdapter.setBasePath("/admin/queues")
+serverAdapter.setBasePath(bullBoardPath)
+
 createBullBoard({
 	queues: [new BullMQAdapter(primaryQueue)],
-	serverAdapter: serverAdapter,
+	serverAdapter,
 })
 
 class Scheduler {
-	constructor(private primaryQueue: Queue) {}
+	constructor(private primaryQueue: QueueMQ) {}
 
 	async scheduleJob(
 		name: string,
@@ -96,15 +99,19 @@ worker.on("failed", async (job) => {
 })
 
 const app = express()
-app.disable("x-powered-by") // Remove x-powered-by header for security purposes
+
+app.disable("x-powered-by")
+
 app.use(bodyParser.json())
-app.use("/admin/queues", serverAdapter.getRouter())
+
+app.use(bullBoardPath, serverAdapter.getRouter())
+
 app.listen(process.env.WORKER_PORT, () => {
-	console.log(`Running on ${process.env.WORKER_PORT}...`)
-	console.log(
-		`For the UI, open http://localhost:${process.env.WORKER_PORT}/admin/queues`
-	)
-	console.log(
-		`Make sure Redis is running on port ${process.env.REDIS_PORT} by default`
-	)
+	console.log("Running on 3000...")
+	console.log("For the UI, open http://localhost:3000/ui")
+	console.log("Make sure Redis is running on port 6379 by default")
+	console.log("To populate the queue, run:")
+	console.log("  curl http://localhost:3000/add?title=Example")
+	console.log("To populate the queue with custom options (opts), run:")
+	console.log("  curl http://localhost:3000/add?title=Test&opts[delay]=9")
 })
