@@ -5,7 +5,7 @@ import { logger } from "common"
 import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
-import { Decimal } from "database/generated/prisma-client/runtime"
+import { Decimal } from "database/generated/prisma-client/runtime/library"
 
 const COSMOS_RPC = "https://cosmos-mainnet-rpc.allthatnode.com:26657"
 

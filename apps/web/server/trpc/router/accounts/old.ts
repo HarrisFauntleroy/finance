@@ -66,7 +66,20 @@ export const assetRouter = router({
 				},
 				include: {
 					market: true,
-					subAssets: true,
+					subAssets: {
+						include: {
+							market: true,
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
+						},
+					},
 					user: {
 						select: {
 							settings: {
@@ -106,9 +119,16 @@ export const assetRouter = router({
 					market: true,
 					subAssets: {
 						include: {
-							// Needed for price data
-							// Could lean this out
 							market: true,
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
 						},
 					},
 					user: {
@@ -136,7 +156,7 @@ export const assetRouter = router({
 			}
 			// Calculate the asset values using the provided data, exchange rates, and user currency
 			return calculateManyAssets({
-				data: data,
+				data,
 				exchangeRates,
 				userCurrency,
 			})
@@ -156,7 +176,29 @@ export const assetRouter = router({
 				},
 				include: {
 					market: true,
-					subAssets: true,
+					subAssets: {
+						include: {
+							market: true,
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
+						},
+					},
+					user: {
+						select: {
+							settings: {
+								select: {
+									userCurrency: true,
+								},
+							},
+						},
+					},
 				},
 			})
 

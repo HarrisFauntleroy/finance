@@ -4,5 +4,5 @@
 		"lib": ["DOM", "DOM.Iterable", "ESNext"]
 	},
 	"include": ["src", "redis"],
-	"exclude": ["node_modules", "babel__generator"]
+	"exclude": ["dist", "node_modules"]
 }

@@ -13,5 +13,5 @@
 		"src/components/Button/Button.stories.js",
 		"src/hooks/useLagRadar.js"
 	],
-	"exclude": ["**/node_modules", "**/dist"]
+	"exclude": ["dist", "node_modules"]
 }

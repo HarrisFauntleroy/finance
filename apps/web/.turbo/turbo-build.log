@@ -1,108 +1,12 @@
-[32mweb:build[0m: cache hit, replaying output [2m186ef5f8d7696f4a[0m
-[32mweb:build: [0mwarning package.json: "dependencies" has dependency "@typescript-eslint/eslint-plugin" with range "^5.39.0" that collides with a dependency in "devDependencies" of the same name with version "^5.51.0"
-[32mweb:build: [0m$ prisma generate
-[32mweb:build: [0mEnvironment variables loaded from .env
-[32mweb:build: [0mPrisma schema loaded from ../../packages/database/prisma/schema.prisma
-[32mweb:build: [0m
-[32mweb:build: [0m✔ Generated Prisma Client (4.1.1 | library) to ./../../packages/database/generated/prisma-client in 143ms
-[32mweb:build: [0mYou can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
-[32mweb:build: [0m```
-[32mweb:build: [0mimport { PrismaClient } from '../../packages/database/generated/prisma-client'
-[32mweb:build: [0mconst prisma = new PrismaClient()
-[32mweb:build: [0m```
-[32mweb:build: [0m
-[32mweb:build: [0mwarn Versions of prisma@4.7.1 and @prisma/client@4.1.1 don't match.
-[32mweb:build: [0mThis might lead to unexpected behavior.
-[32mweb:build: [0mPlease make sure they have the same version.
-[32mweb:build: [0m$ next build
-[32mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
-[32mweb:build: [0minfo  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
-[32mweb:build: [0mwarn  - You have enabled experimental features (appDir, esmExternals) in next.config.js.
-[32mweb:build: [0mwarn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
-[32mweb:build: [0m
-[32mweb:build: [0minfo  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
-[32mweb:build: [0minfo  - Linting and checking validity of types...
-[32mweb:build: [0mwarn  - The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config
-[32mweb:build: [0minfo  - Creating an optimized production build...
-[32mweb:build: [0minfo  - Compiled successfully
-[32mweb:build: [0minfo  - Collecting page data...
-[32mweb:build: [0mwarn  - Statically exporting a Next.js application via `next export` disables API routes and middleware.
-[32mweb:build: [0mThis command is meant for static-only hosts, and is not necessary to make your application static.
-[32mweb:build: [0mPages in your application without server-side data dependencies will be automatically statically exported by `next build`, including pages powered by `getStaticProps`.
-[32mweb:build: [0mLearn more: https://nextjs.org/docs/messages/api-routes-static-export
-[32mweb:build: [0minfo  - Generating static pages (0/21)
-[32mweb:build: [0minfo  - Generating static pages (5/21)
-[32mweb:build: [0minfo  - Generating static pages (10/21)
-[32mweb:build: [0mreact-spring: The "interpolate" function is deprecated in v9 (use "to" instead)
-[32mweb:build: [0minfo  - Generating static pages (15/21)
-[32mweb:build: [0minfo  - Generating static pages (21/21)
-[32mweb:build: [0minfo  - Finalizing page optimization...
-[32mweb:build: [0m
-[32mweb:build: [0mRoute (pages)                              Size     First Load JS
-[32mweb:build: [0m┌ ○ /                                      987 B           1.2 MB
-[32mweb:build: [0m├   /_app                                  0 B            1.13 MB
-[32mweb:build: [0m├ ○ /404                                   186 B          1.13 MB
-[32mweb:build: [0m├ ○ /admin                                 10.8 kB        1.14 MB
-[32mweb:build: [0m├ λ /api/auth/[...nextauth]                0 B            1.13 MB
-[32mweb:build: [0m├ λ /api/auth/bearerToken                  0 B            1.13 MB
-[32mweb:build: [0m├ λ /api/auth/getServerSession             0 B            1.13 MB
-[32mweb:build: [0m├ λ /api/auth/hasUserSession               0 B            1.13 MB
-[32mweb:build: [0m├ λ /api/doc                               0 B            1.13 MB
-[32mweb:build: [0m├ λ /api/trpc/[trpc]                       0 B            1.13 MB
-[32mweb:build: [0m├ λ /auth                                  185 B          1.13 MB
-[32mweb:build: [0m├ λ /auth/signin                           534 B          1.13 MB
-[32mweb:build: [0m├ ○ /budgets                               5.17 kB        1.16 MB
-[32mweb:build: [0m├ ○ /dev                                   416 B          1.13 MB
-[32mweb:build: [0m├ ○ /dev/docs                              1.91 kB        1.14 MB
-[32mweb:build: [0m├   └ css/4056bf6b4062f30e.css             22.1 kB
-[32mweb:build: [0m├ ○ /dev/roadmap                           724 B          1.13 MB
-[32mweb:build: [0m├ ○ /dev/stack                             750 B          1.13 MB
-[32mweb:build: [0m├ ○ /markets                               7.92 kB        1.15 MB
-[32mweb:build: [0m├ ○ /markets/crypto/[crypto]               701 B          1.13 MB
-[32mweb:build: [0m├ ○ /markets/forex/[forex]                 691 B          1.13 MB
-[32mweb:build: [0m├ ○ /notes                                 432 kB         1.57 MB
-[32mweb:build: [0m├   └ css/2a508bf540bfd513.css             4.29 kB
-[32mweb:build: [0m├ ○ /portfolio                             5.47 kB        1.25 MB
-[32mweb:build: [0m├ ○ /portfolio/accounts                    3.99 kB        1.17 MB
-[32mweb:build: [0m├ ○ /portfolio/overview                    1.15 kB        1.24 MB
-[32mweb:build: [0m├ ○ /portfolio/statistics                  312 B          1.13 MB
-[32mweb:build: [0m├ ○ /portfolio/transactions                2.45 kB        1.15 MB
-[32mweb:build: [0m├ ○ /pricing                               391 B          1.13 MB
-[32mweb:build: [0m├ ○ /profile                               2.28 kB        1.15 MB
-[32mweb:build: [0m└ ○ /salaryCounter                         21.6 kB        1.16 MB
-[32mweb:build: [0m+ First Load JS shared by all              1.13 MB
-[32mweb:build: [0m  ├ chunks/framework-f29e48ae95cae5a3.js   45.2 kB
-[32mweb:build: [0m  ├ chunks/main-c11ef1fdb5801a5f.js        27 kB
-[32mweb:build: [0m  ├ chunks/pages/_app-618b63bb5512ec30.js  1.06 MB
-[32mweb:build: [0m  └ chunks/webpack-7654145e2fe590fd.js     3.56 kB
-[32mweb:build: [0m
-[32mweb:build: [0mƒ Middleware                               39 kB
-[32mweb:build: [0m
-[32mweb:build: [0mλ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
-[32mweb:build: [0m○  (Static)  automatically rendered as static HTML (uses no initial props)
-[32mweb:build: [0m
-[32mweb:build: [0m$ next-sitemap --config next-sitemap.config.js
-[32mweb:build: [0mLoaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
-[32mweb:build: [0mLoaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
-[32mweb:build: [0m✨ [next-sitemap] Loading next-sitemap config: file:///Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/next-sitemap.config.js
-[32mweb:build: [0m✅ [next-sitemap] Generation completed
-[32mweb:build: [0m┌───────────────┬────────┐
-[32mweb:build: [0m│    (index)    │ Values │
-[32mweb:build: [0m├───────────────┼────────┤
-[32mweb:build: [0m│ indexSitemaps │   1    │
-[32mweb:build: [0m│   sitemaps    │   1    │
-[32mweb:build: [0m└───────────────┴────────┘
-[32mweb:build: [0m-----------------------------------------------------
-[32mweb:build: [0m SITEMAP INDICES 
-[32mweb:build: [0m-----------------------------------------------------
-[32mweb:build: [0m
-[32mweb:build: [0m   ○ https://elixir-money.vercel.app/sitemap.xml
-[32mweb:build: [0m
-[32mweb:build: [0m
-[32mweb:build: [0m-----------------------------------------------------
-[32mweb:build: [0m SITEMAPS 
-[32mweb:build: [0m-----------------------------------------------------
-[32mweb:build: [0m
-[32mweb:build: [0m   ○ https://elixir-money.vercel.app/sitemap-0.xml
-[32mweb:build: [0m
-[32mweb:build: [0m
+
+> web@1.0.4 build /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web
+> next build
+
+info  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env.local
+info  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/apps/web/.env
+warn  - You have enabled experimental features (appDir, esmExternals) in next.config.js.
+warn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
+
+info  - Thank you for testing `appDir` please leave your feedback at https://nextjs.link/app-feedback
+info  - Linting and checking validity of types...
+warn  - The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config

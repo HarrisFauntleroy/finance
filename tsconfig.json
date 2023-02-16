@@ -11,5 +11,5 @@
 		"incremental": true,
 		"newLine": "lf"
 	},
-	"exclude": ["**/node_modules", "**/dist"]
+	"exclude": ["dist", "node_modules"]
 }

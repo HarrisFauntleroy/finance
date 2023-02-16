@@ -24,20 +24,21 @@ import { useForm } from "react-hook-form"
 import { logger } from "~/../../packages/common/dist"
 import type { FormInputs } from "~/components/Form/TextInput"
 import { TextInput } from "~/components/Form/TextInput"
-import type { RouterInput } from "~/utils/trpc"
 import { trpc } from "~/utils/trpc"
 
-type BudgetUpdateInput = RouterInput["budget"]["update"]
-
-interface UpdateBudget extends BudgetUpdateInput {
-	id: string
-}
-
-interface CreateBudget extends BudgetUpdateInput {
-	id: never
-}
-
-export type BudgetFormInputs = CreateBudget | UpdateBudget
+export type BudgetFormInputs =
+	| {
+			id: never
+			name?: string
+			userId?: string
+			totalBalance?: string
+	  }
+	| {
+			id: string
+			name?: string
+			userId?: string
+			totalBalance?: string
+	  }
 
 type FormProps = {
 	defaultValues?: BudgetFormInputs

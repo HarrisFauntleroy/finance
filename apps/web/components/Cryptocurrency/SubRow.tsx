@@ -13,10 +13,10 @@ import {
 	StatNumber,
 } from "@chakra-ui/react"
 import type { Row } from "@tanstack/react-table"
+import type { Asset } from "common"
 import { percentageChange } from "common"
 import currency from "currency.js"
 import { Card, Debug, Grid, inDev } from "ui"
-import type { Asset } from "~/pages"
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
 	<Card>

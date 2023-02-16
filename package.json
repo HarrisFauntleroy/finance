@@ -15,7 +15,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"audit:fix": "pnpm audit --fix .",
+		"audit:fix": "yarn audit --fix .",
 		"build": "turbo run build",
 		"clean": "turbo run clean",
 		"db:migrate:deploy": "turbo run db:migrate:deploy",
@@ -25,7 +25,7 @@
 		"docker:network": "docker network create app_network",
 		"docker:prune": "docker system prune --all",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"generate": "turbo run generate",
+		"generate": "turbo db:push db:generate",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix",
 		"test": "turbo run test --concurrency=1",
@@ -60,12 +60,12 @@
 		"tsx": "^3.7.1",
 		"turbo": "latest"
 	},
-	"packageManager": "pnpm@7.15.0",
+	"packageManager": "yarn@1.22.19",
 	"engines": {
 		"node": ">=14.0.0",
 		"npm": ">=7.0.0"
 	},
-	"pnpm": {
+	"yarn": {
 		"overrides": {
 			"glob-parent@<5.1.2": ">=5.1.2",
 			"trim-newlines@<3.0.1": ">=3.0.1",

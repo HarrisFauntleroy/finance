@@ -1,5 +1,4 @@
 import { getExchangeRates, getUserCurrency } from "../../util"
-import { TRPCError } from "@trpc/server"
 import { calculateAssetOverview, calculateManyAssets } from "common"
 import { prisma } from "database"
 
@@ -16,6 +15,24 @@ export const calculateAssetsTotals = async (userId: string) => {
 					subAssets: {
 						include: {
 							market: true,
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
+						},
+					},
+					user: {
+						select: {
+							settings: {
+								select: {
+									userCurrency: true,
+								},
+							},
 						},
 					},
 				},
@@ -28,10 +45,7 @@ export const calculateAssetsTotals = async (userId: string) => {
 	const exchangeRates = await getExchangeRates()
 
 	if (!user) {
-		throw new TRPCError({
-			code: "NOT_FOUND",
-			message: `No user with userId '${userId}'`,
-		})
+		throw new Error("Not found")
 	}
 
 	/** Calculate assets for overview */

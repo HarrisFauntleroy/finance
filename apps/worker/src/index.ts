@@ -15,10 +15,11 @@ import {
 import bodyParser from "body-parser"
 import { ConnectionOptions, Queue as QueueMQ, Worker } from "bullmq"
 import { logger } from "common"
-import dotenv from "dotenv"
+import { config } from "dotenv"
 import express from "express"
 
-dotenv.config()
+/** dotenv */
+config()
 
 const bullBoardPath = "/admin/queues"
 
@@ -33,29 +34,29 @@ const queueOptions = {
 }
 
 const queueName = "Schedule tasks"
-const primaryQueue = new QueueMQ(queueName, queueOptions)
+const queueMQ = new QueueMQ(queueName, queueOptions)
 
 const serverAdapter = new ExpressAdapter()
 serverAdapter.setBasePath(bullBoardPath)
 
 createBullBoard({
-	queues: [new BullMQAdapter(primaryQueue)],
+	queues: [new BullMQAdapter(queueMQ)],
 	serverAdapter,
 })
 
 class Scheduler {
-	constructor(private primaryQueue: QueueMQ) {}
+	constructor(private queue: QueueMQ) {}
 
 	async scheduleJob(
 		name: string,
 		data: Record<string, unknown>,
 		repeat: Record<string, unknown>
 	) {
-		await this.primaryQueue.add(name, data, { repeat })
+		await this.queue.add(name, data, { repeat })
 	}
 }
 
-const scheduler = new Scheduler(primaryQueue)
+const scheduler = new Scheduler(queueMQ)
 
 scheduler.scheduleJob(
 	"history",
@@ -75,18 +76,18 @@ scheduler.scheduleJob(
 scheduler.scheduleJob("swyftx", { key: "swyftx" }, { pattern: "0 * * * *" })
 scheduler.scheduleJob("cleaner", { key: "cleaner" }, { pattern: "0 * * * *" })
 
-const worker = new Worker(queueName, async ({ name, data: { key } }) => {
+const worker = new Worker(queueName, async ({ data: { key } }) => {
 	switch (key) {
 		case "marketData":
-			return await marketData()
+			return marketData()
 		case "cryptocurrency":
-			return await cryptocurrency()
+			return cryptocurrency()
 		case "swyftx":
-			return await swyftx()
+			return swyftx()
 		case "cleaner":
-			return await cleaner()
+			return cleaner()
 		case "history":
-			return await history()
+			return history()
 	}
 })
 

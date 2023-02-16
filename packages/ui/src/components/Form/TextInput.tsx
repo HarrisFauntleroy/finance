@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 
 import type { InputProps as ChakraInputProps } from "@chakra-ui/react"
@@ -8,15 +7,15 @@ import {
 	FormLabel,
 	Input,
 } from "@chakra-ui/react"
-import type { UseFormRegister, ValidationRule } from "react-hook-form"
+import type { ValidationRule } from "react-hook-form"
 
 interface InputProps {
 	name: string
 	label: string
 	inputProps?: ChakraInputProps
 	error?: string
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-	register: UseFormRegister<any>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	register: any
 	validation?: Partial<{
 		required: string | ValidationRule<boolean>
 		minLength: ValidationRule<number>

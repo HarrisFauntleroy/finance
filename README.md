@@ -37,7 +37,7 @@ To build all apps and packages, run the following command:
 
 ```bash
 cd my-turborepo
-pnpm run build
+yarn run build
 ```
 
 ### Develop
@@ -46,7 +46,7 @@ To develop all apps and packages, run the following command:
 
 ```bash
 cd my-turborepo
-pnpm run dev
+yarn run dev
 ```
 
 ### Docker Compose 🐳
@@ -83,11 +83,11 @@ npx prisma migrate dev
 If you need to push any existing migrations to the database, you can use either the Prisma db push or the Prisma migrate deploy command(s):
 
 ```bash
-pnpm run db:push
+yarn run db:push
 
 # OR
 
-pnpm run db:migrate:deploy
+yarn run db:migrate:deploy
 ```
 
 There is slight difference between the two commands & [Prisma offers a breakdown on which command is best to use](https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push#choosing-db-push-or-prisma-migrate).
@@ -99,7 +99,7 @@ To do this update check the seed script located in `packages/database/src/seed.t
 Once edited run the following command to run tell Prisma to run the seed script defined in the Prisma configuration:
 
 ```bash
-pnpm run db:seed
+yarn run db:seed
 ```
 
 ## Useful Links

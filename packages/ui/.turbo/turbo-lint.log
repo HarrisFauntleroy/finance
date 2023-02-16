@@ -1,4 +1,4 @@
-[35mui:lint[0m: cache hit, replaying output [2m7d824f0f102cf84f[0m
-[35mui:lint: [0m$ next lint
-[35mui:lint: [0mFailed to load config "airbnb-typescript" to extend from.
-[35mui:lint: [0mReferenced from: /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/ui/.eslintrc.json
+$ next lint
+> Couldn't find a `pages` directory. Please create one under the project root
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -1,12 +1,13 @@
 {
 	"name": "tsconfig",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"private": true,
 	"main": "index.js",
+	"type": "module",
 	"files": [
 		"base.json",
 		"nextjs.json",
 		"node16.json"
 	],
-	"packageManager": "pnpm@7.15.0"
+	"packageManager": "yarn@1.22.19"
 }

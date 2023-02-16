@@ -41,7 +41,20 @@ export const assetRouter = router({
 				},
 				include: {
 					market: true,
-					subAssets: true,
+					subAssets: {
+						include: {
+							market: true,
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
+						},
+					},
 					user: {
 						select: {
 							settings: {
@@ -70,11 +83,18 @@ export const assetRouter = router({
 			},
 			include: {
 				market: true,
-				transactions: true,
 				subAssets: {
 					include: {
 						market: true,
-						transactions: true,
+						user: {
+							select: {
+								settings: {
+									select: {
+										userCurrency: true,
+									},
+								},
+							},
+						},
 					},
 				},
 				user: {
@@ -115,6 +135,15 @@ export const assetRouter = router({
 						subAssets: {
 							include: {
 								market: true,
+								user: {
+									select: {
+										settings: {
+											select: {
+												userCurrency: true,
+											},
+										},
+									},
+								},
 							},
 						},
 						user: {
@@ -157,7 +186,29 @@ export const assetRouter = router({
 							},
 							include: {
 								market: true,
-								subAssets: true,
+								subAssets: {
+									include: {
+										market: true,
+										user: {
+											select: {
+												settings: {
+													select: {
+														userCurrency: true,
+													},
+												},
+											},
+										},
+									},
+								},
+								user: {
+									select: {
+										settings: {
+											select: {
+												userCurrency: true,
+											},
+										},
+									},
+								},
 							},
 						})
 						.then((data) =>

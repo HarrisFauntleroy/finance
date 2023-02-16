@@ -36,19 +36,19 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - run: pnpm install
+      - run: yarn install
 
       - name: Next.js cache
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm.lock') }}-nextjs
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-nextjs
 
-      - run: pnpm playwright install --with-deps
-      - run: pnpm lint
-      - run: pnpm build
-      - run: pnpm test:start
-      - run: pnpm test:dev
+      - run: yarn playwright install --with-deps
+      - run: yarn lint
+      - run: yarn build
+      - run: yarn test:start
+      - run: yarn test:dev
 
       - name: Upload test results
         if: ${{ always() }}

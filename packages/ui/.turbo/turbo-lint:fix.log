@@ -1,2 +1,0 @@
-[33mui:lint:fix[0m: cache hit, replaying output [2mb8b6a7babe8c5d13[0m
-[33mui:lint:fix: [0m$ eslint . --fix

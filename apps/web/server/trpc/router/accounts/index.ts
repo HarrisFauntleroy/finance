@@ -68,7 +68,29 @@ export const accountsRouter = router({
 					assets: {
 						include: {
 							market: true,
-							subAssets: true,
+							subAssets: {
+								include: {
+									market: true,
+									user: {
+										select: {
+											settings: {
+												select: {
+													userCurrency: true,
+												},
+											},
+										},
+									},
+								},
+							},
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
 						},
 					},
 					portfolioSnapshot: true,

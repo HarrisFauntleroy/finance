@@ -18,7 +18,7 @@ jobs:
           node-version: 16
       # Install deps
       - name: Install
-        run: pnpm
+        run: yarn
         # Run tests
       - name: Test
-        run: pnpm test:unit
+        run: yarn test:unit
