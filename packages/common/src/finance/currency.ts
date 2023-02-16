@@ -1,13 +1,13 @@
 import { divide, multiply } from "../math"
-import currency, { Any } from "currency.js"
+import { Any } from "currency.js"
 
 export function getConversionRate(
 	rates: { [key: string]: string },
 	fromCurrency: string,
 	toCurrency: string
 ): { value: string; error?: string } {
-	const fromRate = rates[fromCurrency.toLowerCase()]
-	const toRate = rates[toCurrency.toLowerCase()]
+	const fromRate = rates[fromCurrency.toUpperCase()]
+	const toRate = rates[toCurrency.toUpperCase()]
 
 	if (!fromRate) {
 		return { value: "0", error: `Invalid from currency: ${fromCurrency}` }

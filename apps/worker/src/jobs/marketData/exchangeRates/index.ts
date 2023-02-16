@@ -19,8 +19,8 @@ class MarketUpdater {
 		return exchangeRates.map(({ name, id, price }) => ({
 			name: String(name),
 			type: Category.CASH,
-			ticker: String(id).toLowerCase(),
-			currency: String(id).toLowerCase(),
+			ticker: String(id).toUpperCase(),
+			currency: String(id).toUpperCase(),
 			price: String(price),
 		}))
 	}

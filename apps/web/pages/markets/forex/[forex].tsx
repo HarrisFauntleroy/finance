@@ -1,7 +1,6 @@
 import React from "react"
 
 import { MarketType } from "database/generated/prisma-client"
-import NextError from "next/error"
 import { useRouter } from "next/router"
 import { Debug, Page } from "ui"
 import { trpc } from "~/utils/trpc"
@@ -17,19 +16,6 @@ const MarketViewPage = () => {
 		type: MarketType.CASH,
 	})
 
-	if (marketQuery.error) {
-		return (
-			<NextError
-				title={marketQuery.error.message}
-				statusCode={marketQuery.error.data?.httpStatus ?? 500}
-			/>
-		)
-	}
-
-	if (marketQuery.status !== "success") {
-		return <>Loading...</>
-	}
-
 	const { data } = marketQuery
 	return (
 		<Page>
@@ -40,8 +26,6 @@ const MarketViewPage = () => {
 			</em>
 			<h2>Raw data:</h2>
 			<Debug data={data} />
-			cccccbctnduikktruvejdgijcuegnrvirghjrbtfuvjg
-			cccccbctnduiincfhicnivcbcvdlfrhfefkujieigcfv
 		</Page>
 	)
 }

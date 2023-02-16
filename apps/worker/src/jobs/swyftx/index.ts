@@ -130,7 +130,7 @@ const updateOneUser = async (secrets: {
 				name: name,
 				userId: secrets.userId,
 				parentId: secrets?.id,
-				marketId: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+				marketId: `${marketId.toUpperCase()}_${MarketType.CRYPTOCURRENCY}`,
 				interestBearingBalance: stakingBalance,
 				balance: availableBalance,
 				costBasis: "0",
@@ -143,7 +143,7 @@ const updateOneUser = async (secrets: {
 				account: AccountConnection.NONE,
 				institution: "Swyftx",
 				status: AssetStatus.ACTIVE,
-				currency: marketId.toLowerCase(),
+				currency: marketId.toUpperCase(),
 			}
 		}
 	)
@@ -187,12 +187,12 @@ const updateOneUser = async (secrets: {
 						market: {
 							connectOrCreate: {
 								where: {
-									id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+									id: `${marketId.toUpperCase()}_${MarketType.CRYPTOCURRENCY}`,
 								},
 								create: {
-									id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
-									ticker: marketId.toLowerCase(),
-									currency: marketId.toLowerCase(),
+									id: `${marketId.toUpperCase()}_${MarketType.CRYPTOCURRENCY}`,
+									ticker: marketId.toUpperCase(),
+									currency: marketId.toUpperCase(),
 									type: MarketType.CRYPTOCURRENCY,
 								},
 							},
@@ -213,7 +213,7 @@ const updateOneUser = async (secrets: {
 						},
 						market: {
 							connect: {
-								id: `${marketId.toLowerCase()}_${MarketType.CRYPTOCURRENCY}`,
+								id: `${marketId.toUpperCase()}_${MarketType.CRYPTOCURRENCY}`,
 							},
 						},
 					},

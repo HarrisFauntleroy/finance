@@ -170,7 +170,7 @@ const Index = () => {
 								<Avatar src={user.image || ""} />
 								<List>
 									<ListItem>Name: {user.name}</ListItem>
-									<ListItem>Role: {user.role.toLowerCase()}</ListItem>
+									<ListItem>Role: {user.role.toUpperCase()}</ListItem>
 									<ListItem fontSize={16}>ID: {user.id}</ListItem>
 								</List>
 							</Flex>

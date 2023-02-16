@@ -13,8 +13,11 @@ import { MarketType } from "database/generated/prisma-client"
 
 export class MarketUpdater {
 	private baseUrl = "https://api.coingecko.com/api/v3"
+
 	private baseCurrency = "USD"
+
 	private resultsPerPage = 200
+
 	private pages = 10
 
 	private async fetchFromCoingecko(page: number): Promise<CoinGeckoResponse[]> {
@@ -53,7 +56,7 @@ export class MarketUpdater {
 				name: id,
 				type: MarketType.CRYPTOCURRENCY,
 				ticker: symbol,
-				currency: this.baseCurrency.toLowerCase(),
+				currency: this.baseCurrency.toUpperCase(),
 				price: String(current_price),
 				priceChange24h: String(price_change_24h),
 				priceChange24hPercent: String(price_change_percentage_24h),
@@ -67,7 +70,7 @@ export class MarketUpdater {
 	private async upsertCryptoMarkets(response: CoinGeckoResponse[]) {
 		const parsed = this.parseExchangeRateResponse(response)
 
-		for await (let crypto of parsed) {
+		for await (const crypto of parsed) {
 			await prisma.market
 				.upsert({
 					where: {
