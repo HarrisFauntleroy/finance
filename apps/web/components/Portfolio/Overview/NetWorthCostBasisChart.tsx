@@ -37,7 +37,7 @@ export const NetWorthCostBasisChart = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.accounts.historyByUserId.useQuery({
+	const { data } = trpc.assets.historyByUserId.useQuery({
 		userId: userId || "",
 	})
 

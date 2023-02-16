@@ -55,7 +55,6 @@ export async function updateAtomBalances() {
 	const progress = new Progress(cryptocurrencies.length)
 	progress.start("Atom")
 
-	// Iterate over the cryptocurrencies
 	for (const cryptocurrency of cryptocurrencies) {
 		if (cryptocurrency.walletAddress)
 			try {
@@ -67,7 +66,6 @@ export async function updateAtomBalances() {
 					10 ** -6
 				)
 
-				// Update the cryptocurrency in the database with the new balance and transactions
 				await prisma.cryptocurrency.update({
 					data: {
 						balance: balanceInCosmos.toString(),

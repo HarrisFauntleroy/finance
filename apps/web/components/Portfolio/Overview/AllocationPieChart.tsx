@@ -10,7 +10,7 @@ export const AllocationPieChart = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data: allocationData } = trpc.accounts.allocation.useQuery({
+	const { data: allocationData } = trpc.assets.allocation.useQuery({
 		userId: userId || "",
 	})
 

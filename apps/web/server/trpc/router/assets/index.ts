@@ -4,10 +4,62 @@ import { createAsset, createAssetInput } from "./create"
 import { deleteAsset } from "./delete"
 import { updateAsset, updateAssetInput } from "./update"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAssets, logger } from "common"
+import {
+	calculateAssetOverview,
+	calculateManyAssets,
+	convertCurrency,
+	logger,
+	multiply,
+	sumGroupByCategory,
+} from "common"
 import { prisma } from "database"
 import { z } from "zod"
+import { Category } from "~/../../packages/database/generated/prisma-client"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
+
+/** TODO: Remove this shit */
+async function getAssetsWithMarket(userId: string) {
+	return await prisma.asset.findMany({
+		where: { userId, category: { not: null } },
+		include: { market: true },
+	})
+}
+
+type PortfolioAllocation = {
+	name: string
+	balance: string
+	currency: string
+	category: Category | null
+	market: {
+		currency: string
+		price: string | null
+	} | null
+}
+
+export async function getPortfolioAllocation(
+	userId: string
+): Promise<PortfolioAllocation[]> {
+	const assets = await getAssetsWithMarket(userId)
+	const userCurrency = await getUserCurrency(userId)
+	const exchangeRates = await getExchangeRates()
+	const mapped = assets.map(({ market, balance, category, currency }) => {
+		const price = convertCurrency({
+			exchangeRates,
+			fromCurrency: market?.currency || currency,
+			toCurrency: userCurrency,
+			amount: market?.price?.toString() || 0,
+		})
+		let value
+		if (price && category === Category.CRYPTOCURRENCY) {
+			value = multiply(balance.toString(), price.toString())
+		} else {
+			value = balance
+		}
+		return { value: value.toString(), category }
+	})
+
+	return sumGroupByCategory(mapped, "category")
+}
 
 export const assetRouter = router({
 	create: publicProcedure
@@ -254,5 +306,103 @@ export const assetRouter = router({
 						code: "NOT_FOUND",
 					})
 				})
+		}),
+
+	byUserIdOld: publicProcedure
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			const data = await prisma.user.findUnique({
+				where: {
+					id: userId,
+				},
+				select: {
+					id: true,
+					assets: {
+						include: {
+							market: true,
+							subAssets: {
+								include: {
+									market: true,
+									user: {
+										select: {
+											settings: {
+												select: {
+													userCurrency: true,
+												},
+											},
+										},
+									},
+								},
+							},
+							user: {
+								select: {
+									settings: {
+										select: {
+											userCurrency: true,
+										},
+									},
+								},
+							},
+						},
+					},
+					portfolioSnapshot: true,
+				},
+			})
+
+			if (!data) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+				})
+			}
+
+			const userCurrency = await getUserCurrency(userId)
+			const exchangeRates = await getExchangeRates()
+
+			const assets = calculateManyAssets({
+				data: data?.assets,
+				exchangeRates,
+				userCurrency,
+			})
+
+			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
+				calculateAssetOverview(assets)
+
+			return {
+				totalValue,
+				saleableValue,
+				totalCostBasis,
+				unrealisedGain,
+				assets,
+				portfolioSnapshot: data?.portfolioSnapshot,
+			}
+		}),
+
+	allocation: publicProcedure
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			return getPortfolioAllocation(userId)
+		}),
+
+	historyByUserId: publicProcedure
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			// TODO would be nice if current total value and cost basis were in this as most recent data point
+			const data = await prisma.user.findUnique({
+				where: {
+					id: userId,
+				},
+				select: {
+					id: true,
+					portfolioSnapshot: true,
+				},
+			})
+
+			if (!data) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+				})
+			}
+
+			return data
 		}),
 })

@@ -19,7 +19,7 @@ function Overview() {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.accounts.byUserId.useQuery({
+	const { data } = trpc.assets.byUserIdOld.useQuery({
 		userId: userId || "",
 	})
 

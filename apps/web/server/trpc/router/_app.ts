@@ -1,5 +1,4 @@
 import { router } from "../trpc"
-import { accountsRouter } from "./accounts"
 import { assetTransactionRouter } from "./assetTransaction"
 import { assetRouter } from "./assets"
 import { authRouter } from "./auth"
@@ -12,7 +11,6 @@ import { userRouter } from "./user"
 
 export const appRouter = router({
 	auth: authRouter,
-	accounts: accountsRouter,
 	budget: budgetRouter,
 	markets: marketsRouter,
 	settings: settingsRouter,

@@ -8,15 +8,26 @@ import { Card, Table } from "ui"
 import Chart from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
 
+const sortFn = function (a: { createdAt: number }, b: { createdAt: number }) {
+	if (a.createdAt < b.createdAt) {
+		return -1
+	} else {
+		if (a.createdAt > b.createdAt) {
+			return 1
+		}
+		return 0
+	}
+}
+
 export const HistorySnapshots = () => {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.accounts.historyByUserId.useQuery({
+	const { data } = trpc.assets.historyByUserId.useQuery({
 		userId: userId || "",
 	})
 
-	const { data: historyData } = trpc.accounts.historyByUserId.useQuery({
+	const { data: historyData } = trpc.assets.historyByUserId.useQuery({
 		userId: userId || "",
 	})
 
@@ -58,17 +69,7 @@ export const HistorySnapshots = () => {
 					// ISO8601See General principles was designed for lexicographical sort. As such the ISO8601 string representation can be sorted like any other string, and this will give the expected order
 					// https://stackoverflow.com/questions/12192491/sort-array-by-iso-8601-date
 					// This only works if the date includes the timezone
-					data={
-						tableData
-							?.sort(function (a, b) {
-								return a.createdAt < b.createdAt
-									? -1
-									: a.createdAt > b.createdAt
-									? 1
-									: 0
-							})
-							.reverse() || []
-					}
+					data={tableData?.sort(sortFn).reverse() || []}
 				/>
 				<Chart type="bar" options={options} series={[{ data: barSeries }]} />
 			</Stack>
