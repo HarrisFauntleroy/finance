@@ -2,64 +2,15 @@ import { publicProcedure, router } from "../../trpc"
 import { byId, byUserId } from "../schema"
 import { createAsset, createAssetInput } from "./create"
 import { deleteAsset } from "./delete"
+import { getAssetById } from "./getAssetById"
+import { getAssetsByUserId } from "./getAssetsByUserId"
+import { getPortfolioAllocation } from "./getPortfolioAllocation"
 import { updateAsset, updateAssetInput } from "./update"
 import { TRPCError } from "@trpc/server"
-import {
-	calculateAssetOverview,
-	calculateManyAssets,
-	convertCurrency,
-	logger,
-	multiply,
-	sumGroupByCategory,
-} from "common"
+import { calculateAssetOverview, calculateManyAssets } from "common"
 import { prisma } from "database"
 import { z } from "zod"
-import { Category } from "~/../../packages/database/generated/prisma-client"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
-
-/** TODO: Remove this shit */
-async function getAssetsWithMarket(userId: string) {
-	return await prisma.asset.findMany({
-		where: { userId, category: { not: null } },
-		include: { market: true },
-	})
-}
-
-type PortfolioAllocation = {
-	name: string
-	balance: string
-	currency: string
-	category: Category | null
-	market: {
-		currency: string
-		price: string | null
-	} | null
-}
-
-export async function getPortfolioAllocation(
-	userId: string
-): Promise<PortfolioAllocation[]> {
-	const assets = await getAssetsWithMarket(userId)
-	const userCurrency = await getUserCurrency(userId)
-	const exchangeRates = await getExchangeRates()
-	const mapped = assets.map(({ market, balance, category, currency }) => {
-		const price = convertCurrency({
-			exchangeRates,
-			fromCurrency: market?.currency || currency,
-			toCurrency: userCurrency,
-			amount: market?.price?.toString() || 0,
-		})
-		let value
-		if (price && category === Category.CRYPTOCURRENCY) {
-			value = multiply(balance.toString(), price.toString())
-		} else {
-			value = balance
-		}
-		return { value: value.toString(), category }
-	})
-
-	return sumGroupByCategory(mapped, "category")
-}
 
 export const assetRouter = router({
 	create: publicProcedure
@@ -78,148 +29,40 @@ export const assetRouter = router({
 		return await deleteAsset(id)
 	}),
 
+	// Needed still?
 	createChild: publicProcedure
 		.input(createAssetInput.extend({ parentId: z.string() }))
 		.mutation(async ({ input }) => {
 			return await createAsset(input)
 		}),
 
-	byId: publicProcedure.input(byId).query(async ({ input }) => {
-		const { id } = input
-		return await prisma.asset
-			.findUnique({
-				where: {
-					id,
-				},
-				include: {
-					market: true,
-					subAssets: {
-						include: {
-							market: true,
-							user: {
-								select: {
-									settings: {
-										select: {
-											userCurrency: true,
-										},
-									},
-								},
-							},
-						},
-					},
-					user: {
-						select: {
-							settings: {
-								select: {
-									userCurrency: true,
-								},
-							},
-						},
-					},
-				},
-			})
-			.catch(() => {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-				})
-			})
+	byId: publicProcedure.input(byId).query(async ({ input: { id } }) => {
+		return getAssetById(id)
 	}),
-	byUserId: publicProcedure.input(byUserId).query(async ({ input }) => {
-		const { userId } = input
 
-		const data = await prisma.asset.findMany({
-			where: {
-				userId,
-				// This keeps sub accounts nested
-				parentId: null,
-			},
-			include: {
-				market: true,
-				subAssets: {
-					include: {
-						market: true,
-						user: {
-							select: {
-								settings: {
-									select: {
-										userCurrency: true,
-									},
-								},
-							},
-						},
-					},
-				},
-				user: {
-					select: {
-						settings: {
-							select: {
-								userCurrency: true,
-							},
-						},
-					},
-				},
-			},
-		})
-
-		const userCurrency = await getUserCurrency(userId)
-		const exchangeRates = await getExchangeRates()
-
-		return calculateManyAssets({
-			data,
-			exchangeRates,
-			userCurrency,
-		})
-	}),
-	overviewAccountsListbyUserId: publicProcedure
+	byUserId: publicProcedure
 		.input(byUserId)
-		.query(async ({ input }) => {
-			const { userId } = input
-
-			const data = await prisma.asset
-				.findMany({
-					where: {
-						userId,
-						// This keeps sub accounts nested
-						parentId: null,
-					},
-					include: {
-						market: true,
-						subAssets: {
-							include: {
-								market: true,
-								user: {
-									select: {
-										settings: {
-											select: {
-												userCurrency: true,
-											},
-										},
-									},
-								},
-							},
-						},
-						user: {
-							select: {
-								settings: {
-									select: {
-										userCurrency: true,
-									},
-								},
-							},
-						},
-					},
-				})
-				.catch(() => {
-					throw new TRPCError({
-						code: "NOT_FOUND",
-					})
-				})
-
+		.query(async ({ input: { userId } }) => {
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
+			const assets = await getAssetsByUserId(userId)
 
 			return calculateManyAssets({
-				data,
+				assets,
+				exchangeRates,
+				userCurrency,
+			})
+		}),
+
+	overviewAccountsListbyUserId: publicProcedure
+		.input(byUserId)
+		.query(async ({ input: { userId } }) => {
+			const userCurrency = await getUserCurrency(userId)
+			const exchangeRates = await getExchangeRates()
+			const assets = await getAssetsByUserId(userId)
+
+			return calculateManyAssets({
+				assets,
 				exchangeRates,
 				userCurrency,
 			})
@@ -227,60 +70,22 @@ export const assetRouter = router({
 
 	overviewByUserId: publicProcedure
 		.input(byUserId)
-		.query(async ({ input: { userId } }) =>
-			getUserCurrency(userId)
-				.then((userCurrency) =>
-					prisma.asset
-						.findMany({
-							where: {
-								userId,
-								parentId: null,
-							},
-							include: {
-								market: true,
-								subAssets: {
-									include: {
-										market: true,
-										user: {
-											select: {
-												settings: {
-													select: {
-														userCurrency: true,
-													},
-												},
-											},
-										},
-									},
-								},
-								user: {
-									select: {
-										settings: {
-											select: {
-												userCurrency: true,
-											},
-										},
-									},
-								},
-							},
-						})
-						.then((data) =>
-							getExchangeRates().then((exchangeRates) => {
-								const calculatedAssets = calculateManyAssets({
-									data,
-									exchangeRates,
-									userCurrency,
-								})
-								return calculateAssetOverview(calculatedAssets)
-							})
-						)
-						.catch(() => {
-							throw new TRPCError({
-								code: "NOT_FOUND",
-							})
-						})
-				)
-				.catch(logger.error)
-		),
+		.query(async ({ input: { userId } }) => {
+			const userCurrency = await getUserCurrency(userId)
+			const exchangeRates = await getExchangeRates()
+			const assets = await getAssetsByUserId(userId)
+
+			// Why this intermediary step?
+			// I think this is the stage at which we add computed properties
+			const calculatedAssets = calculateManyAssets({
+				assets,
+				exchangeRates,
+				userCurrency,
+			})
+
+			// Then we calculate overview values, which are?
+			return calculateAssetOverview(calculatedAssets)
+		}),
 
 	targets: publicProcedure
 		.input(
@@ -289,29 +94,22 @@ export const assetRouter = router({
 			})
 		)
 		.query(async ({ input: { userId } }) => {
-			return await prisma.asset
-				.findMany({
-					where: {
-						userId,
-					},
-					select: {
-						balance: true,
-						targetBalance: true,
-						marketId: true,
-						name: true,
-					},
-				})
-				.catch(() => {
-					throw new TRPCError({
-						code: "NOT_FOUND",
-					})
-				})
+			const assets = await getAssetsByUserId(userId, {
+				select: {
+					balance: true,
+					targetBalance: true,
+					marketId: true,
+					name: true,
+				},
+			})
+
+			return assets
 		}),
 
 	byUserIdOld: publicProcedure
 		.input(byUserId)
 		.query(async ({ input: { userId } }) => {
-			const data = await prisma.user.findUnique({
+			const { portfolioSnapshot, assets } = await prisma.user.findUnique({
 				where: {
 					id: userId,
 				},
@@ -349,7 +147,7 @@ export const assetRouter = router({
 				},
 			})
 
-			if (!data) {
+			if (!assets) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 				})
@@ -358,14 +156,14 @@ export const assetRouter = router({
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
 
-			const assets = calculateManyAssets({
-				data: data?.assets,
+			const calculatedAssets = calculateManyAssets({
+				assets,
 				exchangeRates,
 				userCurrency,
 			})
 
 			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-				calculateAssetOverview(assets)
+				calculateAssetOverview(calculatedAssets)
 
 			return {
 				totalValue,
@@ -373,7 +171,7 @@ export const assetRouter = router({
 				totalCostBasis,
 				unrealisedGain,
 				assets,
-				portfolioSnapshot: data?.portfolioSnapshot,
+				portfolioSnapshot,
 			}
 		}),
 

@@ -10,9 +10,17 @@ function OverviewCard() {
 	const session = useSession()
 	const userId = session?.data?.userId
 
-	const { data } = trpc.assets.overviewByUserId.useQuery({
+	const { data, error, isLoading } = trpc.assets.overviewByUserId.useQuery({
 		userId: userId || "",
 	})
+
+	if (isLoading) {
+		return <div>Loading...</div>
+	}
+
+	if (error) {
+		return <div>Error loading data</div>
+	}
 
 	return (
 		<Card height="100%">

@@ -2,9 +2,15 @@ import { divide, lessThan, multiply, subtract } from "../math"
 import { Prisma } from "database/generated/prisma-client"
 
 type AssetInput = Prisma.AssetGetPayload<{
-	include: { market: true }
+	include: {
+		market: true
+		user: { select: { settings: { select: { userCurrency: true } } } }
+	}
 }>
 
+/**
+ * Extends the default Asset model with calculated values
+ */
 export class Asset {
 	price: string
 

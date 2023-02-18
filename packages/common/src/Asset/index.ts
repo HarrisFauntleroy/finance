@@ -1,2 +1,2 @@
 export * from "./Asset"
-export * from "./BreakItUp"
+export * from "./types"

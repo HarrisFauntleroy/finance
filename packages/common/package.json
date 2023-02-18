@@ -2,13 +2,14 @@
 	"name": "common",
 	"version": "1.0.1",
 	"license": "MIT",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"files": [
 		"dist"
 	],
 	"scripts": {
-		"build": "tsup",
+		"build": "tsup --dts",
+		"dev": "yarn build -- --watch",
 		"clean": "rimraf .turbo node_modules dist",
 		"format": "prettier --write .",
 		"lint": "next lint",
