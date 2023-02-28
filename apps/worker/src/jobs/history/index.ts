@@ -1,5 +1,5 @@
 import { Progress } from "../../util"
-import { calculateAssetsTotals } from "./assets"
+import { calculateAssetValuesTotals } from "./assets"
 import { prisma } from "database"
 
 export const history = async () => {
@@ -21,15 +21,16 @@ export const history = async () => {
 		users.map(async ({ id: userId }) => {
 			try {
 				/** Calculate overview totals to store for history */
-				const totals = await calculateAssetsTotals(userId)
+				const totals = await calculateAssetValuesTotals(userId)
 				/** Create new portfolioSnapshot entry */
 				const response = await prisma.portfolioSnapshot.create({
 					data: {
 						userId,
-						currency: totals.currency,
-						costBasis: totals.costBasis,
+						currency: totals.userCurrency,
+						costBasis: totals.totalCostBasis,
 						totalValue: totals.totalValue,
-						realisedGain: totals.realisedGain,
+						// TODO - Fix this
+						realisedGain: "0",
 						saleableValue: totals.saleableValue,
 						unrealisedGain: totals.unrealisedGain,
 					},

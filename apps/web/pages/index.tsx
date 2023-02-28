@@ -19,7 +19,8 @@ import {
 	Title,
 	Tooltip,
 } from "chart.js"
-import { Asset } from "common"
+import { AssetBuilder, calculateTransactions } from "common"
+import { useSession } from "next-auth/react"
 import { JSONObjectViewer, Page } from "ui"
 import type { NextPageWithLayout } from "~/pages/_app"
 import { trpc } from "~/utils/trpc"
@@ -38,12 +39,18 @@ Chart.register(
 )
 
 const Index: NextPageWithLayout = () => {
-	const { data } = trpc.assets.byId.useQuery({
+	const session = useSession()
+	const userId = session.data?.userId
+	const { data: assetTransactions } = trpc.assetTransactions.byUserId.useQuery({
+		userId: userId || "",
+	})
+
+	const { data: assetsById } = trpc.assets.byId.useQuery({
 		id: "cldwad5ab00465avd6tpjbezj",
 	})
 
-	const asset1 = data && new Asset()
-	const asset2 = data && new Asset(data)
+	const asset1 = assetsById && new AssetBuilder()
+	const asset2 = assetsById && new AssetBuilder(assetsById)
 
 	return (
 		<Page title="Home" padding="8px" gap="8px">
@@ -51,6 +58,10 @@ const Index: NextPageWithLayout = () => {
 			<JSONObjectViewer data={asset1?.computedProperties} />
 			<Heading>With provided Asset</Heading>
 			<JSONObjectViewer data={asset2?.computedProperties} />
+			<Heading>Transaction</Heading>
+			<JSONObjectViewer data={assetTransactions} />
+			<Heading>Calculated Transactions</Heading>
+			<JSONObjectViewer data={calculateTransactions(assetTransactions)} />
 		</Page>
 	)
 }

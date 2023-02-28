@@ -147,7 +147,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
 		accessorKey: "balance",
 		cell: ({
 			row: {
-				original: { value, price, market, balance, category },
+				original: { totalValue, value, price, market, balance, category },
 			},
 		}) => {
 			return (
@@ -156,17 +156,36 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
 						price
 					).format()}`}
 				>
-					<Stack textAlign="right">
-						{category === Category.CRYPTOCURRENCY ? (
-							<>
-								<FormattedNumber value={Number(balance)} />
-								<Flex gap={1} justify="right">
-									<MdCompareArrows /> <Currency value={value} />
-								</Flex>
-							</>
-						) : (
-							<Currency value={value} />
+					<Stack textAlign="right" gap="8px">
+						{category === Category.CRYPTOCURRENCY && (
+							<FormattedNumber value={Number(balance)} />
 						)}
+						<Flex gap={1} justify="right">
+							<MdCompareArrows /> <Currency value={totalValue || value} />
+						</Flex>
+					</Stack>
+				</Tooltip>
+			)
+		},
+	},
+	{
+		header: "Calculated Value",
+		accessorKey: "balance",
+		cell: ({
+			row: {
+				original: { totalValue, price, market },
+			},
+		}) => {
+			return (
+				<Tooltip
+					label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
+						price
+					).format()}`}
+				>
+					<Stack textAlign="right" gap="8px">
+						<Flex gap={1} justify="right">
+							<MdCompareArrows /> <Currency value={totalValue} />
+						</Flex>
 					</Stack>
 				</Tooltip>
 			)

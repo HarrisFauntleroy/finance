@@ -3,7 +3,7 @@ import React from "react"
 import { ControlBar } from "../ControlBar"
 import { transactionsListColumns } from "../Transactions/columns"
 import { Stack, Text } from "@chakra-ui/react"
-import type { AssetSummaryOutput } from "common"
+import type { AssetWithCalculatedValues } from "common"
 import type { AssetTransaction } from "database/generated/prisma-client/index"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
@@ -30,7 +30,7 @@ const TransactionTable = ({
 	)
 }
 
-const AssetTable = ({ assets }: { assets?: AssetSummaryOutput[] }) => {
+const AssetTable = ({ assets }: { assets?: AssetWithCalculatedValues[] }) => {
 	return assets && assets?.length > 0 ? (
 		<Table
 			id="portfolioOverviewAssets"

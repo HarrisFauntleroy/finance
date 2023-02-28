@@ -54,6 +54,33 @@ export const getAssetsByUserId = (
 			userId,
 			parentId: null,
 		},
-		...(overrides ? overrides : defaultOverrides),
+		include: {
+			market: true,
+			transactions: true,
+			subAssets: {
+				include: {
+					market: true,
+					transactions: true,
+					user: {
+						select: {
+							settings: {
+								select: {
+									userCurrency: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			user: {
+				select: {
+					settings: {
+						select: {
+							userCurrency: true,
+						},
+					},
+				},
+			},
+		},
 	})
 }

@@ -1,12 +1,19 @@
 import { Prisma } from "database/generated/prisma-client"
 
 // #?: Explain this
-export type AssetComplete = Prisma.AssetGetPayload<{
+export type AssetWithRelatedData = Prisma.AssetGetPayload<{
 	include: {
 		market: true
+		transactions: true
+		user: {
+			select: {
+				settings: { select: { userCurrency: true } }
+			}
+		}
 		subAssets: {
 			include: {
 				market: true
+				transactions: true
 				user: {
 					select: {
 						settings: { select: { userCurrency: true } }
@@ -14,29 +21,37 @@ export type AssetComplete = Prisma.AssetGetPayload<{
 				}
 			}
 		}
-		user: {
-			select: {
-				settings: { select: { userCurrency: true } }
-			}
-		}
 	}
 }>
 
 // #?: Explain this
 // Because we only want subassets one level deep?
-export type AssetCompleteChild = Prisma.AssetGetPayload<{
+export type AssetWithRelatedDataChild = Prisma.AssetGetPayload<{
 	include: {
 		market: true
+		transactions: true
 		user: {
 			select: {
 				settings: { select: { userCurrency: true } }
+			}
+		}
+		subAssets: {
+			include: {
+				market: true
+				transactions: true
+				user: {
+					select: {
+						settings: { select: { userCurrency: true } }
+					}
+				}
 			}
 		}
 	}
 }>
 
 /** Calculated values */
-export interface AssetSummaryOutput extends AssetComplete {
+export interface AssetWithCalculatedValues extends AssetWithRelatedData {
+	calculatedSubAssets?: AssetWithRelatedData[]
 	unrealisedGainPercentage: string
 	estimatedStakingYield: string
 	estimatedYearlyReturn: string
@@ -47,16 +62,15 @@ export interface AssetSummaryOutput extends AssetComplete {
 	averageCost: string
 	costBasis: string
 	shouldSell: boolean
-	subAssets?: AssetComplete[]
 	saleable: string
 	value: string
 	price: string
 }
 
 // #?: Explain this
-export interface NestedAccountTotals {
+export interface SubAssetValueTotals {
 	value: string
-	subAssets: AssetSummaryOutput[]
+	subAssets: AssetWithCalculatedValues[]
 	averageCost: string
 	costBasis: string
 	saleableValue: string
@@ -66,7 +80,7 @@ export interface NestedAccountTotals {
 
 // #?: Explain this
 export interface AssetSummaryInput {
-	assets: AssetComplete[]
+	assets: AssetWithRelatedData[]
 	exchangeRates: Record<string, string>
 	userCurrency: string
 }

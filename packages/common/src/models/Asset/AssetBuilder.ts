@@ -1,4 +1,4 @@
-import { divide, lessThan, multiply, subtract } from "../math"
+import { divide, lessThan, multiply, subtract } from "../../util/math"
 import { Prisma } from "database/generated/prisma-client"
 
 type AssetInput = Prisma.AssetGetPayload<{
@@ -8,10 +8,7 @@ type AssetInput = Prisma.AssetGetPayload<{
 	}
 }>
 
-/**
- * Extends the default Asset model with calculated values
- */
-export class Asset {
+export class AssetBuilder {
 	price: string
 
 	balance: string
@@ -26,18 +23,18 @@ export class Asset {
 
 	interestBearingBalance: string
 
-	constructor(options?: AssetInput) {
-		this.price = options?.market?.price || "0"
-		this.balance = options?.balance || "0"
+	constructor(input?: AssetInput) {
+		this.price = input?.market?.price || "0"
+		this.balance = input?.balance || "0"
 		this.value = multiply(this.price, this.balance)
-		this.costBasis = options?.costBasis || "0"
-		this.targetBalance = options?.targetBalance || "0"
-		this.incomeRate = options?.incomeRate || "0"
-		this.interestBearingBalance = options?.interestBearingBalance || "0"
+		this.costBasis = input?.costBasis || "0"
+		this.targetBalance = input?.targetBalance || "0"
+		this.incomeRate = input?.incomeRate || "0"
+		this.interestBearingBalance = input?.interestBearingBalance || "0"
 	}
 
-	static create(options: AssetInput): Asset {
-		return new Asset(options)
+	static create(options: AssetInput): AssetBuilder {
+		return new AssetBuilder(options)
 	}
 
 	toString(value?: string | null) {

@@ -7,8 +7,9 @@ import { getAssetsByUserId } from "./getAssetsByUserId"
 import { getPortfolioAllocation } from "./getPortfolioAllocation"
 import { updateAsset, updateAssetInput } from "./update"
 import { TRPCError } from "@trpc/server"
-import { calculateAssetOverview, calculateManyAssets } from "common"
+import { calculateAssetValue, calculateAssetValueOverview } from "common"
 import { prisma } from "database"
+import { Prisma } from "database/generated/prisma-client"
 import { z } from "zod"
 import { getExchangeRates, getUserCurrency } from "~/server/api"
 
@@ -47,11 +48,9 @@ export const assetRouter = router({
 			const exchangeRates = await getExchangeRates()
 			const assets = await getAssetsByUserId(userId)
 
-			return calculateManyAssets({
-				assets,
-				exchangeRates,
-				userCurrency,
-			})
+			return assets.map((asset) =>
+				calculateAssetValue(asset, exchangeRates, userCurrency)
+			)
 		}),
 
 	overviewAccountsListbyUserId: publicProcedure
@@ -59,13 +58,12 @@ export const assetRouter = router({
 		.query(async ({ input: { userId } }) => {
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
-			const assets = await getAssetsByUserId(userId)
+			const assets: Prisma.PromiseReturnType<typeof getAssetsByUserId> =
+				await getAssetsByUserId(userId)
 
-			return calculateManyAssets({
-				assets,
-				exchangeRates,
-				userCurrency,
-			})
+			return assets.map((asset) =>
+				calculateAssetValue(asset, exchangeRates, userCurrency)
+			)
 		}),
 
 	overviewByUserId: publicProcedure
@@ -77,14 +75,14 @@ export const assetRouter = router({
 
 			// Why this intermediary step?
 			// I think this is the stage at which we add computed properties
-			const calculatedAssets = calculateManyAssets({
-				assets,
-				exchangeRates,
-				userCurrency,
-			})
+			const calculatedAssets = assets.map((asset) =>
+				calculateAssetValue(asset, exchangeRates, userCurrency)
+			)
+
+			// Distinction needed? up and down
 
 			// Then we calculate overview values, which are?
-			return calculateAssetOverview(calculatedAssets)
+			return calculateAssetValueOverview(calculatedAssets)
 		}),
 
 	targets: publicProcedure
@@ -118,9 +116,11 @@ export const assetRouter = router({
 					assets: {
 						include: {
 							market: true,
+							transactions: true,
 							subAssets: {
 								include: {
 									market: true,
+									transactions: true,
 									user: {
 										select: {
 											settings: {
@@ -156,14 +156,12 @@ export const assetRouter = router({
 			const userCurrency = await getUserCurrency(userId)
 			const exchangeRates = await getExchangeRates()
 
-			const calculatedAssets = calculateManyAssets({
-				assets,
-				exchangeRates,
-				userCurrency,
-			})
+			const calculatedAssets = assets.map((asset) =>
+				calculateAssetValue(asset, exchangeRates, userCurrency)
+			)
 
 			const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-				calculateAssetOverview(calculatedAssets)
+				calculateAssetValueOverview(calculatedAssets)
 
 			return {
 				totalValue,

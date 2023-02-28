@@ -1,10 +1,11 @@
-import { sumArrayByKey } from "../sumArrayByKey"
-import { AssetSummaryOutput, NestedAccountTotals } from "./types"
+import { sumArrayByKey } from "../../util/sumArrayByKey"
+import { AssetWithCalculatedValues, SubAssetValueTotals } from "./types"
 
 // #?: Explain this
-export function calculateNestedAccountTotals(
-	subAssets: AssetSummaryOutput[]
-): NestedAccountTotals {
+export function calculateSubAssetsValuesTotals(
+	subAssets: AssetWithCalculatedValues[]
+): SubAssetValueTotals {
+	// Here we calculate on subAssets, this is interesting.
 	const unrealisedGain = sumArrayByKey(subAssets, "unrealisedGain")
 	const unrealisedGainPercentage = sumArrayByKey(
 		subAssets,

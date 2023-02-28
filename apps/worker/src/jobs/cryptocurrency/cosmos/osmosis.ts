@@ -1,10 +1,10 @@
 import { Progress } from "../../../util"
 import { Coin, QueryClient, createProtobufRpcClient } from "@cosmjs/stargate"
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc"
+import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query"
 import { prisma } from "database"
 import { MarketType } from "database/generated/prisma-client"
 import { Decimal } from "database/generated/prisma-client/runtime/library"
-import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query"
 
 const OSMOSIS_RPC = "https://osmosis-mainnet-rpc.allthatnode.com:26657"
 

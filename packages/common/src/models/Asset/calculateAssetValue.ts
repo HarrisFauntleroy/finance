@@ -1,16 +1,19 @@
 // #?: Explain this
 // Takes assets including their transactions and subassets
-import { convertCurrency } from "../finance"
-import { divide, lessThan, multiply, subtract } from "../math"
-import { AssetCompleteChild, AssetSummaryOutput } from "./types"
+import { logger } from "../../util"
+import { convertCurrency } from "../../util/finance"
+import { divide, lessThan, multiply, subtract } from "../../util/math"
+import { calculateAssetValueOverview } from "./calculateAssetValueOverview"
+import { calculateSubAssetsValuesTotals } from "./calculateSubAssetsValuesTotals"
+import { AssetWithCalculatedValues, AssetWithRelatedDataChild } from "./types"
 import { Category } from "database/generated/prisma-client"
 
 // Returning an array of assets with calculated values
-export function calculateAsset(
-	asset: AssetCompleteChild,
+export function calculateAssetValue(
+	asset: AssetWithRelatedDataChild,
 	exchangeRates: Record<string, string>,
 	toCurrency = "usd"
-): AssetSummaryOutput {
+): AssetWithCalculatedValues {
 	// const itts = Asset.create(asset)
 	// logger.info(itts)
 
@@ -54,8 +57,38 @@ export function calculateAsset(
 	const belowTargetBalance = lessThan(saleable, targetBalance)
 	const shouldSell = lessThan(averageCost, price)
 
+	// So the logic here is that, if there is a subAsset, then we calculate the subAsset, and then we calculate the totals of the subAssets.
+	const calculatedSubAssets = asset.subAssets?.map((child) =>
+		calculateAssetValue({ ...child, subAssets: [] }, exchangeRates, toCurrency)
+	)
+
+	const subAssetTotals = calculateAssetValueOverview(calculatedSubAssets)
+
+	if (subAssetTotals) {
+		return {
+			...asset,
+			...subAssetTotals,
+			shouldSell,
+			belowTargetBalance,
+			price: price,
+			currency: toCurrency,
+			saleable: saleable,
+			amountStaked: interestBearingBalance,
+			estimatedYearlyReturn: estimatedYearlyReturn,
+			estimatedStakingYield: estimatedStakingYield,
+			subAssets: calculatedSubAssets,
+			value: value,
+			costBasis: costBasis,
+			averageCost: averageCost,
+			saleableValue: saleableValue,
+			unrealisedGain: unrealisedGain,
+			unrealisedGainPercentage: unrealisedGainPercentage,
+		}
+	}
+
 	return {
 		...asset,
+		subAssets: calculatedSubAssets,
 		shouldSell,
 		belowTargetBalance,
 		value: value,

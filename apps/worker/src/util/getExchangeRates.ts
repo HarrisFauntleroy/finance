@@ -24,15 +24,3 @@ export const getExchangeRates = async (): Promise<Record<string, string>> => {
 	})
 	return flattenArrToObj(market, "ticker", "price")
 }
-
-export const getUserCurrency = async (userId: string): Promise<string> => {
-	const { userCurrency } = await prisma.settings.findFirstOrThrow({
-		where: {
-			userId,
-		},
-		select: {
-			userCurrency: true,
-		},
-	})
-	return userCurrency
-}

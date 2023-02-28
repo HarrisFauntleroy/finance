@@ -1,12 +1,12 @@
 import React from "react"
 
 import { Stack } from "@chakra-ui/react"
+import { logger } from "common"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
 import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { portfolioOverviewColumns } from "~/components/Portfolio/Accounts/columns"
-import type { RouterOutput } from "~/utils/trpc"
-import { trpc } from "~/utils/trpc"
+import { type RouterOutput, trpc } from "~/utils/trpc"
 
 export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"]
 
@@ -17,6 +17,8 @@ export const AccountsList = () => {
 	const { data } = trpc.assets.byUserId.useQuery({
 		userId: userId || "",
 	})
+
+	logger.debug("data", data)
 
 	return (
 		<Table

@@ -1,69 +1,29 @@
 import { getExchangeRates, getUserCurrency } from "../../util"
-import { calculateAssetOverview, calculateManyAssets } from "common"
-import { prisma } from "database"
+import { getUserById } from "./getUserById"
+import { calculateAssetValue, calculateAssetValueOverview } from "common"
+import { Prisma } from "database/generated/prisma-client"
 
-export const calculateAssetsTotals = async (userId: string) => {
-	const user = await prisma.user.findUnique({
-		where: {
-			id: userId,
-		},
-		select: {
-			id: true,
-			assets: {
-				include: {
-					market: true,
-					subAssets: {
-						include: {
-							market: true,
-							user: {
-								select: {
-									settings: {
-										select: {
-											userCurrency: true,
-										},
-									},
-								},
-							},
-						},
-					},
-					user: {
-						select: {
-							settings: {
-								select: {
-									userCurrency: true,
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	})
-
-	const userCurrency = await getUserCurrency(userId)
-
-	const exchangeRates = await getExchangeRates()
+export const calculateAssetValuesTotals = async (userId: string) => {
+	const user: Prisma.PromiseReturnType<typeof getUserById> = await getUserById(
+		userId
+	)
 
 	if (!user) {
 		throw new Error("Not found")
 	}
 
-	/** Calculate assets for overview */
-	const assets = calculateManyAssets({
-		data: user.assets,
-		exchangeRates,
-		userCurrency,
-	})
+	const { assets } = user
 
-	const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
-		calculateAssetOverview(assets)
+	const userCurrency = await getUserCurrency(userId)
+	const exchangeRates = await getExchangeRates()
+	const calculatedAssets = assets.map((asset) =>
+		calculateAssetValue(asset, exchangeRates, userCurrency)
+	)
+
+	const assetOverview = calculateAssetValueOverview(calculatedAssets)
 
 	return {
-		currency: userCurrency,
-		totalValue: totalValue,
-		costBasis: totalCostBasis,
-		unrealisedGain: unrealisedGain,
-		realisedGain: "0",
-		saleableValue: saleableValue,
+		userCurrency,
+		...assetOverview,
 	}
 }
