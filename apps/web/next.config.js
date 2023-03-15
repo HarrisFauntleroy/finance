@@ -2,7 +2,7 @@
 /**
  * @type {import('next').NextConfig}
  */
-const path = require("path");
+const path = require("path")
 
 module.exports = {
 	reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
@@ -27,10 +27,10 @@ module.exports = {
 			options: {
 				search: "config.dirname = dirname",
 				replace: `config.dirname = '${path.dirname(
-					require.resolve("database/generated/prisma-client"),
+					require.resolve("database/generated/prisma-client")
 				)}'`,
 			},
-		});
-		return config;
+		})
+		return config
 	},
-};
+}

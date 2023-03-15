@@ -24,7 +24,7 @@
 		"dev": "turbo run dev --parallel",
 		"docker:network": "docker network create app_network",
 		"docker:prune": "docker system prune --all",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"format": "prettier --write .",
 		"generate": "turbo db:push db:generate",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix",
@@ -56,7 +56,7 @@
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "3.4.0",
-		"prettier": "latest",
+		"prettier": "2.8.4",
 		"tsx": "^3.7.1",
 		"turbo": "latest"
 	},
