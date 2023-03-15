@@ -2,7 +2,8 @@
 	"extends": "tsconfig/node16.json",
 	"compilerOptions": {
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"jsx": "react"
+		"jsx": "react",
+		"resolveJsonModule": true
 	},
 	"include": [
 		"**/*.ts",

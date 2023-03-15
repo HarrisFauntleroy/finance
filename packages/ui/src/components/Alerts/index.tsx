@@ -2,7 +2,7 @@ import React from "react"
 
 import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/react"
 
-interface AlertPopProps {
+export type AlertPopProps = {
 	label?: string
 }
 

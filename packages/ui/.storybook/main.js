@@ -1,13 +1,37 @@
+const { mergeConfig } = require("vite")
+const { default: tsconfigPaths } = require('vite-tsconfig-paths')
+const svgr = require('vite-plugin-svgr')
+
+process.noDeprecation = true
+
 module.exports = {
-	stories: ["../**/*.stories.mdx", "../**/*.stories.@(js|jsx|ts|tsx)"],
-	addons: [
+	"stories": [
+		"../src/**/*.stories.mdx",
+		"../src/**/*.stories.@(js|jsx|ts|tsx)"
+	],
+	"addons": [
 		"@storybook/addon-links",
 		"@storybook/addon-essentials",
-		"@storybook/addon-interactions",
-		"@chakra-ui/storybook-addon",
+		"@storybook/addon-interactions"
 	],
-	features: {
-		emotionAlias: false,
+	"framework": "@storybook/react",
+	"core": {
+		"builder": "@storybook/builder-vite"
 	},
-	framework: "@storybook/react",
-};
+	"features": {
+		"storyStoreV7": true
+	},
+	viteFinal(config, { configType }) {
+		return mergeConfig(config, {
+			plugins: [
+				tsconfigPaths(),
+				svgr({ exportAsDefault: true })
+			]
+		})
+	},
+	babel: async (options) => {
+		options.plugins.push('babel-plugin-inline-react-svg');
+		return options;
+	}
+}
+
