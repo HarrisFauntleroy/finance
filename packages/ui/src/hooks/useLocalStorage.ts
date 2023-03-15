@@ -1,7 +1,5 @@
 import { useState } from "react"
 
-import { logger } from "common"
-
 /** Custom hook to persist to local storage in the manner of useState */
 export const useLocalStorage = <T>(
 	key: string,
@@ -22,7 +20,7 @@ export const useLocalStorage = <T>(
 			return localItem ? JSON.parse(localItem) : initialValue
 		} catch (error) {
 			/** If error also return initialValue */
-			logger.error(error)
+			console.error(error)
 			return initialValue
 		}
 	})
@@ -45,7 +43,7 @@ export const useLocalStorage = <T>(
 				window.localStorage.setItem(key, JSON.stringify(valueToStore))
 			}
 		} catch (error) {
-			logger.error(error)
+			console.error(error)
 		}
 	}
 	return [storedValue, setValue] as const
