@@ -10,7 +10,7 @@
 		"dist/**"
 	],
 	"scripts": {
-		"dev": "vite",
+		"dev": "start-storybook -p 6006",
 		"build": "vite build",
 		"preview": "vite preview",
 		"build-storybook": "build-storybook",
@@ -81,6 +81,7 @@
 		"@types/react-dom": "^17.0.8",
 		"@typescript-eslint/eslint-plugin": "^5.41.0",
 		"@typescript-eslint/parser": "^5.42.1",
+		"@vitejs/plugin-react-swc": "^3.2.0",
 		"eslint": "^8.12.0",
 		"eslint-config-airbnb": "^19.0.4",
 		"eslint-config-next": "12.3.4",
