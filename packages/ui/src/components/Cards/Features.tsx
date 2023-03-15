@@ -8,7 +8,7 @@ import { Container } from "@chakra-ui/react"
 export type Feature = {
 	heading: string
 	content: string
-	icon: ReactNode
+	icon?: ReactNode
 }
 
 type FeaturesProps = {

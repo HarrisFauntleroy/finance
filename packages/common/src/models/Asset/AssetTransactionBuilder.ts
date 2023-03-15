@@ -2,27 +2,49 @@ import { AssetTransaction } from "database/generated/prisma-client"
 
 export class AssetTransactionBuilder {
 	id: string
+
 	timestamp: Date | null
+
 	pricePerUnit: string | null
+
 	baseCurrency: string
+
 	quantity: string
+
 	quantityFilled: string | null
+
 	fee: string | null
+
 	valueInBaseCurrency: string | null
+
 	fromAsset: string | null
+
 	toAsset: string
+
 	market: string | null
+
 	transactionType: string
+
 	expiry: Date | null
+
 	status: string | null
+
 	transactionHash: string | null
+
 	description: string | null
+
 	memo: string | null
+
 	relatedAssetId: string | null
+
 	userId: string
+
 	createdAt: Date
+
 	updatedAt: Date
+
 	deleted: boolean
+
 	deletedAt: Date | null
 
 	constructor(input: AssetTransaction) {

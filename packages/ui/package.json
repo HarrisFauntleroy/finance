@@ -4,26 +4,27 @@
 	"private": true,
 	"license": "MIT",
 	"type": "module",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/ui.umd.cjs",
-	"module": "./dist/ui.js",
 	"exports": {
 		".": {
 			"import": "./dist/ui.js",
 			"require": "./dist/ui.umd.cjs"
 		}
 	},
+	"main": "./dist/ui.umd.cjs",
+	"module": "./dist/ui.js",
+	"types": "./dist/src/index.d.ts",
+	"files": [
+		"dist"
+	],
 	"scripts": {
-		"dev": "start-storybook -p 6006",
-		"build": "vite build",
-		"preview": "vite preview",
+		"build": "vite build && tsc",
 		"build-storybook": "build-storybook",
-		"clean": "rimraf .turbo node_modules dist",
+		"clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
+		"dev": "start-storybook -p 6006",
 		"format": "prettier --write .",
 		"lint": "next lint",
 		"lint:fix": "eslint . --fix",
+		"preview": "vite preview",
 		"start": "NODE_ENV=production ts-node dist/index.js",
 		"storybook": "start-storybook -p 6006",
 		"test": "jest --passWithNoTests",
@@ -61,6 +62,9 @@
 		"common": "*",
 		"currency.js": "^2.0.4",
 		"database": "*",
+		"i18next": "^22.0.4",
+		"i18next-browser-languagedetector": "^7.0.1",
+		"i18next-http-backend": "^2.0.1",
 		"katex": "^0.16.4",
 		"next": "^13.1.1",
 		"react": "^18.2.0",
@@ -69,6 +73,7 @@
 		"react-dnd-html5-backend": "*",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.41.2",
+		"react-i18next": "^12.0.0",
 		"react-icons": "^4.7.1",
 		"react-markdown": "^8.0.4",
 		"rehype-katex": "^6.0.2",
@@ -79,6 +84,7 @@
 		"zod": "^3.19.1"
 	},
 	"devDependencies": {
+		"@rollup/plugin-typescript": "^11.0.0",
 		"@storybook/builder-vite": "^0.4.2",
 		"@storybook/react": "^6.5.15",
 		"@storybook/testing-library": "^0.0.13",
@@ -99,6 +105,7 @@
 		"eslint-plugin-react-hooks": "4.6.0",
 		"eslint-plugin-sonarjs": "0.16.0",
 		"eslint-plugin-storybook": "^0.6.8",
+		"eslint-plugin-typescript-sort-keys": "^2.1.0",
 		"jest": "^26.6.3",
 		"postcss": "^8.4.20",
 		"rimraf": "^3.0.2",

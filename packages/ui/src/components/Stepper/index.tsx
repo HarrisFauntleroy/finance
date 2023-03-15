@@ -57,7 +57,7 @@ export const Stepper = ({ steps }: StepperProps) => {
 			>
 				{steps.map(({ label, content }) => (
 					<ChakraStep label={label} key={label}>
-						{content}
+						<>{content}</>
 					</ChakraStep>
 				))}
 			</Steps>

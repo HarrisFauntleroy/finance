@@ -11,7 +11,9 @@ export function Accordion({
 	return (
 		<ChakraAccordion allowToggle defaultIndex={[0]} allowMultiple {...props}>
 			{Children.map(children as ReactElement, (child) => (
-				<AccordionItem>{cloneElement(child)}</AccordionItem>
+				<AccordionItem>
+					<>{cloneElement(child)}</>
+				</AccordionItem>
 			))}
 		</ChakraAccordion>
 	)

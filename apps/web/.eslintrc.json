@@ -4,7 +4,12 @@
 		"project": "./tsconfig.json"
 	},
 	"root": true,
-	"plugins": ["@typescript-eslint", "import", "prettier"],
+	"plugins": [
+		"@typescript-eslint",
+		"import",
+		"typescript-sort-keys",
+		"prettier"
+	],
 	"extends": [
 		"airbnb-typescript/base",
 		"prettier",

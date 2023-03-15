@@ -1,10 +1,8 @@
 // #?: Explain this
 // Takes assets including their transactions and subassets
-import { logger } from "../../util"
 import { convertCurrency } from "../../util/finance"
 import { divide, lessThan, multiply, subtract } from "../../util/math"
 import { calculateAssetValueOverview } from "./calculateAssetValueOverview"
-import { calculateSubAssetsValuesTotals } from "./calculateSubAssetsValuesTotals"
 import { AssetWithCalculatedValues, AssetWithRelatedDataChild } from "./types"
 import { Category } from "database/generated/prisma-client"
 

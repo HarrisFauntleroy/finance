@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "tsup",
-		"clean": "rimraf .turbo node_modules dist",
+		"clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
 		"dev": "NODE_ENV=development nodemon src/index.ts",
 		"format": "prettier --write .",
 		"lint": "next lint",
@@ -75,6 +75,7 @@
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-typescript-sort-keys": "^2.1.0",
 		"nodemon": "2.0.20",
 		"prettier": "2.7.1",
 		"prisma": "*",

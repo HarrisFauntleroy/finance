@@ -18,8 +18,10 @@ export function Drawer({ children, onClose, isOpen }: DrawerProps) {
 		<ChakraDrawer placement="right" onClose={onClose} isOpen={isOpen}>
 			<DrawerOverlay />
 			<DrawerContent>
-				<DrawerCloseButton />
-				{children}
+				<>
+					<DrawerCloseButton />
+					{children}
+				</>
 			</DrawerContent>
 		</ChakraDrawer>
 	)

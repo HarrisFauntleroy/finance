@@ -10,7 +10,7 @@
 	"scripts": {
 		"build": "tsup --dts",
 		"dev": "yarn build -- --watch",
-		"clean": "rimraf .turbo node_modules dist",
+		"clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
 		"format": "prettier --write .",
 		"lint": "next lint",
 		"lint:fix": "eslint . --fix",
@@ -58,6 +58,7 @@
 		"eslint-plugin-react": "7.32.2",
 		"eslint-plugin-react-hooks": "4.6.0",
 		"eslint-plugin-sonarjs": "0.16.0",
+		"eslint-plugin-typescript-sort-keys": "^2.1.0",
 		"rimraf": "^3.0.2",
 		"ts-jest": "29.0.3",
 		"tsconfig": "*",

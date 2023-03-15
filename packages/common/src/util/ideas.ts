@@ -24,7 +24,7 @@ export function retirementSavings(
 	expectedRateOfReturn: number
 ): number {
 	// This function calculates the projected savings at retirement age given current age, retirement age, current savings, annual contribution and expected rate of return.
-	let yearsUntilRetirement = retirementAge - currentAge
+	const yearsUntilRetirement = retirementAge - currentAge
 	let futureValue = currentSavings
 	for (let i = 0; i < yearsUntilRetirement; i++) {
 		futureValue = futureValue * (1 + expectedRateOfReturn) + annualContribution
@@ -40,8 +40,8 @@ export function mortgagePayment(
 	// This function calculates the monthly mortgage payment for a given loan amount, interest rate, and loan term (in years).
 	// The formula used is: M = P[i(1 + i)^n]/[(1 + i)^n – 1]
 	// where M is the monthly mortgage payment, P is the loan amount, i is the interest rate per month, and n is the number of months
-	let i = interestRate / 12
-	let n = loanTerm * 12
+	const i = interestRate / 12
+	const n = loanTerm * 12
 	return (loanAmount * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
 }
 
@@ -65,7 +65,7 @@ export function retirementWithdrawalCalculator(
 	yearsInRetirement: number
 ): number {
 	// This function calculates the annual withdrawal amount for a given savings, withdrawal rate, inflation rate, and years in retirement.
-	let realWithdrawalRate = withdrawalRate - inflationRate
+	const realWithdrawalRate = withdrawalRate - inflationRate
 	return (
 		(savings * realWithdrawalRate) /
 		(1 - Math.pow(1 + realWithdrawalRate, -yearsInRetirement))
@@ -106,7 +106,7 @@ export function inflationCalculator(
 	finalYear: number
 ): number {
 	// This function calculates the inflation rate given the initial value, final value, initial year and final year.
-	let inflationRate =
+	const inflationRate =
 		(finalValue / initialValue) ** (1 / (finalYear - initialYear)) - 1
 	return inflationRate
 }

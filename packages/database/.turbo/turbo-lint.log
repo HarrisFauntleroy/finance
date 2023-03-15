@@ -1,5 +1,0 @@
-$ next lint
-info  - Loaded env from /Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/database/.env
-> Couldn't find a `pages` directory. Please create one under the project root
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-error Command failed with exit code 1.

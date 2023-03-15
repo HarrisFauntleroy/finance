@@ -42,7 +42,7 @@ export function Tabs({ pages, id }: TabsProps) {
 						padding={{ base: 0, sm: "16px" }}
 						key={`tab-panel-${id}-${index}`}
 					>
-						{page}
+						<>{page}</>
 					</TabPanel>
 				))}
 			</TabPanels>

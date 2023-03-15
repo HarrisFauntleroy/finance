@@ -19,7 +19,6 @@ export function FeatureCard({ icon, heading, content }: Feature) {
 			rounded="lg"
 			textAlign="center"
 			pos="relative"
-			// Fill row height
 			height="100%"
 		>
 			<Flex
@@ -35,7 +34,7 @@ export function FeatureCard({ icon, heading, content }: Feature) {
 				top="-1.5rem"
 				boxShadow="lg"
 			>
-				{icon}
+				<>{icon}</>
 			</Flex>
 			<chakra.h3 fontWeight="semibold" fontSize="2xl" mt={6}>
 				{heading}

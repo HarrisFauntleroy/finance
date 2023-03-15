@@ -1,14 +1,15 @@
-/**
- * Wraps with default body styles
- */
-import React, { type ReactNode } from "react"
+import React, { ReactNode } from "react"
 
 import { Box } from "@chakra-ui/react"
 
-export function Body({ children }: { children?: ReactNode }) {
+type BodyProps = {
+	children?: ReactNode
+}
+
+export const Body = ({ children }: BodyProps) => {
 	return (
 		<Box transition=".3s ease" padding={{ base: "16px" }}>
-			{children}
+			<>{children}</>
 		</Box>
 	)
 }
