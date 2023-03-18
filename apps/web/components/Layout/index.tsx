@@ -7,6 +7,7 @@
 import type { PropsWithChildren } from "react"
 import React from "react"
 
+import { Footer } from "./Footer"
 import {
 	Grid,
 	GridItem,
@@ -20,7 +21,6 @@ import {
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
-import { Footer } from "ui"
 import Header from "~/components/Layout/Header"
 import Sidebar from "~/components/Layout/Sidebar"
 

@@ -23,6 +23,7 @@ import type {
 	ColumnFiltersState,
 	FilterFn,
 	PaginationState,
+	Row,
 	SortingState,
 } from "@tanstack/react-table"
 import {
@@ -59,7 +60,7 @@ export type TableProps<TData> = {
 	pageSize?: number
 	paginationEnabled?: boolean
 	filterEnabled?: boolean
-	renderSubComponent?: any
+	renderSubComponent?: ({ row }: { row: Row<TData> }) => TData
 	getRowCanExpand?: boolean
 }
 

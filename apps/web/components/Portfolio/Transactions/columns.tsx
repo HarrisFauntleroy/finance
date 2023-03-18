@@ -128,7 +128,9 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
 				<List>
 					{market &&
 						Object.entries(market).map(([key, value]) => (
-							<ListItem key={key + value}>{`${key} ${value}`}</ListItem>
+							<ListItem
+								key={`market ${key} ${value}`}
+							>{`${key} ${value}`}</ListItem>
 						))}
 				</List>
 			)

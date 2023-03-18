@@ -4,7 +4,6 @@ import { Stack } from "@chakra-ui/react"
 import { logger } from "common"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
-import TableSubComponent from "~/components/Cryptocurrency/SubRow"
 import { portfolioOverviewColumns } from "~/components/Portfolio/Accounts/columns"
 import { type RouterOutput, trpc } from "~/utils/trpc"
 
@@ -28,22 +27,17 @@ export const AccountsList = () => {
 			getRowCanExpand
 			filterEnabled
 			paginationEnabled
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			renderSubComponent={(props: any) => (
-				<Stack>
-					{(props?.row?.original?.Children?.length || 0) > 0 && (
-						<Table
-							id="cryptocurrencyOverview"
-							data={props?.row?.original?.Children || []}
-							columns={portfolioOverviewColumns}
-							getRowCanExpand
-							renderSubComponent={TableSubComponent}
-							paginationEnabled
-						/>
-					)}
-					<TableSubComponent row={props.row} />
-				</Stack>
-			)}
+			renderSubComponent={(props) =>
+				(props?.row?.original?.Children?.length || 0) > 0 && (
+					<Table
+						id="cryptocurrencyOverview"
+						data={props?.row?.original?.Children}
+						columns={portfolioOverviewColumns}
+						getRowCanExpand
+						paginationEnabled
+					/>
+				)
+			}
 		/>
 	)
 }

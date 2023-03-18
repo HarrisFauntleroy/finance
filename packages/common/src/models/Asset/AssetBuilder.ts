@@ -1,7 +1,7 @@
 import { divide, lessThan, multiply, subtract } from "../../util/math"
 import { Prisma } from "database/generated/prisma-client"
 
-type AssetInput = Prisma.AssetGetPayload<{
+export type AssetInput = Prisma.AssetGetPayload<{
 	include: {
 		market: true
 		user: { select: { settings: { select: { userCurrency: true } } } }

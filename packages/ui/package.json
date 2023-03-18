@@ -3,21 +3,13 @@
 	"version": "1.0.1",
 	"private": true,
 	"license": "MIT",
-	"type": "module",
-	"exports": {
-		".": {
-			"import": "./dist/ui.js",
-			"require": "./dist/ui.umd.cjs"
-		}
-	},
-	"main": "./dist/ui.umd.cjs",
-	"module": "./dist/ui.js",
-	"types": "./dist/src/index.d.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
 	"scripts": {
-		"build": "vite build && tsc",
+		"build": "tsc",
 		"build-storybook": "build-storybook",
 		"clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
 		"dev": "start-storybook -p 6006",

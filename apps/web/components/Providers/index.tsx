@@ -1,5 +1,4 @@
-import type { ReactNode } from "react"
-import React from "react"
+import React, { type ReactNode } from "react"
 
 import { IntlProvider } from "~/components/Providers/I18n"
 import { PrivacyProvider } from "~/components/Providers/Privacy"
