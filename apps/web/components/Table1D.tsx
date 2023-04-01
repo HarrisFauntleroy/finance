@@ -1,7 +1,7 @@
 import React from "react"
 
 import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react"
-import Currency from "~/components/Currency"
+import Currency from "components/Currency"
 
 interface Table1DProps {
 	data: [string, unknown][]

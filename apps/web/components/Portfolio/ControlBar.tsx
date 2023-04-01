@@ -13,9 +13,9 @@ import {
 	MenuOptionGroup,
 	Select,
 } from "@chakra-ui/react"
+import { PrivacyContext } from "components/Providers/Privacy"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { MdExpand } from "react-icons/md"
-import { PrivacyContext } from "~/components/Providers/Privacy"
 
 export const ControlBar = () => {
 	const { privacy, togglePrivacy } = useContext(PrivacyContext)

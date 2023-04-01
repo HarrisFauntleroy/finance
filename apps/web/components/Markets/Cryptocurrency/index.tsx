@@ -1,8 +1,8 @@
 import React from "react"
 
 import { Stack } from "@chakra-ui/react"
+import { cryptocurrencyColumns } from "components/Markets/Cryptocurrency/columns"
 import { Table } from "ui"
-import { cryptocurrencyColumns } from "~/components/Markets/Cryptocurrency/columns"
 import { trpc } from "~/utils/trpc"
 
 export const Cryptocurrency = () => {

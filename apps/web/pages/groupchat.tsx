@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { SetStateAction, useCallback, useState } from "react"
 
 import {
 	Avatar,
@@ -12,9 +12,14 @@ import {
 	Stack,
 	Text,
 } from "@chakra-ui/react"
+import { AssetTable } from "components/test"
 import { MdSend } from "react-icons/md"
 
-const SentMessage = ({ message }) => (
+const SentMessage = ({
+	message,
+}: {
+	message: { id: string; body: string }
+}) => (
 	<Flex
 		key={message.id}
 		justifyContent="flex-end"
@@ -27,7 +32,11 @@ const SentMessage = ({ message }) => (
 	</Flex>
 )
 
-const ReceivedMessage = ({ message }) => (
+const ReceivedMessage = ({
+	message,
+}: {
+	message: { id: string; body: string }
+}) => (
 	<Flex
 		key={message.id}
 		justifyContent="flex-start"
@@ -52,9 +61,12 @@ const GroupChat = () => {
 
 	const [inputValue, setInputValue] = useState("")
 
-	const handleInputChange = useCallback((e) => {
-		setInputValue(e.target.value)
-	}, [])
+	const handleInputChange = useCallback(
+		(e: { target: { value: SetStateAction<string> } }) => {
+			setInputValue(e.target.value)
+		},
+		[]
+	)
 
 	const handleSendClick = () => {
 		if (inputValue.trim()) {
@@ -70,6 +82,7 @@ const GroupChat = () => {
 
 	return (
 		<Center height="100%">
+			<AssetTable />
 			<Stack
 				height="512px"
 				width="420px"

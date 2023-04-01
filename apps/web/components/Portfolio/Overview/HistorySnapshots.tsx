@@ -2,10 +2,10 @@ import React, { useMemo } from "react"
 
 import { historySnapshotColumns } from "../columns"
 import { Stack, Text } from "@chakra-ui/react"
+import Chart from "components/Chart"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import { Card, Table } from "ui"
-import Chart from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
 
 const sortFn = function (a: { createdAt: number }, b: { createdAt: number }) {

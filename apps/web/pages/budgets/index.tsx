@@ -8,11 +8,11 @@ import {
 	TabPanels,
 	Tabs,
 } from "@chakra-ui/react"
+import { BudgetsList } from "components/Budget/BudgetsList"
+import { BudgetOverview } from "components/Budget/Overview"
+import { Statistics } from "components/Budget/Statistics"
+import { TransactionsList } from "components/Budget/Transactions"
 import { Page } from "ui"
-import { BudgetsList } from "~/components/Budget/BudgetsList"
-import { BudgetOverview } from "~/components/Budget/Overview"
-import { Statistics } from "~/components/Budget/Statistics"
-import { TransactionsList } from "~/components/Budget/Transactions"
 
 function Budgets() {
 	return (

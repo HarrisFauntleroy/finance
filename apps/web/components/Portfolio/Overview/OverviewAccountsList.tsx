@@ -4,11 +4,11 @@ import { ControlBar } from "../ControlBar"
 import { transactionsListColumns } from "../Transactions/columns"
 import { Stack, Text } from "@chakra-ui/react"
 import type { AssetWithCalculatedValues } from "common"
+import TableSubComponent from "components/Portfolio/Overview/TableSubRow"
+import { overviewAccountsListColumns } from "components/Portfolio/Overview/columns"
 import type { AssetTransaction } from "database/generated/prisma-client/index"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
-import TableSubComponent from "~/components/Portfolio/Overview/TableSubRow"
-import { overviewAccountsListColumns } from "~/components/Portfolio/Overview/columns"
 import { trpc } from "~/utils/trpc"
 
 const TransactionTable = ({
@@ -40,7 +40,7 @@ const AssetTable = ({ assets }: { assets?: AssetWithCalculatedValues[] }) => {
 			filterEnabled
 			paginationEnabled
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			renderSubComponent={(props: any) => {
+			renderSubRow={(props: any) => {
 				const { subAssets, transactions } = props.row.original
 				return (
 					<Stack>

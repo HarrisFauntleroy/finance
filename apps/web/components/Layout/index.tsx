@@ -14,6 +14,8 @@ import {
 	useColorModeValue,
 	useDisclosure,
 } from "@chakra-ui/react"
+import Header from "components/Layout/Header"
+import Sidebar from "components/Layout/Sidebar"
 import { Role } from "database/generated/prisma-client"
 import { BsBank } from "react-icons/bs"
 import {
@@ -21,8 +23,6 @@ import {
 	MdMultilineChart,
 	MdSavings,
 } from "react-icons/md"
-import Header from "~/components/Layout/Header"
-import Sidebar from "~/components/Layout/Sidebar"
 
 export default function Layout({ children }: PropsWithChildren) {
 	const disclosure = useDisclosure()

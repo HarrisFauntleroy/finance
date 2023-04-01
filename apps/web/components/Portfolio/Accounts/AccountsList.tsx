@@ -1,10 +1,9 @@
 import React from "react"
 
-import { Stack } from "@chakra-ui/react"
 import { logger } from "common"
+import { portfolioOverviewColumns } from "components/Portfolio/Accounts/columns"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
-import { portfolioOverviewColumns } from "~/components/Portfolio/Accounts/columns"
 import { type RouterOutput, trpc } from "~/utils/trpc"
 
 export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"]
@@ -27,7 +26,7 @@ export const AccountsList = () => {
 			getRowCanExpand
 			filterEnabled
 			paginationEnabled
-			renderSubComponent={(props) =>
+			renderSubRow={(props) =>
 				(props?.row?.original?.Children?.length || 0) > 0 && (
 					<Table
 						id="cryptocurrencyOverview"

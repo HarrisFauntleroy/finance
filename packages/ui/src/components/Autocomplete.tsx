@@ -39,9 +39,7 @@ export const Autocomplete = ({ label, data }: AutocompleteProps) => {
 				name="userCurrency"
 				render={({ field }) => (
 					<AutoComplete
-						filter={(query, optionValue, optionLabel) =>
-							optionLabel.includes(query)
-						}
+						filter={(query, optionLabel) => optionLabel.includes(query)}
 						maxSuggestions={10}
 						onChange={(value) => {
 							field.onChange(value)

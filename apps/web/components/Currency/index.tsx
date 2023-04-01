@@ -1,9 +1,9 @@
 import { useContext } from "react"
 
 import { chakra } from "@chakra-ui/react"
+import { PrivacyContext } from "components/Providers/Privacy"
 import currency from "currency.js"
 import { useSession } from "next-auth/react"
-import { PrivacyContext } from "~/components/Providers/Privacy"
 import { trpc } from "~/utils/trpc"
 
 interface CurrencyProps {

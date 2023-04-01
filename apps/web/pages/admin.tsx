@@ -18,8 +18,8 @@ import {
 	StatNumber,
 	Text,
 } from "@chakra-ui/react"
+import { Csv } from "components/Csv"
 import { Card, Grid, MarkdownEditor, Page } from "ui"
-import { Csv } from "~/components/Csv"
 import { trpc } from "~/utils/trpc"
 
 const Index = () => {

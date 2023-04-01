@@ -2,13 +2,13 @@ import React from "react"
 
 import { GridItem } from "@chakra-ui/react"
 import * as ChartJs from "chart.js"
+import { Layout } from "components/Asset/Layout"
+import { AllocationPieChart } from "components/Portfolio/Overview/AllocationPieChart"
+import { HistorySnapshots } from "components/Portfolio/Overview/HistorySnapshots"
+import { NetWorthCostBasisChart } from "components/Portfolio/Overview/NetWorthCostBasisChart"
+import { OverviewAccountsList } from "components/Portfolio/Overview/OverviewAccountsList"
+import OverviewCard from "components/Portfolio/Overview/OverviewCard"
 import currency from "currency.js"
-import { Layout } from "~/components/Asset/Layout"
-import { AllocationPieChart } from "~/components/Portfolio/Overview/AllocationPieChart"
-import { HistorySnapshots } from "~/components/Portfolio/Overview/HistorySnapshots"
-import { NetWorthCostBasisChart } from "~/components/Portfolio/Overview/NetWorthCostBasisChart"
-import { OverviewAccountsList } from "~/components/Portfolio/Overview/OverviewAccountsList"
-import OverviewCard from "~/components/Portfolio/Overview/OverviewCard"
 
 ChartJs.Chart.register(
 	ChartJs.CategoryScale,

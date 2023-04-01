@@ -19,11 +19,11 @@ import {
 } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { logger } from "common"
+import type { FormInputs } from "components/Form/TextInput"
+import { TextInput } from "components/Form/TextInput"
 import { useSession } from "next-auth/react"
 import { FormProvider, type SubmitHandler } from "react-hook-form"
 import { useForm } from "react-hook-form"
-import type { FormInputs } from "~/components/Form/TextInput"
-import { TextInput } from "~/components/Form/TextInput"
 import { trpc } from "~/utils/trpc"
 
 export type BudgetFormInputs =

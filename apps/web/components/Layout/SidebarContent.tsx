@@ -9,10 +9,10 @@ import {
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react"
+import type { SidebarLink } from "components/Layout/Sidebar"
+import { SidebarItem } from "components/Layout/SidebarItem"
 import Image from "next/image"
 import Link from "next/link"
-import type { SidebarLink } from "~/components/Layout/Sidebar"
-import { SidebarItem } from "~/components/Layout/SidebarItem"
 
 interface SidebarContentProps extends BoxProps {
 	links: SidebarLink[]

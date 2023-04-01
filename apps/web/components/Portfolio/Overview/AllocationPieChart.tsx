@@ -1,9 +1,9 @@
 import React, { useMemo } from "react"
 
+import ChartScaffold from "components/Chart"
 import currency from "currency.js"
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
-import ChartScaffold from "~/components/Chart"
 import { trpc } from "~/utils/trpc"
 
 export const AllocationPieChart = () => {

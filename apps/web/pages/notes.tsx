@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react"
 
 import { Box, Grid } from "@chakra-ui/react"
+import Editor from "components/Notes/Editor"
+import Preview from "components/Notes/Preview"
 import type { NextPage } from "next"
 import Head from "next/head"
-import Editor from "~/components/Notes/Editor"
-import Preview from "~/components/Notes/Preview"
 
 const Home: NextPage = () => {
 	const [doc, setDoc] = useState<string>("# Hello, World!\n\n")

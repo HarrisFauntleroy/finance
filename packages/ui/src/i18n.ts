@@ -1,4 +1,4 @@
-import en from "../i18n/en.json"
+import en from "./i18n/en.json"
 import { format } from "date-fns"
 import i18n, { t } from "i18next"
 import HttpBackend from "i18next-http-backend"

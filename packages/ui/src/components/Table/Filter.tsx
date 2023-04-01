@@ -56,7 +56,7 @@ export function Filter<TData extends object>({
 	)
 }
 
-export const RenderSubComponent = <TData extends object>({
+export const renderSubRow = <TData extends object>({
 	row,
 }: {
 	row: Row<TData>

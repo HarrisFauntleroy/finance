@@ -6,9 +6,9 @@
 import React from "react"
 
 import { Button } from "@chakra-ui/react"
+import { SettingsForm } from "components/Settings/Form"
 import { useSession } from "next-auth/react"
 import { Body, Page } from "ui"
-import { SettingsForm } from "~/components/Settings/Form"
 import { trpc } from "~/utils/trpc"
 
 const Profile = () => {

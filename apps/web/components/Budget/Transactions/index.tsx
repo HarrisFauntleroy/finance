@@ -1,8 +1,8 @@
 import React from "react"
 
+import { transactionsListColumns } from "components/Budget/Transactions/columns"
 import { useSession } from "next-auth/react"
 import { Table } from "ui"
-import { transactionsListColumns } from "~/components/Budget/Transactions/columns"
 import { trpc } from "~/utils/trpc"
 
 export const TransactionsList = () => {
@@ -21,7 +21,7 @@ export const TransactionsList = () => {
 			getRowCanExpand
 			filterEnabled
 			paginationEnabled
-			renderSubComponent={(props) =>
+			renderSubRow={(props) =>
 				(props?.row?.original?.subAssets?.length || 0) > 0 && (
 					<Table
 						id="budgetOverview"

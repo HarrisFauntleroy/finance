@@ -8,10 +8,10 @@ import {
 	Text,
 	type UseDisclosureProps,
 } from "@chakra-ui/react"
+import { SidebarContent } from "components/Layout/SidebarContent"
 import type { Role } from "database/generated/prisma-client"
 import Link from "next/link"
 import type { IconType } from "react-icons"
-import { SidebarContent } from "~/components/Layout/SidebarContent"
 
 export interface SidebarLink {
 	href: string

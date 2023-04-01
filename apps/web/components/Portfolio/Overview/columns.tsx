@@ -11,6 +11,7 @@ import {
 	Tooltip,
 } from "@chakra-ui/react"
 import type { ColumnDef } from "@tanstack/react-table"
+import Currency from "components/Currency"
 import currency from "currency.js"
 import { AssetStatus, Category } from "database/generated/prisma-client"
 import formatDuration from "date-fns/formatDuration"
@@ -18,7 +19,6 @@ import intervalToDuration from "date-fns/intervalToDuration"
 import Link from "next/link"
 import { MdCompareArrows } from "react-icons/md"
 import { FormattedNumber } from "react-intl"
-import Currency from "~/components/Currency"
 import type { RouterOutput } from "~/utils/trpc"
 
 type ColumnInput = RouterOutput["assets"]["byUserId"]

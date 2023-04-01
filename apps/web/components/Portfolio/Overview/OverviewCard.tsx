@@ -1,9 +1,9 @@
 import React from "react"
 
 import { Table as ChakraTable, Tbody, Td, Th, Tr } from "@chakra-ui/react"
+import Currency from "components/Currency"
 import { useSession } from "next-auth/react"
 import { Card } from "ui"
-import Currency from "~/components/Currency"
 import { trpc } from "~/utils/trpc"
 
 function OverviewCard() {

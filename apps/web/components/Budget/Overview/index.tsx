@@ -1,8 +1,8 @@
 import React from "react"
 
+import { Layout } from "../Layout"
 import { Button, GridItem } from "@chakra-ui/react"
 import { Card } from "ui"
-import { Layout } from "~/components/Budget/Layout"
 
 export const BudgetOverview = () => {
 	return (
