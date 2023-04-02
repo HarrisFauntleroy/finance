@@ -15,11 +15,11 @@ import {
 import { AssetTable } from "components/test"
 import { MdSend } from "react-icons/md"
 
-const SentMessage = ({
-	message,
-}: {
+type Message = {
 	message: { id: string; body: string }
-}) => (
+}
+
+const SentMessage = ({ message }: Message) => (
 	<Flex
 		key={message.id}
 		justifyContent="flex-end"
@@ -32,11 +32,7 @@ const SentMessage = ({
 	</Flex>
 )
 
-const ReceivedMessage = ({
-	message,
-}: {
-	message: { id: string; body: string }
-}) => (
+const ReceivedMessage = ({ message }: Message) => (
 	<Flex
 		key={message.id}
 		justifyContent="flex-start"

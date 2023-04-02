@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 
 import { Debug } from "../Debug"
@@ -62,16 +61,12 @@ export const renderSubRow = <TData extends object>({
 	row: Row<TData>
 }) => <Debug data={row.original} />
 
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-	// Rank the item
+export const fuzzy: FilterFn<any> = (row, columnId, value, addMeta) => {
 	const itemRank = rankItem(row.getValue(columnId), value)
 
-	// Store the itemRank info
 	addMeta({
 		itemRank,
 	})
 
-	// Returns items that pass the filter
 	return itemRank.passed
 }

@@ -1,38 +1,29 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { DebouncedInput } from "../Form"
 import { Show } from "../Show"
-import * as Filter from "./Filter"
+import { fuzzy } from "./Filter"
 import { TableHeader } from "./Header"
 import { Pagination } from "./Pagination"
+import { TableRow } from "./TableRow"
 import {
-	Button,
-	ButtonGroup,
 	Table as ChakraTable,
 	DeepPartial,
-	Input,
 	Stack,
 	TableContainer,
 	Tbody,
-	Td,
 	Tfoot,
 	Th,
 	Thead,
 	Tr,
 } from "@chakra-ui/react"
-import type { RankingInfo } from "@tanstack/match-sorter-utils"
-import type {
-	Cell,
+import {
 	ColumnDef,
 	ColumnFiltersState,
-	FilterFn,
 	PaginationState,
 	Row,
 	SortingState,
-} from "@tanstack/react-table"
-import {
-	flexRender,
 	getCoreRowModel,
 	getExpandedRowModel,
 	getFacetedMinMaxValues,
@@ -41,55 +32,9 @@ import {
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
-	useReactTable,
 } from "@tanstack/react-table"
-import {
-	FormProvider,
-	SubmitHandler,
-	useForm,
-	useFormContext,
-} from "react-hook-form"
-import { BsCheck, BsPencil, BsStop } from "react-icons/bs"
-
-declare module "@tanstack/table-core" {
-	interface FilterFns {
-		fuzzy: FilterFn<unknown>
-	}
-	interface FilterMeta {
-		itemRank: RankingInfo
-	}
-}
-
-function EditableCell<T>({
-	cell,
-	editing,
-}: {
-	cell: Cell<T, string>
-	editing: boolean
-}) {
-	const { register } = useFormContext()
-
-	return editing ? (
-		<Input
-			defaultValue={cell.row.original[cell.column.id]}
-			readOnly={!editing}
-			{...register(cell.column.id)}
-		/>
-	) : (
-		<>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>
-	)
-}
-
-export type TableProps<T> = {
-	id: string
-	columns: any[]
-	data?: T[]
-	pageSize?: number
-	paginationEnabled?: boolean
-	filterEnabled?: boolean
-	renderSubRow?: ({ row }: { row: Row<T> }) => T
-	getRowCanExpand?: boolean
-}
+import { flexRender, useReactTable } from "@tanstack/react-table"
+import { SubmitHandler } from "react-hook-form"
 
 interface EditableTableProps<T extends { id: string }> {
 	id: string
@@ -99,16 +44,16 @@ interface EditableTableProps<T extends { id: string }> {
 	pageSize?: number
 	paginationEnabled?: boolean
 	filterEnabled?: boolean
-	renderSubRow?: ({ row }: { row: Row<T> }) => T
-	getRowCanExpand?: boolean
+	renderExpandedRow?: ({ row }: { row: Row<T> }) => T
+	canExpandRows?: boolean
 }
 
 export const Table = <T extends { id: string }>({
 	columns,
 	data,
 	pageSize,
-	renderSubRow,
-	getRowCanExpand,
+	renderExpandedRow,
+	canExpandRows,
 	filterEnabled,
 	paginationEnabled,
 	id,
@@ -128,7 +73,7 @@ export const Table = <T extends { id: string }>({
 		data: data || [],
 		columns,
 		filterFns: {
-			fuzzy: Filter.fuzzyFilter,
+			fuzzy,
 		},
 		state: {
 			sorting,
@@ -136,21 +81,20 @@ export const Table = <T extends { id: string }>({
 			globalFilter,
 			pagination,
 		},
-		getRowCanExpand: () => getRowCanExpand || false,
+		getRowCanExpand: () => canExpandRows || false,
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getExpandedRowModel: getExpandedRowModel(),
 		onColumnFiltersChange: setColumnFilters,
 		onGlobalFilterChange: setGlobalFilter,
-		globalFilterFn: Filter.fuzzyFilter,
+		globalFilterFn: fuzzy,
 		getFilteredRowModel: getFilteredRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getFacetedRowModel: getFacetedRowModel(),
 		getFacetedUniqueValues: getFacetedUniqueValues(),
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
-		/** Debug */
 		debugTable: false,
 		debugHeaders: false,
 		debugColumns: false,
@@ -177,8 +121,9 @@ export const Table = <T extends { id: string }>({
 					<Tbody>
 						{table.getRowModel().rows.map((row) => (
 							<TableRow
+								key={row.id}
 								row={row}
-								renderSubRow={renderSubRow}
+								renderSubRow={renderExpandedRow}
 								onValidSubmit={onValidSubmit}
 							/>
 						))}
@@ -203,68 +148,5 @@ export const Table = <T extends { id: string }>({
 				{paginationEnabled && <Pagination table={table} id={id} />}
 			</TableContainer>
 		</Stack>
-	)
-}
-
-function TableRow<T>({
-	row,
-	renderSubRow,
-	onValidSubmit,
-}: {
-	row: Row<any>
-	renderSubRow: (({ row }: { row: Row<T> }) => T) | undefined
-	onValidSubmit: SubmitHandler<any>
-}) {
-	const [editingId, setEditingId] = useState<string | null>(null)
-
-	const handleSave = useCallback(() => {
-		onValidSubmit(methods.getValues())
-		setEditingId(null)
-	}, [onValidSubmit])
-
-	const handleCancel = () => {
-		setEditingId(null)
-	}
-
-	const methods = useForm()
-
-	const editing = editingId === row.id
-	const handleEdit = () => setEditingId(row.id)
-
-	return (
-		<FormProvider {...methods} key={row.id}>
-			<Tr>
-				{row.getVisibleCells().map((cell) => (
-					<Td key={cell.id}>
-						<EditableCell cell={cell} editing={editing} />
-					</Td>
-				))}
-
-				<Td>
-					{editing ? (
-						<ButtonGroup>
-							<Button onClick={() => handleSave()}>
-								<BsCheck color="green" />
-							</Button>
-							<Button onClick={handleCancel}>
-								<BsStop color="red" />
-							</Button>
-						</ButtonGroup>
-					) : (
-						<Button onClick={handleEdit}>
-							<BsPencil color="blue" />
-						</Button>
-					)}
-				</Td>
-			</Tr>
-			{renderSubRow && row.getIsExpanded() && (
-				<Tr>
-					{/* 2nd row is a custom 1 cell row */}
-					<Td colSpan={row.getVisibleCells().length}>
-						{renderSubRow({ row })}
-					</Td>
-				</Tr>
-			)}
-		</FormProvider>
 	)
 }
