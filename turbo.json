@@ -6,7 +6,7 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["lint:fix", "db:generate"],
+      "dependsOn": ["db:generate"],
       "outputs": ["dist/**", ".next/**"]
     },
     "db:generate": {

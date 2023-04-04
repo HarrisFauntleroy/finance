@@ -9,10 +9,10 @@
   ],
   "scripts": {
     "build": "tsup --dts",
-    "dev": "yarn build -- --watch",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
+    "dev": "yarn build -- --watch",
     "format": "prettier --write .",
-    "lint": "next lint",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "NODE_ENV=production ts-node dist/index.js",
     "test": "jest --passWithNoTests",

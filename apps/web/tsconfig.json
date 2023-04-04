@@ -31,7 +31,6 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "./i18next-parser.config.js",
     ".next/types/**/*.ts"
   ],
   "exclude": ["dist", "node_modules"]

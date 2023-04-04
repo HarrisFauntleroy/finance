@@ -14,7 +14,7 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build -- --watch",
     "format": "prettier --write .",
-    "lint": "next lint",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "start": "NODE_ENV=production ts-node dist/index.js",
@@ -49,11 +49,14 @@
     "@tanstack/match-sorter-utils": "^8.7.2",
     "@tanstack/react-table": "^8.7.4",
     "@tanstack/table-core": "^8.7.9",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-react-swc": "^3.2.0",
     "autoprefixer": "^10.4.13",
     "chakra-ui-steps": "^1.8.0",
     "common": "*",
     "currency.js": "^2.0.4",
     "database": "*",
+    "date-fns": "^2.29.3",
     "i18next": "^22.0.4",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.0.1",
@@ -73,6 +76,8 @@
     "remark-math": "^5.1.1",
     "tsup": "~6.6.3",
     "vite": "^4.1.4",
+    "vite-plugin-svgr": "^2.4.0",
+    "vite-tsconfig-paths": "^4.0.8",
     "zod": "^3.19.1"
   },
   "devDependencies": {
@@ -85,8 +90,6 @@
     "@types/react-dom": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.52.0",
-    "@vitejs/plugin-react": "^3.1.0",
-    "@vitejs/plugin-react-swc": "^3.2.0",
     "eslint": "^8.34.0",
     "eslint-config-next": "12.3.4",
     "eslint-config-prettier": "^8.6.0",
@@ -101,9 +104,7 @@
     "rimraf": "^3.0.2",
     "tsconfig": "*",
     "tsx": "^3.7.1",
-    "typescript": "5.0.3",
-    "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.7"
+    "typescript": "5.0.3"
   },
   "packageManager": "yarn@3.5.0"
 }

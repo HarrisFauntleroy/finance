@@ -11,7 +11,7 @@
     "dev": "next dev -p 3000",
     "docker-use-remote": "docker context use home-server",
     "format": "prettier --write .",
-    "lint": "next lint",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "pre-commit": "lint-staged",
     "push-release": "git push --follow-tags origin main",
