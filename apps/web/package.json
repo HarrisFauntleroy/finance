@@ -2,6 +2,7 @@
   "name": "web",
   "version": "1.0.4",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
