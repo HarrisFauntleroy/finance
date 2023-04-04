@@ -28,12 +28,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.10.1
- * Query Engine version: aead147aa326ccb985dcfed5b065b4fdabd44b19
+ * Prisma Client JS version: 4.12.0
+ * Query Engine version: 659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
  */
 Prisma.prismaVersion = {
-  client: "4.10.1",
-  engine: "aead147aa326ccb985dcfed5b065b4fdabd44b19"
+  client: "4.12.0",
+  engine: "659ef412370fa3b41cd7bf6e94587c1dfb7f67e7"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -542,16 +542,16 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "4.10.1",
-  "engineVersion": "aead147aa326ccb985dcfed5b065b4fdabd44b19",
+  "clientVersion": "4.12.0",
+  "engineVersion": "659ef412370fa3b41cd7bf6e94587c1dfb7f67e7",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
   "dataProxy": false
 }
-config.document = dmmf
 config.dirname = dirname
+config.document = dmmf
 
 
 
@@ -562,6 +562,7 @@ warnEnvConflicts({
     rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(dirname, config.relativeEnvPaths.rootEnvPath),
     schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(dirname, config.relativeEnvPaths.schemaEnvPath)
 })
+
 
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
