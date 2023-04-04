@@ -4,13 +4,18 @@ import { EditableCell } from './EditableCell';
 
 import { Button, ButtonGroup, Td, Tr } from '@chakra-ui/react';
 import { Row } from '@tanstack/table-core';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  FieldValues,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
 
 interface TableRowProps<T> {
-  row: Row<any>;
+  row: Row<T>;
   renderSubRow?: ({ row }: { row: Row<T> }) => ReactNode;
-  onValidSubmit: SubmitHandler<any>;
+  onValidSubmit: SubmitHandler<FieldValues>;
 }
 
 export function TableRow<T>({
