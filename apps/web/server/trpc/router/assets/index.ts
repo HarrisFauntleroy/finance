@@ -56,7 +56,7 @@ export const assetRouter = router({
       );
     }),
 
-  overviewAccountsListbyUserId: publicProcedure
+  overviewAccountsListByUserId: publicProcedure
     .input(byUserId)
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
@@ -95,14 +95,7 @@ export const assetRouter = router({
       }),
     )
     .query(async ({ input: { userId } }) => {
-      const assets = await getAssetsByUserId(userId, {
-        select: {
-          balance: true,
-          targetBalance: true,
-          marketId: true,
-          name: true,
-        },
-      });
+      const assets = await getAssetsByUserId(userId);
 
       return assets;
     }),
@@ -110,7 +103,7 @@ export const assetRouter = router({
   byUserIdOld: publicProcedure
     .input(byUserId)
     .query(async ({ input: { userId } }) => {
-      const { portfolioSnapshot, assets } = await prisma.user.findUnique({
+      const result = await prisma.user.findUnique({
         where: {
           id: userId,
         },
@@ -150,19 +143,19 @@ export const assetRouter = router({
         },
       });
 
-      if (!assets) {
+      if (!result) {
         throw new TRPCError({
           code: 'NOT_FOUND',
         });
       }
 
+      const { portfolioSnapshot, assets } = result;
+
       const userCurrency = await getUserCurrency(userId);
       const exchangeRates = await getExchangeRates();
-
       const calculatedAssets = assets.map((asset) =>
         calculateAssetValue(asset, exchangeRates, userCurrency),
       );
-
       const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
         calculateAssetValueOverview(calculatedAssets);
 

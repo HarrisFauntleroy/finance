@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Card } from 'ui';
 
 import { trpc } from '~/utils/trpc';

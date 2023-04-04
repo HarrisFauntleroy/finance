@@ -23,7 +23,7 @@ import {
 import type { FormInputs } from 'components/Form/TextInput';
 import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
-import { FormProvider, type SubmitHandler,useForm } from 'react-hook-form';
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 
 export type BudgetFormInputs = {
   id?: string;

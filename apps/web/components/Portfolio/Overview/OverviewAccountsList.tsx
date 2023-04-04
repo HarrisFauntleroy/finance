@@ -82,7 +82,6 @@ export const OverviewAccountsList = () => {
   return (
     <Stack>
       <ControlBar />
-      {/* This should take an array of Assets */}
       <AssetTable assets={data} />
     </Stack>
   );

@@ -1,6 +1,6 @@
 import { Table } from 'ui';
 
-import { type RouterOutput,trpc } from '~/utils/trpc';
+import { type RouterOutput, trpc } from '~/utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
