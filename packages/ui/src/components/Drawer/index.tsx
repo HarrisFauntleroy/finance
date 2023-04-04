@@ -1,10 +1,11 @@
+import React, { type ReactNode } from 'react';
+
 import {
   Drawer as ChakraDrawer,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
 } from '@chakra-ui/react';
-import React, { type ReactNode } from 'react';
 
 interface DrawerProps {
   isOpen: boolean;

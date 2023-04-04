@@ -9,7 +9,6 @@ import type { Asset } from 'database/generated/prisma-client';
 import { z } from 'zod';
 
 export const createAssetInput = z.object({
-  id: z.string().optional(),
   userId: z.string().optional(),
   marketId: z.string().optional(),
   categoryId: z.string().optional(),
@@ -32,7 +31,6 @@ export const createAssetInput = z.object({
   updatedAt: z.date().nullable(),
   deleted: z.boolean(),
   deletedAt: z.date().nullable(),
-
   status: z.nativeEnum(AssetStatus),
 });
 

@@ -1,7 +1,8 @@
+import React, { Children } from 'react';
+
 import type { SimpleGridProps } from '@chakra-ui/react';
 import { GridItem, SimpleGrid } from '@chakra-ui/react';
 import type { ReactElement, ReactNode } from 'react';
-import React, { Children } from 'react';
 
 export function Grid({
   children,

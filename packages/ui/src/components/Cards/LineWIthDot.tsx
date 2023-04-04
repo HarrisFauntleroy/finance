@@ -3,8 +3,9 @@
  * Simple vertical map of articles
  *
  */
-import { Box, Flex, chakra, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box, chakra, Flex, useColorModeValue } from '@chakra-ui/react';
 
 export function LineWithDot() {
   return (

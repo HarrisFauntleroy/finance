@@ -3,16 +3,17 @@
  * Simple vertical map of milestones
  *
  */
+import React from 'react';
+
 import {
   Box,
+  chakra,
   HStack,
   Text,
-  VStack,
-  chakra,
   useBreakpointValue,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
-import React from 'react';
 
 type CardProps = {
   id: number;

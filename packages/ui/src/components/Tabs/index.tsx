@@ -1,14 +1,16 @@
+import React from 'react';
+
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+
 import {
-  Tabs as ChakraTabs,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
+  Tabs as ChakraTabs,
   useColorModeValue,
 } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
-import React from 'react';
 
 type TabType = {
   title: string;

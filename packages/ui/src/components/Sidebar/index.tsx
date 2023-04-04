@@ -1,7 +1,9 @@
+import React from 'react';
+
 import { SidebarContent } from './SidebarContent';
+
 import type { UseDisclosureProps } from '@chakra-ui/react';
 import { Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
-import React from 'react';
 import type { IconType } from 'react-icons';
 
 export interface SidebarLink {

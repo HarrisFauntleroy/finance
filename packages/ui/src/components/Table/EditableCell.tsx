@@ -1,7 +1,8 @@
+import React from 'react';
+
 import { Input } from '@chakra-ui/react';
 import { flexRender } from '@tanstack/react-table';
 import { Cell } from '@tanstack/table-core';
-import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface EditableCellProps<T> {

@@ -1,5 +1,8 @@
+import React from 'react';
+
 import type { SidebarLink } from '../Sidebar';
 import { SidebarItem } from '../Sidebar/SidebarItem';
+
 import type { BoxProps } from '@chakra-ui/react';
 import {
   Box,
@@ -10,7 +13,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import React from 'react';
 
 interface SidebarContentProps extends BoxProps {
   links: SidebarLink[];

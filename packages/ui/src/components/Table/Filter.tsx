@@ -1,7 +1,9 @@
+import React from 'react';
+
 import { Debug } from '../Debug';
+
 import { rankItem } from '@tanstack/match-sorter-utils';
 import type { Column, FilterFn, Row, Table } from '@tanstack/react-table';
-import React from 'react';
 
 export function Filter<TData extends object>({
   column,

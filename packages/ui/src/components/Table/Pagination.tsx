@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { Button, Flex, Input, Select, Text } from '@chakra-ui/react';
 import type { Table as TableType } from '@tanstack/react-table';
-import React from 'react';
 
 interface PaginationProps<TData extends object> {
   table: TableType<TData>;

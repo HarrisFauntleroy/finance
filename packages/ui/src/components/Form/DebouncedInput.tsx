@@ -1,6 +1,8 @@
-import { useDebounce } from '../../hooks/useDebounce';
-import { Input, InputProps } from '@chakra-ui/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+
+import { useDebounce } from '../../hooks/useDebounce';
+
+import { Input, InputProps } from '@chakra-ui/react';
 
 type DebouncedInputProps = {
   value: string | number;

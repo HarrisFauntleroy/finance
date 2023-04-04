@@ -3,17 +3,18 @@
  * Simple vertical map of articles
  *
  */
+import React from 'react';
+
 import {
   Box,
+  chakra,
   HStack,
   Icon,
   Link,
   Text,
-  VStack,
-  chakra,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
-import React from 'react';
 import type { IconType } from 'react-icons';
 
 type CardProps = {

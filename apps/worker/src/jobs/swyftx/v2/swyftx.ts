@@ -1,3 +1,10 @@
+import { logger } from 'common';
+import { prisma } from 'database';
+import {
+  AccountConnection,
+  Cryptocurrency,
+} from 'database/generated/prisma-client';
+
 import { Progress } from '../../../util';
 import {
   Balance,
@@ -7,13 +14,8 @@ import {
   SwyftxJWT,
   Transaction,
 } from '../types';
+
 import axios from 'axios';
-import { logger } from 'common';
-import { prisma } from 'database';
-import {
-  AccountConnection,
-  Cryptocurrency,
-} from 'database/generated/prisma-client';
 
 export class Swyftx {
   private baseUrl = 'https://api.swyftx.com.au';

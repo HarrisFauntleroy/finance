@@ -1,93 +1,92 @@
-
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 
 const {
   Decimal,
   objectEnumValues,
-  makeStrictEnum
-} = require('./runtime/index-browser')
+  makeStrictEnum,
+} = require('./runtime/index-browser');
 
+const Prisma = {};
 
-const Prisma = {}
-
-exports.Prisma = Prisma
+exports.Prisma = Prisma;
 
 /**
  * Prisma Client JS version: 4.10.1
  * Query Engine version: aead147aa326ccb985dcfed5b065b4fdabd44b19
  */
 Prisma.prismaVersion = {
-  client: "4.10.1",
-  engine: "aead147aa326ccb985dcfed5b065b4fdabd44b19"
-}
+  client: '4.10.1',
+  engine: 'aead147aa326ccb985dcfed5b065b4fdabd44b19',
+};
 
 Prisma.PrismaClientKnownRequestError = () => {
   throw new Error(`PrismaClientKnownRequestError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)};
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.PrismaClientUnknownRequestError = () => {
   throw new Error(`PrismaClientUnknownRequestError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.PrismaClientRustPanicError = () => {
   throw new Error(`PrismaClientRustPanicError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.PrismaClientInitializationError = () => {
   throw new Error(`PrismaClientInitializationError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.PrismaClientValidationError = () => {
   throw new Error(`PrismaClientValidationError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.NotFoundError = () => {
   throw new Error(`NotFoundError is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
-Prisma.Decimal = Decimal
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
+Prisma.Decimal = Decimal;
 
 /**
  * Re-export of sql-template-tag
  */
 Prisma.sql = () => {
   throw new Error(`sqltag is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.empty = () => {
   throw new Error(`empty is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.join = () => {
   throw new Error(`join is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
 Prisma.raw = () => {
   throw new Error(`raw is unable to be run in the browser.
-In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-)}
-Prisma.validator = () => (val) => val
-
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`);
+};
+Prisma.validator = () => (val) => val;
 
 /**
  * Shorthand utilities for JSON filtering
  */
-Prisma.DbNull = objectEnumValues.instances.DbNull
-Prisma.JsonNull = objectEnumValues.instances.JsonNull
-Prisma.AnyNull = objectEnumValues.instances.AnyNull
+Prisma.DbNull = objectEnumValues.instances.DbNull;
+Prisma.JsonNull = objectEnumValues.instances.JsonNull;
+Prisma.AnyNull = objectEnumValues.instances.AnyNull;
 
 Prisma.NullTypes = {
   DbNull: objectEnumValues.classes.DbNull,
   JsonNull: objectEnumValues.classes.JsonNull,
-  AnyNull: objectEnumValues.classes.AnyNull
-}
+  AnyNull: objectEnumValues.classes.AnyNull,
+};
 
 /**
  * Enums
  */
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-function makeEnum(x) { return x; }
+function makeEnum(x) {
+  return x;
+}
 
 exports.Prisma.AccountScalarFieldEnum = makeEnum({
   id: 'id',
@@ -101,7 +100,7 @@ exports.Prisma.AccountScalarFieldEnum = makeEnum({
   token_type: 'token_type',
   scope: 'scope',
   id_token: 'id_token',
-  session_state: 'session_state'
+  session_state: 'session_state',
 });
 
 exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
@@ -112,7 +111,7 @@ exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt',
-  assetId: 'assetId'
+  assetId: 'assetId',
 });
 
 exports.Prisma.AssetScalarFieldEnum = makeEnum({
@@ -139,7 +138,7 @@ exports.Prisma.AssetScalarFieldEnum = makeEnum({
   marketId: 'marketId',
   parentId: 'parentId',
   userId: 'userId',
-  status: 'status'
+  status: 'status',
 });
 
 exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
@@ -165,7 +164,7 @@ exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
@@ -177,7 +176,7 @@ exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.BudgetScalarFieldEnum = makeEnum({
@@ -188,7 +187,7 @@ exports.Prisma.BudgetScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
@@ -217,7 +216,7 @@ exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
@@ -232,7 +231,7 @@ exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
@@ -247,7 +246,7 @@ exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
@@ -270,7 +269,7 @@ exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
@@ -280,7 +279,7 @@ exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.IncomeScalarFieldEnum = makeEnum({
@@ -293,7 +292,7 @@ exports.Prisma.IncomeScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.LogScalarFieldEnum = makeEnum({
@@ -303,7 +302,7 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.MarketScalarFieldEnum = makeEnum({
@@ -322,7 +321,7 @@ exports.Prisma.MarketScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
@@ -337,7 +336,7 @@ exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
@@ -352,12 +351,12 @@ exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.QueryMode = makeEnum({
   default: 'default',
-  insensitive: 'insensitive'
+  insensitive: 'insensitive',
 });
 
 exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
@@ -372,14 +371,14 @@ exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.SessionScalarFieldEnum = makeEnum({
   id: 'id',
   sessionToken: 'sessionToken',
   userId: 'userId',
-  expires: 'expires'
+  expires: 'expires',
 });
 
 exports.Prisma.SettingsScalarFieldEnum = makeEnum({
@@ -391,19 +390,19 @@ exports.Prisma.SettingsScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deleted: 'deleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
 });
 
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
-  desc: 'desc'
+  desc: 'desc',
 });
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable'
+  Serializable: 'Serializable',
 });
 
 exports.Prisma.UserScalarFieldEnum = makeEnum({
@@ -416,18 +415,18 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt',
-  role: 'role'
+  role: 'role',
 });
 
 exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
   identifier: 'identifier',
   token: 'token',
-  expires: 'expires'
+  expires: 'expires',
 });
 exports.AccountConnection = makeEnum({
   NONE: 'NONE',
   SWYFTX: 'SWYFTX',
-  COINSPOT: 'COINSPOT'
+  COINSPOT: 'COINSPOT',
 });
 
 exports.AssetStatus = makeEnum({
@@ -441,7 +440,7 @@ exports.AssetStatus = makeEnum({
   BLOCKED: 'BLOCKED',
   UNKNOWN: 'UNKNOWN',
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
+  INACTIVE: 'INACTIVE',
 });
 
 exports.Category = makeEnum({
@@ -453,13 +452,13 @@ exports.Category = makeEnum({
   INVESTMENT: 'INVESTMENT',
   CREDIT: 'CREDIT',
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
-  SUPERANNUATION: 'SUPERANNUATION'
+  SUPERANNUATION: 'SUPERANNUATION',
 });
 
 exports.ColorScheme = makeEnum({
   LIGHT: 'LIGHT',
   DARK: 'DARK',
-  TBA: 'TBA'
+  TBA: 'TBA',
 });
 
 exports.LogType = makeEnum({
@@ -467,7 +466,7 @@ exports.LogType = makeEnum({
   warn: 'warn',
   error: 'error',
   trace: 'trace',
-  debug: 'debug'
+  debug: 'debug',
 });
 
 exports.MarketType = makeEnum({
@@ -476,12 +475,12 @@ exports.MarketType = makeEnum({
   ETF: 'ETF',
   METAL: 'METAL',
   OTHER: 'OTHER',
-  CASH: 'CASH'
+  CASH: 'CASH',
 });
 
 exports.Role = makeEnum({
   USER: 'USER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
 });
 
 exports.Prisma.ModelName = makeEnum({
@@ -505,7 +504,7 @@ exports.Prisma.ModelName = makeEnum({
   PropertySnapshot: 'PropertySnapshot',
   SecuritySnapshot: 'SecuritySnapshot',
   Cryptocurrency: 'Cryptocurrency',
-  Market: 'Market'
+  Market: 'Market',
 });
 
 /**
@@ -516,9 +515,9 @@ class PrismaClient {
     throw new Error(
       `PrismaClient is unable to be run in the browser.
 In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
-    )
+    );
   }
 }
-exports.PrismaClient = PrismaClient
+exports.PrismaClient = PrismaClient;
 
-Object.assign(exports, Prisma)
+Object.assign(exports, Prisma);

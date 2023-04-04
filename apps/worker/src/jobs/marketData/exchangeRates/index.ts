@@ -1,8 +1,10 @@
-import { Progress } from '../../../util';
-import axios from 'axios';
 import { logger } from 'common';
 import { prisma } from 'database';
 import { Category } from 'database/generated/prisma-client';
+
+import { Progress } from '../../../util';
+
+import axios from 'axios';
 
 interface OpenExchangeRatesResponse {
   id: string;

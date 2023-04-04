@@ -1,7 +1,8 @@
-import type { AccordionProps } from '@chakra-ui/react';
-import { AccordionItem, Accordion as ChakraAccordion } from '@chakra-ui/react';
-import type { ReactElement, ReactNode } from 'react';
 import React, { Children, cloneElement } from 'react';
+
+import type { AccordionProps } from '@chakra-ui/react';
+import { Accordion as ChakraAccordion,AccordionItem } from '@chakra-ui/react';
+import type { ReactElement, ReactNode } from 'react';
 
 export function Accordion({
   children,

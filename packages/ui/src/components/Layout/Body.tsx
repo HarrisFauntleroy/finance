@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
+
+import { Box } from '@chakra-ui/react';
 
 type BodyProps = {
   children?: ReactNode;

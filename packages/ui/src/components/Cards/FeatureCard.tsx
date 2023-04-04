@@ -1,13 +1,15 @@
+import React from 'react';
+
 import type { Feature } from '../Cards/Features';
+
 import {
   Box,
+  chakra,
   Flex,
   Link,
   Text,
-  chakra,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React from 'react';
 
 export function FeatureCard({ icon, heading, content }: Feature) {
   return (

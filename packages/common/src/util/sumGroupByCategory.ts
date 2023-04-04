@@ -1,14 +1,23 @@
-import currency from 'currency.js';
+import { add } from './math';
 
-export const sumGroupByCategory = (arr: any[], category: string) =>
-  arr.reduce(
-    (
-      grouped: { [x: string]: { add: (arg0: any) => any } },
-      obj: { [x: string]: string | number; value: any },
-    ) => {
-      if (!grouped[obj[category]]) grouped[obj[category]] = currency(0);
-      grouped[obj[category]] = grouped[obj[category]].add(obj.value);
-      return grouped;
-    },
-    {},
-  );
+interface Grouped<T> {
+  [key: string]: T;
+}
+
+export interface Item {
+  [key: string]: string | number;
+  value: string;
+}
+
+export function sumGroupByCategory<T extends Item>(
+  arr: T[],
+  category: keyof T,
+): Grouped<string> {
+  return arr.reduce((grouped: Grouped<string>, obj: T) => {
+    if (!grouped[obj[category]]) {
+      grouped[obj[category]] = String(0);
+    }
+    grouped[obj[category]] = add(grouped[obj[category]], obj.value);
+    return grouped;
+  }, {});
+}

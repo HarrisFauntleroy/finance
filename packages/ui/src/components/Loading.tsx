@@ -1,5 +1,6 @@
-import { Center, CircularProgress } from '@chakra-ui/react';
 import React from 'react';
+
+import { Center, CircularProgress } from '@chakra-ui/react';
 
 export function Loading() {
   return (

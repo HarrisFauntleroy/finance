@@ -3,8 +3,9 @@
  * Simple vertical map of milestones
  *
  */
-import { Box } from '@chakra-ui/react';
 import React from 'react';
+
+import { Box } from '@chakra-ui/react';
 
 export function EmptyCard() {
   return (

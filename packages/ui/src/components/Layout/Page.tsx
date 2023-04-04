@@ -1,7 +1,8 @@
+import React, { type ReactNode } from 'react';
+
 import type { StackProps } from '@chakra-ui/react';
 import { Flex } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { type ReactNode } from 'react';
 
 type PageProps = StackProps & {
   title?: string;

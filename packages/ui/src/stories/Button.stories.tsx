@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { Meta, Story } from '@storybook/react';
-import React from 'react';
 
 export default {
   title: 'Button',

@@ -4,12 +4,14 @@
  * We update the database with price so that weekly/monthly portfolioSnapshot show price of balance at the time of snapshot were current
  *
  */
-import { Progress } from '../../../util';
-import { CoinGeckoResponse, ParsedCrypto } from './types';
-import axios from 'axios';
 import { logger } from 'common';
 import { prisma } from 'database';
 import { MarketType } from 'database/generated/prisma-client';
+
+import { Progress } from '../../../util';
+import { CoinGeckoResponse, ParsedCrypto } from './types';
+
+import axios from 'axios';
 
 export class MarketUpdater {
   private baseUrl = 'https://api.coingecko.com/api/v3';

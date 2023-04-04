@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { InputProps as ChakraInputProps } from '@chakra-ui/react';
 import {
   FormControl,
@@ -5,7 +7,6 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import React from 'react';
 import type { ValidationRule } from 'react-hook-form';
 
 interface InputProps {

@@ -5,8 +5,9 @@
  * Only displays in development environment
  *
  */
-import { Heading, Stack } from '@chakra-ui/react';
 import React from 'react';
+
+import { Heading, Stack } from '@chakra-ui/react';
 
 /** This component will not show up in production */
 export function Debug({ data }: { data: unknown }) {

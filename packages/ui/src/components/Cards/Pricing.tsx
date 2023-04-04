@@ -1,12 +1,13 @@
+import React from 'react';
+
 import {
+  chakra,
   HStack,
   Icon,
   Stack,
   Text,
-  chakra,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React from 'react';
 import * as bs from 'react-icons/bs';
 
 interface PricingCardProps {

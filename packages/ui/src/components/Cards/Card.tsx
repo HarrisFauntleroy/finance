@@ -1,9 +1,10 @@
 /**
  * Generic Card
  */
+import React, { type ReactNode } from 'react';
+
 import type { GridItemProps } from '@chakra-ui/react';
 import { GridItem } from '@chakra-ui/react';
-import React, { type ReactNode } from 'react';
 
 export function Card({
   children,

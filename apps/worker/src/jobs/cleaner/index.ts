@@ -1,5 +1,7 @@
-import { Progress } from '../../util';
 import { prisma } from 'database';
+
+import { Progress } from '../../util';
+
 import { subDays } from 'date-fns';
 
 export const cleaner = async () => {

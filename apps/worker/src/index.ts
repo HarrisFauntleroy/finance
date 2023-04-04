@@ -2,19 +2,21 @@
  * Worker for handling data processing
  * With BullMQ, Bull Board 🎯 & Redis
  */
+import { logger } from 'common';
+
 import { cleaner } from './jobs/cleaner';
 import { cryptocurrency } from './jobs/cryptocurrency';
 import { history } from './jobs/history';
 import { marketData } from './jobs/marketData';
 import { swyftx } from './jobs/swyftx';
+
 import {
   BullMQAdapter,
-  ExpressAdapter,
   createBullBoard,
+  ExpressAdapter,
 } from '@bull-board/express';
 import bodyParser from 'body-parser';
 import { ConnectionOptions, Queue as QueueMQ, Worker } from 'bullmq';
-import { logger } from 'common';
 import { config } from 'dotenv';
 import express from 'express';
 

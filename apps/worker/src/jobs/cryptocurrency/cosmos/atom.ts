@@ -1,10 +1,12 @@
-import { Progress } from '../../../util';
-import { Coin, QueryClient, createProtobufRpcClient } from '@cosmjs/stargate';
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { logger } from 'common';
-import { QueryClientImpl } from 'cosmjs-types/cosmos/bank/v1beta1/query';
 import { prisma } from 'database';
 import { MarketType } from 'database/generated/prisma-client';
+
+import { Progress } from '../../../util';
+
+import { Coin, createProtobufRpcClient,QueryClient } from '@cosmjs/stargate';
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
+import { QueryClientImpl } from 'cosmjs-types/cosmos/bank/v1beta1/query';
 import { Decimal } from 'database/generated/prisma-client/runtime/library';
 
 const COSMOS_RPC = 'https://cosmos-mainnet-rpc.allthatnode.com:26657';

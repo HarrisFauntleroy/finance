@@ -1,3 +1,5 @@
+import React, { Suspense } from 'react';
+
 import {
   Avatar,
   FormControl,
@@ -13,7 +15,6 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
-import React, { Suspense } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface AutocompleteProps {

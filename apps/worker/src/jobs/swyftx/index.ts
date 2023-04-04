@@ -1,3 +1,11 @@
+import { logger } from 'common';
+import { prisma } from 'database';
+import {
+  AccountConnection,
+  AssetStatus,
+  MarketType,
+} from 'database/generated/prisma-client';
+
 import { Progress } from '../../util';
 import {
   Balance,
@@ -7,14 +15,8 @@ import {
   SwyftxJWT,
   Transaction,
 } from './types';
+
 import axios from 'axios';
-import { logger } from 'common';
-import { prisma } from 'database';
-import {
-  AccountConnection,
-  AssetStatus,
-  MarketType,
-} from 'database/generated/prisma-client';
 import dotenv from 'dotenv';
 
 dotenv.config();

@@ -6,7 +6,6 @@ import {
   Prisma,
 } from '../generated/prisma-client';
 import { prisma } from './';
-import { logger } from 'common';
 
 const selectAssetLabel = Prisma.validator<Prisma.AssetLabelSelect>()({
   id: true,
@@ -796,15 +795,15 @@ function upsertAssets(
 }
 
 (async () => {
-  logger.info('Starting');
+  console.log('Starting');
   try {
-    logger.info('Attempting to upsertAssets');
+    console.log('Attempting to upsertAssets');
     upsertAssets(assets);
   } catch (error) {
-    logger.info(`Error while upserting Assets ${error}`);
+    console.log(`Error while upserting Assets ${error}`);
     process.exit(1);
   } finally {
-    logger.info('Finished');
+    console.log('Finished');
     await prisma.$disconnect();
   }
 })();

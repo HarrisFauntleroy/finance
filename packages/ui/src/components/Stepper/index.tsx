@@ -1,7 +1,8 @@
+import React from 'react';
+
 import { Button, Flex, Stack } from '@chakra-ui/react';
 import { Step as ChakraStep, Steps, useSteps } from 'chakra-ui-steps';
 import type { ReactNode } from 'react';
-import React from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 
 export type Step = {

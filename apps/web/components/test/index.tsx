@@ -26,14 +26,19 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 const CopyContent = ({ content }: { content?: string | null }) => {
   const [isRevealed, setIsRevealed] = useState(false);
-  const { onCopy, hasCopied } = useClipboard(content);
+  const { onCopy, hasCopied } = useClipboard(
+    content || 'Copy failed, content missing.',
+  );
 
   const handleToggleReveal = () => {
     setIsRevealed(!isRevealed);
   };
 
   const getMaskedContent = (unmaskedContent?: string, maxLength = 10) => {
-    const maskLength = Math.min(unmaskedContent.length, maxLength);
+    const maskLength = Math.min(
+      unmaskedContent?.length || maxLength,
+      maxLength,
+    );
     return '*'.repeat(maskLength);
   };
 
