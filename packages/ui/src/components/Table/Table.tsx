@@ -9,7 +9,6 @@ import { Pagination } from './Pagination';
 import { TableRow } from './TableRow';
 
 import {
-  DeepPartial,
   Stack,
   Table as ChakraTable,
   TableContainer,
@@ -20,6 +19,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
+  Column,
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -36,13 +36,13 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { SubmitHandler } from 'react-hook-form';
+import { FieldValues, SubmitHandler } from 'react-hook-form';
 
 interface EditableTableProps<T extends { id: string }> {
   id: string;
-  columns: ColumnDef<any, any>[];
-  data: DeepPartial<T>[];
-  onValidSubmit?: SubmitHandler<T>;
+  columns: ColumnDef<T>[] | Column<T>[];
+  data: T[];
+  onValidSubmit?: SubmitHandler<FieldValues>;
   pageSize?: number;
   paginationEnabled?: boolean;
   filterEnabled?: boolean;

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { logger } from 'common';
 
@@ -19,37 +19,27 @@ import {
   Progress,
   Stack,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
 import type { FormInputs } from 'components/Form/TextInput';
 import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
-import { FormProvider, type SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { FormProvider, type SubmitHandler,useForm } from 'react-hook-form';
 
-export type BudgetFormInputs =
-  | {
-      id: never;
-      name?: string;
-      userId?: string;
-      totalBalance?: string;
-    }
-  | {
-      id: string;
-      name?: string;
-      userId?: string;
-      totalBalance?: string;
-    };
+export type BudgetFormInputs = {
+  id?: string;
+  name?: string;
+  userId?: string;
+  totalBalance?: string;
+};
 
 type FormProps = {
   defaultValues?: BudgetFormInputs;
 };
 
 export const BudgetForm = ({ defaultValues }: FormProps) => {
-  const toast = useToast();
+  // const toast = useToast();
   const session = useSession();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const userId = session?.data?.userId;
@@ -65,27 +55,27 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 
   useEffect(() => reset(defaultValues), [defaultValues, reset]);
 
-  const onValidSubmit: SubmitHandler<BudgetFormInputs> = (data) => {
-    if (userId) {
-      if (defaultValues?.id) {
-        return updateBudget.mutateAsync(data).then(({ name }) => {
-          queryClient.invalidateQueries();
-          onClose();
-          toast({
-            title: `Successfully updated budget ${name}`,
-            status: 'success',
-          });
-        });
-      }
-      return createBudget.mutateAsync(data).then(({ name }) => {
-        queryClient.invalidateQueries();
-        onClose();
-        toast({
-          title: `Successfully created budget ${name}`,
-          status: 'success',
-        });
-      });
-    }
+  const onValidSubmit: SubmitHandler<BudgetFormInputs> = (_data) => {
+    // if (userId) {
+    //   if (defaultValues?.id) {
+    //     return updateBudget.mutateAsync(data).then(({ name }) => {
+    //       queryClient.invalidateQueries();
+    //       onClose();
+    //       toast({
+    //         title: `Successfully updated budget ${name}`,
+    //         status: 'success',
+    //       });
+    //     });
+    //   }
+    //   return createBudget.mutateAsync(data).then(({ name }) => {
+    //     queryClient.invalidateQueries();
+    //     onClose();
+    //     toast({
+    //       title: `Successfully created budget ${name}`,
+    //       status: 'success',
+    //     });
+    //   });
+    // }
     return new Error('No userId provided');
   };
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
@@ -20,20 +18,9 @@ export const TransactionsList = () => {
       id="budgetOverview"
       data={data || []}
       columns={transactionsListColumns}
-      getRowCanExpand
+      canExpandRows
       filterEnabled
       paginationEnabled
-      renderSubRow={(props) =>
-        (props?.row?.original?.subAssets?.length || 0) > 0 && (
-          <Table
-            id="budgetOverview"
-            data={props?.row?.original?.subAssets || []}
-            columns={transactionsListColumns}
-            getRowCanExpand
-            paginationEnabled
-          />
-        )
-      }
     />
   );
 };

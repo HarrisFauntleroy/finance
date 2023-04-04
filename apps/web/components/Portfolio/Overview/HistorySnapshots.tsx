@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { Card, Table } from 'ui';
 
@@ -11,7 +11,7 @@ import Chart from 'components/Chart';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 
-const sortFn = function (a: { createdAt: number }, b: { createdAt: number }) {
+function sortFn<T extends { createdAt: Date }>(a: T, b: T) {
   if (a.createdAt < b.createdAt) {
     return -1;
   } else {
@@ -20,7 +20,7 @@ const sortFn = function (a: { createdAt: number }, b: { createdAt: number }) {
     }
     return 0;
   }
-};
+}
 
 export const HistorySnapshots = () => {
   const session = useSession();

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AssetStatus, Category } from 'database/generated/prisma-client';
 
 import type { RouterOutput } from '~/utils/trpc';
@@ -149,7 +147,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
     accessorKey: 'balance',
     cell: ({
       row: {
-        original: { totalValue, value, price, market, balance, category },
+        original: { saleableValue, value, price, market, balance, category },
       },
     }) => {
       return (
@@ -163,7 +161,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
               <FormattedNumber value={Number(balance)} />
             )}
             <Flex gap={1} justify="right">
-              <MdCompareArrows /> <Currency value={totalValue || value} />
+              <MdCompareArrows /> <Currency value={saleableValue || value} />
             </Flex>
           </Stack>
         </Tooltip>
@@ -175,7 +173,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
     accessorKey: 'balance',
     cell: ({
       row: {
-        original: { totalValue, price, market },
+        original: { saleableValue, price, market },
       },
     }) => {
       return (
@@ -186,7 +184,7 @@ export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
         >
           <Stack textAlign="right" gap="8px">
             <Flex gap={1} justify="right">
-              <MdCompareArrows /> <Currency value={totalValue} />
+              <MdCompareArrows /> <Currency value={saleableValue} />
             </Flex>
           </Stack>
         </Tooltip>

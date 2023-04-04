@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
@@ -8,10 +6,13 @@ import { ControlBar } from '../ControlBar';
 import { transactionsListColumns } from '../Transactions/columns';
 
 import { Stack, Text } from '@chakra-ui/react';
-import type { AssetWithCalculatedValues } from 'common';
 import { overviewAccountsListColumns } from 'components/Portfolio/Overview/columns';
 import TableSubComponent from 'components/Portfolio/Overview/TableSubRow';
-import type { AssetTransaction } from 'database/generated/prisma-client/index';
+import type {
+  Asset,
+  AssetTransaction,
+  Market,
+} from 'database/generated/prisma-client/index';
 import { useSession } from 'next-auth/react';
 
 const TransactionTable = ({
@@ -24,7 +25,7 @@ const TransactionTable = ({
       id="portfolioOverviewAssetTransactions"
       data={transactions || []}
       columns={transactionsListColumns}
-      getRowCanExpand
+      canExpandRows
       filterEnabled
       paginationEnabled
     />
@@ -33,22 +34,32 @@ const TransactionTable = ({
   );
 };
 
-const AssetTable = ({ assets }: { assets?: AssetWithCalculatedValues[] }) => {
+const AssetTable = ({
+  assets,
+}: {
+  assets?: (Asset & {
+    transactions: AssetTransaction[];
+    user: {
+      settings: {
+        userCurrency: string;
+      } | null;
+    };
+    market: Market | null;
+  })[];
+}) => {
   return assets && assets?.length > 0 ? (
     <Table
       id="portfolioOverviewAssets"
       data={assets || []}
       columns={overviewAccountsListColumns}
-      getRowCanExpand
+      canExpandRows
       filterEnabled
       paginationEnabled
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      renderSubRow={(props: any) => {
-        const { subAssets, transactions } = props.row.original;
+      renderExpandedRow={(props) => {
         return (
           <Stack>
-            <AssetTable assets={subAssets} />
-            <TransactionTable transactions={transactions} />
+            <AssetTable assets={props.row.original.subAssets} />
+            <TransactionTable transactions={props.row.original.transactions} />
             {/* Optional debug stuff  */}
             <TableSubComponent row={props.row} />
           </Stack>

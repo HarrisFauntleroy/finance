@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { Table } from 'ui';
 
-import { type RouterOutput, trpc } from '~/utils/trpc';
+import { type RouterOutput,trpc } from '~/utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -51,7 +49,7 @@ export const AccountsList = () => {
   return (
     <Table
       id="cryptocurrencyOverview"
-      data={data}
+      data={data || []}
       columns={portfolioOverviewColumns}
       canExpandRows
       filterEnabled

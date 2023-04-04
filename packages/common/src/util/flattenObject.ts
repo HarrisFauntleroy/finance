@@ -5,7 +5,6 @@
  */
 
 // This version doesnt concatenate keys like a.b: 3 it will show b: 3
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function flattenObject(obj: any): object {
   return Object.keys(obj)
     .flatMap((key) => {
@@ -19,11 +18,9 @@ export function flattenObject(obj: any): object {
     .reduce((acc, cur) => Object.assign(acc, cur), {});
 }
 
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function flattenObjectWithPrefix(obj: any): Record<string, unknown> {
   const result = new Map();
 
-  // rome-ignore lint/suspicious/noExplicitAny: <explanation>
   function flatten(obj: any, prefix = '') {
     for (const [key, value] of Object.entries(obj)) {
       if (typeof value === 'object') {
@@ -41,7 +38,6 @@ export function flattenObjectWithPrefix(obj: any): Record<string, unknown> {
 // So you can already go arr -> obj with Object.from(arr) ? maybe
 // What does this do
 export const flattenArrToObj = (
-  // rome-ignore lint/suspicious/noExplicitAny: <explanation>
   arr: Record<string, any>[],
   key: string | number,
   value: string,

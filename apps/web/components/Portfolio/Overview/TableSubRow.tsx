@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { percentageChange } from 'common';
 import { Card, Debug, Grid, inDev } from 'ui';
 
@@ -16,7 +14,7 @@ import {
   StatNumber,
 } from '@chakra-ui/react';
 import type { Row } from '@tanstack/react-table';
-import type { Asset } from 'common';
+import type { AssetWithCalculatedValues } from 'common';
 import currency from 'currency.js';
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
@@ -34,7 +32,7 @@ interface TableSubComponentProps<TData> {
   row: Row<TData>;
 }
 
-function TableSubComponent<TData extends Asset>({
+function TableSubComponent<TData extends AssetWithCalculatedValues>({
   row: {
     original: { averageCost, price, ...original },
   },

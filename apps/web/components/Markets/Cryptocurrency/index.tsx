@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
@@ -16,7 +14,7 @@ export const Cryptocurrency = () => {
         id="Cryptocurrency"
         data={data || []}
         columns={cryptocurrencyColumns}
-        getRowCanExpand
+        canExpandRows
         paginationEnabled
       />
     </Stack>

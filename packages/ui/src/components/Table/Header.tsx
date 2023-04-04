@@ -10,7 +10,6 @@ export function TableHeader<TData extends object>(
   return (
     <Th key={header.id}>
       {header.isPlaceholder ? null : (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
           style={
             header.column.getCanSort()
