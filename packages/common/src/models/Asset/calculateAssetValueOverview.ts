@@ -1,10 +1,8 @@
-// #?: Explain this
 import { sumArrayByKey } from '../../util';
-import { AssetWithCalculatedValues, SubAssetValueTotals } from './types';
+import { AssetWithCalculatedValues } from './types';
 
 import currency from 'currency.js';
 
-// Takes in the output of calculateManyAssets
 export function calculateAssetValueOverview(data: AssetWithCalculatedValues[]) {
   const totalValue = sumArrayByKey(data, 'value').toString();
 

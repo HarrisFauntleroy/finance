@@ -1,14 +1,11 @@
 import currency from 'currency.js';
 
-export function sumArrayByKey(
-  input: Record<string, string | number>[],
-  key: string,
-  precision = 2,
-) {
+export function sumArrayByKey<T>(input: T[], key: keyof T, precision = 2) {
+  const options = { precision: precision };
   return input
     .reduce(
-      (acc, next) => acc.add(currency(next[key], { precision: precision })),
-      currency(0, { precision: precision }),
+      (acc, next) => acc.add(currency(String(next[key]), options)),
+      currency(0, options),
     )
     .toString();
 }

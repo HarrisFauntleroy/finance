@@ -3,7 +3,6 @@ import { prisma } from 'database';
 import { MarketType } from 'database/generated/prisma-client';
 
 export const getExchangeRates = async (): Promise<Record<string, string>> => {
-  // Fetch the market rates
   const markets = await prisma.market.findMany({
     where: {
       type: MarketType.CASH,

@@ -12,7 +12,7 @@
     "build": "tsc",
     "build-storybook": "build-storybook",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-    "dev": "start-storybook -p 6006",
+    "dev": "yarn build -- --watch",
     "format": "prettier --write .",
     "lint": "next lint",
     "lint:fix": "eslint . --fix",

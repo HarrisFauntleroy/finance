@@ -1,0 +1,6 @@
+yarn run v1.22.19
+$ npm run generate
+
+> database@1.0.4 generate
+> prisma generate
+

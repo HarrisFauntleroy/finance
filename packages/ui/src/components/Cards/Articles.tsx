@@ -8,7 +8,7 @@ import React from 'react';
 import { ArticleCard } from '../Cards/ArticleCard';
 import { LineWithDot } from '../Cards/LineWIthDot';
 
-import { chakra,Container, Flex } from '@chakra-ui/react';
+import { chakra, Container, Flex } from '@chakra-ui/react';
 import type { IconType } from 'react-icons';
 
 type Category = string[];

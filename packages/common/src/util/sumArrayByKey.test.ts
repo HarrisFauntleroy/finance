@@ -41,4 +41,18 @@ describe('sumArrayByKey', () => {
 
     expect(result).toEqual(expected);
   });
+
+  it('should return the correct sum for complex numbers', () => {
+    const array = [
+      { id: 1, value: '148.084309281309' },
+      { id: 2, value: '3210.8932103810283' },
+      { id: 3, value: '21.9082019389012389321038' },
+    ];
+    const key = 'value';
+
+    const expected = '3380.88572160123840149026';
+    const result = sumArrayByKey(array, key, 20);
+
+    expect(result).toEqual(expected);
+  });
 });
