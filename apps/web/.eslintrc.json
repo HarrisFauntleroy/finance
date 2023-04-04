@@ -1,50 +1,51 @@
 {
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"project": "./tsconfig.json"
-	},
-	"root": true,
-	"plugins": [
-		"@typescript-eslint",
-		"import",
-		"typescript-sort-keys",
-		"prettier"
-	],
-	"extends": [
-		"airbnb-typescript/base",
-		"prettier",
-		"plugin:@typescript-eslint/recommended",
-		"plugin:import/typescript"
-	],
-	"env": {
-		"browser": true,
-		"node": true,
-		"jest": true,
-		"es6": true
-	},
-	"rules": {
-		"@typescript-eslint/return-await": "off",
-		"react/prop-types": "off",
-		"@typescript-eslint/naming-convention": "warn",
-		"@typescript-eslint/no-unused-vars": [
-			"error",
-			{
-				"argsIgnorePattern": "^_"
-			}
-		],
-		"@typescript-eslint/consistent-type-imports": "error",
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
-				"peerDependencies": true
-			}
-		],
-		"import/extensions": "off"
-	},
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	}
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import"],
+  "extends": [
+    "next",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
+        "peerDependencies": true
+      }
+    ],
+    "import/extensions": "off",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react$"],
+          ["^(ui|common|database|database/generated/prisma-client)$"],
+          ["~/(.*)"],
+          ["^[./]"]
+        ]
+      }
+    ]
+  }
 }

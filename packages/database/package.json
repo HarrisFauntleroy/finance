@@ -1,42 +1,42 @@
 {
-	"name": "database",
-	"version": "1.0.4",
-	"license": "MIT",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist/**"
-	],
-	"scripts": {
-		"prebuild": "npm run generate",
-		"build": "tsup --dts",
-		"dev": "yarn build -- --watch",
-		"db:generate": "prisma generate",
-		"db:push": "prisma db push --skip-generate",
-		"clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-		"db:migrate:deploy": "prisma migrate deploy",
-		"db:migrate:dev": "prisma migrate dev",
-		"db:seed": "tsx src/seed.ts",
-		"predev": "npm run generate",
-		"format": "prettier --write .",
-		"generate": "prisma generate",
-		"postinstall": "prisma generate --schema=prisma/schema.prisma",
-		"lint": "next lint",
-		"lint:fix": "eslint . --fix",
-		"studio": "prisma studio"
-	},
-	"dependencies": {
-		"@prisma/client": "^4.1.1"
-	},
-	"devDependencies": {
-		"@types/node": "^18.11.6",
-		"eslint": "^8.12.0",
-		"prisma": "^4.1.1",
-		"rimraf": "^3.0.2",
-		"tsconfig": "*",
-		"tsup": "^5.11.13",
-		"tsx": "^3.7.1",
-		"typescript": "4.7.4"
-	},
-	"packageManager": "yarn@1.22.19"
+  "name": "database",
+  "version": "1.0.4",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "prebuild": "npm run generate",
+    "build": "tsup --dts",
+    "dev": "yarn build -- --watch",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:seed": "tsx src/seed.ts",
+    "predev": "npm run generate",
+    "format": "prettier --write .",
+    "generate": "prisma generate",
+    "postinstall": "prisma generate --schema=prisma/schema.prisma",
+    "lint": "next lint",
+    "lint:fix": "eslint . --fix",
+    "studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.6",
+    "eslint": "^8.12.0",
+    "prisma": "^4.1.1",
+    "rimraf": "^3.0.2",
+    "tsconfig": "*",
+    "tsup": "^5.11.13",
+    "tsx": "^3.7.1",
+    "typescript": "4.7.4"
+  },
+  "packageManager": "yarn@1.22.19"
 }

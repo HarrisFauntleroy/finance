@@ -1,22 +1,50 @@
 {
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"project": "./tsconfig.json"
-	},
-	"plugins": ["@typescript-eslint", "import", "prettier"],
-	"extends": [
-		"airbnb-typescript/base",
-		"prettier",
-		"plugin:@typescript-eslint/recommended",
-		"plugin:import/typescript"
-	],
-	"env": {
-		"browser": false,
-		"node": true,
-		"jest": true,
-		"es6": true
-	},
-	"rules": {
-		"import/no-extraneous-dependencies": ["off"]
-	}
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
+        "peerDependencies": true
+      }
+    ],
+    "import/extensions": "off",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react$"],
+          ["^(ui|common|database|database/generated/prisma-client)$"],
+          ["~/(.*)"],
+          ["^[./]"]
+        ]
+      }
+    ]
+  }
 }

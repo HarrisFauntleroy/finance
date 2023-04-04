@@ -1,11 +1,13 @@
-import { createBudgetInput } from "./create"
-import { prisma } from "database"
-import { z } from "zod"
+import { prisma } from 'database';
+
+import { createBudgetInput } from './create';
+
+import { z } from 'zod';
 
 export const updateBudgetInput = createBudgetInput.extend({
-	id: z.string(),
-})
+  id: z.string(),
+});
 
 export async function updateBudget(data: z.infer<typeof updateBudgetInput>) {
-	return await prisma.budget.update({ where: { id: data.id }, data })
+  return await prisma.budget.update({ where: { id: data.id }, data });
 }

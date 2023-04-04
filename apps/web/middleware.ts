@@ -1,10 +1,10 @@
-import { logger } from "common"
+import { logger } from 'common';
 
 export const middleware = async () => {
-	logger.info("middleware")
-}
+  logger.info('middleware');
+};
 
 /** This middleware will only run on these pages */
 export const config = {
-	matcher: ["/example/:test", "/testing"],
-}
+  matcher: ['/example/:test', '/testing'],
+};

@@ -1,62 +1,62 @@
-import { Progress } from "../../util"
-import { prisma } from "database"
-import { subDays } from "date-fns"
+import { Progress } from '../../util';
+import { prisma } from 'database';
+import { subDays } from 'date-fns';
 
 export const cleaner = async () => {
-	const progress = new Progress(4)
+  const progress = new Progress(4);
 
-	progress.start("Cleaner")
+  progress.start('Cleaner');
 
-	const sevenDaysAgo = subDays(new Date(), 7)
+  const sevenDaysAgo = subDays(new Date(), 7);
 
-	// Delete users
-	await prisma.user.deleteMany({
-		where: {
-			deleted: true,
-			deletedAt: {
-				lte: sevenDaysAgo,
-			},
-		},
-	})
+  // Delete users
+  await prisma.user.deleteMany({
+    where: {
+      deleted: true,
+      deletedAt: {
+        lte: sevenDaysAgo,
+      },
+    },
+  });
 
-	progress.increment()
+  progress.increment();
 
-	// Delete settings
-	await prisma.settings.deleteMany({
-		where: {
-			deleted: true,
-			deletedAt: {
-				lte: sevenDaysAgo,
-			},
-		},
-	})
+  // Delete settings
+  await prisma.settings.deleteMany({
+    where: {
+      deleted: true,
+      deletedAt: {
+        lte: sevenDaysAgo,
+      },
+    },
+  });
 
-	progress.increment()
+  progress.increment();
 
-	// Delete budgets
-	await prisma.budget.deleteMany({
-		where: {
-			deleted: true,
-			deletedAt: {
-				lte: sevenDaysAgo,
-			},
-		},
-	})
+  // Delete budgets
+  await prisma.budget.deleteMany({
+    where: {
+      deleted: true,
+      deletedAt: {
+        lte: sevenDaysAgo,
+      },
+    },
+  });
 
-	progress.increment()
+  progress.increment();
 
-	// Delete cryptocurrency
-	await prisma.cryptocurrency.deleteMany({
-		where: {
-			deleted: true,
-			deletedAt: {
-				lte: sevenDaysAgo,
-			},
-		},
-	})
+  // Delete cryptocurrency
+  await prisma.cryptocurrency.deleteMany({
+    where: {
+      deleted: true,
+      deletedAt: {
+        lte: sevenDaysAgo,
+      },
+    },
+  });
 
-	progress.increment()
-	progress.stop("Cleaner")
+  progress.increment();
+  progress.stop('Cleaner');
 
-	return new Date()
-}
+  return new Date();
+};

@@ -1,48 +1,50 @@
-import React, { useMemo } from "react"
+import React, { useMemo } from 'react';
 
-import ChartScaffold from "components/Chart"
-import currency from "currency.js"
-import { useSession } from "next-auth/react"
-import { Card } from "ui"
-import { trpc } from "~/utils/trpc"
+import { Card } from 'ui';
+
+import { trpc } from '~/utils/trpc';
+
+import ChartScaffold from 'components/Chart';
+import currency from 'currency.js';
+import { useSession } from 'next-auth/react';
 
 export const AllocationPieChart = () => {
-	const session = useSession()
-	const userId = session?.data?.userId
+  const session = useSession();
+  const userId = session?.data?.userId;
 
-	const { data: allocationData } = trpc.assets.allocation.useQuery({
-		userId: userId || "",
-	})
+  const { data: allocationData } = trpc.assets.allocation.useQuery({
+    userId: userId || '',
+  });
 
-	const series = Object.values(allocationData || {})
+  const series = Object.values(allocationData || {});
 
-	const options = useMemo(
-		() => ({
-			chart: {
-				type: "pie" as const,
-				height: "auto",
-			},
-			labels: Object.keys(allocationData || {}),
-			legend: {
-				enabled: true,
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				formatter: function (_val: any, opt: any) {
-					return `${opt.w.globals.labels[opt.seriesIndex].slice(
-						0,
-						6
-					)}:  ${currency(opt.w.globals.series[opt.seriesIndex]).format()}`
-				},
-			},
-			dataLabels: {
-				enabled: true,
-			},
-		}),
-		[allocationData]
-	)
+  const options = useMemo(
+    () => ({
+      chart: {
+        type: 'pie' as const,
+        height: 'auto',
+      },
+      labels: Object.keys(allocationData || {}),
+      legend: {
+        enabled: true,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        formatter: function (_val: any, opt: any) {
+          return `${opt.w.globals.labels[opt.seriesIndex].slice(
+            0,
+            6,
+          )}:  ${currency(opt.w.globals.series[opt.seriesIndex]).format()}`;
+        },
+      },
+      dataLabels: {
+        enabled: true,
+      },
+    }),
+    [allocationData],
+  );
 
-	return (
-		<Card>
-			<ChartScaffold type="pie" series={series} options={options} />
-		</Card>
-	)
-}
+  return (
+    <Card>
+      <ChartScaffold type="pie" series={series} options={options} />
+    </Card>
+  );
+};

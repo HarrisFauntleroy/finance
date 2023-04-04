@@ -1,21 +1,21 @@
-import React from "react"
+import React from 'react';
 
-import { DeleteTransaction } from "./DeleteTransaction"
-import type { AssetTransactionFormInputs } from "./TransactionForm"
-import { AssetTransactionForm } from "./TransactionForm"
+import { DeleteTransaction } from './DeleteTransaction';
+import type { AssetTransactionFormInputs } from './TransactionForm';
+import { AssetTransactionForm } from './TransactionForm';
 
 interface AssetTransactionControlProps {
-	variant?: "delete"
-	defaultValues?: AssetTransactionFormInputs
+  variant?: 'delete';
+  defaultValues?: AssetTransactionFormInputs;
 }
 
 export const AssetTransactionControl = ({
-	defaultValues,
-	variant,
+  defaultValues,
+  variant,
 }: AssetTransactionControlProps) => {
-	return variant === "delete" ? (
-		<DeleteTransaction id={defaultValues?.id} />
-	) : (
-		<AssetTransactionForm defaultValues={defaultValues} />
-	)
-}
+  return variant === 'delete' ? (
+    <DeleteTransaction id={defaultValues?.id} />
+  ) : (
+    <AssetTransactionForm defaultValues={defaultValues} />
+  );
+};

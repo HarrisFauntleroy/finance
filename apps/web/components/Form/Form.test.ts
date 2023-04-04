@@ -1,3 +1,3 @@
-test.todo("Add tests for Form")
+test.todo('Add tests for Form');
 
-export {}
+export {};

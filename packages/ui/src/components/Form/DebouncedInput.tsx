@@ -1,34 +1,33 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
-
-import { useDebounce } from "../../hooks/useDebounce"
-import { Input, InputProps } from "@chakra-ui/react"
+import { useDebounce } from '../../hooks/useDebounce';
+import { Input, InputProps } from '@chakra-ui/react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 type DebouncedInputProps = {
-	value: string | number
-	onChange: (value: string | number) => void
-	debounce?: number
-} & Omit<InputProps, "value" | "onChange">
+  value: string | number;
+  onChange: (value: string | number) => void;
+  debounce?: number;
+} & Omit<InputProps, 'value' | 'onChange'>;
 
 export const DebouncedInput: React.FC<DebouncedInputProps> = ({
-	value: initialValue,
-	onChange,
-	debounce = 500,
-	...props
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
 }) => {
-	const [value, setValue] = useState<string | number>(initialValue)
-	const [debouncedValue] = useDebounce<string | number>(value, debounce)
+  const [value, setValue] = useState<string | number>(initialValue);
+  const [debouncedValue] = useDebounce<string | number>(value, debounce);
 
-	useEffect(() => {
-		setValue(initialValue)
-	}, [initialValue])
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
-	useEffect(() => {
-		onChange(debouncedValue)
-	}, [debouncedValue, onChange])
+  useEffect(() => {
+    onChange(debouncedValue);
+  }, [debouncedValue, onChange]);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setValue(e.target.value)
-	}
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
-	return <Input {...props} size="sm" value={value} onChange={handleChange} />
-}
+  return <Input {...props} size="sm" value={value} onChange={handleChange} />;
+};

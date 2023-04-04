@@ -1,9 +1,9 @@
-import React from "react"
+import React from 'react';
 
 export const JSONObjectViewer = ({
-	data,
+  data,
 }: {
-	data?: Record<string, any> | null
+  data?: Record<string, any> | null;
 }) => {
-	return <pre>{JSON.stringify(data, null, "\t")}</pre>
-}
+  return <pre>{JSON.stringify(data, null, '\t')}</pre>;
+};

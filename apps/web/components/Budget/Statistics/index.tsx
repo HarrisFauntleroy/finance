@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react';
 
-import { Card } from "ui"
+import { Card } from 'ui';
 
 export const Statistics = () => {
-	return <Card>Statistics</Card>
-}
+  return <Card>Statistics</Card>;
+};

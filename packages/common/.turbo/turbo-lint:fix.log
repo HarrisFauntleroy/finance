@@ -1,0 +1,40 @@
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/dist/index.d.ts
+  0:0  error  Parsing error: ESLint was configured to run on `<tsconfigRootDir>/dist/index.d.ts` using `parserOptions.project`: <tsconfigRootDir>/../../../../../../../../users/harrisfauntleroy/documents/code/personal/elixir.money-monorepo/packages/common/tsconfig.json
+However, that TSConfig does not include this file. Either:
+- Change ESLint's list of included files to not include this file
+- Change that TSConfig to include this file
+- Create a new TSConfig that includes this file and include it in your parserOptions.project
+See the typescript-eslint docs for more info: https://typescript-eslint.io/linting/troubleshooting#i-get-errors-telling-me-eslint-was-configured-to-run--however-that-tsconfig-does-not--none-of-those-tsconfigs-include-this-file
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/dist/index.js
+  0:0  error  Parsing error: ESLint was configured to run on `<tsconfigRootDir>/dist/index.js` using `parserOptions.project`: <tsconfigRootDir>/../../../../../../../../users/harrisfauntleroy/documents/code/personal/elixir.money-monorepo/packages/common/tsconfig.json
+However, that TSConfig does not include this file. Either:
+- Change ESLint's list of included files to not include this file
+- Change that TSConfig to include this file
+- Create a new TSConfig that includes this file and include it in your parserOptions.project
+See the typescript-eslint docs for more info: https://typescript-eslint.io/linting/troubleshooting#i-get-errors-telling-me-eslint-was-configured-to-run--however-that-tsconfig-does-not--none-of-those-tsconfigs-include-this-file
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/src/models/Asset/calculateAssetValueOverview.ts
+  3:37  error  'SubAssetValueTotals' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/src/util/flattenObject.ts
+   9:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/src/util/isNegative.ts
+  2:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/src/util/sumArrayByKey.ts
+  8:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/harrisfauntleroy/Documents/code/personal/elixir.money-monorepo/packages/common/src/util/sumGroupByCategory.ts
+  3:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  6:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  6:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  7:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 13 problems (3 errors, 10 warnings)
+

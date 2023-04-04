@@ -1,75 +1,78 @@
-import React from "react"
+import React from 'react';
 
-import { ControlBar } from "../ControlBar"
-import { transactionsListColumns } from "../Transactions/columns"
-import { Stack, Text } from "@chakra-ui/react"
-import type { AssetWithCalculatedValues } from "common"
-import TableSubComponent from "components/Portfolio/Overview/TableSubRow"
-import { overviewAccountsListColumns } from "components/Portfolio/Overview/columns"
-import type { AssetTransaction } from "database/generated/prisma-client/index"
-import { useSession } from "next-auth/react"
-import { Table } from "ui"
-import { trpc } from "~/utils/trpc"
+import { Table } from 'ui';
+
+import { trpc } from '~/utils/trpc';
+
+import { ControlBar } from '../ControlBar';
+import { transactionsListColumns } from '../Transactions/columns';
+
+import { Stack, Text } from '@chakra-ui/react';
+import type { AssetWithCalculatedValues } from 'common';
+import { overviewAccountsListColumns } from 'components/Portfolio/Overview/columns';
+import TableSubComponent from 'components/Portfolio/Overview/TableSubRow';
+import type { AssetTransaction } from 'database/generated/prisma-client/index';
+import { useSession } from 'next-auth/react';
 
 const TransactionTable = ({
-	transactions,
+  transactions,
 }: {
-	transactions: AssetTransaction[]
+  transactions: AssetTransaction[];
 }) => {
-	return transactions.length > 0 ? (
-		<Table
-			id="portfolioOverviewAssetTransactions"
-			data={transactions || []}
-			columns={transactionsListColumns}
-			getRowCanExpand
-			filterEnabled
-			paginationEnabled
-		/>
-	) : (
-		<Text>No Transactions to display</Text>
-	)
-}
+  return transactions.length > 0 ? (
+    <Table
+      id="portfolioOverviewAssetTransactions"
+      data={transactions || []}
+      columns={transactionsListColumns}
+      getRowCanExpand
+      filterEnabled
+      paginationEnabled
+    />
+  ) : (
+    <Text>No Transactions to display</Text>
+  );
+};
 
 const AssetTable = ({ assets }: { assets?: AssetWithCalculatedValues[] }) => {
-	return assets && assets?.length > 0 ? (
-		<Table
-			id="portfolioOverviewAssets"
-			data={assets || []}
-			columns={overviewAccountsListColumns}
-			getRowCanExpand
-			filterEnabled
-			paginationEnabled
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			renderSubRow={(props: any) => {
-				const { subAssets, transactions } = props.row.original
-				return (
-					<Stack>
-						<AssetTable assets={subAssets} />
-						<TransactionTable transactions={transactions} />
-						{/* Optional debug stuff  */}
-						<TableSubComponent row={props.row} />
-					</Stack>
-				)
-			}}
-		/>
-	) : (
-		<Text>No Assets to display</Text>
-	)
-}
+  return assets && assets?.length > 0 ? (
+    <Table
+      id="portfolioOverviewAssets"
+      data={assets || []}
+      columns={overviewAccountsListColumns}
+      getRowCanExpand
+      filterEnabled
+      paginationEnabled
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      renderSubRow={(props: any) => {
+        const { subAssets, transactions } = props.row.original;
+        return (
+          <Stack>
+            <AssetTable assets={subAssets} />
+            <TransactionTable transactions={transactions} />
+            {/* Optional debug stuff  */}
+            <TableSubComponent row={props.row} />
+          </Stack>
+        );
+      }}
+    />
+  ) : (
+    <Text>No Assets to display</Text>
+  );
+};
 
 export const OverviewAccountsList = () => {
-	const session = useSession()
-	const userId = session?.data?.userId
+  const session = useSession();
+  const userId = session?.data?.userId;
 
-	const { data } = trpc.assets.byUserId.useQuery({
-		userId: userId || "",
-	})
+  const { data } = trpc.assets.byUserId.useQuery({
+    userId: userId || '',
+  });
 
-	return (
-		<Stack>
-			<ControlBar />
-			{/* This should take an array of Assets */}
-			<AssetTable assets={data} />
-		</Stack>
-	)
-}
+  return (
+    <Stack>
+      <ControlBar />
+      {/* This should take an array of Assets */}
+      <AssetTable assets={data} />
+    </Stack>
+  );
+};

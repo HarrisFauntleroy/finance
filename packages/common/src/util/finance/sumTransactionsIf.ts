@@ -1,14 +1,14 @@
-import currency from "currency.js"
+import currency from 'currency.js';
 
 interface Transaction {
-	[TransactionType: string]: string
-	nativeAmount: string
+  [TransactionType: string]: string;
+  nativeAmount: string;
 }
 interface SumTransactionsIf {
-	transactions: Transaction[]
-	filterType: string
-	filterValue: string
-	sumProperty: string
+  transactions: Transaction[];
+  filterType: string;
+  filterValue: string;
+  sumProperty: string;
 }
 
 /**
@@ -21,20 +21,20 @@ interface SumTransactionsIf {
  * @returns The sum of the specified property in the filtered transactions
  */
 export function sumTransactionsIf({
-	transactions,
-	filterType,
-	filterValue,
-	sumProperty,
+  transactions,
+  filterType,
+  filterValue,
+  sumProperty,
 }: SumTransactionsIf): string {
-	let total = 0
+  let total = 0;
 
-	for (const transaction of transactions) {
-		if (transaction[filterType] === filterValue) {
-			total += currency(transaction[sumProperty]).value
-		}
-	}
+  for (const transaction of transactions) {
+    if (transaction[filterType] === filterValue) {
+      total += currency(transaction[sumProperty]).value;
+    }
+  }
 
-	return total.toString()
+  return total.toString();
 }
 
 /**

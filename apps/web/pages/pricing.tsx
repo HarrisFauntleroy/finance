@@ -3,25 +3,25 @@
  * Pricing page
  *
  */
-import React from "react"
+import React from 'react';
 
-import { Body, Page, PricingCard } from "ui"
+import { Body, Page, PricingCard } from 'ui';
 
 const Pricing = () => {
-	const features = [
-		"Crypto and Stock tracking",
-		"Budgets and Income support",
-		"Net worth aggregation",
-	]
+  const features = [
+    'Crypto and Stock tracking',
+    'Budgets and Income support',
+    'Net worth aggregation',
+  ];
 
-	return (
-		<Page title="Pricing">
-			<Body>
-				<PricingCard features={features} frequency={"/year"} cost={"TBA"} />
-			</Body>
-		</Page>
-	)
-}
+  return (
+    <Page title="Pricing">
+      <Body>
+        <PricingCard features={features} frequency={'/year'} cost={'TBA'} />
+      </Body>
+    </Page>
+  );
+};
 
-Pricing.auth = false
-export default Pricing
+Pricing.auth = false;
+export default Pricing;

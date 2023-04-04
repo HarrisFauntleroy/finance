@@ -1,5 +1,6 @@
-import { Prisma } from "database/generated/prisma-client"
-import { z } from "zod"
+import { Prisma } from 'database/generated/prisma-client';
+
+import { z } from 'zod';
 
 /** Prisma schemas for retrieving data */
 // model Budget {
@@ -17,52 +18,52 @@ import { z } from "zod"
 // }
 
 export const BudgetEnvelopeSchema =
-	Prisma.validator<Prisma.BudgetEnvelopeSelect>()({
-		id: true,
-		name: true,
-		budgetId: true,
-		createdAt: true,
-		updatedAt: true,
-	})
+  Prisma.validator<Prisma.BudgetEnvelopeSelect>()({
+    id: true,
+    name: true,
+    budgetId: true,
+    createdAt: true,
+    updatedAt: true,
+  });
 
 export const BudgetSchema = Prisma.validator<Prisma.BudgetSelect>()({
-	id: true,
-	name: true,
-	userId: true,
-	user: true,
-	envelopes: true,
-	income: true,
-	totalBalance: true,
-	createdAt: true,
-	updatedAt: true,
-	deleted: true,
-	deletedAt: true,
-})
+  id: true,
+  name: true,
+  userId: true,
+  user: true,
+  envelopes: true,
+  income: true,
+  totalBalance: true,
+  createdAt: true,
+  updatedAt: true,
+  deleted: true,
+  deletedAt: true,
+});
 
 /** Zod schemas for manipulating data */
 
 export const BudgetSchemaZod = z.object({
-	name: z.string(),
-	totalBalance: z.string(),
-	createdAt: z.date(),
-	updatedAt: z.date(),
-})
+  name: z.string(),
+  totalBalance: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
 
 export const BudgetSchemaWithIdZod = BudgetSchemaZod.extend({
-	id: z.string(),
-})
+  id: z.string(),
+});
 
 export const BudgetAssetSchema = z.object({
-	name: z.string(),
-	category: z.string(),
-	amount: z.string(),
-	frequency: z.string(),
-	createdAt: z.date(),
-	updatedAt: z.date(),
-	userId: z.string(),
-	budgetId: z.string(),
-})
+  name: z.string(),
+  category: z.string(),
+  amount: z.string(),
+  frequency: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  userId: z.string(),
+  budgetId: z.string(),
+});
 
 export const BudgetAssetSchemaWithId = BudgetAssetSchema.extend({
-	id: z.string(),
-})
+  id: z.string(),
+});

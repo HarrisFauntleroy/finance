@@ -1,57 +1,57 @@
 {
-	"$schema": "https://turborepo.org/schema.json",
-	"pipeline": {
-		"dev": {
-			"dependsOn": ["^db:generate"],
-			"cache": false
-		},
-		"build": {
-			"dependsOn": ["^build", "^db:generate"],
-			"outputs": ["dist/**", ".next/**"]
-		},
-		"db:generate": {
-			"cache": false
-		},
-		"db:push": {
-			"cache": false
-		},
-		"db:migrate:deploy": {
-			"outputs": []
-		},
-		"db:seed": {
-			"outputs": []
-		},
-		"lint": {
-			"outputs": []
-		},
-		"lint:fix": {
-			"outputs": []
-		},
-		"test": {
-			"dependsOn": ["build"],
-			"inputs": [
-				"src/**/*.tsx",
-				"src/**/*.ts",
-				"test/**/*.ts",
-				"test/**/*.tsx"
-			],
-			"outputs": []
-		},
-		"test:watch": {
-			"dependsOn": ["build"],
-			"inputs": [
-				"src/**/*.tsx",
-				"src/**/*.ts",
-				"test/**/*.ts",
-				"test/**/*.tsx"
-			],
-			"outputs": []
-		},
-		"clean": {
-			"cache": false
-		},
-		"deploy": {
-			"dependsOn": ["build", "test", "lint"]
-		}
-	}
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "dev": {
+      "dependsOn": ["^db:generate"],
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build", "^db:generate"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:migrate:deploy": {
+      "outputs": []
+    },
+    "db:seed": {
+      "outputs": []
+    },
+    "lint": {
+      "outputs": []
+    },
+    "lint:fix": {
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx"
+      ],
+      "outputs": []
+    },
+    "test:watch": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx"
+      ],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "deploy": {
+      "dependsOn": ["build", "test", "lint"]
+    }
+  }
 }
