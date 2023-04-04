@@ -9,5 +9,5 @@
     "nextjs.json",
     "node16.json"
   ],
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.5.0"
 }
