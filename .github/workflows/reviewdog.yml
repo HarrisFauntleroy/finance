@@ -18,28 +18,28 @@ jobs:
 
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
-        workdir: apps/web
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
+          workdir: apps/web
 
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
-        workdir: apps/worker
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
+          workdir: apps/worker
 
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
-        workdir: packages/common
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
+          workdir: packages/common
 
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
-        workdir: packages/ui
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
+          workdir: packages/ui
