@@ -1,17 +1,32 @@
-name: reviewdog
+name: Reviewdog
+
 on: [pull_request]
+
 jobs:
-  reviewdog:
-    name: reviewdog
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
+
     steps:
-      - uses: reviewdog/action-setup@v1
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          reviewdog_version: latest
-      - name: Run reviewdog
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          reviewdog -reporter=github-pr-check -runners=golint,govet
-          # or
-          reviewdog -reporter=github-pr-review -runners=golint,govet
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run eslint -- -f json -o eslint-report.json
+
+      - name: Run Reviewdog
+        uses: reviewdog/action-eslint@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          eslint_flags: '-f json -o eslint-report.json'
+          level: warning
+          filter_mode: file
