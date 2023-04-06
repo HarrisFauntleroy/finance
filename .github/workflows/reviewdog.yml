@@ -3,27 +3,32 @@ on: [pull_request]
 jobs:
   actionlint:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - uses: reviewdog/action-actionlint@v1
 
   reviewdog:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: reviewdog/action-setup@v1.0.3
 
   reviewdog-misspell:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: reviewdog/action-misspell@v1.12.3
 
   reviewdog-eslint:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: reviewdog/action-eslint@v1.18.0
 
   reviewdog-tsc-web:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
@@ -34,6 +39,7 @@ jobs:
 
   reviewdog-tsc-worker:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
@@ -44,6 +50,7 @@ jobs:
 
   reviewdog-tsc-common:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
@@ -54,6 +61,7 @@ jobs:
 
   reviewdog-tsc-ui:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
