@@ -1,2 +1,22 @@
-- name: Run tsc with reviewdog
-  uses: EPMatt/reviewdog-action-tsc@v1.3.0
+name: reviewdog
+on: [pull_request]
+jobs:
+  reviewdog:
+    name: reviewdog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+      - name: Run reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog -reporter=github-pr-review
+      - name: Run tsc with reviewdog
+        uses: EPMatt/reviewdog-action-tsc@v1.3.0
+      - name: Run misspell with reviewdog
+        uses: reviewdog/action-misspell@v1.12.3
+      - name: Run eslint with reviewdog
+        uses: reviewdog/action-eslint@v1.18.0
