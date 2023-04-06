@@ -14,9 +14,9 @@ export class AssetBuilder {
   balance: string;
   value: string;
   costBasis: string;
-  targetBalance: string;
+  targetBalance: number;
   incomeRate: string;
-  interestBearingBalance: string;
+  interestBearingBalanke: string;
 
   constructor(input?: AssetInput) {
     this.price = input?.market?.price || '0';
@@ -25,7 +25,7 @@ export class AssetBuilder {
     this.costBasis = input?.costBasis || '0';
     this.targetBalance = input?.targetBalance || '0';
     this.incomeRate = input?.incomeRate || '0';
-    this.interestBearingBalance = input?.interestBearingBalance || '0';
+    this.interestBearingBalanke = input?.interestBearingBalanke || '0';
   }
 
   static create(options: AssetInput): AssetBuilder {
@@ -57,7 +57,7 @@ export class AssetBuilder {
   }
 
   get estimatedStakingYield() {
-    return divide(multiply(this.incomeRate, this.interestBearingBalance), 100);
+    return divide(multiply(this.incomeRate, this.interestBearingBalanke), 100);
   }
 
   get estimatedYearlyReturn() {
