@@ -15,7 +15,7 @@ jobs:
           node-version: 16
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Run ESLint
         run: yarn eslint . --ext .ts,.tsx,.js,.jsx --ignore-path .gitignore --quiet --output-file eslint-report.json --format json
