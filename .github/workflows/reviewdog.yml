@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: reviewdog/action-eslint@v1.18.0
 
-  reviewdog-eslint:
+  reviewdog-tsc-web:
     runs-on: ubuntu-latest
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
@@ -32,7 +32,7 @@ jobs:
           level: warning
           workdir: apps/web
 
-  reviewdog-eslint:
+  reviewdog-tsc-worker:
     runs-on: ubuntu-latest
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
@@ -42,7 +42,7 @@ jobs:
           level: warning
           workdir: apps/worker
 
-  reviewdog-eslint:
+  reviewdog-tsc-common:
     runs-on: ubuntu-latest
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
@@ -52,7 +52,7 @@ jobs:
           level: warning
           workdir: packages/common
 
-  reviewdog-eslint:
+  reviewdog-tsc-ui:
     runs-on: ubuntu-latest
     steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
