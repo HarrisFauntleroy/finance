@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 import { EditableCell } from './EditableCell';
 
@@ -12,17 +12,13 @@ import {
 } from 'react-hook-form';
 import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
 
-interface TableRowProps<T> {
-  row: Row<T>;
-  renderSubRow?: ({ row }: { row: Row<T> }) => ReactNode;
+interface TableRowProps {
+  row: Row<Record<string, unknown>>;
+  renderSubRow?: ({ row }: { row: Row<Record<string, unknown>> }) => ReactNode;
   onValidSubmit: SubmitHandler<FieldValues>;
 }
 
-export function TableRow<T>({
-  row,
-  renderSubRow,
-  onValidSubmit,
-}: TableRowProps<T>) {
+export function TableRow({ row, renderSubRow, onValidSubmit }: TableRowProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const methods = useForm();
 
@@ -66,7 +62,6 @@ export function TableRow<T>({
       </Tr>
       {renderSubRow && row.getIsExpanded() && (
         <Tr>
-          {/* 2nd row is a custom 1 cell row */}
           <Td colSpan={row.getVisibleCells().length}>
             {renderSubRow({ row })}
           </Td>

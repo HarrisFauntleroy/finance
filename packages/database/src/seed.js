@@ -1,141 +1,9 @@
-import {
-  AccountConnection,
-  AssetLabel,
-  AssetTransaction,
-  Category,
-  Prisma,
-} from '../generated/prisma-client';
-import { prisma } from './';
-
-const selectAssetLabel = Prisma.validator<Prisma.AssetLabelSelect>()({
-  id: true,
-  name: true,
-  icon: true,
-  assetId: true,
-  createdAt: false,
-  updatedAt: false,
-  deletedAt: false,
-  deleted: false,
-});
-
-const selectAssetTransaction =
-  Prisma.validator<Prisma.AssetTransactionSelect>()({
-    id: true,
-    timestamp: true,
-    pricePerUnit: true,
-    baseCurrency: true,
-    quantity: true,
-    quantityFilled: true,
-    fee: true,
-    valueInBaseCurrency: true,
-    fromAsset: true,
-    toAsset: true,
-    market: true,
-    transactionType: true,
-    expiry: true,
-    status: true,
-    transactionHash: true,
-    description: true,
-    memo: true,
-    relatedAssetId: true,
-    relatedAsset: false,
-    user: false,
-    userId: true,
-    createdAt: false,
-    updatedAt: false,
-    deletedAt: false,
-    deleted: false,
-  });
-
-const selectSubAsset = Prisma.validator<Prisma.AssetSelect>()({
-  id: true,
-  name: true,
-  institution: true,
-  currency: true,
-  apiKey: true,
-  apiSecret: true,
-  walletAddress: true,
-  balance: true,
-  costBasis: true,
-  realisedGain: true,
-  targetBalance: true,
-  interestBearingBalance: true,
-  incomeRate: true,
-  account: true,
-  labels: { select: selectAssetLabel },
-  category: true,
-  categoryId: true,
-  customCategory: false,
-  marketId: true,
-  market: false,
-  parentId: true,
-  parent: false,
-  subAssets: true,
-  transactions: { select: selectAssetTransaction },
-  userId: true,
-  status: true,
-  createdAt: false,
-  updatedAt: false,
-  deletedAt: false,
-  deleted: false,
-});
-
-const selectAsset = Prisma.validator<Prisma.AssetSelect>()({
-  id: true,
-  name: true,
-  institution: true,
-  currency: true,
-  apiKey: true,
-  apiSecret: true,
-  walletAddress: true,
-  balance: true,
-  costBasis: true,
-  realisedGain: true,
-  targetBalance: true,
-  interestBearingBalance: true,
-  incomeRate: true,
-  account: true,
-  labels: { select: selectAssetLabel },
-  category: true,
-  categoryId: true,
-  customCategory: false,
-  marketId: true,
-  market: false,
-  parentId: true,
-  parent: false,
-  subAssets: { select: selectSubAsset },
-  transactions: { select: selectAssetTransaction },
-  userId: true,
-  status: true,
-  createdAt: false,
-  updatedAt: false,
-  deletedAt: false,
-  deleted: false,
-});
-
-const assetArgs = Prisma.validator<Prisma.AssetArgs>()({
-  select: selectAsset,
-});
-
-type AssetsWithSubAssetsAndTransactions = Prisma.AssetGetPayload<
-  typeof assetArgs
->;
-
-// const assetArgs = Prisma.validator<Prisma.AssetArgs>()({
-// 	include: {
-// 		transactions: true,
-// 		subAssets: true,
-// 		labels: true,
-// 	},
-// })
-
-// type AssetsWithSubAssetsAndTransactions = Prisma.AssetGetPayload<
-// 	typeof assetArgs
-// >
+import { AccountConnection, Category } from '../generated/prisma-client';
+import { prisma } from '.';
 
 const userId = 'cldcccmxr00064qvd106zmbff';
 
-const assets: AssetsWithSubAssetsAndTransactions[] = [
+const assets = [
   // {
   // 	// Credit Card
   // 	name: "American Express",
@@ -748,11 +616,7 @@ const assets: AssetsWithSubAssetsAndTransactions[] = [
   },
 ];
 
-type IgnoreTypes = 'createdAt' | 'updatedAt' | 'deletedAt' | 'deleted';
-
-function upsertTransactions(
-  transactions: Omit<AssetTransaction, IgnoreTypes>[],
-) {
+function upsertTransactions(transactions) {
   return transactions.forEach(async (transaction) =>
     prisma.assetTransaction.upsert({
       where: { id: transaction.id },
@@ -762,7 +626,7 @@ function upsertTransactions(
   );
 }
 
-function upsertLabels(labels: Omit<AssetLabel, IgnoreTypes>[]) {
+function upsertLabels(labels) {
   return labels.forEach(async (label) =>
     prisma.assetLabel.upsert({
       where: { id: label.id },
@@ -772,11 +636,9 @@ function upsertLabels(labels: Omit<AssetLabel, IgnoreTypes>[]) {
   );
 }
 
-function upsertAssets(
-  assetsToUpsert: Omit<AssetsWithSubAssetsAndTransactions, IgnoreTypes>[],
-) {
+function upsertAssets(assetsToUpsert) {
   return assetsToUpsert.forEach(async (asset) => {
-    const { subAssets, transactions, labels, marketId, ...data } = asset;
+    const { subAssets, transactions, labels, ...data } = asset;
     await prisma.asset.upsert({
       where: { id: asset.id },
       create: data,

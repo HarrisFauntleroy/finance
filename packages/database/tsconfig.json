@@ -9,7 +9,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
+    "incremental": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -18,8 +18,9 @@
     "rootDir": ".",
     "paths": {
       "~/*": ["./*"]
-    }
+    },
+    "declaration": true
   },
-  "include": ["**/*.ts", "tsup.config.ts"],
+  "include": ["**/*.ts", "tsup.config.ts", "src/seed.js"],
   "exclude": ["dist", "node_modules"]
 }

@@ -8,17 +8,17 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --dts",
+    "dev": "yarn build --watch",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-    "dev": "yarn build -- --watch",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "NODE_ENV=production ts-node dist/index.js",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
-    "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit"
+    "test:watch": "yarn test --watchAll"
   },
   "jest": {
     "moduleDirectories": [
@@ -63,7 +63,7 @@
     "ts-jest": "29.0.3",
     "tsup": "~6.6.3",
     "tsx": "^3.7.1",
-    "typescript": "5.0.3"
+    "typescript": "^5.0.3"
   },
   "packageManager": "yarn@3.5.0"
 }

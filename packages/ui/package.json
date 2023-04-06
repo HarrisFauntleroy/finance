@@ -9,11 +9,13 @@
     "dist"
   ],
   "scripts": {
+    "dev": "yarn build --watch",
     "build": "tsc",
-    "build-storybook": "build-storybook",
+    "type-check": "tsc --noEmit",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-    "dev": "yarn build -- --watch",
-    "format": "prettier --write .",
+    "build-storybook": "build-storybook",
+    "pretty": "prettier --write .",
+    "fix": "yarn pretty && yarn lint:fix",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
@@ -21,8 +23,7 @@
     "storybook": "start-storybook -p 6006",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
-    "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit"
+    "test:watch": "yarn test --watchAll"
   },
   "jest": {
     "moduleDirectories": [
@@ -101,9 +102,10 @@
     "eslint-plugin-sonarjs": "0.16.0",
     "jest": "^26.6.3",
     "postcss": "^8.4.20",
+    "prettier": "latest",
     "rimraf": "^3.0.2",
     "tsx": "^3.7.1",
-    "typescript": "5.0.3"
+    "typescript": "^5.0.3"
   },
   "packageManager": "yarn@3.5.0"
 }

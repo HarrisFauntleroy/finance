@@ -10,7 +10,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
+    "incremental": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -19,8 +19,9 @@
     "rootDir": ".",
     "paths": {
       "~/*": ["./*"]
-    }
+    },
+    "declaration": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.config.js"],
   "exclude": ["node_modules", "dist", "scripts"]
 }

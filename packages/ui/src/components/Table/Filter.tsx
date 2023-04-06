@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { Debug } from '../Debug';
 
 import { rankItem } from '@tanstack/match-sorter-utils';
-import type { Column, FilterFn, Row, Table } from '@tanstack/react-table';
+import type { Column, Row, Table } from '@tanstack/react-table';
 
 export function Filter<TData extends object>({
   column,
@@ -62,7 +60,12 @@ export const renderSubRow = <TData extends object>({
   row: Row<TData>;
 }) => <Debug data={row.original} />;
 
-export const fuzzy: FilterFn<any> = (row, columnId, value, addMeta) => {
+export function fuzzy<T extends Record<string, unknown>>(
+  row: Row<T>,
+  columnId: string,
+  value: string,
+  addMeta: (meta: { itemRank: ReturnType<typeof rankItem> }) => void,
+): boolean {
   const itemRank = rankItem(row.getValue(columnId), value);
 
   addMeta({
@@ -70,4 +73,4 @@ export const fuzzy: FilterFn<any> = (row, columnId, value, addMeta) => {
   });
 
   return itemRank.passed;
-};
+}

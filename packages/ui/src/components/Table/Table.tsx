@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { DebouncedInput } from '../Form';
@@ -46,7 +46,11 @@ interface EditableTableProps<T extends { id: string }> {
   pageSize?: number;
   paginationEnabled?: boolean;
   filterEnabled?: boolean;
-  renderExpandedRow?: ({ row }: { row: Row<T> }) => ReactNode;
+  renderExpandedRow?: ({
+    row,
+  }: {
+    row: Row<Record<string, unknown>>;
+  }) => ReactNode;
   canExpandRows?: boolean;
 }
 
