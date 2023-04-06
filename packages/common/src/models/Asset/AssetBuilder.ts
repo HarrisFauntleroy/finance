@@ -11,12 +11,12 @@ export type AssetInput = Prisma.AssetGetPayload<{
 
 export class AssetBuilder {
   price: string;
-  balance: number;
+  balance: string;
   value: string;
   costBasis: string;
-  targetBalance: number;
+  targetBalance: string;
   incomeRate: string;
-  interestBearingBalanke: string;
+  interestBearingBalance: string;
 
   constructor(input?: AssetInput) {
     this.price = input?.market?.price || '0';
@@ -25,7 +25,7 @@ export class AssetBuilder {
     this.costBasis = input?.costBasis || '0';
     this.targetBalance = input?.targetBalance || '0';
     this.incomeRate = input?.incomeRate || '0';
-    this.interestBearingBalanke = input?.interestBearingBalanke || '0';
+    this.interestBearingBalance = input?.interestBearingBalance || '0';
   }
 
   static create(options: AssetInput): AssetBuilder {
@@ -57,7 +57,7 @@ export class AssetBuilder {
   }
 
   get estimatedStakingYield() {
-    return divide(multiply(this.incomeRate, this.interestBearingBalanke), 100);
+    return divide(multiply(this.incomeRate, this.interestBearingBalance), 100);
   }
 
   get estimatedYearlyReturn() {

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "useUnknownInCatchVariables": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,

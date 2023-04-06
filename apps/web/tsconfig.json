@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,6 +16,7 @@
     "isolatedModules": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
       "~/*": ["./*"]
     },

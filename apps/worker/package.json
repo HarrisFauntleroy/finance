@@ -81,7 +81,6 @@
     "prettier": "2.7.1",
     "prisma": "*",
     "ts-node": "10.9.1",
-    "tsconfig": "*",
     "tsup": "~6.6.3",
     "typescript": "5.0.3"
   },

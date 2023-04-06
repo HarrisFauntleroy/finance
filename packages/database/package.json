@@ -33,7 +33,6 @@
     "eslint": "^8.34.0",
     "prisma": "^4.1.1",
     "rimraf": "^3.0.2",
-    "tsconfig": "*",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
     "typescript": "5.0.3"
