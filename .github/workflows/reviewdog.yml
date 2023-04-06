@@ -1,71 +1,33 @@
 name: reviewdog
-on: [pull_request]
+on: [push, pull_request]
+
 jobs:
-  actionlint:
+  eslint:
+    name: Run ESLint
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
-      - uses: actions/checkout@v3
-      - uses: reviewdog/action-actionlint@v1
+      - name: Check out code
+        uses: actions/checkout@v2
 
-  reviewdog:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: reviewdog/action-setup@v1.0.3
-
-  reviewdog-misspell:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: reviewdog/action-misspell@v1.12.3
-
-  reviewdog-eslint:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: reviewdog/action-eslint@v1.18.0
-
-  reviewdog-tsc-web:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: EPMatt/reviewdog-action-tsc@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-          workdir: apps/web
+          node-version: 16
 
-  reviewdog-tsc-worker:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: EPMatt/reviewdog-action-tsc@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-          workdir: apps/worker
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-  reviewdog-tsc-common:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: EPMatt/reviewdog-action-tsc@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-          workdir: packages/common
+      - name: Run ESLint
+        run: yarn eslint . --ext .ts,.tsx,.js,.jsx --ignore-path .gitignore --quiet --output-file eslint-report.json --format json
 
-  reviewdog-tsc-ui:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: EPMatt/reviewdog-action-tsc@v1
+      - name: Run reviewdog
+        uses: reviewdog/action-eslint@v1
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          level: warning
-          workdir: packages/ui
+          eslint_flags: '--ext .ts,.tsx,.js,.jsx'
+          level: error
+          filter_mode: file
+          fail_on_error: false
+          eslint_workdir: .
+          eslint_output: eslint-report.json
