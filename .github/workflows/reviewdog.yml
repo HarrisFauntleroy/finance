@@ -5,11 +5,41 @@ jobs:
     name: reviewdog
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1.0.3
-      - name: Run tsc with reviewdog
-        uses: EPMatt/reviewdog-action-tsc@v1.3.0
+
       - name: Run misspell with reviewdog
         uses: reviewdog/action-misspell@v1.12.3
+
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.18.0
+
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        level: warning
+        workdir: apps/web
+
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        level: warning
+        workdir: apps/worker
+
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        level: warning
+        workdir: packages/common
+
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        level: warning
+        workdir: packages/ui

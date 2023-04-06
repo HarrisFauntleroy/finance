@@ -11,7 +11,7 @@ export type AssetInput = Prisma.AssetGetPayload<{
 
 export class AssetBuilder {
   price: string;
-  balance: string;
+  balance: number;
   value: string;
   costBasis: string;
   targetBalance: number;
