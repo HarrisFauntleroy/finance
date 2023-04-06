@@ -1,21 +1,30 @@
 name: reviewdog
 on: [pull_request]
 jobs:
-  reviewdog:
-    name: reviewdog
+  actionlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: reviewdog/action-actionlint@v1
 
-      - name: Setup reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+  reviewdog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reviewdog/action-setup@v1.0.3
 
-      - name: Run misspell with reviewdog
-        uses: reviewdog/action-misspell@v1.12.3
+  reviewdog-misspell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reviewdog/action-misspell@v1.12.3
 
-      - name: Run eslint with reviewdog
-        uses: reviewdog/action-eslint@v1.18.0
+  reviewdog-eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reviewdog/action-eslint@v1.18.0
 
+  reviewdog-eslint:
+    runs-on: ubuntu-latest
+    steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
           github_token: ${{ secrets.github_token }}
@@ -23,6 +32,9 @@ jobs:
           level: warning
           workdir: apps/web
 
+  reviewdog-eslint:
+    runs-on: ubuntu-latest
+    steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
           github_token: ${{ secrets.github_token }}
@@ -30,6 +42,9 @@ jobs:
           level: warning
           workdir: apps/worker
 
+  reviewdog-eslint:
+    runs-on: ubuntu-latest
+    steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
           github_token: ${{ secrets.github_token }}
@@ -37,6 +52,9 @@ jobs:
           level: warning
           workdir: packages/common
 
+  reviewdog-eslint:
+    runs-on: ubuntu-latest
+    steps:
       - uses: EPMatt/reviewdog-action-tsc@v1
         with:
           github_token: ${{ secrets.github_token }}
