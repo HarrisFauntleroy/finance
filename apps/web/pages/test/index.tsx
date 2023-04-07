@@ -12,6 +12,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { AssetTable } from 'components/test';
 import type { SetStateAction } from 'react';
 import { MdSend } from 'react-icons/md';
 
@@ -64,14 +65,18 @@ const GroupChat = () => {
     [],
   );
 
+  const sendMessage = (content: string) => {
+    const newMessage = {
+      body: content,
+      id: Date.now().toString(),
+      sent: true,
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
   const handleSendClick = () => {
     if (inputValue.trim()) {
-      const newMessage = {
-        body: inputValue,
-        id: Date.now().toString(),
-        sent: true,
-      };
-      setMessages([...messages, newMessage]);
+      sendMessage(inputValue);
       setInputValue('');
     }
   };
