@@ -8,8 +8,8 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Stat as ChakraStat,
   Stack,
+  Stat as ChakraStat,
   StatLabel,
   StatNumber,
 } from '@chakra-ui/react';

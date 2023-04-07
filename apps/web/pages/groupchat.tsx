@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   Avatar,
@@ -12,7 +12,6 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { AssetTable } from 'components/test';
 import type { SetStateAction } from 'react';
 import { MdSend } from 'react-icons/md';
 
