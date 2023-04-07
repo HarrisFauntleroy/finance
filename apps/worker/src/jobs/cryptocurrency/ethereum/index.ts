@@ -3,6 +3,7 @@ import { prisma } from 'database';
 import { MarketType } from 'database/generated/prisma-client';
 
 import { Progress } from '../../../util';
+import { getBalance } from './getBalance';
 import { createWeb3Instance } from './web3';
 
 import dotenv from 'dotenv';
@@ -10,23 +11,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const web3 = createWeb3Instance();
-
-/**
- * @function getBalance
- * @description Retrieves the balance of a given wallet address
- * @param {string} walletAddress - The wallet address to check the balance of
- * @return {Promise<string>} - The balance of the given wallet address in Ether
- * @see https://web3js.readthedocs.io/en/1.0/web3-eth.html#getbalance
- * @example const balance = await getBalance("0x123...") // returns a string representing the balance in Ether
- */
-export async function getBalance(walletAddress: string): Promise<string> {
-  if (web3.utils.isAddress(walletAddress)) {
-    const balance = await web3.eth.getBalance(walletAddress);
-
-    return web3.utils.fromWei(balance, 'ether');
-  }
-  throw new Error('Invalid address!');
-}
 
 type TransactionHistory = {
   blockNumber: number | null;

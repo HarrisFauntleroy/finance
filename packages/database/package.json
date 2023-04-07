@@ -8,23 +8,30 @@
     "dist/**"
   ],
   "scripts": {
-    "dev": "yarn build --watch",
-    "build": "tsc",
-    "type-check": "tsc --noEmit",
-    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "prebuild": "npm run generate",
+    "build": "tsc",
+    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "tsx src/seed.ts",
     "predev": "npm run generate",
+    "dev": "yarn build --watch",
     "format": "prettier --write .",
     "generate": "prisma generate",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "type-check": "tsc --noEmit"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": ".test.*",
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   },
   "dependencies": {
     "@prisma/client": "^4.1.1"

@@ -8,35 +8,23 @@
     "dist"
   ],
   "scripts": {
-    "dev": "yarn build --watch",
     "build": "tsc",
-    "type-check": "tsc --noEmit",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
+    "dev": "yarn build --watch",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "NODE_ENV=production ts-node dist/index.js",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
-    "test:watch": "yarn test --watchAll"
+    "test:watch": "yarn test --watchAll",
+    "type-check": "tsc --noEmit"
   },
   "jest": {
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "src"
-    ],
     "testEnvironment": "node",
-    "testRegex": ".test.ts$",
+    "testRegex": ".test.*",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(ts|tsx)$": "ts-jest"
     }
   },
   "dependencies": {
