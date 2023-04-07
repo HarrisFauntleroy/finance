@@ -1,6 +1,10 @@
-import { AssetStatus, Category } from 'database/generated/prisma-client';
-
-import type { RouterOutput } from '~/utils/trpc';
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from 'database/generated/prisma-client';
 
 import {
   Avatar,
@@ -21,9 +25,14 @@ import Link from 'next/link';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
-type ColumnInput = RouterOutput['assets']['byUserId'];
-
-export const overviewAccountsListColumns: ColumnDef<ColumnInput[0]>[] = [
+export const portfolioOverviewAssetsColumns: ColumnDef<
+  Asset & {
+    subAssets: Asset[];
+    transactions: AssetTransaction[];
+    user: { settings: { userCurrency: string } | null };
+    market: Market | null;
+  }
+>[] = [
   {
     header: 'Display Name',
     accessorKey: 'name',

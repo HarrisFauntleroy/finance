@@ -8,13 +8,12 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Stack,
   Stat as ChakraStat,
+  Stack,
   StatLabel,
   StatNumber,
 } from '@chakra-ui/react';
 import type { Row } from '@tanstack/react-table';
-import type { AssetWithCalculatedValues } from 'common';
 import currency from 'currency.js';
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
@@ -32,7 +31,7 @@ interface TableSubComponentProps<TData> {
   row: Row<TData>;
 }
 
-function TableSubComponent<TData extends AssetWithCalculatedValues>({
+function TableSubComponent<TData extends Record<string, unknown>>({
   row: {
     original: { averageCost, price, ...original },
   },

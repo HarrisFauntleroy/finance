@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MarketType } from 'database/generated/prisma-client';
 import { Debug, Page } from 'ui';
 
@@ -21,10 +19,10 @@ const MarketViewPage = () => {
   const { data } = marketQuery;
   return (
     <Page>
-      <h1>{data.name}</h1>
+      <h1>{data?.name}</h1>
       <em>
         Created
-        {data.createdAt.toLocaleDateString('en-us')}
+        {data?.createdAt.toLocaleDateString('en-us')}
       </em>
       <h2>Raw data:</h2>
       <Debug data={data} />

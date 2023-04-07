@@ -3,7 +3,6 @@
  * Index page
  *
  */
-import React from 'react';
 
 import { AssetBuilder, calculateTransactions } from 'common';
 import { JSONObjectViewer, Page } from 'ui';
@@ -63,7 +62,7 @@ const Index: NextPageWithLayout = () => {
       <Heading>Transaction</Heading>
       <JSONObjectViewer data={assetTransactions} />
       <Heading>Calculated Transactions</Heading>
-      <JSONObjectViewer data={calculateTransactions(assetTransactions)} />
+      <JSONObjectViewer data={calculateTransactions(assetTransactions || [])} />
     </Page>
   );
 };

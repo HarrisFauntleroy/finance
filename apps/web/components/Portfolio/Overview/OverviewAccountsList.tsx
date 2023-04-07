@@ -6,7 +6,7 @@ import { ControlBar } from '../ControlBar';
 import { transactionsListColumns } from '../Transactions/columns';
 
 import { Stack, Text } from '@chakra-ui/react';
-import { overviewAccountsListColumns } from 'components/Portfolio/Overview/columns';
+import { portfolioOverviewAssetsColumns } from 'components/Portfolio/Overview/columns';
 import TableSubComponent from 'components/Portfolio/Overview/TableSubRow';
 import type {
   Asset,
@@ -51,7 +51,7 @@ const AssetTable = ({
     <Table
       id="portfolioOverviewAssets"
       data={assets || []}
-      columns={overviewAccountsListColumns}
+      columns={portfolioOverviewAssetsColumns}
       canExpandRows
       filterEnabled
       paginationEnabled

@@ -1,10 +1,13 @@
 import { Table } from 'ui';
 
-import { type RouterOutput, trpc } from '~/utils/trpc';
+import { type RouterOutput,trpc } from '~/utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { portfolioOverviewColumns } from 'components/Portfolio/Accounts/columns';
+import {
+  assetsColumns,
+  subAssetsColumns,
+} from 'components/Portfolio/Accounts/columns';
 import { useSession } from 'next-auth/react';
 import { type SubmitHandler } from 'react-hook-form';
 
@@ -48,9 +51,9 @@ export const AccountsList = () => {
 
   return (
     <Table
-      id="cryptocurrencyOverview"
+      id="assetsOverview"
       data={data || []}
-      columns={portfolioOverviewColumns}
+      columns={assetsColumns}
       canExpandRows
       filterEnabled
       paginationEnabled
@@ -58,9 +61,9 @@ export const AccountsList = () => {
       renderExpandedRow={({ row }) =>
         (row?.original?.subAssets?.length || 0) > 0 && (
           <Table
-            id="cryptocurrencyOverview"
+            id="subAssetsOverview"
             data={row?.original?.subAssets}
-            columns={portfolioOverviewColumns}
+            columns={subAssetsColumns}
             canExpandRows
             paginationEnabled
           />

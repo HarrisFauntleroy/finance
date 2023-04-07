@@ -1,6 +1,10 @@
-import React from 'react';
-
-import { AssetStatus, Category } from 'database/generated/prisma-client';
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from 'database/generated/prisma-client';
 
 import type { RouterOutput } from '~/utils/trpc';
 
@@ -25,7 +29,7 @@ import { FormattedNumber } from 'react-intl';
 
 type ColumnInput = RouterOutput['assets']['byUserId'];
 
-export const portfolioOverviewColumns: ColumnDef<ColumnInput[0]>[] = [
+export const assetsColumns: ColumnDef<ColumnInput[0]>[] = [
   {
     header: 'Display Name',
     accessorKey: 'name',
@@ -220,6 +224,192 @@ export const portfolioOverviewColumns: ColumnDef<ColumnInput[0]>[] = [
   // 		</Stack>
   // 	),
   // },
+  {
+    header: 'Last Update',
+    cell: ({
+      row: {
+        original: { updatedAt },
+      },
+    }) => {
+      return (
+        <Text>
+          {formatDuration(
+            intervalToDuration({
+              start: new Date(),
+              end: updatedAt,
+            }),
+            {
+              format: ['hours', 'minutes'],
+              delimiter: ', ',
+            },
+          ) || 'Less than a minutes ago'}
+        </Text>
+      );
+    },
+  },
+  {
+    header: 'Status',
+    cell: ({
+      row: {
+        original: { status },
+      },
+    }) => {
+      const statusColor = () => {
+        switch (status) {
+          case AssetStatus.ACTIVE:
+            return (
+              <Badge colorScheme="green" variant="subtle">
+                {status}
+              </Badge>
+            );
+          case AssetStatus.CONNECTED:
+            return (
+              <Badge colorScheme="purple" variant="subtle">
+                {status}
+              </Badge>
+            );
+          case AssetStatus.ERROR:
+            return (
+              <Badge colorScheme="red" variant="subtle">
+                {status}
+              </Badge>
+            );
+          default:
+            return <Badge variant="subtle">{status}</Badge>;
+        }
+      };
+      return statusColor();
+    },
+  },
+];
+
+export const subAssetsColumns: ColumnDef<
+  Asset & {
+    user: {
+      settings: {
+        userCurrency: string;
+      } | null;
+    };
+    market: Market | null;
+    transactions: AssetTransaction[];
+  }
+>[] = [
+  {
+    header: 'Display Name',
+    accessorKey: 'name',
+    cell: ({
+      row: {
+        getToggleExpandedHandler,
+        original: { name, market, transactions },
+      },
+    }) => {
+      return (
+        <HStack>
+          <AvatarGroup
+            max={1}
+            cursor="pointer"
+            {...{
+              onClick: getToggleExpandedHandler(),
+            }}
+          >
+            <Avatar
+              _hover={{ transform: 'scale(1.05)' }}
+              name={market?.name || ''}
+              title={market?.name || ''}
+              src={market?.image || ''}
+            />
+            {transactions?.map((transaction) => (
+              <ul key={transaction.id}>
+                <li>Transaction</li>
+                <li>{transaction.id}</li>
+              </ul>
+            ))}
+          </AvatarGroup>
+          <Link
+            href={{
+              pathname: `/markets/crypto/${market?.name}`,
+              query: {
+                name: market?.name,
+                ticker: market?.ticker,
+              },
+            }}
+          >
+            <Text
+              maxW="128px"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+            >
+              {name}
+            </Text>
+          </Link>
+        </HStack>
+      );
+    },
+  },
+  {
+    header: 'Category',
+    accessorKey: 'category',
+    cell: ({
+      row: {
+        original: { category },
+      },
+    }) => {
+      const renderBadge = () => {
+        let props = {};
+        switch (category) {
+          case Category.CASH:
+            return (props = {
+              colorScheme: 'cyan',
+              ...props,
+            });
+          case Category.CREDIT:
+            return (props = {
+              colorScheme: 'blue',
+              ...props,
+            });
+          case Category.CRYPTOCURRENCY:
+            return (props = {
+              colorScheme: 'purple',
+              ...props,
+            });
+          case Category.CUSTOM:
+            return (props = {
+              colorScheme: 'orange',
+              ...props,
+            });
+          case Category.INVESTMENT:
+            return (props = {
+              colorScheme: 'green',
+              ...props,
+            });
+          case Category.SUPERANNUATION:
+            return (props = {
+              colorScheme: 'yellow',
+              ...props,
+            });
+          default:
+            break;
+        }
+      };
+      const props = renderBadge();
+
+      return (
+        <Flex justify="right">
+          <Badge {...props}> {category}</Badge>
+        </Flex>
+      );
+    },
+  },
+  {
+    header: 'Institution',
+    accessorKey: 'institution',
+    cell: ({
+      row: {
+        original: { institution },
+      },
+    }) => <Text>{institution}</Text>,
+  },
   {
     header: 'Last Update',
     cell: ({

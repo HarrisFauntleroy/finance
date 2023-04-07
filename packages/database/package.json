@@ -37,14 +37,17 @@
     "@prisma/client": "^4.1.1"
   },
   "devDependencies": {
+    "@jest/types": "29.4.0",
+    "@types/jest": "29.4.3",
     "@types/node": "^18.11.6",
     "eslint": "^8.34.0",
+    "jest": "29.4.3",
     "prettier": "latest",
     "prisma": "^4.1.1",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
-    "typescript": "^5.0.3"
+    "typescript": "4.9.5"
   },
   "packageManager": "yarn@3.5.0"
 }
