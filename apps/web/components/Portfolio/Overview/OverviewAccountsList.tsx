@@ -25,8 +25,8 @@ import type {
   Market,
 } from 'database/generated/prisma-client/index';
 import { formatDuration, intervalToDuration } from 'date-fns';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 

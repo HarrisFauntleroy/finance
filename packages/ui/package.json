@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "license": "MIT",
   "main": "./dist/index.js",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --incremental",
     "build-storybook": "build-storybook",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
@@ -33,9 +33,9 @@
     }
   },
   "dependencies": {
-    "@chakra-ui/react": "latest",
+    "@chakra-ui/react": "2.5.5",
     "@choc-ui/chakra-autocomplete": "^5.1.4",
-    "@emotion/react": "latest",
+    "@emotion/react": "11.10.6",
     "@emotion/styled": "^11.10.6",
     "@tanstack/match-sorter-utils": "^8.7.2",
     "@tanstack/react-table": "^8.7.4",
@@ -48,16 +48,16 @@
     "currency.js": "^2.0.4",
     "database": "*",
     "date-fns": "^2.29.3",
-    "framer-motion": "latest",
+    "framer-motion": "10.11.2",
     "i18next": "^22.0.4",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.0.1",
     "katex": "^0.16.4",
     "next": "^13.1.1",
     "react": "^18.2.0",
-    "react-beautiful-dnd": "latest",
-    "react-dnd": "latest",
-    "react-dnd-html5-backend": "latest",
+    "react-beautiful-dnd": "13.1.1",
+    "react-dnd": "16.0.1",
+    "react-dnd-html5-backend": "16.0.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.41.2",
     "react-i18next": "^12.0.0",
@@ -70,7 +70,7 @@
     "vite": "^4.1.4",
     "vite-plugin-svgr": "^2.4.0",
     "vite-tsconfig-paths": "^4.0.8",
-    "zod": "^3.19.1"
+    "zod": "3.21.1"
   },
   "devDependencies": {
     "@jest/types": "29.4.0",
@@ -94,7 +94,7 @@
     "eslint-plugin-sonarjs": "0.16.0",
     "jest": "29.4.3",
     "postcss": "^8.4.20",
-    "prettier": "latest",
+    "prettier": "2.8.7",
     "rimraf": "^3.0.2",
     "tsx": "^3.7.1",
     "typescript": "4.9.5"

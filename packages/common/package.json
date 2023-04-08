@@ -1,6 +1,7 @@
 {
   "name": "common",
-  "version": "1.0.1",
+  "version": "1.1.0",
+  "description": "A TypeScript project using Prisma for database operations",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --incremental",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
     "format": "prettier --write .",
@@ -30,7 +31,7 @@
   "dependencies": {
     "currency.js": "^2.0.4",
     "database": "*",
-    "zod": "^3.19.1"
+    "zod": "3.21.1"
   },
   "devDependencies": {
     "@jest/types": "29.4.0",
