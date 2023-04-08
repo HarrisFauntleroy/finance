@@ -2001,7 +2001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/hooks@npm:2.1.6":
+"@chakra-ui/hooks@npm:2.1.6, @chakra-ui/hooks@npm:^2.1.6":
   version: 2.1.6
   resolution: "@chakra-ui/hooks@npm:2.1.6"
   dependencies:
@@ -2899,7 +2899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/tooltip@npm:2.2.7":
+"@chakra-ui/tooltip@npm:2.2.7, @chakra-ui/tooltip@npm:^2.2.7":
   version: 2.2.7
   resolution: "@chakra-ui/tooltip@npm:2.2.7"
   dependencies:
@@ -28446,9 +28446,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:apps/web"
   dependencies:
+    "@chakra-ui/hooks": ^2.1.6
     "@chakra-ui/icons": 2.0.15
     "@chakra-ui/react": ^2.5.5
     "@chakra-ui/theme-tools": 2.0.16
+    "@chakra-ui/tooltip": ^2.2.7
     "@choc-ui/chakra-autocomplete": 5.1.4
     "@emotion/react": ^11.10.6
     "@emotion/styled": ^11.10.6

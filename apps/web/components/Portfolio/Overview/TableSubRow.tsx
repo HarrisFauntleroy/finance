@@ -31,7 +31,7 @@ interface TableSubComponentProps<TData> {
   row: Row<TData>;
 }
 
-function TableSubComponent<TData extends Record<string, unknown>>({
+function TableSubComponent<TData extends Record<string, string>>({
   row: {
     original: { averageCost, price, ...original },
   },
