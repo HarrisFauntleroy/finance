@@ -23,7 +23,7 @@
     "db:seed": "turbo run db:seed",
     "dev": "turbo run dev --parallel",
     "docker:prune": "docker system prune --all",
-    "generate": "turbo db:push db:generate",
+    "generate": "turbo run generate",
     "fix": "turbo run fix",
     "format": "prettier --write .",
     "lint": "turbo run lint",
