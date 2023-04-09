@@ -8,7 +8,7 @@ interface EditableCellProps<TData, TColumnValue> {
   editing: boolean;
 }
 
-export function EditableCell<TData, TColumnValue>({
+export function EditableCellNew<TData, TColumnValue>({
   cell,
   editing,
 }: EditableCellProps<TData, TColumnValue>) {

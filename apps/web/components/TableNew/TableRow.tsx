@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useState } from 'react';
 
-import { EditableCell } from './EditableCell';
+import { EditableCellNew } from './EditableCell';
 
 import { Button, ButtonGroup, Td, Tr } from '@chakra-ui/react';
 import { Row } from '@tanstack/table-core';
@@ -18,7 +18,7 @@ interface TableRowProps<T extends FieldValues> {
   onValidSubmit?: SubmitHandler<FieldValues>;
 }
 
-export function TableRow<T extends FieldValues>({
+export function TableRowNew<T extends FieldValues>({
   row,
   renderSubRow,
   onValidSubmit,
@@ -45,7 +45,7 @@ export function TableRow<T extends FieldValues>({
       <Tr>
         {row.getVisibleCells().map((cell) => (
           <Td key={cell.id}>
-            <EditableCell cell={cell} editing={editing} />
+            <EditableCellNew cell={cell} editing={editing} />
           </Td>
         ))}
 

@@ -31,16 +31,6 @@ module.exports = {
         )}'`,
       },
     });
-    // config.module.rules.push({
-    //   test: /zod\/index\.ts$/,
-    //   loader: 'ts-loader',
-    //   options: {
-    //     search: 'config.dirname = dirname',
-    //     replace: `config.dirname = '${path.dirname(
-    //       require.resolve('database/generated/zod'),
-    //     )}'`,
-    //   },
-    // });
     return config;
   },
 };

@@ -1,12 +1,9 @@
 import { ReactNode, useState } from 'react';
 
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { DebouncedInput } from '../Form';
-import { Show } from '../Show';
-import { fuzzy } from './Filter';
-import { TableHeader } from './Header';
-import { Pagination } from './Pagination';
-import { TableRow } from './TableRow';
+import { fuzzyNew } from './Filter';
+import { TableHeaderNew } from './Header';
+import { PaginationNew } from './Pagination';
+import { TableRowNew } from './TableRow';
 
 import {
   Stack,
@@ -19,7 +16,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  Column,
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -37,12 +33,15 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { DebouncedInput } from 'ui/src/components/Form';
+import { Show } from 'ui/src/components/Show';
+import { useLocalStorage } from 'ui/src/hooks/useLocalStorage';
 
-interface EditableTableProps<T extends { id: string }> {
+interface EditableTableProps<T extends FieldValues> {
   id: string;
-  columns: ColumnDef<T>[] | Column<T>[];
+  columns: ColumnDef<T, unknown>[];
   data: T[];
-  onValidSubmit?: SubmitHandler<FieldValues>;
+  onValidSubmit: SubmitHandler<FieldValues>;
   pageSize?: number;
   paginationEnabled?: boolean;
   filterEnabled?: boolean;
@@ -50,7 +49,7 @@ interface EditableTableProps<T extends { id: string }> {
   canExpandRows?: boolean;
 }
 
-export const Table = <T extends { id: string }>({
+export const TableNew = <T extends FieldValues>({
   columns,
   data,
   pageSize,
@@ -75,7 +74,7 @@ export const Table = <T extends { id: string }>({
     data: data || [],
     columns,
     filterFns: {
-      fuzzy,
+      fuzzy: fuzzyNew,
     },
     state: {
       sorting,
@@ -90,7 +89,7 @@ export const Table = <T extends { id: string }>({
     getExpandedRowModel: getExpandedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: fuzzy,
+    globalFilterFn: fuzzyNew,
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -116,24 +115,17 @@ export const Table = <T extends { id: string }>({
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map(TableHeader)}
+                {headerGroup.headers.map(TableHeaderNew)}
               </Tr>
             ))}
           </Thead>
           <Tbody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow
+              <TableRowNew
                 key={row.id}
                 row={row}
                 renderSubRow={renderExpandedRow}
-                onValidSubmit={(submitData) => {
-                  if (onValidSubmit) return onValidSubmit(submitData);
-                  else
-                    console.log(
-                      'No onValidSubmit handler provided',
-                      submitData,
-                    );
-                }}
+                onValidSubmit={onValidSubmit}
               />
             ))}
           </Tbody>
@@ -142,19 +134,21 @@ export const Table = <T extends { id: string }>({
               <Tr key={footerGroup.id}>
                 {footerGroup.headers.map((header) => (
                   <Th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext(),
-                        )}
+                    <>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext(),
+                          )}
+                    </>
                   </Th>
                 ))}
               </Tr>
             ))}
           </Tfoot>
         </ChakraTable>
-        {paginationEnabled && <Pagination table={table} id={id} />}
+        {paginationEnabled && <PaginationNew table={table} id={id} />}
       </TableContainer>
     </Stack>
   );

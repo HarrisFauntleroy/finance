@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { Th } from '@chakra-ui/react';
 import type { Header } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 
-export function TableHeader<TData extends object>(
+export function TableHeaderNew<TData extends object>(
   header: Header<TData, unknown>,
 ) {
   return (

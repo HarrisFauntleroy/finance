@@ -1,9 +1,8 @@
-import { Debug } from '../Debug';
-
 import { rankItem } from '@tanstack/match-sorter-utils';
 import type { Column, Row, Table } from '@tanstack/react-table';
+import { Debug } from 'ui/src/components/Debug';
 
-export function Filter<TData extends object>({
+export function FilterNew<TData extends object>({
   column,
   table,
 }: {
@@ -54,13 +53,13 @@ export function Filter<TData extends object>({
   );
 }
 
-export const renderSubRow = <TData extends object>({
+export const renderSubRowNew = <TData extends object>({
   row,
 }: {
   row: Row<TData>;
 }) => <Debug data={row.original} />;
 
-export function fuzzy<T extends Record<string, unknown>>(
+export function fuzzyNew<T extends Record<string, unknown>>(
   row: Row<T>,
   columnId: string,
   value: string,
