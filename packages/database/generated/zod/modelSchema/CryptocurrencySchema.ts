@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema';
+import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema'
 
 /////////////////////////////////////////
 // CRYPTOCURRENCY SCHEMA
@@ -26,8 +26,8 @@ export const CryptocurrencySchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type Cryptocurrency = z.infer<typeof CryptocurrencySchema>;
+export type Cryptocurrency = z.infer<typeof CryptocurrencySchema>
 
 export default CryptocurrencySchema;

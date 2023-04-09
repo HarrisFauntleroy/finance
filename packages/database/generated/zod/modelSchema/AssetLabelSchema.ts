@@ -13,8 +13,8 @@ export const AssetLabelSchema = z.object({
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
   assetId: z.string().nullable(),
-});
+})
 
-export type AssetLabel = z.infer<typeof AssetLabelSchema>;
+export type AssetLabel = z.infer<typeof AssetLabelSchema>
 
 export default AssetLabelSchema;

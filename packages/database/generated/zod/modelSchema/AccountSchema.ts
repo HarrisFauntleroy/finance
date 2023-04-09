@@ -17,8 +17,8 @@ export const AccountSchema = z.object({
   scope: z.string().nullable(),
   id_token: z.string().nullable(),
   session_state: z.string().nullable(),
-});
+})
 
-export type Account = z.infer<typeof AccountSchema>;
+export type Account = z.infer<typeof AccountSchema>
 
 export default AccountSchema;

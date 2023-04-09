@@ -147,6 +147,7 @@
     "lint-staged": "13.0.3",
     "next-sitemap": "3.1.48",
     "playwright": "1.27.1",
+    "rimraf": "^4.4.1",
     "string-replace-loader": "^3.1.0",
     "ts-jest": "29.0.3",
     "ts-node": "^10.9.1",

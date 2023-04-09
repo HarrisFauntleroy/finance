@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ColorSchemeSchema } from '../inputTypeSchemas/ColorSchemeSchema';
+import { ColorSchemeSchema } from '../inputTypeSchemas/ColorSchemeSchema'
 
 /////////////////////////////////////////
 // SETTINGS SCHEMA
@@ -15,8 +15,8 @@ export const SettingsSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type Settings = z.infer<typeof SettingsSchema>;
+export type Settings = z.infer<typeof SettingsSchema>
 
 export default SettingsSchema;
