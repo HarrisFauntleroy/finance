@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "prebuild": "yarn db:generate",
+    "prebuild": "yarn generate",
     "build": "tsc --incremental",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "generate": "prisma generate",
@@ -17,7 +17,7 @@
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "tsx src/seed.ts",
-    "predev": "yarn db:generate",
+    "predev": "yarn generate",
     "dev": "concurrently \"yarn build --watch\" \"yarn prisma studio\"",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
     "lint": "eslint .",
