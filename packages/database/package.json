@@ -1,33 +1,37 @@
 {
   "name": "database",
   "version": "1.1.0",
+  "private": true,
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**"
+    "dist"
   ],
   "scripts": {
-    "prebuild": "yarn generate",
+    "type-check": "tsc --noEmit",
     "build": "tsc --incremental",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-    "db:generate": "prisma generate",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:dev": "prisma migrate dev",
-    "db:push": "prisma db push --skip-generate",
-    "db:seed": "tsx src/seed.ts",
-    "predev": "yarn generate",
     "dev": "yarn build --watch",
-    "generate": "prisma generate",
-    "postinstall": "prisma generate --schema=prisma/schema.prisma",
-    "studio": "prisma studio",
+    "start": "NODE_ENV=production node dist/index.js",
+    "fix": "yarn format && yarn lint:fix",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit"
+    "db:generate": "prisma generate",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "tsx src/seed.ts",
+    "db:studio": "prisma studio",
+    "prepare": "yarn build",
+    "prebuild": "yarn db:generate",
+    "predev": "yarn db:generate",
+    "postinstall": "prisma generate --schema=prisma/schema.prisma",
+    "generate": "prisma generate"
   },
   "jest": {
     "testEnvironment": "node",
@@ -37,7 +41,8 @@
     }
   },
   "dependencies": {
-    "@prisma/client": "^4.1.1"
+    "@prisma/client": "^4.1.1",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@jest/types": "29.4.0",

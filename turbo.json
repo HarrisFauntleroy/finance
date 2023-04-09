@@ -24,7 +24,10 @@
     "lint": {
       "outputs": []
     },
-    "lint:fix": {
+    "format": {
+      "outputs": []
+    },
+    "fix": {
       "outputs": []
     },
     "test": {

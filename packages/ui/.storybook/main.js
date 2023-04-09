@@ -20,11 +20,19 @@ module.exports = {
   },
   viteFinal(config, { configType }) {
     return mergeConfig(config, {
-      plugins: [tsconfigPaths(), svgr({ exportAsDefault: true })],
+      plugins: [
+        tsconfigPaths(),
+        svgr({
+          exportAsDefault: true,
+        }),
+      ],
     });
   },
   babel: async (options) => {
     options.plugins.push('babel-plugin-inline-react-svg');
     return options;
+  },
+  docs: {
+    autodocs: true,
   },
 };

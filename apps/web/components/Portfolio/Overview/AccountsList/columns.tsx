@@ -1,11 +1,12 @@
-import { AssetStatus, Category } from 'database/generated/prisma-client';
-import { Table } from 'ui';
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from 'database/generated/prisma-client';
 
 import Currency from '~/components/Currency';
-import { trpc } from '~/utils/trpc';
-
-import { ControlBar } from '../ControlBar';
-import { transactionsListColumns } from '../Transactions/columns';
 
 import {
   Avatar,
@@ -19,14 +20,8 @@ import {
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/table-core';
 import currency from 'currency.js';
-import type {
-  Asset,
-  AssetTransaction,
-  Market,
-} from 'database/generated/prisma-client/index';
 import { formatDuration, intervalToDuration } from 'date-fns';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
@@ -75,7 +70,7 @@ const renderCategoryBadge = (category: Category | null) => {
   return <Badge {...props}>{category}</Badge>;
 };
 
-const statusColor = (status: AssetStatus) => {
+const statusColor = (status: AssetStatus | null) => {
   switch (status) {
     case AssetStatus.ACTIVE:
       return (
@@ -308,38 +303,3 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
     }) => statusColor(status),
   },
 ];
-
-const TransactionTable = ({
-  transactions,
-}: {
-  transactions: AssetTransaction[];
-}) => {
-  return transactions.length > 0 ? (
-    <Table
-      id="portfolioOverviewAssetTransactions"
-      data={transactions || []}
-      columns={transactionsListColumns}
-      canExpandRows
-      filterEnabled
-      paginationEnabled
-    />
-  ) : (
-    <Text>No Transactions to display</Text>
-  );
-};
-
-export const OverviewAccountsList = () => {
-  const session = useSession();
-  const userId = session?.data?.userId;
-
-  const { data } = trpc.assets.byUserId.useQuery({
-    userId: userId || '',
-  });
-
-  return (
-    <Stack>
-      <ControlBar />
-      <AssetTable assets={data} />
-    </Stack>
-  );
-};

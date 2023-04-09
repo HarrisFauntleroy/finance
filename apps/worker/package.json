@@ -1,20 +1,26 @@
 {
   "name": "worker",
   "version": "1.1.0",
-  "description": "BullMQ, redis and typescript based worker",
+  "private": true,
   "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "type-check": "tsc --noEmit",
     "build": "tsc --incremental",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "NODE_ENV=development nodemon src/index.ts",
+    "start": "NODE_ENV=production node dist/index.js",
+    "fix": "yarn format && yarn lint:fix",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
-    "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit"
+    "test:watch": "yarn test --watchAll"
   },
   "jest": {
     "testEnvironment": "node",
@@ -44,7 +50,6 @@
     "express": "4.18.2",
     "node-fetch": "^3.3.0",
     "progress": "^2.0.3",
-    "tsup": "~6.6.3",
     "web3": "^1.8.1",
     "zod": "3.21.1"
   },

@@ -1,2 +1,6 @@
+.turbo
 dist
-src/seed.ts
+node_modules
+generated
+prisma/migrations
+src/seed.js

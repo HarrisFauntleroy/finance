@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import { logger } from 'common';
 import {
   AccountConnection,
@@ -29,37 +27,33 @@ export function AssetTable() {
   const createAsset = trpc.assets.create.useMutation();
   const updateAsset = trpc.assets.update.useMutation();
 
-  const handleValidSubmit = useCallback(
-    (submitData: Asset) => {
-      console.log(submitData);
-      if (userId) {
-        if (submitData?.id) {
-          return updateAsset
-            .mutateAsync(submitData)
-            .then((asset) => {
-              queryClient.invalidateQueries();
-              toast({
-                title: `Successfully updated account ${asset.name}`,
-                status: 'success',
-              });
-            })
-            .catch(logger.error);
-        }
-        return createAsset
+  const handleValidSubmit = (submitData: Asset) => {
+    if (userId) {
+      if (submitData?.id) {
+        return updateAsset
           .mutateAsync(submitData)
-          .then(({ name }) => {
+          .then((asset) => {
             queryClient.invalidateQueries();
             toast({
-              title: `Successfully created account ${name}`,
+              title: `Successfully updated account ${asset.name}`,
               status: 'success',
             });
           })
           .catch(logger.error);
       }
-      return new Error('No userId provided');
-    },
-    [createAsset, queryClient, toast, updateAsset, userId],
-  );
+      return createAsset
+        .mutateAsync(submitData)
+        .then(({ name }) => {
+          queryClient.invalidateQueries();
+          toast({
+            title: `Successfully created account ${name}`,
+            status: 'success',
+          });
+        })
+        .catch(logger.error);
+    }
+    return new Error('No userId provided');
+  };
 
   const columnHelper = createColumnHelper<Asset>();
 
@@ -169,7 +163,7 @@ export function AssetTable() {
       columns={columns}
       filterEnabled={false}
       paginationEnabled={false}
-      onValidSubmit={console.log}
+      onValidSubmit={handleValidSubmit}
     />
   );
 }

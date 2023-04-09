@@ -9,7 +9,10 @@ generator client {
 }
 
 generator zod {
-  provider = "zod-prisma-types"
+  provider         = "npx zod-prisma-types"
+  output           = "../generated/zod"
+  createInputTypes = false
+  useMultipleFiles = true
 }
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
