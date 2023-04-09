@@ -362,38 +362,38 @@ const subAssetsColumns: ColumnDef<
       },
     }) => {
       const renderBadge = () => {
-        let props = {};
+        const props = {};
         switch (category) {
           case Category.CASH:
-            return (props = {
+            return {
               colorScheme: 'cyan',
               ...props,
-            });
+            };
           case Category.CREDIT:
-            return (props = {
+            return {
               colorScheme: 'blue',
               ...props,
-            });
+            };
           case Category.CRYPTOCURRENCY:
-            return (props = {
+            return {
               colorScheme: 'purple',
               ...props,
-            });
+            };
           case Category.CUSTOM:
-            return (props = {
+            return {
               colorScheme: 'orange',
               ...props,
-            });
+            };
           case Category.INVESTMENT:
-            return (props = {
+            return {
               colorScheme: 'green',
               ...props,
-            });
+            };
           case Category.SUPERANNUATION:
-            return (props = {
+            return {
               colorScheme: 'yellow',
               ...props,
-            });
+            };
           default:
             break;
         }
