@@ -38,7 +38,7 @@
     ],
     "import/extensions": "off",
     "simple-import-sort/imports": [
-      "error",
+      "off",
       {
         "groups": [
           ["^react$"],

@@ -4,7 +4,7 @@ import { trpc } from '~/utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Asset } from 'database/generated/zod';
+import { type Asset } from 'database/generated/zod';
 import { SubmitHandler } from 'react-hook-form';
 
 export function useAssetActions(userId: string | undefined): {

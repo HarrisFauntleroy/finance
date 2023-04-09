@@ -1,6 +1,6 @@
+import { AssetWithCalculatedValues } from 'common';
 import { AccountConnection } from 'database/generated/prisma-client';
 
-import { AssetWithCalculatedValues } from '~/../../packages/common/dist';
 import { CopyContent } from '~/components/lol/CopyContent';
 
 import { createColumnHelper } from '@tanstack/table-core';

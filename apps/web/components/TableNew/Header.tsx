@@ -16,11 +16,13 @@ export function TableHeaderNew<TData extends object>(
           }
           onClick={header.column.getToggleSortingHandler()}
         >
-          {flexRender(header.column.columnDef.header, header.getContext())}
-          {{
-            asc: ' 🔼',
-            desc: ' 🔽',
-          }[header.column.getIsSorted() as string] ?? null}
+          <>
+            {flexRender(header.column.columnDef.header, header.getContext())}
+            {{
+              asc: ' 🔼',
+              desc: ' 🔽',
+            }[header.column.getIsSorted() as string] ?? null}
+          </>
         </div>
       )}
     </Th>

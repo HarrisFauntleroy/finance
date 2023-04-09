@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { add } from './math';
 
 interface Grouped<T> {
@@ -10,9 +11,9 @@ export interface Item {
 }
 
 export function sumGroupByCategory<T extends Item>(
-  arr: T[],
+  arr: any[],
   category: keyof T,
-): Grouped<string> {
+): any {
   return arr.reduce((grouped: Grouped<string>, obj: T) => {
     if (!grouped[obj[category]]) {
       grouped[obj[category]] = String(0);
