@@ -5,35 +5,9 @@
       "dependsOn": ["db:generate"],
       "cache": false
     },
-    "web#build": {
-      "dependsOn": [
-        "^build",
-        "db:generate",
-        "common#build",
-        "database#build",
-        "ui#build"
-      ],
-      "outputs": []
-    },
-    "worker#build": {
-      "dependsOn": ["common#build", "database#build"],
-      "outputs": []
-    },
-    "common#build": {
-      "outputs": []
-    },
-    "database#build": {
-      "dependsOn": ["common#build"],
-      "outputs": []
-    },
-    "ui#build": {
-      "dependsOn": ["common#build"],
-      "outputs": []
-    },
     "build": {
-      "dependsOn": ["common#build", "database#build", "ui#build"],
-      "env": ["SOME_ENV_VAR"],
-      "outputs": ["dist/**"]
+      "dependsOn": ["db:generate"],
+      "outputs": ["dist/**", ".next/**"]
     },
     "db:generate": {
       "cache": false
@@ -50,8 +24,11 @@
     "lint": {
       "outputs": []
     },
+    "lint:fix": {
+      "outputs": []
+    },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["build"],
       "inputs": [
         "src/**/*.tsx",
         "src/**/*.ts",
@@ -61,7 +38,7 @@
       "outputs": []
     },
     "test:watch": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["build"],
       "inputs": [
         "src/**/*.tsx",
         "src/**/*.ts",
@@ -74,7 +51,7 @@
       "cache": false
     },
     "deploy": {
-      "dependsOn": ["^build", "test", "lint"]
+      "dependsOn": ["build", "test", "lint"]
     }
   }
 }
