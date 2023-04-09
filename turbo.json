@@ -7,7 +7,7 @@
     },
     "build": {
       "dependsOn": ["db:generate"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "db:generate": {
       "cache": false
@@ -22,12 +22,6 @@
       "outputs": []
     },
     "lint": {
-      "outputs": []
-    },
-    "format": {
-      "outputs": []
-    },
-    "fix": {
       "outputs": []
     },
     "test": {

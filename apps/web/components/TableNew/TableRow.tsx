@@ -31,7 +31,7 @@ export function TableRowNew<T extends FieldValues>({
       onValidSubmit(methods.getValues());
       setEditingId(null);
     }
-  }, [onValidSubmit]);
+  }, [methods, onValidSubmit]);
 
   const handleCancel = () => {
     setEditingId(null);

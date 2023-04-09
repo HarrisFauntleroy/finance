@@ -1,6 +1,8 @@
 # Alchemical Finance Monorepo
 
-[![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=master)](https://travis-ci.org/elixir-money/monorepo)
+Alchemical Finance is a TypeScript-based monorepo that aims to provide a comprehensive financial solution using modern web technologies. It consists of multiple applications and packages working together to deliver a seamless user experience.
+
+[![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=main)](https://travis-ci.org/elixir-money/monorepo)
 [![Coverage Status](https://coveralls.io/repos/github/elixir-money/monorepo/badge.svg)](https://coveralls.io/github/elixir-money/monorepo)
 
 ## Stack
@@ -15,103 +17,90 @@
 
 | Folder   | Description                            | README                          |
 | -------- | -------------------------------------- | ------------------------------- |
-| `web`    | a [Next.js](https://nextjs.org) app    | [README](apps/app/README.md)    |
+| `web`    | a [Next.js](https://nextjs.org) app    | [README](apps/web/README.md)    |
 | `worker` | A Node.js, BullMQ & Redis based worker | [README](apps/worker/README.md) |
 
 ## Packages
 
-| Folder     | Description                                                                          | README                                |
-| ---------- | ------------------------------------------------------------------------------------ | ------------------------------------- |
-| `common`   | Shared code                                                                          | [README](packages/common/README.md)   |
-| `config`   | `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`) | [README](packages/config/README.md)   |
-| `tsconfig` | `tsconfig.json`s used throughout the monorepo                                        | [README](packages/tsconfig/README.md) |
-| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database            | [README](packages/database/README.md) |
+| Folder     | Description                                                               | README                                |
+| ---------- | ------------------------------------------------------------------------- | ------------------------------------- |
+| `common`   | Shared code                                                               | [README](packages/common/README.md)   |
+| `ul`       | Component Library                                                         | [README](packages/ul/README.md)       |
+| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database | [README](packages/database/README.md) |
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-## Useful Commands
+## Local development
 
-### Build
+### Prerequisites
 
-To build all apps and packages, run the following command:
+- [Docker](https://www.docker.com/)
+- [Yarn](https://yarnpkg.com/)
 
-```bash
-cd my-turborepo
-yarn run build
-```
+### Steps
 
-### Develop
+1. **Clone the repository and install dependencies:**
 
-To develop all apps and packages, run the following command:
+   ```bash
+   git clone https://github.com/elixir-money/monorepo.git
+   cd monorepo
+   yarn install
+   ```
 
-```bash
-cd my-turborepo
-yarn run dev
-```
+2. **Configure environment:**
 
-### Docker Compose 🐳
+   Copy the `.env.example` file to `.env`:
 
-```sh
-# TODO
-```
+   ```bash
+   cp .env.example .env
+   ```
 
-### Database
+   Update the `DATABASE_URL` in your `.env` file if necessary.
 
-We use [Prisma](https://prisma.io/) to manage & access our database. As such you will need a database for this project, either locally or hosted in the cloud.
+3. **Start Docker Compose:**
 
-To make this process easier, we offer a [`docker-compose.yml`](https://docs.docker.com/compose/) file to deploy a MySQL server locally with a new database named `turborepo` (To change this update the `MYSQL_DATABASE` environment variable in the `docker-compose.yml` file):
+   Run the Postgres server using Docker Compose:
 
-```bash
-cd my-turborepo
-docker-compose up -d
-```
+   ```bash
+   docker-compose up -d
+   ```
 
-Once deployed you will need to copy the `.env.example` file to `.env` in order for Prisma to have a `DATABASE_URL` environment variable to access.
+4. **Initialize the database:**
 
-```bash
-cp .env.example .env
-```
+   Apply migrations using Prisma Migrate:
 
-If you added a custom database name, or use a cloud based database, you will need to update the `DATABASE_URL` in your `.env` accordingly.
+   ```bash
+   yarn prisma migrate dev
+   ```
 
-Once deployed & up & running, you will need to create & deploy migrations to your database to add the necessary tables. This can be done using [Prisma Migrate](https://www.prisma.io/migrate):
+   Optional: Seed the database:
 
-```bash
-npx prisma migrate dev
-```
+   ```bash
+   yarn db:seed
+   ```
 
-If you need to push any existing migrations to the database, you can use either the Prisma db push or the Prisma migrate deploy command(s):
+5. **Build and run the development environment:**
 
-```bash
-yarn run db:push
+   ```bash
+   yarn run build
+   yarn run dev
+   ```
 
-# OR
+## Contributing 💪
 
-yarn run db:migrate:deploy
-```
+We welcome contributions to the Alchemical Finance project! If you would like to contribute, please follow these steps:
 
-There is slight difference between the two commands & [Prisma offers a breakdown on which command is best to use](https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push#choosing-db-push-or-prisma-migrate).
+1. Fork the repository on GitHub.
+2. Create a new feature branch from the `main` branch.
+3. Make your changes and ensure that the code follows the project's coding style and standards.
+4. Submit a pull request with a clear description of your changes.
+5. Address any feedback from maintainers and adjust your pull request accordingly.
 
-An optional additional step is to seed some initial or fake data to your database using [Prisma's seeding functionality](https://www.prisma.io/docs/guides/database/seed-database).
+For bug reports, feature requests, and other issues, please use the GitHub issue tracker to submit them.
 
-To do this update check the seed script located in `packages/database/src/seed.ts` & add or update any users you wish to seed to the database.
+## Security 🚨
 
-Once edited run the following command to run tell Prisma to run the seed script defined in the Prisma configuration:
-
-```bash
-yarn run db:seed
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Pipelines](https://turborepo.org/docs/features/pipelines)
-- [Caching](https://turborepo.org/docs/features/caching)
-- [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching)
-- [Scoped Tasks](https://turborepo.org/docs/features/scopes)
-- [Configuration Options](https://turborepo.org/docs/reference/configuration)
-- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)
+If you discover a security vulnerability in the Alchemical Finance project, please email us at [security@example.com](mailto:) instead of using the issue tracker. We will address the issue as soon as possible and appreciate your discretion in keeping our users safe.
 
 ## License ⚖️
 

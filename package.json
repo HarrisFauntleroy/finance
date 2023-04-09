@@ -25,7 +25,7 @@
     "docker:prune": "docker system prune --all",
     "generate": "turbo db:push db:generate",
     "fix": "turbo run fix",
-    "format": "turbo run format",
+    "format": "prettier --write .",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "test": "turbo run test --concurrency=1",

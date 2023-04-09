@@ -5,7 +5,7 @@
 const path = require('path');
 
 module.exports = {
-  transpilePackages: ['database'],
+  transpilePackages: ['database', 'ui', 'common'],
   reactStrictMode: true,
   swcMinify: true,
   images: {
