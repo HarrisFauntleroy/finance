@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { AssetTable } from '~/components/lol';
+
 import {
   Avatar,
   AvatarGroup,
@@ -14,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import type { SetStateAction } from 'react';
 import { MdSend } from 'react-icons/md';
-import { AssetTable } from '~/components/lol';
 
 type Message = {
   message: { id: string; body: string };
