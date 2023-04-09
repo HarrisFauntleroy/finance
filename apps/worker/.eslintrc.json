@@ -7,7 +7,7 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
-    "prettier"
+    "plugin:prettier/recommended" // Always put prettier last
   ],
   "env": {
     "browser": true,
@@ -41,7 +41,6 @@
         "groups": [
           ["^react$"],
           ["^(ui|common|database|database/generated/prisma-client)$"],
-          ["~/(.*)"],
           ["^[./]"]
         ]
       }

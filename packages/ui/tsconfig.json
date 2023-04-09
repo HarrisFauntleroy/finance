@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmit": false,
     "incremental": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -17,11 +17,15 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "rootDir": ".",
-    "paths": {
-      "~/*": ["./*"]
-    },
     "declaration": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.config.js"],
+  "include": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.config.js",
+    "**/*.d.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

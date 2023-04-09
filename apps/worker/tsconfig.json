@@ -15,14 +15,15 @@
     "isolatedModules": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-      "~/*": ["./*"]
-    }
+    "rootDir": "."
   },
   "include": [
+    "**/*.js",
     "**/*.ts",
-    "src/jobs/cryptocurrency/ethereum/balance.integration.test.ts"
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.config.js",
+    "**/*.d.ts"
   ],
   "exclude": ["dist", "node_modules"]
 }

@@ -12,9 +12,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { AssetTable } from 'components/test';
 import type { SetStateAction } from 'react';
 import { MdSend } from 'react-icons/md';
+import { AssetTable } from '~/components/lol';
 
 type Message = {
   message: { id: string; body: string };

@@ -7,8 +7,8 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
-    "prettier",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:prettier/recommended" // Always put prettier last
   ],
   "env": {
     "browser": true,
@@ -28,13 +28,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
-        "peerDependencies": true
-      }
-    ],
     "import/extensions": "off",
     "simple-import-sort/imports": [
       "error",
@@ -42,7 +35,6 @@
         "groups": [
           ["^react$"],
           ["^(ui|common|database|database/generated/prisma-client)$"],
-          ["~/(.*)"],
           ["^[./]"]
         ]
       }
