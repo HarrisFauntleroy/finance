@@ -6,9 +6,17 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["db:generate"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "dependsOn": ["^build", "db:generate"],
+      "env": ["SOME_ENV_VAR"],
+      "outputs": ["dist/**"]
     },
+    "web#build": {
+      "dependsOn": ["^build", "db:generate"],
+      "env": ["SOME_OTHER_ENV_VAR"]
+    },
+    "outputs": [".next/**"],
+    "globalEnv": ["GITHUB_TOKEN"],
+    "globalDependencies": ["tsconfig.json"],
     "db:generate": {
       "cache": false
     },
