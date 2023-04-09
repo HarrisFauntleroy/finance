@@ -5,7 +5,8 @@
 const path = require('path');
 
 module.exports = {
-  reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
+  transpilePackages: ['database'],
+  reactStrictMode: true,
   swcMinify: true,
   images: {
     remotePatterns: [
@@ -16,7 +17,6 @@ module.exports = {
     ],
   },
   experimental: {
-    // Required:
     appDir: true,
     esmExternals: 'loose',
   },
@@ -31,6 +31,16 @@ module.exports = {
         )}'`,
       },
     });
+    // config.module.rules.push({
+    //   test: /zod\/index\.ts$/,
+    //   loader: 'ts-loader',
+    //   options: {
+    //     search: 'config.dirname = dirname',
+    //     replace: `config.dirname = '${path.dirname(
+    //       require.resolve('database/generated/zod'),
+    //     )}'`,
+    //   },
+    // });
     return config;
   },
 };

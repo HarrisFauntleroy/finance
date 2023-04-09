@@ -1,23 +1,22 @@
 import { logger } from 'common';
-import { Asset } from 'database/generated/prisma-client';
 
 import { trpc } from '~/utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { Asset } from 'database/generated/zod';
+import { SubmitHandler } from 'react-hook-form';
 
 export function useAssetActions(userId: string | undefined): {
-  handleValidSubmit: (data: Asset) => Error | Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleValidSubmit: SubmitHandler<any>;
 } {
   const toast = useToast();
   const queryClient = useQueryClient();
   const createAsset = trpc.assets.create.useMutation();
   const updateAsset = trpc.assets.update.useMutation();
 
-  const handleValidSubmit: (data: Asset) => Error | Promise<void> = (
-    data: Asset,
-  ) => {
-    console.log(data);
+  const handleValidSubmit: SubmitHandler<Asset> = (data) => {
     if (userId) {
       if (data?.id) {
         return updateAsset

@@ -19,7 +19,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  Column,
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -38,11 +37,11 @@ import {
 } from '@tanstack/react-table';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 
-interface EditableTableProps<T extends { id: string }> {
+interface EditableTableProps<T extends FieldValues> {
   id: string;
-  columns: ColumnDef<T>[] | Column<T>[];
+  columns: ColumnDef<T, unknown>[];
   data: T[];
-  onValidSubmit?: SubmitHandler<FieldValues>;
+  onValidSubmit: SubmitHandler<FieldValues>;
   pageSize?: number;
   paginationEnabled?: boolean;
   filterEnabled?: boolean;
@@ -50,7 +49,7 @@ interface EditableTableProps<T extends { id: string }> {
   canExpandRows?: boolean;
 }
 
-export const Table = <T extends { id: string }>({
+export const Table = <T extends FieldValues>({
   columns,
   data,
   pageSize,
@@ -126,14 +125,7 @@ export const Table = <T extends { id: string }>({
                 key={row.id}
                 row={row}
                 renderSubRow={renderExpandedRow}
-                onValidSubmit={(submitData) => {
-                  if (onValidSubmit) return onValidSubmit(submitData);
-                  else
-                    console.log(
-                      'No onValidSubmit handler provided',
-                      submitData,
-                    );
-                }}
+                onValidSubmit={onValidSubmit}
               />
             ))}
           </Tbody>

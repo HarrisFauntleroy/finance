@@ -1,18 +1,17 @@
 import { logger } from 'common';
-import {
-  AccountConnection,
-  type Asset,
-} from 'database/generated/prisma-client';
+import { AccountConnection } from 'database/generated/prisma-client';
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
 
 import { CopyContent } from './CopyContent';
 
-import { useToast } from '@chakra-ui/react';
+import { Text, useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { createColumnHelper } from '@tanstack/table-core';
+import { ColumnDef } from '@tanstack/table-core';
+import { Asset } from 'database/generated/zod';
 import { useSession } from 'next-auth/react';
+import { SubmitHandler } from 'react-hook-form';
 
 export function AssetTable() {
   const toast = useToast();
@@ -27,7 +26,11 @@ export function AssetTable() {
   const createAsset = trpc.assets.create.useMutation();
   const updateAsset = trpc.assets.update.useMutation();
 
-  const handleValidSubmit = (submitData: Asset) => {
+  console.log(userId);
+  console.log(data);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleValidSubmit: SubmitHandler<any> = (submitData) => {
     if (userId) {
       if (submitData?.id) {
         return updateAsset
@@ -55,105 +58,223 @@ export function AssetTable() {
     return new Error('No userId provided');
   };
 
-  const columnHelper = createColumnHelper<Asset>();
-
-  const columns = [
-    columnHelper.accessor('id', {
+  const columns: ColumnDef<Asset>[] = [
+    {
       header: 'ID',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('name', {
+      accessorKey: 'id',
+      cell: ({
+        row: {
+          original: { id },
+        },
+      }) => <Text>{id}</Text>,
+    },
+    {
       header: 'Name',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('institution', {
+      accessorKey: 'name',
+      cell: ({
+        row: {
+          original: { name },
+        },
+      }) => <Text>{name}</Text>,
+    },
+    {
       header: 'Institution',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('currency', {
+      accessorKey: 'institution',
+      cell: ({
+        row: {
+          original: { institution },
+        },
+      }) => <Text>{institution || 'N/A'}</Text>,
+    },
+    {
       header: 'Currency',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('apiKey', {
+      accessorKey: 'currency',
+      cell: ({
+        row: {
+          original: { currency },
+        },
+      }) => <Text>{currency}</Text>,
+    },
+    {
       header: 'API Key',
-      cell: ({ getValue }) => <CopyContent content={getValue()} /> || 'N/A',
-    }),
-    columnHelper.accessor('apiSecret', {
+      accessorKey: 'apiKey',
+      cell: ({
+        row: {
+          original: { apiKey },
+        },
+      }) => <CopyContent content={apiKey} />,
+    },
+    {
       header: 'API Secret',
-      cell: ({ getValue }) => <CopyContent content={getValue()} /> || 'N/A',
-    }),
-    columnHelper.accessor('walletAddress', {
+      accessorKey: 'apiSecret',
+      cell: ({
+        row: {
+          original: { apiSecret },
+        },
+      }) => <CopyContent content={apiSecret} />,
+    },
+    {
       header: 'Wallet Address',
-      cell: ({ getValue }) => <CopyContent content={getValue()} /> || 'N/A',
-    }),
-    columnHelper.accessor('balance', {
+      accessorKey: 'walletAddress',
+      cell: ({
+        row: {
+          original: { walletAddress },
+        },
+      }) => <CopyContent content={walletAddress} />,
+    },
+    {
       header: 'Balance',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('costBasis', {
+      accessorKey: 'balance',
+      cell: ({
+        row: {
+          original: { balance },
+        },
+      }) => <Text>{balance}</Text>,
+    },
+    {
       header: 'Cost Basis',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('realisedGain', {
+      accessorKey: 'costBasis',
+      cell: ({
+        row: {
+          original: { costBasis },
+        },
+      }) => <Text>{costBasis}</Text>,
+    },
+    {
       header: 'Realised Gains',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('targetBalance', {
+      accessorKey: 'realisedGain',
+      cell: ({
+        row: {
+          original: { realisedGain },
+        },
+      }) => <Text>{realisedGain}</Text>,
+    },
+    {
       header: 'Target Balance',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('interestBearingBalance', {
+      accessorKey: 'targetBalance',
+      cell: ({
+        row: {
+          original: { targetBalance },
+        },
+      }) => <Text>{targetBalance || 'N/A'}</Text>,
+    },
+    {
       header: 'Interest Bearing Balance',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('incomeRate', {
+      accessorKey: 'interestBearingBalance',
+      cell: ({
+        row: {
+          original: { interestBearingBalance },
+        },
+      }) => <Text>{interestBearingBalance || 'N/A'}</Text>,
+    },
+    {
       header: 'Income Rate',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('createdAt', {
+      accessorKey: 'incomeRate',
+      cell: ({
+        row: {
+          original: { incomeRate },
+        },
+      }) => <Text>{incomeRate || 'N/A'}</Text>,
+    },
+    {
       header: 'Created At',
-      cell: ({ getValue }) => getValue().toLocaleDateString(),
-    }),
-    columnHelper.accessor('updatedAt', {
+      accessorKey: 'createdAt',
+      cell: ({
+        row: {
+          original: { createdAt },
+        },
+      }) => <Text>{createdAt.toLocaleDateString()}</Text>,
+    },
+    {
       header: 'Updated At',
-      cell: ({ getValue }) => getValue().toLocaleDateString(),
-    }),
-    columnHelper.accessor('deleted', {
+      accessorKey: 'updatedAt',
+      cell: ({
+        row: {
+          original: { updatedAt },
+        },
+      }) => <Text>{updatedAt.toLocaleDateString()}</Text>,
+    },
+    {
       header: 'Deleted',
-      cell: ({ getValue }) => (getValue() ? 'Yes' : 'No'),
-    }),
-    columnHelper.accessor('deletedAt', {
+      accessorKey: 'deleted',
+      cell: ({
+        row: {
+          original: { deleted },
+        },
+      }) => <Text>{deleted ? 'Yes' : 'No'}</Text>,
+    },
+    {
       header: 'Deleted At',
-      cell: ({ getValue }) => getValue()?.toLocaleDateString() || 'N/A',
-    }),
-    columnHelper.accessor('account', {
+      accessorKey: 'deletedAt',
+      cell: ({
+        row: {
+          original: { deletedAt },
+        },
+      }) => <Text>{deletedAt?.toLocaleDateString() || 'N/A'}</Text>,
+    },
+    {
       header: 'Account Connection',
-      cell: ({ getValue }) => getValue() || AccountConnection.NONE,
-    }),
-    columnHelper.accessor('category', {
+      accessorKey: 'account',
+      cell: ({
+        row: {
+          original: { account },
+        },
+      }) => <Text>{account || AccountConnection.NONE}</Text>,
+    },
+    {
       header: 'Category',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('categoryId', {
+      accessorKey: 'category',
+      cell: ({
+        row: {
+          original: { category },
+        },
+      }) => <Text>{category || 'N/A'}</Text>,
+    },
+    {
       header: 'Category ID',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('marketId', {
+      accessorKey: 'categoryId',
+      cell: ({
+        row: {
+          original: { categoryId },
+        },
+      }) => <Text>{categoryId || 'N/A'}</Text>,
+    },
+    {
       header: 'Market ID',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('parentId', {
+      accessorKey: 'marketId',
+      cell: ({
+        row: {
+          original: { marketId },
+        },
+      }) => <Text>{marketId || 'N/A'}</Text>,
+    },
+    {
       header: 'Parent ID',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
-    columnHelper.accessor('userId', {
+      accessorKey: 'parentId',
+      cell: ({
+        row: {
+          original: { parentId },
+        },
+      }) => <Text>{parentId || 'N/A'}</Text>,
+    },
+    {
       header: 'User ID',
-      cell: ({ getValue }) => getValue(),
-    }),
-    columnHelper.accessor('status', {
+      accessorKey: 'userId',
+      cell: ({
+        row: {
+          original: { userId },
+        },
+      }) => <Text>{userId}</Text>,
+    },
+    {
       header: 'Status',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    }),
+      accessorKey: 'status',
+      cell: ({
+        row: {
+          original: { status },
+        },
+      }) => <Text>{status || 'N/A'}</Text>,
+    },
   ];
 
   return (

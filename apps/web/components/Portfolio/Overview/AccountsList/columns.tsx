@@ -6,8 +6,6 @@ import {
   Market,
 } from 'database/generated/prisma-client';
 
-import Currency from '~/components/Currency';
-
 import {
   Avatar,
   AvatarGroup,
@@ -19,10 +17,8 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/table-core';
-import currency from 'currency.js';
 import { formatDuration, intervalToDuration } from 'date-fns';
 import Link from 'next/link';
-import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
 const renderCategoryBadge = (category: Category | null) => {
@@ -109,7 +105,7 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
     cell: ({
       row: {
         getToggleExpandedHandler,
-        original: { name, market, subAssets },
+        original: { name, market },
       },
     }) => {
       return (
@@ -127,14 +123,6 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
               title={market?.name || ''}
               src={market?.image || ''}
             />
-            {subAssets?.map(({ id, market: childMarket }) => (
-              <Avatar
-                key={id}
-                name={childMarket?.name || ''}
-                title={childMarket?.name || ''}
-                src={childMarket?.image || ''}
-              />
-            ))}
           </AvatarGroup>
           <Link
             href={{
@@ -181,21 +169,21 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
     accessorKey: 'balance',
     cell: ({
       row: {
-        original: { saleableValue, value, price, market, balance, category },
+        original: { balance, category },
       },
     }) => {
       return (
         <Tooltip
-          label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
-            price,
-          ).format()}`}
+        //   label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
+        //     price,
+        //   ).format()}`}
         >
           <Stack textAlign="right" gap="8px">
             {category === Category.CRYPTOCURRENCY && (
               <FormattedNumber value={Number(balance)} />
             )}
             <Flex gap={1} justify="right">
-              <MdCompareArrows /> <Currency value={saleableValue || value} />
+              {/* <MdCompareArrows /> <Currency value={saleableValue || value} /> */}
             </Flex>
           </Stack>
         </Tooltip>
@@ -205,20 +193,16 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
   {
     header: 'Calculated Value',
     accessorKey: 'balance',
-    cell: ({
-      row: {
-        original: { saleableValue, price, market },
-      },
-    }) => {
+    cell: () => {
       return (
         <Tooltip
-          label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
-            price,
-          ).format()}`}
+        // label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
+        //   price,
+        // ).format()}`}
         >
           <Stack textAlign="right" gap="8px">
             <Flex gap={1} justify="right">
-              <MdCompareArrows /> <Currency value={saleableValue} />
+              {/* <MdCompareArrows /> <Currency value={saleableValue} /> */}
             </Flex>
           </Stack>
         </Tooltip>

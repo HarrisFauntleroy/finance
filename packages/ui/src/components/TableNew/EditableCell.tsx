@@ -3,21 +3,21 @@ import { flexRender } from '@tanstack/react-table';
 import { Cell } from '@tanstack/table-core';
 import { useFormContext } from 'react-hook-form';
 
-interface EditableCellProps<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cell: Cell<T, any>;
+interface EditableCellProps<TData, TColumnValue> {
+  cell: Cell<TData, TColumnValue>;
   editing: boolean;
 }
 
-export function EditableCell<T>({ cell, editing }: EditableCellProps<T>) {
+export function EditableCell<TData, TColumnValue>({
+  cell,
+  editing,
+}: EditableCellProps<TData, TColumnValue>) {
   const { register } = useFormContext();
 
   return editing ? (
     <Input
       defaultValue={String(
-        (cell.row.original as Record<string, unknown>)[
-          cell.column.id as string
-        ],
+        (cell.row.original as TData)[cell.column.id as keyof TData],
       )}
       readOnly={!editing}
       {...register(cell.column.id)}

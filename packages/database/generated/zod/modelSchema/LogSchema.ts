@@ -1,6 +1,5 @@
-import { LogTypeSchema } from '../inputTypeSchemas/LogTypeSchema';
-
 import { z } from 'zod';
+import { LogTypeSchema } from '../inputTypeSchemas/LogTypeSchema';
 
 /////////////////////////////////////////
 // LOG SCHEMA

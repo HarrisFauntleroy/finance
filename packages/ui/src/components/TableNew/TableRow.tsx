@@ -5,20 +5,20 @@ import { EditableCell } from './EditableCell';
 import { Button, ButtonGroup, Td, Tr } from '@chakra-ui/react';
 import { Row } from '@tanstack/table-core';
 import {
-  FieldValues,
+  type FieldValues,
   FormProvider,
   SubmitHandler,
   useForm,
 } from 'react-hook-form';
 import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
 
-interface TableRowProps<T> {
+interface TableRowProps<T extends FieldValues> {
   row: Row<T>;
   renderSubRow?: ({ row }: { row: Row<T> }) => ReactNode;
-  onValidSubmit: SubmitHandler<FieldValues>;
+  onValidSubmit?: SubmitHandler<FieldValues>;
 }
 
-export function TableRow<T>({
+export function TableRow<T extends FieldValues>({
   row,
   renderSubRow,
   onValidSubmit,
@@ -27,8 +27,10 @@ export function TableRow<T>({
   const methods = useForm();
 
   const handleSave = useCallback(() => {
-    onValidSubmit(methods.getValues());
-    setEditingId(null);
+    if (onValidSubmit) {
+      onValidSubmit(methods.getValues());
+      setEditingId(null);
+    }
   }, [onValidSubmit]);
 
   const handleCancel = () => {
@@ -66,7 +68,6 @@ export function TableRow<T>({
       </Tr>
       {renderSubRow && row.getIsExpanded() && (
         <Tr>
-          {/* 2nd row is a custom 1 cell row */}
           <Td colSpan={row.getVisibleCells().length}>
             {renderSubRow({ row })}
           </Td>

@@ -1,10 +1,12 @@
+import { AssetWithCalculatedValues } from 'common';
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
 
-import { columns } from './columns';
+// import { columns } from './columns';
 import { useAssetActions } from './hooks';
 
+import { ColumnDef } from '@tanstack/table-core';
 import { useSession } from 'next-auth/react';
 
 export function AssetTable() {
@@ -16,6 +18,20 @@ export function AssetTable() {
   });
 
   const { handleValidSubmit } = useAssetActions(userId);
+
+  const columns: ColumnDef<AssetWithCalculatedValues>[] = [
+    {
+      header: 'ID',
+      accessorKey: 'id',
+      cell: ({
+        row: {
+          original: { id },
+        },
+      }) => {
+        return id;
+      },
+    },
+  ];
 
   return (
     <Table

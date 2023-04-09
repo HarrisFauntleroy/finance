@@ -29,7 +29,6 @@ import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { type SubmitHandler } from 'react-hook-form';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
@@ -491,7 +490,7 @@ export const AccountsList = () => {
   const updateAsset = trpc.assets.update.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onValidSubmit: SubmitHandler<any> = (submitData) => {
+  const onValidSubmit = (submitData: any) => {
     if (userId) {
       if (submitData?.id) {
         return updateAsset.mutateAsync(submitData).then((asset) => {

@@ -1,10 +1,11 @@
-import { AccountConnection, Asset } from 'database/generated/prisma-client';
+import { AccountConnection } from 'database/generated/prisma-client';
 
+import { AssetWithCalculatedValues } from '~/../../packages/common/dist';
 import { CopyContent } from '~/components/test/CopyContent';
 
 import { createColumnHelper } from '@tanstack/table-core';
 
-const columnHelper = createColumnHelper<Asset>();
+const columnHelper = createColumnHelper<AssetWithCalculatedValues>();
 
 export const columns = [
   columnHelper.accessor('id', {
