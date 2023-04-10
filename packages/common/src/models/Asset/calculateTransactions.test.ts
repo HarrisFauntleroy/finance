@@ -1,12 +1,11 @@
 import { AssetTransaction } from 'database/generated/prisma-client';
 
-import { AssetTransactionBuilder } from './AssetTransactionBuilder';
 import { calculateTransactions } from './calculateTransactions';
 
 describe('calculateTransactions', () => {
   it('should calculate the correct totalValue, totalFees, averagePrice and totalQuantity', () => {
     const transactions: AssetTransaction[] = [
-      new AssetTransactionBuilder({
+      {
         id: '1',
         timestamp: new Date(),
         pricePerUnit: '1.50',
@@ -30,8 +29,8 @@ describe('calculateTransactions', () => {
         updatedAt: new Date(),
         deleted: false,
         deletedAt: null,
-      }),
-      new AssetTransactionBuilder({
+      },
+      {
         id: '2',
         timestamp: new Date(),
         pricePerUnit: '2.00',
@@ -55,7 +54,7 @@ describe('calculateTransactions', () => {
         updatedAt: new Date(),
         deleted: false,
         deletedAt: null,
-      }),
+      },
     ];
 
     const result = calculateTransactions(transactions);
@@ -78,7 +77,7 @@ describe('calculateTransactions', () => {
   // Edge case 2: Test with a single transaction with quantityFilled and pricePerUnit as 0
   it('should handle a single transaction with quantityFilled and pricePerUnit as 0', () => {
     const transactions: AssetTransaction[] = [
-      new AssetTransactionBuilder({
+      {
         id: '1',
         timestamp: new Date(),
         pricePerUnit: '0',
@@ -102,7 +101,7 @@ describe('calculateTransactions', () => {
         updatedAt: new Date(),
         deleted: false,
         deletedAt: null,
-      }),
+      },
     ];
 
     const result = calculateTransactions(transactions);
@@ -116,7 +115,7 @@ describe('calculateTransactions', () => {
   // Edge case 3: Test with a single transaction with quantityFilled and pricePerUnit as null
   it('should handle a single transaction with quantityFilled and pricePerUnit as null', () => {
     const transactions: AssetTransaction[] = [
-      new AssetTransactionBuilder({
+      {
         id: '1',
         timestamp: new Date(),
         pricePerUnit: null,
@@ -140,7 +139,7 @@ describe('calculateTransactions', () => {
         updatedAt: new Date(),
         deleted: false,
         deletedAt: null,
-      }),
+      },
     ];
 
     const result = calculateTransactions(transactions);
@@ -154,7 +153,7 @@ describe('calculateTransactions', () => {
   // Edge case 4: Test with a single transaction with fee as null
   it('should handle a single transaction with fee as null', () => {
     const transactions: AssetTransaction[] = [
-      new AssetTransactionBuilder({
+      {
         id: '1',
         timestamp: new Date(),
         pricePerUnit: '1.50',
@@ -178,7 +177,7 @@ describe('calculateTransactions', () => {
         updatedAt: new Date(),
         deleted: false,
         deletedAt: null,
-      }),
+      },
     ];
 
     const result = calculateTransactions(transactions);

@@ -29,13 +29,15 @@ const endpoint = {
   jwt: 'https://api.swyftx.com.au/auth/refresh/',
 };
 
+const applicationJson = 'application/json';
+
 const refreshSwyftxToken = async (apiKey: string) => {
   try {
     const data = `apiKey=${apiKey}`;
     const response = await axios.post(endpoint.jwt, data, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept-Encoding': 'application/json',
+        'Accept-Encoding': applicationJson,
       },
     });
     return response.data;
@@ -50,8 +52,8 @@ const fetchFromSwyftx = async (url: string, accessToken: string) => {
   try {
     const response = await axios.get(endpoint.base + url, {
       headers: {
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'application/json',
+        'Content-Type': applicationJson,
+        'Accept-Encoding': applicationJson,
         Authorization: `Bearer ${accessToken}`,
       },
       data: body,

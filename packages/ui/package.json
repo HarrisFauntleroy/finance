@@ -13,7 +13,7 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "concurrently \"yarn build --watch\"",
     "lint": "yarn eslint .",
-    "lint:fix": "yarn esw . --watch --fix",
+    "lint:fix": "yarn esw . --watch --fix --changed --clear",
     "preview": "vite preview",
     "start": "NODE_ENV=production node dist/index.js",
     "storybook": "storybook dev -p 6006",

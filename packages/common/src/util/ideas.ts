@@ -106,9 +106,7 @@ export function inflationCalculator(
   finalYear: number,
 ): number {
   // This function calculates the inflation rate given the initial value, final value, initial year and final year.
-  const inflationRate =
-    (finalValue / initialValue) ** (1 / (finalYear - initialYear)) - 1;
-  return inflationRate;
+  return (finalValue / initialValue) ** (1 / (finalYear - initialYear)) - 1;
 }
 
 export function breakEvenPoint(

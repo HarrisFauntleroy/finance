@@ -14,7 +14,7 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "next dev -p 3000",
     "lint": "yarn eslint .",
-    "lint:fix": "yarn esw . --watch --fix",
+    "lint:fix": "yarn esw . --watch --fix --changed --clear",
     "reset-db": "docker-compose down --volumes --remove-orphans",
     "start": "next start",
     "swagger": "next-swagger-doc-cli next-swagger-doc.json",

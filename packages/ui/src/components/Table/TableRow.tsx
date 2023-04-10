@@ -29,7 +29,7 @@ export function TableRow<T>({
   const handleSave = useCallback(() => {
     onValidSubmit(methods.getValues());
     setEditingId(null);
-  }, [onValidSubmit]);
+  }, [methods, onValidSubmit]);
 
   const handleCancel = () => {
     setEditingId(null);
