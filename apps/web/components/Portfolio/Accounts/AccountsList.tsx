@@ -3,8 +3,8 @@ import {
   AssetStatus,
   AssetTransaction,
   Category,
-  Market,
 } from 'database/generated/prisma-client';
+import { Market } from 'database/generated/zod';
 import { Table } from 'ui';
 
 import type { RouterOutput } from '~/utils/trpc';
@@ -23,18 +23,17 @@ import {
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { ColumnDef } from '@tanstack/react-table';
+import { AssetWithCalculatedValues } from 'common';
 import Currency from 'components/Currency';
 import currency from 'currency.js';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
-type ColumnInput = RouterOutput['assets']['byUserId'];
-
-const assetsColumns: ColumnDef<ColumnInput[0]>[] = [
+const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
   {
     header: 'Display Name',
     accessorKey: 'name',
@@ -59,12 +58,12 @@ const assetsColumns: ColumnDef<ColumnInput[0]>[] = [
               title={market?.name || ''}
               src={market?.image || ''}
             />
-            {subAssets?.map(({ id, market: childMarket }) => (
+            {subAssets?.map((subAsset) => (
               <Avatar
-                key={id}
-                name={childMarket?.name || ''}
-                title={childMarket?.name || ''}
-                src={childMarket?.image || ''}
+                key={subAsset?.id}
+                name={subAsset?.market?.name || ''}
+                title={subAsset?.market?.name || ''}
+                src={subAsset?.market?.image || ''}
               />
             ))}
           </AvatarGroup>
@@ -290,11 +289,7 @@ const assetsColumns: ColumnDef<ColumnInput[0]>[] = [
 
 const subAssetsColumns: ColumnDef<
   Asset & {
-    user: {
-      settings: {
-        userCurrency: string;
-      } | null;
-    };
+    user: { settings: { userCurrency: string } | null };
     market: Market | null;
     transactions: AssetTransaction[];
   }
