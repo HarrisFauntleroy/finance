@@ -20,7 +20,7 @@
     "dev": "concurrently \"yarn build --watch\" \"yarn prisma studio\" \"yarn prisma generate --watch\"",
     "generate": "prisma generate",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
-    "lint": "yarn esw . --watch",
+    "lint": "yarn eslint .",
     "lint:fix": "yarn esw . --watch --fix",
     "prepare": "yarn build",
     "start": "NODE_ENV=production node dist/index.js",

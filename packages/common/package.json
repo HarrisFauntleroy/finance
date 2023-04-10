@@ -12,7 +12,7 @@
     "build": "tsup",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
-    "lint": "yarn esw . --watch",
+    "lint": "yarn eslint .",
     "lint:fix": "yarn esw . --watch --fix",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
