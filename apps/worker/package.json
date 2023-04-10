@@ -34,7 +34,7 @@
     "@harmony-js/core": "^0.1.57",
     "@harmony-js/utils": "^0.1.56",
     "ansi-colors": "^4.1.3",
-    "axios": "1.2.6",
+    "axios": "1.3.5",
     "body-parser": "^1.20.1",
     "bullmq": "^3.4.1",
     "cli-progress": "^3.11.2",
