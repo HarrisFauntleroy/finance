@@ -3,7 +3,6 @@ import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
 
-// import { columns } from './columns';
 import { useAssetActions } from './hooks';
 
 import { ColumnDef } from '@tanstack/table-core';
