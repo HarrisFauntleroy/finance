@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Stack } from '@chakra-ui/react';
 import { AccountBreakdown } from 'components/Portfolio/AccountBreakdown';
 import { AccountsList } from 'components/Portfolio/Accounts/AccountsList';
