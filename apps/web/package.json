@@ -13,7 +13,7 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "next dev -p 3000",
-    "lint": "yarn esw . --watch",
+    "lint": "yarn eslint .",
     "lint:fix": "yarn esw . --watch --fix",
     "reset-db": "docker-compose down --volumes --remove-orphans",
     "start": "next start",
