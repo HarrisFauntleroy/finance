@@ -92,7 +92,7 @@
     "react-i18next": "^12.0.0",
     "react-icons": "4.6.0",
     "react-intl": "6.2.6",
-    "react-query": "3.39.3",
+    "@tanstack/react-query": "4.0.5",
     "react-spring": "9.7.1",
     "superjson": "1.9.1",
     "swagger-ui-react": "4.15.5",
