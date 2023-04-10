@@ -18,7 +18,7 @@ jobs:
         run: yarn install
 
       - name: Run ESLint
-        run: yarn lint --ignore-path .gitignore --quiet --output-file eslint-report.json --format json
+        run: yarn lint --quiet --output-file eslint-report.json --format json
 
       - name: Run reviewdog
         uses: reviewdog/action-eslint@v1
