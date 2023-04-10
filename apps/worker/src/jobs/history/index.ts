@@ -30,7 +30,6 @@ export const history = async () => {
             currency: totals.userCurrency,
             costBasis: totals.totalCostBasis,
             totalValue: totals.totalValue,
-            // TODO - Fix this
             realisedGain: '0',
             saleableValue: totals.saleableValue,
             unrealisedGain: totals.unrealisedGain,
@@ -54,6 +53,7 @@ export const history = async () => {
         /** Return the thrown error */
         results.push({ status: 'Failed' });
       }
+      return results;
     }),
   );
 

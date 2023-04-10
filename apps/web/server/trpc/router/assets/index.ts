@@ -206,7 +206,6 @@ export const assetRouter = router({
       }),
     )
     .query(async ({ input: { userId } }) => {
-      // TODO would be nice if current total value and cost basis were in this as most recent data point
       const data = await prisma.user.findUnique({
         where: {
           id: userId,

@@ -21,7 +21,7 @@ import {
 import type { FormInputs } from 'components/Form/TextInput';
 import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
-import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 
 export type BudgetFormInputs = {
   id?: string;
@@ -35,9 +35,7 @@ type FormProps = {
 };
 
 export const BudgetForm = ({ defaultValues }: FormProps) => {
-  // const toast = useToast();
   const session = useSession();
-  // const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const userId = session?.data?.userId;
@@ -54,26 +52,6 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
   useEffect(() => reset(defaultValues), [defaultValues, reset]);
 
   const onValidSubmit: SubmitHandler<BudgetFormInputs> = (_data) => {
-    // if (userId) {
-    //   if (defaultValues?.id) {
-    //     return updateBudget.mutateAsync(data).then(({ name }) => {
-    //       queryClient.invalidateQueries();
-    //       onClose();
-    //       toast({
-    //         title: `Successfully updated budget ${name}`,
-    //         status: 'success',
-    //       });
-    //     });
-    //   }
-    //   return createBudget.mutateAsync(data).then(({ name }) => {
-    //     queryClient.invalidateQueries();
-    //     onClose();
-    //     toast({
-    //       title: `Successfully created budget ${name}`,
-    //       status: 'success',
-    //     });
-    //   });
-    // }
     return new Error('No userId provided');
   };
 

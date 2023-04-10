@@ -1,9 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-node_modules
-/.pnp
-.pnp.js
+# Yarn
+.pnp.*
+.yarn*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+/node_modules
 
 # testing
 /coverage
@@ -33,3 +38,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# trunk
+.trunk
+
+# turborepo
+.turbo

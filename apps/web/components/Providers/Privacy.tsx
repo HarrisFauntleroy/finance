@@ -4,7 +4,7 @@
  * Adds global context for showing and hiding monetary values
  *
  */
-import React, { type PropsWithChildren } from 'react';
+import React, { useCallback, useMemo, type PropsWithChildren } from 'react';
 
 import { useLocalStorage } from 'ui';
 
@@ -24,11 +24,17 @@ export const PrivacyContext =
 export function PrivacyProvider<T>({ children }: PropsWithChildren<T>) {
   const [privacy, setPrivacy] = useLocalStorage('privacy', false);
 
-  const togglePrivacy = () => setPrivacy((prevValue) => !prevValue);
+  const togglePrivacy = useCallback(
+    () => setPrivacy((prevValue) => !prevValue),
+    [setPrivacy],
+  );
+
+  const stuff = useMemo(
+    () => ({ privacy, togglePrivacy }),
+    [privacy, togglePrivacy],
+  );
 
   return (
-    <PrivacyContext.Provider value={{ privacy, togglePrivacy }}>
-      {children}
-    </PrivacyContext.Provider>
+    <PrivacyContext.Provider value={stuff}>{children}</PrivacyContext.Provider>
   );
 }

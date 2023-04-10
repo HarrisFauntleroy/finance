@@ -73,25 +73,9 @@ export async function updateEthereumBalances() {
 
         logger.info(`Updating ${account.id} with balance ${balance}`);
 
-        // const transactions = await getTransactionHistory(
-        // 	account.walletAddress as string
-        // )
-
-        // const tokenAddresses = Object.values(tokens).map((token) => token.address)
-
-        // for (let tokenAddress of tokenAddresses) {
-        // 	const contract = new web3.eth.Contract(AbiIte, tokenAddress)
-        // 	const tokenBalance = await contract.methods
-        // 		.balanceOf(account.walletAddress)
-        // 		.call()
-        // 	logger.info(tokenBalance)
-        // }
-
-        // Update the account in the database with the new balance and transactions
         await prisma.asset.update({
           data: {
             balance,
-            // transactions,
           },
           where: {
             id: account.id,
