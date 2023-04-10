@@ -107,6 +107,7 @@
     "@types/jest": "^29.5.0",
     "@types/node": "^18.11.6",
     "@types/nodemailer": "6.4.7",
+    "@types/papaparse": "^5.3.7",
     "@types/react": "18.0.33",
     "@types/react-dom": "^18.0.11",
     "@types/swagger-ui-react": "4.11.0",

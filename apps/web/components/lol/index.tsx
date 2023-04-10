@@ -1,5 +1,5 @@
 import { logger } from 'common';
-import { AccountConnection } from 'database/generated/prisma-client';
+import { AccountConnection, Asset } from 'database/generated/prisma-client';
 import { Table } from 'ui';
 
 import { trpc } from '~/utils/trpc';
@@ -9,7 +9,6 @@ import { CopyContent } from './CopyContent';
 import { Text, useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/table-core';
-import { Asset } from 'database/generated/zod';
 import { useSession } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 

@@ -3,8 +3,8 @@ import {
   AssetStatus,
   AssetTransaction,
   Category,
+  Market,
 } from 'database/generated/prisma-client';
-import { Market } from 'database/generated/zod';
 import { Table } from 'ui';
 
 import type { RouterOutput } from '~/utils/trpc';

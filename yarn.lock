@@ -7403,6 +7403,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5.3.7":
+  version: 5.3.7
+  resolution: "@types/papaparse@npm:5.3.7"
+  dependencies:
+    "@types/node": "*"
+  checksum: 5ffa6fc81c0f41cd18c9c015599b3690f2a19ee553dec85e92c17bd1ef4a045e0ba4973d8bd49aed9f83fcba3b0ec280ebbe0a0def66701c0b4860c691444694
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -25736,6 +25745,7 @@ __metadata:
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
     "@types/nodemailer": 6.4.7
+    "@types/papaparse": ^5.3.7
     "@types/react": 18.0.33
     "@types/react-dom": ^18.0.11
     "@types/swagger-ui-react": 4.11.0

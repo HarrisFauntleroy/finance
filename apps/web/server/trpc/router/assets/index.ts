@@ -1,5 +1,5 @@
 import { calculateAssetValue, calculateAssetValueOverview } from 'common';
-import { prisma } from 'database';
+import { AssetSchema, prisma } from 'database';
 import { type Prisma } from 'database/generated/prisma-client';
 
 import { getExchangeRates, getUserCurrency } from '~/server/api';
@@ -13,7 +13,6 @@ import { getPortfolioAllocation } from './getPortfolioAllocation';
 import { updateAsset } from './update';
 
 import { TRPCError } from '@trpc/server';
-import { AssetSchema } from 'database/generated/zod';
 import { z } from 'zod';
 
 export const assetRouter = router({
@@ -114,9 +113,7 @@ export const assetRouter = router({
       }),
     )
     .query(async ({ input: { userId } }) => {
-      const assets = await getAssetsByUserId(userId);
-
-      return assets;
+      return await getAssetsByUserId(userId);
     }),
 
   byUserIdOld: publicProcedure
