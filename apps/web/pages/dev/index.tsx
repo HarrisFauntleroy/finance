@@ -3,7 +3,6 @@
  * Index page
  *
  */
-import React from 'react';
 
 import { Body, Page } from 'ui';
 

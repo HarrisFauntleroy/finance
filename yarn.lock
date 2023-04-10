@@ -7470,12 +7470,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.8":
-  version: 17.0.19
-  resolution: "@types/react-dom@npm:17.0.19"
+"@types/react-dom@npm:^18.0.11":
+  version: 18.0.11
+  resolution: "@types/react-dom@npm:18.0.11"
   dependencies:
-    "@types/react": ^17
-  checksum: 875a472d868b235435c905ded16cf92297bd2afb20a5a78f5dccd54312f6f038ccf452ea92bb41c0b39150c2f16f3ddff0265a2de756c6f63b0971dd5719578b
+    "@types/react": "*"
+  checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
   languageName: node
   linkType: hard
 
@@ -7491,7 +7491,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:16 || 17 || 18":
+"@types/react@npm:*, @types/react@npm:16 || 17 || 18, @types/react@npm:18.0.33":
   version: 18.0.33
   resolution: "@types/react@npm:18.0.33"
   dependencies:
@@ -7499,17 +7499,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 4fbd2b2b6a26378bdfde121081a6406ec2d39e4ba87ea5f6897ab7bb2198713165e6fd703ad4ed7ba1d4f23ef54a4c9f108f3105c7ed8e136411ee6bdebc5669
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^17, @types/react@npm:^17.0.13":
-  version: 17.0.56
-  resolution: "@types/react@npm:17.0.56"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: c9e156395c5b97407ae51886659c2ba16a8e62d4fad8ceb29293f76931b58de42a385a179b32da725e72cd04d74c2d60e54cd495c8815b4feee2e4da381b7e52
   languageName: node
   linkType: hard
 
@@ -10558,8 +10547,8 @@ __metadata:
     "@jest/types": 29.4.0
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
-    "@types/react": ^17.0.13
-    "@types/react-dom": ^17.0.8
+    "@types/react": 18.0.33
+    "@types/react-dom": ^18.0.11
     "@typescript-eslint/eslint-plugin": ^5.51.0
     "@typescript-eslint/parser": ^5.52.0
     currency.js: ^2.0.4
@@ -24558,8 +24547,8 @@ __metadata:
     "@tanstack/table-core": ^8.7.9
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
-    "@types/react": ^17.0.13
-    "@types/react-dom": ^17.0.8
+    "@types/react": 18.0.33
+    "@types/react-dom": ^18.0.11
     "@typescript-eslint/eslint-plugin": ^5.51.0
     "@typescript-eslint/parser": ^5.52.0
     autoprefixer: ^10.4.13
@@ -25747,8 +25736,8 @@ __metadata:
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
     "@types/nodemailer": 6.4.7
-    "@types/react": ^17.0.13
-    "@types/react-dom": ^17.0.8
+    "@types/react": 18.0.33
+    "@types/react-dom": ^18.0.11
     "@types/swagger-ui-react": 4.11.0
     "@types/uuid": 8.3.4
     "@types/ws": ^8.5.3

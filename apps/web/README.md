@@ -91,7 +91,7 @@ General
 - 🧪 End-to-end testing with [Playwright](https://playwright.dev/)
 - 🎨 [ESLint](https://eslint.org) + Prettier 💅
 - 🐶 Git hooks with [Husky](https://www.npmjs.com/package/husky)
-- 📜 Automatic API documentation [(Swagger)](https://swagger.io/solutions/api-documentation/)
+<!-- - 📜 Automatic API documentation [(Swagger)](https://swagger.io/solutions/api-documentation/) -->
 - 🔍 Clean Code Analysis with [SonarCloud](https://sonarcloud.io)
 
 ## Setup
@@ -143,7 +143,7 @@ https://github.com/prodrigestivill/docker-postgres-backup-local
 yarn build
 
 # Update Swagger.json
-yarn swagger
+# yarn swagger
 
 # Resets database on Docker
 yarn reset-db
