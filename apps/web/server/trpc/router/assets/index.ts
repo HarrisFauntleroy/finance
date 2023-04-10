@@ -1,51 +1,61 @@
 import { calculateAssetValue, calculateAssetValueOverview } from 'common';
-import { prisma } from 'database';
+import { AssetSchema, prisma } from 'database';
 import { type Prisma } from 'database/generated/prisma-client';
 
 import { getExchangeRates, getUserCurrency } from '~/server/api';
 
 import { publicProcedure, router } from '../../trpc';
-import { byId, byUserId } from '../schema';
-import { createAsset, createAssetInput } from './create';
+import { createAsset } from './create';
 import { deleteAsset } from './delete';
 import { getAssetById } from './getAssetById';
 import { getAssetsByUserId } from './getAssetsByUserId';
 import { getPortfolioAllocation } from './getPortfolioAllocation';
-import { updateAsset, updateAssetInput } from './update';
+import { updateAsset } from './update';
 
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 export const assetRouter = router({
-  create: publicProcedure
-    .input(createAssetInput)
-    .mutation(async ({ input }) => {
-      return await createAsset(input);
-    }),
-
-  update: publicProcedure
-    .input(updateAssetInput)
-    .mutation(async ({ input }) => {
-      return await updateAsset(input);
-    }),
-
-  delete: publicProcedure.input(byId).mutation(async ({ input: { id } }) => {
-    return await deleteAsset(id);
+  create: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
+    return await createAsset(input);
   }),
 
-  // Needed still?
+  update: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
+    return await updateAsset(input);
+  }),
+
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ input: { id } }) => {
+      return await deleteAsset(id);
+    }),
+
   createChild: publicProcedure
-    .input(createAssetInput.extend({ parentId: z.string() }))
+    .input(AssetSchema)
     .mutation(async ({ input }) => {
       return await createAsset(input);
     }),
 
-  byId: publicProcedure.input(byId).query(async ({ input: { id } }) => {
-    return getAssetById(id);
-  }),
+  byId: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(async ({ input: { id } }) => {
+      return getAssetById(id);
+    }),
 
   byUserId: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
       const exchangeRates = await getExchangeRates();
@@ -57,7 +67,11 @@ export const assetRouter = router({
     }),
 
   overviewAccountsListByUserId: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
       const exchangeRates = await getExchangeRates();
@@ -70,7 +84,11 @@ export const assetRouter = router({
     }),
 
   overviewByUserId: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
       const exchangeRates = await getExchangeRates();
@@ -95,13 +113,15 @@ export const assetRouter = router({
       }),
     )
     .query(async ({ input: { userId } }) => {
-      const assets = await getAssetsByUserId(userId);
-
-      return assets;
+      return await getAssetsByUserId(userId);
     }),
 
   byUserIdOld: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       const result = await prisma.user.findUnique({
         where: {
@@ -170,13 +190,21 @@ export const assetRouter = router({
     }),
 
   allocation: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       return getPortfolioAllocation(userId);
     }),
 
   historyByUserId: publicProcedure
-    .input(byUserId)
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
     .query(async ({ input: { userId } }) => {
       // TODO would be nice if current total value and cost basis were in this as most recent data point
       const data = await prisma.user.findUnique({

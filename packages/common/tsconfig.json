@@ -1,15 +1,30 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "declaration": true,
+    "target": "ES6",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "preserveWatchOutput": true,
+    "lib": ["ESNext"],
+    "allowJs": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "strict": true
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "incremental": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "declaration": true
   },
+  "include": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.config.js",
+    "**/*.d.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

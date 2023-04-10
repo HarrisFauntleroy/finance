@@ -1,27 +1,20 @@
-/**
- * Flattens an object by moving all keys from nested objects to the top level of the output object.
- * @param object The object to flatten.
- * @returns A flattened version of the input object.
- */
-
-// This version doesnt concatenate keys like a.b: 3 it will show b: 3
-export function flattenObject(obj: any): object {
-  return Object.keys(obj)
-    .flatMap((key) => {
-      const value = obj[key];
-      if (typeof value === 'object' && !Array.isArray(value)) {
-        return flattenObject(value);
-      } else {
-        return [{ [key]: value }];
-      }
-    })
-    .reduce((acc, cur) => Object.assign(acc, cur), {});
+export function flattenObject(obj: object | null): object {
+  if (obj)
+    return Object.keys(obj)
+      .flatMap((key) => {
+        const value = (obj as Record<string, unknown>)[key];
+        return typeof value === 'object' && !Array.isArray(value)
+          ? flattenObject(value)
+          : [{ [key]: value }];
+      })
+      .reduce((acc, cur) => Object.assign(acc, cur), {});
+  return {};
 }
 
-export function flattenObjectWithPrefix(obj: any): Record<string, unknown> {
+export function flattenObjectWithPrefix(obj: object): object {
   const result = new Map();
 
-  function flatten(obj: any, prefix = '') {
+  function flatten(obj: object, prefix = '') {
     for (const [key, value] of Object.entries(obj)) {
       if (typeof value === 'object') {
         flatten(value, `${prefix}${key}.`);
@@ -35,17 +28,16 @@ export function flattenObjectWithPrefix(obj: any): Record<string, unknown> {
   return Object.fromEntries(result);
 }
 
-// So you can already go arr -> obj with Object.from(arr) ? maybe
-// What does this do
-export const flattenArrToObj = (
-  arr: Record<string, any>[],
+export function flattenArrToObj<T extends Record<string, unknown>>(
+  arr: T[],
   key: string | number,
   value: string,
-) =>
-  arr.reduce(
+) {
+  return arr.reduce(
     (acc, val) => ({
       ...acc,
       [`${val[key]}`]: val[value],
     }),
     {},
   );
+}

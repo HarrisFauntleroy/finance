@@ -8,6 +8,13 @@ generator client {
   output   = "../generated/prisma-client"
 }
 
+generator zod {
+  provider         = "npx zod-prisma-types"
+  output           = "../generated/zod"
+  createInputTypes = false
+  useMultipleFiles = true
+}
+
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // USER
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

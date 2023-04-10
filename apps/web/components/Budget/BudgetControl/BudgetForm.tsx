@@ -1,7 +1,5 @@
 import { Fragment, useEffect } from 'react';
 
-import { logger } from 'common';
-
 import { trpc } from '~/utils/trpc';
 
 import { EditIcon } from '@chakra-ui/icons';
@@ -129,7 +127,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
                     disabled={createBudget.isLoading || updateBudget.isLoading}
                     colorScheme="green"
                     type="submit"
-                    onClick={handleSubmit(onValidSubmit, logger.error)}
+                    onClick={handleSubmit(onValidSubmit, console.error)}
                   >
                     {createBudget.isLoading || updateBudget.isLoading
                       ? 'LOADING...'

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Button, Flex, Stack } from '@chakra-ui/react';
 import { Step as ChakraStep, Steps, useSteps } from 'chakra-ui-steps';
 import type { ReactNode } from 'react';
@@ -7,8 +5,8 @@ import { FiCheckCircle } from 'react-icons/fi';
 
 export type Step = {
   label: string;
-  content: ReactNode | JSX.Element;
-  icon: ReactNode | JSX.Element;
+  content: ReactNode;
+  icon: ReactNode;
   description: string;
   key: string;
 };

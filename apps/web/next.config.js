@@ -5,7 +5,8 @@
 const path = require('path');
 
 module.exports = {
-  reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
+  transpilePackages: ['database', 'ui', 'common'],
+  reactStrictMode: true,
   swcMinify: true,
   images: {
     remotePatterns: [
@@ -16,7 +17,6 @@ module.exports = {
     ],
   },
   experimental: {
-    // Required:
     appDir: true,
     esmExternals: 'loose',
   },

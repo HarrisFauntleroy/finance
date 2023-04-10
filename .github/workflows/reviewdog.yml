@@ -1,0 +1,33 @@
+name: reviewdog
+on: [pull_request]
+
+jobs:
+  eslint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn lint --quiet --output-file eslint-report.json --format json
+
+      - name: Run reviewdog
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          eslint_flags: ''
+          level: error
+          filter_mode: file
+          fail_on_error: false
+          eslint_workdir: .
+          eslint_output: eslint-report.json

@@ -3,12 +3,19 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "import",
+    "sonarjs"
+  ],
   "extends": [
     "next",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
-    "prettier"
+    "plugin:sonarjs/recommended",
+    "plugin:prettier/recommended" // Always put prettier last
   ],
   "env": {
     "browser": true,
@@ -22,6 +29,7 @@
     }
   },
   "rules": {
+    "@next/next/no-html-link-for-pages": ["error", "pages"],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -37,7 +45,7 @@
     ],
     "import/extensions": "off",
     "simple-import-sort/imports": [
-      "error",
+      "off",
       {
         "groups": [
           ["^react$"],

@@ -11,23 +11,17 @@ export type AssetInput = Prisma.AssetGetPayload<{
 
 export class AssetBuilder {
   price: string;
-
   balance: string;
-
   value: string;
-
   costBasis: string;
-
   targetBalance: string;
-
   incomeRate: string;
-
   interestBearingBalance: string;
 
   constructor(input?: AssetInput) {
     this.price = input?.market?.price || '0';
     this.balance = input?.balance || '0';
-    this.value = multiply(this.price, this.balance);
+    this.value = this.calculateValue();
     this.costBasis = input?.costBasis || '0';
     this.targetBalance = input?.targetBalance || '0';
     this.incomeRate = input?.incomeRate || '0';
@@ -42,12 +36,16 @@ export class AssetBuilder {
     return String(value);
   }
 
+  calculateValue(): string {
+    return multiply(this.price, this.balance);
+  }
+
   get unrealizedGain(): string {
     return subtract(this.value, this.costBasis);
   }
 
   get averageCost() {
-    return multiply(this.costBasis, this.balance);
+    return divide(this.costBasis, this.balance);
   }
 
   get saleable() {
@@ -88,38 +86,3 @@ export class AssetBuilder {
     };
   }
 }
-
-// unrealisedGainPercentage: string
-// estimatedStakingYield: string
-// estimatedYearlyReturn: string
-// belowTargetBalance: boolean
-// unrealisedGain: string
-// saleableValue: string
-// amountStaked: string
-// averageCost: string
-// costBasis: string
-// shouldSell: boolean
-// subAssets?: AssetOmitCostBasisAndsubAssets[]
-
-// Delete ASAP just old reference
-/** The calculated output with additional values */
-// export interface CalculatedAsset extends Omit<PrismaAsset, "costBasis"> {
-// 	market: Market | null
-// 	/** subAssets are only calculated one level deep */
-// 	subAssets?: Omit<CalculatedAsset, "subAssets">[]
-// 	value: string
-// 	price: string
-// 	costBasis: string
-// 	saleable: string
-// 	saleableValue: string
-// 	unrealisedGain: string
-// 	averageCost: string
-// 	unrealisedGainPercentage: string
-// 	amountStaked: string
-// 	estimatedStakingYield: string
-// 	estimatedYearlyReturn: string
-// 	/** Is targetBalance higher or lower than saleable amount */
-// 	belowTargetBalance: boolean
-// 	/** Is average price lower than current price */
-// 	shouldSell: boolean
-// }

@@ -6,14 +6,14 @@ import SEO from '~/next-seo.config';
 import { trpc } from '../utils/trpc';
 import Auth from './auth';
 
-import Layout from 'components/Layout';
+import { Layout } from 'components/Layout';
 import { AppContext } from 'components/Providers';
 import type { Role } from 'database/generated/prisma-client';
 import { type NextPage } from 'next';
-import { type AppProps } from 'next/app';
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
+import { type AppProps } from 'next/app';
 
 export type WithAuth = {
   auth: boolean;

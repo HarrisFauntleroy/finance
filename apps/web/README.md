@@ -80,11 +80,18 @@ General
 - 🧙‍♂️ End to end type-safety with [tRPC](https://trpc.io)
 - 🔐 Validate environment variables at build time
 - 💡 VS Code Suggested extensions
+- 🗺️ Sitemap.xml and robots.txt with next-sitemap
+- 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
+- 🗂 VSCode configuration: Debug, Settings, Tasks and extension for PostCSS, ESLint, Prettier, TypeScript, Jest
+- 🎉 Storybook for UI development
+- 🦺 Unit Testing with Jest and React Testing Library
+  🧪 E2E Testing with Cypress
+  👷 Run tests on pull request with GitHub Actions
 - 💖 Continuous integration with GitHub actions
 - 🧪 End-to-end testing with [Playwright](https://playwright.dev/)
 - 🎨 [ESLint](https://eslint.org) + Prettier 💅
 - 🐶 Git hooks with [Husky](https://www.npmjs.com/package/husky)
-- 📜 Automatic API documentation [(Swagger)](https://swagger.io/solutions/api-documentation/)
+<!-- - 📜 Automatic API documentation [(Swagger)](https://swagger.io/solutions/api-documentation/) -->
 - 🔍 Clean Code Analysis with [SonarCloud](https://sonarcloud.io)
 
 ## Setup
@@ -136,7 +143,7 @@ https://github.com/prodrigestivill/docker-postgres-backup-local
 yarn build
 
 # Update Swagger.json
-yarn swagger
+# yarn swagger
 
 # Resets database on Docker
 yarn reset-db

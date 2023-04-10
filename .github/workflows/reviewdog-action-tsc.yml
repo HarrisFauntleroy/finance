@@ -1,2 +1,0 @@
-- name: Run tsc with reviewdog
-  uses: EPMatt/reviewdog-action-tsc@v1.3.0

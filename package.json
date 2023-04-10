@@ -22,14 +22,14 @@
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
     "dev": "turbo run dev --parallel",
-    "docker:network": "docker network create app_network",
     "docker:prune": "docker system prune --all",
+    "generate": "turbo run generate",
+    "fix": "turbo run fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "generate": "turbo db:push db:generate",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "test": "turbo run test --concurrency=1",
+    "test:ci": "turbo run test:ci",
     "test:watch": "turbo run test:watch"
   },
   "prettier": {
@@ -50,7 +50,7 @@
     "vueIndentScriptAndStyle": false
   },
   "devDependencies": {
-    "prettier": "2.8.4",
+    "prettier": "2.8.7",
     "turbo": "^1.7.4"
   },
   "packageManager": "yarn@3.5.0",

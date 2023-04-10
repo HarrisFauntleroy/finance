@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 import { EditableCell } from './EditableCell';
 
@@ -68,7 +68,7 @@ export function TableRow<T>({
         <Tr>
           {/* 2nd row is a custom 1 cell row */}
           <Td colSpan={row.getVisibleCells().length}>
-            {renderSubRow({ row })}
+            <>{renderSubRow({ row })}</>
           </Td>
         </Tr>
       )}

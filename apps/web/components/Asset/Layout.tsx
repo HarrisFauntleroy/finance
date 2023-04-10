@@ -1,8 +1,8 @@
-import React, { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import { Grid } from '@chakra-ui/react';
 
-export const Layout = ({ children }: PropsWithChildren) => {
+export function Layout<T>({ children }: PropsWithChildren<T>) {
   return (
     <Grid
       paddingY="8px"
@@ -32,4 +32,4 @@ export const Layout = ({ children }: PropsWithChildren) => {
       {children}
     </Grid>
   );
-};
+}

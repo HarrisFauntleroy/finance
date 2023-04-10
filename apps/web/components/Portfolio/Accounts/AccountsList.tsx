@@ -1,12 +1,410 @@
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from 'database/generated/prisma-client';
 import { Table } from 'ui';
 
-import { type RouterOutput, trpc } from '~/utils/trpc';
+import type { RouterOutput } from '~/utils/trpc';
+import { trpc } from '~/utils/trpc';
 
-import { useToast } from '@chakra-ui/react';
+import {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  Flex,
+  HStack,
+  Stack,
+  Text,
+  Tooltip,
+  useToast,
+} from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { portfolioOverviewColumns } from 'components/Portfolio/Accounts/columns';
+import type { ColumnDef } from '@tanstack/react-table';
+import { AssetWithCalculatedValues } from 'common';
+import Currency from 'components/Currency';
+import currency from 'currency.js';
+import formatDuration from 'date-fns/formatDuration';
+import intervalToDuration from 'date-fns/intervalToDuration';
 import { useSession } from 'next-auth/react';
-import { type SubmitHandler } from 'react-hook-form';
+import Link from 'next/link';
+import { MdCompareArrows } from 'react-icons/md';
+import { FormattedNumber } from 'react-intl';
+
+const statusColor = (status: AssetStatus | null) => {
+  switch (status) {
+    case AssetStatus.ACTIVE:
+      return (
+        <Badge colorScheme="green" variant="subtle">
+          {status}
+        </Badge>
+      );
+    case AssetStatus.CONNECTED:
+      return (
+        <Badge colorScheme="purple" variant="subtle">
+          {status}
+        </Badge>
+      );
+    case AssetStatus.ERROR:
+      return (
+        <Badge colorScheme="red" variant="subtle">
+          {status}
+        </Badge>
+      );
+    default:
+      return <Badge variant="subtle">{status || ''}</Badge>;
+  }
+};
+
+const renderBadge = (category: Category | null) => {
+  let props = {};
+  switch (category) {
+    case Category.CASH:
+      return (props = {
+        colorScheme: 'cyan',
+        ...props,
+      });
+    case Category.CREDIT:
+      return (props = {
+        colorScheme: 'blue',
+        ...props,
+      });
+    case Category.CRYPTOCURRENCY:
+      return (props = {
+        colorScheme: 'purple',
+        ...props,
+      });
+    case Category.CUSTOM:
+      return (props = {
+        colorScheme: 'orange',
+        ...props,
+      });
+    case Category.INVESTMENT:
+      return (props = {
+        colorScheme: 'green',
+        ...props,
+      });
+    case Category.SUPERANNUATION:
+      return (props = {
+        colorScheme: 'yellow',
+        ...props,
+      });
+    default:
+      break;
+  }
+};
+
+const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
+  {
+    header: 'Display Name',
+    accessorKey: 'name',
+    cell: ({
+      row: {
+        getToggleExpandedHandler,
+        original: { name, market, subAssets },
+      },
+    }) => {
+      return (
+        <HStack>
+          <AvatarGroup
+            max={1}
+            cursor="pointer"
+            {...{
+              onClick: getToggleExpandedHandler(),
+            }}
+          >
+            <Avatar
+              _hover={{ transform: 'scale(1.05)' }}
+              name={market?.name || ''}
+              title={market?.name || ''}
+              src={market?.image || ''}
+            />
+            {subAssets?.map((subAsset) => (
+              <Avatar
+                key={subAsset?.id}
+                name={subAsset?.market?.name || ''}
+                title={subAsset?.market?.name || ''}
+                src={subAsset?.market?.image || ''}
+              />
+            ))}
+          </AvatarGroup>
+          <Link
+            href={{
+              pathname: `/markets/crypto/${market?.name}`,
+              query: {
+                name: market?.name,
+                ticker: market?.ticker,
+              },
+            }}
+          >
+            <Text
+              maxW="128px"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+            >
+              {name}
+            </Text>
+          </Link>
+        </HStack>
+      );
+    },
+  },
+  {
+    header: 'Category',
+    accessorKey: 'category',
+    cell: ({
+      row: {
+        original: { category },
+      },
+    }) => {
+      return (
+        <Flex justify="right">
+          <Badge {...renderBadge(category)}> {category}</Badge>
+        </Flex>
+      );
+    },
+  },
+  {
+    header: 'Institution',
+    accessorKey: 'institution',
+    cell: ({
+      row: {
+        original: { institution },
+      },
+    }) => <Text>{institution}</Text>,
+  },
+  {
+    header: 'Balance',
+    accessorKey: 'balance',
+    cell: ({
+      row: {
+        original: { value, price, market, balance, category },
+      },
+    }) => {
+      return (
+        <Tooltip
+          label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
+            price,
+          ).format()}`}
+        >
+          <Stack textAlign="right">
+            {category === Category.CRYPTOCURRENCY ? (
+              <>
+                <FormattedNumber value={Number(balance)} />
+                <Flex gap={1} justify="right">
+                  <MdCompareArrows /> <Currency value={value} />
+                </Flex>
+              </>
+            ) : (
+              <Currency value={balance} />
+            )}
+          </Stack>
+        </Tooltip>
+      );
+    },
+  },
+  // Perhaps in a more market related area
+  // or the accounts page itself, just not overview
+  // {
+  // 	header: "ROI",
+  // 	accessorKey: "unrealisedGain",
+  // 	cell: ({
+  // 		row: {
+  // 			original: { unrealisedGainPercentage, unrealisedGain },
+  // 		},
+  // 	}) => (
+  // 		<Stack
+  // 			color={isNegative(unrealisedGainPercentage) ? "#E53E3E" : "#38A169"}
+  // 		>
+  // 			<Stat>
+  // 				<StatArrow
+  // 					type={
+  // 						isNegative(unrealisedGainPercentage) ? "decrease" : "increase"
+  // 					}
+  // 				/>
+  // 				<FormattedNumber
+  // 					value={Number(unrealisedGainPercentage)}
+  // 					style="percent"
+  // 				/>
+  // 			</Stat>
+  // 			<Currency value={unrealisedGain} />
+  // 		</Stack>
+  // 	),
+  // },
+  // {
+  // 	header: "Cost Basis",
+  // 	accessorKey: "costBasis",
+  // 	cell: ({
+  // 		row: {
+  // 			original: { market, costBasis, averageCost },
+  // 		},
+  // 	}) => (
+  // 		<Stack>
+  // 			<Currency value={costBasis?.toString()} /> /
+  // 			<Flex gap={1}>
+  // 				<MdCompareArrows />
+  // 				<Currency value={averageCost} /> /
+  // 				<Text>{market?.ticker.toUpperCase()}</Text>
+  // 			</Flex>
+  // 		</Stack>
+  // 	),
+  // },
+  {
+    header: 'Last Update',
+    cell: ({
+      row: {
+        original: { updatedAt },
+      },
+    }) => {
+      return (
+        <Text>
+          {formatDuration(
+            intervalToDuration({
+              start: new Date(),
+              end: updatedAt,
+            }),
+            {
+              format: ['hours', 'minutes'],
+              delimiter: ', ',
+            },
+          ) || 'Less than a minutes ago'}
+        </Text>
+      );
+    },
+  },
+  {
+    header: 'Status',
+    cell: ({
+      row: {
+        original: { status },
+      },
+    }) => {
+      return statusColor(status);
+    },
+  },
+];
+
+const subAssetsColumns: ColumnDef<
+  Asset & {
+    user: { settings: { userCurrency: string } | null };
+    market: Market | null;
+    transactions: AssetTransaction[];
+  }
+>[] = [
+  {
+    header: 'Display Name',
+    accessorKey: 'name',
+    cell: ({
+      row: {
+        getToggleExpandedHandler,
+        original: { name, market, transactions },
+      },
+    }) => {
+      return (
+        <HStack>
+          <AvatarGroup
+            max={1}
+            cursor="pointer"
+            {...{
+              onClick: getToggleExpandedHandler(),
+            }}
+          >
+            <Avatar
+              _hover={{ transform: 'scale(1.05)' }}
+              name={market?.name || ''}
+              title={market?.name || ''}
+              src={market?.image || ''}
+            />
+            {transactions?.map((transaction) => (
+              <ul key={transaction.id}>
+                <li>Transaction</li>
+                <li>{transaction.id}</li>
+              </ul>
+            ))}
+          </AvatarGroup>
+          <Link
+            href={{
+              pathname: `/markets/crypto/${market?.name}`,
+              query: {
+                name: market?.name,
+                ticker: market?.ticker,
+              },
+            }}
+          >
+            <Text
+              maxW="128px"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+            >
+              {name}
+            </Text>
+          </Link>
+        </HStack>
+      );
+    },
+  },
+  {
+    header: 'Category',
+    accessorKey: 'category',
+    cell: ({
+      row: {
+        original: { category },
+      },
+    }) => {
+      return (
+        <Flex justify="right">
+          <Badge {...renderBadge(category)}> {category}</Badge>
+        </Flex>
+      );
+    },
+  },
+  {
+    header: 'Institution',
+    accessorKey: 'institution',
+    cell: ({
+      row: {
+        original: { institution },
+      },
+    }) => <Text>{institution}</Text>,
+  },
+  {
+    header: 'Last Update',
+    cell: ({
+      row: {
+        original: { updatedAt },
+      },
+    }) => {
+      return (
+        <Text>
+          {formatDuration(
+            intervalToDuration({
+              start: new Date(),
+              end: updatedAt,
+            }),
+            {
+              format: ['hours', 'minutes'],
+              delimiter: ', ',
+            },
+          ) || 'Less than a minutes ago'}
+        </Text>
+      );
+    },
+  },
+  {
+    header: 'Status',
+    cell: ({
+      row: {
+        original: { status },
+      },
+    }) => {
+      return statusColor(status);
+    },
+  },
+];
 
 export type AssetsByUserIdQueryOutput = RouterOutput['assets']['byUserId'];
 
@@ -24,7 +422,7 @@ export const AccountsList = () => {
   const updateAsset = trpc.assets.update.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onValidSubmit: SubmitHandler<any> = (submitData) => {
+  const onValidSubmit = (submitData: any) => {
     if (userId) {
       if (submitData?.id) {
         return updateAsset.mutateAsync(submitData).then((asset) => {
@@ -48,9 +446,9 @@ export const AccountsList = () => {
 
   return (
     <Table
-      id="cryptocurrencyOverview"
+      id="assetsOverview"
       data={data || []}
-      columns={portfolioOverviewColumns}
+      columns={assetsColumns}
       canExpandRows
       filterEnabled
       paginationEnabled
@@ -58,9 +456,9 @@ export const AccountsList = () => {
       renderExpandedRow={({ row }) =>
         (row?.original?.subAssets?.length || 0) > 0 && (
           <Table
-            id="cryptocurrencyOverview"
+            id="subAssetsOverview"
             data={row?.original?.subAssets}
-            columns={portfolioOverviewColumns}
+            columns={subAssetsColumns}
             canExpandRows
             paginationEnabled
           />

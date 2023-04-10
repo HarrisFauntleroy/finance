@@ -1,3 +1,5 @@
+import { prisma } from 'database';
+
 export const getAssetById = (id: string) =>
   prisma.asset.findUnique({
     where: {

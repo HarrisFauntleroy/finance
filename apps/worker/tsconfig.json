@@ -1,8 +1,29 @@
 {
-  "extends": "tsconfig/node16.json",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": "."
   },
-  "include": ["src", "redis"],
+  "include": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.config.js",
+    "**/*.d.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

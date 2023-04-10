@@ -1,5 +1,31 @@
 {
-  "extends": "tsconfig/node16.json",
-  "include": ["**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "incremental": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "declaration": true
+  },
+  "include": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.d.ts",
+    "generated/zod",
+    "**/*.config.js"
+  ],
   "exclude": ["dist", "node_modules"]
 }

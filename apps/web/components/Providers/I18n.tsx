@@ -35,7 +35,7 @@ const defaultValues = {
 
 export const IntlContext = React.createContext<IntlContextType>(defaultValues);
 
-export function IntlProvider({ children }: PropsWithChildren) {
+export function IntlProvider<T>({ children }: PropsWithChildren<T>) {
   const [locale, setLocale] = React.useState<LocaleType>(defaultValues.locale);
 
   const messages = {

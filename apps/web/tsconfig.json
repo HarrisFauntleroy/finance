@@ -4,18 +4,19 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
+    "incremental": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
       "~/*": ["./*"]
     },
@@ -26,11 +27,12 @@
     ]
   },
   "include": [
-    "next-env.d.ts",
+    "**/*.js",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js",
     "**/*.jsx",
+    "**/*.config.js",
+    "**/*.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["dist", "node_modules"]

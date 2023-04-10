@@ -1,3 +1,5 @@
+import { prisma } from 'database';
+
 export const getAssetsByUserId = (userId: string) => {
   return prisma.asset.findMany({
     where: {

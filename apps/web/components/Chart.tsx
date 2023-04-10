@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Skeleton } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 import type { CSSProperties } from 'react';
