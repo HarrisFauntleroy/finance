@@ -33,6 +33,69 @@ import Link from 'next/link';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
 
+const statusColor = (status: AssetStatus | null) => {
+  switch (status) {
+    case AssetStatus.ACTIVE:
+      return (
+        <Badge colorScheme="green" variant="subtle">
+          {status}
+        </Badge>
+      );
+    case AssetStatus.CONNECTED:
+      return (
+        <Badge colorScheme="purple" variant="subtle">
+          {status}
+        </Badge>
+      );
+    case AssetStatus.ERROR:
+      return (
+        <Badge colorScheme="red" variant="subtle">
+          {status}
+        </Badge>
+      );
+    default:
+      return <Badge variant="subtle">{status || ''}</Badge>;
+  }
+};
+
+const renderBadge = (category: Category | null) => {
+  let props = {};
+  switch (category) {
+    case Category.CASH:
+      return (props = {
+        colorScheme: 'cyan',
+        ...props,
+      });
+    case Category.CREDIT:
+      return (props = {
+        colorScheme: 'blue',
+        ...props,
+      });
+    case Category.CRYPTOCURRENCY:
+      return (props = {
+        colorScheme: 'purple',
+        ...props,
+      });
+    case Category.CUSTOM:
+      return (props = {
+        colorScheme: 'orange',
+        ...props,
+      });
+    case Category.INVESTMENT:
+      return (props = {
+        colorScheme: 'green',
+        ...props,
+      });
+    case Category.SUPERANNUATION:
+      return (props = {
+        colorScheme: 'yellow',
+        ...props,
+      });
+    default:
+      break;
+  }
+};
+
 const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
   {
     header: 'Display Name',
@@ -97,48 +160,9 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
         original: { category },
       },
     }) => {
-      const renderBadge = () => {
-        let props = {};
-        switch (category) {
-          case Category.CASH:
-            return (props = {
-              colorScheme: 'cyan',
-              ...props,
-            });
-          case Category.CREDIT:
-            return (props = {
-              colorScheme: 'blue',
-              ...props,
-            });
-          case Category.CRYPTOCURRENCY:
-            return (props = {
-              colorScheme: 'purple',
-              ...props,
-            });
-          case Category.CUSTOM:
-            return (props = {
-              colorScheme: 'orange',
-              ...props,
-            });
-          case Category.INVESTMENT:
-            return (props = {
-              colorScheme: 'green',
-              ...props,
-            });
-          case Category.SUPERANNUATION:
-            return (props = {
-              colorScheme: 'yellow',
-              ...props,
-            });
-          default:
-            break;
-        }
-      };
-      const props = renderBadge();
-
       return (
         <Flex justify="right">
-          <Badge {...props}> {category}</Badge>
+          <Badge {...renderBadge(category)}> {category}</Badge>
         </Flex>
       );
     },
@@ -258,31 +282,7 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
         original: { status },
       },
     }) => {
-      const statusColor = () => {
-        switch (status) {
-          case AssetStatus.ACTIVE:
-            return (
-              <Badge colorScheme="green" variant="subtle">
-                {status}
-              </Badge>
-            );
-          case AssetStatus.CONNECTED:
-            return (
-              <Badge colorScheme="purple" variant="subtle">
-                {status}
-              </Badge>
-            );
-          case AssetStatus.ERROR:
-            return (
-              <Badge colorScheme="red" variant="subtle">
-                {status}
-              </Badge>
-            );
-          default:
-            return <Badge variant="subtle">{status}</Badge>;
-        }
-      };
-      return statusColor();
+      return statusColor(status);
     },
   },
 ];
@@ -355,48 +355,9 @@ const subAssetsColumns: ColumnDef<
         original: { category },
       },
     }) => {
-      const renderBadge = () => {
-        const props = {};
-        switch (category) {
-          case Category.CASH:
-            return {
-              colorScheme: 'cyan',
-              ...props,
-            };
-          case Category.CREDIT:
-            return {
-              colorScheme: 'blue',
-              ...props,
-            };
-          case Category.CRYPTOCURRENCY:
-            return {
-              colorScheme: 'purple',
-              ...props,
-            };
-          case Category.CUSTOM:
-            return {
-              colorScheme: 'orange',
-              ...props,
-            };
-          case Category.INVESTMENT:
-            return {
-              colorScheme: 'green',
-              ...props,
-            };
-          case Category.SUPERANNUATION:
-            return {
-              colorScheme: 'yellow',
-              ...props,
-            };
-          default:
-            break;
-        }
-      };
-      const props = renderBadge();
-
       return (
         <Flex justify="right">
-          <Badge {...props}> {category}</Badge>
+          <Badge {...renderBadge(category)}> {category}</Badge>
         </Flex>
       );
     },
@@ -440,31 +401,7 @@ const subAssetsColumns: ColumnDef<
         original: { status },
       },
     }) => {
-      const statusColor = () => {
-        switch (status) {
-          case AssetStatus.ACTIVE:
-            return (
-              <Badge colorScheme="green" variant="subtle">
-                {status}
-              </Badge>
-            );
-          case AssetStatus.CONNECTED:
-            return (
-              <Badge colorScheme="purple" variant="subtle">
-                {status}
-              </Badge>
-            );
-          case AssetStatus.ERROR:
-            return (
-              <Badge colorScheme="red" variant="subtle">
-                {status}
-              </Badge>
-            );
-          default:
-            return <Badge variant="subtle">{status}</Badge>;
-        }
-      };
-      return statusColor();
+      return statusColor(status);
     },
   },
 ];
