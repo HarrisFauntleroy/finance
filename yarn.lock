@@ -18638,9 +18638,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-sitemap@npm:3.1.48":
-  version: 3.1.48
-  resolution: "next-sitemap@npm:3.1.48"
+"next-sitemap@npm:3.1.55":
+  version: 3.1.55
+  resolution: "next-sitemap@npm:3.1.55"
   dependencies:
     "@corex/deepmerge": ^4.0.29
     minimist: ^1.2.7
@@ -18650,7 +18650,7 @@ __metadata:
   bin:
     next-sitemap: bin/next-sitemap.mjs
     next-sitemap-cjs: bin/next-sitemap.cjs
-  checksum: 84a3983c400cf67705757434b87f28a63a4fa57a71185076d0653a2082488cb402e4c4b981f04cff0da28da3f4f09d47a058822bb45a83613c6d48998641dff6
+  checksum: 1c3a7686565203275cf3004d3ec7c8b487468454cf0ffd72a168ac395c740843daee5f670019bb14faa9055773ce6203ac52596d8cc7a48b1b12cfb1bad6a691
   languageName: node
   linkType: hard
 
@@ -25767,7 +25767,7 @@ __metadata:
     next-auth: ^4.18.7
     next-i18next: ^12.1.0
     next-seo: 5.14.1
-    next-sitemap: 3.1.48
+    next-sitemap: 3.1.55
     next-swagger-doc: 0.3.6
     nodemailer: 6.9.1
     papaparse: ^5.3.2
