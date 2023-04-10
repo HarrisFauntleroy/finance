@@ -4,7 +4,6 @@
  * Style: Golden Ratio
  *
  */
-import React from 'react';
 
 import { Role } from 'database/generated/prisma-client';
 
@@ -26,7 +25,7 @@ import {
   MdSavings,
 } from 'react-icons/md';
 
-export default function Layout({ children }: PropsWithChildren) {
+export function Layout<T>({ children }: PropsWithChildren<T>) {
   const disclosure = useDisclosure();
 
   const links = [

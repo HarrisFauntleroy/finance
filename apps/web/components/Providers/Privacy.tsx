@@ -21,7 +21,7 @@ const defaultValues = {
 export const PrivacyContext =
   React.createContext<PrivacyContextType>(defaultValues);
 
-export function PrivacyProvider({ children }: PropsWithChildren) {
+export function PrivacyProvider<T>({ children }: PropsWithChildren<T>) {
   const [privacy, setPrivacy] = useLocalStorage('privacy', false);
 
   const togglePrivacy = () => setPrivacy((prevValue) => !prevValue);

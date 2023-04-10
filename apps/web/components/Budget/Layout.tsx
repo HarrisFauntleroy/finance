@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { Grid } from '@chakra-ui/react';
 import type { PropsWithChildren } from 'react';
 
-export const Layout = ({ children }: PropsWithChildren) => {
+export function Layout<T>({ children }: PropsWithChildren<T>) {
   return (
     <Grid
       templateAreas={{
@@ -33,4 +31,4 @@ export const Layout = ({ children }: PropsWithChildren) => {
       {children}
     </Grid>
   );
-};
+}
