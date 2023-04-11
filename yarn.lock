@@ -25711,6 +25711,7 @@ __metadata:
     swagger-ui-react: 4.15.5
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
+    tslib: ^2.5.0
     typescript: 4.9.5
     ui: "*"
     uuid: 9.0.0
