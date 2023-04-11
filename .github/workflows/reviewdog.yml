@@ -1,4 +1,4 @@
-name: reviewdog
+name: Reviewdog ESLint
 on: [pull_request]
 
 jobs:

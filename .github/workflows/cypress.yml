@@ -1,5 +1,6 @@
 name: Cypress tests
-on: push
+on: [pull_request]
+
 jobs:
   cypress-run:
     name: Cypress run
@@ -13,5 +14,4 @@ jobs:
         with:
           record: true
         env:
-          # pass GitHub token to detect new build vs re-run build
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
