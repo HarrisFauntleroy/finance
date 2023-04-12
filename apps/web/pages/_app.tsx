@@ -8,7 +8,7 @@ import Auth from './auth';
 
 import { Layout } from 'components/Layout';
 import { AppContext } from 'components/Providers';
-import type { Role } from 'database/generated/prisma-client';
+// import type { Role } from 'database/generated/prisma-client';
 import { type NextPage } from 'next';
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
