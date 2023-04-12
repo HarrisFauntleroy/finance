@@ -73,10 +73,12 @@
       "pre-commit": "lint-staged"
     }
   },
-  "lint-staged": [
-    "prettier --write",
-    "turbo run lint:fix"
-  ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint",
+      "yarn format"
+    ]
+  },
   "packageManager": "yarn@3.5.0",
   "engines": {
     "node": ">=16.0.0",
