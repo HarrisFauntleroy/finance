@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { divide, multiply, subtract } from 'common';
 import { Card, Grid } from 'ui';
@@ -163,8 +163,9 @@ const CryptoComparison = () => {
         </Stack>
       </Card>
       <Card>
-        <label>Select Crypto to compare</label>
+        <label htmlFor="select">Select Crypto to compare</label>
         <select
+          id="select"
           onChange={(event) => {
             const { value } = event.target;
             const secondCrypto = data?.[Number(value)];

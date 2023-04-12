@@ -1,6 +1,63 @@
 {
-  "extends": ["../../eslintrc.json", "next", "plugin:storybook/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "sonarjs",
+    "jsx-a11y",
+    "import",
+    "prettier"
+  ],
+  "extends": [
+    "next",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:sonarjs/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:storybook/recommended",
+    "plugin:prettier/recommended" // Always put prettier last
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "@next/next/no-html-link-for-pages": "off"
+    "@next/next/no-html-link-for-pages": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
+        "peerDependencies": true
+      }
+    ],
+    "import/extensions": "off",
+    "simple-import-sort/imports": [
+      "off",
+      {
+        "groups": [
+          ["^react$"],
+          ["^(ui|common|database|database/generated/prisma-client)$"],
+          ["~/(.*)"],
+          ["^[./]"]
+        ]
+      }
+    ]
   }
 }
