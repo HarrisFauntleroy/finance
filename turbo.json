@@ -26,6 +26,9 @@
     "lint:fix": {
       "outputs": []
     },
+    "type-check": {
+      "outputs": []
+    },
     "test": {
       "outputs": []
     },

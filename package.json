@@ -25,14 +25,14 @@
     "docker:prune": "docker system prune --all",
     "generate": "turbo run generate",
     "fix": "turbo run fix",
-    "format": "prettier --write",
+    "format": "prettier --write .",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix --",
     "test": "turbo run test --concurrency=1",
     "test:ci": "turbo run test:ci",
     "test:watch": "turbo run test:watch",
     "prepare": "husky install",
-    "type-check": "tsc --noEmit"
+    "type-check": "turbo run type-check --"
   },
   "prettier": {
     "arrowParens": "always",
@@ -52,21 +52,10 @@
     "vueIndentScriptAndStyle": false
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.38.0",
-    "eslint-config-next": "13.1.6",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-sonarjs": "0.16.0",
-    "eslint-watch": "^8.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
     "prettier": "2.8.7",
-    "turbo": "^1.7.4"
+    "turbo": "1.9.1"
   },
   "husky": {
     "hooks": {
@@ -75,7 +64,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn lint",
+      "yarn lint:fix",
       "yarn format"
     ]
   },
