@@ -74,9 +74,7 @@
     }
   },
   "lint-staged": {
-    "*": "yarn type-check",
-    "*": "yarn lint:fix",
-    "*": "yarn format --check"
+    "*.{js,jsx,ts,tsx}": "yarn lint:fix"
   },
   "packageManager": "yarn@3.5.0",
   "engines": {
