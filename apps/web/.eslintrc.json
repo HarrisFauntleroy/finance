@@ -5,16 +5,19 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "prettier",
     "simple-import-sort",
+    "sonarjs",
+    "jsx-a11y",
     "import",
-    "sonarjs"
+    "prettier"
   ],
   "extends": [
     "next",
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
     "plugin:sonarjs/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended" // Always put prettier last
   ],
   "env": {
@@ -34,13 +37,6 @@
       "error",
       {
         "argsIgnorePattern": "^_"
-      }
-    ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"],
-        "peerDependencies": true
       }
     ],
     "import/extensions": "off",

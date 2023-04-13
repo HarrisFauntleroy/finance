@@ -8,13 +8,15 @@ export function TableHeaderNew<TData extends object>(
   return (
     <Th key={header.id}>
       {header.isPlaceholder ? null : (
-        <div
+        <button
           style={
             header.column.getCanSort()
               ? { cursor: 'pointer', userSelect: 'none' }
               : {}
           }
           onClick={header.column.getToggleSortingHandler()}
+          onKeyDown={header.column.getToggleSortingHandler()}
+          tabIndex={0}
         >
           <>
             {flexRender(header.column.columnDef.header, header.getContext())}
@@ -23,7 +25,7 @@ export function TableHeaderNew<TData extends object>(
               desc: ' 🔽',
             }[header.column.getIsSorted() as string] ?? null}
           </>
-        </div>
+        </button>
       )}
     </Th>
   );

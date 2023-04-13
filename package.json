@@ -27,10 +27,12 @@
     "fix": "turbo run fix",
     "format": "prettier --write .",
     "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
+    "lint:fix": "turbo run lint:fix --",
     "test": "turbo run test --concurrency=1",
     "test:ci": "turbo run test:ci",
-    "test:watch": "turbo run test:watch"
+    "test:watch": "turbo run test:watch",
+    "prepare": "husky install",
+    "type-check": "turbo run type-check --"
   },
   "prettier": {
     "arrowParens": "always",
@@ -50,8 +52,21 @@
     "vueIndentScriptAndStyle": false
   },
   "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
     "prettier": "2.8.7",
-    "turbo": "^1.7.4"
+    "turbo": "1.9.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint:fix",
+      "yarn format"
+    ]
   },
   "packageManager": "yarn@3.5.0",
   "engines": {
