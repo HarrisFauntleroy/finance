@@ -4,14 +4,14 @@ on:
   push:
     branches: ['main']
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
   web:
     name: web
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: SonarCloud Scan web
@@ -26,7 +26,7 @@ jobs:
     name: worker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: SonarCloud Scan worker
@@ -41,7 +41,7 @@ jobs:
     name: common
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: SonarCloud Scan common
@@ -56,7 +56,7 @@ jobs:
     name: ui
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: SonarCloud Scan ui
@@ -71,7 +71,7 @@ jobs:
     name: database
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: SonarCloud Scan database
