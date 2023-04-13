@@ -1658,33 +1658,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bull-board/api@npm:5.0.0":
-  version: 5.0.0
-  resolution: "@bull-board/api@npm:5.0.0"
+"@bull-board/api@npm:4.12.2":
+  version: 4.12.2
+  resolution: "@bull-board/api@npm:4.12.2"
   dependencies:
     redis-info: ^3.0.8
-  checksum: 85dd90316872a4b2c0bf7a10ae24245a2ba3bddfef2818d4808a9a6f4edaea31bb0ff291559dd5aa0841638f0537132ad7b7dd0b6f1f83623195ea7d859bbd30
+  checksum: 04f4c5d4641d4a8a28605443a85febfde5d0ac8966f848bfcab2a155e3ed2df9515b0e640de83f2a2563c0a372b54f381e04439dae402fe5152b50c2fa4c9e56
   languageName: node
   linkType: hard
 
-"@bull-board/express@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@bull-board/express@npm:5.0.0"
+"@bull-board/express@npm:^4.8.0":
+  version: 4.12.2
+  resolution: "@bull-board/express@npm:4.12.2"
   dependencies:
-    "@bull-board/api": 5.0.0
-    "@bull-board/ui": 5.0.0
+    "@bull-board/api": 4.12.2
+    "@bull-board/ui": 4.12.2
     ejs: 3.1.7
     express: 4.17.3
-  checksum: 0326c7932488898618bf8451938e31ca74facaceec0e7a128261cecc9bbd45b2ae798889ff0276215476670e3f0f6e30f30c93e250de715cb27662796d430452
+  checksum: d48d318f87ea1801396ef9d51e016f1daabc5065e44a351e860d3f054ed4ed8cb0b487fe4435506b6f0ddc23145840329b8b40de6f6f6759897b0b568bbb262c
   languageName: node
   linkType: hard
 
-"@bull-board/ui@npm:5.0.0":
-  version: 5.0.0
-  resolution: "@bull-board/ui@npm:5.0.0"
+"@bull-board/ui@npm:4.12.2":
+  version: 4.12.2
+  resolution: "@bull-board/ui@npm:4.12.2"
   dependencies:
-    "@bull-board/api": 5.0.0
-  checksum: 24ad44006734d3048f096f3f9d685629914210fa8b9bad4160345cad95c6fc3551b6a5185926440fb340c7f4abf9566bd7cf963b6e214a92cce1fbabf053a10d
+    "@bull-board/api": 4.12.2
+  checksum: 7f7bbb69e29b3211eebe4dc35ee33f4ec24d72c186b28d203ec1de2ad85df012a9ee6590e9f88548209371874d0568ca778df54dca97cdb2caa9f088f47aa5f8
   languageName: node
   linkType: hard
 
@@ -26413,7 +26413,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.21.4
     "@babel/preset-env": ^7.21.4
-    "@bull-board/express": ^5.0.0
+    "@bull-board/express": ^4.8.0
     "@cosmjs/stargate": ^0.29.5
     "@cosmjs/tendermint-rpc": ^0.29.5
     "@harmony-js/core": ^0.1.57

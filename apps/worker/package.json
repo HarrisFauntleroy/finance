@@ -29,7 +29,7 @@
     }
   },
   "dependencies": {
-    "@bull-board/express": "^5.0.0",
+    "@bull-board/express": "^4.8.0",
     "@cosmjs/stargate": "^0.29.5",
     "@cosmjs/tendermint-rpc": "^0.29.5",
     "@harmony-js/core": "^0.1.57",
