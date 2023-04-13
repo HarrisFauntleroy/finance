@@ -1,0 +1,154 @@
+Repo
+Pack
+
+Search documentation…
+Repo
+Quickstart
+Installing Turborepo
+Getting Started
+Add to Existing Project
+Start from an Example
+Create a New Monorepo
+Add to Existing Monorepo
+Core Concepts
+Caching Tasks
+Remote Caching
+Monorepos
+Running Tasks
+Filtering Workspaces
+Skipping Tasks in CI
+Configuring Workspaces
+API Reference
+Configuration Options
+CLI Usage
+Codemods
+CI Recipes
+CircleCI
+GitHub Actions
+Remote Caching
+GitLab CI
+Travis CI
+Troubleshooting
+Monorepo Handbook
+What is a Monorepo?
+Package Installation
+Workspaces
+Migrating to a Monorepo
+Development Tasks
+Building Your App
+Deploying with Docker
+Environment Variables
+Sharing Code
+Internal Packages
+Linting
+TypeScript
+ESLint
+Testing
+Publishing Packages
+Bundling
+Versioning and Publishing
+Troubleshooting
+Tools
+Prisma
+Storybook
+Changelog(opens in a new tab)
+Upgrading to v1
+Acknowledgements
+FAQ
+Pack
+Quickstart
+Why Turbopack?
+Core Concepts
+Roadmap
+Features
+JavaScript
+TypeScript
+Frameworks
+CSS
+Dev Server
+Static Assets
+Imports
+Environment Variables
+Customizing Turbopack
+Comparisons
+Vite
+Webpack
+Benchmarks
+Migrating from Webpack
+Advanced
+Profiling
+Blog
+Showcase
+
+Dark
+Repo
+Docs
+CI Recipes
+GitHub Actions
+Using Turborepo with GitHub Actions
+The following example shows how to use Turborepo with GitHub Actions(opens in a new tab).
+
+For a given root package.json:
+
+{
+  "name": "my-turborepo",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "1.2.5"
+  }
+}
+
+And a turbo.json:
+
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "outputs": [".next/**", "!.next/cache/**"],
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    }
+  },
+}
+
+Create file called .github/workflows/ci.yml in your repository with the following contents:
+
+name: CI
+ 
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize]
+ 
+jobs:
+  build:
+      name: Build and Test
+      timeout-minutes: 15
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 2
+ 
+        - name: Setup Node.js environment
+          uses: actions/setup-node@v3
+          with:
+            node-version: 16
+            cache: 'yarn'
+ 
+        - name: Install dependencies
+          run: yarn
+ 
+        - name: Build
+          run: yarn build
+ 
+        - name: Test
+          run: yarn test
