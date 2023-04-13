@@ -61,7 +61,7 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "tsup": "^6.7.0",
-    "zod": "3.21.1"
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@jest/types": "29.4.0",
