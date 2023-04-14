@@ -50,7 +50,7 @@
     "node-fetch": "^3.3.0",
     "progress": "^2.0.3",
     "web3": "^1.8.1",
-    "zod": "3.21.1"
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
