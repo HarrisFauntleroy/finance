@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { SidebarLink } from '../Sidebar';
 import { SidebarItem } from '../Sidebar/SidebarItem';
 
@@ -14,10 +12,10 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 
-interface SidebarContentProps extends BoxProps {
+type SidebarContentProps = BoxProps & {
   links: SidebarLink[];
   drawer?: boolean;
-}
+};
 
 export function SidebarContent({
   links,

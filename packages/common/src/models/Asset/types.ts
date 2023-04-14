@@ -50,7 +50,7 @@ export type AssetWithRelatedChild = Prisma.AssetGetPayload<{
 }>;
 
 /** Calculated values */
-export interface AssetWithCalculatedValues extends AssetWithRelated {
+export type AssetWithCalculatedValues = AssetWithRelated & {
   calculatedSubAssets?: AssetWithRelated[];
   unrealisedGainPercentage: string;
   estimatedStakingYield: string;
@@ -65,10 +65,10 @@ export interface AssetWithCalculatedValues extends AssetWithRelated {
   saleable: string;
   value: string;
   price: string;
-}
+};
 
 // #?: Explain this
-export interface SubAssetValueTotals {
+export type SubAssetValueTotals = {
   value: string;
   subAssets: AssetWithCalculatedValues[];
   averageCost: string;
@@ -76,11 +76,11 @@ export interface SubAssetValueTotals {
   saleableValue: string;
   unrealisedGain: string;
   unrealisedGainPercentage: string;
-}
+};
 
 // #?: Explain this
-export interface AssetSummaryInput {
+export type AssetSummaryInput = {
   assets: AssetWithRelated[];
   exchangeRates: Record<string, string>;
   userCurrency: string;
-}
+};

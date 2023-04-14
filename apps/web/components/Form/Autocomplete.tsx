@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
 import {
   Avatar,
@@ -17,10 +17,10 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { Controller, useFormContext } from 'react-hook-form';
 
-interface AutocompleteProps<T> {
+type AutocompleteProps<T> = {
   label: string;
   data: T;
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Autocomplete = <T extends Record<string, any>[]>({

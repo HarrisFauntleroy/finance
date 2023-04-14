@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 import * as bs from 'react-icons/bs';
 
-interface PricingCardProps {
+type PricingCardProps = {
   features?: string[];
   cost: string;
   frequency: string;
-}
+};
 
 export function PricingCard({ features, cost, frequency }: PricingCardProps) {
   return (

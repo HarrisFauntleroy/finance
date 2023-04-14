@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { InputProps as ChakraInputProps } from '@chakra-ui/react';
 import {
   FormControl,
@@ -9,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import type { ValidationRule } from 'react-hook-form';
 
-interface InputProps {
+type InputProps = {
   name: string;
   label: string;
   inputProps?: ChakraInputProps;
@@ -21,7 +19,7 @@ interface InputProps {
     minLength: ValidationRule<number>;
     maxLength: ValidationRule<number>;
   }>;
-}
+};
 
 export const TextInput = ({
   name,

@@ -1,13 +1,12 @@
-import React, { Children, cloneElement } from 'react';
+import { Children, PropsWithChildren, cloneElement } from 'react';
 
-import type { AccordionProps } from '@chakra-ui/react';
-import { Accordion as ChakraAccordion, AccordionItem } from '@chakra-ui/react';
-import type { ReactElement, ReactNode } from 'react';
+import type { AccordionProps as ChakraAccordionProps } from '@chakra-ui/react';
+import { AccordionItem, Accordion as ChakraAccordion } from '@chakra-ui/react';
+import type { ReactElement } from 'react';
 
-export function Accordion({
-  children,
-  ...props
-}: { children?: ReactNode } & AccordionProps) {
+type AccordionProps<T> = PropsWithChildren<T> & ChakraAccordionProps;
+
+export function Accordion<T>({ children, ...props }: AccordionProps<T>) {
   return (
     <ChakraAccordion allowToggle defaultIndex={[0]} allowMultiple {...props}>
       {Children.map(children as ReactElement, (child) => (

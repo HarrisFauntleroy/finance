@@ -1,14 +1,10 @@
-import React, { type ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { IntlProvider } from 'components/Providers/I18n';
 import { PrivacyProvider } from 'components/Providers/Privacy';
 import Theme from 'components/Providers/Theme';
 
-interface AppContextProps {
-  children: ReactNode;
-}
-
-export function AppContext({ children }: AppContextProps) {
+export function AppContext<T>({ children }: PropsWithChildren<T>) {
   return (
     <Theme>
       <PrivacyProvider>

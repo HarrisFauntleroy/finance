@@ -1,6 +1,5 @@
-import { RoleSchema } from '../inputTypeSchemas/RoleSchema';
-
 import { z } from 'zod';
+import { RoleSchema } from '../inputTypeSchemas/RoleSchema'
 
 /////////////////////////////////////////
 // USER SCHEMA
@@ -17,8 +16,8 @@ export const UserSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type User = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof UserSchema>
 
 export default UserSchema;

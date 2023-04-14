@@ -17,12 +17,12 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { Controller, useFormContext } from 'react-hook-form';
 
-interface AutocompleteProps<T extends Record<string, string>> {
+type AutocompleteProps<T extends Record<string, string>> = {
   label: string;
   name: string;
   data: T[];
   error?: string;
-}
+};
 
 export function Autocomplete<T extends Record<string, string>>({
   label,

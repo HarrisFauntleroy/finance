@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { add } from './math';
 
-interface Grouped<T> {
+type Grouped<T> = {
   [key: string]: T;
-}
+};
 
-export interface Item {
+export type Item = {
   [key: string]: string | number;
   value: string;
-}
+};
 
 export function sumGroupByCategory<T extends Item>(
   arr: any[],

@@ -1,14 +1,13 @@
-import React, { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
-interface ShowProps {
+type ShowProps<T> = PropsWithChildren<T> & {
   when: boolean;
-  children?: ReactNode;
-}
+};
 
-export const Show = ({ when, children }: ShowProps) => {
+export function Show<T>({ when, children }: ShowProps<T>) {
   return (
     <div style={{ display: when ? undefined : 'none' }}>
       <>{children}</>
     </div>
   );
-};
+}

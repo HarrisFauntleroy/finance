@@ -4,7 +4,7 @@ import type { CSSProperties } from 'react';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-interface ChartScaffoldProps {
+type ChartScaffoldProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: any;
   options?: ApexCharts.ApexOptions;
@@ -26,9 +26,9 @@ interface ChartScaffoldProps {
     | 'boxPlot'
     | 'candlestick'
     | 'rangeBar';
-}
+};
 
-const ChartScaffold = (props: ChartScaffoldProps) => {
+function ChartScaffold(props: ChartScaffoldProps) {
   return (
     <Skeleton
       height="100%"
@@ -38,6 +38,6 @@ const ChartScaffold = (props: ChartScaffoldProps) => {
       <Chart height="100%" width="100%" {...props} />
     </Skeleton>
   );
-};
+}
 
 export default ChartScaffold;

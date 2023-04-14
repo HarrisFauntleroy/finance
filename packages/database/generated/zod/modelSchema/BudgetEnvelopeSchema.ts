@@ -14,8 +14,8 @@ export const BudgetEnvelopeSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type BudgetEnvelope = z.infer<typeof BudgetEnvelopeSchema>;
+export type BudgetEnvelope = z.infer<typeof BudgetEnvelopeSchema>
 
 export default BudgetEnvelopeSchema;

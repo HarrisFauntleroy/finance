@@ -1,15 +1,10 @@
-import React, { type ReactNode } from 'react';
-
-import type { StackProps } from '@chakra-ui/react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, StackProps } from '@chakra-ui/react';
 import Head from 'next/head';
+import { PropsWithChildren } from 'react';
 
-type PageProps = StackProps & {
-  title?: string;
-  children?: ReactNode;
-};
+type PageProps<T> = PropsWithChildren<T> & StackProps;
 
-export function Page({ title, children, ...props }: PageProps) {
+export function Page<T>({ title, children, ...props }: PageProps<T>) {
   return (
     <Flex flexDirection="column" flex={1} {...props}>
       <Head>

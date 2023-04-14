@@ -1,14 +1,12 @@
-import React from 'react';
-
 import { trpc } from '~/utils/trpc';
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Button, useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 
-interface DeleteAssetProps {
+type DeleteAssetProps = {
   id?: string;
-}
+};
 
 export const DeleteAsset = ({ id }: DeleteAssetProps) => {
   const toast = useToast();

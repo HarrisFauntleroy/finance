@@ -1,13 +1,12 @@
-import React, { Children } from 'react';
+import { Children, PropsWithChildren } from 'react';
 
 import type { SimpleGridProps } from '@chakra-ui/react';
 import { GridItem, SimpleGrid } from '@chakra-ui/react';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 
-export function Grid({
-  children,
-  ...props
-}: SimpleGridProps & { children?: ReactNode }) {
+type GridProps<T> = PropsWithChildren<T> & SimpleGridProps;
+
+export function Grid<T>({ children, ...props }: GridProps<T>) {
   return (
     <SimpleGrid
       columns={{ base: 1, sm: 2, md: 3 }}

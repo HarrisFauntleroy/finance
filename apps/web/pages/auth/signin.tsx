@@ -1,7 +1,6 @@
 /**
  * Custom sign in page for Next Auth
  */
-import React from 'react';
 
 import { Button, Flex, Stack } from '@chakra-ui/react';
 import type { NextPageContext } from 'next';

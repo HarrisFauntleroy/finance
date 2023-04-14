@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Drawer,
   DrawerContent,
@@ -13,18 +11,18 @@ import type { Role } from 'database/generated/prisma-client';
 import Link from 'next/link';
 import type { IconType } from 'react-icons';
 
-export interface SidebarLink {
+export type SidebarLink = {
   href: string;
   icon: IconType;
   label: string;
   role?: Role;
-}
+};
 
-interface SidebarProps extends Omit<UseDisclosureProps, 'isOpen' | 'onClose'> {
+type SidebarProps = Omit<UseDisclosureProps, 'isOpen' | 'onClose'> & {
   links: SidebarLink[];
   isOpen: boolean;
   onClose(): void;
-}
+};
 
 export default function Sidebar({ links, ...props }: SidebarProps) {
   return (

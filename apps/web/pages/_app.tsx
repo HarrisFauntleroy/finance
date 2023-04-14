@@ -33,13 +33,9 @@ export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
 
 type AppPropsWithLayout = AppProps<{ session: Session | null }> & {
   Component: NextPageWithLayout;
-  session?: Session;
 };
 
-const MyApp = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) => {
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ??
     ((page) =>
@@ -54,7 +50,7 @@ const MyApp = ({
   initI18n();
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <DefaultSeo {...SEO} />
       <AppContext>{getLayout(<Component {...pageProps} />)}</AppContext>
     </SessionProvider>
