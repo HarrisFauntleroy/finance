@@ -27,7 +27,7 @@ export type CoinGeckoResponse = {
   last_updated: string;
 };
 
-export interface ParsedCrypto {
+export type ParsedCrypto = {
   name: string;
   type: 'CRYPTOCURRENCY';
   ticker: string;
@@ -38,4 +38,4 @@ export interface ParsedCrypto {
   image: string;
   marketCap: string;
   marketCapRank: string;
-}
+};

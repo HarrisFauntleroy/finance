@@ -8,8 +8,8 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Stack,
   Stat as ChakraStat,
+  Stack,
   StatLabel,
   StatNumber,
 } from '@chakra-ui/react';
@@ -27,9 +27,9 @@ const Stat = ({ label, value }: { label: string; value: string }) => (
   </Card>
 );
 
-interface TableSubComponentProps<TData> {
+type TableSubComponentProps<TData> = {
   row: Row<TData>;
-}
+};
 
 function TableSubComponent<TData extends Record<string, string>>({
   row: {

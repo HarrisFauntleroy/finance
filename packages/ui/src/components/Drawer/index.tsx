@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import {
   Drawer as ChakraDrawer,
@@ -7,13 +7,12 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 
-interface DrawerProps {
+type DrawerProps<T> = PropsWithChildren<T> & {
   isOpen: boolean;
   onClose: () => void;
-  children?: ReactNode;
-}
+};
 
-export function Drawer({ children, onClose, isOpen }: DrawerProps) {
+export function Drawer<T>({ children, onClose, isOpen }: DrawerProps<T>) {
   return (
     <ChakraDrawer placement="right" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />

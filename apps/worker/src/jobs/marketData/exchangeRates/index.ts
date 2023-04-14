@@ -6,11 +6,11 @@ import { Progress } from '../../../util';
 
 import axios from 'axios';
 
-interface OpenExchangeRatesResponse {
+type OpenExchangeRatesResponse = {
   id: string;
   price: unknown;
   name: string;
-}
+};
 
 class MarketUpdater {
   private baseUrl = 'https://openexchangerates.org/api';

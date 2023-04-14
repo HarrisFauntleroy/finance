@@ -3,10 +3,10 @@ import { flexRender } from '@tanstack/react-table';
 import { Cell } from '@tanstack/table-core';
 import { useFormContext } from 'react-hook-form';
 
-interface EditableCellProps<TData, TColumnValue> {
+type EditableCellProps<TData, TColumnValue> = {
   cell: Cell<TData, TColumnValue>;
   editing: boolean;
-}
+};
 
 export function EditableCellNew<TData, TColumnValue>({
   cell,

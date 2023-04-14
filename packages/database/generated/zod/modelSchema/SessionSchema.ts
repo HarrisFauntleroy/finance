@@ -9,8 +9,8 @@ export const SessionSchema = z.object({
   sessionToken: z.string(),
   userId: z.string(),
   expires: z.coerce.date(),
-});
+})
 
-export type Session = z.infer<typeof SessionSchema>;
+export type Session = z.infer<typeof SessionSchema>
 
 export default SessionSchema;

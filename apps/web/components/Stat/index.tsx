@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Card } from 'ui';
 
 import Currency from '../Currency';
@@ -8,10 +6,10 @@ import { Stat as ChakraStat, StatHelpText, StatNumber } from '@chakra-ui/react';
 import type { Any } from 'currency.js';
 import currency from 'currency.js';
 
-interface StatProps {
+type StatProps = {
   value?: Any;
   label?: string;
-}
+};
 
 export const Stat = ({ value, label }: StatProps) => {
   return (

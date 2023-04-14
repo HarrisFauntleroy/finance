@@ -6,8 +6,8 @@ import { PaginationNew } from './Pagination';
 import { TableRowNew } from './TableRow';
 
 import {
-  Stack,
   Table as ChakraTable,
+  Stack,
   TableContainer,
   Tbody,
   Tfoot,
@@ -18,6 +18,9 @@ import {
 import {
   ColumnDef,
   ColumnFiltersState,
+  PaginationState,
+  Row,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
@@ -27,9 +30,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  PaginationState,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
@@ -37,7 +37,7 @@ import { DebouncedInput } from 'ui/src/components/Form';
 import { Show } from 'ui/src/components/Show';
 import { useLocalStorage } from 'ui/src/hooks/useLocalStorage';
 
-interface EditableTableProps<T extends FieldValues> {
+type EditableTableProps<T extends FieldValues> = {
   id: string;
   columns: ColumnDef<T, unknown>[];
   data: T[];
@@ -47,7 +47,7 @@ interface EditableTableProps<T extends FieldValues> {
   filterEnabled?: boolean;
   renderExpandedRow?: ({ row }: { row: Row<T> }) => ReactNode;
   canExpandRows?: boolean;
-}
+};
 
 export const TableNew = <T extends FieldValues>({
   columns,

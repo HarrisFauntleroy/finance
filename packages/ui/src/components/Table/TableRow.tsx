@@ -12,11 +12,11 @@ import {
 } from 'react-hook-form';
 import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
 
-interface TableRowProps<T> {
+type TableRowProps<T> = {
   row: Row<T>;
   renderSubRow?: ({ row }: { row: Row<T> }) => ReactNode;
   onValidSubmit: SubmitHandler<FieldValues>;
-}
+};
 
 export function TableRow<T>({
   row,

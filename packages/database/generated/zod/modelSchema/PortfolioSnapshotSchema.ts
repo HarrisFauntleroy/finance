@@ -17,8 +17,8 @@ export const PortfolioSnapshotSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type PortfolioSnapshot = z.infer<typeof PortfolioSnapshotSchema>;
+export type PortfolioSnapshot = z.infer<typeof PortfolioSnapshotSchema>
 
 export default PortfolioSnapshotSchema;

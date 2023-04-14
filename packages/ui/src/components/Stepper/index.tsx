@@ -11,9 +11,9 @@ export type Step = {
   key: string;
 };
 
-interface StepperProps {
+type StepperProps = {
   steps: Step[];
-}
+};
 
 export const Stepper = ({ steps }: StepperProps) => {
   const {

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { logger } from 'common';
 
@@ -24,17 +24,17 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { FormInputs } from 'components/Form/TextInput';
 import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
-import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 
 type AssetUpdateInput = RouterInput['assets']['update'];
 
-interface UpdateAsset extends AssetUpdateInput {
+type UpdateAsset = AssetUpdateInput & {
   id: string;
-}
+};
 
-interface CreateAsset extends AssetUpdateInput {
+type CreateAsset = AssetUpdateInput & {
   id: never;
-}
+};
 
 export type AssetFormInputs = CreateAsset | UpdateAsset;
 

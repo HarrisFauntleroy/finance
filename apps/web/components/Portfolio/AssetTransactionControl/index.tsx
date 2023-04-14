@@ -1,13 +1,11 @@
-import React from 'react';
-
 import { DeleteTransaction } from './DeleteTransaction';
 import type { AssetTransactionFormInputs } from './TransactionForm';
 import { AssetTransactionForm } from './TransactionForm';
 
-interface AssetTransactionControlProps {
+type AssetTransactionControlProps = {
   variant?: 'delete';
   defaultValues?: AssetTransactionFormInputs;
-}
+};
 
 export const AssetTransactionControl = ({
   defaultValues,

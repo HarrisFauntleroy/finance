@@ -1,13 +1,11 @@
-import React from 'react';
-
 import type { AssetFormInputs } from './AssetForm';
 import { AssetForm } from './AssetForm';
 import { DeleteAsset } from './DeleteAsset';
 
-interface AssetControlProps {
+type AssetControlProps = {
   variant?: 'delete';
   defaultValues?: AssetFormInputs;
-}
+};
 
 export const AssetControl = ({ defaultValues, variant }: AssetControlProps) => {
   return variant === 'delete' ? (

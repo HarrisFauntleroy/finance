@@ -13,8 +13,8 @@ export const BudgetSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type Budget = z.infer<typeof BudgetSchema>;
+export type Budget = z.infer<typeof BudgetSchema>
 
 export default BudgetSchema;

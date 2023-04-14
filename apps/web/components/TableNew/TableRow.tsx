@@ -5,18 +5,18 @@ import { EditableCellNew } from './EditableCell';
 import { Button, ButtonGroup, Td, Tr } from '@chakra-ui/react';
 import { Row } from '@tanstack/table-core';
 import {
-  type FieldValues,
   FormProvider,
   SubmitHandler,
   useForm,
+  type FieldValues,
 } from 'react-hook-form';
 import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
 
-interface TableRowProps<T extends FieldValues> {
+type TableRowProps<T extends FieldValues> = {
   row: Row<T>;
   renderSubRow?: ({ row }: { row: Row<T> }) => ReactNode;
   onValidSubmit?: SubmitHandler<FieldValues>;
-}
+};
 
 export function TableRowNew<T extends FieldValues>({
   row,

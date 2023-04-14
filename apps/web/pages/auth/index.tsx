@@ -4,7 +4,7 @@
  *	Checks if user is logged in before allowing access to page
  *
  */
-import React, { Fragment, type ReactNode } from 'react';
+import { Fragment, PropsWithChildren } from 'react';
 
 import { Role } from 'database/generated/prisma-client';
 
@@ -12,8 +12,7 @@ import { Center, Progress, Stack, Text } from '@chakra-ui/react';
 import type { NextPageContext } from 'next';
 import { getSession, useSession } from 'next-auth/react';
 
-type AuthProps = {
-  children?: ReactNode;
+type AuthProps<T> = PropsWithChildren<T> & {
   roles?: Role[];
 };
 
@@ -22,7 +21,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   if (session) return session;
 };
 
-function Auth({ children, roles }: AuthProps) {
+function Auth<T>({ children, roles }: AuthProps<T>) {
   const { data: session, status } = useSession({
     required: true,
   });

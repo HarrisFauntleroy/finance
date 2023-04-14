@@ -1,15 +1,15 @@
 import currency from 'currency.js';
 
-interface Transaction {
+type Transaction = {
   [TransactionType: string]: string;
   nativeAmount: string;
-}
-interface SumTransactionsIf {
+};
+type SumTransactionsIf = {
   transactions: Transaction[];
   filterType: string;
   filterValue: string;
   sumProperty: string;
-}
+};
 
 /**
  * Sums the values of the specified property in the given transactions that meet the specified condition.

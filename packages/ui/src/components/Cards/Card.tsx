@@ -1,15 +1,13 @@
 /**
  * Generic Card
  */
-import React, { type ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import type { GridItemProps } from '@chakra-ui/react';
 import { GridItem } from '@chakra-ui/react';
 
-export function Card({
-  children,
-  ...props
-}: { children?: ReactNode } & GridItemProps) {
+type CardProps<T> = PropsWithChildren<T> & GridItemProps;
+export function Card<T>({ children, ...props }: CardProps<T>) {
   return (
     <GridItem
       boxShadow={{ base: 'none', sm: 'base' }}

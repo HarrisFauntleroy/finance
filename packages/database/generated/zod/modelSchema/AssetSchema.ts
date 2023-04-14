@@ -1,8 +1,7 @@
-import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema';
-import { AssetStatusSchema } from '../inputTypeSchemas/AssetStatusSchema';
-import { CategorySchema } from '../inputTypeSchemas/CategorySchema';
-
 import { z } from 'zod';
+import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema'
+import { CategorySchema } from '../inputTypeSchemas/CategorySchema'
+import { AssetStatusSchema } from '../inputTypeSchemas/AssetStatusSchema'
 
 /////////////////////////////////////////
 // ASSET SCHEMA
@@ -33,8 +32,8 @@ export const AssetSchema = z.object({
   marketId: z.string().nullable(),
   parentId: z.string().nullable(),
   userId: z.string(),
-});
+})
 
-export type Asset = z.infer<typeof AssetSchema>;
+export type Asset = z.infer<typeof AssetSchema>
 
 export default AssetSchema;

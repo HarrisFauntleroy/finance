@@ -1,4 +1,4 @@
-export interface SwyftxAsset {
+export type SwyftxAsset = {
   id: string;
   name: string;
   code: string;
@@ -12,22 +12,22 @@ export interface SwyftxAsset {
   mining_fee: number;
   primary: boolean;
   secondary: boolean;
-}
+};
 
-export interface Balance {
+export type Balance = {
   assetId: number;
   name: string;
   availableBalance: string;
   stakingBalance: string;
   marketId: string;
-}
+};
 
-export interface SwyftxJWT {
+export type SwyftxJWT = {
   accessToken: string;
   scope: string;
-}
+};
 
-export interface Transaction {
+export type Transaction = {
   amount: number;
   trigger: number;
   quantity: number;
@@ -37,17 +37,17 @@ export interface Transaction {
   updated: Date;
   actionType: string;
   status: string;
-}
+};
 
-export interface Secrets {
+export type Secrets = {
   userId: string;
   id: string;
   apiKey: string | null;
   apiSecret: string | null;
-}
+};
 
-export interface SwyftxAccount {
+export type SwyftxAccount = {
   id: string;
   balance: Balance[];
   history: Transaction[];
-}
+};

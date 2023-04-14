@@ -1,22 +1,20 @@
-import React from 'react';
-
 import { SidebarContent } from './SidebarContent';
 
 import type { UseDisclosureProps } from '@chakra-ui/react';
 import { Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 import type { IconType } from 'react-icons';
 
-export interface SidebarLink {
+export type SidebarLink = {
   href: string;
   icon: IconType;
   label: string;
-}
+};
 
-interface SidebarProps extends Omit<UseDisclosureProps, 'isOpen' | 'onClose'> {
+type SidebarProps = Omit<UseDisclosureProps, 'isOpen' | 'onClose'> & {
   links: SidebarLink[];
   isOpen: boolean;
   onClose(): void;
-}
+};
 
 export function Sidebar({ links, ...props }: SidebarProps) {
   return (

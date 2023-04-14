@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   FormControl,
   FormErrorMessage,
@@ -8,29 +6,29 @@ import {
 } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 
-interface FormInputBase {
+type FormInputBase = {
   id?: string;
   name: string;
   label: string;
   hidden?: boolean;
   required?: boolean;
   error?: string;
-}
+};
 
-interface FormInput extends FormInputBase {
+type FormInput = FormInputBase & {
   type: 'text' | 'date';
   options?: never;
-}
+};
 
-interface SelectFormInput extends FormInputBase {
+type SelectFormInput = FormInputBase & {
   type: 'select';
   options?: string[];
-}
+};
 
-interface MultiSelectFormInput extends FormInputBase {
+type MultiSelectFormInput = FormInputBase & {
   type: 'multi-select';
   options?: Record<string, unknown>[];
-}
+};
 
 export type FormInputs = FormInput | SelectFormInput | MultiSelectFormInput;
 

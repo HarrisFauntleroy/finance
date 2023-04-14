@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { logger } from 'common';
 import { Debug, Drawer, TextInput } from 'ui';
 
 import { defaultToast } from '~/utils/toast';
-import type { RouterOutput } from '~/utils/trpc';
-import { trpc } from '~/utils/trpc';
+import { RouterOutput, trpc } from '~/utils/trpc';
 
 import { Autocomplete } from '../Form/Autocomplete';
 
@@ -28,9 +27,9 @@ import type { Settings } from 'database/generated/prisma-client';
 import { useSession } from 'next-auth/react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-interface SettingsFormProps {
+type SettingsFormProps = {
   defaultValues?: RouterOutput['settings']['byUserId'];
-}
+};
 
 export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
   const session = useSession();
@@ -130,9 +129,9 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
   );
 };
 
-interface SettingsDrawerProps {
+type SettingsDrawerProps = {
   defaultValues?: Settings;
-}
+};
 
 export const SettingsDrawer = ({ defaultValues }: SettingsDrawerProps) => {
   const { onClose, isOpen, onOpen } = useDisclosure();

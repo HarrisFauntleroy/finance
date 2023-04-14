@@ -17,8 +17,8 @@ export const CashSnapshotSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type CashSnapshot = z.infer<typeof CashSnapshotSchema>;
+export type CashSnapshot = z.infer<typeof CashSnapshotSchema>
 
 export default CashSnapshotSchema;

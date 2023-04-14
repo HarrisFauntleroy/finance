@@ -11,9 +11,9 @@ import {
 import { BsClipboard, BsClipboardCheck } from 'react-icons/bs';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
-interface CopyContentProps {
+type CopyContentProps = {
   content?: string | null;
-}
+};
 
 export const CopyContent = ({ content }: CopyContentProps) => {
   const [isRevealed, setIsRevealed] = useState(false);

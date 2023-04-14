@@ -28,13 +28,13 @@ import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
 
 type AssetTransactionUpdateInput = RouterInput['assetTransactions']['update'];
 
-interface UpdateAssetTransaction extends AssetTransactionUpdateInput {
+type UpdateAssetTransaction = AssetTransactionUpdateInput & {
   id: string;
-}
+};
 
-interface CreateAssetTransaction extends AssetTransactionUpdateInput {
+type CreateAssetTransaction = AssetTransactionUpdateInput & {
   id: never;
-}
+};
 
 export type AssetTransactionFormInputs =
   | CreateAssetTransaction

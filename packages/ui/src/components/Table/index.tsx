@@ -9,8 +9,8 @@ import { Pagination } from './Pagination';
 import { TableRow } from './TableRow';
 
 import {
-  Stack,
   Table as ChakraTable,
+  Stack,
   TableContainer,
   Tbody,
   Tfoot,
@@ -22,6 +22,9 @@ import {
   Column,
   ColumnDef,
   ColumnFiltersState,
+  PaginationState,
+  Row,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
@@ -31,14 +34,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  PaginationState,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 
-interface TableProps<T extends { id: string }> {
+type TableProps<T extends { id: string }> = {
   id: string;
   columns: ColumnDef<T>[] | Column<T>[];
   data: T[];
@@ -48,7 +48,7 @@ interface TableProps<T extends { id: string }> {
   filterEnabled?: boolean;
   renderExpandedRow?: ({ row }: { row: Row<T> }) => ReactNode;
   canExpandRows?: boolean;
-}
+};
 
 export const Table = <T extends { id: string }>({
   columns,

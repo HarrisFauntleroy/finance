@@ -3,11 +3,11 @@ import { flexRender } from '@tanstack/react-table';
 import { Cell } from '@tanstack/table-core';
 import { useFormContext } from 'react-hook-form';
 
-interface EditableCellProps<T> {
+type EditableCellProps<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cell: Cell<T, any>;
   editing: boolean;
-}
+};
 
 export function EditableCell<T>({ cell, editing }: EditableCellProps<T>) {
   const { register } = useFormContext();

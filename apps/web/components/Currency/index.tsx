@@ -7,11 +7,11 @@ import { PrivacyContext } from 'components/Providers/Privacy';
 import currency from 'currency.js';
 import { useSession } from 'next-auth/react';
 
-interface CurrencyProps {
+type CurrencyProps = {
   value?: string | number | null;
   minimumFractionDigits?: number;
   maximumFractionDigits?: number;
-}
+};
 
 function Currency({ value }: CurrencyProps) {
   const { privacy: hidden } = useContext(PrivacyContext);
