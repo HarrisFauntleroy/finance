@@ -2,18 +2,20 @@
 
 Alchemical Finance is a TypeScript-based monorepo that aims to provide a comprehensive financial solution using modern web technologies. It consists of multiple applications and packages working together to deliver a seamless user experience.
 
-[![Build Status](https://travis-ci.org/elixir-money/monorepo.svg?branch=main)](https://travis-ci.org/elixir-money/monorepo)
-[![Coverage Status](https://coveralls.io/repos/github/elixir-money/monorepo/badge.svg)](https://coveralls.io/github/elixir-money/monorepo)
+## Table of Contents
 
-## Stack
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Prisma](https://prisma.io/) for database ORM
-- [Docker Compose](https://docs.docker.com/compose/) for local database
+- [Apps](#apps)
+- [Packages](#packages)
+- [Local Development](#local-development)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
 ## Apps
+
+Alchemical Finance includes the following apps:
 
 | Folder   | Description                            | README                          |
 | -------- | -------------------------------------- | ------------------------------- |
@@ -21,6 +23,8 @@ Alchemical Finance is a TypeScript-based monorepo that aims to provide a compreh
 | `worker` | A Node.js, BullMQ & Redis based worker | [README](apps/worker/README.md) |
 
 ## Packages
+
+Alchemical Finance includes the following packages:
 
 | Folder     | Description                                                               | README                                |
 | ---------- | ------------------------------------------------------------------------- | ------------------------------------- |
@@ -30,7 +34,9 @@ Alchemical Finance is a TypeScript-based monorepo that aims to provide a compreh
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-## Local development
+## Local Development
+
+To get started with local development, follow these steps:
 
 ### Prerequisites
 
@@ -86,7 +92,13 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
    yarn run dev
    ```
 
-## Contributing 💪
+## Testing
+Describe how to test the app here.
+
+## Deployment
+Describe how to deploy the app here
+
+## Contributing
 
 We welcome contributions to the Alchemical Finance project! If you would like to contribute, please follow these steps:
 
@@ -98,10 +110,10 @@ We welcome contributions to the Alchemical Finance project! If you would like to
 
 For bug reports, feature requests, and other issues, please use the GitHub issue tracker to submit them.
 
-## Security 🚨
+## Security
 
 If you discover a security vulnerability in the Alchemical Finance project, please email us at [security@example.com](mailto:) instead of using the issue tracker. We will address the issue as soon as possible and appreciate your discretion in keeping our users safe.
 
-## License ⚖️
+## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
