@@ -1,5 +1,5 @@
 # Specify a base image
-FROM node:16
+FROM node:19
 
 # Specify a working directory
 WORKDIR /usr/src/worker
