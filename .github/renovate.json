@@ -13,7 +13,7 @@
       "groupName": "Apps",
       "matchPackagePatterns": ["^apps/"],
       "versioning": "auto",
-      "updateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": false, // Disable automerging for app updates
       "automergeType": "pr", // Allow Renovate to create a PR for minor updates
       "automergeMinor": true // Enable automerging for minor updates
@@ -22,17 +22,19 @@
       "groupName": "Packages",
       "matchPackagePatterns": ["^(common|database|ui)/"],
       "versioning": "auto",
-      "updateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": false, // Disable automerging for package updates
       "automergeType": "pr", // Allow Renovate to create a PR for minor updates
       "automergeMinor": true // Enable automerging for minor updates
     }
   ],
-  "platform": "github",
-  "apiEndpoint": "https://api.github.com/",
-  "authTokenEnv": "RENOVATE_TOKEN",
-  "prTitle": "chore(deps): update {{depName}} to {{newVersion}}",
-  "prBody": "Updates {{depName}} to version {{newVersion}}.\n\n{{changelog}}",
+  "platforms": [
+    {
+      "platform": "github",
+      "prTitle": "chore(deps): update {{depName}} to {{newVersion}}",
+      "prBody": "Updates {{depName}} to version {{newVersion}}.\n\n{{changelog}}"
+    }
+  ],
   "labels": [
     "dependencies",
     "typescript",
