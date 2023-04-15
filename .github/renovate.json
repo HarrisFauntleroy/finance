@@ -1,4 +1,49 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>HarrisFauntleroy/renovate-config"]
+  "extends": [
+    "config:base",
+    "config:monorepo",
+    "group:monorepo-apps",
+    "group:monorepo-packages",
+    ":semanticPrefixFixed",
+    ":prConcurrentLimit10",
+    ":rebaseStalePRs"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Apps",
+      "matchPackagePatterns": ["^apps/"],
+      "allowedVersions": "latest",
+      "versioning": "auto",
+      "updateTypes": ["minor", "patch"],
+      "automerge": false, // Disable automerging for app updates
+      "automergeType": "PR", // Allow Renovate to create a PR for minor updates
+      "automergeMinor": true // Enable automerging for minor updates
+    },
+    {
+      "groupName": "Packages",
+      "matchPackagePatterns": ["^(common|database|ui)/"],
+      "allowedVersions": "latest",
+      "versioning": "auto",
+      "updateTypes": ["minor", "patch"],
+      "automerge": false, // Disable automerging for package updates
+      "automergeType": "PR", // Allow Renovate to create a PR for minor updates
+      "automergeMinor": true // Enable automerging for minor updates
+    }
+  ],
+  "platforms": [
+    {
+      "platform": "github",
+      "apiEndpoint": "https://api.github.com/",
+      "authTokenEnv": "RENOVATE_TOKEN",
+      "prTitle": "chore(deps): update {{depName}} to {{newVersion}}",
+      "prBody": "Updates {{depName}} to version {{newVersion}}.\n\n{{changelog}}"
+    }
+  ],
+  "labels": [
+    "dependencies",
+    "typescript",
+    "renovate"
+  ],
+  "commitMessagePrefix": "chore(deps): ",
+  "commitMessageTopic": "{{depName}}"
 }
