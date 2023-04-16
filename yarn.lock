@@ -4044,7 +4044,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/core@npm:^29.4.3, @jest/core@npm:^29.5.0":
+"@jest/core@npm:^29.5.0":
   version: 29.5.0
   resolution: "@jest/core@npm:29.5.0"
   dependencies:
@@ -4179,7 +4179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/schemas@npm:^29.4.0, @jest/schemas@npm:^29.4.3":
+"@jest/schemas@npm:^29.4.3":
   version: 29.4.3
   resolution: "@jest/schemas@npm:29.4.3"
   dependencies:
@@ -4246,17 +4246,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:29.4.0":
-  version: 29.4.0
-  resolution: "@jest/types@npm:29.4.0"
+"@jest/types@npm:29.5.0, @jest/types@npm:^29.5.0":
+  version: 29.5.0
+  resolution: "@jest/types@npm:29.5.0"
   dependencies:
-    "@jest/schemas": ^29.4.0
+    "@jest/schemas": ^29.4.3
     "@types/istanbul-lib-coverage": ^2.0.0
     "@types/istanbul-reports": ^3.0.0
     "@types/node": "*"
     "@types/yargs": ^17.0.8
     chalk: ^4.0.0
-  checksum: be901c76df3d528e50901d6008b49960acaa762ccbf2cf68311f72c13dbe0ee179862b4e45061b419ad173b049b78dc87641b4fb23bba0539eebd955a9e12f7d
+  checksum: 1811f94b19cf8a9460a289c4f056796cfc373480e0492692a6125a553cd1a63824bd846d7bb78820b7b6f758f6dd3c2d4558293bb676d541b2fa59c70fdf9d39
   languageName: node
   linkType: hard
 
@@ -4270,20 +4270,6 @@ __metadata:
     "@types/yargs": ^16.0.0
     chalk: ^4.0.0
   checksum: d1f43cc946d87543ddd79d49547aab2399481d34025d5c5f2025d3d99c573e1d9832fa83cef25e9d9b07a8583500229d15bbb07b8e233d127d911d133e2f14b1
-  languageName: node
-  linkType: hard
-
-"@jest/types@npm:^29.4.3, @jest/types@npm:^29.5.0":
-  version: 29.5.0
-  resolution: "@jest/types@npm:29.5.0"
-  dependencies:
-    "@jest/schemas": ^29.4.3
-    "@types/istanbul-lib-coverage": ^2.0.0
-    "@types/istanbul-reports": ^3.0.0
-    "@types/node": "*"
-    "@types/yargs": ^17.0.8
-    chalk: ^4.0.0
-  checksum: 1811f94b19cf8a9460a289c4f056796cfc373480e0492692a6125a553cd1a63824bd846d7bb78820b7b6f758f6dd3c2d4558293bb676d541b2fa59c70fdf9d39
   languageName: node
   linkType: hard
 
@@ -9761,7 +9747,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "common@workspace:packages/common"
   dependencies:
-    "@jest/types": 29.4.0
+    "@jest/types": 29.5.0
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
     "@types/react": 18.0.35
@@ -9778,7 +9764,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^10.0.0
     eslint-plugin-sonarjs: 0.16.0
     eslint-watch: ^8.0.0
-    jest: 29.4.3
+    jest: 29.5.0
     rimraf: ^4.4.1
     ts-jest: ^29.1.0
     tsup: ^6.7.0
@@ -10287,7 +10273,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "database@workspace:packages/database"
   dependencies:
-    "@jest/types": 29.4.0
+    "@jest/types": 29.5.0
     "@prisma/client": ^4.1.1
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
@@ -10303,7 +10289,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^10.0.0
     eslint-plugin-sonarjs: 0.16.0
     eslint-watch: ^8.0.0
-    jest: 29.4.3
+    jest: 29.5.0
     prisma: ^4.1.1
     rimraf: ^4.4.1
     ts-jest: ^29.1.0
@@ -14374,7 +14360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-cli@npm:^29.4.3":
+"jest-cli@npm:^29.5.0":
   version: 29.5.0
   resolution: "jest-cli@npm:29.5.0"
   dependencies:
@@ -14780,14 +14766,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:29.4.3":
-  version: 29.4.3
-  resolution: "jest@npm:29.4.3"
+"jest@npm:29.5.0":
+  version: 29.5.0
+  resolution: "jest@npm:29.5.0"
   dependencies:
-    "@jest/core": ^29.4.3
-    "@jest/types": ^29.4.3
+    "@jest/core": ^29.5.0
+    "@jest/types": ^29.5.0
     import-local: ^3.0.2
-    jest-cli: ^29.4.3
+    jest-cli: ^29.5.0
   peerDependencies:
     node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
   peerDependenciesMeta:
@@ -14795,7 +14781,7 @@ __metadata:
       optional: true
   bin:
     jest: bin/jest.js
-  checksum: 084d10d1ceaade3c40e6d3bbd71b9b71b8919ba6fbd6f1f6699bdc259a6ba2f7350c7ccbfa10c11f7e3e01662853650a6244210179542fe4ba87e77dc3f3109f
+  checksum: a8ff2eb0f421623412236e23cbe67c638127fffde466cba9606bc0c0553b4c1e5cb116d7e0ef990b5d1712851652c8ee461373b578df50857fe635b94ff455d5
   languageName: node
   linkType: hard
 
@@ -21979,7 +21965,7 @@ __metadata:
     "@choc-ui/chakra-autocomplete": ^5.1.4
     "@emotion/react": 11.10.6
     "@emotion/styled": ^11.10.6
-    "@jest/types": 29.4.0
+    "@jest/types": 29.5.0
     "@storybook/addon-essentials": ^7.0.4
     "@storybook/addon-interactions": ^7.0.4
     "@storybook/addon-links": ^7.0.4
@@ -22017,7 +22003,7 @@ __metadata:
     i18next: ^22.0.4
     i18next-browser-languagedetector: ^7.0.1
     i18next-http-backend: ^2.0.1
-    jest: 29.4.3
+    jest: 29.5.0
     katex: ^0.16.4
     next: ^13.1.1
     postcss: ^8.4.20
@@ -22932,7 +22918,7 @@ __metadata:
     "@emotion/react": ^11.10.6
     "@emotion/styled": ^11.10.6
     "@hookform/resolvers": ^3.0.0
-    "@jest/types": 29.4.0
+    "@jest/types": 29.5.0
     "@next-auth/prisma-adapter": ^1.0.4
     "@next/eslint-plugin-next": 13.2.4
     "@storybook/addon-essentials": ^7.0.4
@@ -22984,7 +22970,7 @@ __metadata:
     i18next: ^22.0.4
     i18next-browser-languagedetector: ^7.0.1
     i18next-http-backend: ^2.0.1
-    jest: 29.4.3
+    jest: 29.5.0
     lodash: ^4.17.21
     next: 13.2.4
     next-auth: ^4.18.7
@@ -23251,7 +23237,7 @@ __metadata:
     "@cosmjs/tendermint-rpc": ^0.29.5
     "@harmony-js/core": ^0.1.57
     "@harmony-js/utils": ^0.1.56
-    "@jest/types": 29.4.0
+    "@jest/types": 29.5.0
     "@types/express": 4.17.15
     "@types/jest": ^29.5.0
     "@types/node": ^18.11.6
@@ -23279,7 +23265,7 @@ __metadata:
     eslint-watch: ^8.0.0
     evmosjs: ^0.2.16
     express: 4.18.2
-    jest: 29.4.3
+    jest: 29.5.0
     node-fetch: ^3.3.0
     nodemon: 2.0.22
     prisma: "*"
