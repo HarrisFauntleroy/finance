@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { logger } from 'common';
 import { Debug, Drawer, TextInput } from 'ui';
 
-import { defaultToast } from '~/utils/toast';
-import { RouterOutput, trpc } from '~/utils/trpc';
+import { defaultToast } from '../../utils/toast';
+import { RouterOutput, trpc } from '../../utils/trpc';
 
 import { Autocomplete } from '../Form/Autocomplete';
 

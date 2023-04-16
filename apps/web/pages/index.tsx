@@ -7,8 +7,8 @@
 import { AssetBuilder, calculateTransactions } from 'common';
 import { JSONObjectViewer, Page } from 'ui';
 
-import type { NextPageWithLayout } from '~/pages/_app';
-import { trpc } from '~/utils/trpc';
+import type { NextPageWithLayout } from '../pages/_app';
+import { trpc } from '../utils/trpc';
 
 import { Heading } from '@chakra-ui/react';
 import {

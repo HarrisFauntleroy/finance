@@ -17,8 +17,8 @@ export const SecuritySnapshotSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-})
+});
 
-export type SecuritySnapshot = z.infer<typeof SecuritySnapshotSchema>
+export type SecuritySnapshot = z.infer<typeof SecuritySnapshotSchema>;
 
 export default SecuritySnapshotSchema;

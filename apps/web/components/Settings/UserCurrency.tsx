@@ -1,9 +1,7 @@
-import React from 'react';
+import { trpc } from '../../utils/trpc';
 
-import { trpc } from '~/utils/trpc';
-
-import NextError from 'next/error';
 import { useSession } from 'next-auth/react';
+import NextError from 'next/error';
 
 export const UserCurrency = () => {
   const { data: session } = useSession();

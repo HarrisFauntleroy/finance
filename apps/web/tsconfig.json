@@ -15,11 +15,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "outDir": "./dist",
-    "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-      "~/*": ["./*"]
-    },
+    "baseUrl": "./",
+    "rootDir": "./",
     "plugins": [
       {
         "name": "next"

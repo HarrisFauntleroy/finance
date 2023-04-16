@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { AssetTable } from '~/components/lol';
+import { AssetTable } from '../../components/lol';
 
 import {
   Avatar,

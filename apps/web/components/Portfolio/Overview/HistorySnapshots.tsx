@@ -2,14 +2,14 @@ import { useMemo } from 'react';
 
 import { Card, Table } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { historySnapshotColumns } from '../columns';
 
 import { Stack, Text } from '@chakra-ui/react';
-import Chart from 'components/Chart';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import Chart from '../../Chart';
 
 function sortFn<T extends { createdAt: Date }>(a: T, b: T) {
   if (a.createdAt < b.createdAt) {

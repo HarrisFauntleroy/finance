@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import { divide, multiply } from 'common';
 
@@ -28,37 +28,37 @@ const IncomeCounter = () => {
   const [hoursPerWeek, setHoursPerWeek] = useState(38);
 
   const handleIncomeChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setIncome(Number(e.target.value));
   };
 
   const handleFrequencyChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setFrequency(e.target.value);
   };
 
   const handleWeeksWorkedChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setWeeksWorked(Number(e.target.value));
   };
 
   const handleHoursPerWeekChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setHoursPerWeek(Number(e.target.value));
   };
 
   const handleStartTimeChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setStartTime(e.target.value);
   };
 
   const handleEndTimeChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: SetStateAction<string> };
   }) => {
     setEndTime(e.target.value);
   };

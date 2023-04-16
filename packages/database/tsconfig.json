@@ -20,5 +20,10 @@
     "declaration": true
   },
   "include": ["generated/zod", "src", "**/*.config.ts"],
-  "exclude": ["dist", "node_modules", "generated/prisma-client"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "generated/prisma-client",
+    "**/*.stories.*"
+  ]
 }

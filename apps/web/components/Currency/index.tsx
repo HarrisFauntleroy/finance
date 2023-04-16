@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../utils/trpc';
 
 import { chakra } from '@chakra-ui/react';
-import { PrivacyContext } from 'components/Providers/Privacy';
 import currency from 'currency.js';
 import { useSession } from 'next-auth/react';
+import { PrivacyContext } from '../Providers/Privacy';
 
 type CurrencyProps = {
   value?: string | number | null;

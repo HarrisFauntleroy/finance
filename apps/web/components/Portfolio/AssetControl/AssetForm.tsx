@@ -2,8 +2,8 @@ import { Fragment, useEffect } from 'react';
 
 import { logger } from 'common';
 
-import type { RouterInput } from '~/utils/trpc';
-import { trpc } from '~/utils/trpc';
+import type { RouterInput } from '../../../utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { EditIcon } from '@chakra-ui/icons';
 import {
@@ -21,10 +21,9 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { FormInputs } from 'components/Form/TextInput';
-import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { TextInput, type FormInputs } from '../../Form/TextInput';
 
 type AssetUpdateInput = RouterInput['assets']['update'];
 

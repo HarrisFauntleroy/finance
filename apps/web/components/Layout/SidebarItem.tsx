@@ -1,11 +1,11 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import { Role } from 'database/generated/prisma-client';
 
 import { Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import type { IconType } from 'react-icons';
 
 type SidebarItemProps = {
@@ -35,7 +35,7 @@ export function SidebarItem({
   const isActive = router.pathname === href;
 
   return (
-    <React.Fragment>
+    <Fragment>
       {(role === Role.ADMIN && userRole === role) ||
         (role === undefined && (
           <Link href={href || '#'}>
@@ -73,6 +73,6 @@ export function SidebarItem({
             </Flex>
           </Link>
         ))}
-    </React.Fragment>
+    </Fragment>
   );
 }

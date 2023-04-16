@@ -2,7 +2,7 @@ import { logger } from 'common';
 import { AccountConnection, Asset } from 'database/generated/prisma-client';
 import { Table } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../utils/trpc';
 
 import { CopyContent } from './CopyContent';
 

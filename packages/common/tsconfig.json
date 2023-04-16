@@ -18,13 +18,6 @@
     "rootDir": ".",
     "declaration": true
   },
-  "include": [
-    "**/*.js",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.jsx",
-    "**/*.config.js",
-    "**/*.d.ts"
-  ],
-  "exclude": ["dist", "node_modules"]
+  "include": ["**/*.js", "**/*.ts", "**/*.config.js", "**/*.d.ts"],
+  "exclude": ["dist", "node_modules", "*stories*"]
 }

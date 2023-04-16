@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { useDebounce } from '../../hooks/useDebounce';
 
@@ -10,7 +10,7 @@ type DebouncedInputProps = {
   debounce?: number;
 } & Omit<InputProps, 'value' | 'onChange'>;
 
-export const DebouncedInput: React.FC<DebouncedInputProps> = ({
+export const DebouncedInput: FC<DebouncedInputProps> = ({
   value: initialValue,
   onChange,
   debounce = 500,

@@ -1,6 +1,6 @@
-import { theme } from '~/styles/theme';
+import { theme } from '../../styles/theme';
 
-import { ChakraProvider as Provider, GlobalStyle } from '@chakra-ui/react';
+import { GlobalStyle, ChakraProvider as Provider } from '@chakra-ui/react';
 import type { PropsWithChildren } from 'react';
 
 export default function ChakraProvider<T>({ children }: PropsWithChildren<T>) {

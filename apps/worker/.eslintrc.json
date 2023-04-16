@@ -5,14 +5,16 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "prettier",
     "simple-import-sort",
     "import",
-    "sonarjs"
+    "sonarjs",
+    "prettier"
   ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
     "plugin:import/typescript",
+    "plugin:import/recommended",
     "plugin:sonarjs/recommended",
     "plugin:prettier/recommended" // Always put prettier last
   ],
@@ -25,6 +27,10 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": true,
+      "node": true
     }
   },
   "rules": {

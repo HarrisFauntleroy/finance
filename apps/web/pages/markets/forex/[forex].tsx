@@ -1,7 +1,7 @@
 import { MarketType } from 'database/generated/prisma-client';
 import { Debug, Page } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { useRouter } from 'next/router';
 

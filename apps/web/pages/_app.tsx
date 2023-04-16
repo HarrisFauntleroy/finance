@@ -1,19 +1,19 @@
-import React from 'react';
+import { ReactElement, ReactNode } from 'react';
 
-import { initI18n } from '~/i18n';
-import SEO from '~/next-seo.config';
+import { initI18n } from '../i18n';
+import SEO from '../next-seo.config';
 
 import { trpc } from '../utils/trpc';
 import Auth from './auth';
 
-import { Layout } from 'components/Layout';
-import { AppContext } from 'components/Providers';
 import type { Role } from 'database/generated/prisma-client';
 import { type NextPage } from 'next';
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import { type AppProps } from 'next/app';
+import { Layout } from '../components/Layout';
+import { AppContext } from '../components/Providers';
 
 export type WithAuth = {
   auth: boolean;
@@ -27,7 +27,7 @@ export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
   P,
   IP
 > & {
-  getLayout?: (page: React.ReactElement) => React.ReactNode;
+  getLayout?: (page: ReactElement) => ReactNode;
 } & WithAuth &
   WithRole;
 

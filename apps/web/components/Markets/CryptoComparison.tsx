@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { divide, multiply, subtract } from 'common';
 import { Card, Grid } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../utils/trpc';
 
 import {
   Avatar,

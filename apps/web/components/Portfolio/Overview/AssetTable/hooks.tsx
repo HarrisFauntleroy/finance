@@ -1,6 +1,6 @@
 import { logger } from 'common';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../../utils/trpc';
 
 import { useToast } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';

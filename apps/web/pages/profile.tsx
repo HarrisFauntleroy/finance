@@ -3,15 +3,14 @@
  * Profile page
  *
  */
-import React from 'react';
 
 import { Body, Page } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../utils/trpc';
 
 import { Button } from '@chakra-ui/react';
-import { SettingsForm } from 'components/Settings/Form';
 import { useSession } from 'next-auth/react';
+import { SettingsForm } from '../components/Settings/Form';
 
 const Profile = () => {
   /** Session from next-auth */

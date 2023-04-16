@@ -1,12 +1,10 @@
-import React from 'react';
-
 import { Card } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import {
-  Stack,
   Table as ChakraTable,
+  Stack,
   TableContainer,
   Tbody,
   Td,
@@ -14,8 +12,8 @@ import {
   Th,
   Tr,
 } from '@chakra-ui/react';
-import Currency from 'components/Currency';
 import { useSession } from 'next-auth/react';
+import Currency from '../../Currency';
 
 function Overview() {
   const session = useSession();

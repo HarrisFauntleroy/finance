@@ -19,13 +19,13 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import Papa from 'papaparse';
+import { parse } from 'papaparse';
 import type { ChangeEvent } from 'react';
 
 // Load the CSV file and parse its contents
 export async function loadCSV(file: File): Promise<unknown[]> {
   return new Promise((resolve, reject) =>
-    Papa.parse(file, {
+    parse(file, {
       header: true,
       dynamicTyping: true,
       complete: (results) => {

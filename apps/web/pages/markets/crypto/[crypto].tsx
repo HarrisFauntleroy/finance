@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { MarketType } from 'database/generated/prisma-client';
 import { Debug, Page } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import NextError from 'next/error';
 import { useRouter } from 'next/router';

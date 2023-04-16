@@ -27,6 +27,7 @@
     "fix": "turbo run fix",
     "format": "prettier --write .",
     "lint": "turbo run lint",
+    "lint:watch": "turbo run lint:watch --",
     "lint:fix": "turbo run lint:fix --",
     "test": "turbo run test --concurrency=1",
     "test:ci": "turbo run test:ci",
@@ -64,7 +65,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn lint:fix",
       "yarn format"
     ]
   },

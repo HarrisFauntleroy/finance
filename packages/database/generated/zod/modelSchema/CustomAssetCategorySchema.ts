@@ -12,8 +12,8 @@ export const CustomAssetCategorySchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-})
+});
 
-export type CustomAssetCategory = z.infer<typeof CustomAssetCategorySchema>
+export type CustomAssetCategory = z.infer<typeof CustomAssetCategorySchema>;
 
 export default CustomAssetCategorySchema;

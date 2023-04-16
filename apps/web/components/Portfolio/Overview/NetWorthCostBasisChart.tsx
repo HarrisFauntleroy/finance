@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { Card, useColorModeValue } from '@chakra-ui/react';
 import currency from 'currency.js';

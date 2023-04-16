@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { Card, Grid } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { BudgetControl } from '../BudgetControl';
 

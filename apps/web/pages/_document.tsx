@@ -3,9 +3,8 @@
  * Custom _document
  *
  */
-import React from 'react';
 
-import { theme } from '~/styles/theme';
+import { theme } from '../styles/theme';
 
 import { ColorModeScript } from '@chakra-ui/react';
 import { Head, Html, Main, NextScript } from 'next/document';

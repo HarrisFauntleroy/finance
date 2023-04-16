@@ -1,4 +1,4 @@
-import { hasUserSession } from '~/pages/api/auth/[...nextauth]';
+import { hasUserSession } from '../../../pages/api/auth/[...nextauth]';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
