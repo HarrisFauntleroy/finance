@@ -1,7 +1,7 @@
 import { AssetWithCalculatedValues } from 'common';
 import { Table } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../../utils/trpc';
 
 import { useAssetActions } from './hooks';
 

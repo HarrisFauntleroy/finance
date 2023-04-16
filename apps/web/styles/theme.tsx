@@ -1,10 +1,9 @@
 import type { ThemeConfig } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
-import type { GlobalStyleProps } from '@chakra-ui/theme-tools';
 import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 
 const styles = {
-  global: (_props: GlobalStyleProps) => ({
+  global: () => ({
     'html, body, #__next': {
       fontKerning: 'auto',
       fontSmooth: 'antialiased',

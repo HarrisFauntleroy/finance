@@ -1,4 +1,4 @@
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Button, useToast } from '@chakra-ui/react';

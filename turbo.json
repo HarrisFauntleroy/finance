@@ -21,9 +21,15 @@
       "dependsOn": ["^generate"]
     },
     "lint": {
+      "cache": false,
+      "outputs": []
+    },
+    "lint:watch": {
+      "cache": false,
       "outputs": []
     },
     "lint:fix": {
+      "cache": false,
       "outputs": []
     },
     "type-check": {

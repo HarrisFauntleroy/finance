@@ -20,7 +20,6 @@ import { ConnectionOptions, Queue as QueueMQ, Worker } from 'bullmq';
 import { config } from 'dotenv';
 import express from 'express';
 
-/** dotenv */
 config();
 
 const bullBoardPath = '/admin/queues';

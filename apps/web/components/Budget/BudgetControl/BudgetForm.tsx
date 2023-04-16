@@ -1,7 +1,5 @@
 import { Fragment, useEffect } from 'react';
 
-import { trpc } from '~/utils/trpc';
-
 import { EditIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -18,10 +16,10 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react';
-import type { FormInputs } from 'components/Form/TextInput';
-import { TextInput } from 'components/Form/TextInput';
 import { useSession } from 'next-auth/react';
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
+import { trpc } from '../../../utils/trpc';
+import { FormInputs, TextInput } from '../../Form/TextInput';
 
 export type BudgetFormInputs = {
   id?: string;
@@ -51,7 +49,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
 
   useEffect(() => reset(defaultValues), [defaultValues, reset]);
 
-  const onValidSubmit: SubmitHandler<BudgetFormInputs> = (_data) => {
+  const onValidSubmit: SubmitHandler<BudgetFormInputs> = () => {
     return new Error('No userId provided');
   };
 

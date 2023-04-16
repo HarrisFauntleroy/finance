@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 
 import { Card } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
-import ChartScaffold from 'components/Chart';
 import currency from 'currency.js';
 import { useSession } from 'next-auth/react';
+import ChartScaffold from '../../Chart';
 
 export const AllocationPieChart = () => {
   const session = useSession();

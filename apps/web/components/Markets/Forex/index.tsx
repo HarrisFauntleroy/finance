@@ -1,6 +1,6 @@
 import { Table } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import { forexColumns } from './columns';
 

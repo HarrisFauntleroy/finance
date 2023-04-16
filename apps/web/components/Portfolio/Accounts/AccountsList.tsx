@@ -7,8 +7,8 @@ import {
 } from 'database/generated/prisma-client';
 import { Table } from 'ui';
 
-import type { RouterOutput } from '~/utils/trpc';
-import { trpc } from '~/utils/trpc';
+import type { RouterOutput } from '../../../utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 import {
   Avatar,
@@ -24,14 +24,13 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import type { ColumnDef } from '@tanstack/react-table';
 import { AssetWithCalculatedValues } from 'common';
-import Currency from 'components/Currency';
 import currency from 'currency.js';
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { formatDuration, intervalToDuration } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { MdCompareArrows } from 'react-icons/md';
 import { FormattedNumber } from 'react-intl';
+import Currency from '../../Currency';
 
 const statusColor = (status: AssetStatus | null) => {
   switch (status) {

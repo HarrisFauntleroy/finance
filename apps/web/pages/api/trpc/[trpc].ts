@@ -1,5 +1,5 @@
-import { createContext } from '~/server/trpc/context';
-import { appRouter } from '~/server/trpc/router/_app';
+import { createContext } from '../../../server/trpc/context';
+import { appRouter } from '../../../server/trpc/router/_app';
 
 import { env } from '../../../env/server.mjs';
 

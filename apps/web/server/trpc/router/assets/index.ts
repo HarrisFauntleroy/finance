@@ -2,7 +2,7 @@ import { calculateAssetValue, calculateAssetValueOverview } from 'common';
 import { AssetSchema, prisma } from 'database';
 import { type Prisma } from 'database/generated/prisma-client';
 
-import { getExchangeRates, getUserCurrency } from '~/server/api';
+import { getExchangeRates, getUserCurrency } from '../../../api';
 
 import { publicProcedure, router } from '../../trpc';
 import { createAsset } from './create';

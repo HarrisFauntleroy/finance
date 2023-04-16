@@ -1,9 +1,8 @@
 import { convertCurrency, multiply, sumGroupByCategory } from 'common';
 import { Category } from 'database/generated/prisma-client';
 
-import { getExchangeRates, getUserCurrency } from '~/server/api';
-
 import { getAssetsWithMarket } from './getAssetsWithMarket';
+import { getUserCurrency, getExchangeRates } from '../../../api';
 
 export type PortfolioAllocation = {
   name: string;

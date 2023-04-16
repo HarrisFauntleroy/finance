@@ -20,10 +20,13 @@
     "declaration": true
   },
   "include": [
+    "src",
     "**/*.js",
     "**/*.ts",
     "**/*.tsx",
     "**/*.jsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
     "**/*.config.js",
     "**/*.d.ts"
   ],

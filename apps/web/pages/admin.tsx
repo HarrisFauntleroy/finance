@@ -3,11 +3,10 @@
  * Index page
  *
  */
-import React from 'react';
 
 import { Card, Grid, MarkdownEditor, Page } from 'ui';
 
-import { trpc } from '~/utils/trpc';
+import { trpc } from '../utils/trpc';
 
 import {
   Avatar,
@@ -22,7 +21,7 @@ import {
   StatNumber,
   Text,
 } from '@chakra-ui/react';
-import { Csv } from 'components/Csv';
+import { Csv } from '../components/Csv';
 
 const Index = () => {
   const { data: users } = trpc.user.all.useQuery();

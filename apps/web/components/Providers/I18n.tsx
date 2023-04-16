@@ -3,11 +3,11 @@
  * Internationalization
  *
  */
-import React from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
-import enAUMessages from '~/lang/en-AU.json';
-import enUSMessages from '~/lang/en-US.json';
-import zhCNMessages from '~/lang/zh-CN.json';
+import enAUMessages from '../../lang/en-AU.json';
+import enUSMessages from '../../lang/en-US.json';
+import zhCNMessages from '../../lang/zh-CN.json';
 
 import type { PropsWithChildren } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
@@ -25,7 +25,7 @@ export type LocaleType = {
 
 type IntlContextType = {
   locale: LocaleType;
-  setLocale: React.Dispatch<React.SetStateAction<LocaleType>>;
+  setLocale: Dispatch<SetStateAction<LocaleType>>;
 };
 
 const defaultValues = {
@@ -33,10 +33,10 @@ const defaultValues = {
   setLocale: () => null,
 };
 
-export const IntlContext = React.createContext<IntlContextType>(defaultValues);
+export const IntlContext = createContext<IntlContextType>(defaultValues);
 
 export function IntlProvider<T>({ children }: PropsWithChildren<T>) {
-  const [locale, setLocale] = React.useState<LocaleType>(defaultValues.locale);
+  const [locale, setLocale] = useState<LocaleType>(defaultValues.locale);
 
   const messages = {
     [LOCALE.AUSTRALIAN]: enAUMessages,

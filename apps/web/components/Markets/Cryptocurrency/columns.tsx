@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { isNegative } from 'common';
 
 import {
@@ -12,11 +10,10 @@ import {
   Text,
 } from '@chakra-ui/react';
 import type { ColumnDef } from '@tanstack/react-table';
-import Currency from 'components/Currency';
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { formatDuration, intervalToDuration } from 'date-fns';
 import Link from 'next/link';
 import { BsFileMinus, BsPlus } from 'react-icons/bs';
+import Currency from '../../../components/Currency';
 
 /** Column definitions for markets page */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
