@@ -1482,7 +1482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.0, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.0, @babel/runtime@npm:^7.9.2":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
   dependencies:
@@ -1545,10 +1545,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@braintree/sanitize-url@npm:=6.0.0":
-  version: 6.0.0
-  resolution: "@braintree/sanitize-url@npm:6.0.0"
-  checksum: 409ce7709dc1a0c67bc887d20af1becd4145d5c62cc5124b1c4c1f3ea2a8d69b0ee9f582d446469c6f5294b56442b99048cbbba6861dd5c834d4e019b95e1f40
+"@braintree/sanitize-url@npm:=6.0.2":
+  version: 6.0.2
+  resolution: "@braintree/sanitize-url@npm:6.0.2"
+  checksum: 6a9dfd4081cc96516eeb281d1a83d3b5f1ad3d2837adf968fcc2ba18889ee833554f9c641b4083c36d3360a932e4504ddf25b0b51e9933c3742622df82cf7c9a
   languageName: node
   linkType: hard
 
@@ -6932,7 +6932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.3.0, @types/hoist-non-react-statics@npm:^3.3.1":
+"@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
   dependencies:
@@ -7227,18 +7227,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.1.20":
-  version: 7.1.25
-  resolution: "@types/react-redux@npm:7.1.25"
-  dependencies:
-    "@types/hoist-non-react-statics": ^3.3.0
-    "@types/react": "*"
-    hoist-non-react-statics: ^3.3.0
-    redux: ^4.0.0
-  checksum: a61ec25cbf8bb3720850402d3c49493fcff4afb73ad447d161460b5d4c600c984ad48708e8564d2fd32052eaa3c3b3f655c5b300ce813429637cce9e5958329f
-  languageName: node
-  linkType: hard
-
 "@types/react@npm:*, @types/react@npm:16 || 17 || 18, @types/react@npm:18.0.35, @types/react@npm:>=16":
   version: 18.0.35
   resolution: "@types/react@npm:18.0.35"
@@ -7299,12 +7287,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/swagger-ui-react@npm:4.11.0":
-  version: 4.11.0
-  resolution: "@types/swagger-ui-react@npm:4.11.0"
+"@types/swagger-ui-react@npm:4.18.0":
+  version: 4.18.0
+  resolution: "@types/swagger-ui-react@npm:4.18.0"
   dependencies:
     "@types/react": "*"
-  checksum: cec88ffebaba7ce576d4945c901157a4aac360a669741abb6deacdf31435af5a679154d4f9281cc178214441ed1ac2cc800bd7a8f8588d1221984bef0c16c8aa
+  checksum: fa946a76ece76cdbaf8d8dc2945d690787f67b29a9ed14d95b706b8a7fca2d4161a62eeda74ce81c09b872c23b788f86dab36607e891744c91f425b92e302cef
   languageName: node
   linkType: hard
 
@@ -10605,10 +10593,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:=2.3.10":
-  version: 2.3.10
-  resolution: "dompurify@npm:2.3.10"
-  checksum: ee343876b4c065e82d194818c66af76a6d2290264c7db583ad71761c11781fd626f0245f9f4670175d5707c4b8fcfb89adae80bed0418a9426a47ee7f36b0ffc
+"dompurify@npm:=3.0.1":
+  version: 3.0.1
+  resolution: "dompurify@npm:3.0.1"
+  checksum: 19447e6d96415a8ad3a67bc9c76ffe671eb31cf7c1e0a538cbe5037c8b8b03afe144d64cf96c6e0f7fe63b83721a33b5b913394d20a85e96550e42e31f7c086b
   languageName: node
   linkType: hard
 
@@ -18686,7 +18674,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^17.0.1, react-is@npm:^17.0.2":
+"react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
@@ -18735,24 +18723,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.4":
-  version: 7.2.9
-  resolution: "react-redux@npm:7.2.9"
+"react-redux@npm:^8.0.5":
+  version: 8.0.5
+  resolution: "react-redux@npm:8.0.5"
   dependencies:
-    "@babel/runtime": ^7.15.4
-    "@types/react-redux": ^7.1.20
+    "@babel/runtime": ^7.12.1
+    "@types/hoist-non-react-statics": ^3.3.1
+    "@types/use-sync-external-store": ^0.0.3
     hoist-non-react-statics: ^3.3.2
-    loose-envify: ^1.4.0
-    prop-types: ^15.7.2
-    react-is: ^17.0.2
+    react-is: ^18.0.0
+    use-sync-external-store: ^1.0.0
   peerDependencies:
-    react: ^16.8.3 || ^17 || ^18
+    "@types/react": ^16.8 || ^17.0 || ^18.0
+    "@types/react-dom": ^16.8 || ^17.0 || ^18.0
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+    react-native: ">=0.59"
+    redux: ^4
   peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 369a2bdcf87915659af9e5c55abfd9f52a84e43e0d12dcc108ed17dbe6933558b7b7fc12caa9c10c1a10a8be7df89454b6c96989d8573fedec1a772c94a1f145
+    redux:
+      optional: true
+  checksum: a108f4f7ead6ac005e656d46051474a2bbdb31ede481bbbb3d8d779c1a35e1940b8655577cc5021313411864d305f67fc719aa48d6e5ed8288cf9cbe8b7042e4
   languageName: node
   linkType: hard
 
@@ -18998,7 +18997,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.1.2":
+"redux@npm:^4.1.2":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -20795,7 +20794,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-client@npm:^3.18.5":
+"swagger-client@npm:^3.19.5":
   version: 3.19.6
   resolution: "swagger-client@npm:3.19.6"
   dependencies:
@@ -20845,17 +20844,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-react@npm:4.15.5":
-  version: 4.15.5
-  resolution: "swagger-ui-react@npm:4.15.5"
+"swagger-ui-react@npm:4.18.2":
+  version: 4.18.2
+  resolution: "swagger-ui-react@npm:4.18.2"
   dependencies:
     "@babel/runtime-corejs3": ^7.18.9
-    "@braintree/sanitize-url": =6.0.0
+    "@braintree/sanitize-url": =6.0.2
     base64-js: ^1.5.1
     classnames: ^2.3.1
     css.escape: 1.5.1
     deep-extend: 0.6.0
-    dompurify: =2.3.10
+    dompurify: =3.0.1
     ieee754: ^1.2.1
     immutable: ^3.x.x
     js-file-download: ^0.4.12
@@ -20870,7 +20869,7 @@ __metadata:
     react-immutable-proptypes: 2.2.0
     react-immutable-pure-component: ^2.2.0
     react-inspector: ^6.0.1
-    react-redux: ^7.2.4
+    react-redux: ^8.0.5
     react-syntax-highlighter: ^15.5.0
     redux: ^4.1.2
     redux-immutable: ^4.0.0
@@ -20878,7 +20877,7 @@ __metadata:
     reselect: ^4.1.5
     serialize-error: ^8.1.0
     sha.js: ^2.4.11
-    swagger-client: ^3.18.5
+    swagger-client: ^3.19.5
     url-parse: ^1.5.8
     xml: =1.0.1
     xml-but-prettier: ^1.0.1
@@ -20886,7 +20885,7 @@ __metadata:
   peerDependencies:
     react: ">=17.0.0"
     react-dom: ">=17.0.0"
-  checksum: 22a72947da865ebfa9269f66b42c2b50105b6285bcb6546f8f356cf73961f76e397b7d79003641c9569bfb2163ea98e2f3f73a27b5b66843d308786c37362e1c
+  checksum: 400a0fef6f00b82a8933a2698c12e8f9c9563debaf24901089d6bfa69408d9e1da66b2cb93abed659e4922d672c64609c67561363ab06c0d6d2577cdc670b755
   languageName: node
   linkType: hard
 
@@ -22213,7 +22212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.0":
+"use-sync-external-store@npm:^1.0.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
@@ -22775,7 +22774,7 @@ __metadata:
     "@types/papaparse": ^5.3.7
     "@types/react": 18.0.35
     "@types/react-dom": ^18.0.11
-    "@types/swagger-ui-react": 4.11.0
+    "@types/swagger-ui-react": 4.18.0
     "@types/uuid": 9.0.1
     "@types/ws": ^8.5.3
     "@typescript-eslint/eslint-plugin": ^5.51.0
@@ -22825,7 +22824,7 @@ __metadata:
     storybook: ^7.0.4
     string-replace-loader: ^3.1.0
     superjson: 1.9.1
-    swagger-ui-react: 4.15.5
+    swagger-ui-react: 4.18.2
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
     tslib: ^2.5.0
