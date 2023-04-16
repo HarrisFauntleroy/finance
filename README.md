@@ -93,9 +93,11 @@ To get started with local development, follow these steps:
    ```
 
 ## Testing
+
 Describe how to test the app here.
 
 ## Deployment
+
 Describe how to deploy the app here
 
 ## Contributing
