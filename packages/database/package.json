@@ -21,7 +21,7 @@
     "generate": "prisma generate",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
     "lint": "yarn esw . --ext .js,.jsx,.ts,.tsx --color",
-    "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color",
+    "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
     "lint:fix": "yarn esw . --ext .js,.jsx,.ts,.tsx --fix --color",
     "prepare": "yarn build",
     "start": "NODE_ENV=production node dist/index.js",

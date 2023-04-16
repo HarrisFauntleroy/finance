@@ -13,7 +13,7 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
     "lint": "yarn esw . --ext .js,.jsx,.ts,.tsx --color",
-    "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color",
+    "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
     "lint:fix": "yarn esw . --ext .js,.jsx,.ts,.tsx --fix --color",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
