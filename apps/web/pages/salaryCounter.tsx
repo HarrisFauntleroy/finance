@@ -63,8 +63,6 @@ const IncomeCounter = () => {
     setEndTime(e.target.value);
   };
 
-  // Tax rate, or some simple way to factor in net/gross pay and tax and such would be useful
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const earningsPerWeek = divide(income, weeksWorked);
