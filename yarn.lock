@@ -20670,16 +20670,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:1.9.1":
-  version: 1.9.1
-  resolution: "superjson@npm:1.9.1"
-  dependencies:
-    copy-anything: ^3.0.2
-  checksum: b575fe4d18b7263b3d6a617dea7857a0f31ae30e80f8cc0c6fe18dc2e6b8bbd7b3374007ca67fa487e0159fff18cce03cbe0654a0df97f337bec6a8835c0eee3
-  languageName: node
-  linkType: hard
-
-"superjson@npm:^1.10.0":
+"superjson@npm:1.12.2, superjson@npm:^1.10.0":
   version: 1.12.2
   resolution: "superjson@npm:1.12.2"
   dependencies:
@@ -22822,7 +22813,7 @@ __metadata:
     rimraf: ^4.4.1
     storybook: ^7.0.4
     string-replace-loader: ^3.1.0
-    superjson: 1.9.1
+    superjson: 1.12.2
     swagger-ui-react: 4.18.2
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
