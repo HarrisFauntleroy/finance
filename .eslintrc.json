@@ -4,5 +4,6 @@
     "next": {
       "rootDir": ["apps/*/"]
     }
-  }
+  },
+  "ignorePatterns": [".yarn", "dist", "node_modules"]
 }

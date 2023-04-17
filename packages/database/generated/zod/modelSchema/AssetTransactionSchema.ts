@@ -28,8 +28,8 @@ export const AssetTransactionSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type AssetTransaction = z.infer<typeof AssetTransactionSchema>;
+export type AssetTransaction = z.infer<typeof AssetTransactionSchema>
 
 export default AssetTransactionSchema;
