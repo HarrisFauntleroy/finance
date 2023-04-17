@@ -9931,13 +9931,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmjs-types@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "cosmjs-types@npm:0.6.1"
+"cosmjs-types@npm:^0.7.0":
+  version: 0.7.2
+  resolution: "cosmjs-types@npm:0.7.2"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 479ca1b307db35c612a420b6b5d556e58c463478bf733a8328d83455e25dadfe0bc41623bb057040aabc532c4f0afb5475328179e9315419dd77439cb4431588
+  checksum: 4a0b730a7f1ae8efa8bd044f9ebdd7921f26319ff2abf36ac7e2f93ef6f3e73d90c1775ce2325611d47c4ccc72a708a63e31e89d9d80ad75c1107c7228e09bc8
   languageName: node
   linkType: hard
 
@@ -23070,7 +23070,7 @@ __metadata:
     bullmq: ^3.4.1
     cli-progress: ^3.11.2
     common: "*"
-    cosmjs-types: ^0.6.1
+    cosmjs-types: ^0.7.0
     database: "*"
     date-fns: ^2.29.3
     dinero.js: 1.9.1
