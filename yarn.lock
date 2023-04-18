@@ -7976,9 +7976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"apexcharts@npm:3.38.0":
-  version: 3.38.0
-  resolution: "apexcharts@npm:3.38.0"
+"apexcharts@npm:3.39.0":
+  version: 3.39.0
+  resolution: "apexcharts@npm:3.39.0"
   dependencies:
     svg.draggable.js: ^2.2.2
     svg.easing.js: ^2.0.0
@@ -7986,7 +7986,7 @@ __metadata:
     svg.pathmorphing.js: ^0.1.3
     svg.resize.js: ^1.4.3
     svg.select.js: ^3.0.1
-  checksum: e6123b6db16897c98a25b761c8f80d1e4bf33f95a6d4a1059d2f0fa371bd1bcf265a195093fdfe215dca59dea6e173a5ef9d9e766a1f6f8bbf3b425d9489e291
+  checksum: 2ffc7b2a581cf16726175d64f356e23db4da3636b4f4fa68616e7bc92bc5cb255218e4fa3e0be0c0de29fb041be67f17cbcfb1aa236e091bf645d3146d6b4ca6
   languageName: node
   linkType: hard
 
@@ -22780,7 +22780,7 @@ __metadata:
     "@types/ws": ^8.5.3
     "@typescript-eslint/eslint-plugin": ^5.51.0
     "@typescript-eslint/parser": ^5.58.0
-    apexcharts: 3.38.0
+    apexcharts: 3.39.0
     axios: 1.3.5
     chakra-ui-steps: ^1.8.0
     chart.js: 3.9.1
