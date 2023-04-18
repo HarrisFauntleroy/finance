@@ -17,8 +17,8 @@ export const PropertySnapshotSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-})
+});
 
-export type PropertySnapshot = z.infer<typeof PropertySnapshotSchema>
+export type PropertySnapshot = z.infer<typeof PropertySnapshotSchema>;
 
 export default PropertySnapshotSchema;

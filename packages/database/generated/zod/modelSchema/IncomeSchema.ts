@@ -15,8 +15,8 @@ export const IncomeSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-})
+});
 
-export type Income = z.infer<typeof IncomeSchema>
+export type Income = z.infer<typeof IncomeSchema>;
 
 export default IncomeSchema;
