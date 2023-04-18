@@ -42,7 +42,7 @@
     "@tanstack/react-table": "^8.7.4",
     "@tanstack/table-core": "^8.7.9",
     "autoprefixer": "^10.4.13",
-    "chakra-ui-steps": "^1.8.0",
+    "chakra-ui-steps": "^2.0.0",
     "common": "*",
     "currency.js": "^2.0.4",
     "database": "*",
