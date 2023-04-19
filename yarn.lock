@@ -9043,8 +9043,8 @@ __metadata:
   linkType: hard
 
 "bullmq@npm:^3.4.1":
-  version: 3.10.4
-  resolution: "bullmq@npm:3.10.4"
+  version: 3.11.0
+  resolution: "bullmq@npm:3.11.0"
   dependencies:
     cron-parser: ^4.6.0
     glob: ^8.0.3
@@ -9054,7 +9054,7 @@ __metadata:
     semver: ^7.3.7
     tslib: ^2.0.0
     uuid: ^9.0.0
-  checksum: 9208074b3e5733bb527d732598d2e1ae490dc350eea4a6927b50b3e2be8211c8bfc73a3f77e4b1c14bd633f69dd9ad90db64877bc009c2f1e1bae3e29032f961
+  checksum: 52abef20aec101fa6b8eeb14b44d6cea5efd07440d7d7eed3487da846214fd6bdb5c6451e7a926160e9c6e5b44721336c4373d8ae5b01efe843369e30f35f955
   languageName: node
   linkType: hard
 
