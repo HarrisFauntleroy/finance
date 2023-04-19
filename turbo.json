@@ -20,6 +20,10 @@
     "generate": {
       "dependsOn": ["^generate"]
     },
+    "watch": {
+      "cache": false,
+      "outputs": []
+    },
     "lint": {
       "cache": false,
       "outputs": []

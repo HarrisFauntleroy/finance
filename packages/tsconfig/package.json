@@ -2,7 +2,16 @@
   "name": "tsconfig",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://elixir-money-monorepo-web.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarrisFauntleroy/elixir.money-monorepo"
+  },
   "license": "MIT",
+  "author": {
+    "name": "Harris Fauntleroy",
+    "url": "https://github.com/HarrisFauntleroy"
+  },
   "publishConfig": {
     "access": "public"
   }

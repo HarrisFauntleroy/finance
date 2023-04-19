@@ -2,7 +2,16 @@
   "name": "web",
   "version": "1.1.0",
   "private": true,
+  "homepage": "https://elixir-money-monorepo-web.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarrisFauntleroy/elixir.money-monorepo"
+  },
   "license": "MIT",
+  "author": {
+    "name": "Harris Fauntleroy",
+    "url": "https://github.com/HarrisFauntleroy"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -26,7 +35,8 @@
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "watch": "yarn type-check --watch"
   },
   "browserslist": {
     "production": [
@@ -39,6 +49,75 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+      "import/resolver": {
+        "typescript": true,
+        "node": true
+      },
+      "react": {
+        "version": "detect"
+      }
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "simple-import-sort",
+      "import",
+      "sonarjs",
+      "jsx-a11y",
+      "prettier"
+    ],
+    "extends": [
+      "next",
+      "plugin:@typescript-eslint/recommended",
+      "eslint:recommended",
+      "plugin:import/typescript",
+      "plugin:import/recommended",
+      "plugin:sonarjs/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:storybook/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "import/extensions": "off",
+      "simple-import-sort/imports": [
+        "off",
+        {
+          "groups": [
+            [
+              "^react$"
+            ],
+            [
+              "^(ui|common|database|database/generated/prisma-client)$"
+            ],
+            [
+              "^[./]"
+            ]
+          ]
+        }
+      ],
+      "@next/next/no-html-link-for-pages": [
+        "error",
+        "pages"
+      ]
+    },
+    "ignorePatterns": [
+      "dist"
     ]
   },
   "jest": {
