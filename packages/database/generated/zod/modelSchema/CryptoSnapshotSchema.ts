@@ -17,8 +17,8 @@ export const CryptoSnapshotSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type CryptoSnapshot = z.infer<typeof CryptoSnapshotSchema>;
+export type CryptoSnapshot = z.infer<typeof CryptoSnapshotSchema>
 
 export default CryptoSnapshotSchema;

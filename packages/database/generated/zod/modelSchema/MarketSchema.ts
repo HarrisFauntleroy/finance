@@ -1,6 +1,5 @@
-import { MarketTypeSchema } from '../inputTypeSchemas/MarketTypeSchema';
-
 import { z } from 'zod';
+import { MarketTypeSchema } from '../inputTypeSchemas/MarketTypeSchema'
 
 /////////////////////////////////////////
 // MARKET SCHEMA
@@ -23,8 +22,8 @@ export const MarketSchema = z.object({
   updatedAt: z.coerce.date(),
   deleted: z.boolean(),
   deletedAt: z.coerce.date().nullable(),
-});
+})
 
-export type Market = z.infer<typeof MarketSchema>;
+export type Market = z.infer<typeof MarketSchema>
 
 export default MarketSchema;
