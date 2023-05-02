@@ -13,12 +13,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.12.0
- * Query Engine version: 659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
+ * Prisma Client JS version: 4.13.0
+ * Query Engine version: 1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
  */
 Prisma.prismaVersion = {
-  client: "4.12.0",
-  engine: "659ef412370fa3b41cd7bf6e94587c1dfb7f67e7"
+  client: "4.13.0",
+  engine: "1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -85,11 +85,8 @@ Prisma.NullTypes = {
 /**
  * Enums
  */
-// Based on
-// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-function makeEnum(x) { return x; }
 
-exports.Prisma.AccountScalarFieldEnum = makeEnum({
+exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   type: 'type',
@@ -102,9 +99,9 @@ exports.Prisma.AccountScalarFieldEnum = makeEnum({
   scope: 'scope',
   id_token: 'id_token',
   session_state: 'session_state'
-});
+};
 
-exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
+exports.Prisma.AssetLabelScalarFieldEnum = {
   id: 'id',
   name: 'name',
   icon: 'icon',
@@ -113,9 +110,9 @@ exports.Prisma.AssetLabelScalarFieldEnum = makeEnum({
   deleted: 'deleted',
   deletedAt: 'deletedAt',
   assetId: 'assetId'
-});
+};
 
-exports.Prisma.AssetScalarFieldEnum = makeEnum({
+exports.Prisma.AssetScalarFieldEnum = {
   id: 'id',
   name: 'name',
   institution: 'institution',
@@ -140,9 +137,9 @@ exports.Prisma.AssetScalarFieldEnum = makeEnum({
   parentId: 'parentId',
   userId: 'userId',
   status: 'status'
-});
+};
 
-exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
+exports.Prisma.AssetTransactionScalarFieldEnum = {
   id: 'id',
   timestamp: 'timestamp',
   pricePerUnit: 'pricePerUnit',
@@ -166,9 +163,9 @@ exports.Prisma.AssetTransactionScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetEnvelopeScalarFieldEnum = {
   id: 'id',
   budgetId: 'budgetId',
   name: 'name',
@@ -178,9 +175,9 @@ exports.Prisma.BudgetEnvelopeScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.BudgetScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetScalarFieldEnum = {
   id: 'id',
   name: 'name',
   userId: 'userId',
@@ -189,9 +186,9 @@ exports.Prisma.BudgetScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
+exports.Prisma.BudgetTransactionScalarFieldEnum = {
   id: 'id',
   timestamp: 'timestamp',
   pricePerUnit: 'pricePerUnit',
@@ -218,9 +215,9 @@ exports.Prisma.BudgetTransactionScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.CashSnapshotScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -233,9 +230,9 @@ exports.Prisma.CashSnapshotScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.CryptoSnapshotScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -248,9 +245,9 @@ exports.Prisma.CryptoSnapshotScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
+exports.Prisma.CryptocurrencyScalarFieldEnum = {
   id: 'id',
   displayName: 'displayName',
   currency: 'currency',
@@ -271,9 +268,9 @@ exports.Prisma.CryptocurrencyScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
+exports.Prisma.CustomAssetCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   icon: 'icon',
@@ -281,9 +278,9 @@ exports.Prisma.CustomAssetCategoryScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.IncomeScalarFieldEnum = makeEnum({
+exports.Prisma.IncomeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   payFrequency: 'payFrequency',
@@ -294,9 +291,9 @@ exports.Prisma.IncomeScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.LogScalarFieldEnum = makeEnum({
+exports.Prisma.LogScalarFieldEnum = {
   id: 'id',
   type: 'type',
   message: 'message',
@@ -304,9 +301,9 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.MarketScalarFieldEnum = makeEnum({
+exports.Prisma.MarketScalarFieldEnum = {
   id: 'id',
   name: 'name',
   ticker: 'ticker',
@@ -323,9 +320,9 @@ exports.Prisma.MarketScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.PortfolioSnapshotScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -338,9 +335,9 @@ exports.Prisma.PortfolioSnapshotScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.PropertySnapshotScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -353,14 +350,14 @@ exports.Prisma.PropertySnapshotScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.QueryMode = makeEnum({
+exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
-});
+};
 
-exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
+exports.Prisma.SecuritySnapshotScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
   totalValue: 'totalValue',
@@ -373,16 +370,16 @@ exports.Prisma.SecuritySnapshotScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.SessionScalarFieldEnum = makeEnum({
+exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   sessionToken: 'sessionToken',
   userId: 'userId',
   expires: 'expires'
-});
+};
 
-exports.Prisma.SettingsScalarFieldEnum = makeEnum({
+exports.Prisma.SettingsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   preferredColorScheme: 'preferredColorScheme',
@@ -392,12 +389,12 @@ exports.Prisma.SettingsScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt',
   deleted: 'deleted',
   deletedAt: 'deletedAt'
-});
+};
 
-exports.Prisma.SortOrder = makeEnum({
+exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-});
+};
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
@@ -406,7 +403,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = makeEnum({
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -417,20 +414,20 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   deleted: 'deleted',
   deletedAt: 'deletedAt',
   role: 'role'
-});
+};
 
-exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
+exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
   expires: 'expires'
-});
-exports.AccountConnection = makeEnum({
+};
+exports.AccountConnection = {
   NONE: 'NONE',
   SWYFTX: 'SWYFTX',
   COINSPOT: 'COINSPOT'
-});
+};
 
-exports.AssetStatus = makeEnum({
+exports.AssetStatus = {
   CONNECTED: 'CONNECTED',
   CONNECTION_FAILED: 'CONNECTION_FAILED',
   DISCONNECTED: 'DISCONNECTED',
@@ -442,9 +439,9 @@ exports.AssetStatus = makeEnum({
   UNKNOWN: 'UNKNOWN',
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE'
-});
+};
 
-exports.Category = makeEnum({
+exports.Category = {
   LOAN: 'LOAN',
   CASH: 'CASH',
   CUSTOM: 'CUSTOM',
@@ -454,37 +451,37 @@ exports.Category = makeEnum({
   CREDIT: 'CREDIT',
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   SUPERANNUATION: 'SUPERANNUATION'
-});
+};
 
-exports.ColorScheme = makeEnum({
+exports.ColorScheme = {
   LIGHT: 'LIGHT',
   DARK: 'DARK',
   TBA: 'TBA'
-});
+};
 
-exports.LogType = makeEnum({
+exports.LogType = {
   info: 'info',
   warn: 'warn',
   error: 'error',
   trace: 'trace',
   debug: 'debug'
-});
+};
 
-exports.MarketType = makeEnum({
+exports.MarketType = {
   CRYPTOCURRENCY: 'CRYPTOCURRENCY',
   STOCK: 'STOCK',
   ETF: 'ETF',
   METAL: 'METAL',
   OTHER: 'OTHER',
   CASH: 'CASH'
-});
+};
 
-exports.Role = makeEnum({
+exports.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
-});
+};
 
-exports.Prisma.ModelName = makeEnum({
+exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
@@ -506,7 +503,7 @@ exports.Prisma.ModelName = makeEnum({
   SecuritySnapshot: 'SecuritySnapshot',
   Cryptocurrency: 'Cryptocurrency',
   Market: 'Market'
-});
+};
 
 /**
  * Create the Client

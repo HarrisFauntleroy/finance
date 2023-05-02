@@ -3,6 +3,8 @@
  * With BullMQ, Bull Board 🎯 & Redis
  */
 import { logger } from 'common';
+import { prisma } from 'database';
+import { MarketType } from 'database/generated/prisma-client';
 
 import { cleaner } from './jobs/cleaner';
 import { cryptocurrency } from './jobs/cryptocurrency';
@@ -108,12 +110,39 @@ app.use(bodyParser.json());
 
 app.use(bullBoardPath, serverAdapter.getRouter());
 
+// Fetch market data by asset type
+app.get('/api/v1/markets/:assetType', async (req, res) => {
+  const { assetType } = req.params;
+
+  try {
+    const validAssetType = MarketType[assetType as keyof typeof MarketType];
+    if (!validAssetType) {
+      return res.status(400).json({ error: 'Invalid asset type provided' });
+    }
+
+    const markets = await prisma.market.findMany({
+      where: { type: validAssetType },
+    });
+
+    return res.json(markets);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.listen(process.env.WORKER_PORT, () => {
-  console.log('Running on 3000...');
-  console.log('For the UI, open http://localhost:3000/ui');
+  console.log(`Running on ${process.env.WORKER_PORT}...`);
+  console.log(
+    `For the UI, open http://localhost:${process.env.WORKER_PORT}/ui`,
+  );
   console.log('Make sure Redis is running on port 6379 by default');
   console.log('To populate the queue, run:');
-  console.log('  curl http://localhost:3000/add?title=Example');
+  console.log(
+    `  curl http://localhost:${process.env.WORKER_PORT}}/add?title=Example`,
+  );
   console.log('To populate the queue with custom options (opts), run:');
-  console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=9');
+  console.log(
+    `  curl http://localhost:${process.env.WORKER_PORT}}/add?title=Test&opts[delay]=9`,
+  );
 });
