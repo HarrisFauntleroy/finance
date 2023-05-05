@@ -212,6 +212,10 @@ describe('calculateTransactions', () => {
       }),
     ];
 
-    // const result = calculateTransactions(transactions);
+    const result = calculateTransactions(transactions);
+    expect(result.totalValue).toEqual('55.00');
+    expect(result.totalFees).toEqual('0.50');
+    expect(result.averagePrice).toEqual('1.83');
+    expect(result.totalQuantity).toEqual('30.00');
   });
 });

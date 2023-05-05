@@ -1,63 +1,48 @@
-# This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
-# Make sure you update both files!
+# Base image
+FROM node:18-alpine AS base
 
-# Builder stage
-FROM node:16-alpine AS builder
-
-# Set working directory
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+RUN apk update
 WORKDIR /app
 
-# Install dependencies and tools
-RUN apk add --no-cache libc6-compat && \
-	apk update && \
-	yarn global add turbo
+# Install global dependencies
+RUN yarn global add turbo
 
-# Copy the source files
-COPY . .
-
-# Prune and build the application
-RUN turbo prune --scope=web --docker
-
-# Installer stage
-FROM node:16-alpine AS installer
-
-# Set working directory
-WORKDIR /app
-
-# Install dependencies
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN apk add --no-cache libc6-compat && \
-	apk update && \
-	yarn install
-
-# Copy the build files
-COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
+# Install local dependencies
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+	if [ -f yarn.lock ]; then yarn; \
+	elif [ -f package-lock.json ]; then npm ci; \
+	elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+	else echo "Lockfile not found." && exit 1; \
+	fi
 
 # Build the project
+COPY . .
+RUN turbo prune --scope=web --docker
 RUN yarn turbo run build --filter=web...
 
-# Runner stage
-FROM node:16-alpine AS runner
-
-# Set working directory
+# Production image, copy all the files and run next
+FROM base AS runner
 WORKDIR /app
 
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs && \
-	adduser --system --uid 1001 nextjs && \
-	chown -R nextjs:nodejs /app
+ENV NODE_ENV production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+# ENV NEXT_TELEMETRY_DISABLED 1
 
-# Set user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=base /app/public ./public
+COPY --from=base --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=base --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=base --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+
 USER nextjs
 
-# Copy necessary files from installer stage
-COPY --from=installer /app/apps/web/next.config.js .
-COPY --from=installer /app/apps/web/package.json .
-COPY --from=installer /app/apps/web/.next/standalone ./
-COPY --from=installer /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=installer /app/apps/web/public ./apps/web/public
+EXPOSE 3000
 
-# Start the application
-CMD node apps/web/server.js
+ENV PORT 3000
+
+CMD ["node", "apps/web/server.js"]

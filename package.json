@@ -43,7 +43,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn format"
+      "yarn lint:fix",
+      "yarn format",
+      "git add"
     ]
   },
   "prettier": {
