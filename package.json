@@ -43,11 +43,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn generate",
       "yarn type-check",
       "yarn lint:fix",
-      "yarn format",
-      "git add"
+      "yarn format"
     ]
   },
   "prettier": {
