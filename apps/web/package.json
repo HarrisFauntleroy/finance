@@ -23,10 +23,10 @@
     "build-storybook": "storybook build",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "next dev -p 3000",
+    "format": "prettier --write .",
     "lint": "next lint",
     "lint:fix": "eslint . --fix && yarn format",
     "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "format": "prettier --write .",
     "reset-db": "docker-compose down --volumes --remove-orphans",
     "start": "next start",
     "storybook": "storybook dev -p 6007",
@@ -38,6 +38,17 @@
     "test:watch": "yarn test --watchAll",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint:fix",
+      "yarn format"
+    ]
   },
   "browserslist": {
     "production": [
@@ -51,6 +62,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "htmlWhitespaceSensitivity": "strict",
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
   },
   "eslintConfig": {
     "env": {
@@ -227,10 +255,10 @@
     "@types/swagger-ui-react": "4.18.0",
     "@types/uuid": "9.0.1",
     "@types/ws": "^8.5.3",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.38.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.38.0",
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
