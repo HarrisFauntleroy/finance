@@ -1,18 +1,20 @@
-version: '3'
+version: '3.8'
 
+# Define services
 services:
-  reverse-proxy:
-    image: nginx:latest
-    container_name: nginx_container
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx_proxy
     ports:
-      - 80:80
-    depends_on:
-      - postgres
+      - '80:80'
     volumes:
-      - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites:/etc/nginx/conf.d
+    networks:
+      - proxy_network
 
+  # Web service
   web:
     container_name: web
     build:
@@ -24,8 +26,9 @@ services:
     ports:
       - 3000:3000
     networks:
-      - app_network
+      - proxy_network
 
+  # Worker service
   worker:
     container_name: worker
     build:
@@ -37,8 +40,9 @@ services:
     ports:
       - 3001:3001
     networks:
-      - app_network
+      - proxy_network
 
+  # Database service
   database:
     container_name: database
     command: -p 5432
@@ -51,8 +55,9 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
-      - app_network
+      - proxy_network
 
+  # Redis service
   redis:
     container_name: redis
     restart: always
@@ -66,14 +71,14 @@ services:
       - redis-data:/data
       - redis-conf:/usr/local/etc/redis/redis.conf
     networks:
-      - app_network
+      - proxy_network
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
+# Define networks
 networks:
-  app_network:
-    external: true
+  proxy_network:
+    driver: bridge
 
+# Define volumes
 volumes:
   app:
   postgres:

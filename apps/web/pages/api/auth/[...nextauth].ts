@@ -8,7 +8,7 @@ import { Role } from 'database/generated/prisma-client';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { NextAuthOptions } from 'next-auth';
-import NextAuth, { unstable_getServerSession } from 'next-auth';
+import NextAuth, { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions: NextAuthOptions = {
@@ -74,7 +74,7 @@ export const hasUserSession = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  const session = await unstable_getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
   if (session) {
     return session.userId;
   }

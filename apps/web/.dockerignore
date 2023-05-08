@@ -1,4 +1,48 @@
-.git
+# Ignore common system and editor files
+.git/
 .gitignore
+.DS_Store
 *.log
-node_modules
+.vscode/
+
+# Ignore node-related files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+pnpm-lock.yaml
+
+# Ignore any build output folders
+dist/
+out/
+apps/web/.next/
+
+# Ignore cache folders
+.yarn/cache/
+.yarn/unplugged/
+.yarn/releases/
+.yarn/plugins/
+
+# Ignore storybook folder
+.storybook/
+
+# Ignore any test-related files
+__tests__/
+*.test.*
+*.spec.*
+
+# Ignore any environment-specific files
+*.env
+*.env.local
+*.env.development
+*.env.production
+*.env.test
+
+# Ignore any configuration files that are not needed
+.dockerignore
+.eslintrc.json
+.prettierrc
+.tslint.json
+tsconfig.json

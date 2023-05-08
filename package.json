@@ -43,6 +43,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
+      "yarn lint:fix",
       "yarn format"
     ]
   },
@@ -64,7 +65,6 @@
     "vueIndentScriptAndStyle": false
   },
   "eslintConfig": {
-    "root": true,
     "settings": {
       "next": {
         "rootDir": [
@@ -76,7 +76,8 @@
       ".yarn",
       "dist",
       "node_modules"
-    ]
+    ],
+    "root": true
   },
   "devDependencies": {
     "husky": "^8.0.3",

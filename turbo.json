@@ -18,7 +18,7 @@
       "cache": false
     },
     "generate": {
-      "dependsOn": ["^generate"]
+      "cache": false
     },
     "watch": {
       "cache": false,

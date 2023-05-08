@@ -1,6 +1,6 @@
 import { calculateAssetValue, calculateAssetValueOverview } from 'common';
-import { AssetSchema, prisma } from 'database';
 import { type Prisma } from 'database/generated/prisma-client';
+import { prisma } from 'database';
 
 import { getExchangeRates, getUserCurrency } from '../../../api';
 
@@ -14,6 +14,7 @@ import { updateAsset } from './update';
 
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import { AssetSchema } from 'database/generated/zod';
 
 export const assetRouter = router({
   create: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
