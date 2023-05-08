@@ -7,7 +7,6 @@ import type { PropsWithChildren } from 'react';
 export default function ThemeProvider<T>({ children }: PropsWithChildren<T>) {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      {/* TODO: Remove old ChakraUI provider  */}
       <Provider theme={theme}>
         <GlobalStyle />
         {children}
