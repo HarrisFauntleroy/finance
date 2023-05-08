@@ -102,7 +102,7 @@
       "dist",
       "node_modules",
       "prisma/migrations",
-      "generated/prisma-client"
+      "generated"
     ]
   },
   "jest": {
