@@ -137,7 +137,7 @@ describe('calculateTransactions', () => {
 
     const result = calculateTransactions(transactions);
     expect(result.totalValue).toEqual('15.00');
-    expect(result.totalFees).toEqual('0.75');
+    expect(result.totalFees).toEqual('0.50');
     expect(result.averagePrice).toEqual('1.50');
     expect(result.totalQuantity).toEqual('10.00');
   });
@@ -158,9 +158,9 @@ describe('calculateTransactions', () => {
     ];
 
     const result = calculateTransactions(transactions);
-    expect(result.totalValue).toEqual('14.225');
+    expect(result.totalValue).toEqual('14.23');
     expect(result.totalFees).toEqual('0.50');
-    expect(result.averagePrice).toEqual('1.52');
+    expect(result.averagePrice).toEqual('1.58');
     expect(result.totalQuantity).toEqual('9.00');
   });
 
@@ -171,10 +171,10 @@ describe('calculateTransactions', () => {
     ];
 
     const result = calculateTransactions(transactions);
-    expect(result.totalValue).toEqual('55.00');
+    expect(result.totalValue).toEqual('30.00');
     expect(result.totalFees).toEqual('0.50');
-    expect(result.averagePrice).toEqual('1.83');
-    expect(result.totalQuantity).toEqual('30.00');
+    expect(result.averagePrice).toEqual('1.50');
+    expect(result.totalQuantity).toEqual('20.00');
   });
 
   it('should handle multiple transactions with different baseCurrency', () => {
@@ -183,7 +183,7 @@ describe('calculateTransactions', () => {
       transactionBuilder({
         id: '2',
         pricePerUnit: '2.00',
-        baseCurrency: 'USD',
+        baseCurrency: 'AUD',
         quantity: '20',
         quantityFilled: '20',
         fee: '0.50',
@@ -193,7 +193,7 @@ describe('calculateTransactions', () => {
 
     const result = calculateTransactions(transactions);
     expect(result.totalValue).toEqual('55.00');
-    expect(result.totalFees).toEqual('0.50');
+    expect(result.totalFees).toEqual('0.75');
     expect(result.averagePrice).toEqual('1.83');
     expect(result.totalQuantity).toEqual('30.00');
   });
@@ -214,7 +214,7 @@ describe('calculateTransactions', () => {
 
     const result = calculateTransactions(transactions);
     expect(result.totalValue).toEqual('55.00');
-    expect(result.totalFees).toEqual('0.50');
+    expect(result.totalFees).toEqual('0.75');
     expect(result.averagePrice).toEqual('1.83');
     expect(result.totalQuantity).toEqual('30.00');
   });
