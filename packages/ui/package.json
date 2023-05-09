@@ -120,7 +120,7 @@
     }
   },
   "dependencies": {
-    "@chakra-ui/react": "2.5.5",
+    "@chakra-ui/react": "2.6.0",
     "@choc-ui/chakra-autocomplete": "^5.1.4",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "^11.10.6",
