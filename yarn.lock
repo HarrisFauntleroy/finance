@@ -5290,6 +5290,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/eslint-plugin-next@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/eslint-plugin-next@npm:13.3.4"
+  dependencies:
+    glob: 7.1.7
+  checksum: 7e4ed26f4dbbf9ea86a089af628e7a901898a3793775656e23371f347ece2c81dd605e9e7eaa4098762c9a8364237d9a463cc74f7f7b51ac6bdc22bce19bf532
+  languageName: node
+  linkType: hard
+
 "@next/swc-darwin-arm64@npm:13.3.0":
   version: 13.3.0
   resolution: "@next/swc-darwin-arm64@npm:13.3.0"
@@ -25406,7 +25415,7 @@ __metadata:
     "@mantine/spotlight": ^6.0.10
     "@mantine/tiptap": ^6.0.10
     "@next-auth/prisma-adapter": ^1.0.4
-    "@next/eslint-plugin-next": 13.3.0
+    "@next/eslint-plugin-next": 13.3.4
     "@storybook/addon-essentials": ^7.0.4
     "@storybook/addon-interactions": ^7.0.4
     "@storybook/addon-links": ^7.0.4
