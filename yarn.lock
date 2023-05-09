@@ -7691,10 +7691,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.9.0, @tanstack/table-core@npm:^8.7.9, @tanstack/table-core@npm:^8.8.5":
+"@tanstack/table-core@npm:8.9.0":
   version: 8.9.0
   resolution: "@tanstack/table-core@npm:8.9.0"
   checksum: 67c7c65bd1ac58a33999de1ad4cbb095ed373925fd03bf8547261cf8f8a1bb835a5e3484f683de3923a183e416e68bb1cf0a9ad311963fd7c159a45ddb020fe3
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:^8.7.9, @tanstack/table-core@npm:^8.8.5":
+  version: 8.9.1
+  resolution: "@tanstack/table-core@npm:8.9.1"
+  checksum: b9a514cfeb78b2ebece5116188ab929d0b0b72b6abfe6144c2b1dd68e32faafba5295b2b5dfefa9d3a0cf78dd0f20e7c313ff2dbdf013ee98232e856a549654f
   languageName: node
   linkType: hard
 
