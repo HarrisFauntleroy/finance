@@ -7156,19 +7156,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/testing-library@npm:^0.0.14-next.2":
-  version: 0.0.14-next.2
-  resolution: "@storybook/testing-library@npm:0.0.14-next.2"
-  dependencies:
-    "@storybook/client-logger": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
-    "@storybook/instrumenter": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
-    "@testing-library/dom": ^8.3.0
-    "@testing-library/user-event": ^13.2.1
-    ts-dedent: ^2.2.0
-  checksum: c471578493798e74e1f02f4a8cd046f24d1c387f32d5b3469f3331563d93c6dd872937aa9ce6a4dc12832e0c9f378639265c3b6862cbbc0b1887f6e26c102601
-  languageName: node
-  linkType: hard
-
 "@storybook/testing-library@npm:^0.1.0":
   version: 0.1.0
   resolution: "@storybook/testing-library@npm:0.1.0"
@@ -25503,7 +25490,7 @@ __metadata:
     "@storybook/blocks": ^7.0.4
     "@storybook/nextjs": ^7.0.4
     "@storybook/react": ^7.0.4
-    "@storybook/testing-library": ^0.0.14-next.2
+    "@storybook/testing-library": ^0.1.0
     "@tabler/icons-react": ^2.17.0
     "@tanstack/match-sorter-utils": 8.8.4
     "@tanstack/react-query": 4.29.3
