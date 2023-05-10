@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { HeaderMenuDesktop, HeaderMenuMobile } from './HeaderMenu';
-
-import type { UseDisclosureProps } from '@chakra-ui/react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,12 +13,13 @@ import {
 import { useRouter } from 'next/router';
 import { FiMenu } from 'react-icons/fi';
 
-type HeaderProps = UseDisclosureProps;
+interface HeaderProps {
+  onOpen: () => void;
+}
 
 export default function Header({ onOpen }: HeaderProps) {
   const location = useRouter();
 
-  /** Remove query params from pathname */
   const path = location?.asPath.split('?')[0];
 
   const formattedPath = path?.replace(/#/g, '')?.split('/').filter(Boolean);
@@ -29,7 +28,6 @@ export default function Header({ onOpen }: HeaderProps) {
 
   return (
     <>
-      {/* // THE ERROR IS ALL HERE  */}
       <Flex
         as="header"
         align="center"
@@ -44,7 +42,7 @@ export default function Header({ onOpen }: HeaderProps) {
           aria-label="breadcrumb"
           separator={<Flex>/</Flex>}
           textTransform="uppercase"
-          style={{ margin: '8px' }}
+          margin="8px"
           overflow="scroll"
         >
           <BreadcrumbItem isCurrentPage={path === '/'}>

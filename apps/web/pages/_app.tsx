@@ -15,21 +15,19 @@ import { type AppProps } from 'next/app';
 import { Layout } from '../components/Layout';
 import { AppContext } from '../components/Providers';
 
-export type WithAuth = {
-  auth: boolean;
-};
+type GetLayoutType = (page: ReactElement) => ReactNode;
 
-export type WithRole = {
+interface NextPageWithLayoutProps {
+  getLayout?: GetLayoutType;
+  auth?: boolean;
   roles?: Role[];
-};
+}
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
   P,
   IP
-> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-} & WithAuth &
-  WithRole;
+> &
+  NextPageWithLayoutProps;
 
 type AppPropsWithLayout = AppProps<{ session: Session | null }> & {
   Component: NextPageWithLayout;
@@ -38,14 +36,11 @@ type AppPropsWithLayout = AppProps<{ session: Session | null }> & {
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ??
-    ((page) =>
-      Component.auth ? (
-        <Layout>
-          <Auth roles={Component.roles}>{page}</Auth>
-        </Layout>
-      ) : (
-        <Layout>{page}</Layout>
-      ));
+    ((page) => (
+      <Layout>
+        {Component.auth ? <Auth roles={Component.roles}>{page}</Auth> : page}
+      </Layout>
+    ));
 
   initI18n();
 
