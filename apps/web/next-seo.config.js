@@ -2,13 +2,13 @@ const nextSeoConfig = {
   openGraph: {
     type: 'website',
     locale: 'en_IE',
-    url: 'https://elixir-money.vercel.app/',
-    site_name: 'Elixir.money',
+    url: 'https://alchemical-finance.vercel.app/',
+    site_name: 'alchemical-finance',
     description: 'Personal finance',
     images: [
       {
-        url: 'https://raw.githubusercontent.com/HarrisFauntleroy/elixir.money/main/public/images/logodark.png',
-        alt: 'elixir.money logo',
+        url: 'https://raw.githubusercontent.com/HarrisFauntleroy/alchemical-finance/main/public/images/logodark.png',
+        alt: 'alchemical-finance logo',
       },
     ],
   },

@@ -2,10 +2,10 @@
   "name": "web",
   "version": "2.0.0",
   "private": true,
-  "homepage": "https://elixir-money-monorepo-web.vercel.app/",
+  "homepage": "https://alchemical-finance-web.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HarrisFauntleroy/elixir.money-monorepo"
+    "url": "https://github.com/HarrisFauntleroy/alchemical-finance"
   },
   "license": "MIT",
   "author": {

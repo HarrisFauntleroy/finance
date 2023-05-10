@@ -1,38 +1,38 @@
 <p align="center">
-    <a href="https://github.com/HarrisFauntleroy/elixir.money/releases">
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/releases">
         <img alt="GitHub release" src="https://img.shields.io/github/package-json/v/HarrisFauntleroy/nextjs-starter?&style=for-the-badge">
     </a>
     <a href="/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/HarrisFauntleroy/elixir.money?&style=for-the-badge">
+        <img alt="GitHub" src="https://img.shields.io/github/license/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
     </a>
-    <a href="https://github.com/HarrisFauntleroy/elixir.money/graphs/contributors">
-        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/HarrisFauntleroy/elixir.money?&style=for-the-badge">
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/graphs/contributors">
+        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
     </a>
-    <a href="https://github.com/HarrisFauntleroy/elixir.money/actions">
-        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/HarrisFauntleroy/elixir.money/main?&style=for-the-badge">
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/actions">
+        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/HarrisFauntleroy/alchemical-finance/main?&style=for-the-badge">
     </a>
-    <a href="https://github.com/HarrisFauntleroy/elixir.money/issues?q=is%3Aopen+is%3Aissue">
-        <img alt="GitHub issues" src="https://img.shields.io/github/issues/HarrisFauntleroy/elixir.money?&style=for-the-badge">
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/issues/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
     </a>
-		    <a href="https://github.com/HarrisFauntleroy/elixir.money/issues?q=is%3Aopen+is%3Aissue">
-        <img alt="GitHub issues" src="https://img.shields.io/github/last-commit/HarrisFauntleroy/elixir.money?&style=for-the-badge">
+		    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/last-commit/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
     </a>
         </a>
-		    <a href="https://github.com/HarrisFauntleroy/elixir.money/issues?q=is%3Aopen+is%3Aissue">
-        <img alt="GitHub issues" src="https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/elixir.money?&style=for-the-badge">
+		    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
     </a>
 </p>
 
-<!-- [![unit-test](https://github.com/HarrisFauntleroy/elixir.money/actions/workflows/unit.yaml/badge.svg)](https://github.com/HarrisFauntleroy/elixir.money/actions/workflows/unit.yaml)
+<!-- [![unit-test](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/unit.yaml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/unit.yaml)
 
-[![e2e-test](https://github.com/HarrisFauntleroy/elixir.money/actions/workflows/e2e.yml/badge.svg)](https://github.com/HarrisFauntleroy/elixir.money/actions/workflows/e2e.yml) -->
+[![e2e-test](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/e2e.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/e2e.yml) -->
 
 <div align="center">
     <a href="">
-        <img src="https://github.com/HarrisFauntleroy/elixir.money/blob/main/public/images/logo.png?raw=true" alt="" height="140" />
+        <img src="https://github.com/HarrisFauntleroy/alchemical-finance/blob/main/public/images/logo.png?raw=true" alt="" height="140" />
     </a>
     <h5 align="center">
-        Elixir Money
+        Alchemical Finance
     </h5>
     <p align="center">
         <a target="_blank" href="">💵</a>
@@ -223,26 +223,26 @@ This software is currently a work in progress and is considered in ALPHA state. 
 <br />
 
 <p align="center">
-	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_elixir.money">
-	    <img alt="Coverage" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=coverage">
+	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_alchemical-finance">
+	    <img alt="Coverage" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=coverage">
 	</a>
-	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_elixir.money">
-	    <img alt="Quality gate" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=alert_status">
+	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_alchemical-finance">
+	    <img alt="Quality gate" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=alert_status">
 	</a>
-	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_elixir.money">
-	    <img alt="Security rating" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=security_rating">
+	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_alchemical-finance">
+	    <img alt="Security rating" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=security_rating">
 	</a>
-	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_elixir.money">
-	    <img alt="Maintainability" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=sqale_rating">
+	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_alchemical-finance">
+	    <img alt="Maintainability" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=sqale_rating">
 	</a>
 	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_flower-shop ">
 	    <img alt="Bugs" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_flower-shop&metric=bugs">
 	</a>
 	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_flower-shop">
-	    <img alt="Vulnerabilities" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=vulnerabilities">
+	    <img alt="Vulnerabilities" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=vulnerabilities">
 	</a>
-	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_elixir.money">
-	    <img alt="Code smells" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_elixir.money&metric=code_smells">
+	<a href="https://sonarcloud.io/summary/new_code?id=HarrisFauntleroy_alchemical-finance">
+	    <img alt="Code smells" src="https://sonarcloud.io/api/project_badges/measure?project=HarrisFauntleroy_alchemical-finance&metric=code_smells">
 	</a>
 </p>
 

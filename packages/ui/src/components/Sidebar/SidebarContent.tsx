@@ -52,7 +52,7 @@ export function SidebarContent({
           fontWeight="semibold"
           display={{ sm: 'none', md: 'unset' }}
         >
-          Elixir Money
+          Alchemical Finance
         </Text>
       </Center>
       <Divider />
