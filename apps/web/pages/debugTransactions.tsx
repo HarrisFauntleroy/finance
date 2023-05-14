@@ -24,18 +24,6 @@ import {
   Tooltip,
 } from 'chart.js';
 import { useSession } from 'next-auth/react';
-import { FC } from 'react';
-import Head from 'next/head';
-
-interface PageHeadProps {
-  title: string;
-}
-
-export const PageHead: FC<PageHeadProps> = ({ title }) => (
-  <Head>
-    <title>{title}</title>
-  </Head>
-);
 
 Chart.register(
   CategoryScale,

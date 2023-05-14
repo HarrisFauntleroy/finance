@@ -14,7 +14,7 @@ import {
   MenuOptionGroup,
   Select,
 } from '@chakra-ui/react';
-import { PrivacyContext } from 'components/Providers/Privacy';
+import { PrivacyContext } from '../Providers/Privacy';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { MdExpand } from 'react-icons/md';
 
