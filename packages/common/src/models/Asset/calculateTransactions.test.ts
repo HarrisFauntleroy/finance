@@ -1,6 +1,6 @@
 import { AssetTransaction } from 'database/generated/prisma-client';
 
-import { calculateTransactions } from '../calculateTransactions';
+import { calculateTransactions } from './calculateTransactions';
 
 const transactionBuilder = (overrides = {}) => ({
   id: '1',

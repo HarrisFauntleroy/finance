@@ -245,5 +245,4 @@ export const swyftx = () =>
       }
       progress.stop(`Finished updating ${swyftxAccounts} Swyftx accounts}`);
     })
-    .then(() => new Date())
     .catch(() => logger.info('swyftx'));

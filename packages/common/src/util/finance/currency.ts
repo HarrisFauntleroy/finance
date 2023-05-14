@@ -1,6 +1,6 @@
-import { divide, multiply } from '../math';
-
 import { Any } from 'currency.js';
+
+import { divide, multiply } from '../math';
 
 export function getConversionRate(
   rates: { [key: string]: string },

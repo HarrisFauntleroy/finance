@@ -59,6 +59,4 @@ export const cleaner = async () => {
 
   progress.increment();
   progress.stop('Cleaner');
-
-  return new Date();
 };
