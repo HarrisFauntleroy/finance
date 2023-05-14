@@ -7,10 +7,10 @@ import { Application, Request, Response } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
 
-export const bullBoardPath = '/admin/queues';
+export const BULL_BOARD_PATH = '/admin/queues';
 
 export const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath(bullBoardPath);
+serverAdapter.setBasePath(BULL_BOARD_PATH);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -22,7 +22,7 @@ export const applyMiddlewares = (app: Application) => {
   app.use(cors());
   app.use(limiter);
   app.use(bodyParser.json({ limit: '1mb' }));
-  app.use(bullBoardPath, serverAdapter.getRouter());
+  app.use(BULL_BOARD_PATH, serverAdapter.getRouter());
   app.use((err: Error, _req: Request, res: Response): void => {
     logger.error(`An error occurred: ${err.message}`);
     res.status(500).send({ error: err.message });

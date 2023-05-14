@@ -2,7 +2,7 @@ import { logger } from 'common';
 
 import config from './env';
 import { findAndRunJobByName, JobName } from './jobs';
-import { applyMiddlewares, bullBoardPath, serverAdapter } from './middleware';
+import { applyMiddlewares, BULL_BOARD_PATH, serverAdapter } from './middleware';
 import { Scheduler } from './scheduler';
 
 import { BullMQAdapter, createBullBoard } from '@bull-board/express';
@@ -64,7 +64,7 @@ queueEvents.on('error', (error) => {
 app.listen(config.WORKER_PORT, () => {
   logger.info(`Running on ${config.WORKER_PORT}...`);
   logger.info(
-    `For the UI, open http://localhost:${config.WORKER_PORT}${bullBoardPath}`,
+    `For the UI, open http://localhost:${config.WORKER_PORT}${BULL_BOARD_PATH}`,
   );
 });
 
