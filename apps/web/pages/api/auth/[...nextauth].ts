@@ -12,58 +12,60 @@ import NextAuth, { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: 'database',
-  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID || '',
-      clientSecret: process.env.GOOGLE_SECRET || '',
+      clientId: String(process.env.GOOGLE_ID),
+      clientSecret: String(process.env.GOOGLE_SECRET),
     }),
   ],
   debug: false,
   pages: {
-    signIn: '/auth/signin',
+    // signIn: '/auth/signin',
   },
   callbacks: {
     async session({ session, user }) {
-      const userData = await prisma.user.findUnique({
-        where: {
-          id: user.id,
-        },
-        select: {
-          role: true,
-          id: true,
-        },
-      });
+      try {
+        const userData = await prisma.user.findUnique({
+          where: {
+            id: user.id,
+          },
+          select: {
+            role: true,
+            id: true,
+          },
+        });
 
-      // Add user ID and role to session object
-      return {
-        ...session,
-        userId: user.id,
-        user: {
-          ...session.user,
-          id: user.id,
-          name: user.name,
-          role: userData?.role ?? Role.USER,
-        },
-      };
-    },
-    // Seems to be required for custom sign in page to work
-    // Does skip sign in process, just signs in.
-    async redirect({ baseUrl }) {
-      return baseUrl;
+        // Add user ID and role to session object
+        return {
+          ...session,
+          userId: user.id,
+          user: {
+            ...session.user,
+            id: user.id,
+            name: user.name,
+            role: userData?.role ?? Role.USER,
+          },
+        };
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+      }
     },
   },
   events: {
     async createUser({ user }) {
-      /** Create a default settings for user if they dont have one */
-      await prisma.settings.create({
-        data: {
-          userId: user.id,
-        },
-      });
+      try {
+        /** Create a default settings for user if they dont have one */
+        await prisma.settings.create({
+          data: {
+            userId: user.id,
+          },
+        });
+      } catch (error) {
+        console.error('Error creating user settings:', error);
+        throw error;
+      }
     },
   },
 };

@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://elixir-money.vercel.app/
+Host: https://alchemical-finance.vercel.app/
 
 # Sitemaps
-Sitemap: https://elixir-money.vercel.app/sitemap.xml
+Sitemap: https://alchemical-finance.vercel.app/sitemap.xml

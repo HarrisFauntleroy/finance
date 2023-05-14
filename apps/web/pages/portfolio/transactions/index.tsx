@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { Stack } from '@chakra-ui/react';
-import { AssetTransactionControl } from 'components/Portfolio/AssetTransactionControl';
-import { TransactionsList } from 'components/Portfolio/Transactions/TransactionList';
+import { JSONObjectViewer } from 'ui';
 
 function Transactions() {
   return (
     <Stack direction="column" paddingY="8px" height="100%">
-      <AssetTransactionControl />
-      <TransactionsList />
+      <JSONObjectViewer
+        data={JSON.stringify({
+          id: '1',
+        })}
+      />
     </Stack>
   );
 }

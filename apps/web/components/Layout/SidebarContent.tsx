@@ -8,14 +8,14 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import type { SidebarLink } from 'components/Layout/Sidebar';
-import { SidebarItem } from 'components/Layout/SidebarItem';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SidebarItem } from './SidebarItem';
 
-type SidebarContentProps = BoxProps & {
+type SidebarContentProps = {
   links: SidebarLink[];
   drawer?: boolean;
-};
+} & BoxProps;
 
 export function SidebarContent({
   links,
@@ -39,14 +39,8 @@ export function SidebarContent({
       {...props}
     >
       <Link href="/">
-        <Center
-          height="64px"
-          justifyContent={{
-            base: drawer ? 'left' : 'center',
-            sm: drawer ? 'left' : 'center',
-          }}
-        >
-          <Image src="/images/logodark.png" height="32" width="32" alt="logo" />
+        <Center height="64px" justifyContent={drawer ? 'left' : 'center'}>
+          <Image src="/images/logodark.png" height={32} width={32} alt="logo" />
 
           <Text
             ml="2"
@@ -54,13 +48,13 @@ export function SidebarContent({
             fontWeight="semibold"
             display={{ sm: 'none', lg: 'unset' }}
           >
-            Elixir Money
+            Alchemical Finance
           </Text>
         </Center>
       </Link>
 
       <Divider />
-      <Stack as="nav" aria-label="Main Navigation">
+      <Stack aria-label="Main Navigation">
         {links?.map(({ href, icon, label, role }) => (
           <SidebarItem
             key={href}

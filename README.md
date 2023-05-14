@@ -48,7 +48,7 @@ To get started with local development, follow these steps:
 1. **Clone the repository and install dependencies:**
 
    ```bash
-   git clone https://github.com/elixir-money/monorepo.git
+   git clone https://github.com/alchemical-finance/monorepo.git
    cd monorepo
    yarn install
    ```

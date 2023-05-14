@@ -2,7 +2,7 @@
 /**
  * @type {import('next').NextConfig}
  */
-const path = require('path');
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
 
 module.exports = {
   transpilePackages: ['database', 'ui', 'common'],
@@ -20,17 +20,10 @@ module.exports = {
     appDir: true,
     esmExternals: 'loose',
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /prisma-client\/index\.js$/,
-      loader: 'string-replace-loader',
-      options: {
-        search: 'config.dirname = dirname',
-        replace: `config.dirname = '${path.dirname(
-          require.resolve('database/generated/prisma-client'),
-        )}'`,
-      },
-    });
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
     return config;
   },
 };

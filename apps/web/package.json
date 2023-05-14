@@ -2,10 +2,10 @@
   "name": "web",
   "version": "2.0.0",
   "private": true,
-  "homepage": "https://elixir-money-monorepo-web.vercel.app/",
+  "homepage": "https://alchemical-finance-web.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HarrisFauntleroy/elixir.money-monorepo"
+    "url": "https://github.com/HarrisFauntleroy/alchemical-finance"
   },
   "license": "MIT",
   "author": {
@@ -179,7 +179,7 @@
     "@mantine/prism": "^6.0.10",
     "@mantine/spotlight": "^6.0.10",
     "@mantine/tiptap": "^6.0.10",
-    "@next-auth/prisma-adapter": "^1.0.4",
+    "@next-auth/prisma-adapter": "^1.0.6",
     "@next/eslint-plugin-next": "13.3.4",
     "@tabler/icons-react": "^2.17.0",
     "@tanstack/match-sorter-utils": "8.8.4",
@@ -239,6 +239,7 @@
   },
   "devDependencies": {
     "@jest/types": "29.5.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^4.14.0",
     "@storybook/addon-essentials": "^7.0.4",
     "@storybook/addon-interactions": "^7.0.4",
     "@storybook/addon-links": "^7.0.4",

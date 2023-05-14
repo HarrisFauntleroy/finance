@@ -17,8 +17,8 @@ Please note that only the latest patch version for each supported minor version 
 
 To report a vulnerability, please follow these steps:
 
-1. Check if the vulnerability is already reported by browsing the [issues](https://github.com/HarrisFauntleroy/elixir.money-monorepo/issues) in the project repository.
-2. If the vulnerability is not already reported, create a new [issue](https://github.com/harrisfauntleroy/elixir.money-monorepo/issues/new) using the "Vulnerability Report" template.using the "Vulnerability Report" template.
+1. Check if the vulnerability is already reported by browsing the [issues](https://github.com/HarrisFauntleroy/alchemical-finance/issues) in the project repository.
+2. If the vulnerability is not already reported, create a new [issue](https://github.com/harrisfauntleroy/alchemical-finance/issues/new) using the "Vulnerability Report" template.using the "Vulnerability Report" template.
 3. Describe the vulnerability in detail, including the steps to reproduce it, the affected versions, and potential security impact.
 4. **Do not** disclose sensitive information, such as private keys or personal data, in the issue.
 

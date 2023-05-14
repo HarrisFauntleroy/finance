@@ -58,6 +58,4 @@ export const history = async () => {
   );
 
   progress.stop('History');
-
-  return new Date();
 };
