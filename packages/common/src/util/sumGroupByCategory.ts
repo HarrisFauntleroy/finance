@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { add } from './math';
 
 type Grouped<T> = {
