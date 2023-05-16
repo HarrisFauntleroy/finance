@@ -50,7 +50,9 @@ new Worker<{ name: JobName }>(queueName, async ({ data: { name } }) => {
   return findAndRunJobByName(name);
 })
   .on('completed', (job) => {
-    logger.info(`Job: ${job.name} has succeeded`);
+    const lastSuccessfulJobTimestamp = new Date();
+    logger.info(`Job with id ${job.id} has completed`);
+    console.log(`Last successful job ran at: ${lastSuccessfulJobTimestamp}`);
   })
   .on('failed', async (job, error) => {
     logger.error(`Job: ${job?.name} has failed: ${error}`);
