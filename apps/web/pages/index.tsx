@@ -29,6 +29,7 @@ import {
 } from 'chart.js';
 import { Fragment, FC } from 'react';
 import Head from 'next/head';
+import { Changelog } from '../components/Changelog';
 
 interface PageHeadProps {
   title: string;
@@ -81,6 +82,7 @@ const Home: NextPageWithLayout = () => {
           </Col>
         </Grid>
       </Container>
+      <Changelog />
     </Fragment>
   );
 };
