@@ -110,6 +110,7 @@ enum ColorScheme {
 }
 
 enum Role {
+  GUEST
   USER
   ADMIN
 

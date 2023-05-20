@@ -5,78 +5,54 @@
  *
  */
 
-import { Role } from 'database/generated/prisma-client';
-
+import {
+  Gear,
+  Bank,
+  PiggyBank,
+  ChartLineUp,
+  House,
+  Shield,
+} from '@phosphor-icons/react';
 import { Footer } from './Footer';
 
-import {
-  Grid,
-  GridItem,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react';
-import Header from 'components/Layout/Header';
-import Sidebar from 'components/Layout/Sidebar';
+import { useDisclosure } from '@chakra-ui/react';
+import Header from '../Layout/Header';
 import type { PropsWithChildren } from 'react';
-import { BsBank } from 'react-icons/bs';
-import {
-  MdAdminPanelSettings,
-  MdMultilineChart,
-  MdSavings,
-} from 'react-icons/md';
+import { Container, Stack } from '@mantine/core';
+import { Role } from 'database/generated/prisma-client';
 
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   const disclosure = useDisclosure();
 
-  const links = [
-    { href: '/portfolio', icon: BsBank, label: 'Accounts' },
-    { href: '/budgets', icon: MdSavings, label: 'Budgets' },
+  const headerLinks = [
+    { href: '/', label: 'Home', icon: House },
+    { href: '/portfolio', label: 'Accounts', icon: Bank },
+    { href: '/budgets', label: 'Budgets', icon: PiggyBank },
     {
       href: '/markets',
-      icon: MdMultilineChart,
+      icon: ChartLineUp,
       label: 'Markets',
     },
     {
       href: '/admin',
-      icon: MdAdminPanelSettings,
+      icon: Shield,
       label: 'Admin',
       role: Role.ADMIN,
+    },
+    {
+      href: '/settings',
+      label: 'Settings',
+      icon: Gear,
     },
   ];
 
   return (
-    <Grid
-      height="100%"
-      templateAreas={{
-        lg: `"header header"
-							"nav main"
-							"nav footer"`,
-        sm: `"header header"
-							"nav main"
-							"nav footer"`,
-        base: `"header"
-								"main"
-								"footer"`,
-      }}
-      gridTemplateRows={{ base: '64px 1fr 32px' }}
-      gridTemplateColumns={{
-        lg: '200px calc(100vw - 200px)',
-        sm: '64px calc(100vw - 64px)',
-        base: '100vw',
-      }}
-      bg={useColorModeValue('background.light', 'background.dark')}
-      color={useColorModeValue('blackAlpha.700', 'whiteAlpha.700')}
-    >
-      <GridItem area={'header'}>
-        <Header {...disclosure} />
-      </GridItem>
-      <GridItem area={'nav'}>
-        <Sidebar {...disclosure} links={links} />
-      </GridItem>
-      <GridItem area={'main'}>{children}</GridItem>
-      <GridItem area={'footer'}>
-        <Footer />
-      </GridItem>
-    </Grid>
+    <Stack h="100vh" w="100vw">
+      <Header {...disclosure} links={headerLinks} />
+      <Container fluid h="100%" w="100%">
+        {children}
+      </Container>
+      <Footer />
+    </Stack>
   );
 }

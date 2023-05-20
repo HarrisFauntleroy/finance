@@ -5021,6 +5021,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/ds@npm:^6.0.11":
+  version: 6.0.11
+  resolution: "@mantine/ds@npm:6.0.11"
+  dependencies:
+    "@mantine/utils": 6.0.11
+  peerDependencies:
+    "@mantine/core": 6.0.11
+    "@mantine/hooks": 6.0.11
+    "@mantine/prism": 6.0.11
+    "@tabler/icons-react": "*"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: a1209f874f21bf0950b3737eeb3ae0a3318718b02f22b36adaedff4b1cc774d7e8eff3d7868b7cce4a3552debae992f6dc41dc0bb452facff0f0380a6a44dbe5
+  languageName: node
+  linkType: hard
+
 "@mantine/form@npm:^6.0.10":
   version: 6.0.10
   resolution: "@mantine/form@npm:6.0.10"
@@ -5033,12 +5049,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:^6.0.10":
-  version: 6.0.10
-  resolution: "@mantine/hooks@npm:6.0.10"
+"@mantine/hooks@npm:^6.0.11":
+  version: 6.0.11
+  resolution: "@mantine/hooks@npm:6.0.11"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 95c634f8e391b5ade9b4fa68b8fb8341e41db123703606647809260016471147e2fbf5b6c5266f557e5f260ef65d21c9d5048a98c9040fbb59df390fe1f6a014
+  checksum: d691e1b2a3200ce9d043f3daea2b1647446a3a5ff155f3afe0781d28e38c0fb514baf086aecec018e238e21c3aa19e90e0e91bdcbe96e7d86a5b0411c2016645
   languageName: node
   linkType: hard
 
@@ -5150,6 +5166,15 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
   checksum: 945e9a409ec74eb5cf811d87fd5859c6c5a520a36add1c90e9a7b50cc15dcc5a412f3f405f8be73a15e3c33682131c5aeb2b252809c1f32d2a6967970089ad3c
+  languageName: node
+  linkType: hard
+
+"@mantine/utils@npm:6.0.11":
+  version: 6.0.11
+  resolution: "@mantine/utils@npm:6.0.11"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 2ed85f45595793b059d5818704f75ad7844e85e2aecf901d65e02a3997b6ad4ac50e5dc4e8e2a52f3554b30426e48ddaaa4ba73627f19c2491340cc5e49feaed
   languageName: node
   linkType: hard
 
@@ -5483,6 +5508,16 @@ __metadata:
   version: 1.1.1
   resolution: "@panva/hkdf@npm:1.1.1"
   checksum: f0dd12903751d8792420353f809ed3c7de860cf506399759fff5f59f7acfef8a77e2b64012898cee7e5b047708fa0bd91dff5ef55a502bf8ea11aad9842160da
+  languageName: node
+  linkType: hard
+
+"@phosphor-icons/react@npm:^2.0.9":
+  version: 2.0.9
+  resolution: "@phosphor-icons/react@npm:2.0.9"
+  peerDependencies:
+    react: ">= 16.8"
+    react-dom: ">= 16.8"
+  checksum: 58d50b01bfeb6a3a4ac43adfb434654122afea416719c124e4df0e048a46b651137fc15ebaf6c3bb49a127f49b2fa7c7ce38219eed4cae65a672e64f3bb11434
   languageName: node
   linkType: hard
 
@@ -8114,6 +8149,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cookie@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@types/cookie@npm:0.4.1"
+  checksum: 3275534ed69a76c68eb1a77d547d75f99fedc80befb75a3d1d03662fb08d697e6f8b1274e12af1a74c6896071b11510631ba891f64d30c78528d0ec45a9c1a18
+  languageName: node
+  linkType: hard
+
 "@types/cookiejar@npm:*":
   version: 2.1.2
   resolution: "@types/cookiejar@npm:2.1.2"
@@ -8561,6 +8603,13 @@ __metadata:
   version: 16.18.28
   resolution: "@types/node@npm:16.18.28"
   checksum: b70ce5195cbda1df195e09a5e1633232b96a3be19765e52448cdf2295053c34eece54d46e6529caf826d249cf2ea917d20fc2bd947b57631bbbe1d8efbb64db9
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.10.2":
+  version: 16.18.31
+  resolution: "@types/node@npm:16.18.31"
+  checksum: 1e0bbbdcfdb80ebb9c5544a58b9692964dca08175a9d2f787a1ed8c75c253d106d56cf7d94c5ba0b44e1627000d093d599f995aeb657f5edbf577e66565b017a
   languageName: node
   linkType: hard
 
@@ -11401,7 +11450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.4.2":
+"cookie@npm:0.4.2, cookie@npm:^0.4.0":
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
   checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
@@ -11419,6 +11468,17 @@ __metadata:
   version: 2.1.4
   resolution: "cookiejar@npm:2.1.4"
   checksum: c4442111963077dc0e5672359956d6556a195d31cbb35b528356ce5f184922b99ac48245ac05ed86cf993f7df157c56da10ab3efdadfed79778a0d9b1b092d5b
+  languageName: node
+  linkType: hard
+
+"cookies-next@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "cookies-next@npm:2.1.1"
+  dependencies:
+    "@types/cookie": ^0.4.1
+    "@types/node": ^16.10.2
+    cookie: ^0.4.0
+  checksum: c5fc2c72cf2d46d6fa804e5690b5038bab3d5c7e741a8472079bfbd6920010802962f7512d999ea430ebcbfc7c89c38e16f423479e4df7cb0bb782cc1a7f9004
   languageName: node
   linkType: hard
 
@@ -25563,8 +25623,9 @@ __metadata:
     "@mantine/core": ^6.0.10
     "@mantine/dates": ^6.0.10
     "@mantine/dropzone": ^6.0.10
+    "@mantine/ds": ^6.0.11
     "@mantine/form": ^6.0.10
-    "@mantine/hooks": ^6.0.10
+    "@mantine/hooks": ^6.0.11
     "@mantine/modals": ^6.0.10
     "@mantine/notifications": ^6.0.10
     "@mantine/nprogress": ^6.0.10
@@ -25573,6 +25634,7 @@ __metadata:
     "@mantine/tiptap": ^6.0.10
     "@next-auth/prisma-adapter": ^1.0.6
     "@next/eslint-plugin-next": 13.3.4
+    "@phosphor-icons/react": ^2.0.9
     "@prisma/nextjs-monorepo-workaround-plugin": ^4.14.0
     "@storybook/addon-essentials": ^7.0.4
     "@storybook/addon-interactions": ^7.0.4
@@ -25613,6 +25675,7 @@ __metadata:
     chakra-ui-steps: ^1.8.0
     chart.js: 3.9.1
     common: "*"
+    cookies-next: ^2.1.1
     currency.js: 2.0.4
     database: "*"
     date-fns: ^2.29.3

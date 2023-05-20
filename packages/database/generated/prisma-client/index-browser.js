@@ -474,6 +474,7 @@ exports.MarketType = {
 };
 
 exports.Role = {
+  GUEST: 'GUEST',
   USER: 'USER',
   ADMIN: 'ADMIN',
 };

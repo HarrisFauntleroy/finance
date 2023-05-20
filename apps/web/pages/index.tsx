@@ -60,7 +60,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <Fragment>
       <PageHead title="Alchemical Finance - Home" />
-      <Container style={{ paddingTop: theme.spacing.xl }}>
+      <Container fluid style={{ paddingTop: theme.spacing.xl }}>
         <Grid>
           <Col span={12}>
             <Paper p="md" shadow="xs">
