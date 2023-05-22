@@ -1,17 +1,30 @@
-import { Timeline, Text } from '@mantine/core';
-import { IconGitCommit } from '@tabler/icons-react';
-import { Commit } from './Changelog';
+import { Timeline, Text, Avatar } from '@mantine/core';
+import { EventData } from './Changelog';
+import { format } from 'date-fns';
+import { Markdown } from './Markdown';
 
-export function Releases({ commits }: { commits: Commit[] }) {
-  console.log(commits);
+export function Releases({ releases }: { releases: EventData }) {
   return (
     <Timeline active={1} bulletSize={24} lineWidth={2}>
-      {commits?.slice(0, 3).map((commit) => (
+      {releases?.slice(0, 3).map((release) => (
         <Timeline.Item
-          key={commit.sha}
-          bullet={<IconGitCommit size={16} />}
-          title={commit.sha}
+          key={release.id}
+          bullet={<Avatar src={release.actor.avatar_url} radius="xl" />}
+          title={
+            <Text>
+              {release.repo.name
+                .split('/')[1]
+                .split('-')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')}
+              {' - '}
+              {(release.payload as { release: { name: string } }).release.name}
+            </Text>
+          }
         >
+          <Markdown>
+            {(release.payload as { release: { body: string } }).release.body}
+          </Markdown>
           <Text
             color="dimmed"
             size="sm"
@@ -19,10 +32,14 @@ export function Releases({ commits }: { commits: Commit[] }) {
             component="span"
             inherit
           >
-            {commit.message}
-          </Text>{' '}
-          <Text size="xs" mt={4}>
-            2 hours ago
+            {format(
+              new Date(
+                (
+                  release.payload as { release: { published_at: string } }
+                ).release.published_at,
+              ),
+              'MMM dd, yyyy',
+            )}
           </Text>
         </Timeline.Item>
       ))}

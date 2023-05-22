@@ -3,5 +3,10 @@
   "buildCommand": "cd ../.. && npx turbo run build --filter=web...",
   "devCommand": "next dev --port $PORT",
   "installCommand": "yarn install",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
+  }
 }

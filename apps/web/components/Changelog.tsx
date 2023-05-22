@@ -1,63 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Box, Title } from '@mantine/core';
+import { Box, Text, Title } from '@mantine/core';
 import { Releases } from './Timeline';
+import { logger } from 'common';
+import { Endpoints } from '@octokit/types';
 
-export interface Commit {
-  message: string;
-  sha: string;
-  url: string;
-  author: {
-    name: string;
-    email: string;
-  };
-}
+type ListRepositoryEventsResponse =
+  Endpoints['GET /repos/{owner}/{repo}/events']['response'];
 
-export interface PushEvent {
-  id: string;
-  type: string;
-  actor: {
-    id: number;
-    login: string;
-    display_login: string;
-    gravatar_id: string;
-    url: string;
-    avatar_url: string;
-  };
-  repo: {
-    id: number;
-    name: string;
-    url: string;
-  };
-  payload: {
-    push_id: number;
-    size: number;
-    distinct_size: number;
-    ref: string;
-    head: string;
-    before: string;
-    commits: Array<{
-      sha: string;
-      author: {
-        email: string;
-        name: string;
-      };
-      message: string;
-      distinct: boolean;
-      url: string;
-    }>;
-  };
-  public: boolean;
-  created_at: string;
-}
+export type EventData = ListRepositoryEventsResponse['data'];
 
 async function getGithubEvents(
-  username: string,
-  repoName: string,
-  eventType: string,
-): Promise<PushEvent[]> {
+  owner: string,
+  repo: string,
+  type: string,
+): Promise<EventData> {
   try {
     const response = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}/events`,
+      `https://api.github.com/repos/${owner}/${repo}/events`,
       {
         headers: {
           Accept: 'application/vnd.github+json',
@@ -66,53 +25,38 @@ async function getGithubEvents(
         },
       },
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: PushEvent[] = await response.json();
-    return data?.filter((event) => event.type === eventType);
+    const data: EventData = await response.json();
+    logger.info('data', data);
+    return data?.filter((event) => event.type === type);
   } catch (error) {
-    console.error('Fetching github events failed: ', error);
+    logger.error('Fetching github events failed: ', error);
     throw error;
   }
 }
 
-function groupPushEvents(pushEvents: PushEvent[]): Commit[] {
-  let commits: Commit[] = [];
-  pushEvents.forEach((event) => {
-    const commitsByAuthor = event.payload.commits.filter(({ author }) => {
-      const emails = ['harrisfauntleroy@gmail.com'];
-      return emails.includes(author.email);
-    });
-    commits = [...commits, ...commitsByAuthor];
-  });
-  return commits;
-}
-
-const getCommits = async (
-  username: string,
-  repoName: string,
-): Promise<Commit[]> => {
-  const events = await getGithubEvents(username, repoName, 'PushEvent');
-  return groupPushEvents(events);
-};
-
 export const Changelog = () => {
-  const [commits, setCommits] = useState<Commit[]>([]);
+  const [releases, setReleases] = useState<EventData>([]);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    getCommits('harrisfauntleroy', 'alchemical-finance').then((commits) => {
-      setCommits(commits);
-    });
+    getGithubEvents('harrisfauntleroy', 'alchemical-finance', 'ReleaseEvent')
+      .then((releases) => {
+        logger.info('Successfully fetch releases: ', releases);
+        setReleases(releases);
+      })
+      .catch((error: Error) => {
+        logger.error("Couldn't get releases: ", error);
+        setError('Error fetching release history');
+      });
   }, []);
 
   return (
     <Box h="100%" w="100%" p="lg">
       <Title order={1} mb="16px">
-        Releases
+        Changelog
       </Title>
-      <Releases commits={commits} />
+      <Releases releases={releases} />
+      <Text color="red">{error}</Text>
     </Box>
   );
 };
