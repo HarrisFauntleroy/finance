@@ -10,15 +10,13 @@ import {
   Flex,
   Image,
   Text,
-  UnstyledButton,
-  Group,
-  ThemeIcon,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { SignOut, SignIn } from '@phosphor-icons/react';
 import { Role } from 'database/generated/prisma-client';
+import { MainLink } from './MainLink';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -104,7 +102,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type LinkType = {
+export type LinkType = {
   href?: string;
   label?: string;
   icon?: ReactNode;
@@ -114,57 +112,6 @@ type LinkType = {
 
 interface HeaderResponsiveProps {
   links: LinkType[];
-}
-
-interface MainLinkProps {
-  href?: string;
-  label?: string;
-  icon?: ReactNode;
-  role?: Role;
-  color?: string;
-  className?: string;
-  onClick?: () => void;
-}
-
-function MainLink({
-  icon,
-  color,
-  label,
-  className,
-  href,
-  onClick,
-}: MainLinkProps) {
-  return (
-    <UnstyledButton
-      component={Link}
-      href={href || ''}
-      className={className}
-      sx={(theme) => ({
-        display: 'block',
-        width: '100%',
-        padding: theme.spacing.xs,
-        borderRadius: theme.radius.sm,
-        color:
-          theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-
-        '&:hover': {
-          backgroundColor:
-            theme.colorScheme === 'dark'
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
-        },
-      })}
-      onClick={onClick}
-    >
-      <Group>
-        <ThemeIcon color={color} variant="light">
-          {icon}
-        </ThemeIcon>
-
-        <Text size="sm">{label}</Text>
-      </Group>
-    </UnstyledButton>
-  );
 }
 
 export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
@@ -179,23 +126,6 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
     }
     return true;
   };
-
-  const items = links.filter(handleLinkVisability).map((link) => (
-    <MainLink
-      key={link.label}
-      icon={link.icon}
-      color={link.color}
-      label={link.label}
-      href={link?.href || ''}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.href,
-      })}
-      onClick={() => {
-        setActive(link.href);
-        close();
-      }}
-    />
-  ));
 
   return (
     <Header height={HEADER_HEIGHT} p="8px">
@@ -217,7 +147,22 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
+              {links.filter(handleLinkVisability).map((link) => (
+                <MainLink
+                  key={link.label}
+                  icon={link.icon}
+                  color={link.color}
+                  label={link.label}
+                  href={link?.href || ''}
+                  className={cx(classes.link, {
+                    [classes.linkActive]: active === link.href,
+                  })}
+                  onClick={() => {
+                    setActive(link.href);
+                    close();
+                  }}
+                />
+              ))}
               {session ? (
                 <MainLink
                   onClick={() => signOut()}
