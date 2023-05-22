@@ -9,6 +9,8 @@ import {
   ThemeIcon,
   UnstyledButton,
   Text,
+  MediaQuery,
+  Aside,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { PropsWithChildren, ReactNode } from 'react';
@@ -105,7 +107,12 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
     <AppShell
       padding="md"
       navbar={
-        <Navbar width={{ base: 300 }} p="xs" hiddenBreakpoint="sm" hidden>
+        <Navbar
+          width={{ base: 0, sm: 300 }}
+          p="xs"
+          hiddenBreakpoint="sm"
+          hidden
+        >
           <Navbar.Section grow mt="xs">
             <div>{links}</div>
           </Navbar.Section>
@@ -172,6 +179,18 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
           </Navbar.Section>
         </Navbar>
       }
+      aside={
+        <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+          <Aside
+            width={{ base: 0, lg: 200, xl: 300 }}
+            p="xs"
+            hiddenBreakpoint="lg"
+            hidden
+          >
+            <Text>Application sidebar</Text>
+          </Aside>
+        </MediaQuery>
+      }
       header={<Header {...disclosure} links={headerLinks} />}
       styles={(theme) => ({
         main: {
@@ -185,31 +204,4 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
       {children}
     </AppShell>
   );
-}
-
-{
-  /* <Group>
-{session ? (
-  <Button
-    rightIcon={
-      <Avatar
-        radius="xl"
-        size="sm"
-        src={session.user.image}
-        className={classes.hiddenMobile}
-      />
-    }
-    variant="subtle"
-    onClick={async () => signOut()}
-  >
-    <SignOut />
-    <Text className={classes.hiddenMobile}>Log out</Text>
-  </Button>
-) : (
-  <Button variant="default" onClick={async () => signIn()}>
-    <SignIn />
-    <Text className={classes.hiddenMobile}>Sign up or Log in</Text>
-  </Button>
-)}
-</Group> */
 }
