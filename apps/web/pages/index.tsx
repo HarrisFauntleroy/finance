@@ -1,9 +1,3 @@
-/**
- *
- * Index page
- *
- */
-
 import {
   Paper,
   Col,
@@ -29,6 +23,7 @@ import {
 } from 'chart.js';
 import { Fragment, FC } from 'react';
 import Head from 'next/head';
+import { Changelog } from '../components/Changelog';
 
 interface PageHeadProps {
   title: string;
@@ -59,7 +54,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <Fragment>
       <PageHead title="Alchemical Finance - Home" />
-      <Container style={{ paddingTop: theme.spacing.xl }}>
+      <Container fluid style={{ paddingTop: theme.spacing.xl }}>
         <Grid>
           <Col span={12}>
             <Paper p="md" shadow="xs">
@@ -81,6 +76,7 @@ const Home: NextPageWithLayout = () => {
           </Col>
         </Grid>
       </Container>
+      <Changelog />
     </Fragment>
   );
 };

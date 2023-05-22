@@ -1,0 +1,4 @@
+# Ignore Next.js build and output directories
+.next/
+/dist/
+/out/

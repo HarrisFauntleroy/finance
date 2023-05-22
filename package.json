@@ -43,7 +43,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{ts,tsx}": [
       "yarn lint:fix",
       "yarn format"
     ]
@@ -103,6 +103,7 @@
     }
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.1"
+    "@changesets/cli": "^2.26.1",
+    "@octokit/types": "^9.2.3"
   }
 }

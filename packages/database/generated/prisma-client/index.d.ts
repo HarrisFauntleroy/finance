@@ -493,6 +493,7 @@ export const MarketType: {
 export type MarketType = (typeof MarketType)[keyof typeof MarketType];
 
 export const Role: {
+  GUEST: 'GUEST';
   USER: 'USER';
   ADMIN: 'ADMIN';
 };
