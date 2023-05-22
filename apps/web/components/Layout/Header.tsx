@@ -1,22 +1,23 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   createStyles,
   Header,
   Container,
-  Group,
   Burger,
   Paper,
   Transition,
   rem,
-  Button,
-  Avatar,
+  Flex,
+  Image,
   Text,
+  UnstyledButton,
+  Group,
+  ThemeIcon,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
-import { BsCurrencyBitcoin } from 'react-icons/bs';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { SignIn, SignOut, type Icon } from '@phosphor-icons/react';
+import { SignOut, SignIn } from '@phosphor-icons/react';
 import { Role } from 'database/generated/prisma-client';
 
 const HEADER_HEIGHT = rem(60);
@@ -104,14 +105,58 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type LinkType = {
-  href: string;
-  label: string;
-  icon?: Icon;
+  href?: string;
+  label?: string;
+  icon?: ReactNode;
   role?: Role;
+  color?: string;
 };
 
 interface HeaderResponsiveProps {
   links: LinkType[];
+}
+
+interface MainLinkProps {
+  href?: string;
+  label?: string;
+  icon?: ReactNode;
+  role?: Role;
+  color?: string;
+  className?: string;
+  onClick?: () => void;
+}
+
+function MainLink({ icon, color, label, className, href }: MainLinkProps) {
+  return (
+    <UnstyledButton
+      component={Link}
+      href={href || ''}
+      className={className}
+      sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color:
+          theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark[6]
+              : theme.colors.gray[0],
+        },
+      })}
+    >
+      <Group>
+        <ThemeIcon color={color} variant="light">
+          {icon}
+        </ThemeIcon>
+
+        <Text size="sm">{label}</Text>
+      </Group>
+    </UnstyledButton>
+  );
 }
 
 export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
@@ -128,9 +173,12 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   };
 
   const items = links.filter(handleLinkVisability).map((link) => (
-    <Link
+    <MainLink
       key={link.label}
-      href={link.href}
+      icon={link.icon}
+      color={link.color}
+      label={link.label}
+      href={link?.href || ''}
       className={cx(classes.link, {
         [classes.linkActive]: active === link.href,
       })}
@@ -138,58 +186,44 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
         setActive(link.href);
         close();
       }}
-    >
-      {link.icon && <link.icon size={18} style={{ marginRight: 10 }} />}
-      {link.label}
-    </Link>
+    />
   ));
 
   return (
     <Header height={HEADER_HEIGHT} p="8px">
       <Container fluid className={classes.header}>
-        <Button component={Link} href="/" variant="subtle">
-          <BsCurrencyBitcoin size={28} color="#f7931a" />
-        </Button>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
+        <Flex align="center" gap="8px">
+          <Link href="/">
+            <Image src="/images/logodark.png" alt="Site logo" height={32} />
+          </Link>
+          <Text size="lg">Alchemical Finance</Text>
+        </Flex>
+
         <Burger
           onClick={toggle}
           opened={opened}
           className={classes.burger}
           size="sm"
         />
+
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
+              {session ? (
+                <Flex onClick={() => signOut()} className={cx(classes.link)}>
+                  <SignOut size={18} style={{ marginRight: 10 }} />
+                  Sign out
+                </Flex>
+              ) : (
+                <Flex onClick={() => signIn()} className={cx(classes.link)}>
+                  <SignIn size={18} style={{ marginRight: 10 }} />
+                  Sign in
+                </Flex>
+              )}
             </Paper>
           )}
         </Transition>
-        <Group>
-          {session ? (
-            <Button
-              rightIcon={
-                <Avatar
-                  radius="xl"
-                  size="sm"
-                  src={session.user.image}
-                  className={classes.hiddenMobile}
-                />
-              }
-              variant="subtle"
-              onClick={async () => signOut()}
-            >
-              <SignOut />
-              <Text className={classes.hiddenMobile}>Log out</Text>
-            </Button>
-          ) : (
-            <Button variant="default" onClick={async () => signIn()}>
-              <SignIn />
-              <Text className={classes.hiddenMobile}>Sign up or Log in</Text>
-            </Button>
-          )}
-        </Group>
       </Container>
     </Header>
   );

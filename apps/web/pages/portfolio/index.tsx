@@ -7,48 +7,41 @@ import Overview from './overview';
 import Statistics from './statistics';
 import Transactions from './transactions';
 
-import {
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
+import { Stack, Tabs } from '@mantine/core';
 
 const Portfolio = () => {
   return (
     <Page title="Portfolio">
-      <Stack height="100%">
-        <Tabs height="100%" padding="8px">
-          <TabList>
-            <Tab>Overview</Tab>
-            <Tab>Accounts</Tab>
-            <Tab>Transactions</Tab>
-            <Tab>Statistics</Tab>
-          </TabList>
-          <TabPanels height="100%" padding="8px">
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
+      <Stack h="100%">
+        <Tabs h="100%" p="8px">
+          <Tabs.List>
+            <Tabs.Tab value="overview">Overview</Tabs.Tab>
+            <Tabs.Tab value="accounts">Accounts</Tabs.Tab>
+            <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
+            <Tabs.Tab value="statistics">Statistics</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.List h="100%" p="8px">
+            <Tabs.Panel value="overview" p={0} h="100%">
+              <Stack py="8px">
                 <Overview />
               </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
+            </Tabs.Panel>
+            <Tabs.Panel value="accounts" p={0} h="100%">
+              <Stack py="8px">
                 <Accounts />
               </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
+            </Tabs.Panel>
+            <Tabs.Panel value="transactions" p={0} h="100%">
+              <Stack py="8px">
                 <Transactions />
               </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
+            </Tabs.Panel>
+            <Tabs.Panel value="statistics" p={0} h="100%">
+              <Stack py="8px">
                 <Statistics />
               </Stack>
-            </TabPanel>
-          </TabPanels>
+            </Tabs.Panel>
+          </Tabs.List>
         </Tabs>
       </Stack>
     </Page>
