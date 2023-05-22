@@ -1,9 +1,3 @@
-/**
- *
- * Index page
- *
- */
-
 import {
   Paper,
   Col,
