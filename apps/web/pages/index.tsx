@@ -1,11 +1,11 @@
 import {
   Paper,
   Col,
-  Container,
   Text,
   Button,
   useMantineTheme,
   Grid,
+  Stack,
 } from '@mantine/core';
 import type { NextPageWithLayout } from '../pages/_app';
 import {
@@ -21,19 +21,8 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import { Fragment, FC } from 'react';
-import Head from 'next/head';
 import { Changelog } from '../components/Changelog';
-
-interface PageHeadProps {
-  title: string;
-}
-
-export const PageHead: FC<PageHeadProps> = ({ title }) => (
-  <Head>
-    <title>{title}</title>
-  </Head>
-);
+import { Page } from 'components/Layout/Page';
 
 Chart.register(
   CategoryScale,
@@ -52,9 +41,8 @@ const Home: NextPageWithLayout = () => {
   const theme = useMantineTheme();
 
   return (
-    <Fragment>
-      <PageHead title="Alchemical Finance - Home" />
-      <Container fluid style={{ paddingTop: theme.spacing.xl }}>
+    <Page title="Home">
+      <Stack style={{ paddingTop: theme.spacing.xl }}>
         <Grid>
           <Col span={12}>
             <Paper p="md" shadow="xs">
@@ -75,9 +63,9 @@ const Home: NextPageWithLayout = () => {
             </Paper>
           </Col>
         </Grid>
-      </Container>
-      <Changelog />
-    </Fragment>
+        <Changelog />
+      </Stack>
+    </Page>
   );
 };
 

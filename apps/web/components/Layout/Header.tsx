@@ -126,7 +126,14 @@ interface MainLinkProps {
   onClick?: () => void;
 }
 
-function MainLink({ icon, color, label, className, href }: MainLinkProps) {
+function MainLink({
+  icon,
+  color,
+  label,
+  className,
+  href,
+  onClick,
+}: MainLinkProps) {
   return (
     <UnstyledButton
       component={Link}
@@ -147,6 +154,7 @@ function MainLink({ icon, color, label, className, href }: MainLinkProps) {
               : theme.colors.gray[0],
         },
       })}
+      onClick={onClick}
     >
       <Group>
         <ThemeIcon color={color} variant="light">
@@ -211,15 +219,21 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
               {session ? (
-                <Flex onClick={() => signOut()} className={cx(classes.link)}>
-                  <SignOut size={18} style={{ marginRight: 10 }} />
-                  Sign out
-                </Flex>
+                <MainLink
+                  onClick={() => signOut()}
+                  className={classes.link}
+                  label="Sign out"
+                  icon={<SignOut />}
+                  color="gray"
+                />
               ) : (
-                <Flex onClick={() => signIn()} className={cx(classes.link)}>
-                  <SignIn size={18} style={{ marginRight: 10 }} />
-                  Sign in
-                </Flex>
+                <MainLink
+                  onClick={() => signIn()}
+                  className={classes.link}
+                  icon={<SignIn />}
+                  label="Sign in"
+                  color="gray"
+                />
               )}
             </Paper>
           )}
