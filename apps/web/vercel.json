@@ -6,7 +6,7 @@
   "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
   "git": {
     "deploymentEnabled": {
-      "main": false
+      "main": true
     }
   }
 }
