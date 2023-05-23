@@ -1,13 +1,12 @@
 import { OverviewAccountsList } from '../../../components/Portfolio/Overview/AccountsList';
 
-import { GridItem } from '@chakra-ui/react';
 import * as ChartJs from 'chart.js';
 import currency from 'currency.js';
-import { Layout } from '../../../components/Asset/Layout';
 import { AllocationPieChart } from '../../../components/Portfolio/Overview/AllocationPieChart';
 import { HistorySnapshots } from '../../../components/Portfolio/Overview/HistorySnapshots';
 import { NetWorthCostBasisChart } from '../../../components/Portfolio/Overview/NetWorthCostBasisChart';
 import OverviewCard from '../../../components/Portfolio/Overview/OverviewCard';
+import { Stack } from '@mantine/core';
 
 ChartJs.Chart.register(
   ChartJs.CategoryScale,
@@ -50,23 +49,14 @@ export const options = {
 
 function Overview() {
   return (
-    <Layout>
-      <GridItem area={'overview'}>
-        <OverviewCard />
-      </GridItem>
-      <GridItem area={'allocation'}>
-        <AllocationPieChart />
-      </GridItem>
-      <GridItem area={'chart'}>
-        <NetWorthCostBasisChart />
-      </GridItem>
-      <GridItem area={'assets'}>
-        <OverviewAccountsList />
-      </GridItem>
-      <GridItem area={'history'}>
-        <HistorySnapshots />
-      </GridItem>
-    </Layout>
+    <Stack py="8px">
+      <div>Overview</div>
+      <OverviewCard />
+      <AllocationPieChart />
+      <NetWorthCostBasisChart />
+      <OverviewAccountsList />
+      <HistorySnapshots />
+    </Stack>
   );
 }
 

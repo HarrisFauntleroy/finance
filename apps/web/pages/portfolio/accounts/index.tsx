@@ -5,12 +5,11 @@ import { ControlBar } from '../../../components/Portfolio/ControlBar';
 
 function Accounts() {
   return (
-    <Stack paddingY="8px" height="100%" maxWidth="100%">
+    <Stack paddingY="8px">
+      <div>Accounts</div>
       <ControlBar />
-      <Stack>
-        <AccountsList />
-        <AccountBreakdown />
-      </Stack>
+      <AccountsList />
+      <AccountBreakdown />
     </Stack>
   );
 }
