@@ -1,13 +1,12 @@
+import { Card } from "@mantine/core";
 import { ControlBar } from "../../ControlBar";
 import { AssetTable } from "../AssetTable";
 
-import { Stack } from "@chakra-ui/react";
-
 export const OverviewAccountsList = () => {
   return (
-    <Stack>
+    <Card>
       <ControlBar />
       <AssetTable />
-    </Stack>
+    </Card>
   );
 };

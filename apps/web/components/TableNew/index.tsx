@@ -33,9 +33,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { DebouncedInput } from "ui/src/components/Form";
-import { Show } from "ui/src/components/Show";
-import { useLocalStorage } from "ui/src/hooks/useLocalStorage";
+import { DebouncedInput } from "../Form/DebouncedInput";
+import { Show } from "../Show";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 type EditableTableProps<T extends FieldValues> = {
   id: string;
@@ -107,7 +107,6 @@ export const TableNew = <T extends FieldValues>({
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          placeholder="Search all columns..."
         />
       </Show>
       <TableContainer height="100%">

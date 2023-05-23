@@ -1,8 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
 import { useDebounce } from "../../hooks/useDebounce";
-
-import { Input, InputProps } from "@chakra-ui/react";
+import { Input, InputProps } from "@mantine/core";
 
 type DebouncedInputProps = {
   value: string | number;

@@ -5,8 +5,7 @@ import { ControlBar } from "../../../components/Portfolio/ControlBar";
 
 function Accounts() {
   return (
-    <Stack paddingY="8px">
-      <div>Accounts</div>
+    <Stack>
       <ControlBar />
       <AccountsList />
       <AccountBreakdown />

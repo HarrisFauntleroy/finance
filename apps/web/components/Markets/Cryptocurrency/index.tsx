@@ -2,14 +2,14 @@ import { Table } from "../../Table";
 
 import { trpc } from "../../../utils/trpc";
 
-import { Stack } from "@chakra-ui/react";
 import { cryptocurrencyColumns } from "../../Markets/Cryptocurrency/columns";
+import { Card } from "@mantine/core";
 
 export const Cryptocurrency = () => {
   const { data } = trpc.markets.cryptocurrency.useQuery();
 
   return (
-    <Stack>
+    <Card>
       <Table
         id="Cryptocurrency"
         data={data || []}
@@ -17,6 +17,6 @@ export const Cryptocurrency = () => {
         canExpandRows
         paginationEnabled
       />
-    </Stack>
+    </Card>
   );
 };

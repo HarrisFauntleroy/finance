@@ -1,6 +1,6 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
 import type { Column, Row, Table } from "@tanstack/react-table";
-import { Debug } from "ui/src/components/Debug";
+import { Debug } from "../Debug";
 
 export function FilterNew<TData extends object>({
   column,

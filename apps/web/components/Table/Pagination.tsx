@@ -1,4 +1,5 @@
-import { Button, Flex, Input, Select, Text } from "@chakra-ui/react";
+import { Input, Select } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@mantine/core";
 import type { Table as TableType } from "@tanstack/react-table";
 
 type PaginationProps<TData extends object> = {
