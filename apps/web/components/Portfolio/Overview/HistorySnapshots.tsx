@@ -1,15 +1,16 @@
-import { useMemo } from "react";
-
-import { trpc } from "../../../utils/trpc";
-
-import { historySnapshotColumns } from "../columns";
-
-import { Stack, Text } from "@chakra-ui/react";
+import { Card, Stack, Text } from "@mantine/core";
+import { ChartData } from "chart.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
-import Chart from "../../Chart";
-import { Card } from "../../Cards";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import { trpc } from "../../../utils/trpc";
 import { Table } from "../../Table";
+import { historySnapshotColumns } from "../columns";
+
+const Bar = dynamic(() => import("react-chartjs-2").then(({ Bar }) => Bar), {
+  ssr: false,
+});
 
 function sortFn<T extends { createdAt: Date }>(a: T, b: T) {
   if (a.createdAt < b.createdAt) {
@@ -26,7 +27,7 @@ export const HistorySnapshots = () => {
   const session = useSession();
   const userId = session?.data?.userId;
 
-  const { data } = trpc.assets.historyByUserId.useQuery({
+  const { data: historyByUserId } = trpc.assets.historyByUserId.useQuery({
     userId: userId || "",
   });
 
@@ -34,38 +35,33 @@ export const HistorySnapshots = () => {
     userId: userId || "",
   });
 
-  /** Make a copy of the data to allow mutation/reversal */
-  const tableData =
-    historyData?.portfolioSnapshot &&
-    Array.from(historyData?.portfolioSnapshot);
+  const tableData = [...(historyData?.portfolioSnapshot || [])];
 
-  const barSeries = useMemo(
+  const data = useMemo(
     () =>
-      data?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
-        y: totalValue,
-        x: format(new Date(createdAt), "dd MMM"),
+      historyByUserId?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
+        value: totalValue,
+        label: format(new Date(createdAt), "dd MMM"),
       })),
-    [data?.portfolioSnapshot]
+    [historyByUserId?.portfolioSnapshot]
   );
 
-  const options = {
-    chart: {
-      title: "hello",
-      id: "apexchart-example",
-    },
-  };
+  const newData = useMemo((): ChartData<"bar", unknown, unknown> => {
+    return {
+      labels: data?.filter((d) => d.label).map((d) => d.label),
+      datasets: [
+        {
+          label: "Portfolio Value",
+          data: data?.filter((d) => d.value).map((d) => d.value) || [],
+        },
+      ],
+    };
+  }, [data]);
 
   return (
     <Card>
       <Stack>
-        <Text
-          variant="h3"
-          fontSize={{ base: "lg", sm: "2xl" }}
-          fontWeight="bold"
-          lineHeight="1.2"
-        >
-          History Snapshots
-        </Text>
+        <Text variant="h3">History Snapshots</Text>
         <Table
           pageSize={4}
           columns={historySnapshotColumns}
@@ -75,7 +71,7 @@ export const HistorySnapshots = () => {
           // This only works if the date includes the timezone
           data={tableData?.sort(sortFn).reverse() || []}
         />
-        <Chart type="bar" options={options} series={[{ data: barSeries }]} />
+        <Bar data={newData} />
       </Stack>
     </Card>
   );

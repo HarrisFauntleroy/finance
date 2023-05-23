@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { trpc } from "../../../utils/trpc";
 
-import { Card, useColorModeValue } from "@chakra-ui/react";
+import { Card, useMantineColorScheme } from "@mantine/core";
 import currency from "currency.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -46,8 +46,10 @@ export const NetWorthCostBasisChart = () => {
     format(new Date(createdAt), "dd MMM")
   );
 
-  const costBasisBg = useColorModeValue("#4299E1", "#0BC5EA");
-  const netWorthBg = useColorModeValue("#48BB78", "#805AD5");
+  const theme = useMantineColorScheme();
+  const light = (theme.colorScheme = "light");
+  const costBasisBg = light ? "#4299E1" : "#0BC5EA";
+  const netWorthBg = light ? "#48BB78" : "#805AD5";
 
   const lineData = useMemo(
     () => ({
