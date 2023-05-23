@@ -1,12 +1,12 @@
 import { ReactNode, useState } from "react";
 
+import { Table as MantineTable, Stack } from "@mantine/core";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { DebouncedInput } from "../Form/DebouncedInput";
 import { fuzzy } from "./Filter";
 import { TableHeader } from "./Header";
 import { Pagination } from "./Pagination";
 import { TableRow } from "./TableRow";
-import { Table as MantineTable, Stack } from "@mantine/core";
 
 import {
   Column,
@@ -137,8 +137,8 @@ export const Table = <T extends { id: string }>({
             </tr>
           ))}
         </tfoot>
-        {paginationEnabled && <Pagination table={table} id={id} />}
       </MantineTable>
+      {paginationEnabled && <Pagination table={table} id={id} />}
     </Stack>
   );
 };

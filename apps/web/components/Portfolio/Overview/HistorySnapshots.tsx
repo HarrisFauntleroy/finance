@@ -27,10 +27,6 @@ export const HistorySnapshots = () => {
   const session = useSession();
   const userId = session?.data?.userId;
 
-  const { data: historyByUserId } = trpc.assets.historyByUserId.useQuery({
-    userId: userId || "",
-  });
-
   const { data: historyData } = trpc.assets.historyByUserId.useQuery({
     userId: userId || "",
   });
@@ -39,11 +35,11 @@ export const HistorySnapshots = () => {
 
   const data = useMemo(
     () =>
-      historyByUserId?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
+      historyData?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
         value: totalValue,
         label: format(new Date(createdAt), "dd MMM"),
       })),
-    [historyByUserId?.portfolioSnapshot]
+    [historyData?.portfolioSnapshot]
   );
 
   const newData = useMemo((): ChartData<"bar", unknown, unknown> => {
