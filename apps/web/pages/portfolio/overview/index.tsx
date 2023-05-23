@@ -1,5 +1,4 @@
-import { OverviewAccountsList } from "../../../components/Portfolio/Overview/AccountsList";
-
+import { Grid, Group } from "@mantine/core";
 import {
   ArcElement,
   BarElement,
@@ -13,12 +12,11 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import currency from "currency.js";
+import { OverviewAccountsList } from "../../../components/Portfolio/Overview/AccountsList";
 import { AllocationPieChart } from "../../../components/Portfolio/Overview/AllocationPieChart";
 import { HistorySnapshots } from "../../../components/Portfolio/Overview/HistorySnapshots";
 import { NetWorthCostBasisChart } from "../../../components/Portfolio/Overview/NetWorthCostBasisChart";
 import OverviewCard from "../../../components/Portfolio/Overview/OverviewCard";
-import { Grid } from "@mantine/core";
 
 Chart.register(
   CategoryScale,
@@ -33,46 +31,22 @@ Chart.register(
   Filler
 );
 
-export const options = {
-  responsive: true,
-  type: "line",
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Net Worth / Cost Basis",
-    },
-  },
-  scales: {
-    y: {
-      min: 0,
-      ticks: {
-        callback: (value: string | number) => {
-          return currency(value).format();
-        },
-      },
-    },
-  },
-};
-
 function Overview() {
   return (
-    <Grid grow>
+    <Grid grow maw="100%">
       <Grid.Col span={6}>
-        <OverviewCard />
+        <Group grow>
+          <OverviewCard />
+          <AllocationPieChart />
+        </Group>
       </Grid.Col>
-      <Grid.Col span={6}>
-        <AllocationPieChart />
-      </Grid.Col>
-      <Grid.Col span="auto">
+      <Grid.Col span={12}>
         <NetWorthCostBasisChart />
       </Grid.Col>
-      <Grid.Col span="auto">
+      <Grid.Col span={12}>
         <OverviewAccountsList />
       </Grid.Col>
-      <Grid.Col span="auto">
+      <Grid.Col span={12}>
         <HistorySnapshots />
       </Grid.Col>
     </Grid>

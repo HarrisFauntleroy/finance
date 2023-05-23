@@ -1,49 +1,77 @@
+import { Card, Loader, Text } from "@mantine/core";
+import { ChartData } from "chart.js";
+import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import { useMemo } from "react";
-
 import { trpc } from "../../../utils/trpc";
 
-import currency from "currency.js";
-import { useSession } from "next-auth/react";
-import ChartScaffold from "../../Chart";
-import { Card } from "@mantine/core";
+const Pie = dynamic(() => import("react-chartjs-2").then(({ Pie }) => Pie), {
+  ssr: false,
+});
 
 export const AllocationPieChart = () => {
   const session = useSession();
   const userId = session?.data?.userId;
-
-  const { data: allocationData } = trpc.assets.allocation.useQuery({
+  const { isLoading, error } = trpc.assets.allocation.useQuery({
     userId: userId || "",
   });
 
-  const series = Object.values(allocationData || {});
-
-  const options = useMemo(
-    () => ({
-      chart: {
-        type: "pie" as const,
-        height: "auto",
-      },
-      labels: Object.keys(allocationData || {}),
-      legend: {
-        enabled: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        formatter: function (_val: any, opt: any) {
-          return `${opt.w.globals.labels[opt.seriesIndex].slice(
-            0,
-            6
-          )}:  ${currency(opt.w.globals.series[opt.seriesIndex]).format()}`;
+  const data = useMemo((): ChartData<"pie", unknown, unknown> => {
+    return {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [
+        {
+          label: "# of Votes",
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
         },
-      },
-      dataLabels: {
-        enabled: true,
-      },
-    }),
-    [allocationData]
-  );
+      ],
+    };
+  }, []);
 
+  const options = {
+    responsive: true,
+    type: "pie",
+    plugins: {
+      legend: {
+        display: false,
+        position: "top" as const,
+      },
+      title: {
+        display: false,
+        text: "Breakdown of your portfolio",
+      },
+    },
+  };
+
+  if (isLoading) return <Loader />;
+  if (error) return <Text>Error loading data</Text>;
   return (
-    <Card h="100%">
-      <ChartScaffold type="pie" series={series} options={options} />
+    <Card
+      h="100%"
+      style={{
+        position: "relative",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <Pie data={data} options={options} />
     </Card>
   );
 };
