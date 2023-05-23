@@ -107,7 +107,6 @@ export const TableNew = <T extends FieldValues>({
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          placeholder="Search all columns..."
         />
       </Show>
       <TableContainer height="100%">
