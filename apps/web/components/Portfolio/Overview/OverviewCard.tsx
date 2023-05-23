@@ -1,63 +1,57 @@
-import { Card } from "../../Cards";
-
 import { trpc } from "../../../utils/trpc";
 
-import { Table as ChakraTable, Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Currency from "../../Currency";
+import { Loader, Text, Table, Card } from "@mantine/core";
 
 function OverviewCard() {
   const session = useSession();
   const userId = session?.data?.userId;
 
-  const { data, error, isLoading } = trpc.assets.overviewByUserId.useQuery({
-    userId: userId || "",
+  if (!userId) return <Text>Please log in to view this information.</Text>;
+  const { data, isLoading, error } = trpc.assets.overviewByUserId.useQuery({
+    userId,
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading data</div>;
-  }
+  if (isLoading) return <Loader />;
+  if (error) return <Text>Error loading data</Text>;
 
   return (
-    <Card height="100%">
-      <ChakraTable variant="simple" height="100%">
-        <Tbody>
-          <Tr>
-            <Th>Value</Th>
-            <Td isNumeric>
+    <Card h="100%">
+      <Table h="100%">
+        <tbody>
+          <tr>
+            <th>Value</th>
+            <td>
               <Currency value={data?.totalValue} />
-            </Td>
-          </Tr>
-          <Tr>
-            <Th>Cost Basis</Th>
-            <Td isNumeric>
+            </td>
+          </tr>
+          <tr>
+            <th>Cost Basis</th>
+            <td>
               <Currency value={data?.totalCostBasis} />
-            </Td>
-          </Tr>
-          <Tr>
-            <Th>Unrealized Gains</Th>
-            <Td isNumeric>
+            </td>
+          </tr>
+          <tr>
+            <th>Unrealized Gains</th>
+            <td>
               <Currency value={data?.unrealisedGain} />
-            </Td>
-          </Tr>
-          <Tr>
-            <Th>Realized Gains</Th>
-            <Td isNumeric>
+            </td>
+          </tr>
+          <tr>
+            <th>Realized Gains</th>
+            <td>
               <Currency value={0} />
-            </Td>
-          </Tr>
-          <Tr>
-            <Th>Saleable Assets</Th>
-            <Td isNumeric>
+            </td>
+          </tr>
+          <tr>
+            <th>Saleable Assets</th>
+            <td>
               <Currency value={data?.saleableValue} />
-            </Td>
-          </Tr>
-        </Tbody>
-      </ChakraTable>
+            </td>
+          </tr>
+        </tbody>
+      </Table>
     </Card>
   );
 }

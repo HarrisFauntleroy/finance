@@ -6,17 +6,8 @@ import { fuzzy } from "./Filter";
 import { TableHeader } from "./Header";
 import { Pagination } from "./Pagination";
 import { TableRow } from "./TableRow";
+import { Table as MantineTable, Stack } from "@mantine/core";
 
-import {
-  Table as ChakraTable,
-  Stack,
-  TableContainer,
-  Tbody,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import {
   Column,
   ColumnDef,
@@ -103,59 +94,51 @@ export const Table = <T extends { id: string }>({
   });
 
   return (
-    <Stack height="100%" flex={1}>
+    <Stack h="100%">
       <Show when={!!filterEnabled}>
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          placeholder="Search all columns..."
         />
       </Show>
-      <TableContainer height="100%">
-        <ChakraTable height="100%" flex={1} overflow="scroll" maxWidth="100%">
-          <Thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <Tr key={headerGroup.id}>
-                {headerGroup.headers.map(TableHeader)}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                row={row}
-                renderSubRow={renderExpandedRow}
-                onValidSubmit={(submitData) => {
-                  if (onValidSubmit) return onValidSubmit(submitData);
-                  else
-                    console.log(
-                      "No onValidSubmit handler provided",
-                      submitData
-                    );
-                }}
-              />
-            ))}
-          </Tbody>
-          <Tfoot>
-            {table.getFooterGroups().map((footerGroup) => (
-              <Tr key={footerGroup.id}>
-                {footerGroup.headers.map((header) => (
-                  <Th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext()
-                        )}
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Tfoot>
-        </ChakraTable>
+      <MantineTable h="100%">
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>{headerGroup.headers.map(TableHeader)}</tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <TableRow
+              key={row.id}
+              row={row}
+              renderSubRow={renderExpandedRow}
+              onValidSubmit={(submitData) => {
+                if (onValidSubmit) return onValidSubmit(submitData);
+                else
+                  console.log("No onValidSubmit handler provided", submitData);
+              }}
+            />
+          ))}
+        </tbody>
+        <tfoot>
+          {table.getFooterGroups().map((footerGroup) => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
         {paginationEnabled && <Pagination table={table} id={id} />}
-      </TableContainer>
+      </MantineTable>
     </Stack>
   );
 };

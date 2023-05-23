@@ -2,7 +2,6 @@ import { ReactNode, useCallback, useState } from "react";
 
 import { EditableCell } from "./EditableCell";
 
-import { Button, ButtonGroup, Td, Tr } from "@chakra-ui/react";
 import { Row } from "@tanstack/table-core";
 import {
   FieldValues,
@@ -11,6 +10,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { BsCheck, BsPencil, BsStop } from "react-icons/bs";
+import { Button, Group } from "@mantine/core";
 
 type TableRowProps<T> = {
   row: Row<T>;
@@ -40,37 +40,37 @@ export function TableRow<T>({
 
   return (
     <FormProvider {...methods} key={row.id}>
-      <Tr>
+      <tr>
         {row.getVisibleCells().map((cell) => (
-          <Td key={cell.id}>
+          <td key={cell.id}>
             <EditableCell cell={cell} editing={editing} />
-          </Td>
+          </td>
         ))}
 
-        <Td>
+        <td>
           {editing ? (
-            <ButtonGroup>
+            <Group>
               <Button onClick={() => handleSave()}>
                 <BsCheck color="green" />
               </Button>
               <Button onClick={handleCancel}>
                 <BsStop color="red" />
               </Button>
-            </ButtonGroup>
+            </Group>
           ) : (
             <Button onClick={handleEdit}>
               <BsPencil color="blue" />
             </Button>
           )}
-        </Td>
-      </Tr>
+        </td>
+      </tr>
       {renderSubRow && row.getIsExpanded() && (
-        <Tr>
+        <tr>
           {/* 2nd row is a custom 1 cell row */}
-          <Td colSpan={row.getVisibleCells().length}>
+          <td colSpan={row.getVisibleCells().length}>
             <>{renderSubRow({ row })}</>
-          </Td>
-        </Tr>
+          </td>
+        </tr>
       )}
     </FormProvider>
   );

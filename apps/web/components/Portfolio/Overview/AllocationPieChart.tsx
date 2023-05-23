@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 
-import { Card } from "../../Cards";
-
 import { trpc } from "../../../utils/trpc";
 
 import currency from "currency.js";
 import { useSession } from "next-auth/react";
 import ChartScaffold from "../../Chart";
+import { Card } from "@mantine/core";
 
 export const AllocationPieChart = () => {
   const session = useSession();
@@ -43,7 +42,7 @@ export const AllocationPieChart = () => {
   );
 
   return (
-    <Card>
+    <Card h="100%">
       <ChartScaffold type="pie" series={series} options={options} />
     </Card>
   );

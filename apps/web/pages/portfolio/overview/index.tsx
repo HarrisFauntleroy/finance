@@ -1,24 +1,36 @@
 import { OverviewAccountsList } from "../../../components/Portfolio/Overview/AccountsList";
 
-import * as ChartJs from "chart.js";
+import {
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  Chart,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js";
 import currency from "currency.js";
 import { AllocationPieChart } from "../../../components/Portfolio/Overview/AllocationPieChart";
 import { HistorySnapshots } from "../../../components/Portfolio/Overview/HistorySnapshots";
 import { NetWorthCostBasisChart } from "../../../components/Portfolio/Overview/NetWorthCostBasisChart";
 import OverviewCard from "../../../components/Portfolio/Overview/OverviewCard";
-import { Stack } from "@mantine/core";
+import { Grid } from "@mantine/core";
 
-ChartJs.Chart.register(
-  ChartJs.CategoryScale,
-  ChartJs.LinearScale,
-  ChartJs.PointElement,
-  ChartJs.LineElement,
-  ChartJs.ArcElement,
-  ChartJs.BarElement,
-  ChartJs.Title,
-  ChartJs.Tooltip,
-  ChartJs.Legend,
-  ChartJs.Filler
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
 );
 
 export const options = {
@@ -36,9 +48,7 @@ export const options = {
   scales: {
     y: {
       min: 0,
-      // stacked: true,
       ticks: {
-        // Include a dollar sign in the ticks
         callback: (value: string | number) => {
           return currency(value).format();
         },
@@ -49,14 +59,23 @@ export const options = {
 
 function Overview() {
   return (
-    <Stack py="8px">
-      <div>Overview</div>
-      <OverviewCard />
-      <AllocationPieChart />
-      <NetWorthCostBasisChart />
-      <OverviewAccountsList />
-      <HistorySnapshots />
-    </Stack>
+    <Grid grow py="16px">
+      <Grid.Col span={6}>
+        <OverviewCard />
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <AllocationPieChart />
+      </Grid.Col>
+      <Grid.Col span="auto">
+        <NetWorthCostBasisChart />
+      </Grid.Col>
+      <Grid.Col span="auto">
+        <OverviewAccountsList />
+      </Grid.Col>
+      <Grid.Col span="auto">
+        <HistorySnapshots />
+      </Grid.Col>
+    </Grid>
   );
 }
 
