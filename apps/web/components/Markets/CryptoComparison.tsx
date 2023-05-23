@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
-import { divide, multiply, subtract } from 'common';
-import { Card, Grid } from 'ui';
+import { divide, multiply, subtract } from "common";
 
-import { trpc } from '../../utils/trpc';
+import { trpc } from "../../utils/trpc";
 
 import {
   Avatar,
@@ -16,11 +15,13 @@ import {
   Select,
   Stack,
   Text,
-} from '@chakra-ui/react';
-import currency from 'currency.js';
-import Image from 'next/image';
+} from "@chakra-ui/react";
+import currency from "currency.js";
+import Image from "next/image";
+import { Grid } from "../Grid";
+import { Card } from "../Cards";
 
-const currencies = ['USD', 'EUR', 'GBP', 'JPY'];
+const currencies = ["USD", "EUR", "GBP", "JPY"];
 
 type CryptoToCompare = {
   name: string | null;
@@ -36,7 +37,7 @@ type CryptoToCompare = {
 };
 
 const CryptoComparison = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState<string>('USD');
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
   const [coinToCompare, setcoinToCompare] = useState<CryptoToCompare>();
   const [, setCoinToCompareAgainst] = useState<CryptoToCompare>();
 
@@ -59,15 +60,15 @@ const CryptoComparison = () => {
       data?.map((crypto) => {
         const potentialPrice = multiply(
           divide(String(crypto?.marketCap), String(coinToCompare?.marketCap)),
-          String(coinToCompare?.price),
+          String(coinToCompare?.price)
         );
 
         const potentialUpside = multiply(
           divide(
             subtract(potentialPrice, String(crypto.price)),
-            String(crypto.price),
+            String(crypto.price)
           ),
-          -100,
+          -100
         );
 
         return {
@@ -76,15 +77,15 @@ const CryptoComparison = () => {
           ...crypto,
         };
       }),
-    [coinToCompare?.marketCap, coinToCompare?.price, data],
+    [coinToCompare?.marketCap, coinToCompare?.price, data]
   );
 
   return (
     <Grid
       padding="8px"
       gridTemplateColumns={{
-        md: '1fr max-content',
-        base: '100%',
+        md: "1fr max-content",
+        base: "100%",
       }}
     >
       <Card padding="8px">
@@ -108,7 +109,7 @@ const CryptoComparison = () => {
                     width={1}
                     height={1}
                     alt=""
-                    src={crypto.image || crypto.name || ''}
+                    src={crypto.image || crypto.name || ""}
                   />
                   <Text>
                     {crypto.name} ({crypto.ticker})
@@ -138,7 +139,7 @@ const CryptoComparison = () => {
             <Flex key={crypto.ticker} justify="space-between" align="center">
               <Flex align="center">
                 <Box>{String(crypto?.marketCapRank)}</Box>
-                <Avatar src={crypto.image || ''} name={crypto.ticker} />
+                <Avatar src={crypto.image || ""} name={crypto.ticker} />
                 <Stack alignItems="center">
                   <Text textTransform="uppercase">{crypto.ticker}</Text>
                   <Text textTransform="capitalize">{crypto.name}</Text>

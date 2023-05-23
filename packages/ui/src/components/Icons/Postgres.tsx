@@ -1,4 +1,4 @@
-import React, { type SVGProps } from 'react';
+import React, { type SVGProps } from "react";
 
 export const PostgresIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg

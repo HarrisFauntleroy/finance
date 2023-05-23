@@ -1,7 +1,7 @@
-import { Input } from '@chakra-ui/react';
-import { flexRender } from '@tanstack/react-table';
-import { Cell } from '@tanstack/table-core';
-import { useFormContext } from 'react-hook-form';
+import { Input } from "@chakra-ui/react";
+import { flexRender } from "@tanstack/react-table";
+import { Cell } from "@tanstack/table-core";
+import { useFormContext } from "react-hook-form";
 
 type EditableCellProps<TData, TColumnValue> = {
   cell: Cell<TData, TColumnValue>;
@@ -17,7 +17,7 @@ export function EditableCellNew<TData, TColumnValue>({
   return editing ? (
     <Input
       defaultValue={String(
-        (cell.row.original as TData)[cell.column.id as keyof TData],
+        (cell.row.original as TData)[cell.column.id as keyof TData]
       )}
       readOnly={!editing}
       {...register(cell.column.id)}

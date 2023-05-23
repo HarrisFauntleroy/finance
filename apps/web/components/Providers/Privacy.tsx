@@ -4,14 +4,13 @@
  * Adds global context for showing and hiding monetary values
  *
  */
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import {
   createContext,
   useCallback,
   useMemo,
   type PropsWithChildren,
-} from 'react';
-
-import { useLocalStorage } from 'ui';
+} from "react";
 
 type PrivacyContextType = {
   privacy: boolean;
@@ -26,16 +25,16 @@ const defaultValues = {
 export const PrivacyContext = createContext<PrivacyContextType>(defaultValues);
 
 export function PrivacyProvider<T>({ children }: PropsWithChildren<T>) {
-  const [privacy, setPrivacy] = useLocalStorage('privacy', false);
+  const [privacy, setPrivacy] = useLocalStorage("privacy", false);
 
   const togglePrivacy = useCallback(
     () => setPrivacy((prevValue) => !prevValue),
-    [setPrivacy],
+    [setPrivacy]
   );
 
   const stuff = useMemo(
     () => ({ privacy, togglePrivacy }),
-    [privacy, togglePrivacy],
+    [privacy, togglePrivacy]
   );
 
   return (

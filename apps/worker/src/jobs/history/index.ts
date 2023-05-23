@@ -1,7 +1,7 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { Progress } from '../../util';
-import { calculateAssetValuesTotals } from './assets';
+import { Progress } from "../../util";
+import { calculateAssetValuesTotals } from "./assets";
 
 export const history = async () => {
   /** Get userId of signed in user */
@@ -13,7 +13,7 @@ export const history = async () => {
 
   const progress = new Progress(users.length);
 
-  progress.start('History');
+  progress.start("History");
 
   const results: { user?: string; status: string }[] = [];
 
@@ -30,7 +30,7 @@ export const history = async () => {
             currency: totals.userCurrency,
             costBasis: totals.totalCostBasis,
             totalValue: totals.totalValue,
-            realisedGain: '0',
+            realisedGain: "0",
             saleableValue: totals.saleableValue,
             unrealisedGain: totals.unrealisedGain,
           },
@@ -47,15 +47,15 @@ export const history = async () => {
         });
         progress.increment();
         /** Return PortfolioSnapshot object */
-        results.push({ user: response.userId, status: 'Succeeded' });
+        results.push({ user: response.userId, status: "Succeeded" });
       } catch (error) {
         progress.increment();
         /** Return the thrown error */
-        results.push({ status: 'Failed' });
+        results.push({ status: "Failed" });
       }
       return results;
-    }),
+    })
   );
 
-  progress.stop('History');
+  progress.stop("History");
 };

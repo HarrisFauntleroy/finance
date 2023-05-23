@@ -1,6 +1,6 @@
-import { rankItem } from '@tanstack/match-sorter-utils';
-import type { Column, Row, Table } from '@tanstack/react-table';
-import { Debug } from 'ui/src/components/Debug';
+import { rankItem } from "@tanstack/match-sorter-utils";
+import type { Column, Row, Table } from "@tanstack/react-table";
+import { Debug } from "ui/src/components/Debug";
 
 export function FilterNew<TData extends object>({
   column,
@@ -15,11 +15,11 @@ export function FilterNew<TData extends object>({
 
   const columnFilterValue = column.getFilterValue();
 
-  return typeof firstValue === 'number' ? (
+  return typeof firstValue === "number" ? (
     <div>
       <input
         type="number"
-        value={(columnFilterValue as [number, number])?.[0] ?? ''}
+        value={(columnFilterValue as [number, number])?.[0] ?? ""}
         onChange={(e) =>
           column.setFilterValue((old: [number, number]) => [
             e.target.value,
@@ -31,7 +31,7 @@ export function FilterNew<TData extends object>({
       />
       <input
         type="number"
-        value={(columnFilterValue as [number, number])?.[1] ?? ''}
+        value={(columnFilterValue as [number, number])?.[1] ?? ""}
         onChange={(e) =>
           column.setFilterValue((old: [number, number]) => [
             old?.[0],
@@ -45,7 +45,7 @@ export function FilterNew<TData extends object>({
   ) : (
     <input
       type="text"
-      value={(columnFilterValue ?? '') as string}
+      value={(columnFilterValue ?? "") as string}
       onChange={(e) => column.setFilterValue(e.target.value)}
       placeholder="Search..."
       className="w-36 border shadow rounded"
@@ -63,7 +63,7 @@ export function fuzzyNew<T extends Record<string, unknown>>(
   row: Row<T>,
   columnId: string,
   value: string,
-  addMeta: (meta: { itemRank: ReturnType<typeof rankItem> }) => void,
+  addMeta: (meta: { itemRank: ReturnType<typeof rankItem> }) => void
 ): boolean {
   const itemRank = rankItem(row.getValue(columnId), value);
 

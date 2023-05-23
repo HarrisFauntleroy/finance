@@ -1,16 +1,16 @@
-import { Table } from 'ui';
+import { Table } from "../../Table";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { useSession } from 'next-auth/react';
-import { transactionsListColumns } from '../../Budget/Transactions/columns';
+import { useSession } from "next-auth/react";
+import { transactionsListColumns } from "../../Budget/Transactions/columns";
 
 export const TransactionsList = () => {
   const session = useSession();
   const userId = session?.data?.userId;
 
   const { data } = trpc.budgetTransactions.byUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   return (

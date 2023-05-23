@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { RoleSchema } from '../inputTypeSchemas/RoleSchema';
+import { z } from "zod";
+import { RoleSchema } from "../inputTypeSchemas/RoleSchema";
 
 /////////////////////////////////////////
 // USER SCHEMA

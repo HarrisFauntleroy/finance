@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 import {
   Tab,
@@ -9,8 +9,8 @@ import {
   TabPanels,
   Tabs as ChakraTabs,
   useColorModeValue,
-} from '@chakra-ui/react';
-import type { ReactNode } from 'react';
+} from "@chakra-ui/react";
+import type { ReactNode } from "react";
 
 type TabType = {
   title: string;
@@ -32,7 +32,7 @@ export function Tabs({ pages, id }: TabsProps) {
 
   return (
     <ChakraTabs index={tabIndex} onChange={handleTabsChange}>
-      <TabList height="32px" bg={useColorModeValue('gray.50', 'gray.900')}>
+      <TabList height="32px" bg={useColorModeValue("gray.50", "gray.900")}>
         {pages?.map(({ title }, index) => (
           <Tab key={`tab-list-${id}-${index}`}>{title}</Tab>
         ))}
@@ -40,7 +40,7 @@ export function Tabs({ pages, id }: TabsProps) {
       <TabPanels>
         {pages?.map(({ page }, index) => (
           <TabPanel
-            padding={{ base: 0, sm: '16px' }}
+            padding={{ base: 0, sm: "16px" }}
             key={`tab-panel-${id}-${index}`}
           >
             <>{page}</>

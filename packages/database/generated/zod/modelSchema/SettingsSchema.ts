@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { ColorSchemeSchema } from '../inputTypeSchemas/ColorSchemeSchema';
+import { z } from "zod";
+import { ColorSchemeSchema } from "../inputTypeSchemas/ColorSchemeSchema";
 
 /////////////////////////////////////////
 // SETTINGS SCHEMA

@@ -1,4 +1,4 @@
-import { calculateEMA } from './ema';
+import { calculateEMA } from "./ema";
 
 // Moving average convergence divergence (MACD): This is a trend-following momentum indicator that shows the relationship between two moving averages of a cryptocurrency's price. By comparing the MACD to a signal line, you can identify whether a cryptocurrency is trending upwards or downwards and use this information to inform your buying or selling decisions.
 export function calculateMACD(prices: number[]): number {

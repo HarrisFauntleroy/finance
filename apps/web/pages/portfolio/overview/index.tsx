@@ -1,13 +1,12 @@
-import { OverviewAccountsList } from '../../../components/Portfolio/Overview/AccountsList';
+import { OverviewAccountsList } from "../../../components/Portfolio/Overview/AccountsList";
 
-import { GridItem } from '@chakra-ui/react';
-import * as ChartJs from 'chart.js';
-import currency from 'currency.js';
-import { Layout } from '../../../components/Asset/Layout';
-import { AllocationPieChart } from '../../../components/Portfolio/Overview/AllocationPieChart';
-import { HistorySnapshots } from '../../../components/Portfolio/Overview/HistorySnapshots';
-import { NetWorthCostBasisChart } from '../../../components/Portfolio/Overview/NetWorthCostBasisChart';
-import OverviewCard from '../../../components/Portfolio/Overview/OverviewCard';
+import * as ChartJs from "chart.js";
+import currency from "currency.js";
+import { AllocationPieChart } from "../../../components/Portfolio/Overview/AllocationPieChart";
+import { HistorySnapshots } from "../../../components/Portfolio/Overview/HistorySnapshots";
+import { NetWorthCostBasisChart } from "../../../components/Portfolio/Overview/NetWorthCostBasisChart";
+import OverviewCard from "../../../components/Portfolio/Overview/OverviewCard";
+import { Stack } from "@mantine/core";
 
 ChartJs.Chart.register(
   ChartJs.CategoryScale,
@@ -19,19 +18,19 @@ ChartJs.Chart.register(
   ChartJs.Title,
   ChartJs.Tooltip,
   ChartJs.Legend,
-  ChartJs.Filler,
+  ChartJs.Filler
 );
 
 export const options = {
   responsive: true,
-  type: 'line',
+  type: "line",
   plugins: {
     legend: {
-      position: 'top' as const,
+      position: "top" as const,
     },
     title: {
       display: true,
-      text: 'Net Worth / Cost Basis',
+      text: "Net Worth / Cost Basis",
     },
   },
   scales: {
@@ -50,23 +49,14 @@ export const options = {
 
 function Overview() {
   return (
-    <Layout>
-      <GridItem area={'overview'}>
-        <OverviewCard />
-      </GridItem>
-      <GridItem area={'allocation'}>
-        <AllocationPieChart />
-      </GridItem>
-      <GridItem area={'chart'}>
-        <NetWorthCostBasisChart />
-      </GridItem>
-      <GridItem area={'assets'}>
-        <OverviewAccountsList />
-      </GridItem>
-      <GridItem area={'history'}>
-        <HistorySnapshots />
-      </GridItem>
-    </Layout>
+    <Stack py="8px">
+      <div>Overview</div>
+      <OverviewCard />
+      <AllocationPieChart />
+      <NetWorthCostBasisChart />
+      <OverviewAccountsList />
+      <HistorySnapshots />
+    </Stack>
   );
 }
 

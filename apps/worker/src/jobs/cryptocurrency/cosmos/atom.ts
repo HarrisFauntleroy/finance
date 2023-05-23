@@ -1,20 +1,20 @@
-import { logger } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { logger } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
+import { Progress } from "../../../util";
 
-import { Coin, createProtobufRpcClient, QueryClient } from '@cosmjs/stargate';
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
-import { QueryClientImpl } from 'cosmjs-types/cosmos/bank/v1beta1/query';
-import { Decimal } from 'database/generated/prisma-client/runtime/library';
+import { Coin, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query";
+import { Decimal } from "database/generated/prisma-client/runtime/library";
 
-const COSMOS_RPC = 'https://cosmos-mainnet-rpc.allthatnode.com:26657';
+const COSMOS_RPC = "https://cosmos-mainnet-rpc.allthatnode.com:26657";
 
 const getBalance = async (
   denom: string,
   address: string,
-  rcp: string,
+  rcp: string
 ): Promise<Coin | undefined> => {
   try {
     const tendermint = await Tendermint34Client.connect(rcp);
@@ -34,7 +34,7 @@ const getBalance = async (
 };
 
 const getAtomBalance = (address: string) =>
-  getBalance('uatom', address, COSMOS_RPC);
+  getBalance("uatom", address, COSMOS_RPC);
 
 export async function updateAtomBalances() {
   // Get all cryptocurrencies with type 'crypto', market ID 'eth', and a non-null wallet address
@@ -43,7 +43,7 @@ export async function updateAtomBalances() {
       market: {
         type: MarketType.CRYPTOCURRENCY,
       },
-      marketId: 'atom_CRYPTOCURRENCY',
+      marketId: "atom_CRYPTOCURRENCY",
       walletAddress: {
         not: null,
       },
@@ -55,17 +55,17 @@ export async function updateAtomBalances() {
   });
 
   const progress = new Progress(cryptocurrencies.length);
-  progress.start('Atom');
+  progress.start("Atom");
 
   for (const cryptocurrency of cryptocurrencies) {
     if (cryptocurrency.walletAddress)
       try {
         const balance = await getAtomBalance(
-          cryptocurrency.walletAddress,
+          cryptocurrency.walletAddress
         ).catch(logger.error);
 
         const balanceInCosmos = new Decimal(String(balance?.amount)).times(
-          10 ** -6,
+          10 ** -6
         );
 
         await prisma.cryptocurrency.update({
@@ -85,7 +85,7 @@ export async function updateAtomBalances() {
       }
   }
 
-  progress.stop('Atom');
+  progress.stop("Atom");
 
   return new Date();
 }

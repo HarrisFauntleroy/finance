@@ -1,19 +1,19 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import { Card } from 'ui';
+import { Card } from "../../Cards";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import currency from 'currency.js';
-import { useSession } from 'next-auth/react';
-import ChartScaffold from '../../Chart';
+import currency from "currency.js";
+import { useSession } from "next-auth/react";
+import ChartScaffold from "../../Chart";
 
 export const AllocationPieChart = () => {
   const session = useSession();
   const userId = session?.data?.userId;
 
   const { data: allocationData } = trpc.assets.allocation.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   const series = Object.values(allocationData || {});
@@ -21,8 +21,8 @@ export const AllocationPieChart = () => {
   const options = useMemo(
     () => ({
       chart: {
-        type: 'pie' as const,
-        height: 'auto',
+        type: "pie" as const,
+        height: "auto",
       },
       labels: Object.keys(allocationData || {}),
       legend: {
@@ -31,7 +31,7 @@ export const AllocationPieChart = () => {
         formatter: function (_val: any, opt: any) {
           return `${opt.w.globals.labels[opt.seriesIndex].slice(
             0,
-            6,
+            6
           )}:  ${currency(opt.w.globals.series[opt.seriesIndex]).format()}`;
         },
       },
@@ -39,7 +39,7 @@ export const AllocationPieChart = () => {
         enabled: true,
       },
     }),
-    [allocationData],
+    [allocationData]
   );
 
   return (

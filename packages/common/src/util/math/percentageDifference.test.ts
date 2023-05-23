@@ -1,6 +1,6 @@
-import { percentageDifference } from './percentageDifference';
+import { percentageDifference } from "./percentageDifference";
 
-test('Percentage difference shows the percent difference when compared to the average of two numbers', () => {
+test("Percentage difference shows the percent difference when compared to the average of two numbers", () => {
   // Should return a 100% increase
   expect(percentageDifference(10, 30)).toEqual(100);
 

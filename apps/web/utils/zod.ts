@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 type Implements<Model> = {
   [key in keyof Model]-?: undefined extends Model[key]
@@ -15,9 +15,9 @@ export function implement<Model = never>() {
     with: <
       Schema extends Implements<Model> & {
         [unknownKey in Exclude<keyof Schema, keyof Model>]: never;
-      },
+      }
     >(
-      schema: Schema,
+      schema: Schema
     ) => z.object(schema),
   };
 }

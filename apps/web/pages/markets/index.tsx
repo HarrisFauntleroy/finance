@@ -3,9 +3,7 @@
  * Markets page
  *
  */
-import React from 'react';
-
-import { Page } from 'ui';
+import React from "react";
 
 import {
   Stack,
@@ -14,10 +12,11 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-} from '@chakra-ui/react';
-import CryptoComparison from 'components/Markets/CryptoComparison';
-import { Cryptocurrency } from 'components/Markets/Cryptocurrency';
-import { Forex } from 'components/Markets/Forex';
+} from "@chakra-ui/react";
+import CryptoComparison from "../../components/Markets/CryptoComparison";
+import { Cryptocurrency } from "../../components/Markets/Cryptocurrency";
+import { Forex } from "../../components/Markets/Forex";
+import { Page } from "../../components/Layout/Page";
 
 const Markets = () => {
   return (

@@ -1,8 +1,8 @@
-import { convertCurrency, multiply, sumGroupByCategory } from 'common';
-import { Category } from 'database/generated/prisma-client';
+import { convertCurrency, multiply, sumGroupByCategory } from "common";
+import { Category } from "database/generated/prisma-client";
 
-import { getAssetsWithMarket } from './getAssetsWithMarket';
-import { getUserCurrency, getExchangeRates } from '../../../api';
+import { getAssetsWithMarket } from "./getAssetsWithMarket";
+import { getUserCurrency, getExchangeRates } from "../../../api";
 
 export type PortfolioAllocation = {
   name: string;
@@ -16,7 +16,7 @@ export type PortfolioAllocation = {
 };
 
 export async function getPortfolioAllocation(
-  userId: string,
+  userId: string
 ): Promise<PortfolioAllocation[]> {
   const assets = await getAssetsWithMarket(userId);
   const userCurrency = await getUserCurrency(userId);
@@ -36,5 +36,5 @@ export async function getPortfolioAllocation(
     }
     return { value: value.toString(), category };
   });
-  return sumGroupByCategory(mapped, 'category');
+  return sumGroupByCategory(mapped, "category");
 }

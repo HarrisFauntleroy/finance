@@ -1,14 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Stack } from '@chakra-ui/react';
-import { JSONObjectViewer } from 'ui';
+import { Stack } from "@chakra-ui/react";
+import { JSONObjectViewer } from "../../../components/JSON";
 
 function Transactions() {
   return (
-    <Stack direction="column" paddingY="8px" height="100%">
+    <Stack paddingY="8px">
+      <div>Transactions</div>
       <JSONObjectViewer
         data={JSON.stringify({
-          id: '1',
+          id: "1",
         })}
       />
     </Stack>

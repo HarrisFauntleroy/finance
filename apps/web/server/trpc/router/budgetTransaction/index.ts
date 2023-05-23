@@ -1,15 +1,15 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { publicProcedure, router } from '../../trpc';
-import { byId, byUserId } from '../schema';
+import { publicProcedure, router } from "../../trpc";
+import { byId, byUserId } from "../schema";
 import {
   createBudgetTransaction,
   createBudgetTransactionInput,
-} from './create';
-import { deleteBudgetTransaction } from './delete';
-import { updatBudgetransaction, updatBudgetransactionInput } from './update';
+} from "./create";
+import { deleteBudgetTransaction } from "./delete";
+import { updatBudgetransaction, updatBudgetransactionInput } from "./update";
 
-import { TRPCError } from '@trpc/server';
+import { TRPCError } from "@trpc/server";
 
 export const budgetTransactionRouter = router({
   create: publicProcedure
@@ -51,7 +51,7 @@ export const budgetTransactionRouter = router({
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
@@ -78,7 +78,7 @@ export const budgetTransactionRouter = router({
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
@@ -96,7 +96,7 @@ export const budgetTransactionRouter = router({
         })
         .catch(() => {
           throw new TRPCError({
-            code: 'NOT_FOUND',
+            code: "NOT_FOUND",
           });
         });
     }),

@@ -1,8 +1,8 @@
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { DeleteIcon } from '@chakra-ui/icons';
-import { Button, useToast } from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { DeleteIcon } from "@chakra-ui/icons";
+import { Button, useToast } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 type DeleteBudgetProps = {
   id?: string;
@@ -26,8 +26,8 @@ export const DeleteBudget = ({ id }: DeleteBudgetProps) => {
           return deleteBudget.mutateAsync({ id });
         }
         return toast({
-          title: 'No budget found, missing ID',
-          status: 'error',
+          title: "No budget found, missing ID",
+          status: "error",
         });
       }}
     >

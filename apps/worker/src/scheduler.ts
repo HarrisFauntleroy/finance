@@ -1,16 +1,16 @@
-import { logger } from 'common';
+import { logger } from "common";
 
-import { JobName } from './jobs';
+import { JobName } from "./jobs";
 
-import { JobsOptions, Queue as QueueMQ } from 'bullmq';
-import { isValidCron } from 'cron-validator';
+import { JobsOptions, Queue as QueueMQ } from "bullmq";
+import { isValidCron } from "cron-validator";
 
 export class Scheduler {
   constructor(private queue: QueueMQ) {}
 
   async init() {
     await Promise.allSettled(
-      this.createJobs().map((job) => this.scheduleJob(job)),
+      this.createJobs().map((job) => this.scheduleJob(job))
     );
   }
 
@@ -26,11 +26,11 @@ export class Scheduler {
 
   createJobs() {
     return [
-      this.validateJobOptions(JobName.History, '0 8,20 * * *'),
-      this.validateJobOptions(JobName.MarketData, '0 0 * * *'),
-      this.validateJobOptions(JobName.Cryptocurrency, '0 0 * * *'),
-      this.validateJobOptions(JobName.Swyftx, '0 0 * * *'),
-      this.validateJobOptions(JobName.Cleaner, '0 0 * * *'),
+      this.validateJobOptions(JobName.History, "0 8,20 * * *"),
+      this.validateJobOptions(JobName.MarketData, "0 0 * * *"),
+      this.validateJobOptions(JobName.Cryptocurrency, "0 0 * * *"),
+      this.validateJobOptions(JobName.Swyftx, "0 0 * * *"),
+      this.validateJobOptions(JobName.Cleaner, "0 0 * * *"),
     ];
   }
 
@@ -48,7 +48,7 @@ export class Scheduler {
       })
       .catch((error) => {
         logger.error(
-          `Error scheduling job ${name}: ${(error as Error).message}`,
+          `Error scheduling job ${name}: ${(error as Error).message}`
         );
         throw error; // Rethrow the error after logging it
       });

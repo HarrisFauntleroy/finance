@@ -2,11 +2,11 @@
  * Custom sign in page for Next Auth
  */
 
-import { Button, Flex, Stack } from '@chakra-ui/react';
-import type { NextPageContext } from 'next';
-import { getCsrfToken, getProviders, signIn } from 'next-auth/react';
-import type { ReactElement } from 'react';
-import { BsGoogle } from 'react-icons/bs';
+import { Button, Flex, Stack } from "@chakra-ui/react";
+import type { NextPageContext } from "next";
+import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+import type { ReactElement } from "react";
+import { BsGoogle } from "react-icons/bs";
 
 type Provider = {
   id: string;
@@ -28,17 +28,17 @@ export const getServerSideProps = async (context: NextPageContext) => ({
 });
 
 const Signin = ({ providers }: SignInProps) => {
-  const icons: { [key: Provider['id']]: ReactElement } = {
+  const icons: { [key: Provider["id"]]: ReactElement } = {
     google: <BsGoogle />,
   };
 
   return (
     <Flex
       style={{
-        height: '100%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        height: "100%",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Stack direction="column" align="center">

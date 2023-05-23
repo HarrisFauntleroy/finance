@@ -2,25 +2,25 @@
 /**
  * @type {import('next').NextConfig}
  */
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
 module.exports = {
-  transpilePackages: ['database', 'ui', 'common'],
+  transpilePackages: ["database", "ui", "common"],
   reactStrictMode: true,
   swcMinify: true,
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'assets.coingecko.com',
+        protocol: "https",
+        hostname: "assets.coingecko.com",
       },
     ],
   },
   experimental: {
     appDir: true,
-    esmExternals: 'loose',
+    esmExternals: "loose",
   },
-  webpack: (config, { isServer }) => {
+  webpack: function (config, { isServer }) {
     if (isServer) {
       config.plugins = [...config.plugins, new PrismaPlugin()];
     }

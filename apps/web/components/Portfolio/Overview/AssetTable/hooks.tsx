@@ -1,11 +1,11 @@
-import { logger } from 'common';
+import { logger } from "common";
 
-import { trpc } from '../../../../utils/trpc';
+import { trpc } from "../../../../utils/trpc";
 
-import { useToast } from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
-import { type Asset } from 'database/generated/prisma-client';
-import { SubmitHandler } from 'react-hook-form';
+import { useToast } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { type Asset } from "database/generated/prisma-client";
+import { SubmitHandler } from "react-hook-form";
 
 export function useAssetActions(userId: string | undefined): {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,7 +25,7 @@ export function useAssetActions(userId: string | undefined): {
             queryClient.invalidateQueries();
             toast({
               title: `Successfully updated account ${asset.name}`,
-              status: 'success',
+              status: "success",
             });
           })
           .catch(logger.error);
@@ -36,12 +36,12 @@ export function useAssetActions(userId: string | undefined): {
           queryClient.invalidateQueries();
           toast({
             title: `Successfully created account ${name}`,
-            status: 'success',
+            status: "success",
           });
         })
         .catch(logger.error);
     }
-    return new Error('No userId provided');
+    return new Error("No userId provided");
   };
 
   return { handleValidSubmit };

@@ -1,19 +1,19 @@
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
+import { Progress } from "../../../util";
 
-import { Coin, createProtobufRpcClient, QueryClient } from '@cosmjs/stargate';
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
-import { QueryClientImpl } from 'cosmjs-types/cosmos/bank/v1beta1/query';
-import { Decimal } from 'database/generated/prisma-client/runtime/library';
+import { Coin, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query";
+import { Decimal } from "database/generated/prisma-client/runtime/library";
 
-const OSMOSIS_RPC = 'https://osmosis-mainnet-rpc.allthatnode.com:26657';
+const OSMOSIS_RPC = "https://osmosis-mainnet-rpc.allthatnode.com:26657";
 
 const getBalance = async (
   denom: string,
   address: string,
-  rcp: string,
+  rcp: string
 ): Promise<Coin | undefined> => {
   try {
     const tendermint = await Tendermint34Client.connect(rcp);
@@ -33,7 +33,7 @@ const getBalance = async (
 };
 
 const getOsmosisBalance = (address: string) =>
-  getBalance('uosmo', address, OSMOSIS_RPC);
+  getBalance("uosmo", address, OSMOSIS_RPC);
 
 export async function updateOsmosisBalances() {
   // Get all cryptocurrencies with type 'crypto', market ID 'eth', and a non-null wallet address
@@ -42,7 +42,7 @@ export async function updateOsmosisBalances() {
       market: {
         type: MarketType.CRYPTOCURRENCY,
       },
-      marketId: 'osmo_CRYPTOCURRENCY',
+      marketId: "osmo_CRYPTOCURRENCY",
       walletAddress: {
         not: null,
       },
@@ -54,12 +54,12 @@ export async function updateOsmosisBalances() {
   });
 
   const progress = new Progress(cryptocurrencies.length);
-  progress.start('Osmosis');
+  progress.start("Osmosis");
 
   // Iterate over the cryptocurrencies
   for (const cryptocurrency of cryptocurrencies) {
     const balance = await getOsmosisBalance(
-      cryptocurrency.walletAddress as string,
+      cryptocurrency.walletAddress as string
     );
 
     const balanceInOsmo = new Decimal(String(balance?.amount)).times(10 ** -6);
@@ -79,7 +79,7 @@ export async function updateOsmosisBalances() {
     progress.increment();
   }
 
-  progress.stop('Osmosis');
+  progress.stop("Osmosis");
 
   return new Date();
 }

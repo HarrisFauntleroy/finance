@@ -1,5 +1,5 @@
-import { Table, TableContainer, Tbody, Td, Th, Tr } from '@chakra-ui/react';
-import Currency from 'components/Currency';
+import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
+import Currency from "components/Currency";
 
 type Table1DProps = {
   data: [string, unknown][];
@@ -14,7 +14,7 @@ export const Table1D = ({ data }: Table1DProps) => {
             <Tr key={`${item?.[1]}table1d`}>
               <Th>
                 {item?.[0]
-                  ?.replace(/([A-Z])/g, ' $1')
+                  ?.replace(/([A-Z])/g, " $1")
                   .replace(/^./, function (str) {
                     return str.toUpperCase();
                   })}

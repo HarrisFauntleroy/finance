@@ -29,7 +29,7 @@ export type CoinGeckoResponse = {
 
 export type ParsedCrypto = {
   name: string;
-  type: 'CRYPTOCURRENCY';
+  type: "CRYPTOCURRENCY";
   ticker: string;
   currency: string;
   price: string;

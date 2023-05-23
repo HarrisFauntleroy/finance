@@ -1,7 +1,7 @@
-import { Button, Flex, Stack } from '@chakra-ui/react';
-import { Step as ChakraStep, Steps, useSteps } from 'chakra-ui-steps';
-import type { ReactNode } from 'react';
-import { FiCheckCircle } from 'react-icons/fi';
+import { Button, Flex, Stack } from "@chakra-ui/react";
+import { Step as ChakraStep, Steps, useSteps } from "chakra-ui-steps";
+import type { ReactNode } from "react";
+import { FiCheckCircle } from "react-icons/fi";
 
 export type Step = {
   label: string;
@@ -44,7 +44,7 @@ export const Stepper = ({ steps }: StepperProps) => {
             Prev
           </Button>
           <Button size="sm" onClick={nextStep}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Flex>
       )}

@@ -1,20 +1,20 @@
-import { calculateAssetValue, calculateAssetValueOverview } from 'common';
-import { type Prisma } from 'database/generated/prisma-client';
-import { prisma } from 'database';
+import { calculateAssetValue, calculateAssetValueOverview } from "common";
+import { type Prisma } from "database/generated/prisma-client";
+import { prisma } from "database";
 
-import { getExchangeRates, getUserCurrency } from '../../../api';
+import { getExchangeRates, getUserCurrency } from "../../../api";
 
-import { publicProcedure, router } from '../../trpc';
-import { createAsset } from './create';
-import { deleteAsset } from './delete';
-import { getAssetById } from './getAssetById';
-import { getAssetsByUserId } from './getAssetsByUserId';
-import { getPortfolioAllocation } from './getPortfolioAllocation';
-import { updateAsset } from './update';
+import { publicProcedure, router } from "../../trpc";
+import { createAsset } from "./create";
+import { deleteAsset } from "./delete";
+import { getAssetById } from "./getAssetById";
+import { getAssetsByUserId } from "./getAssetsByUserId";
+import { getPortfolioAllocation } from "./getPortfolioAllocation";
+import { updateAsset } from "./update";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import { AssetSchema } from 'database/generated/zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { AssetSchema } from "database/generated/zod";
 
 export const assetRouter = router({
   create: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
@@ -29,7 +29,7 @@ export const assetRouter = router({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input: { id } }) => {
       return await deleteAsset(id);
@@ -45,7 +45,7 @@ export const assetRouter = router({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { id } }) => {
       return getAssetById(id);
@@ -55,7 +55,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
@@ -63,7 +63,7 @@ export const assetRouter = router({
       const assets = await getAssetsByUserId(userId);
 
       return assets.map((asset) =>
-        calculateAssetValue(asset, exchangeRates, userCurrency),
+        calculateAssetValue(asset, exchangeRates, userCurrency)
       );
     }),
 
@@ -71,7 +71,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
@@ -80,7 +80,7 @@ export const assetRouter = router({
         await getAssetsByUserId(userId);
 
       return assets.map((asset) =>
-        calculateAssetValue(asset, exchangeRates, userCurrency),
+        calculateAssetValue(asset, exchangeRates, userCurrency)
       );
     }),
 
@@ -88,7 +88,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       const userCurrency = await getUserCurrency(userId);
@@ -98,7 +98,7 @@ export const assetRouter = router({
       // Why this intermediary step?
       // I think this is the stage at which we add computed properties
       const calculatedAssets = assets.map((asset) =>
-        calculateAssetValue(asset, exchangeRates, userCurrency),
+        calculateAssetValue(asset, exchangeRates, userCurrency)
       );
 
       // Distinction needed? up and down
@@ -111,7 +111,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       return await getAssetsByUserId(userId);
@@ -121,7 +121,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       const result = await prisma.user.findUnique({
@@ -166,7 +166,7 @@ export const assetRouter = router({
 
       if (!result) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       }
 
@@ -175,7 +175,7 @@ export const assetRouter = router({
       const userCurrency = await getUserCurrency(userId);
       const exchangeRates = await getExchangeRates();
       const calculatedAssets = assets.map((asset) =>
-        calculateAssetValue(asset, exchangeRates, userCurrency),
+        calculateAssetValue(asset, exchangeRates, userCurrency)
       );
       const { totalValue, totalCostBasis, unrealisedGain, saleableValue } =
         calculateAssetValueOverview(calculatedAssets);
@@ -194,7 +194,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       return getPortfolioAllocation(userId);
@@ -204,7 +204,7 @@ export const assetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input: { userId } }) => {
       const data = await prisma.user.findUnique({
@@ -219,7 +219,7 @@ export const assetRouter = router({
 
       if (!data) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       }
 

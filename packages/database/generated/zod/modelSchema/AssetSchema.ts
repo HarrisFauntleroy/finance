@@ -1,7 +1,7 @@
-import { z } from 'zod';
-import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema';
-import { CategorySchema } from '../inputTypeSchemas/CategorySchema';
-import { AssetStatusSchema } from '../inputTypeSchemas/AssetStatusSchema';
+import { z } from "zod";
+import { AccountConnectionSchema } from "../inputTypeSchemas/AccountConnectionSchema";
+import { CategorySchema } from "../inputTypeSchemas/CategorySchema";
+import { AssetStatusSchema } from "../inputTypeSchemas/AssetStatusSchema";
 
 /////////////////////////////////////////
 // ASSET SCHEMA

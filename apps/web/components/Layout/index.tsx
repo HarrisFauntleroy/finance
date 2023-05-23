@@ -1,5 +1,5 @@
-import { AppShell, MantineTheme } from '@mantine/core';
-import { PropsWithChildren } from 'react';
+import { AppShell, MantineTheme } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 import {
   Gear,
@@ -7,47 +7,47 @@ import {
   PiggyBank,
   ChartLineUp,
   Shield,
-} from '@phosphor-icons/react';
+} from "@phosphor-icons/react";
 
-import Header, { LinkType } from '../Layout/Header';
-import Navbar from '../Layout/Navbar';
-import Aside from '../Layout/Aside';
-import { Role } from 'database/generated/prisma-client';
+import Header, { LinkType } from "../Layout/Header";
+import Navbar from "../Layout/Navbar";
+import Aside from "../Layout/Aside";
+import { Role } from "database/generated/prisma-client";
 
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   const links: LinkType[] = [
-    { href: '/portfolio', label: 'Accounts', icon: <Bank />, color: 'grape' },
+    { href: "/portfolio", label: "Accounts", icon: <Bank />, color: "grape" },
     {
-      href: '/budgets',
-      label: 'Budgets',
+      href: "/budgets",
+      label: "Budgets",
       icon: <PiggyBank />,
-      color: 'teal',
+      color: "teal",
     },
     {
-      href: '/markets',
+      href: "/markets",
       icon: <ChartLineUp />,
-      label: 'Markets',
-      color: 'grape',
+      label: "Markets",
+      color: "grape",
     },
     {
-      href: '/admin',
+      href: "/admin",
       icon: <Shield />,
-      label: 'Admin',
+      label: "Admin",
       role: Role.ADMIN,
-      color: 'blue',
+      color: "blue",
     },
     {
-      href: '/settings',
-      label: 'Settings',
+      href: "/settings",
+      label: "Settings",
       icon: <Gear />,
-      color: 'red',
+      color: "red",
     },
   ];
 
   const handleStyles = (theme: MantineTheme) => ({
     main: {
       backgroundColor:
-        theme.colorScheme === 'dark'
+        theme.colorScheme === "dark"
           ? theme.colors.dark[8]
           : theme.colors.gray[0],
     },

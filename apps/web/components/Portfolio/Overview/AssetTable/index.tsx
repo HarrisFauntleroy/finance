@@ -1,27 +1,27 @@
-import { AssetWithCalculatedValues } from 'common';
-import { Table } from 'ui';
+import { AssetWithCalculatedValues } from "common";
+import { Table } from "../../../Table";
 
-import { trpc } from '../../../../utils/trpc';
+import { trpc } from "../../../../utils/trpc";
 
-import { useAssetActions } from './hooks';
+import { useAssetActions } from "./hooks";
 
-import { ColumnDef } from '@tanstack/table-core';
-import { useSession } from 'next-auth/react';
+import { ColumnDef } from "@tanstack/table-core";
+import { useSession } from "next-auth/react";
 
 export function AssetTable() {
   const session = useSession();
   const userId = session?.data?.userId;
 
   const { data } = trpc.assets.byUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   const { handleValidSubmit } = useAssetActions(userId);
 
   const columns: ColumnDef<AssetWithCalculatedValues>[] = [
     {
-      header: 'ID',
-      accessorKey: 'id',
+      header: "ID",
+      accessorKey: "id",
       cell: ({
         row: {
           original: { id },

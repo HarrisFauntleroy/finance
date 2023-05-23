@@ -1,6 +1,6 @@
-import { Prisma } from 'database/generated/prisma-client';
+import { Prisma } from "database/generated/prisma-client";
 
-import { divide, lessThan, multiply, subtract } from '../../util/math';
+import { divide, lessThan, multiply, subtract } from "../../util/math";
 
 export type AssetInput = Prisma.AssetGetPayload<{
   include: {
@@ -19,13 +19,13 @@ export class AssetBuilder {
   interestBearingBalance: string;
 
   constructor(input?: AssetInput) {
-    this.price = input?.market?.price || '0';
-    this.balance = input?.balance || '0';
+    this.price = input?.market?.price || "0";
+    this.balance = input?.balance || "0";
     this.value = this.calculateValue();
-    this.costBasis = input?.costBasis || '0';
-    this.targetBalance = input?.targetBalance || '0';
-    this.incomeRate = input?.incomeRate || '0';
-    this.interestBearingBalance = input?.interestBearingBalance || '0';
+    this.costBasis = input?.costBasis || "0";
+    this.targetBalance = input?.targetBalance || "0";
+    this.incomeRate = input?.incomeRate || "0";
+    this.interestBearingBalance = input?.interestBearingBalance || "0";
   }
 
   static create(options: AssetInput): AssetBuilder {

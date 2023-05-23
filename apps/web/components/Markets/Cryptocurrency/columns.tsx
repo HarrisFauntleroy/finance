@@ -1,4 +1,4 @@
-import { isNegative } from 'common';
+import { isNegative } from "common";
 
 import {
   Avatar,
@@ -8,25 +8,25 @@ import {
   Stat,
   StatArrow,
   Text,
-} from '@chakra-ui/react';
-import type { ColumnDef } from '@tanstack/react-table';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import Link from 'next/link';
-import { BsFileMinus, BsPlus } from 'react-icons/bs';
-import Currency from '../../../components/Currency';
+} from "@chakra-ui/react";
+import type { ColumnDef } from "@tanstack/react-table";
+import { formatDuration, intervalToDuration } from "date-fns";
+import Link from "next/link";
+import { BsFileMinus, BsPlus } from "react-icons/bs";
+import Currency from "../../../components/Currency";
 
 /** Column definitions for markets page */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cryptocurrencyColumns: ColumnDef<any>[] = [
   {
-    header: 'Name',
-    accessorKey: 'name',
+    header: "Name",
+    accessorKey: "name",
     cell: ({ row }) => (
       <HStack>
         <Icon
           {...{
             onClick: row.getToggleExpandedHandler(),
-            style: { cursor: 'pointer' },
+            style: { cursor: "pointer" },
             as: row.getIsExpanded() ? BsFileMinus : BsPlus,
             height: 8,
             width: 8,
@@ -44,7 +44,7 @@ export const cryptocurrencyColumns: ColumnDef<any>[] = [
         >
           <Avatar
             size="sm"
-            src={row.original.image || ''}
+            src={row.original.image || ""}
             backgroundColor="transparent
 								"
           />
@@ -54,8 +54,8 @@ export const cryptocurrencyColumns: ColumnDef<any>[] = [
     ),
   },
   {
-    header: 'Price',
-    accessorKey: 'price',
+    header: "Price",
+    accessorKey: "price",
     cell: ({
       row: {
         original: { price },
@@ -63,22 +63,22 @@ export const cryptocurrencyColumns: ColumnDef<any>[] = [
     }) => <Currency value={Number(price)} />,
   },
   {
-    header: '24h',
-    accessorKey: 'priceChange24hPercent',
+    header: "24h",
+    accessorKey: "priceChange24hPercent",
     cell: ({ row }) => (
       <Stack
         color={
           isNegative(Number(row.original.priceChange24hPercent))
-            ? '#E53E3E'
-            : '#38A169'
+            ? "#E53E3E"
+            : "#38A169"
         }
       >
         <Stat>
           <StatArrow
             type={
               isNegative(Number(row.original.priceChange24hPercent))
-                ? 'decrease'
-                : 'increase'
+                ? "decrease"
+                : "increase"
             }
           />
           {`${Number(row.original.priceChange24hPercent)}%`}
@@ -88,7 +88,7 @@ export const cryptocurrencyColumns: ColumnDef<any>[] = [
     ),
   },
   {
-    header: 'Last Update',
+    header: "Last Update",
     cell: ({ row }) =>
       row.original?.updatedAt
         ? formatDuration(
@@ -97,10 +97,10 @@ export const cryptocurrencyColumns: ColumnDef<any>[] = [
               end: new Date(row.original?.updatedAt),
             }),
             {
-              format: ['hours', 'minutes'],
-              delimiter: ', ',
-            },
+              format: ["hours", "minutes"],
+              delimiter: ", ",
+            }
           )
-        : '',
+        : "",
   },
 ];

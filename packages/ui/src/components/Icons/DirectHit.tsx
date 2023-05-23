@@ -1,4 +1,4 @@
-import React, { type SVGProps } from 'react';
+import React, { type SVGProps } from "react";
 
 export const DirectHitIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg

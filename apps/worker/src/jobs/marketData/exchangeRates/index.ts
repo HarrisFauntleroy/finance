@@ -1,10 +1,10 @@
-import { logger } from 'common';
-import { prisma } from 'database';
-import { Category } from 'database/generated/prisma-client';
+import { logger } from "common";
+import { prisma } from "database";
+import { Category } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
+import { Progress } from "../../../util";
 
-import axios from 'axios';
+import axios from "axios";
 
 type OpenExchangeRatesResponse = {
   id: string;
@@ -13,10 +13,10 @@ type OpenExchangeRatesResponse = {
 };
 
 class MarketUpdater {
-  private baseUrl = 'https://openexchangerates.org/api';
+  private baseUrl = "https://openexchangerates.org/api";
 
   private parseExchangeRateResponse(
-    exchangeRates: OpenExchangeRatesResponse[],
+    exchangeRates: OpenExchangeRatesResponse[]
   ) {
     return exchangeRates.map(({ name, id, price }) => ({
       name: String(name),
@@ -28,10 +28,10 @@ class MarketUpdater {
   }
 
   private async upsertExchangeRates(
-    exchangeRates: OpenExchangeRatesResponse[],
+    exchangeRates: OpenExchangeRatesResponse[]
   ) {
     const progress = new Progress(exchangeRates.length);
-    progress.start('Exchange Rates');
+    progress.start("Exchange Rates");
     const parsed = this.parseExchangeRateResponse(exchangeRates);
 
     for await (const cash of parsed) {
@@ -47,19 +47,19 @@ class MarketUpdater {
           update: cash,
         })
         .then(() => progress.increment())
-        .catch((err) => logger.error('error', `${cash.ticker} ${err}`));
+        .catch((err) => logger.error("error", `${cash.ticker} ${err}`));
     }
 
-    progress.stop('Exchange Rates');
+    progress.stop("Exchange Rates");
   }
 
   private async fetchFromOpenExchangeRates(url: string) {
     return axios
       .get(this.baseUrl + url, {
         headers: {
-          'Accept-Encoding': 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Token ${process.env.OER_APP_ID}`,
+          "Accept-Encoding": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Token ${process.env.OER_APP_ID}`,
         },
       })
       .then(({ data }) => data)
@@ -71,18 +71,18 @@ class MarketUpdater {
     try {
       // Get currency names and tickers
       const name = await this.fetchFromOpenExchangeRates(
-        '/currencies.json?show_alternative=false',
+        "/currencies.json?show_alternative=false"
       );
       // Get exchange rates using USD as base
       const exchange = await this.fetchFromOpenExchangeRates(
-        '/latest.json?show_alternative=false',
+        "/latest.json?show_alternative=false"
       );
 
       exchange.disclaimer = undefined;
       exchange.license = undefined;
 
       const exchangeRates: OpenExchangeRatesResponse[] = Object.entries(
-        exchange?.rates || {},
+        exchange?.rates || {}
       ).map(([id, price]) => ({
         id,
         price,
@@ -91,7 +91,7 @@ class MarketUpdater {
 
       await this.upsertExchangeRates(exchangeRates);
     } catch (error) {
-      logger.error('Exchange Rates: ', error);
+      logger.error("Exchange Rates: ", error);
     }
 
     return new Date();

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   Button,
@@ -7,9 +7,9 @@ import {
   IconButton,
   Tooltip,
   useClipboard,
-} from '@chakra-ui/react';
-import { BsClipboard, BsClipboardCheck } from 'react-icons/bs';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+} from "@chakra-ui/react";
+import { BsClipboard, BsClipboardCheck } from "react-icons/bs";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 type CopyContentProps = {
   content?: string | null;
@@ -18,7 +18,7 @@ type CopyContentProps = {
 export const CopyContent = ({ content }: CopyContentProps) => {
   const [isRevealed, setIsRevealed] = useState(false);
   const { onCopy, hasCopied } = useClipboard(
-    content || 'Copy failed, content missing.',
+    content || "Copy failed, content missing."
   );
 
   const handleToggleReveal = () => {
@@ -28,9 +28,9 @@ export const CopyContent = ({ content }: CopyContentProps) => {
   const getMaskedContent = (unmaskedContent?: string, maxLength = 10) => {
     const maskLength = Math.min(
       unmaskedContent?.length || maxLength,
-      maxLength,
+      maxLength
     );
-    return '*'.repeat(maskLength);
+    return "*".repeat(maskLength);
   };
 
   return content ? (

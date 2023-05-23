@@ -1,10 +1,9 @@
-import { Table } from 'ui';
+import { Table } from "../../Table";
+import { trpc } from "../../../utils/trpc";
 
-import { trpc } from '../../../utils/trpc';
+import { forexColumns } from "./columns";
 
-import { forexColumns } from './columns';
-
-import { Stack } from '@chakra-ui/react';
+import { Stack } from "@chakra-ui/react";
 
 export const Forex = () => {
   const { data } = trpc.markets.forex.useQuery();

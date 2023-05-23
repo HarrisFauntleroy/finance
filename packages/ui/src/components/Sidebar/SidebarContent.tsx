@@ -1,7 +1,7 @@
-import type { SidebarLink } from '../Sidebar';
-import { SidebarItem } from '../Sidebar/SidebarItem';
+import type { SidebarLink } from "../Sidebar";
+import { SidebarItem } from "../Sidebar/SidebarItem";
 
-import type { BoxProps } from '@chakra-ui/react';
+import type { BoxProps } from "@chakra-ui/react";
 import {
   Box,
   Center,
@@ -9,8 +9,8 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
-import Image from 'next/image';
+} from "@chakra-ui/react";
+import Image from "next/image";
 
 type SidebarContentProps = BoxProps & {
   links: SidebarLink[];
@@ -31,18 +31,18 @@ export function SidebarContent({
       zIndex="sticky"
       h="full"
       pb="8"
-      bg={useColorModeValue('gray.50', 'gray.900')}
+      bg={useColorModeValue("gray.50", "gray.900")}
       overflowX="hidden"
       overflowY="auto"
       shadow="2xl"
-      w={{ base: 0, sm: '64px', md: '200px' }}
+      w={{ base: 0, sm: "64px", md: "200px" }}
       {...props}
     >
       <Center
         height="64px"
         justifyContent={{
-          base: drawer ? 'left' : 'center',
-          sm: drawer ? 'left' : 'center',
+          base: drawer ? "left" : "center",
+          sm: drawer ? "left" : "center",
         }}
       >
         <Image src="/images/logodark.png" height="32" width="32" alt="logo" />
@@ -50,7 +50,7 @@ export function SidebarContent({
           ml="2"
           fontSize="2xl"
           fontWeight="semibold"
-          display={{ sm: 'none', md: 'unset' }}
+          display={{ sm: "none", md: "unset" }}
         >
           Alchemical Finance
         </Text>

@@ -1,12 +1,12 @@
-import { logger } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { logger } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
-import { getBalance } from './getBalance';
-import { createWeb3Instance } from './web3';
+import { Progress } from "../../../util";
+import { getBalance } from "./getBalance";
+import { createWeb3Instance } from "./web3";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ type TransactionHistory = {
 };
 
 export async function getTransactionHistory(
-  walletAddress: string,
+  walletAddress: string
 ): Promise<TransactionHistory[]> {
   const transactionCount = await web3.eth.getTransactionCount(walletAddress);
 
@@ -38,7 +38,7 @@ export async function getTransactionHistory(
       blockNumber: transaction.blockNumber,
       from: transaction.from,
       to: transaction.to,
-      value: web3.utils.fromWei(transaction.value, 'ether'),
+      value: web3.utils.fromWei(transaction.value, "ether"),
       status: receipt.status,
     });
   }
@@ -52,7 +52,7 @@ export async function updateEthereumBalances() {
       market: {
         type: MarketType.CRYPTOCURRENCY,
       },
-      marketId: 'eth_CRYPTOCURRENCY',
+      marketId: "eth_CRYPTOCURRENCY",
       walletAddress: {
         not: null,
       },
@@ -64,7 +64,7 @@ export async function updateEthereumBalances() {
   });
 
   const progress = new Progress(ethereumAccounts.length);
-  progress.start('Ethereum');
+  progress.start("Ethereum");
 
   for (const account of ethereumAccounts) {
     if (account.walletAddress) {
@@ -89,7 +89,7 @@ export async function updateEthereumBalances() {
     }
   }
 
-  progress.stop('Ethereum');
+  progress.stop("Ethereum");
 
   return new Date();
 }

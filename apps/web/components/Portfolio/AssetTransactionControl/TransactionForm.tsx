@@ -1,11 +1,11 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from "react";
 
-import { logger } from 'common';
+import { logger } from "common";
 
-import type { RouterInput } from '../../../utils/trpc';
-import { trpc } from '../../../utils/trpc';
+import type { RouterInput } from "../../../utils/trpc";
+import { trpc } from "../../../utils/trpc";
 
-import { EditIcon } from '@chakra-ui/icons';
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonGroup,
@@ -19,13 +19,13 @@ import {
   Progress,
   useDisclosure,
   useToast,
-} from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
-import { TextInput, type FormInputs } from '../../Form/TextInput';
+} from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import { TextInput, type FormInputs } from "../../Form/TextInput";
 
-type AssetTransactionUpdateInput = RouterInput['assetTransactions']['update'];
+type AssetTransactionUpdateInput = RouterInput["assetTransactions"]["update"];
 
 type UpdateAssetTransaction = AssetTransactionUpdateInput & {
   id: string;
@@ -77,7 +77,7 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
             onClose();
             toast({
               title: `Successfully updated transaction ${id}`,
-              status: 'success',
+              status: "success",
             });
           });
       }
@@ -88,146 +88,146 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
           onClose();
           toast({
             title: `Successfully created transaction ${id}`,
-            status: 'success',
+            status: "success",
           });
         });
     }
-    return new Error('No userId provided');
+    return new Error("No userId provided");
   };
 
   const inputs: FormInputs[] = [
     {
-      id: '5c643ac8-5ae3-4a4c-8f00-233279ebfd60',
-      label: 'ID',
-      name: 'id',
-      type: 'text',
+      id: "5c643ac8-5ae3-4a4c-8f00-233279ebfd60",
+      label: "ID",
+      name: "id",
+      type: "text",
       hidden: true,
     },
     {
-      id: '',
-      label: 'User ID',
-      name: 'userId',
-      type: 'text',
+      id: "",
+      label: "User ID",
+      name: "userId",
+      type: "text",
       hidden: true,
       required: true,
     },
     {
-      id: '',
-      label: 'Timestamp',
-      name: 'timestamp',
-      type: 'date',
+      id: "",
+      label: "Timestamp",
+      name: "timestamp",
+      type: "date",
       required: false,
     },
     {
-      id: '',
-      label: 'Price Per Unit',
-      name: 'pricePerUnit',
-      type: 'text',
+      id: "",
+      label: "Price Per Unit",
+      name: "pricePerUnit",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Base Currency',
-      name: 'baseCurrency',
-      type: 'text',
+      id: "",
+      label: "Base Currency",
+      name: "baseCurrency",
+      type: "text",
       required: true,
     },
     {
-      id: '',
-      label: 'Quantity',
-      name: 'quantity',
-      type: 'text',
+      id: "",
+      label: "Quantity",
+      name: "quantity",
+      type: "text",
       required: true,
     },
     {
-      id: '',
-      label: 'Quantity Filled',
-      name: 'quantityFilled',
-      type: 'text',
+      id: "",
+      label: "Quantity Filled",
+      name: "quantityFilled",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Fee',
-      name: 'fee',
-      type: 'text',
+      id: "",
+      label: "Fee",
+      name: "fee",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Value In Base Currency',
-      name: 'valueInBasecurrency',
-      type: 'text',
+      id: "",
+      label: "Value In Base Currency",
+      name: "valueInBasecurrency",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'From Asset',
-      name: 'fromAsset',
-      type: 'text',
+      id: "",
+      label: "From Asset",
+      name: "fromAsset",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'To Asset',
-      name: 'toAsset',
-      type: 'text',
+      id: "",
+      label: "To Asset",
+      name: "toAsset",
+      type: "text",
       required: true,
     },
     {
-      id: '',
-      label: 'Market',
-      name: 'market',
-      type: 'text',
+      id: "",
+      label: "Market",
+      name: "market",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Transaction Type',
-      name: 'transactionType',
-      type: 'text',
+      id: "",
+      label: "Transaction Type",
+      name: "transactionType",
+      type: "text",
       required: true,
     },
     {
-      id: '',
-      label: 'Expiry',
-      name: 'expiry',
-      type: 'date',
+      id: "",
+      label: "Expiry",
+      name: "expiry",
+      type: "date",
       required: false,
     },
     {
-      id: '',
-      label: 'Status',
-      name: 'status',
-      type: 'text',
+      id: "",
+      label: "Status",
+      name: "status",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Transaction Hash',
-      name: 'transactionHash',
-      type: 'text',
+      id: "",
+      label: "Transaction Hash",
+      name: "transactionHash",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Description',
-      name: 'description',
-      type: 'text',
+      id: "",
+      label: "Description",
+      name: "description",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Memo',
-      name: 'memo',
-      type: 'text',
+      id: "",
+      label: "Memo",
+      name: "memo",
+      type: "text",
       required: false,
     },
     {
-      id: '',
-      label: 'Related Asset ID',
-      name: 'relatedAssetId',
-      type: 'text',
+      id: "",
+      label: "Related Asset ID",
+      name: "relatedAssetId",
+      type: "text",
       required: false,
     },
   ];
@@ -236,10 +236,10 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
     <Fragment>
       <Button
         maxW="max-content"
-        colorScheme={defaultValues?.id ? 'blue' : 'green'}
+        colorScheme={defaultValues?.id ? "blue" : "green"}
         onClick={onOpen}
       >
-        {defaultValues?.id ? <EditIcon /> : 'NEW ASSET TRANSACTION'}
+        {defaultValues?.id ? <EditIcon /> : "NEW ASSET TRANSACTION"}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
@@ -248,8 +248,8 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
             <form>
               <ModalHeader>
                 {defaultValues?.id
-                  ? 'UPDATE ASSET TRANSACTION'
-                  : 'CREATE ASSET TRANSACTION'}
+                  ? "UPDATE ASSET TRANSACTION"
+                  : "CREATE ASSET TRANSACTION"}
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
@@ -274,8 +274,8 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
                   >
                     {createAssetTransaction.isLoading ||
                     updateAssetTransaction.isLoading
-                      ? 'LOADING...'
-                      : 'SUBMIT'}
+                      ? "LOADING..."
+                      : "SUBMIT"}
                   </Button>
                   <Button onClick={onClose} colorScheme="orange">
                     CANCEL
@@ -285,7 +285,7 @@ export const AssetTransactionForm = ({ defaultValues }: FormProps) => {
               {(createAssetTransaction.error ||
                 updateAssetTransaction.error) && (
                 <p>
-                  Something went wrong!{' '}
+                  Something went wrong!{" "}
                   {createAssetTransaction?.error?.message ||
                     updateAssetTransaction?.error?.message}
                 </p>

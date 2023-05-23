@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Stack } from '@chakra-ui/react';
+import { Stack } from "@chakra-ui/react";
 
 function Statistics() {
   return (

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Alert, AlertIcon, AlertTitle } from '@chakra-ui/react';
+import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/react";
 
 export type AlertPopProps = {
   label?: string;

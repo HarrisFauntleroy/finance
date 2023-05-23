@@ -3,8 +3,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-} from '@chakra-ui/react';
-import { useFormContext } from 'react-hook-form';
+} from "@chakra-ui/react";
+import { useFormContext } from "react-hook-form";
 
 type FormInputBase = {
   id?: string;
@@ -16,17 +16,17 @@ type FormInputBase = {
 };
 
 type FormInput = FormInputBase & {
-  type: 'text' | 'date';
+  type: "text" | "date";
   options?: never;
 };
 
 type SelectFormInput = FormInputBase & {
-  type: 'select';
+  type: "select";
   options?: string[];
 };
 
 type MultiSelectFormInput = FormInputBase & {
-  type: 'multi-select';
+  type: "multi-select";
   options?: Record<string, unknown>[];
 };
 
@@ -43,7 +43,7 @@ export function TextInput({
   return (
     <FormControl
       isInvalid={!!error}
-      display={hidden ? 'none' : 'flex'}
+      display={hidden ? "none" : "flex"}
       flexDir="column"
     >
       <FormLabel htmlFor={name}>{label}</FormLabel>

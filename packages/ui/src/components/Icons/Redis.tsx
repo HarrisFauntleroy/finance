@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import type { IconProps } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/react';
+import type { IconProps } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 
 export const RedisIcon = (props: IconProps) => (
   <Icon

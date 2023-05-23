@@ -4,12 +4,10 @@
  *
  */
 
-import { AssetBuilder, calculateTransactions } from 'common';
-import { JSONObjectViewer, Page } from 'ui';
-import type { NextPageWithLayout } from './_app';
-import { trpc } from '../utils/trpc';
+import { AssetBuilder, calculateTransactions } from "common";
+import { trpc } from "../utils/trpc";
 
-import { Heading } from '@chakra-ui/react';
+import { Heading } from "@chakra-ui/react";
 import {
   ArcElement,
   BarElement,
@@ -22,8 +20,10 @@ import {
   PointElement,
   Title,
   Tooltip,
-} from 'chart.js';
-import { useSession } from 'next-auth/react';
+} from "chart.js";
+import { useSession } from "next-auth/react";
+import { Page } from "../components/Layout/Page";
+import { JSONObjectViewer } from "../components/JSON";
 
 Chart.register(
   CategoryScale,
@@ -35,18 +35,18 @@ Chart.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
-const Home: NextPageWithLayout = () => {
+const Home = () => {
   const session = useSession();
   const userId = session.data?.userId;
   const { data: assetTransactions } = trpc.assetTransactions.byUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   const { data: assetsById } = trpc.assets.byId.useQuery({
-    id: 'cldwad5ab00465avd6tpjbezj',
+    id: "cldwad5ab00465avd6tpjbezj",
   });
 
   const asset1 = assetsById && new AssetBuilder();

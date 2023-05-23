@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { Text, UnstyledButton, Group, ThemeIcon } from '@mantine/core';
-import Link from 'next/link';
-import { Role } from 'database/generated/prisma-client';
+import { ReactNode } from "react";
+import { Text, UnstyledButton, Group, ThemeIcon } from "@mantine/core";
+import Link from "next/link";
+import { Role } from "database/generated/prisma-client";
 
 export interface MainLinkProps {
   href?: string;
@@ -24,19 +24,19 @@ export function MainLink({
   return (
     <UnstyledButton
       component={Link}
-      href={href || ''}
+      href={href || ""}
       className={className}
       sx={(theme) => ({
-        display: 'block',
-        width: '100%',
-        padding: theme.spacing.xs,
-        borderRadius: theme.radius.sm,
-        color:
-          theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        "display": "block",
+        "width": "100%",
+        "padding": theme.spacing.xs,
+        "borderRadius": theme.radius.sm,
+        "color":
+          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
 
-        '&:hover': {
+        "&:hover": {
           backgroundColor:
-            theme.colorScheme === 'dark'
+            theme.colorScheme === "dark"
               ? theme.colors.dark[6]
               : theme.colors.gray[0],
         },

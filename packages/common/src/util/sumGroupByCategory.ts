@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { add } from './math';
+import { add } from "./math";
 
 type Grouped<T> = {
   [key: string]: T;
@@ -13,7 +13,7 @@ export type Item = {
 
 export function sumGroupByCategory<T extends Item>(
   arr: any[],
-  category: keyof T,
+  category: keyof T
 ): any {
   return arr.reduce((grouped: Grouped<string>, obj: T) => {
     if (!grouped[obj[category]]) {

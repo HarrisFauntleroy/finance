@@ -1,4 +1,4 @@
-import { average } from '../math';
+import { average } from "../math";
 
 /**
  * Exponential Moving Average

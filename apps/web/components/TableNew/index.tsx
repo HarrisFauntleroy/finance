@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState } from "react";
 
-import { fuzzyNew } from './Filter';
-import { TableHeaderNew } from './Header';
-import { PaginationNew } from './Pagination';
-import { TableRowNew } from './TableRow';
+import { fuzzyNew } from "./Filter";
+import { TableHeaderNew } from "./Header";
+import { PaginationNew } from "./Pagination";
+import { TableRowNew } from "./TableRow";
 
 import {
   Table as ChakraTable,
@@ -14,7 +14,7 @@ import {
   Th,
   Thead,
   Tr,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -31,11 +31,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
-import { DebouncedInput } from 'ui/src/components/Form';
-import { Show } from 'ui/src/components/Show';
-import { useLocalStorage } from 'ui/src/hooks/useLocalStorage';
+} from "@tanstack/react-table";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { DebouncedInput } from "ui/src/components/Form";
+import { Show } from "ui/src/components/Show";
+import { useLocalStorage } from "ui/src/hooks/useLocalStorage";
 
 type EditableTableProps<T extends FieldValues> = {
   id: string;
@@ -60,7 +60,7 @@ export const TableNew = <T extends FieldValues>({
   id,
   onValidSubmit,
 }: EditableTableProps<T>) => {
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState("");
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -68,7 +68,7 @@ export const TableNew = <T extends FieldValues>({
   });
   const [sorting, setSorting] = useLocalStorage<SortingState>(
     `table-sort-${id}`,
-    [],
+    []
   );
   const table = useReactTable({
     data: data || [],
@@ -105,7 +105,7 @@ export const TableNew = <T extends FieldValues>({
     <Stack height="100%" flex={1}>
       <Show when={!!filterEnabled}>
         <DebouncedInput
-          value={globalFilter ?? ''}
+          value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
           placeholder="Search all columns..."
         />
@@ -139,7 +139,7 @@ export const TableNew = <T extends FieldValues>({
                         ? null
                         : flexRender(
                             header.column.columnDef.footer,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </>
                   </Th>

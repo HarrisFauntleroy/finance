@@ -1,7 +1,7 @@
-import currency from 'currency.js';
-import { AssetTransaction } from 'database/generated/prisma-client';
+import currency from "currency.js";
+import { AssetTransaction } from "database/generated/prisma-client";
 
-import { divide } from '../../util';
+import { divide } from "../../util";
 
 export type TransactionStats = {
   totalValue: string;
@@ -11,7 +11,7 @@ export type TransactionStats = {
 };
 
 export function calculateTransactions(
-  transactions: AssetTransaction[],
+  transactions: AssetTransaction[]
 ): TransactionStats {
   let totalValue = currency(0);
   let totalFees = currency(0);

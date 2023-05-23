@@ -1,4 +1,4 @@
-import currency, { Any } from 'currency.js';
+import currency, { Any } from "currency.js";
 
 type Input = Any;
 

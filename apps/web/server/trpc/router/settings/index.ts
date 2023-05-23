@@ -1,10 +1,10 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { publicProcedure, router } from '../../trpc';
-import { byUserId } from '../schema';
+import { publicProcedure, router } from "../../trpc";
+import { byUserId } from "../schema";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const settingsRouter = router({
   create: publicProcedure
@@ -13,7 +13,7 @@ export const settingsRouter = router({
         userId: z.string(),
         userCurrency: z.string().min(3).max(3),
         userLanguage: z.string().min(3).max(3),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return prisma.settings.create({
@@ -33,7 +33,7 @@ export const settingsRouter = router({
         userId: z.string(),
         userCurrency: z.string().min(3).max(3),
         userLanguage: z.string().min(3).max(3),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return prisma.settings.upsert({
@@ -57,7 +57,7 @@ export const settingsRouter = router({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return prisma.settings.update({
@@ -97,7 +97,7 @@ export const settingsRouter = router({
         })
         .catch(() => {
           throw new TRPCError({
-            code: 'NOT_FOUND',
+            code: "NOT_FOUND",
           });
         });
     }),

@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from "@chakra-ui/react";
 
 export const AccountBreakdown = () => {
   return (
-    <Stack style={{ padding: '8px' }}>
+    <Stack style={{ padding: "8px" }}>
       <Text>Overview</Text>
       <ul>
         <ul>

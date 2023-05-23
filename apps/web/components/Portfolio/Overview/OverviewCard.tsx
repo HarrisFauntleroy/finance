@@ -1,17 +1,17 @@
-import { Card } from 'ui';
+import { Card } from "../../Cards";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { Table as ChakraTable, Tbody, Td, Th, Tr } from '@chakra-ui/react';
-import { useSession } from 'next-auth/react';
-import Currency from '../../Currency';
+import { Table as ChakraTable, Tbody, Td, Th, Tr } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
+import Currency from "../../Currency";
 
 function OverviewCard() {
   const session = useSession();
   const userId = session?.data?.userId;
 
   const { data, error, isLoading } = trpc.assets.overviewByUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   if (isLoading) {

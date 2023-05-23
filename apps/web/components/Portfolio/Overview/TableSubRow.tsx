@@ -1,5 +1,4 @@
-import { percentageChange } from 'common';
-import { Card, Debug, Grid, inDev } from 'ui';
+import { percentageChange } from "common";
 
 import {
   Accordion,
@@ -12,13 +11,16 @@ import {
   Stack,
   StatLabel,
   StatNumber,
-} from '@chakra-ui/react';
-import type { Row } from '@tanstack/react-table';
-import currency from 'currency.js';
+} from "@chakra-ui/react";
+import type { Row } from "@tanstack/react-table";
+import currency from "currency.js";
+import { Card } from "../../Cards";
+import { Grid } from "../../Grid";
+import { Debug, inDev } from "../../Debug";
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
   <Card>
-    <ChakraStat style={{ padding: '8px' }}>
+    <ChakraStat style={{ padding: "8px" }}>
       <Stack>
         <StatLabel>{label}</StatLabel>
         <StatNumber>{value}</StatNumber>
@@ -59,7 +61,7 @@ function TableSubComponent<TData extends Record<string, string>>({
                 label="Gain/Loss from Price %"
                 value={`${percentageChange(
                   currency(averageCost).value,
-                  currency(price).value,
+                  currency(price).value
                 ).toFixed(2)}%`}
               />
             </Grid>

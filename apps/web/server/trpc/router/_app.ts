@@ -1,13 +1,13 @@
-import { router } from '../trpc';
-import { assetRouter } from './assets';
-import { assetTransactionRouter } from './assetTransaction';
-import { authRouter } from './auth';
-import { budgetRouter } from './budget';
-import { budgetTransactionRouter } from './budgetTransaction';
-import { logRouter } from './logs';
-import { marketsRouter } from './markets';
-import { settingsRouter } from './settings';
-import { userRouter } from './user';
+import { router } from "../trpc";
+import { assetRouter } from "./assets";
+import { assetTransactionRouter } from "./assetTransaction";
+import { authRouter } from "./auth";
+import { budgetRouter } from "./budget";
+import { budgetTransactionRouter } from "./budgetTransaction";
+import { logRouter } from "./logs";
+import { marketsRouter } from "./markets";
+import { settingsRouter } from "./settings";
+import { userRouter } from "./user";
 
 export const appRouter = router({
   auth: authRouter,

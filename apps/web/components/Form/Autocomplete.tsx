@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
 import {
   Avatar,
@@ -8,14 +8,14 @@ import {
   HStack,
   SkeletonCircle,
   Text,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   AutoComplete,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
-import { Controller, useFormContext } from 'react-hook-form';
+} from "@choc-ui/chakra-autocomplete";
+import { Controller, useFormContext } from "react-hook-form";
 
 type AutocompleteProps<T> = {
   label: string;
@@ -52,10 +52,10 @@ export const Autocomplete = <T extends Record<string, any>[]>({
               size="sm"
               placeholder="Currency"
               onChange={field.onChange}
-              value={field.value || ''}
-              bg={'white.300'}
+              value={field.value || ""}
+              bg={"white.300"}
               _dark={{
-                bg: 'gray.700',
+                bg: "gray.700",
               }}
             />
             <AutoCompleteList>

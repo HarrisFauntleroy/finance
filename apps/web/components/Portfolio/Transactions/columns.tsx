@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import { List, ListItem, Text } from '@chakra-ui/react';
-import type { ColumnDef } from '@tanstack/react-table';
-import Currency from 'components/Currency';
-import type { AssetTransaction } from 'database/generated/prisma-client';
+import { List, ListItem, Text } from "@chakra-ui/react";
+import type { ColumnDef } from "@tanstack/react-table";
+import Currency from "components/Currency";
+import type { AssetTransaction } from "database/generated/prisma-client";
 
 export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
   {
-    header: 'ID',
-    accessorKey: 'id',
+    header: "ID",
+    accessorKey: "id",
     cell: ({
       row: {
         original: { id },
@@ -18,8 +18,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Timestamp',
-    accessorKey: 'timestamp',
+    header: "Timestamp",
+    accessorKey: "timestamp",
     cell: ({
       row: {
         original: { timestamp },
@@ -29,8 +29,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Price Per Unit',
-    accessorKey: 'pricePerUnit',
+    header: "Price Per Unit",
+    accessorKey: "pricePerUnit",
     cell: ({
       row: {
         original: { pricePerUnit },
@@ -40,8 +40,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Base Currency',
-    accessorKey: 'baseCurrency',
+    header: "Base Currency",
+    accessorKey: "baseCurrency",
     cell: ({
       row: {
         original: { baseCurrency },
@@ -51,8 +51,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Quantity',
-    accessorKey: 'quantity',
+    header: "Quantity",
+    accessorKey: "quantity",
     cell: ({
       row: {
         original: { quantity },
@@ -62,8 +62,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Quantity Filled',
-    accessorKey: 'quantityFilled',
+    header: "Quantity Filled",
+    accessorKey: "quantityFilled",
     cell: ({
       row: {
         original: { quantityFilled },
@@ -73,8 +73,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Fee',
-    accessorKey: 'fee',
+    header: "Fee",
+    accessorKey: "fee",
     cell: ({
       row: {
         original: { fee },
@@ -84,8 +84,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Value In Base Currency',
-    accessorKey: 'valueInBaseCurrency',
+    header: "Value In Base Currency",
+    accessorKey: "valueInBaseCurrency",
     cell: ({
       row: {
         original: { valueInBaseCurrency },
@@ -95,8 +95,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'From Asset',
-    accessorKey: 'fromAsset',
+    header: "From Asset",
+    accessorKey: "fromAsset",
     cell: ({
       row: {
         original: { fromAsset },
@@ -106,8 +106,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'To Asset',
-    accessorKey: 'toAsset',
+    header: "To Asset",
+    accessorKey: "toAsset",
     cell: ({
       row: {
         original: { toAsset },
@@ -117,8 +117,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Market',
-    accessorKey: 'market',
+    header: "Market",
+    accessorKey: "market",
     cell: ({
       row: {
         original: { market },
@@ -137,8 +137,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Tx Type',
-    accessorKey: 'transactionType',
+    header: "Tx Type",
+    accessorKey: "transactionType",
     cell: ({
       row: {
         original: { transactionType },
@@ -148,8 +148,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Expiry',
-    accessorKey: 'expiry',
+    header: "Expiry",
+    accessorKey: "expiry",
     cell: ({
       row: {
         original: { expiry },
@@ -159,8 +159,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Status',
-    accessorKey: 'status',
+    header: "Status",
+    accessorKey: "status",
     cell: ({
       row: {
         original: { status },
@@ -170,8 +170,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Tx Hash',
-    accessorKey: 'transactionHash',
+    header: "Tx Hash",
+    accessorKey: "transactionHash",
     cell: ({
       row: {
         original: { transactionHash },
@@ -181,8 +181,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Description',
-    accessorKey: 'description',
+    header: "Description",
+    accessorKey: "description",
     cell: ({
       row: {
         original: { description },
@@ -192,8 +192,8 @@ export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
     },
   },
   {
-    header: 'Memo',
-    accessorKey: 'memo',
+    header: "Memo",
+    accessorKey: "memo",
     cell: ({
       row: {
         original: { memo },

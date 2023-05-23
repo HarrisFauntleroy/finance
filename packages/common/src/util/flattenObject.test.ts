@@ -1,7 +1,7 @@
-import { flattenObject } from './flattenObject';
+import { flattenObject } from "./flattenObject";
 
-describe('flatten', () => {
-  it('flattens a nested object', () => {
+describe("flatten", () => {
+  it("flattens a nested object", () => {
     const input = {
       a: 1,
       b: {
@@ -24,11 +24,11 @@ describe('flatten', () => {
     expect(result).toEqual(expected);
   });
 
-  it('returns an empty object for an empty input object', () => {
+  it("returns an empty object for an empty input object", () => {
     expect(flattenObject({})).toEqual({});
   });
 
-  it('returns the input object for a flat object', () => {
+  it("returns the input object for a flat object", () => {
     const input = { a: 1, b: 2, c: 3 };
 
     const result = flattenObject(input);

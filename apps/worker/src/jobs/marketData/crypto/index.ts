@@ -4,19 +4,19 @@
  * We update the database with price so that weekly/monthly portfolioSnapshot show price of balance at the time of snapshot were current
  *
  */
-import { logger } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { logger } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
-import { CoinGeckoResponse, ParsedCrypto } from './types';
+import { Progress } from "../../../util";
+import { CoinGeckoResponse, ParsedCrypto } from "./types";
 
-import axios from 'axios';
+import axios from "axios";
 
 export class MarketUpdater {
-  private baseUrl = 'https://api.coingecko.com/api/v3';
+  private baseUrl = "https://api.coingecko.com/api/v3";
 
-  private baseCurrency = 'USD';
+  private baseCurrency = "USD";
 
   private resultsPerPage = 200;
 
@@ -27,13 +27,13 @@ export class MarketUpdater {
       .get(`${this.baseUrl}/coins/markets`, {
         params: {
           vs_currency: this.baseCurrency,
-          order: 'market_cap_desc',
+          order: "market_cap_desc",
           per_page: this.resultsPerPage,
           page: page,
           sparkline: false,
         },
         headers: {
-          'Accept-Encoding': 'application/json',
+          "Accept-Encoding": "application/json",
         },
       })
       .then((res) => res.data)
@@ -41,7 +41,7 @@ export class MarketUpdater {
   }
 
   public parseExchangeRateResponse(
-    response: CoinGeckoResponse[],
+    response: CoinGeckoResponse[]
   ): ParsedCrypto[] {
     return response?.map(
       ({
@@ -65,7 +65,7 @@ export class MarketUpdater {
         image: image,
         marketCap: String(market_cap),
         marketCapRank: String(market_cap_rank),
-      }),
+      })
     );
   }
 
@@ -84,14 +84,14 @@ export class MarketUpdater {
           create: crypto,
           update: crypto,
         })
-        .catch((err) => logger.error('error', `${crypto.ticker} ${err}`));
+        .catch((err) => logger.error("error", `${crypto.ticker} ${err}`));
     }
   }
 
   // Method to update the markets for cryptocurrencies
   public async updateCryptoMarkets() {
     const progress = new Progress(this.pages);
-    progress.start('Cryptocurrency');
+    progress.start("Cryptocurrency");
 
     for (let page = this.pages; page > 0; page--) {
       try {
@@ -103,7 +103,7 @@ export class MarketUpdater {
       }
     }
 
-    progress.stop('Cryptocurrency');
+    progress.stop("Cryptocurrency");
     return new Date();
   }
 }

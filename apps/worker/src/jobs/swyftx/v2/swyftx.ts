@@ -1,11 +1,11 @@
-import { logger } from 'common';
-import { prisma } from 'database';
+import { logger } from "common";
+import { prisma } from "database";
 import {
   AccountConnection,
   Cryptocurrency,
-} from 'database/generated/prisma-client';
+} from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
+import { Progress } from "../../../util";
 import {
   Balance,
   Secrets,
@@ -13,22 +13,22 @@ import {
   SwyftxAsset,
   SwyftxJWT,
   Transaction,
-} from '../types';
+} from "../types";
 
-import axios from 'axios';
+import axios from "axios";
 
 export class Swyftx {
-  private baseUrl = 'https://api.swyftx.com.au';
-  private assetsUrl = '/markets/assets/';
-  private balanceUrl = '/user/balance/';
-  private historyUrl = '/history/all/type/assetId/';
-  private jwtUrl = 'https://api.swyftx.com.au/auth/refresh/';
+  private baseUrl = "https://api.swyftx.com.au";
+  private assetsUrl = "/markets/assets/";
+  private balanceUrl = "/user/balance/";
+  private historyUrl = "/history/all/type/assetId/";
+  private jwtUrl = "https://api.swyftx.com.au/auth/refresh/";
 
   constructor(private apiKey?: string) {}
 
   private async refreshToken(): Promise<SwyftxJWT> {
     const myHeaders = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/x-www-form-urlencoded",
     };
     const data = `apiKey=${this.apiKey}`;
 
@@ -48,8 +48,8 @@ export class Swyftx {
       const body = JSON.stringify({ apiKey: process.env.SWYFTX_API_KEY });
       const response = await axios.get(this.baseUrl + url, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
         },
         data: body,
       });
@@ -82,12 +82,12 @@ export class Swyftx {
 
     const balance = rawBalance?.map((item) => {
       const matchingAsset = assetsList.find(
-        (asset) => asset.id === String(item.assetId),
+        (asset) => asset.id === String(item.assetId)
       );
       return {
         ...item,
-        name: matchingAsset?.name || '',
-        marketId: matchingAsset?.code || '',
+        name: matchingAsset?.name || "",
+        marketId: matchingAsset?.code || "",
       };
     });
 
@@ -108,7 +108,7 @@ export class Swyftx {
         marketId,
       }): Omit<
         Cryptocurrency,
-        'createdAt' | 'updatedAt' | 'id' | 'currency' | 'deleted' | 'deletedAt'
+        "createdAt" | "updatedAt" | "id" | "currency" | "deleted" | "deletedAt"
       > => {
         return {
           userId: secrets.userId,
@@ -117,16 +117,16 @@ export class Swyftx {
           marketId: marketId,
           interestBearingBalance: stakingBalance,
           balance: availableBalance,
-          costBasis: '0',
-          targetBalance: '0',
-          incomeRate: '0',
-          realisedGain: '0',
-          apiKey: '',
-          apiSecret: '',
-          walletAddress: '',
-          accountConnection: 'NONE',
+          costBasis: "0",
+          targetBalance: "0",
+          incomeRate: "0",
+          realisedGain: "0",
+          apiKey: "",
+          apiSecret: "",
+          walletAddress: "",
+          accountConnection: "NONE",
         };
-      },
+      }
     );
     const { Children } = await prisma.cryptocurrency.findFirstOrThrow({
       where: {
@@ -145,7 +145,7 @@ export class Swyftx {
     });
     formattedData?.map(async (crypto) => {
       const existingCrypto = Children.find(
-        (child) => child.marketId === crypto.marketId,
+        (child) => child.marketId === crypto.marketId
       );
       if (existingCrypto?.id)
         prisma.cryptocurrency
@@ -179,7 +179,7 @@ export class Swyftx {
       return `Swyftx: ${new Date()}`;
     } catch (error) {
       logger.error(error);
-      return 'Error updating users';
+      return "Error updating users";
     }
   }
 }

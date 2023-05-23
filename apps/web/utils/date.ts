@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Returns a zod-type decimal
 export const date = () =>

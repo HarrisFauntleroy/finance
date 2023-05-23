@@ -1,6 +1,6 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { z } from 'zod';
+import { z } from "zod";
 
 export const deleteBudgetInput = z.object({
   id: z.string(),

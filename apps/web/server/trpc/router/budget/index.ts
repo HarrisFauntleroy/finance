@@ -1,10 +1,10 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { publicProcedure, router } from '../../trpc';
-import { BudgetSchema } from '../budgetEnvelope/schema';
+import { publicProcedure, router } from "../../trpc";
+import { BudgetSchema } from "../budgetEnvelope/schema";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const budgetRouter = router({
   create: publicProcedure
@@ -13,7 +13,7 @@ export const budgetRouter = router({
         name: z.string(),
         userId: z.string(),
         totalBalance: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return prisma.budget.create({
@@ -29,7 +29,7 @@ export const budgetRouter = router({
         name: z.string(),
         userId: z.string(),
         totalBalance: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
@@ -41,7 +41,7 @@ export const budgetRouter = router({
         })
         .catch(() => {
           throw new TRPCError({
-            code: 'NOT_FOUND',
+            code: "NOT_FOUND",
           });
         });
     }),
@@ -50,7 +50,7 @@ export const budgetRouter = router({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const { id } = input;
@@ -62,7 +62,7 @@ export const budgetRouter = router({
       });
       if (!budgetResponse) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
           message: `No budget with id '${id}'`,
         });
       }
@@ -73,7 +73,7 @@ export const budgetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const { userId } = input;
@@ -83,12 +83,12 @@ export const budgetRouter = router({
         },
         select: BudgetSchema,
         orderBy: {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       });
       if (!budgetResponse) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
           message: `No budget with userId '${userId}'`,
         });
       }
@@ -99,7 +99,7 @@ export const budgetRouter = router({
     .input(
       z.object({
         userId: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const { userId } = input;
@@ -108,12 +108,12 @@ export const budgetRouter = router({
           userId,
         },
         orderBy: {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       });
       if (!budgetResponse) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
           message: `No budget with userId '${userId}'`,
         });
       }
@@ -146,7 +146,7 @@ export const budgetRouter = router({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       const { id } = input;

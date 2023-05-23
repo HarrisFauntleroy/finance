@@ -1,13 +1,13 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { publicProcedure, router } from '../../trpc';
-import { byId, byUserId } from '../schema';
-import { createAssetTransaction, createAssetTransactionInput } from './create';
-import { deleteAssetTransaction } from './delete';
-import { updateAssetTransaction, updateAssetTransactionInput } from './update';
+import { publicProcedure, router } from "../../trpc";
+import { byId, byUserId } from "../schema";
+import { createAssetTransaction, createAssetTransactionInput } from "./create";
+import { deleteAssetTransaction } from "./delete";
+import { updateAssetTransaction, updateAssetTransactionInput } from "./update";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const assetTransactionRouter = router({
   create: publicProcedure
@@ -42,7 +42,7 @@ export const assetTransactionRouter = router({
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
@@ -57,7 +57,7 @@ export const assetTransactionRouter = router({
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
@@ -70,12 +70,12 @@ export const assetTransactionRouter = router({
           userId,
         },
         orderBy: {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
