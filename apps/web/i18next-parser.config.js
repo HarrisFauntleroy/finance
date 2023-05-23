@@ -1,13 +1,13 @@
 function sortAlphabetical(a, b) {
-  const nameA = a.toUpperCase();
-  const nameB = b.toUpperCase();
+  const nameA = a.toUpperCase()
+  const nameB = b.toUpperCase()
   if (nameA < nameB) {
-    return -1;
+    return -1
   }
   if (nameA > nameB) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 module.exports = {
@@ -24,7 +24,9 @@ module.exports = {
 
   locales: ['en'],
 
-  defaultValue: (locale, namespace, key) => key,
+  defaultValue: function (_locale, _namespace, key) {
+    return key
+  },
 
   // Where to write the locale files relative to process.cwd()
   // Supports $LOCALE and $NAMESPACE injection
@@ -42,4 +44,4 @@ module.exports = {
   // Allow `.` and `:` in plain english keys
   keySeparator: false,
   namespaceSeparator: false,
-};
+}
