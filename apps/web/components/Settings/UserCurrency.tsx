@@ -7,7 +7,6 @@ export const UserCurrency = () => {
   const { data: session } = useSession();
   const userId = session?.userId || "";
 
-  /** Fetch list of assets for form autocomplete */
   const { data, error, status } = trpc.settings.byUserId.useQuery({ userId });
 
   if (error) {
