@@ -1,5 +1,4 @@
 import { percentageChange } from 'common';
-import { Card, Debug, Grid, inDev } from 'ui';
 
 import {
   Accordion,
@@ -15,6 +14,9 @@ import {
 } from '@chakra-ui/react';
 import type { Row } from '@tanstack/react-table';
 import currency from 'currency.js';
+import { Card } from '../../Cards';
+import { Grid } from '../../Grid';
+import { Debug, inDev } from '../../Debug';
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
   <Card>

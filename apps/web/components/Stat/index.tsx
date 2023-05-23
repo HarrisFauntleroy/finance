@@ -1,4 +1,4 @@
-import { Card } from 'ui';
+import { Card } from '../Cards';
 
 import Currency from '../Currency';
 

@@ -6,7 +6,7 @@ type PageProps<T> = PropsWithChildren<T> & ContainerProps;
 
 export function Page<T>({ title, children, ...props }: PageProps<T>) {
   return (
-    <Container fluid flexDirection="column" flex={1} {...props}>
+    <Container fluid h="100%" {...props}>
       <Head>
         <title>{title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

@@ -1,10 +1,11 @@
 import { MarketType } from 'database/generated/prisma-client';
-import { Debug, Page } from 'ui';
 
 import { trpc } from '../../../utils/trpc';
 
 import NextError from 'next/error';
 import { useRouter } from 'next/router';
+import { Page } from '../../../components/Layout/Page';
+import { Debug } from '../../../components/Debug';
 
 const MarketViewPage = () => {
   const { name, ticker } = useRouter().query as {
@@ -40,8 +41,6 @@ const MarketViewPage = () => {
       </em>
       <h2>Raw data:</h2>
       <Debug data={data} />
-      cccccbctnduikktruvejdgijcuegnrvirghjrbtfuvjg
-      cccccbctnduiincfhicnivcbcvdlfrhfefkujieigcfv
     </Page>
   );
 };

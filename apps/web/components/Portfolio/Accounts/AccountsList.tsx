@@ -5,7 +5,7 @@ import {
   Category,
   Market,
 } from 'database/generated/prisma-client';
-import { Table } from 'ui';
+import { Table } from '../../Table';
 
 import type { RouterOutput } from '../../../utils/trpc';
 import { trpc } from '../../../utils/trpc';

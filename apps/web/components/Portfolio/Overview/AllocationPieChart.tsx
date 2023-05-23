@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Card } from 'ui';
+import { Card } from '../../Cards';
 
 import { trpc } from '../../../utils/trpc';
 

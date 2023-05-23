@@ -2,7 +2,6 @@
 import { useMemo, useState } from 'react';
 
 import { divide, multiply, subtract } from 'common';
-import { Card, Grid } from 'ui';
 
 import { trpc } from '../../utils/trpc';
 
@@ -19,6 +18,8 @@ import {
 } from '@chakra-ui/react';
 import currency from 'currency.js';
 import Image from 'next/image';
+import { Grid } from '../Grid';
+import { Card } from '../Cards';
 
 const currencies = ['USD', 'EUR', 'GBP', 'JPY'];
 

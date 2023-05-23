@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card } from 'ui';
+import { Card } from '../../Cards';
 
 import { Layout } from '../Layout';
 

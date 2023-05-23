@@ -1,4 +1,4 @@
-import { Table } from 'ui';
+import { Table } from '../../Table';
 
 import { trpc } from '../../../utils/trpc';
 

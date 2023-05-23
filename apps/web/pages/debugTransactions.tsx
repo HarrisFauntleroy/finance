@@ -5,7 +5,6 @@
  */
 
 import { AssetBuilder, calculateTransactions } from 'common';
-import { JSONObjectViewer, Page } from 'ui';
 import type { NextPageWithLayout } from './_app';
 import { trpc } from '../utils/trpc';
 
@@ -24,6 +23,8 @@ import {
   Tooltip,
 } from 'chart.js';
 import { useSession } from 'next-auth/react';
+import { Page } from '../components/Layout/Page';
+import { JSONObjectViewer } from '../components/JSON';
 
 Chart.register(
   CategoryScale,

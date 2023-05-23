@@ -1,5 +1,6 @@
 import { MarketType } from 'database/generated/prisma-client';
-import { Debug, Page } from 'ui';
+import { Page } from '../../../components/Layout/Page';
+import { Debug } from '../../../components/Debug';
 
 import { trpc } from '../../../utils/trpc';
 

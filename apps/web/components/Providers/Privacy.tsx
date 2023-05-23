@@ -4,14 +4,13 @@
  * Adds global context for showing and hiding monetary values
  *
  */
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
   createContext,
   useCallback,
   useMemo,
   type PropsWithChildren,
 } from 'react';
-
-import { useLocalStorage } from 'ui';
 
 type PrivacyContextType = {
   privacy: boolean;

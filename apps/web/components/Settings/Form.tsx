@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 import { logger } from 'common';
-import { Debug, Drawer, TextInput } from 'ui';
 
 import { defaultToast } from '../../utils/toast';
 import { RouterOutput, trpc } from '../../utils/trpc';
@@ -26,6 +25,9 @@ import {
 import type { Settings } from 'database/generated/prisma-client';
 import { useSession } from 'next-auth/react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { TextInput } from '../TextInput';
+import { Debug } from '../Debug';
+import { Drawer } from '../Drawer';
 
 type SettingsFormProps = {
   defaultValues?: RouterOutput['settings']['byUserId'];
