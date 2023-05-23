@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Stat } from '../Stat';
+import { Stat } from "../Stat";
 
-import { Flex } from '@chakra-ui/react';
+import { Flex } from "@chakra-ui/react";
 
 function IncomeOverviewCard() {
   return (

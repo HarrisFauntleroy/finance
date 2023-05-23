@@ -1,12 +1,12 @@
-import { OverviewAccountsList } from '../../../components/Portfolio/Overview/AccountsList';
+import { OverviewAccountsList } from "../../../components/Portfolio/Overview/AccountsList";
 
-import * as ChartJs from 'chart.js';
-import currency from 'currency.js';
-import { AllocationPieChart } from '../../../components/Portfolio/Overview/AllocationPieChart';
-import { HistorySnapshots } from '../../../components/Portfolio/Overview/HistorySnapshots';
-import { NetWorthCostBasisChart } from '../../../components/Portfolio/Overview/NetWorthCostBasisChart';
-import OverviewCard from '../../../components/Portfolio/Overview/OverviewCard';
-import { Stack } from '@mantine/core';
+import * as ChartJs from "chart.js";
+import currency from "currency.js";
+import { AllocationPieChart } from "../../../components/Portfolio/Overview/AllocationPieChart";
+import { HistorySnapshots } from "../../../components/Portfolio/Overview/HistorySnapshots";
+import { NetWorthCostBasisChart } from "../../../components/Portfolio/Overview/NetWorthCostBasisChart";
+import OverviewCard from "../../../components/Portfolio/Overview/OverviewCard";
+import { Stack } from "@mantine/core";
 
 ChartJs.Chart.register(
   ChartJs.CategoryScale,
@@ -18,19 +18,19 @@ ChartJs.Chart.register(
   ChartJs.Title,
   ChartJs.Tooltip,
   ChartJs.Legend,
-  ChartJs.Filler,
+  ChartJs.Filler
 );
 
 export const options = {
   responsive: true,
-  type: 'line',
+  type: "line",
   plugins: {
     legend: {
-      position: 'top' as const,
+      position: "top" as const,
     },
     title: {
       display: true,
-      text: 'Net Worth / Cost Basis',
+      text: "Net Worth / Cost Basis",
     },
   },
   scales: {

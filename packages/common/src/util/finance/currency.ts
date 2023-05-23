@@ -1,21 +1,21 @@
-import { Any } from 'currency.js';
+import { Any } from "currency.js";
 
-import { divide, multiply } from '../math';
+import { divide, multiply } from "../math";
 
 export function getConversionRate(
   rates: { [key: string]: string },
   fromCurrency: string,
-  toCurrency: string,
+  toCurrency: string
 ): { value: string; error?: string } {
   const fromRate = rates[fromCurrency.toUpperCase()];
   const toRate = rates[toCurrency.toUpperCase()];
 
   if (!fromRate) {
-    return { value: '0', error: `Invalid from currency: ${fromCurrency}` };
+    return { value: "0", error: `Invalid from currency: ${fromCurrency}` };
   }
 
   if (!toRate) {
-    return { value: '0', error: `Invalid to currency: ${toCurrency}` };
+    return { value: "0", error: `Invalid to currency: ${toCurrency}` };
   }
 
   return { value: divide(toRate, fromRate) };
@@ -36,7 +36,7 @@ export function convertCurrency({
   const { value: conversionRate } = getConversionRate(
     exchangeRates,
     fromCurrency,
-    toCurrency,
+    toCurrency
   );
 
   // multiply the amount by the conversion rate and return the result

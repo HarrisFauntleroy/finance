@@ -1,10 +1,10 @@
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { publicProcedure, router } from '../../trpc';
+import { publicProcedure, router } from "../../trpc";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const createMarketInput = z.object({
   name: z.string(),
@@ -55,7 +55,7 @@ export const marketsRouter = router({
         name: z.string(),
         ticker: z.string(),
         type: z.nativeEnum(MarketType),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return prisma.market.update({
@@ -84,7 +84,7 @@ export const marketsRouter = router({
     const market = await prisma.market.findMany();
     if (!market) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
       });
     }
     return market;
@@ -96,7 +96,7 @@ export const marketsRouter = router({
         name: z.string(),
         ticker: z.string(),
         type: z.nativeEnum(MarketType),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const { ticker, type } = input;
@@ -110,7 +110,7 @@ export const marketsRouter = router({
       });
       if (!market) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       }
       return market;
@@ -126,7 +126,7 @@ export const marketsRouter = router({
     });
     if (!market) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
       });
     }
     return market;
@@ -150,7 +150,7 @@ export const marketsRouter = router({
     });
     if (!market) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
       });
     }
     return market;
@@ -173,12 +173,12 @@ export const marketsRouter = router({
         priceChange24hPercent: true,
         updatedAt: true,
       },
-      orderBy: { marketCapRank: 'asc' },
+      orderBy: { marketCapRank: "asc" },
       take: 100,
     });
     if (!cryptocurrency) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
       });
     }
     return cryptocurrency;

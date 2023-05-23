@@ -1,9 +1,9 @@
-import { AssetTransaction } from 'database/generated/prisma-client';
-import { Table } from '../../../Table';
+import { AssetTransaction } from "database/generated/prisma-client";
+import { Table } from "../../../Table";
 
-import { transactionsListColumns } from '../../Transactions/columns';
+import { transactionsListColumns } from "../../Transactions/columns";
 
-import { Text } from '@chakra-ui/react';
+import { Text } from "@chakra-ui/react";
 
 export const TransactionTable = ({
   transactions,

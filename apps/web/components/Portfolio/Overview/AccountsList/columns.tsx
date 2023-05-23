@@ -4,7 +4,7 @@ import {
   AssetTransaction,
   Category,
   Market,
-} from 'database/generated/prisma-client';
+} from "database/generated/prisma-client";
 
 import {
   Avatar,
@@ -15,48 +15,48 @@ import {
   Stack,
   Text,
   Tooltip,
-} from '@chakra-ui/react';
-import { ColumnDef } from '@tanstack/table-core';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import Link from 'next/link';
-import { FormattedNumber } from 'react-intl';
+} from "@chakra-ui/react";
+import { ColumnDef } from "@tanstack/table-core";
+import { formatDuration, intervalToDuration } from "date-fns";
+import Link from "next/link";
+import { FormattedNumber } from "react-intl";
 
 const renderCategoryBadge = (category: Category | null) => {
   let props = {};
   switch (category) {
     case Category.CASH:
       props = {
-        colorScheme: 'cyan',
+        colorScheme: "cyan",
         ...props,
       };
       break;
     case Category.CREDIT:
       props = {
-        colorScheme: 'blue',
+        colorScheme: "blue",
         ...props,
       };
       break;
     case Category.CRYPTOCURRENCY:
       props = {
-        colorScheme: 'purple',
+        colorScheme: "purple",
         ...props,
       };
       break;
     case Category.CUSTOM:
       props = {
-        colorScheme: 'orange',
+        colorScheme: "orange",
         ...props,
       };
       break;
     case Category.INVESTMENT:
       props = {
-        colorScheme: 'green',
+        colorScheme: "green",
         ...props,
       };
       break;
     case Category.SUPERANNUATION:
       props = {
-        colorScheme: 'yellow',
+        colorScheme: "yellow",
         ...props,
       };
       break;
@@ -100,8 +100,8 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
   }
 >[] = [
   {
-    header: 'Display Name',
-    accessorKey: 'name',
+    header: "Display Name",
+    accessorKey: "name",
     cell: ({
       row: {
         getToggleExpandedHandler,
@@ -118,10 +118,10 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
             }}
           >
             <Avatar
-              _hover={{ transform: 'scale(1.05)' }}
-              name={market?.name || ''}
-              title={market?.name || ''}
-              src={market?.image || ''}
+              _hover={{ transform: "scale(1.05)" }}
+              name={market?.name || ""}
+              title={market?.name || ""}
+              src={market?.image || ""}
             />
           </AvatarGroup>
           <Link
@@ -147,8 +147,8 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
     },
   },
   {
-    header: 'Category',
-    accessorKey: 'category',
+    header: "Category",
+    accessorKey: "category",
     cell: ({
       row: {
         original: { category },
@@ -165,8 +165,8 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
   // 	}) => <Text>{institution}</Text>,
   // },
   {
-    header: 'Balance',
-    accessorKey: 'balance',
+    header: "Balance",
+    accessorKey: "balance",
     cell: ({
       row: {
         original: { balance, category },
@@ -191,8 +191,8 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
     },
   },
   {
-    header: 'Calculated Value',
-    accessorKey: 'balance',
+    header: "Calculated Value",
+    accessorKey: "balance",
     cell: () => {
       return (
         <Tooltip
@@ -256,7 +256,7 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
   // 	),
   // },
   {
-    header: 'Last Update',
+    header: "Last Update",
     cell: ({
       row: {
         original: { updatedAt },
@@ -270,16 +270,16 @@ export const portfolioOverviewAssetsColumns: ColumnDef<
               end: updatedAt,
             }),
             {
-              format: ['hours', 'minutes'],
-              delimiter: ', ',
-            },
-          ) || 'Less than a minutes ago'}
+              format: ["hours", "minutes"],
+              delimiter: ", ",
+            }
+          ) || "Less than a minutes ago"}
         </Text>
       );
     },
   },
   {
-    header: 'Status',
+    header: "Status",
     cell: ({
       row: {
         original: { status },

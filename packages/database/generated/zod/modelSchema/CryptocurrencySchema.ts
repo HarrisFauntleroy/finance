@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { AccountConnectionSchema } from '../inputTypeSchemas/AccountConnectionSchema';
+import { z } from "zod";
+import { AccountConnectionSchema } from "../inputTypeSchemas/AccountConnectionSchema";
 
 /////////////////////////////////////////
 // CRYPTOCURRENCY SCHEMA

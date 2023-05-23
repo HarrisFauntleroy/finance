@@ -1,6 +1,6 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from "react";
 
-import { Grid } from '@chakra-ui/react';
+import { Grid } from "@chakra-ui/react";
 
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   return (
@@ -20,12 +20,12 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
 							 "history"`,
       }}
       gridTemplateRows={{
-        sm: '200px max-content max-content 1fr max-content',
-        base: 'repeat(4, max-content)',
+        sm: "200px max-content max-content 1fr max-content",
+        base: "repeat(4, max-content)",
       }}
       gridTemplateColumns={{
-        sm: 'repeat(4, 1fr)',
-        base: '100%',
+        sm: "repeat(4, 1fr)",
+        base: "100%",
       }}
       gap={{ base: 0, sm: 2 }}
     >

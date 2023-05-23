@@ -1,15 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { historySnapshotColumns } from '../columns';
+import { historySnapshotColumns } from "../columns";
 
-import { Stack, Text } from '@chakra-ui/react';
-import { format } from 'date-fns';
-import { useSession } from 'next-auth/react';
-import Chart from '../../Chart';
-import { Card } from '../../Cards';
-import { Table } from '../../Table';
+import { Stack, Text } from "@chakra-ui/react";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
+import Chart from "../../Chart";
+import { Card } from "../../Cards";
+import { Table } from "../../Table";
 
 function sortFn<T extends { createdAt: Date }>(a: T, b: T) {
   if (a.createdAt < b.createdAt) {
@@ -27,11 +27,11 @@ export const HistorySnapshots = () => {
   const userId = session?.data?.userId;
 
   const { data } = trpc.assets.historyByUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   const { data: historyData } = trpc.assets.historyByUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   /** Make a copy of the data to allow mutation/reversal */
@@ -43,15 +43,15 @@ export const HistorySnapshots = () => {
     () =>
       data?.portfolioSnapshot.map(({ totalValue, createdAt }) => ({
         y: totalValue,
-        x: format(new Date(createdAt), 'dd MMM'),
+        x: format(new Date(createdAt), "dd MMM"),
       })),
-    [data?.portfolioSnapshot],
+    [data?.portfolioSnapshot]
   );
 
   const options = {
     chart: {
-      title: 'hello',
-      id: 'apexchart-example',
+      title: "hello",
+      id: "apexchart-example",
     },
   };
 
@@ -60,7 +60,7 @@ export const HistorySnapshots = () => {
       <Stack>
         <Text
           variant="h3"
-          fontSize={{ base: 'lg', sm: '2xl' }}
+          fontSize={{ base: "lg", sm: "2xl" }}
           fontWeight="bold"
           lineHeight="1.2"
         >
@@ -69,7 +69,7 @@ export const HistorySnapshots = () => {
         <Table
           pageSize={4}
           columns={historySnapshotColumns}
-          id={'history-portfolioSnapshot'}
+          id={"history-portfolioSnapshot"}
           // ISO8601See General principles was designed for lexicographical sort. As such the ISO8601 string representation can be sorted like any other string, and this will give the expected order
           // https://stackoverflow.com/questions/12192491/sort-array-by-iso-8601-date
           // This only works if the date includes the timezone

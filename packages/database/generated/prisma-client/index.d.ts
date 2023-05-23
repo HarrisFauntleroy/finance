@@ -2,7 +2,7 @@
  * Client
  **/
 
-import * as runtime from './runtime/library';
+import * as runtime from "./runtime/library";
 type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P;
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
   [K in keyof Tuple]: K extends `${number}`
@@ -425,77 +425,77 @@ export type Market = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
 export const AccountConnection: {
-  NONE: 'NONE';
-  SWYFTX: 'SWYFTX';
-  COINSPOT: 'COINSPOT';
+  NONE: "NONE";
+  SWYFTX: "SWYFTX";
+  COINSPOT: "COINSPOT";
 };
 
 export type AccountConnection =
   (typeof AccountConnection)[keyof typeof AccountConnection];
 
 export const AssetStatus: {
-  CONNECTED: 'CONNECTED';
-  CONNECTION_FAILED: 'CONNECTION_FAILED';
-  DISCONNECTED: 'DISCONNECTED';
-  PENDING_CONNECTION: 'PENDING_CONNECTION';
-  ERROR: 'ERROR';
-  UNAUTHORIZED: 'UNAUTHORIZED';
-  MAINTENANCE: 'MAINTENANCE';
-  BLOCKED: 'BLOCKED';
-  UNKNOWN: 'UNKNOWN';
-  ACTIVE: 'ACTIVE';
-  INACTIVE: 'INACTIVE';
+  CONNECTED: "CONNECTED";
+  CONNECTION_FAILED: "CONNECTION_FAILED";
+  DISCONNECTED: "DISCONNECTED";
+  PENDING_CONNECTION: "PENDING_CONNECTION";
+  ERROR: "ERROR";
+  UNAUTHORIZED: "UNAUTHORIZED";
+  MAINTENANCE: "MAINTENANCE";
+  BLOCKED: "BLOCKED";
+  UNKNOWN: "UNKNOWN";
+  ACTIVE: "ACTIVE";
+  INACTIVE: "INACTIVE";
 };
 
 export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus];
 
 export const Category: {
-  LOAN: 'LOAN';
-  CASH: 'CASH';
-  CUSTOM: 'CUSTOM';
-  MORTGAGE: 'MORTGAGE';
-  PROPERTY: 'PROPERTY';
-  INVESTMENT: 'INVESTMENT';
-  CREDIT: 'CREDIT';
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY';
-  SUPERANNUATION: 'SUPERANNUATION';
+  LOAN: "LOAN";
+  CASH: "CASH";
+  CUSTOM: "CUSTOM";
+  MORTGAGE: "MORTGAGE";
+  PROPERTY: "PROPERTY";
+  INVESTMENT: "INVESTMENT";
+  CREDIT: "CREDIT";
+  CRYPTOCURRENCY: "CRYPTOCURRENCY";
+  SUPERANNUATION: "SUPERANNUATION";
 };
 
 export type Category = (typeof Category)[keyof typeof Category];
 
 export const ColorScheme: {
-  LIGHT: 'LIGHT';
-  DARK: 'DARK';
-  TBA: 'TBA';
+  LIGHT: "LIGHT";
+  DARK: "DARK";
+  TBA: "TBA";
 };
 
 export type ColorScheme = (typeof ColorScheme)[keyof typeof ColorScheme];
 
 export const LogType: {
-  info: 'info';
-  warn: 'warn';
-  error: 'error';
-  trace: 'trace';
-  debug: 'debug';
+  info: "info";
+  warn: "warn";
+  error: "error";
+  trace: "trace";
+  debug: "debug";
 };
 
 export type LogType = (typeof LogType)[keyof typeof LogType];
 
 export const MarketType: {
-  CRYPTOCURRENCY: 'CRYPTOCURRENCY';
-  STOCK: 'STOCK';
-  ETF: 'ETF';
-  METAL: 'METAL';
-  OTHER: 'OTHER';
-  CASH: 'CASH';
+  CRYPTOCURRENCY: "CRYPTOCURRENCY";
+  STOCK: "STOCK";
+  ETF: "ETF";
+  METAL: "METAL";
+  OTHER: "OTHER";
+  CASH: "CASH";
 };
 
 export type MarketType = (typeof MarketType)[keyof typeof MarketType];
 
 export const Role: {
-  GUEST: 'GUEST';
-  USER: 'USER';
-  ADMIN: 'ADMIN';
+  GUEST: "GUEST";
+  USER: "USER";
+  ADMIN: "ADMIN";
 };
 
 export type Role = (typeof Role)[keyof typeof Role];
@@ -516,18 +516,18 @@ export type Role = (typeof Role)[keyof typeof Role];
  */
 export class PrismaClient<
   T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof T
-    ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
-      ? Prisma.GetEvents<T['log']>
+  U = "log" extends keyof T
+    ? T["log"] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
+      ? Prisma.GetEvents<T["log"]>
       : never
     : never,
   GlobalReject extends
     | Prisma.RejectOnNotFound
     | Prisma.RejectPerOperation
     | false
-    | undefined = 'rejectOnNotFound' extends keyof T
-    ? T['rejectOnNotFound']
-    : false,
+    | undefined = "rejectOnNotFound" extends keyof T
+    ? T["rejectOnNotFound"]
+    : false
 > {
   /**
    * ##  Prisma Client ʲˢ
@@ -545,15 +545,15 @@ export class PrismaClient<
    */
 
   constructor(optionsArg?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
-  $on<V extends U | 'beforeExit'>(
+  $on<V extends U | "beforeExit">(
     eventType: V,
     callback: (
-      event: V extends 'query'
+      event: V extends "query"
         ? Prisma.QueryEvent
-        : V extends 'beforeExit'
+        : V extends "beforeExit"
         ? () => Promise<void>
-        : Prisma.LogEvent,
-    ) => void,
+        : Prisma.LogEvent
+    ) => void
   ): void;
 
   /**
@@ -644,21 +644,21 @@ export class PrismaClient<
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(
     arg: [...P],
-    options?: { isolationLevel?: Prisma.TransactionIsolationLevel },
+    options?: { isolationLevel?: Prisma.TransactionIsolationLevel }
   ): Promise<UnwrapTuple<P>>;
 
   $transaction<R>(
     fn: (
       prisma: Omit<
         this,
-        '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'
-      >,
+        "$connect" | "$disconnect" | "$on" | "$transaction" | "$use"
+      >
     ) => Promise<R>,
     options?: {
       maxWait?: number;
       timeout?: number;
       isolationLevel?: Prisma.TransactionIsolationLevel;
-    },
+    }
   ): Promise<R>;
 
   /**
@@ -1060,7 +1060,7 @@ export namespace Prisma {
     include: any;
   };
   type CheckSelect<T, S, U> = T extends SelectAndInclude
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : T extends HasSelect
     ? U
     : T extends HasInclude
@@ -1117,7 +1117,7 @@ export namespace Prisma {
   export type SelectSubset<T, U> = {
     [key in keyof T]: key extends keyof U ? T[key] : never;
   } & (T extends SelectAndInclude
-    ? 'Please either choose `select` or `include`.'
+    ? "Please either choose `select` or `include`."
     : {});
 
   /**
@@ -1184,7 +1184,7 @@ export namespace Prisma {
   type Either<
     O extends object,
     K extends Key,
-    strict extends Boolean = 1,
+    strict extends Boolean = 1
   > = O extends unknown ? _Either<O, K, strict> : never;
 
   export type Union = any;
@@ -1224,7 +1224,7 @@ export namespace Prisma {
   export type At<
     O extends object,
     K extends Key,
-    strict extends Boolean = 1,
+    strict extends Boolean = 1
   > = {
     1: AtStrict<O, K>;
     0: AtLoose<O, K>;
@@ -1313,7 +1313,7 @@ export namespace Prisma {
   export const type: unique symbol;
 
   export function validator<V>(): <S>(
-    select: runtime.Types.Utils.LegacyExact<S, V>,
+    select: runtime.Types.Utils.LegacyExact<S, V>
   ) => S;
 
   /**
@@ -1328,13 +1328,13 @@ export namespace Prisma {
 
   type FieldPaths<
     T,
-    U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>,
+    U = Omit<T, "_avg" | "_sum" | "_count" | "_min" | "_max">
   > = IsObject<T> extends True ? U : T;
 
   type GetHavingFields<T> = {
     [K in keyof T]: Or<
-      Or<Extends<'OR', K>, Extends<'AND', K>>,
-      Extends<'NOT', K>
+      Or<Extends<"OR", K>, Extends<"AND", K>>,
+      Extends<"NOT", K>
     > extends True
       ? // infer is only needed to not hit TS limit
         // based on the brilliant idea of Pierre-Antoine Mills
@@ -1378,27 +1378,27 @@ export namespace Prisma {
     : FieldRef<Model, FieldType>;
 
   export const ModelName: {
-    Account: 'Account';
-    Session: 'Session';
-    User: 'User';
-    VerificationToken: 'VerificationToken';
-    Settings: 'Settings';
-    Log: 'Log';
-    Income: 'Income';
-    Budget: 'Budget';
-    BudgetEnvelope: 'BudgetEnvelope';
-    BudgetTransaction: 'BudgetTransaction';
-    CustomAssetCategory: 'CustomAssetCategory';
-    AssetLabel: 'AssetLabel';
-    Asset: 'Asset';
-    AssetTransaction: 'AssetTransaction';
-    PortfolioSnapshot: 'PortfolioSnapshot';
-    CryptoSnapshot: 'CryptoSnapshot';
-    CashSnapshot: 'CashSnapshot';
-    PropertySnapshot: 'PropertySnapshot';
-    SecuritySnapshot: 'SecuritySnapshot';
-    Cryptocurrency: 'Cryptocurrency';
-    Market: 'Market';
+    Account: "Account";
+    Session: "Session";
+    User: "User";
+    VerificationToken: "VerificationToken";
+    Settings: "Settings";
+    Log: "Log";
+    Income: "Income";
+    Budget: "Budget";
+    BudgetEnvelope: "BudgetEnvelope";
+    BudgetTransaction: "BudgetTransaction";
+    CustomAssetCategory: "CustomAssetCategory";
+    AssetLabel: "AssetLabel";
+    Asset: "Asset";
+    AssetTransaction: "AssetTransaction";
+    PortfolioSnapshot: "PortfolioSnapshot";
+    CryptoSnapshot: "CryptoSnapshot";
+    CashSnapshot: "CashSnapshot";
+    PropertySnapshot: "PropertySnapshot";
+    SecuritySnapshot: "SecuritySnapshot";
+    Cryptocurrency: "Cryptocurrency";
+    Market: "Market";
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -1411,7 +1411,7 @@ export namespace Prisma {
   export type RejectOnNotFound = boolean | ((error: Error) => Error);
   export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound };
   export type RejectPerOperation = {
-    [P in 'findUnique' | 'findFirst']?: RejectPerModel | RejectOnNotFound;
+    [P in "findUnique" | "findFirst"]?: RejectPerModel | RejectOnNotFound;
   };
   type IsReject<T> = T extends true
     ? True
@@ -1419,10 +1419,10 @@ export namespace Prisma {
     ? True
     : False;
   export type HasReject<
-    GlobalRejectSettings extends Prisma.PrismaClientOptions['rejectOnNotFound'],
+    GlobalRejectSettings extends Prisma.PrismaClientOptions["rejectOnNotFound"],
     LocalRejectSettings,
     Action extends PrismaAction,
-    Model extends ModelName,
+    Model extends ModelName
   > = LocalRejectSettings extends RejectOnNotFound
     ? IsReject<LocalRejectSettings>
     : GlobalRejectSettings extends RejectPerOperation
@@ -1436,7 +1436,7 @@ export namespace Prisma {
         : False
       : False
     : IsReject<GlobalRejectSettings>;
-  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
+  export type ErrorFormat = "pretty" | "colorless" | "minimal";
 
   export interface PrismaClientOptions {
     /**
@@ -1483,16 +1483,16 @@ export namespace Prisma {
   }
 
   /* Types for Logging */
-  export type LogLevel = 'info' | 'query' | 'warn' | 'error';
+  export type LogLevel = "info" | "query" | "warn" | "error";
   export type LogDefinition = {
     level: LogLevel;
-    emit: 'stdout' | 'event';
+    emit: "stdout" | "event";
   };
 
   export type GetLogType<T extends LogLevel | LogDefinition> =
     T extends LogDefinition
-      ? T['emit'] extends 'event'
-        ? T['level']
+      ? T["emit"] extends "event"
+        ? T["level"]
         : never
       : never;
   export type GetEvents<T extends any> = T extends Array<
@@ -1517,22 +1517,22 @@ export namespace Prisma {
   /* End Types for Logging */
 
   export type PrismaAction =
-    | 'findUnique'
-    | 'findMany'
-    | 'findFirst'
-    | 'create'
-    | 'createMany'
-    | 'update'
-    | 'updateMany'
-    | 'upsert'
-    | 'delete'
-    | 'deleteMany'
-    | 'executeRaw'
-    | 'queryRaw'
-    | 'aggregate'
-    | 'count'
-    | 'runCommandRaw'
-    | 'findRaw';
+    | "findUnique"
+    | "findMany"
+    | "findFirst"
+    | "create"
+    | "createMany"
+    | "update"
+    | "updateMany"
+    | "upsert"
+    | "delete"
+    | "deleteMany"
+    | "executeRaw"
+    | "queryRaw"
+    | "aggregate"
+    | "count"
+    | "runCommandRaw"
+    | "findRaw";
 
   /**
    * These options are being passed into the middleware as "params"
@@ -1550,12 +1550,12 @@ export namespace Prisma {
    */
   export type Middleware<T = any> = (
     params: MiddlewareParams,
-    next: (params: MiddlewareParams) => Promise<T>,
+    next: (params: MiddlewareParams) => Promise<T>
   ) => Promise<T>;
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(
-    log: Array<LogLevel | LogDefinition>,
+    log: Array<LogLevel | LogDefinition>
   ): LogLevel | undefined;
 
   /**
@@ -1563,7 +1563,7 @@ export namespace Prisma {
    */
   export type TransactionClient = Omit<
     Prisma.DefaultPrismaClient,
-    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'
+    "$connect" | "$disconnect" | "$on" | "$transaction" | "$use"
   >;
 
   export type Datasource = {
@@ -1609,9 +1609,9 @@ export namespace Prisma {
   };
 
   export type UserCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | UserCountOutputTypeArgs,
+    S extends boolean | null | undefined | UserCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? UserCountOutputType
     : S extends undefined
@@ -1620,7 +1620,7 @@ export namespace Prisma {
     ? UserCountOutputType
     : S extends { select: any } & UserCountOutputTypeArgs
     ? {
-        [P in TruthyKeys<S['select']>]: P extends keyof UserCountOutputType
+        [P in TruthyKeys<S["select"]>]: P extends keyof UserCountOutputType
           ? UserCountOutputType[P]
           : never;
       }
@@ -1653,9 +1653,9 @@ export namespace Prisma {
   };
 
   export type BudgetCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | BudgetCountOutputTypeArgs,
+    S extends boolean | null | undefined | BudgetCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? BudgetCountOutputType
     : S extends undefined
@@ -1664,7 +1664,7 @@ export namespace Prisma {
     ? BudgetCountOutputType
     : S extends { select: any } & BudgetCountOutputTypeArgs
     ? {
-        [P in TruthyKeys<S['select']>]: P extends keyof BudgetCountOutputType
+        [P in TruthyKeys<S["select"]>]: P extends keyof BudgetCountOutputType
           ? BudgetCountOutputType[P]
           : never;
       }
@@ -1695,9 +1695,9 @@ export namespace Prisma {
   };
 
   export type BudgetEnvelopeCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | BudgetEnvelopeCountOutputTypeArgs,
+    S extends boolean | null | undefined | BudgetEnvelopeCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? BudgetEnvelopeCountOutputType
     : S extends undefined
@@ -1707,7 +1707,7 @@ export namespace Prisma {
     : S extends { select: any } & BudgetEnvelopeCountOutputTypeArgs
     ? {
         [P in TruthyKeys<
-          S['select']
+          S["select"]
         >]: P extends keyof BudgetEnvelopeCountOutputType
           ? BudgetEnvelopeCountOutputType[P]
           : never;
@@ -1743,9 +1743,9 @@ export namespace Prisma {
       | boolean
       | null
       | undefined
-      | CustomAssetCategoryCountOutputTypeArgs,
+      | CustomAssetCategoryCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? CustomAssetCategoryCountOutputType
     : S extends undefined
@@ -1755,7 +1755,7 @@ export namespace Prisma {
     : S extends { select: any } & CustomAssetCategoryCountOutputTypeArgs
     ? {
         [P in TruthyKeys<
-          S['select']
+          S["select"]
         >]: P extends keyof CustomAssetCategoryCountOutputType
           ? CustomAssetCategoryCountOutputType[P]
           : never;
@@ -1791,9 +1791,9 @@ export namespace Prisma {
   };
 
   export type AssetCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | AssetCountOutputTypeArgs,
+    S extends boolean | null | undefined | AssetCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? AssetCountOutputType
     : S extends undefined
@@ -1802,7 +1802,7 @@ export namespace Prisma {
     ? AssetCountOutputType
     : S extends { select: any } & AssetCountOutputTypeArgs
     ? {
-        [P in TruthyKeys<S['select']>]: P extends keyof AssetCountOutputType
+        [P in TruthyKeys<S["select"]>]: P extends keyof AssetCountOutputType
           ? AssetCountOutputType[P]
           : never;
       }
@@ -1833,9 +1833,9 @@ export namespace Prisma {
   };
 
   export type CryptocurrencyCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | CryptocurrencyCountOutputTypeArgs,
+    S extends boolean | null | undefined | CryptocurrencyCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? CryptocurrencyCountOutputType
     : S extends undefined
@@ -1845,7 +1845,7 @@ export namespace Prisma {
     : S extends { select: any } & CryptocurrencyCountOutputTypeArgs
     ? {
         [P in TruthyKeys<
-          S['select']
+          S["select"]
         >]: P extends keyof CryptocurrencyCountOutputType
           ? CryptocurrencyCountOutputType[P]
           : never;
@@ -1879,9 +1879,9 @@ export namespace Prisma {
   };
 
   export type MarketCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | MarketCountOutputTypeArgs,
+    S extends boolean | null | undefined | MarketCountOutputTypeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? MarketCountOutputType
     : S extends undefined
@@ -1890,7 +1890,7 @@ export namespace Prisma {
     ? MarketCountOutputType
     : S extends { select: any } & MarketCountOutputTypeArgs
     ? {
-        [P in TruthyKeys<S['select']>]: P extends keyof MarketCountOutputType
+        [P in TruthyKeys<S["select"]>]: P extends keyof MarketCountOutputType
           ? MarketCountOutputType[P]
           : never;
       }
@@ -2094,7 +2094,7 @@ export namespace Prisma {
   };
 
   export type GetAccountAggregateType<T extends AccountAggregateArgs> = {
-    [P in keyof T & keyof AggregateAccount]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAccount]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAccount[P]>
@@ -2138,8 +2138,8 @@ export namespace Prisma {
   type GetAccountGroupByPayload<T extends AccountGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<AccountGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof AccountGroupByOutputType]: P extends '_count'
+        PickArray<AccountGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof AccountGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], AccountGroupByOutputType[P]>
@@ -2169,30 +2169,30 @@ export namespace Prisma {
   };
 
   export type AccountGetPayload<
-    S extends boolean | null | undefined | AccountArgs,
+    S extends boolean | null | undefined | AccountArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Account
     : S extends undefined
     ? never
     : S extends { include: any } & (AccountArgs | AccountFindManyArgs)
     ? Account & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (AccountArgs | AccountFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof Account
           ? Account[P]
           : never;
       }
     : Account;
 
-  type AccountCountArgs = Omit<AccountFindManyArgs, 'select' | 'include'> & {
+  type AccountCountArgs = Omit<AccountFindManyArgs, "select" | "include"> & {
     select?: AccountCountAggregateInputType | true;
   };
 
@@ -2201,7 +2201,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Account that matches the filter.
@@ -2216,16 +2216,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends AccountFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, AccountFindUniqueArgs>,
+      args: SelectSubset<T, AccountFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Account'
+      "findUnique",
+      "Account"
     > extends True
       ? Prisma__AccountClient<AccountGetPayload<T>>
       : Prisma__AccountClient<AccountGetPayload<T> | null, null>;
@@ -2243,7 +2243,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2261,16 +2261,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends AccountFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, AccountFindFirstArgs>,
+      args?: SelectSubset<T, AccountFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Account'
+      "findFirst",
+      "Account"
     > extends True
       ? Prisma__AccountClient<AccountGetPayload<T>>
       : Prisma__AccountClient<AccountGetPayload<T> | null, null>;
@@ -2290,7 +2290,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AccountFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, AccountFindFirstOrThrowArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2310,7 +2310,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends AccountFindManyArgs>(
-      args?: SelectSubset<T, AccountFindManyArgs>,
+      args?: SelectSubset<T, AccountFindManyArgs>
     ): Prisma.PrismaPromise<Array<AccountGetPayload<T>>>;
 
     /**
@@ -2326,7 +2326,7 @@ export namespace Prisma {
      *
      **/
     create<T extends AccountCreateArgs>(
-      args: SelectSubset<T, AccountCreateArgs>,
+      args: SelectSubset<T, AccountCreateArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2342,7 +2342,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends AccountCreateManyArgs>(
-      args?: SelectSubset<T, AccountCreateManyArgs>,
+      args?: SelectSubset<T, AccountCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -2358,7 +2358,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends AccountDeleteArgs>(
-      args: SelectSubset<T, AccountDeleteArgs>,
+      args: SelectSubset<T, AccountDeleteArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2377,7 +2377,7 @@ export namespace Prisma {
      *
      **/
     update<T extends AccountUpdateArgs>(
-      args: SelectSubset<T, AccountUpdateArgs>,
+      args: SelectSubset<T, AccountUpdateArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2393,7 +2393,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends AccountDeleteManyArgs>(
-      args?: SelectSubset<T, AccountDeleteManyArgs>,
+      args?: SelectSubset<T, AccountDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -2414,7 +2414,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends AccountUpdateManyArgs>(
-      args: SelectSubset<T, AccountUpdateManyArgs>,
+      args: SelectSubset<T, AccountUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -2435,7 +2435,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends AccountUpsertArgs>(
-      args: SelectSubset<T, AccountUpsertArgs>,
+      args: SelectSubset<T, AccountUpsertArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>;
 
     /**
@@ -2452,12 +2452,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends AccountCountArgs>(
-      args?: Subset<T, AccountCountArgs>,
+      args?: Subset<T, AccountCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], AccountCountAggregateOutputType>
+          : GetScalarType<T["select"], AccountCountAggregateOutputType>
         : number
     >;
 
@@ -2486,7 +2486,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends AccountAggregateArgs>(
-      args: Subset<T, AccountAggregateArgs>,
+      args: Subset<T, AccountAggregateArgs>
     ): Prisma.PrismaPromise<GetAccountAggregateType<T>>;
 
     /**
@@ -2510,20 +2510,20 @@ export namespace Prisma {
     groupBy<
       T extends AccountGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AccountGroupByArgs['orderBy'] }
-        : { orderBy?: AccountGroupByArgs['orderBy'] },
+        ? { orderBy: AccountGroupByArgs["orderBy"] }
+        : { orderBy?: AccountGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -2534,13 +2534,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -2549,8 +2549,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -2565,9 +2565,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetAccountGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -2593,21 +2593,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -2625,7 +2625,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -2636,7 +2636,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -3083,7 +3083,7 @@ export namespace Prisma {
   };
 
   export type GetSessionAggregateType<T extends SessionAggregateArgs> = {
-    [P in keyof T & keyof AggregateSession]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateSession]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSession[P]>
@@ -3115,8 +3115,8 @@ export namespace Prisma {
   type GetSessionGroupByPayload<T extends SessionGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<SessionGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof SessionGroupByOutputType]: P extends '_count'
+        PickArray<SessionGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof SessionGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], SessionGroupByOutputType[P]>
@@ -3138,30 +3138,30 @@ export namespace Prisma {
   };
 
   export type SessionGetPayload<
-    S extends boolean | null | undefined | SessionArgs,
+    S extends boolean | null | undefined | SessionArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Session
     : S extends undefined
     ? never
     : S extends { include: any } & (SessionArgs | SessionFindManyArgs)
     ? Session & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (SessionArgs | SessionFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof Session
           ? Session[P]
           : never;
       }
     : Session;
 
-  type SessionCountArgs = Omit<SessionFindManyArgs, 'select' | 'include'> & {
+  type SessionCountArgs = Omit<SessionFindManyArgs, "select" | "include"> & {
     select?: SessionCountAggregateInputType | true;
   };
 
@@ -3170,7 +3170,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Session that matches the filter.
@@ -3185,16 +3185,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends SessionFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, SessionFindUniqueArgs>,
+      args: SelectSubset<T, SessionFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Session'
+      "findUnique",
+      "Session"
     > extends True
       ? Prisma__SessionClient<SessionGetPayload<T>>
       : Prisma__SessionClient<SessionGetPayload<T> | null, null>;
@@ -3212,7 +3212,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3230,16 +3230,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends SessionFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, SessionFindFirstArgs>,
+      args?: SelectSubset<T, SessionFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Session'
+      "findFirst",
+      "Session"
     > extends True
       ? Prisma__SessionClient<SessionGetPayload<T>>
       : Prisma__SessionClient<SessionGetPayload<T> | null, null>;
@@ -3259,7 +3259,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SessionFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, SessionFindFirstOrThrowArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3279,7 +3279,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends SessionFindManyArgs>(
-      args?: SelectSubset<T, SessionFindManyArgs>,
+      args?: SelectSubset<T, SessionFindManyArgs>
     ): Prisma.PrismaPromise<Array<SessionGetPayload<T>>>;
 
     /**
@@ -3295,7 +3295,7 @@ export namespace Prisma {
      *
      **/
     create<T extends SessionCreateArgs>(
-      args: SelectSubset<T, SessionCreateArgs>,
+      args: SelectSubset<T, SessionCreateArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3311,7 +3311,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends SessionCreateManyArgs>(
-      args?: SelectSubset<T, SessionCreateManyArgs>,
+      args?: SelectSubset<T, SessionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -3327,7 +3327,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends SessionDeleteArgs>(
-      args: SelectSubset<T, SessionDeleteArgs>,
+      args: SelectSubset<T, SessionDeleteArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3346,7 +3346,7 @@ export namespace Prisma {
      *
      **/
     update<T extends SessionUpdateArgs>(
-      args: SelectSubset<T, SessionUpdateArgs>,
+      args: SelectSubset<T, SessionUpdateArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3362,7 +3362,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends SessionDeleteManyArgs>(
-      args?: SelectSubset<T, SessionDeleteManyArgs>,
+      args?: SelectSubset<T, SessionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -3383,7 +3383,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends SessionUpdateManyArgs>(
-      args: SelectSubset<T, SessionUpdateManyArgs>,
+      args: SelectSubset<T, SessionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -3404,7 +3404,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends SessionUpsertArgs>(
-      args: SelectSubset<T, SessionUpsertArgs>,
+      args: SelectSubset<T, SessionUpsertArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>;
 
     /**
@@ -3421,12 +3421,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends SessionCountArgs>(
-      args?: Subset<T, SessionCountArgs>,
+      args?: Subset<T, SessionCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], SessionCountAggregateOutputType>
+          : GetScalarType<T["select"], SessionCountAggregateOutputType>
         : number
     >;
 
@@ -3455,7 +3455,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends SessionAggregateArgs>(
-      args: Subset<T, SessionAggregateArgs>,
+      args: Subset<T, SessionAggregateArgs>
     ): Prisma.PrismaPromise<GetSessionAggregateType<T>>;
 
     /**
@@ -3479,20 +3479,20 @@ export namespace Prisma {
     groupBy<
       T extends SessionGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SessionGroupByArgs['orderBy'] }
-        : { orderBy?: SessionGroupByArgs['orderBy'] },
+        ? { orderBy: SessionGroupByArgs["orderBy"] }
+        : { orderBy?: SessionGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -3503,13 +3503,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -3518,8 +3518,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -3534,9 +3534,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetSessionGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -3562,21 +3562,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -3594,7 +3594,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -3605,7 +3605,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -4088,7 +4088,7 @@ export namespace Prisma {
   };
 
   export type GetUserAggregateType<T extends UserAggregateArgs> = {
-    [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateUser]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateUser[P]>
@@ -4125,8 +4125,8 @@ export namespace Prisma {
 
   type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<UserGroupByOutputType, T['by']> & {
-        [P in keyof T & keyof UserGroupByOutputType]: P extends '_count'
+      PickArray<UserGroupByOutputType, T["by"]> & {
+        [P in keyof T & keyof UserGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], UserGroupByOutputType[P]>
@@ -4181,80 +4181,80 @@ export namespace Prisma {
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
     S extends { select: any; include: any }
-      ? 'Please either choose `select` or `include`'
+      ? "Please either choose `select` or `include`"
       : S extends true
       ? User
       : S extends undefined
       ? never
       : S extends { include: any } & (UserArgs | UserFindManyArgs)
       ? User & {
-          [P in TruthyKeys<S['include']>]: P extends 'accounts'
-            ? Array<AccountGetPayload<S['include'][P]>>
-            : P extends 'budgets'
-            ? Array<BudgetGetPayload<S['include'][P]>>
-            : P extends 'budgetTransactions'
-            ? Array<BudgetTransactionGetPayload<S['include'][P]>>
-            : P extends 'assets'
-            ? Array<AssetGetPayload<S['include'][P]>>
-            : P extends 'assetTransactions'
-            ? Array<AssetTransactionGetPayload<S['include'][P]>>
-            : P extends 'cryptocurrency'
-            ? Array<CryptocurrencyGetPayload<S['include'][P]>>
-            : P extends 'sessions'
-            ? Array<SessionGetPayload<S['include'][P]>>
-            : P extends 'settings'
-            ? SettingsGetPayload<S['include'][P]> | null
-            : P extends 'portfolioSnapshot'
-            ? Array<PortfolioSnapshotGetPayload<S['include'][P]>>
-            : P extends 'CryptoSnapshot'
-            ? Array<CryptoSnapshotGetPayload<S['include'][P]>>
-            : P extends 'CashSnapshot'
-            ? Array<CashSnapshotGetPayload<S['include'][P]>>
-            : P extends 'PropertySnapshot'
-            ? Array<PropertySnapshotGetPayload<S['include'][P]>>
-            : P extends 'SecuritySnapshot'
-            ? Array<SecuritySnapshotGetPayload<S['include'][P]>>
-            : P extends '_count'
-            ? UserCountOutputTypeGetPayload<S['include'][P]>
+          [P in TruthyKeys<S["include"]>]: P extends "accounts"
+            ? Array<AccountGetPayload<S["include"][P]>>
+            : P extends "budgets"
+            ? Array<BudgetGetPayload<S["include"][P]>>
+            : P extends "budgetTransactions"
+            ? Array<BudgetTransactionGetPayload<S["include"][P]>>
+            : P extends "assets"
+            ? Array<AssetGetPayload<S["include"][P]>>
+            : P extends "assetTransactions"
+            ? Array<AssetTransactionGetPayload<S["include"][P]>>
+            : P extends "cryptocurrency"
+            ? Array<CryptocurrencyGetPayload<S["include"][P]>>
+            : P extends "sessions"
+            ? Array<SessionGetPayload<S["include"][P]>>
+            : P extends "settings"
+            ? SettingsGetPayload<S["include"][P]> | null
+            : P extends "portfolioSnapshot"
+            ? Array<PortfolioSnapshotGetPayload<S["include"][P]>>
+            : P extends "CryptoSnapshot"
+            ? Array<CryptoSnapshotGetPayload<S["include"][P]>>
+            : P extends "CashSnapshot"
+            ? Array<CashSnapshotGetPayload<S["include"][P]>>
+            : P extends "PropertySnapshot"
+            ? Array<PropertySnapshotGetPayload<S["include"][P]>>
+            : P extends "SecuritySnapshot"
+            ? Array<SecuritySnapshotGetPayload<S["include"][P]>>
+            : P extends "_count"
+            ? UserCountOutputTypeGetPayload<S["include"][P]>
             : never;
         }
       : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
-          [P in TruthyKeys<S['select']>]: P extends 'accounts'
-            ? Array<AccountGetPayload<S['select'][P]>>
-            : P extends 'budgets'
-            ? Array<BudgetGetPayload<S['select'][P]>>
-            : P extends 'budgetTransactions'
-            ? Array<BudgetTransactionGetPayload<S['select'][P]>>
-            : P extends 'assets'
-            ? Array<AssetGetPayload<S['select'][P]>>
-            : P extends 'assetTransactions'
-            ? Array<AssetTransactionGetPayload<S['select'][P]>>
-            : P extends 'cryptocurrency'
-            ? Array<CryptocurrencyGetPayload<S['select'][P]>>
-            : P extends 'sessions'
-            ? Array<SessionGetPayload<S['select'][P]>>
-            : P extends 'settings'
-            ? SettingsGetPayload<S['select'][P]> | null
-            : P extends 'portfolioSnapshot'
-            ? Array<PortfolioSnapshotGetPayload<S['select'][P]>>
-            : P extends 'CryptoSnapshot'
-            ? Array<CryptoSnapshotGetPayload<S['select'][P]>>
-            : P extends 'CashSnapshot'
-            ? Array<CashSnapshotGetPayload<S['select'][P]>>
-            : P extends 'PropertySnapshot'
-            ? Array<PropertySnapshotGetPayload<S['select'][P]>>
-            : P extends 'SecuritySnapshot'
-            ? Array<SecuritySnapshotGetPayload<S['select'][P]>>
-            : P extends '_count'
-            ? UserCountOutputTypeGetPayload<S['select'][P]>
+          [P in TruthyKeys<S["select"]>]: P extends "accounts"
+            ? Array<AccountGetPayload<S["select"][P]>>
+            : P extends "budgets"
+            ? Array<BudgetGetPayload<S["select"][P]>>
+            : P extends "budgetTransactions"
+            ? Array<BudgetTransactionGetPayload<S["select"][P]>>
+            : P extends "assets"
+            ? Array<AssetGetPayload<S["select"][P]>>
+            : P extends "assetTransactions"
+            ? Array<AssetTransactionGetPayload<S["select"][P]>>
+            : P extends "cryptocurrency"
+            ? Array<CryptocurrencyGetPayload<S["select"][P]>>
+            : P extends "sessions"
+            ? Array<SessionGetPayload<S["select"][P]>>
+            : P extends "settings"
+            ? SettingsGetPayload<S["select"][P]> | null
+            : P extends "portfolioSnapshot"
+            ? Array<PortfolioSnapshotGetPayload<S["select"][P]>>
+            : P extends "CryptoSnapshot"
+            ? Array<CryptoSnapshotGetPayload<S["select"][P]>>
+            : P extends "CashSnapshot"
+            ? Array<CashSnapshotGetPayload<S["select"][P]>>
+            : P extends "PropertySnapshot"
+            ? Array<PropertySnapshotGetPayload<S["select"][P]>>
+            : P extends "SecuritySnapshot"
+            ? Array<SecuritySnapshotGetPayload<S["select"][P]>>
+            : P extends "_count"
+            ? UserCountOutputTypeGetPayload<S["select"][P]>
             : P extends keyof User
             ? User[P]
             : never;
         }
       : User;
 
-  type UserCountArgs = Omit<UserFindManyArgs, 'select' | 'include'> & {
+  type UserCountArgs = Omit<UserFindManyArgs, "select" | "include"> & {
     select?: UserCountAggregateInputType | true;
   };
 
@@ -4263,7 +4263,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one User that matches the filter.
@@ -4278,16 +4278,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends UserFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, UserFindUniqueArgs>,
+      args: SelectSubset<T, UserFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'User'
+      "findUnique",
+      "User"
     > extends True
       ? Prisma__UserClient<UserGetPayload<T>>
       : Prisma__UserClient<UserGetPayload<T> | null, null>;
@@ -4305,7 +4305,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4323,16 +4323,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends UserFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, UserFindFirstArgs>,
+      args?: SelectSubset<T, UserFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'User'
+      "findFirst",
+      "User"
     > extends True
       ? Prisma__UserClient<UserGetPayload<T>>
       : Prisma__UserClient<UserGetPayload<T> | null, null>;
@@ -4352,7 +4352,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, UserFindFirstOrThrowArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4372,7 +4372,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends UserFindManyArgs>(
-      args?: SelectSubset<T, UserFindManyArgs>,
+      args?: SelectSubset<T, UserFindManyArgs>
     ): Prisma.PrismaPromise<Array<UserGetPayload<T>>>;
 
     /**
@@ -4388,7 +4388,7 @@ export namespace Prisma {
      *
      **/
     create<T extends UserCreateArgs>(
-      args: SelectSubset<T, UserCreateArgs>,
+      args: SelectSubset<T, UserCreateArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4404,7 +4404,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends UserCreateManyArgs>(
-      args?: SelectSubset<T, UserCreateManyArgs>,
+      args?: SelectSubset<T, UserCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -4420,7 +4420,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends UserDeleteArgs>(
-      args: SelectSubset<T, UserDeleteArgs>,
+      args: SelectSubset<T, UserDeleteArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4439,7 +4439,7 @@ export namespace Prisma {
      *
      **/
     update<T extends UserUpdateArgs>(
-      args: SelectSubset<T, UserUpdateArgs>,
+      args: SelectSubset<T, UserUpdateArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4455,7 +4455,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends UserDeleteManyArgs>(
-      args?: SelectSubset<T, UserDeleteManyArgs>,
+      args?: SelectSubset<T, UserDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -4476,7 +4476,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends UserUpdateManyArgs>(
-      args: SelectSubset<T, UserUpdateManyArgs>,
+      args: SelectSubset<T, UserUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -4497,7 +4497,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends UserUpsertArgs>(
-      args: SelectSubset<T, UserUpsertArgs>,
+      args: SelectSubset<T, UserUpsertArgs>
     ): Prisma__UserClient<UserGetPayload<T>>;
 
     /**
@@ -4514,12 +4514,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
+      args?: Subset<T, UserCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], UserCountAggregateOutputType>
+          : GetScalarType<T["select"], UserCountAggregateOutputType>
         : number
     >;
 
@@ -4548,7 +4548,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends UserAggregateArgs>(
-      args: Subset<T, UserAggregateArgs>,
+      args: Subset<T, UserAggregateArgs>
     ): Prisma.PrismaPromise<GetUserAggregateType<T>>;
 
     /**
@@ -4572,20 +4572,20 @@ export namespace Prisma {
     groupBy<
       T extends UserGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs['orderBy'] }
-        : { orderBy?: UserGroupByArgs['orderBy'] },
+        ? { orderBy: UserGroupByArgs["orderBy"] }
+        : { orderBy?: UserGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -4596,13 +4596,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -4611,8 +4611,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -4627,9 +4627,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetUserGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -4655,69 +4655,69 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     accounts<T extends User$accountsArgs = {}>(
-      args?: Subset<T, User$accountsArgs>,
+      args?: Subset<T, User$accountsArgs>
     ): Prisma.PrismaPromise<Array<AccountGetPayload<T>> | Null>;
 
     budgets<T extends User$budgetsArgs = {}>(
-      args?: Subset<T, User$budgetsArgs>,
+      args?: Subset<T, User$budgetsArgs>
     ): Prisma.PrismaPromise<Array<BudgetGetPayload<T>> | Null>;
 
     budgetTransactions<T extends User$budgetTransactionsArgs = {}>(
-      args?: Subset<T, User$budgetTransactionsArgs>,
+      args?: Subset<T, User$budgetTransactionsArgs>
     ): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>> | Null>;
 
     assets<T extends User$assetsArgs = {}>(
-      args?: Subset<T, User$assetsArgs>,
+      args?: Subset<T, User$assetsArgs>
     ): Prisma.PrismaPromise<Array<AssetGetPayload<T>> | Null>;
 
     assetTransactions<T extends User$assetTransactionsArgs = {}>(
-      args?: Subset<T, User$assetTransactionsArgs>,
+      args?: Subset<T, User$assetTransactionsArgs>
     ): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>> | Null>;
 
     cryptocurrency<T extends User$cryptocurrencyArgs = {}>(
-      args?: Subset<T, User$cryptocurrencyArgs>,
+      args?: Subset<T, User$cryptocurrencyArgs>
     ): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>> | Null>;
 
     sessions<T extends User$sessionsArgs = {}>(
-      args?: Subset<T, User$sessionsArgs>,
+      args?: Subset<T, User$sessionsArgs>
     ): Prisma.PrismaPromise<Array<SessionGetPayload<T>> | Null>;
 
     settings<T extends SettingsArgs = {}>(
-      args?: Subset<T, SettingsArgs>,
+      args?: Subset<T, SettingsArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T> | Null>;
 
     portfolioSnapshot<T extends User$portfolioSnapshotArgs = {}>(
-      args?: Subset<T, User$portfolioSnapshotArgs>,
+      args?: Subset<T, User$portfolioSnapshotArgs>
     ): Prisma.PrismaPromise<Array<PortfolioSnapshotGetPayload<T>> | Null>;
 
     CryptoSnapshot<T extends User$CryptoSnapshotArgs = {}>(
-      args?: Subset<T, User$CryptoSnapshotArgs>,
+      args?: Subset<T, User$CryptoSnapshotArgs>
     ): Prisma.PrismaPromise<Array<CryptoSnapshotGetPayload<T>> | Null>;
 
     CashSnapshot<T extends User$CashSnapshotArgs = {}>(
-      args?: Subset<T, User$CashSnapshotArgs>,
+      args?: Subset<T, User$CashSnapshotArgs>
     ): Prisma.PrismaPromise<Array<CashSnapshotGetPayload<T>> | Null>;
 
     PropertySnapshot<T extends User$PropertySnapshotArgs = {}>(
-      args?: Subset<T, User$PropertySnapshotArgs>,
+      args?: Subset<T, User$PropertySnapshotArgs>
     ): Prisma.PrismaPromise<Array<PropertySnapshotGetPayload<T>> | Null>;
 
     SecuritySnapshot<T extends User$SecuritySnapshotArgs = {}>(
-      args?: Subset<T, User$SecuritySnapshotArgs>,
+      args?: Subset<T, User$SecuritySnapshotArgs>
     ): Prisma.PrismaPromise<Array<SecuritySnapshotGetPayload<T>> | Null>;
 
     private get _document();
@@ -4735,7 +4735,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -4746,7 +4746,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -5427,11 +5427,11 @@ export namespace Prisma {
   };
 
   export type GetVerificationTokenAggregateType<
-    T extends VerificationTokenAggregateArgs,
+    T extends VerificationTokenAggregateArgs
   > = {
     [P in keyof T & keyof AggregateVerificationToken]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateVerificationToken[P]>
@@ -5460,12 +5460,12 @@ export namespace Prisma {
   };
 
   type GetVerificationTokenGroupByPayload<
-    T extends VerificationTokenGroupByArgs,
+    T extends VerificationTokenGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<VerificationTokenGroupByOutputType, T['by']> & {
+      PickArray<VerificationTokenGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof VerificationTokenGroupByOutputType]: P extends '_count'
+          keyof VerificationTokenGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
@@ -5481,9 +5481,9 @@ export namespace Prisma {
   };
 
   export type VerificationTokenGetPayload<
-    S extends boolean | null | undefined | VerificationTokenArgs,
+    S extends boolean | null | undefined | VerificationTokenArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? VerificationToken
     : S extends undefined
@@ -5498,7 +5498,7 @@ export namespace Prisma {
         | VerificationTokenFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends keyof VerificationToken
+        [P in TruthyKeys<S["select"]>]: P extends keyof VerificationToken
           ? VerificationToken[P]
           : never;
       }
@@ -5506,7 +5506,7 @@ export namespace Prisma {
 
   type VerificationTokenCountArgs = Omit<
     VerificationTokenFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: VerificationTokenCountAggregateInputType | true;
   };
@@ -5516,7 +5516,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one VerificationToken that matches the filter.
@@ -5531,16 +5531,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends VerificationTokenFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, VerificationTokenFindUniqueArgs>,
+      args: SelectSubset<T, VerificationTokenFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'VerificationToken'
+      "findUnique",
+      "VerificationToken"
     > extends True
       ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
       : Prisma__VerificationTokenClient<
@@ -5561,7 +5561,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5579,16 +5579,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends VerificationTokenFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, VerificationTokenFindFirstArgs>,
+      args?: SelectSubset<T, VerificationTokenFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'VerificationToken'
+      "findFirst",
+      "VerificationToken"
     > extends True
       ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
       : Prisma__VerificationTokenClient<
@@ -5611,7 +5611,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5631,7 +5631,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends VerificationTokenFindManyArgs>(
-      args?: SelectSubset<T, VerificationTokenFindManyArgs>,
+      args?: SelectSubset<T, VerificationTokenFindManyArgs>
     ): Prisma.PrismaPromise<Array<VerificationTokenGetPayload<T>>>;
 
     /**
@@ -5647,7 +5647,7 @@ export namespace Prisma {
      *
      **/
     create<T extends VerificationTokenCreateArgs>(
-      args: SelectSubset<T, VerificationTokenCreateArgs>,
+      args: SelectSubset<T, VerificationTokenCreateArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5663,7 +5663,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends VerificationTokenCreateManyArgs>(
-      args?: SelectSubset<T, VerificationTokenCreateManyArgs>,
+      args?: SelectSubset<T, VerificationTokenCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -5679,7 +5679,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends VerificationTokenDeleteArgs>(
-      args: SelectSubset<T, VerificationTokenDeleteArgs>,
+      args: SelectSubset<T, VerificationTokenDeleteArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5698,7 +5698,7 @@ export namespace Prisma {
      *
      **/
     update<T extends VerificationTokenUpdateArgs>(
-      args: SelectSubset<T, VerificationTokenUpdateArgs>,
+      args: SelectSubset<T, VerificationTokenUpdateArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5714,7 +5714,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends VerificationTokenDeleteManyArgs>(
-      args?: SelectSubset<T, VerificationTokenDeleteManyArgs>,
+      args?: SelectSubset<T, VerificationTokenDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -5735,7 +5735,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends VerificationTokenUpdateManyArgs>(
-      args: SelectSubset<T, VerificationTokenUpdateManyArgs>,
+      args: SelectSubset<T, VerificationTokenUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -5756,7 +5756,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends VerificationTokenUpsertArgs>(
-      args: SelectSubset<T, VerificationTokenUpsertArgs>,
+      args: SelectSubset<T, VerificationTokenUpsertArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>;
 
     /**
@@ -5773,13 +5773,13 @@ export namespace Prisma {
      * })
      **/
     count<T extends VerificationTokenCountArgs>(
-      args?: Subset<T, VerificationTokenCountArgs>,
+      args?: Subset<T, VerificationTokenCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
           : GetScalarType<
-              T['select'],
+              T["select"],
               VerificationTokenCountAggregateOutputType
             >
         : number
@@ -5810,7 +5810,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends VerificationTokenAggregateArgs>(
-      args: Subset<T, VerificationTokenAggregateArgs>,
+      args: Subset<T, VerificationTokenAggregateArgs>
     ): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>;
 
     /**
@@ -5834,20 +5834,20 @@ export namespace Prisma {
     groupBy<
       T extends VerificationTokenGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VerificationTokenGroupByArgs['orderBy'] }
-        : { orderBy?: VerificationTokenGroupByArgs['orderBy'] },
+        ? { orderBy: VerificationTokenGroupByArgs["orderBy"] }
+        : { orderBy?: VerificationTokenGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -5858,13 +5858,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -5873,8 +5873,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -5889,10 +5889,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetVerificationTokenGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -5918,17 +5918,17 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     private get _document();
@@ -5946,7 +5946,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -5957,7 +5957,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -6411,7 +6411,7 @@ export namespace Prisma {
   };
 
   export type GetSettingsAggregateType<T extends SettingsAggregateArgs> = {
-    [P in keyof T & keyof AggregateSettings]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateSettings]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSettings[P]>
@@ -6448,8 +6448,8 @@ export namespace Prisma {
   type GetSettingsGroupByPayload<T extends SettingsGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<SettingsGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof SettingsGroupByOutputType]: P extends '_count'
+        PickArray<SettingsGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof SettingsGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], SettingsGroupByOutputType[P]>
@@ -6476,30 +6476,30 @@ export namespace Prisma {
   };
 
   export type SettingsGetPayload<
-    S extends boolean | null | undefined | SettingsArgs,
+    S extends boolean | null | undefined | SettingsArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Settings
     : S extends undefined
     ? never
     : S extends { include: any } & (SettingsArgs | SettingsFindManyArgs)
     ? Settings & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (SettingsArgs | SettingsFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof Settings
           ? Settings[P]
           : never;
       }
     : Settings;
 
-  type SettingsCountArgs = Omit<SettingsFindManyArgs, 'select' | 'include'> & {
+  type SettingsCountArgs = Omit<SettingsFindManyArgs, "select" | "include"> & {
     select?: SettingsCountAggregateInputType | true;
   };
 
@@ -6508,7 +6508,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Settings that matches the filter.
@@ -6523,16 +6523,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends SettingsFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, SettingsFindUniqueArgs>,
+      args: SelectSubset<T, SettingsFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Settings'
+      "findUnique",
+      "Settings"
     > extends True
       ? Prisma__SettingsClient<SettingsGetPayload<T>>
       : Prisma__SettingsClient<SettingsGetPayload<T> | null, null>;
@@ -6550,7 +6550,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends SettingsFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SettingsFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, SettingsFindUniqueOrThrowArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6568,16 +6568,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends SettingsFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, SettingsFindFirstArgs>,
+      args?: SelectSubset<T, SettingsFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Settings'
+      "findFirst",
+      "Settings"
     > extends True
       ? Prisma__SettingsClient<SettingsGetPayload<T>>
       : Prisma__SettingsClient<SettingsGetPayload<T> | null, null>;
@@ -6597,7 +6597,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends SettingsFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SettingsFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, SettingsFindFirstOrThrowArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6617,7 +6617,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends SettingsFindManyArgs>(
-      args?: SelectSubset<T, SettingsFindManyArgs>,
+      args?: SelectSubset<T, SettingsFindManyArgs>
     ): Prisma.PrismaPromise<Array<SettingsGetPayload<T>>>;
 
     /**
@@ -6633,7 +6633,7 @@ export namespace Prisma {
      *
      **/
     create<T extends SettingsCreateArgs>(
-      args: SelectSubset<T, SettingsCreateArgs>,
+      args: SelectSubset<T, SettingsCreateArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6649,7 +6649,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends SettingsCreateManyArgs>(
-      args?: SelectSubset<T, SettingsCreateManyArgs>,
+      args?: SelectSubset<T, SettingsCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -6665,7 +6665,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends SettingsDeleteArgs>(
-      args: SelectSubset<T, SettingsDeleteArgs>,
+      args: SelectSubset<T, SettingsDeleteArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6684,7 +6684,7 @@ export namespace Prisma {
      *
      **/
     update<T extends SettingsUpdateArgs>(
-      args: SelectSubset<T, SettingsUpdateArgs>,
+      args: SelectSubset<T, SettingsUpdateArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6700,7 +6700,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends SettingsDeleteManyArgs>(
-      args?: SelectSubset<T, SettingsDeleteManyArgs>,
+      args?: SelectSubset<T, SettingsDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -6721,7 +6721,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends SettingsUpdateManyArgs>(
-      args: SelectSubset<T, SettingsUpdateManyArgs>,
+      args: SelectSubset<T, SettingsUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -6742,7 +6742,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends SettingsUpsertArgs>(
-      args: SelectSubset<T, SettingsUpsertArgs>,
+      args: SelectSubset<T, SettingsUpsertArgs>
     ): Prisma__SettingsClient<SettingsGetPayload<T>>;
 
     /**
@@ -6759,12 +6759,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends SettingsCountArgs>(
-      args?: Subset<T, SettingsCountArgs>,
+      args?: Subset<T, SettingsCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], SettingsCountAggregateOutputType>
+          : GetScalarType<T["select"], SettingsCountAggregateOutputType>
         : number
     >;
 
@@ -6793,7 +6793,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends SettingsAggregateArgs>(
-      args: Subset<T, SettingsAggregateArgs>,
+      args: Subset<T, SettingsAggregateArgs>
     ): Prisma.PrismaPromise<GetSettingsAggregateType<T>>;
 
     /**
@@ -6817,20 +6817,20 @@ export namespace Prisma {
     groupBy<
       T extends SettingsGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SettingsGroupByArgs['orderBy'] }
-        : { orderBy?: SettingsGroupByArgs['orderBy'] },
+        ? { orderBy: SettingsGroupByArgs["orderBy"] }
+        : { orderBy?: SettingsGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -6841,13 +6841,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -6856,8 +6856,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -6872,10 +6872,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, SettingsGroupByArgs, OrderByArg> &
-        InputErrors,
+      args: SubsetIntersection<T, SettingsGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetSettingsGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -6901,21 +6900,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -6933,7 +6932,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -6944,7 +6943,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -7412,7 +7411,7 @@ export namespace Prisma {
   };
 
   export type GetLogAggregateType<T extends LogAggregateArgs> = {
-    [P in keyof T & keyof AggregateLog]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateLog]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateLog[P]>
@@ -7446,8 +7445,8 @@ export namespace Prisma {
 
   type GetLogGroupByPayload<T extends LogGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<LogGroupByOutputType, T['by']> & {
-        [P in keyof T & keyof LogGroupByOutputType]: P extends '_count'
+      PickArray<LogGroupByOutputType, T["by"]> & {
+        [P in keyof T & keyof LogGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], LogGroupByOutputType[P]>
@@ -7468,7 +7467,7 @@ export namespace Prisma {
 
   export type LogGetPayload<S extends boolean | null | undefined | LogArgs> =
     S extends { select: any; include: any }
-      ? 'Please either choose `select` or `include`'
+      ? "Please either choose `select` or `include`"
       : S extends true
       ? Log
       : S extends undefined
@@ -7477,11 +7476,11 @@ export namespace Prisma {
       ? Log
       : S extends { select: any } & (LogArgs | LogFindManyArgs)
       ? {
-          [P in TruthyKeys<S['select']>]: P extends keyof Log ? Log[P] : never;
+          [P in TruthyKeys<S["select"]>]: P extends keyof Log ? Log[P] : never;
         }
       : Log;
 
-  type LogCountArgs = Omit<LogFindManyArgs, 'select' | 'include'> & {
+  type LogCountArgs = Omit<LogFindManyArgs, "select" | "include"> & {
     select?: LogCountAggregateInputType | true;
   };
 
@@ -7490,7 +7489,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Log that matches the filter.
@@ -7505,16 +7504,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends LogFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, LogFindUniqueArgs>,
+      args: SelectSubset<T, LogFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Log'
+      "findUnique",
+      "Log"
     > extends True
       ? Prisma__LogClient<LogGetPayload<T>>
       : Prisma__LogClient<LogGetPayload<T> | null, null>;
@@ -7532,7 +7531,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends LogFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, LogFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, LogFindUniqueOrThrowArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7550,16 +7549,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends LogFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, LogFindFirstArgs>,
+      args?: SelectSubset<T, LogFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Log'
+      "findFirst",
+      "Log"
     > extends True
       ? Prisma__LogClient<LogGetPayload<T>>
       : Prisma__LogClient<LogGetPayload<T> | null, null>;
@@ -7579,7 +7578,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends LogFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, LogFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, LogFindFirstOrThrowArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7599,7 +7598,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends LogFindManyArgs>(
-      args?: SelectSubset<T, LogFindManyArgs>,
+      args?: SelectSubset<T, LogFindManyArgs>
     ): Prisma.PrismaPromise<Array<LogGetPayload<T>>>;
 
     /**
@@ -7615,7 +7614,7 @@ export namespace Prisma {
      *
      **/
     create<T extends LogCreateArgs>(
-      args: SelectSubset<T, LogCreateArgs>,
+      args: SelectSubset<T, LogCreateArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7631,7 +7630,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends LogCreateManyArgs>(
-      args?: SelectSubset<T, LogCreateManyArgs>,
+      args?: SelectSubset<T, LogCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -7647,7 +7646,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends LogDeleteArgs>(
-      args: SelectSubset<T, LogDeleteArgs>,
+      args: SelectSubset<T, LogDeleteArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7666,7 +7665,7 @@ export namespace Prisma {
      *
      **/
     update<T extends LogUpdateArgs>(
-      args: SelectSubset<T, LogUpdateArgs>,
+      args: SelectSubset<T, LogUpdateArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7682,7 +7681,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends LogDeleteManyArgs>(
-      args?: SelectSubset<T, LogDeleteManyArgs>,
+      args?: SelectSubset<T, LogDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -7703,7 +7702,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends LogUpdateManyArgs>(
-      args: SelectSubset<T, LogUpdateManyArgs>,
+      args: SelectSubset<T, LogUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -7724,7 +7723,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends LogUpsertArgs>(
-      args: SelectSubset<T, LogUpsertArgs>,
+      args: SelectSubset<T, LogUpsertArgs>
     ): Prisma__LogClient<LogGetPayload<T>>;
 
     /**
@@ -7741,12 +7740,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends LogCountArgs>(
-      args?: Subset<T, LogCountArgs>,
+      args?: Subset<T, LogCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], LogCountAggregateOutputType>
+          : GetScalarType<T["select"], LogCountAggregateOutputType>
         : number
     >;
 
@@ -7775,7 +7774,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends LogAggregateArgs>(
-      args: Subset<T, LogAggregateArgs>,
+      args: Subset<T, LogAggregateArgs>
     ): Prisma.PrismaPromise<GetLogAggregateType<T>>;
 
     /**
@@ -7799,20 +7798,20 @@ export namespace Prisma {
     groupBy<
       T extends LogGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: LogGroupByArgs['orderBy'] }
-        : { orderBy?: LogGroupByArgs['orderBy'] },
+        ? { orderBy: LogGroupByArgs["orderBy"] }
+        : { orderBy?: LogGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -7823,13 +7822,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -7838,8 +7837,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -7854,9 +7853,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, LogGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, LogGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetLogGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -7882,17 +7881,17 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     private get _document();
@@ -7910,7 +7909,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -7921,7 +7920,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -8364,7 +8363,7 @@ export namespace Prisma {
   };
 
   export type GetIncomeAggregateType<T extends IncomeAggregateArgs> = {
-    [P in keyof T & keyof AggregateIncome]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateIncome]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateIncome[P]>
@@ -8402,8 +8401,8 @@ export namespace Prisma {
   type GetIncomeGroupByPayload<T extends IncomeGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<IncomeGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof IncomeGroupByOutputType]: P extends '_count'
+        PickArray<IncomeGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof IncomeGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], IncomeGroupByOutputType[P]>
@@ -8431,30 +8430,30 @@ export namespace Prisma {
   };
 
   export type IncomeGetPayload<
-    S extends boolean | null | undefined | IncomeArgs,
+    S extends boolean | null | undefined | IncomeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Income
     : S extends undefined
     ? never
     : S extends { include: any } & (IncomeArgs | IncomeFindManyArgs)
     ? Income & {
-        [P in TruthyKeys<S['include']>]: P extends 'budget'
-          ? BudgetGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "budget"
+          ? BudgetGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (IncomeArgs | IncomeFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'budget'
-          ? BudgetGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "budget"
+          ? BudgetGetPayload<S["select"][P]>
           : P extends keyof Income
           ? Income[P]
           : never;
       }
     : Income;
 
-  type IncomeCountArgs = Omit<IncomeFindManyArgs, 'select' | 'include'> & {
+  type IncomeCountArgs = Omit<IncomeFindManyArgs, "select" | "include"> & {
     select?: IncomeCountAggregateInputType | true;
   };
 
@@ -8463,7 +8462,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Income that matches the filter.
@@ -8478,16 +8477,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends IncomeFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, IncomeFindUniqueArgs>,
+      args: SelectSubset<T, IncomeFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Income'
+      "findUnique",
+      "Income"
     > extends True
       ? Prisma__IncomeClient<IncomeGetPayload<T>>
       : Prisma__IncomeClient<IncomeGetPayload<T> | null, null>;
@@ -8505,7 +8504,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends IncomeFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, IncomeFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, IncomeFindUniqueOrThrowArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8523,16 +8522,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends IncomeFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, IncomeFindFirstArgs>,
+      args?: SelectSubset<T, IncomeFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Income'
+      "findFirst",
+      "Income"
     > extends True
       ? Prisma__IncomeClient<IncomeGetPayload<T>>
       : Prisma__IncomeClient<IncomeGetPayload<T> | null, null>;
@@ -8552,7 +8551,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends IncomeFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, IncomeFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, IncomeFindFirstOrThrowArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8572,7 +8571,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends IncomeFindManyArgs>(
-      args?: SelectSubset<T, IncomeFindManyArgs>,
+      args?: SelectSubset<T, IncomeFindManyArgs>
     ): Prisma.PrismaPromise<Array<IncomeGetPayload<T>>>;
 
     /**
@@ -8588,7 +8587,7 @@ export namespace Prisma {
      *
      **/
     create<T extends IncomeCreateArgs>(
-      args: SelectSubset<T, IncomeCreateArgs>,
+      args: SelectSubset<T, IncomeCreateArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8604,7 +8603,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends IncomeCreateManyArgs>(
-      args?: SelectSubset<T, IncomeCreateManyArgs>,
+      args?: SelectSubset<T, IncomeCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -8620,7 +8619,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends IncomeDeleteArgs>(
-      args: SelectSubset<T, IncomeDeleteArgs>,
+      args: SelectSubset<T, IncomeDeleteArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8639,7 +8638,7 @@ export namespace Prisma {
      *
      **/
     update<T extends IncomeUpdateArgs>(
-      args: SelectSubset<T, IncomeUpdateArgs>,
+      args: SelectSubset<T, IncomeUpdateArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8655,7 +8654,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends IncomeDeleteManyArgs>(
-      args?: SelectSubset<T, IncomeDeleteManyArgs>,
+      args?: SelectSubset<T, IncomeDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -8676,7 +8675,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends IncomeUpdateManyArgs>(
-      args: SelectSubset<T, IncomeUpdateManyArgs>,
+      args: SelectSubset<T, IncomeUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -8697,7 +8696,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends IncomeUpsertArgs>(
-      args: SelectSubset<T, IncomeUpsertArgs>,
+      args: SelectSubset<T, IncomeUpsertArgs>
     ): Prisma__IncomeClient<IncomeGetPayload<T>>;
 
     /**
@@ -8714,12 +8713,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends IncomeCountArgs>(
-      args?: Subset<T, IncomeCountArgs>,
+      args?: Subset<T, IncomeCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], IncomeCountAggregateOutputType>
+          : GetScalarType<T["select"], IncomeCountAggregateOutputType>
         : number
     >;
 
@@ -8748,7 +8747,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends IncomeAggregateArgs>(
-      args: Subset<T, IncomeAggregateArgs>,
+      args: Subset<T, IncomeAggregateArgs>
     ): Prisma.PrismaPromise<GetIncomeAggregateType<T>>;
 
     /**
@@ -8772,20 +8771,20 @@ export namespace Prisma {
     groupBy<
       T extends IncomeGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: IncomeGroupByArgs['orderBy'] }
-        : { orderBy?: IncomeGroupByArgs['orderBy'] },
+        ? { orderBy: IncomeGroupByArgs["orderBy"] }
+        : { orderBy?: IncomeGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -8796,13 +8795,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -8811,8 +8810,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -8827,9 +8826,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, IncomeGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, IncomeGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetIncomeGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -8855,21 +8854,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     budget<T extends BudgetArgs = {}>(
-      args?: Subset<T, BudgetArgs>,
+      args?: Subset<T, BudgetArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T> | Null>;
 
     private get _document();
@@ -8887,7 +8886,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -8898,7 +8897,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -9369,7 +9368,7 @@ export namespace Prisma {
   };
 
   export type GetBudgetAggregateType<T extends BudgetAggregateArgs> = {
-    [P in keyof T & keyof AggregateBudget]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateBudget]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateBudget[P]>
@@ -9405,8 +9404,8 @@ export namespace Prisma {
   type GetBudgetGroupByPayload<T extends BudgetGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<BudgetGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof BudgetGroupByOutputType]: P extends '_count'
+        PickArray<BudgetGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof BudgetGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], BudgetGroupByOutputType[P]>
@@ -9438,42 +9437,42 @@ export namespace Prisma {
   };
 
   export type BudgetGetPayload<
-    S extends boolean | null | undefined | BudgetArgs,
+    S extends boolean | null | undefined | BudgetArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Budget
     : S extends undefined
     ? never
     : S extends { include: any } & (BudgetArgs | BudgetFindManyArgs)
     ? Budget & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
-          : P extends 'envelopes'
-          ? Array<BudgetEnvelopeGetPayload<S['include'][P]>>
-          : P extends 'income'
-          ? Array<IncomeGetPayload<S['include'][P]>>
-          : P extends '_count'
-          ? BudgetCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
+          : P extends "envelopes"
+          ? Array<BudgetEnvelopeGetPayload<S["include"][P]>>
+          : P extends "income"
+          ? Array<IncomeGetPayload<S["include"][P]>>
+          : P extends "_count"
+          ? BudgetCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (BudgetArgs | BudgetFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
-          : P extends 'envelopes'
-          ? Array<BudgetEnvelopeGetPayload<S['select'][P]>>
-          : P extends 'income'
-          ? Array<IncomeGetPayload<S['select'][P]>>
-          : P extends '_count'
-          ? BudgetCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
+          : P extends "envelopes"
+          ? Array<BudgetEnvelopeGetPayload<S["select"][P]>>
+          : P extends "income"
+          ? Array<IncomeGetPayload<S["select"][P]>>
+          : P extends "_count"
+          ? BudgetCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof Budget
           ? Budget[P]
           : never;
       }
     : Budget;
 
-  type BudgetCountArgs = Omit<BudgetFindManyArgs, 'select' | 'include'> & {
+  type BudgetCountArgs = Omit<BudgetFindManyArgs, "select" | "include"> & {
     select?: BudgetCountAggregateInputType | true;
   };
 
@@ -9482,7 +9481,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Budget that matches the filter.
@@ -9497,16 +9496,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends BudgetFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, BudgetFindUniqueArgs>,
+      args: SelectSubset<T, BudgetFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Budget'
+      "findUnique",
+      "Budget"
     > extends True
       ? Prisma__BudgetClient<BudgetGetPayload<T>>
       : Prisma__BudgetClient<BudgetGetPayload<T> | null, null>;
@@ -9524,7 +9523,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends BudgetFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, BudgetFindUniqueOrThrowArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9542,16 +9541,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends BudgetFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, BudgetFindFirstArgs>,
+      args?: SelectSubset<T, BudgetFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Budget'
+      "findFirst",
+      "Budget"
     > extends True
       ? Prisma__BudgetClient<BudgetGetPayload<T>>
       : Prisma__BudgetClient<BudgetGetPayload<T> | null, null>;
@@ -9571,7 +9570,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends BudgetFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, BudgetFindFirstOrThrowArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9591,7 +9590,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends BudgetFindManyArgs>(
-      args?: SelectSubset<T, BudgetFindManyArgs>,
+      args?: SelectSubset<T, BudgetFindManyArgs>
     ): Prisma.PrismaPromise<Array<BudgetGetPayload<T>>>;
 
     /**
@@ -9607,7 +9606,7 @@ export namespace Prisma {
      *
      **/
     create<T extends BudgetCreateArgs>(
-      args: SelectSubset<T, BudgetCreateArgs>,
+      args: SelectSubset<T, BudgetCreateArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9623,7 +9622,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends BudgetCreateManyArgs>(
-      args?: SelectSubset<T, BudgetCreateManyArgs>,
+      args?: SelectSubset<T, BudgetCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -9639,7 +9638,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends BudgetDeleteArgs>(
-      args: SelectSubset<T, BudgetDeleteArgs>,
+      args: SelectSubset<T, BudgetDeleteArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9658,7 +9657,7 @@ export namespace Prisma {
      *
      **/
     update<T extends BudgetUpdateArgs>(
-      args: SelectSubset<T, BudgetUpdateArgs>,
+      args: SelectSubset<T, BudgetUpdateArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9674,7 +9673,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends BudgetDeleteManyArgs>(
-      args?: SelectSubset<T, BudgetDeleteManyArgs>,
+      args?: SelectSubset<T, BudgetDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -9695,7 +9694,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends BudgetUpdateManyArgs>(
-      args: SelectSubset<T, BudgetUpdateManyArgs>,
+      args: SelectSubset<T, BudgetUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -9716,7 +9715,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends BudgetUpsertArgs>(
-      args: SelectSubset<T, BudgetUpsertArgs>,
+      args: SelectSubset<T, BudgetUpsertArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T>>;
 
     /**
@@ -9733,12 +9732,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends BudgetCountArgs>(
-      args?: Subset<T, BudgetCountArgs>,
+      args?: Subset<T, BudgetCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], BudgetCountAggregateOutputType>
+          : GetScalarType<T["select"], BudgetCountAggregateOutputType>
         : number
     >;
 
@@ -9767,7 +9766,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends BudgetAggregateArgs>(
-      args: Subset<T, BudgetAggregateArgs>,
+      args: Subset<T, BudgetAggregateArgs>
     ): Prisma.PrismaPromise<GetBudgetAggregateType<T>>;
 
     /**
@@ -9791,20 +9790,20 @@ export namespace Prisma {
     groupBy<
       T extends BudgetGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BudgetGroupByArgs['orderBy'] }
-        : { orderBy?: BudgetGroupByArgs['orderBy'] },
+        ? { orderBy: BudgetGroupByArgs["orderBy"] }
+        : { orderBy?: BudgetGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -9815,13 +9814,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -9830,8 +9829,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -9846,9 +9845,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, BudgetGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, BudgetGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetBudgetGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -9874,29 +9873,29 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     envelopes<T extends Budget$envelopesArgs = {}>(
-      args?: Subset<T, Budget$envelopesArgs>,
+      args?: Subset<T, Budget$envelopesArgs>
     ): Prisma.PrismaPromise<Array<BudgetEnvelopeGetPayload<T>> | Null>;
 
     income<T extends Budget$incomeArgs = {}>(
-      args?: Subset<T, Budget$incomeArgs>,
+      args?: Subset<T, Budget$incomeArgs>
     ): Prisma.PrismaPromise<Array<IncomeGetPayload<T>> | Null>;
 
     private get _document();
@@ -9914,7 +9913,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -9925,7 +9924,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -10442,9 +10441,9 @@ export namespace Prisma {
   };
 
   export type GetBudgetEnvelopeAggregateType<
-    T extends BudgetEnvelopeAggregateArgs,
+    T extends BudgetEnvelopeAggregateArgs
   > = {
-    [P in keyof T & keyof AggregateBudgetEnvelope]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateBudgetEnvelope]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateBudgetEnvelope[P]>
@@ -10481,9 +10480,9 @@ export namespace Prisma {
   type GetBudgetEnvelopeGroupByPayload<T extends BudgetEnvelopeGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<BudgetEnvelopeGroupByOutputType, T['by']> & {
+        PickArray<BudgetEnvelopeGroupByOutputType, T["by"]> & {
           [P in keyof T &
-            keyof BudgetEnvelopeGroupByOutputType]: P extends '_count'
+            keyof BudgetEnvelopeGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], BudgetEnvelopeGroupByOutputType[P]>
@@ -10514,9 +10513,9 @@ export namespace Prisma {
   };
 
   export type BudgetEnvelopeGetPayload<
-    S extends boolean | null | undefined | BudgetEnvelopeArgs,
+    S extends boolean | null | undefined | BudgetEnvelopeArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? BudgetEnvelope
     : S extends undefined
@@ -10526,12 +10525,12 @@ export namespace Prisma {
         | BudgetEnvelopeFindManyArgs
       )
     ? BudgetEnvelope & {
-        [P in TruthyKeys<S['include']>]: P extends 'budget'
-          ? BudgetGetPayload<S['include'][P]>
-          : P extends 'transactions'
-          ? Array<BudgetTransactionGetPayload<S['include'][P]>>
-          : P extends '_count'
-          ? BudgetEnvelopeCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "budget"
+          ? BudgetGetPayload<S["include"][P]>
+          : P extends "transactions"
+          ? Array<BudgetTransactionGetPayload<S["include"][P]>>
+          : P extends "_count"
+          ? BudgetEnvelopeCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -10539,12 +10538,12 @@ export namespace Prisma {
         | BudgetEnvelopeFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'budget'
-          ? BudgetGetPayload<S['select'][P]>
-          : P extends 'transactions'
-          ? Array<BudgetTransactionGetPayload<S['select'][P]>>
-          : P extends '_count'
-          ? BudgetEnvelopeCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "budget"
+          ? BudgetGetPayload<S["select"][P]>
+          : P extends "transactions"
+          ? Array<BudgetTransactionGetPayload<S["select"][P]>>
+          : P extends "_count"
+          ? BudgetEnvelopeCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof BudgetEnvelope
           ? BudgetEnvelope[P]
           : never;
@@ -10553,7 +10552,7 @@ export namespace Prisma {
 
   type BudgetEnvelopeCountArgs = Omit<
     BudgetEnvelopeFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: BudgetEnvelopeCountAggregateInputType | true;
   };
@@ -10563,7 +10562,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one BudgetEnvelope that matches the filter.
@@ -10578,16 +10577,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends BudgetEnvelopeFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, BudgetEnvelopeFindUniqueArgs>,
+      args: SelectSubset<T, BudgetEnvelopeFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'BudgetEnvelope'
+      "findUnique",
+      "BudgetEnvelope"
     > extends True
       ? Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
       : Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null, null>;
@@ -10605,7 +10604,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends BudgetEnvelopeFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeFindUniqueOrThrowArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10623,16 +10622,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends BudgetEnvelopeFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, BudgetEnvelopeFindFirstArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'BudgetEnvelope'
+      "findFirst",
+      "BudgetEnvelope"
     > extends True
       ? Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>
       : Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | null, null>;
@@ -10652,7 +10651,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends BudgetEnvelopeFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeFindFirstOrThrowArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10672,7 +10671,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends BudgetEnvelopeFindManyArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeFindManyArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeFindManyArgs>
     ): Prisma.PrismaPromise<Array<BudgetEnvelopeGetPayload<T>>>;
 
     /**
@@ -10688,7 +10687,7 @@ export namespace Prisma {
      *
      **/
     create<T extends BudgetEnvelopeCreateArgs>(
-      args: SelectSubset<T, BudgetEnvelopeCreateArgs>,
+      args: SelectSubset<T, BudgetEnvelopeCreateArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10704,7 +10703,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends BudgetEnvelopeCreateManyArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeCreateManyArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -10720,7 +10719,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends BudgetEnvelopeDeleteArgs>(
-      args: SelectSubset<T, BudgetEnvelopeDeleteArgs>,
+      args: SelectSubset<T, BudgetEnvelopeDeleteArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10739,7 +10738,7 @@ export namespace Prisma {
      *
      **/
     update<T extends BudgetEnvelopeUpdateArgs>(
-      args: SelectSubset<T, BudgetEnvelopeUpdateArgs>,
+      args: SelectSubset<T, BudgetEnvelopeUpdateArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10755,7 +10754,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends BudgetEnvelopeDeleteManyArgs>(
-      args?: SelectSubset<T, BudgetEnvelopeDeleteManyArgs>,
+      args?: SelectSubset<T, BudgetEnvelopeDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -10776,7 +10775,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends BudgetEnvelopeUpdateManyArgs>(
-      args: SelectSubset<T, BudgetEnvelopeUpdateManyArgs>,
+      args: SelectSubset<T, BudgetEnvelopeUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -10797,7 +10796,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends BudgetEnvelopeUpsertArgs>(
-      args: SelectSubset<T, BudgetEnvelopeUpsertArgs>,
+      args: SelectSubset<T, BudgetEnvelopeUpsertArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T>>;
 
     /**
@@ -10814,12 +10813,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends BudgetEnvelopeCountArgs>(
-      args?: Subset<T, BudgetEnvelopeCountArgs>,
+      args?: Subset<T, BudgetEnvelopeCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], BudgetEnvelopeCountAggregateOutputType>
+          : GetScalarType<T["select"], BudgetEnvelopeCountAggregateOutputType>
         : number
     >;
 
@@ -10848,7 +10847,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends BudgetEnvelopeAggregateArgs>(
-      args: Subset<T, BudgetEnvelopeAggregateArgs>,
+      args: Subset<T, BudgetEnvelopeAggregateArgs>
     ): Prisma.PrismaPromise<GetBudgetEnvelopeAggregateType<T>>;
 
     /**
@@ -10872,20 +10871,20 @@ export namespace Prisma {
     groupBy<
       T extends BudgetEnvelopeGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BudgetEnvelopeGroupByArgs['orderBy'] }
-        : { orderBy?: BudgetEnvelopeGroupByArgs['orderBy'] },
+        ? { orderBy: BudgetEnvelopeGroupByArgs["orderBy"] }
+        : { orderBy?: BudgetEnvelopeGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -10896,13 +10895,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -10911,8 +10910,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -10927,10 +10926,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, BudgetEnvelopeGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetBudgetEnvelopeGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -10956,25 +10955,25 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     budget<T extends BudgetArgs = {}>(
-      args?: Subset<T, BudgetArgs>,
+      args?: Subset<T, BudgetArgs>
     ): Prisma__BudgetClient<BudgetGetPayload<T> | Null>;
 
     transactions<T extends BudgetEnvelope$transactionsArgs = {}>(
-      args?: Subset<T, BudgetEnvelope$transactionsArgs>,
+      args?: Subset<T, BudgetEnvelope$transactionsArgs>
     ): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>> | Null>;
 
     private get _document();
@@ -10992,7 +10991,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -11003,7 +11002,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -11607,11 +11606,11 @@ export namespace Prisma {
   };
 
   export type GetBudgetTransactionAggregateType<
-    T extends BudgetTransactionAggregateArgs,
+    T extends BudgetTransactionAggregateArgs
   > = {
     [P in keyof T & keyof AggregateBudgetTransaction]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateBudgetTransaction[P]>
@@ -11663,12 +11662,12 @@ export namespace Prisma {
   };
 
   type GetBudgetTransactionGroupByPayload<
-    T extends BudgetTransactionGroupByArgs,
+    T extends BudgetTransactionGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<BudgetTransactionGroupByOutputType, T['by']> & {
+      PickArray<BudgetTransactionGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof BudgetTransactionGroupByOutputType]: P extends '_count'
+          keyof BudgetTransactionGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], BudgetTransactionGroupByOutputType[P]>
@@ -11714,9 +11713,9 @@ export namespace Prisma {
   };
 
   export type BudgetTransactionGetPayload<
-    S extends boolean | null | undefined | BudgetTransactionArgs,
+    S extends boolean | null | undefined | BudgetTransactionArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? BudgetTransaction
     : S extends undefined
@@ -11726,10 +11725,10 @@ export namespace Prisma {
         | BudgetTransactionFindManyArgs
       )
     ? BudgetTransaction & {
-        [P in TruthyKeys<S['include']>]: P extends 'budgetEnvelope'
-          ? BudgetEnvelopeGetPayload<S['include'][P]> | null
-          : P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "budgetEnvelope"
+          ? BudgetEnvelopeGetPayload<S["include"][P]> | null
+          : P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -11737,10 +11736,10 @@ export namespace Prisma {
         | BudgetTransactionFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'budgetEnvelope'
-          ? BudgetEnvelopeGetPayload<S['select'][P]> | null
-          : P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "budgetEnvelope"
+          ? BudgetEnvelopeGetPayload<S["select"][P]> | null
+          : P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof BudgetTransaction
           ? BudgetTransaction[P]
           : never;
@@ -11749,7 +11748,7 @@ export namespace Prisma {
 
   type BudgetTransactionCountArgs = Omit<
     BudgetTransactionFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: BudgetTransactionCountAggregateInputType | true;
   };
@@ -11759,7 +11758,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one BudgetTransaction that matches the filter.
@@ -11774,16 +11773,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends BudgetTransactionFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, BudgetTransactionFindUniqueArgs>,
+      args: SelectSubset<T, BudgetTransactionFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'BudgetTransaction'
+      "findUnique",
+      "BudgetTransaction"
     > extends True
       ? Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
       : Prisma__BudgetTransactionClient<
@@ -11804,7 +11803,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends BudgetTransactionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BudgetTransactionFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, BudgetTransactionFindUniqueOrThrowArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -11822,16 +11821,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends BudgetTransactionFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, BudgetTransactionFindFirstArgs>,
+      args?: SelectSubset<T, BudgetTransactionFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'BudgetTransaction'
+      "findFirst",
+      "BudgetTransaction"
     > extends True
       ? Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>
       : Prisma__BudgetTransactionClient<
@@ -11854,7 +11853,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends BudgetTransactionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BudgetTransactionFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, BudgetTransactionFindFirstOrThrowArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -11874,7 +11873,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends BudgetTransactionFindManyArgs>(
-      args?: SelectSubset<T, BudgetTransactionFindManyArgs>,
+      args?: SelectSubset<T, BudgetTransactionFindManyArgs>
     ): Prisma.PrismaPromise<Array<BudgetTransactionGetPayload<T>>>;
 
     /**
@@ -11890,7 +11889,7 @@ export namespace Prisma {
      *
      **/
     create<T extends BudgetTransactionCreateArgs>(
-      args: SelectSubset<T, BudgetTransactionCreateArgs>,
+      args: SelectSubset<T, BudgetTransactionCreateArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -11906,7 +11905,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends BudgetTransactionCreateManyArgs>(
-      args?: SelectSubset<T, BudgetTransactionCreateManyArgs>,
+      args?: SelectSubset<T, BudgetTransactionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -11922,7 +11921,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends BudgetTransactionDeleteArgs>(
-      args: SelectSubset<T, BudgetTransactionDeleteArgs>,
+      args: SelectSubset<T, BudgetTransactionDeleteArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -11941,7 +11940,7 @@ export namespace Prisma {
      *
      **/
     update<T extends BudgetTransactionUpdateArgs>(
-      args: SelectSubset<T, BudgetTransactionUpdateArgs>,
+      args: SelectSubset<T, BudgetTransactionUpdateArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -11957,7 +11956,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends BudgetTransactionDeleteManyArgs>(
-      args?: SelectSubset<T, BudgetTransactionDeleteManyArgs>,
+      args?: SelectSubset<T, BudgetTransactionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -11978,7 +11977,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends BudgetTransactionUpdateManyArgs>(
-      args: SelectSubset<T, BudgetTransactionUpdateManyArgs>,
+      args: SelectSubset<T, BudgetTransactionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -11999,7 +11998,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends BudgetTransactionUpsertArgs>(
-      args: SelectSubset<T, BudgetTransactionUpsertArgs>,
+      args: SelectSubset<T, BudgetTransactionUpsertArgs>
     ): Prisma__BudgetTransactionClient<BudgetTransactionGetPayload<T>>;
 
     /**
@@ -12016,13 +12015,13 @@ export namespace Prisma {
      * })
      **/
     count<T extends BudgetTransactionCountArgs>(
-      args?: Subset<T, BudgetTransactionCountArgs>,
+      args?: Subset<T, BudgetTransactionCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
           : GetScalarType<
-              T['select'],
+              T["select"],
               BudgetTransactionCountAggregateOutputType
             >
         : number
@@ -12053,7 +12052,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends BudgetTransactionAggregateArgs>(
-      args: Subset<T, BudgetTransactionAggregateArgs>,
+      args: Subset<T, BudgetTransactionAggregateArgs>
     ): Prisma.PrismaPromise<GetBudgetTransactionAggregateType<T>>;
 
     /**
@@ -12077,20 +12076,20 @@ export namespace Prisma {
     groupBy<
       T extends BudgetTransactionGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BudgetTransactionGroupByArgs['orderBy'] }
-        : { orderBy?: BudgetTransactionGroupByArgs['orderBy'] },
+        ? { orderBy: BudgetTransactionGroupByArgs["orderBy"] }
+        : { orderBy?: BudgetTransactionGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -12101,13 +12100,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -12116,8 +12115,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -12132,10 +12131,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, BudgetTransactionGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetBudgetTransactionGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -12161,25 +12160,25 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     budgetEnvelope<T extends BudgetEnvelopeArgs = {}>(
-      args?: Subset<T, BudgetEnvelopeArgs>,
+      args?: Subset<T, BudgetEnvelopeArgs>
     ): Prisma__BudgetEnvelopeClient<BudgetEnvelopeGetPayload<T> | Null>;
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -12197,7 +12196,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -12208,7 +12207,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -12690,11 +12689,11 @@ export namespace Prisma {
   };
 
   export type GetCustomAssetCategoryAggregateType<
-    T extends CustomAssetCategoryAggregateArgs,
+    T extends CustomAssetCategoryAggregateArgs
   > = {
     [P in keyof T & keyof AggregateCustomAssetCategory]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCustomAssetCategory[P]>
@@ -12727,12 +12726,12 @@ export namespace Prisma {
   };
 
   type GetCustomAssetCategoryGroupByPayload<
-    T extends CustomAssetCategoryGroupByArgs,
+    T extends CustomAssetCategoryGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<CustomAssetCategoryGroupByOutputType, T['by']> & {
+      PickArray<CustomAssetCategoryGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof CustomAssetCategoryGroupByOutputType]: P extends '_count'
+          keyof CustomAssetCategoryGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], CustomAssetCategoryGroupByOutputType[P]>
@@ -12759,9 +12758,9 @@ export namespace Prisma {
   };
 
   export type CustomAssetCategoryGetPayload<
-    S extends boolean | null | undefined | CustomAssetCategoryArgs,
+    S extends boolean | null | undefined | CustomAssetCategoryArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? CustomAssetCategory
     : S extends undefined
@@ -12771,10 +12770,10 @@ export namespace Prisma {
         | CustomAssetCategoryFindManyArgs
       )
     ? CustomAssetCategory & {
-        [P in TruthyKeys<S['include']>]: P extends 'assets'
-          ? Array<AssetGetPayload<S['include'][P]>>
-          : P extends '_count'
-          ? CustomAssetCategoryCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "assets"
+          ? Array<AssetGetPayload<S["include"][P]>>
+          : P extends "_count"
+          ? CustomAssetCategoryCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -12782,10 +12781,10 @@ export namespace Prisma {
         | CustomAssetCategoryFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'assets'
-          ? Array<AssetGetPayload<S['select'][P]>>
-          : P extends '_count'
-          ? CustomAssetCategoryCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "assets"
+          ? Array<AssetGetPayload<S["select"][P]>>
+          : P extends "_count"
+          ? CustomAssetCategoryCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof CustomAssetCategory
           ? CustomAssetCategory[P]
           : never;
@@ -12794,7 +12793,7 @@ export namespace Prisma {
 
   type CustomAssetCategoryCountArgs = Omit<
     CustomAssetCategoryFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: CustomAssetCategoryCountAggregateInputType | true;
   };
@@ -12804,7 +12803,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one CustomAssetCategory that matches the filter.
@@ -12819,16 +12818,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends CustomAssetCategoryFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, CustomAssetCategoryFindUniqueArgs>,
+      args: SelectSubset<T, CustomAssetCategoryFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'CustomAssetCategory'
+      "findUnique",
+      "CustomAssetCategory"
     > extends True
       ? Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
       : Prisma__CustomAssetCategoryClient<
@@ -12849,7 +12848,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends CustomAssetCategoryFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryFindUniqueOrThrowArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -12867,16 +12866,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends CustomAssetCategoryFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, CustomAssetCategoryFindFirstArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'CustomAssetCategory'
+      "findFirst",
+      "CustomAssetCategory"
     > extends True
       ? Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>
       : Prisma__CustomAssetCategoryClient<
@@ -12899,7 +12898,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends CustomAssetCategoryFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryFindFirstOrThrowArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -12919,7 +12918,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends CustomAssetCategoryFindManyArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryFindManyArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryFindManyArgs>
     ): Prisma.PrismaPromise<Array<CustomAssetCategoryGetPayload<T>>>;
 
     /**
@@ -12935,7 +12934,7 @@ export namespace Prisma {
      *
      **/
     create<T extends CustomAssetCategoryCreateArgs>(
-      args: SelectSubset<T, CustomAssetCategoryCreateArgs>,
+      args: SelectSubset<T, CustomAssetCategoryCreateArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -12951,7 +12950,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends CustomAssetCategoryCreateManyArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryCreateManyArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -12967,7 +12966,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends CustomAssetCategoryDeleteArgs>(
-      args: SelectSubset<T, CustomAssetCategoryDeleteArgs>,
+      args: SelectSubset<T, CustomAssetCategoryDeleteArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -12986,7 +12985,7 @@ export namespace Prisma {
      *
      **/
     update<T extends CustomAssetCategoryUpdateArgs>(
-      args: SelectSubset<T, CustomAssetCategoryUpdateArgs>,
+      args: SelectSubset<T, CustomAssetCategoryUpdateArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -13002,7 +13001,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends CustomAssetCategoryDeleteManyArgs>(
-      args?: SelectSubset<T, CustomAssetCategoryDeleteManyArgs>,
+      args?: SelectSubset<T, CustomAssetCategoryDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -13023,7 +13022,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends CustomAssetCategoryUpdateManyArgs>(
-      args: SelectSubset<T, CustomAssetCategoryUpdateManyArgs>,
+      args: SelectSubset<T, CustomAssetCategoryUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -13044,7 +13043,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends CustomAssetCategoryUpsertArgs>(
-      args: SelectSubset<T, CustomAssetCategoryUpsertArgs>,
+      args: SelectSubset<T, CustomAssetCategoryUpsertArgs>
     ): Prisma__CustomAssetCategoryClient<CustomAssetCategoryGetPayload<T>>;
 
     /**
@@ -13061,13 +13060,13 @@ export namespace Prisma {
      * })
      **/
     count<T extends CustomAssetCategoryCountArgs>(
-      args?: Subset<T, CustomAssetCategoryCountArgs>,
+      args?: Subset<T, CustomAssetCategoryCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
           : GetScalarType<
-              T['select'],
+              T["select"],
               CustomAssetCategoryCountAggregateOutputType
             >
         : number
@@ -13098,7 +13097,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends CustomAssetCategoryAggregateArgs>(
-      args: Subset<T, CustomAssetCategoryAggregateArgs>,
+      args: Subset<T, CustomAssetCategoryAggregateArgs>
     ): Prisma.PrismaPromise<GetCustomAssetCategoryAggregateType<T>>;
 
     /**
@@ -13122,20 +13121,20 @@ export namespace Prisma {
     groupBy<
       T extends CustomAssetCategoryGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CustomAssetCategoryGroupByArgs['orderBy'] }
-        : { orderBy?: CustomAssetCategoryGroupByArgs['orderBy'] },
+        ? { orderBy: CustomAssetCategoryGroupByArgs["orderBy"] }
+        : { orderBy?: CustomAssetCategoryGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -13146,13 +13145,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -13161,8 +13160,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -13177,10 +13176,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, CustomAssetCategoryGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetCustomAssetCategoryGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -13206,21 +13205,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     assets<T extends CustomAssetCategory$assetsArgs = {}>(
-      args?: Subset<T, CustomAssetCategory$assetsArgs>,
+      args?: Subset<T, CustomAssetCategory$assetsArgs>
     ): Prisma.PrismaPromise<Array<AssetGetPayload<T>> | Null>;
 
     private get _document();
@@ -13238,7 +13237,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -13249,7 +13248,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -13757,7 +13756,7 @@ export namespace Prisma {
   };
 
   export type GetAssetLabelAggregateType<T extends AssetLabelAggregateArgs> = {
-    [P in keyof T & keyof AggregateAssetLabel]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAssetLabel]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAssetLabel[P]>
@@ -13793,8 +13792,8 @@ export namespace Prisma {
   type GetAssetLabelGroupByPayload<T extends AssetLabelGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<AssetLabelGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof AssetLabelGroupByOutputType]: P extends '_count'
+        PickArray<AssetLabelGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof AssetLabelGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], AssetLabelGroupByOutputType[P]>
@@ -13820,23 +13819,23 @@ export namespace Prisma {
   };
 
   export type AssetLabelGetPayload<
-    S extends boolean | null | undefined | AssetLabelArgs,
+    S extends boolean | null | undefined | AssetLabelArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? AssetLabel
     : S extends undefined
     ? never
     : S extends { include: any } & (AssetLabelArgs | AssetLabelFindManyArgs)
     ? AssetLabel & {
-        [P in TruthyKeys<S['include']>]: P extends 'asset'
-          ? AssetGetPayload<S['include'][P]> | null
+        [P in TruthyKeys<S["include"]>]: P extends "asset"
+          ? AssetGetPayload<S["include"][P]> | null
           : never;
       }
     : S extends { select: any } & (AssetLabelArgs | AssetLabelFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'asset'
-          ? AssetGetPayload<S['select'][P]> | null
+        [P in TruthyKeys<S["select"]>]: P extends "asset"
+          ? AssetGetPayload<S["select"][P]> | null
           : P extends keyof AssetLabel
           ? AssetLabel[P]
           : never;
@@ -13845,7 +13844,7 @@ export namespace Prisma {
 
   type AssetLabelCountArgs = Omit<
     AssetLabelFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: AssetLabelCountAggregateInputType | true;
   };
@@ -13855,7 +13854,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one AssetLabel that matches the filter.
@@ -13870,16 +13869,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends AssetLabelFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, AssetLabelFindUniqueArgs>,
+      args: SelectSubset<T, AssetLabelFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'AssetLabel'
+      "findUnique",
+      "AssetLabel"
     > extends True
       ? Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
       : Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null, null>;
@@ -13897,7 +13896,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends AssetLabelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetLabelFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, AssetLabelFindUniqueOrThrowArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -13915,16 +13914,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends AssetLabelFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, AssetLabelFindFirstArgs>,
+      args?: SelectSubset<T, AssetLabelFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'AssetLabel'
+      "findFirst",
+      "AssetLabel"
     > extends True
       ? Prisma__AssetLabelClient<AssetLabelGetPayload<T>>
       : Prisma__AssetLabelClient<AssetLabelGetPayload<T> | null, null>;
@@ -13944,7 +13943,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends AssetLabelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetLabelFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, AssetLabelFindFirstOrThrowArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -13964,7 +13963,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends AssetLabelFindManyArgs>(
-      args?: SelectSubset<T, AssetLabelFindManyArgs>,
+      args?: SelectSubset<T, AssetLabelFindManyArgs>
     ): Prisma.PrismaPromise<Array<AssetLabelGetPayload<T>>>;
 
     /**
@@ -13980,7 +13979,7 @@ export namespace Prisma {
      *
      **/
     create<T extends AssetLabelCreateArgs>(
-      args: SelectSubset<T, AssetLabelCreateArgs>,
+      args: SelectSubset<T, AssetLabelCreateArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -13996,7 +13995,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends AssetLabelCreateManyArgs>(
-      args?: SelectSubset<T, AssetLabelCreateManyArgs>,
+      args?: SelectSubset<T, AssetLabelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -14012,7 +14011,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends AssetLabelDeleteArgs>(
-      args: SelectSubset<T, AssetLabelDeleteArgs>,
+      args: SelectSubset<T, AssetLabelDeleteArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -14031,7 +14030,7 @@ export namespace Prisma {
      *
      **/
     update<T extends AssetLabelUpdateArgs>(
-      args: SelectSubset<T, AssetLabelUpdateArgs>,
+      args: SelectSubset<T, AssetLabelUpdateArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -14047,7 +14046,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends AssetLabelDeleteManyArgs>(
-      args?: SelectSubset<T, AssetLabelDeleteManyArgs>,
+      args?: SelectSubset<T, AssetLabelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -14068,7 +14067,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends AssetLabelUpdateManyArgs>(
-      args: SelectSubset<T, AssetLabelUpdateManyArgs>,
+      args: SelectSubset<T, AssetLabelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -14089,7 +14088,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends AssetLabelUpsertArgs>(
-      args: SelectSubset<T, AssetLabelUpsertArgs>,
+      args: SelectSubset<T, AssetLabelUpsertArgs>
     ): Prisma__AssetLabelClient<AssetLabelGetPayload<T>>;
 
     /**
@@ -14106,12 +14105,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends AssetLabelCountArgs>(
-      args?: Subset<T, AssetLabelCountArgs>,
+      args?: Subset<T, AssetLabelCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], AssetLabelCountAggregateOutputType>
+          : GetScalarType<T["select"], AssetLabelCountAggregateOutputType>
         : number
     >;
 
@@ -14140,7 +14139,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends AssetLabelAggregateArgs>(
-      args: Subset<T, AssetLabelAggregateArgs>,
+      args: Subset<T, AssetLabelAggregateArgs>
     ): Prisma.PrismaPromise<GetAssetLabelAggregateType<T>>;
 
     /**
@@ -14164,20 +14163,20 @@ export namespace Prisma {
     groupBy<
       T extends AssetLabelGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AssetLabelGroupByArgs['orderBy'] }
-        : { orderBy?: AssetLabelGroupByArgs['orderBy'] },
+        ? { orderBy: AssetLabelGroupByArgs["orderBy"] }
+        : { orderBy?: AssetLabelGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -14188,13 +14187,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -14203,8 +14202,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -14219,10 +14218,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, AssetLabelGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetAssetLabelGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -14248,21 +14247,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     asset<T extends AssetArgs = {}>(
-      args?: Subset<T, AssetArgs>,
+      args?: Subset<T, AssetArgs>
     ): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
     private get _document();
@@ -14280,7 +14279,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -14291,7 +14290,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -14862,7 +14861,7 @@ export namespace Prisma {
   };
 
   export type GetAssetAggregateType<T extends AssetAggregateArgs> = {
-    [P in keyof T & keyof AggregateAsset]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAsset]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAsset[P]>
@@ -14914,8 +14913,8 @@ export namespace Prisma {
   type GetAssetGroupByPayload<T extends AssetGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<AssetGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof AssetGroupByOutputType]: P extends '_count'
+        PickArray<AssetGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof AssetGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], AssetGroupByOutputType[P]>
@@ -14971,58 +14970,58 @@ export namespace Prisma {
   };
 
   export type AssetGetPayload<
-    S extends boolean | null | undefined | AssetArgs,
+    S extends boolean | null | undefined | AssetArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Asset
     : S extends undefined
     ? never
     : S extends { include: any } & (AssetArgs | AssetFindManyArgs)
     ? Asset & {
-        [P in TruthyKeys<S['include']>]: P extends 'labels'
-          ? Array<AssetLabelGetPayload<S['include'][P]>>
-          : P extends 'customCategory'
-          ? CustomAssetCategoryGetPayload<S['include'][P]> | null
-          : P extends 'market'
-          ? MarketGetPayload<S['include'][P]> | null
-          : P extends 'parent'
-          ? AssetGetPayload<S['include'][P]> | null
-          : P extends 'subAssets'
-          ? Array<AssetGetPayload<S['include'][P]>>
-          : P extends 'transactions'
-          ? Array<AssetTransactionGetPayload<S['include'][P]>>
-          : P extends 'user'
-          ? UserGetPayload<S['include'][P]>
-          : P extends '_count'
-          ? AssetCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "labels"
+          ? Array<AssetLabelGetPayload<S["include"][P]>>
+          : P extends "customCategory"
+          ? CustomAssetCategoryGetPayload<S["include"][P]> | null
+          : P extends "market"
+          ? MarketGetPayload<S["include"][P]> | null
+          : P extends "parent"
+          ? AssetGetPayload<S["include"][P]> | null
+          : P extends "subAssets"
+          ? Array<AssetGetPayload<S["include"][P]>>
+          : P extends "transactions"
+          ? Array<AssetTransactionGetPayload<S["include"][P]>>
+          : P extends "user"
+          ? UserGetPayload<S["include"][P]>
+          : P extends "_count"
+          ? AssetCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (AssetArgs | AssetFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'labels'
-          ? Array<AssetLabelGetPayload<S['select'][P]>>
-          : P extends 'customCategory'
-          ? CustomAssetCategoryGetPayload<S['select'][P]> | null
-          : P extends 'market'
-          ? MarketGetPayload<S['select'][P]> | null
-          : P extends 'parent'
-          ? AssetGetPayload<S['select'][P]> | null
-          : P extends 'subAssets'
-          ? Array<AssetGetPayload<S['select'][P]>>
-          : P extends 'transactions'
-          ? Array<AssetTransactionGetPayload<S['select'][P]>>
-          : P extends 'user'
-          ? UserGetPayload<S['select'][P]>
-          : P extends '_count'
-          ? AssetCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "labels"
+          ? Array<AssetLabelGetPayload<S["select"][P]>>
+          : P extends "customCategory"
+          ? CustomAssetCategoryGetPayload<S["select"][P]> | null
+          : P extends "market"
+          ? MarketGetPayload<S["select"][P]> | null
+          : P extends "parent"
+          ? AssetGetPayload<S["select"][P]> | null
+          : P extends "subAssets"
+          ? Array<AssetGetPayload<S["select"][P]>>
+          : P extends "transactions"
+          ? Array<AssetTransactionGetPayload<S["select"][P]>>
+          : P extends "user"
+          ? UserGetPayload<S["select"][P]>
+          : P extends "_count"
+          ? AssetCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof Asset
           ? Asset[P]
           : never;
       }
     : Asset;
 
-  type AssetCountArgs = Omit<AssetFindManyArgs, 'select' | 'include'> & {
+  type AssetCountArgs = Omit<AssetFindManyArgs, "select" | "include"> & {
     select?: AssetCountAggregateInputType | true;
   };
 
@@ -15031,7 +15030,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Asset that matches the filter.
@@ -15046,16 +15045,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends AssetFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, AssetFindUniqueArgs>,
+      args: SelectSubset<T, AssetFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Asset'
+      "findUnique",
+      "Asset"
     > extends True
       ? Prisma__AssetClient<AssetGetPayload<T>>
       : Prisma__AssetClient<AssetGetPayload<T> | null, null>;
@@ -15073,7 +15072,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends AssetFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, AssetFindUniqueOrThrowArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15091,16 +15090,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends AssetFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, AssetFindFirstArgs>,
+      args?: SelectSubset<T, AssetFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Asset'
+      "findFirst",
+      "Asset"
     > extends True
       ? Prisma__AssetClient<AssetGetPayload<T>>
       : Prisma__AssetClient<AssetGetPayload<T> | null, null>;
@@ -15120,7 +15119,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends AssetFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, AssetFindFirstOrThrowArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15140,7 +15139,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends AssetFindManyArgs>(
-      args?: SelectSubset<T, AssetFindManyArgs>,
+      args?: SelectSubset<T, AssetFindManyArgs>
     ): Prisma.PrismaPromise<Array<AssetGetPayload<T>>>;
 
     /**
@@ -15156,7 +15155,7 @@ export namespace Prisma {
      *
      **/
     create<T extends AssetCreateArgs>(
-      args: SelectSubset<T, AssetCreateArgs>,
+      args: SelectSubset<T, AssetCreateArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15172,7 +15171,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends AssetCreateManyArgs>(
-      args?: SelectSubset<T, AssetCreateManyArgs>,
+      args?: SelectSubset<T, AssetCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -15188,7 +15187,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends AssetDeleteArgs>(
-      args: SelectSubset<T, AssetDeleteArgs>,
+      args: SelectSubset<T, AssetDeleteArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15207,7 +15206,7 @@ export namespace Prisma {
      *
      **/
     update<T extends AssetUpdateArgs>(
-      args: SelectSubset<T, AssetUpdateArgs>,
+      args: SelectSubset<T, AssetUpdateArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15223,7 +15222,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends AssetDeleteManyArgs>(
-      args?: SelectSubset<T, AssetDeleteManyArgs>,
+      args?: SelectSubset<T, AssetDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -15244,7 +15243,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends AssetUpdateManyArgs>(
-      args: SelectSubset<T, AssetUpdateManyArgs>,
+      args: SelectSubset<T, AssetUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -15265,7 +15264,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends AssetUpsertArgs>(
-      args: SelectSubset<T, AssetUpsertArgs>,
+      args: SelectSubset<T, AssetUpsertArgs>
     ): Prisma__AssetClient<AssetGetPayload<T>>;
 
     /**
@@ -15282,12 +15281,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends AssetCountArgs>(
-      args?: Subset<T, AssetCountArgs>,
+      args?: Subset<T, AssetCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], AssetCountAggregateOutputType>
+          : GetScalarType<T["select"], AssetCountAggregateOutputType>
         : number
     >;
 
@@ -15316,7 +15315,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends AssetAggregateArgs>(
-      args: Subset<T, AssetAggregateArgs>,
+      args: Subset<T, AssetAggregateArgs>
     ): Prisma.PrismaPromise<GetAssetAggregateType<T>>;
 
     /**
@@ -15340,20 +15339,20 @@ export namespace Prisma {
     groupBy<
       T extends AssetGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AssetGroupByArgs['orderBy'] }
-        : { orderBy?: AssetGroupByArgs['orderBy'] },
+        ? { orderBy: AssetGroupByArgs["orderBy"] }
+        : { orderBy?: AssetGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -15364,13 +15363,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -15379,8 +15378,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -15395,9 +15394,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, AssetGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, AssetGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetAssetGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -15423,47 +15422,47 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     labels<T extends Asset$labelsArgs = {}>(
-      args?: Subset<T, Asset$labelsArgs>,
+      args?: Subset<T, Asset$labelsArgs>
     ): Prisma.PrismaPromise<Array<AssetLabelGetPayload<T>> | Null>;
 
     customCategory<T extends CustomAssetCategoryArgs = {}>(
-      args?: Subset<T, CustomAssetCategoryArgs>,
+      args?: Subset<T, CustomAssetCategoryArgs>
     ): Prisma__CustomAssetCategoryClient<
       CustomAssetCategoryGetPayload<T> | Null
     >;
 
     market<T extends MarketArgs = {}>(
-      args?: Subset<T, MarketArgs>,
+      args?: Subset<T, MarketArgs>
     ): Prisma__MarketClient<MarketGetPayload<T> | Null>;
 
     parent<T extends AssetArgs = {}>(
-      args?: Subset<T, AssetArgs>,
+      args?: Subset<T, AssetArgs>
     ): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
     subAssets<T extends Asset$subAssetsArgs = {}>(
-      args?: Subset<T, Asset$subAssetsArgs>,
+      args?: Subset<T, Asset$subAssetsArgs>
     ): Prisma.PrismaPromise<Array<AssetGetPayload<T>> | Null>;
 
     transactions<T extends Asset$transactionsArgs = {}>(
-      args?: Subset<T, Asset$transactionsArgs>,
+      args?: Subset<T, Asset$transactionsArgs>
     ): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>> | Null>;
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -15481,7 +15480,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -15492,7 +15491,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -16113,11 +16112,11 @@ export namespace Prisma {
   };
 
   export type GetAssetTransactionAggregateType<
-    T extends AssetTransactionAggregateArgs,
+    T extends AssetTransactionAggregateArgs
   > = {
     [P in keyof T & keyof AggregateAssetTransaction]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAssetTransaction[P]>
@@ -16166,12 +16165,12 @@ export namespace Prisma {
   };
 
   type GetAssetTransactionGroupByPayload<
-    T extends AssetTransactionGroupByArgs,
+    T extends AssetTransactionGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<AssetTransactionGroupByOutputType, T['by']> & {
+      PickArray<AssetTransactionGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof AssetTransactionGroupByOutputType]: P extends '_count'
+          keyof AssetTransactionGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], AssetTransactionGroupByOutputType[P]>
@@ -16214,9 +16213,9 @@ export namespace Prisma {
   };
 
   export type AssetTransactionGetPayload<
-    S extends boolean | null | undefined | AssetTransactionArgs,
+    S extends boolean | null | undefined | AssetTransactionArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? AssetTransaction
     : S extends undefined
@@ -16226,10 +16225,10 @@ export namespace Prisma {
         | AssetTransactionFindManyArgs
       )
     ? AssetTransaction & {
-        [P in TruthyKeys<S['include']>]: P extends 'relatedAsset'
-          ? AssetGetPayload<S['include'][P]> | null
-          : P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "relatedAsset"
+          ? AssetGetPayload<S["include"][P]> | null
+          : P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -16237,10 +16236,10 @@ export namespace Prisma {
         | AssetTransactionFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'relatedAsset'
-          ? AssetGetPayload<S['select'][P]> | null
-          : P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "relatedAsset"
+          ? AssetGetPayload<S["select"][P]> | null
+          : P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof AssetTransaction
           ? AssetTransaction[P]
           : never;
@@ -16249,7 +16248,7 @@ export namespace Prisma {
 
   type AssetTransactionCountArgs = Omit<
     AssetTransactionFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: AssetTransactionCountAggregateInputType | true;
   };
@@ -16259,7 +16258,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one AssetTransaction that matches the filter.
@@ -16274,16 +16273,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends AssetTransactionFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, AssetTransactionFindUniqueArgs>,
+      args: SelectSubset<T, AssetTransactionFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'AssetTransaction'
+      "findUnique",
+      "AssetTransaction"
     > extends True
       ? Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
       : Prisma__AssetTransactionClient<
@@ -16304,7 +16303,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends AssetTransactionFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AssetTransactionFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, AssetTransactionFindUniqueOrThrowArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16322,16 +16321,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends AssetTransactionFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, AssetTransactionFindFirstArgs>,
+      args?: SelectSubset<T, AssetTransactionFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'AssetTransaction'
+      "findFirst",
+      "AssetTransaction"
     > extends True
       ? Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>
       : Prisma__AssetTransactionClient<
@@ -16354,7 +16353,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends AssetTransactionFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AssetTransactionFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, AssetTransactionFindFirstOrThrowArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16374,7 +16373,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends AssetTransactionFindManyArgs>(
-      args?: SelectSubset<T, AssetTransactionFindManyArgs>,
+      args?: SelectSubset<T, AssetTransactionFindManyArgs>
     ): Prisma.PrismaPromise<Array<AssetTransactionGetPayload<T>>>;
 
     /**
@@ -16390,7 +16389,7 @@ export namespace Prisma {
      *
      **/
     create<T extends AssetTransactionCreateArgs>(
-      args: SelectSubset<T, AssetTransactionCreateArgs>,
+      args: SelectSubset<T, AssetTransactionCreateArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16406,7 +16405,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends AssetTransactionCreateManyArgs>(
-      args?: SelectSubset<T, AssetTransactionCreateManyArgs>,
+      args?: SelectSubset<T, AssetTransactionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -16422,7 +16421,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends AssetTransactionDeleteArgs>(
-      args: SelectSubset<T, AssetTransactionDeleteArgs>,
+      args: SelectSubset<T, AssetTransactionDeleteArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16441,7 +16440,7 @@ export namespace Prisma {
      *
      **/
     update<T extends AssetTransactionUpdateArgs>(
-      args: SelectSubset<T, AssetTransactionUpdateArgs>,
+      args: SelectSubset<T, AssetTransactionUpdateArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16457,7 +16456,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends AssetTransactionDeleteManyArgs>(
-      args?: SelectSubset<T, AssetTransactionDeleteManyArgs>,
+      args?: SelectSubset<T, AssetTransactionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -16478,7 +16477,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends AssetTransactionUpdateManyArgs>(
-      args: SelectSubset<T, AssetTransactionUpdateManyArgs>,
+      args: SelectSubset<T, AssetTransactionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -16499,7 +16498,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends AssetTransactionUpsertArgs>(
-      args: SelectSubset<T, AssetTransactionUpsertArgs>,
+      args: SelectSubset<T, AssetTransactionUpsertArgs>
     ): Prisma__AssetTransactionClient<AssetTransactionGetPayload<T>>;
 
     /**
@@ -16516,12 +16515,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends AssetTransactionCountArgs>(
-      args?: Subset<T, AssetTransactionCountArgs>,
+      args?: Subset<T, AssetTransactionCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], AssetTransactionCountAggregateOutputType>
+          : GetScalarType<T["select"], AssetTransactionCountAggregateOutputType>
         : number
     >;
 
@@ -16550,7 +16549,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends AssetTransactionAggregateArgs>(
-      args: Subset<T, AssetTransactionAggregateArgs>,
+      args: Subset<T, AssetTransactionAggregateArgs>
     ): Prisma.PrismaPromise<GetAssetTransactionAggregateType<T>>;
 
     /**
@@ -16574,20 +16573,20 @@ export namespace Prisma {
     groupBy<
       T extends AssetTransactionGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AssetTransactionGroupByArgs['orderBy'] }
-        : { orderBy?: AssetTransactionGroupByArgs['orderBy'] },
+        ? { orderBy: AssetTransactionGroupByArgs["orderBy"] }
+        : { orderBy?: AssetTransactionGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -16598,13 +16597,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -16613,8 +16612,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -16629,10 +16628,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, AssetTransactionGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetAssetTransactionGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -16658,25 +16657,25 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     relatedAsset<T extends AssetArgs = {}>(
-      args?: Subset<T, AssetArgs>,
+      args?: Subset<T, AssetArgs>
     ): Prisma__AssetClient<AssetGetPayload<T> | Null>;
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -16694,7 +16693,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -16705,7 +16704,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -17217,11 +17216,11 @@ export namespace Prisma {
   };
 
   export type GetPortfolioSnapshotAggregateType<
-    T extends PortfolioSnapshotAggregateArgs,
+    T extends PortfolioSnapshotAggregateArgs
   > = {
     [P in keyof T & keyof AggregatePortfolioSnapshot]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregatePortfolioSnapshot[P]>
@@ -17259,12 +17258,12 @@ export namespace Prisma {
   };
 
   type GetPortfolioSnapshotGroupByPayload<
-    T extends PortfolioSnapshotGroupByArgs,
+    T extends PortfolioSnapshotGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<PortfolioSnapshotGroupByOutputType, T['by']> & {
+      PickArray<PortfolioSnapshotGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof PortfolioSnapshotGroupByOutputType]: P extends '_count'
+          keyof PortfolioSnapshotGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], PortfolioSnapshotGroupByOutputType[P]>
@@ -17294,9 +17293,9 @@ export namespace Prisma {
   };
 
   export type PortfolioSnapshotGetPayload<
-    S extends boolean | null | undefined | PortfolioSnapshotArgs,
+    S extends boolean | null | undefined | PortfolioSnapshotArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? PortfolioSnapshot
     : S extends undefined
@@ -17306,8 +17305,8 @@ export namespace Prisma {
         | PortfolioSnapshotFindManyArgs
       )
     ? PortfolioSnapshot & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -17315,8 +17314,8 @@ export namespace Prisma {
         | PortfolioSnapshotFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof PortfolioSnapshot
           ? PortfolioSnapshot[P]
           : never;
@@ -17325,7 +17324,7 @@ export namespace Prisma {
 
   type PortfolioSnapshotCountArgs = Omit<
     PortfolioSnapshotFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: PortfolioSnapshotCountAggregateInputType | true;
   };
@@ -17335,7 +17334,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one PortfolioSnapshot that matches the filter.
@@ -17350,16 +17349,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends PortfolioSnapshotFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, PortfolioSnapshotFindUniqueArgs>,
+      args: SelectSubset<T, PortfolioSnapshotFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'PortfolioSnapshot'
+      "findUnique",
+      "PortfolioSnapshot"
     > extends True
       ? Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
       : Prisma__PortfolioSnapshotClient<
@@ -17380,7 +17379,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends PortfolioSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotFindUniqueOrThrowArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17398,16 +17397,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends PortfolioSnapshotFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, PortfolioSnapshotFindFirstArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'PortfolioSnapshot'
+      "findFirst",
+      "PortfolioSnapshot"
     > extends True
       ? Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>
       : Prisma__PortfolioSnapshotClient<
@@ -17430,7 +17429,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends PortfolioSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotFindFirstOrThrowArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17450,7 +17449,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends PortfolioSnapshotFindManyArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotFindManyArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotFindManyArgs>
     ): Prisma.PrismaPromise<Array<PortfolioSnapshotGetPayload<T>>>;
 
     /**
@@ -17466,7 +17465,7 @@ export namespace Prisma {
      *
      **/
     create<T extends PortfolioSnapshotCreateArgs>(
-      args: SelectSubset<T, PortfolioSnapshotCreateArgs>,
+      args: SelectSubset<T, PortfolioSnapshotCreateArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17482,7 +17481,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends PortfolioSnapshotCreateManyArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotCreateManyArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -17498,7 +17497,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends PortfolioSnapshotDeleteArgs>(
-      args: SelectSubset<T, PortfolioSnapshotDeleteArgs>,
+      args: SelectSubset<T, PortfolioSnapshotDeleteArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17517,7 +17516,7 @@ export namespace Prisma {
      *
      **/
     update<T extends PortfolioSnapshotUpdateArgs>(
-      args: SelectSubset<T, PortfolioSnapshotUpdateArgs>,
+      args: SelectSubset<T, PortfolioSnapshotUpdateArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17533,7 +17532,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends PortfolioSnapshotDeleteManyArgs>(
-      args?: SelectSubset<T, PortfolioSnapshotDeleteManyArgs>,
+      args?: SelectSubset<T, PortfolioSnapshotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -17554,7 +17553,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends PortfolioSnapshotUpdateManyArgs>(
-      args: SelectSubset<T, PortfolioSnapshotUpdateManyArgs>,
+      args: SelectSubset<T, PortfolioSnapshotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -17575,7 +17574,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends PortfolioSnapshotUpsertArgs>(
-      args: SelectSubset<T, PortfolioSnapshotUpsertArgs>,
+      args: SelectSubset<T, PortfolioSnapshotUpsertArgs>
     ): Prisma__PortfolioSnapshotClient<PortfolioSnapshotGetPayload<T>>;
 
     /**
@@ -17592,13 +17591,13 @@ export namespace Prisma {
      * })
      **/
     count<T extends PortfolioSnapshotCountArgs>(
-      args?: Subset<T, PortfolioSnapshotCountArgs>,
+      args?: Subset<T, PortfolioSnapshotCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
           : GetScalarType<
-              T['select'],
+              T["select"],
               PortfolioSnapshotCountAggregateOutputType
             >
         : number
@@ -17629,7 +17628,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends PortfolioSnapshotAggregateArgs>(
-      args: Subset<T, PortfolioSnapshotAggregateArgs>,
+      args: Subset<T, PortfolioSnapshotAggregateArgs>
     ): Prisma.PrismaPromise<GetPortfolioSnapshotAggregateType<T>>;
 
     /**
@@ -17653,20 +17652,20 @@ export namespace Prisma {
     groupBy<
       T extends PortfolioSnapshotGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PortfolioSnapshotGroupByArgs['orderBy'] }
-        : { orderBy?: PortfolioSnapshotGroupByArgs['orderBy'] },
+        ? { orderBy: PortfolioSnapshotGroupByArgs["orderBy"] }
+        : { orderBy?: PortfolioSnapshotGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -17677,13 +17676,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -17692,8 +17691,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -17708,10 +17707,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, PortfolioSnapshotGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetPortfolioSnapshotGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -17737,21 +17736,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -17769,7 +17768,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -17780,7 +17779,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -18292,9 +18291,9 @@ export namespace Prisma {
   };
 
   export type GetCryptoSnapshotAggregateType<
-    T extends CryptoSnapshotAggregateArgs,
+    T extends CryptoSnapshotAggregateArgs
   > = {
-    [P in keyof T & keyof AggregateCryptoSnapshot]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateCryptoSnapshot]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCryptoSnapshot[P]>
@@ -18334,9 +18333,9 @@ export namespace Prisma {
   type GetCryptoSnapshotGroupByPayload<T extends CryptoSnapshotGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<CryptoSnapshotGroupByOutputType, T['by']> & {
+        PickArray<CryptoSnapshotGroupByOutputType, T["by"]> & {
           [P in keyof T &
-            keyof CryptoSnapshotGroupByOutputType]: P extends '_count'
+            keyof CryptoSnapshotGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], CryptoSnapshotGroupByOutputType[P]>
@@ -18366,9 +18365,9 @@ export namespace Prisma {
   };
 
   export type CryptoSnapshotGetPayload<
-    S extends boolean | null | undefined | CryptoSnapshotArgs,
+    S extends boolean | null | undefined | CryptoSnapshotArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? CryptoSnapshot
     : S extends undefined
@@ -18378,8 +18377,8 @@ export namespace Prisma {
         | CryptoSnapshotFindManyArgs
       )
     ? CryptoSnapshot & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -18387,8 +18386,8 @@ export namespace Prisma {
         | CryptoSnapshotFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof CryptoSnapshot
           ? CryptoSnapshot[P]
           : never;
@@ -18397,7 +18396,7 @@ export namespace Prisma {
 
   type CryptoSnapshotCountArgs = Omit<
     CryptoSnapshotFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: CryptoSnapshotCountAggregateInputType | true;
   };
@@ -18407,7 +18406,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one CryptoSnapshot that matches the filter.
@@ -18422,16 +18421,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends CryptoSnapshotFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, CryptoSnapshotFindUniqueArgs>,
+      args: SelectSubset<T, CryptoSnapshotFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'CryptoSnapshot'
+      "findUnique",
+      "CryptoSnapshot"
     > extends True
       ? Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
       : Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null, null>;
@@ -18449,7 +18448,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends CryptoSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CryptoSnapshotFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, CryptoSnapshotFindUniqueOrThrowArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18467,16 +18466,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends CryptoSnapshotFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, CryptoSnapshotFindFirstArgs>,
+      args?: SelectSubset<T, CryptoSnapshotFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'CryptoSnapshot'
+      "findFirst",
+      "CryptoSnapshot"
     > extends True
       ? Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>
       : Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T> | null, null>;
@@ -18496,7 +18495,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends CryptoSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CryptoSnapshotFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, CryptoSnapshotFindFirstOrThrowArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18516,7 +18515,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends CryptoSnapshotFindManyArgs>(
-      args?: SelectSubset<T, CryptoSnapshotFindManyArgs>,
+      args?: SelectSubset<T, CryptoSnapshotFindManyArgs>
     ): Prisma.PrismaPromise<Array<CryptoSnapshotGetPayload<T>>>;
 
     /**
@@ -18532,7 +18531,7 @@ export namespace Prisma {
      *
      **/
     create<T extends CryptoSnapshotCreateArgs>(
-      args: SelectSubset<T, CryptoSnapshotCreateArgs>,
+      args: SelectSubset<T, CryptoSnapshotCreateArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18548,7 +18547,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends CryptoSnapshotCreateManyArgs>(
-      args?: SelectSubset<T, CryptoSnapshotCreateManyArgs>,
+      args?: SelectSubset<T, CryptoSnapshotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -18564,7 +18563,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends CryptoSnapshotDeleteArgs>(
-      args: SelectSubset<T, CryptoSnapshotDeleteArgs>,
+      args: SelectSubset<T, CryptoSnapshotDeleteArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18583,7 +18582,7 @@ export namespace Prisma {
      *
      **/
     update<T extends CryptoSnapshotUpdateArgs>(
-      args: SelectSubset<T, CryptoSnapshotUpdateArgs>,
+      args: SelectSubset<T, CryptoSnapshotUpdateArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18599,7 +18598,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends CryptoSnapshotDeleteManyArgs>(
-      args?: SelectSubset<T, CryptoSnapshotDeleteManyArgs>,
+      args?: SelectSubset<T, CryptoSnapshotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -18620,7 +18619,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends CryptoSnapshotUpdateManyArgs>(
-      args: SelectSubset<T, CryptoSnapshotUpdateManyArgs>,
+      args: SelectSubset<T, CryptoSnapshotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -18641,7 +18640,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends CryptoSnapshotUpsertArgs>(
-      args: SelectSubset<T, CryptoSnapshotUpsertArgs>,
+      args: SelectSubset<T, CryptoSnapshotUpsertArgs>
     ): Prisma__CryptoSnapshotClient<CryptoSnapshotGetPayload<T>>;
 
     /**
@@ -18658,12 +18657,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends CryptoSnapshotCountArgs>(
-      args?: Subset<T, CryptoSnapshotCountArgs>,
+      args?: Subset<T, CryptoSnapshotCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], CryptoSnapshotCountAggregateOutputType>
+          : GetScalarType<T["select"], CryptoSnapshotCountAggregateOutputType>
         : number
     >;
 
@@ -18692,7 +18691,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends CryptoSnapshotAggregateArgs>(
-      args: Subset<T, CryptoSnapshotAggregateArgs>,
+      args: Subset<T, CryptoSnapshotAggregateArgs>
     ): Prisma.PrismaPromise<GetCryptoSnapshotAggregateType<T>>;
 
     /**
@@ -18716,20 +18715,20 @@ export namespace Prisma {
     groupBy<
       T extends CryptoSnapshotGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CryptoSnapshotGroupByArgs['orderBy'] }
-        : { orderBy?: CryptoSnapshotGroupByArgs['orderBy'] },
+        ? { orderBy: CryptoSnapshotGroupByArgs["orderBy"] }
+        : { orderBy?: CryptoSnapshotGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -18740,13 +18739,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -18755,8 +18754,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -18771,10 +18770,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, CryptoSnapshotGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetCryptoSnapshotGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -18800,21 +18799,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -18832,7 +18831,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -18843,7 +18842,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -19343,9 +19342,9 @@ export namespace Prisma {
   };
 
   export type GetCashSnapshotAggregateType<
-    T extends CashSnapshotAggregateArgs,
+    T extends CashSnapshotAggregateArgs
   > = {
-    [P in keyof T & keyof AggregateCashSnapshot]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateCashSnapshot]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCashSnapshot[P]>
@@ -19385,9 +19384,9 @@ export namespace Prisma {
   type GetCashSnapshotGroupByPayload<T extends CashSnapshotGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<CashSnapshotGroupByOutputType, T['by']> & {
+        PickArray<CashSnapshotGroupByOutputType, T["by"]> & {
           [P in keyof T &
-            keyof CashSnapshotGroupByOutputType]: P extends '_count'
+            keyof CashSnapshotGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], CashSnapshotGroupByOutputType[P]>
@@ -19417,23 +19416,23 @@ export namespace Prisma {
   };
 
   export type CashSnapshotGetPayload<
-    S extends boolean | null | undefined | CashSnapshotArgs,
+    S extends boolean | null | undefined | CashSnapshotArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? CashSnapshot
     : S extends undefined
     ? never
     : S extends { include: any } & (CashSnapshotArgs | CashSnapshotFindManyArgs)
     ? CashSnapshot & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (CashSnapshotArgs | CashSnapshotFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof CashSnapshot
           ? CashSnapshot[P]
           : never;
@@ -19442,7 +19441,7 @@ export namespace Prisma {
 
   type CashSnapshotCountArgs = Omit<
     CashSnapshotFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: CashSnapshotCountAggregateInputType | true;
   };
@@ -19452,7 +19451,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one CashSnapshot that matches the filter.
@@ -19467,16 +19466,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends CashSnapshotFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, CashSnapshotFindUniqueArgs>,
+      args: SelectSubset<T, CashSnapshotFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'CashSnapshot'
+      "findUnique",
+      "CashSnapshot"
     > extends True
       ? Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
       : Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null, null>;
@@ -19494,7 +19493,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends CashSnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CashSnapshotFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, CashSnapshotFindUniqueOrThrowArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19512,16 +19511,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends CashSnapshotFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, CashSnapshotFindFirstArgs>,
+      args?: SelectSubset<T, CashSnapshotFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'CashSnapshot'
+      "findFirst",
+      "CashSnapshot"
     > extends True
       ? Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>
       : Prisma__CashSnapshotClient<CashSnapshotGetPayload<T> | null, null>;
@@ -19541,7 +19540,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends CashSnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CashSnapshotFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, CashSnapshotFindFirstOrThrowArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19561,7 +19560,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends CashSnapshotFindManyArgs>(
-      args?: SelectSubset<T, CashSnapshotFindManyArgs>,
+      args?: SelectSubset<T, CashSnapshotFindManyArgs>
     ): Prisma.PrismaPromise<Array<CashSnapshotGetPayload<T>>>;
 
     /**
@@ -19577,7 +19576,7 @@ export namespace Prisma {
      *
      **/
     create<T extends CashSnapshotCreateArgs>(
-      args: SelectSubset<T, CashSnapshotCreateArgs>,
+      args: SelectSubset<T, CashSnapshotCreateArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19593,7 +19592,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends CashSnapshotCreateManyArgs>(
-      args?: SelectSubset<T, CashSnapshotCreateManyArgs>,
+      args?: SelectSubset<T, CashSnapshotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -19609,7 +19608,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends CashSnapshotDeleteArgs>(
-      args: SelectSubset<T, CashSnapshotDeleteArgs>,
+      args: SelectSubset<T, CashSnapshotDeleteArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19628,7 +19627,7 @@ export namespace Prisma {
      *
      **/
     update<T extends CashSnapshotUpdateArgs>(
-      args: SelectSubset<T, CashSnapshotUpdateArgs>,
+      args: SelectSubset<T, CashSnapshotUpdateArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19644,7 +19643,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends CashSnapshotDeleteManyArgs>(
-      args?: SelectSubset<T, CashSnapshotDeleteManyArgs>,
+      args?: SelectSubset<T, CashSnapshotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -19665,7 +19664,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends CashSnapshotUpdateManyArgs>(
-      args: SelectSubset<T, CashSnapshotUpdateManyArgs>,
+      args: SelectSubset<T, CashSnapshotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -19686,7 +19685,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends CashSnapshotUpsertArgs>(
-      args: SelectSubset<T, CashSnapshotUpsertArgs>,
+      args: SelectSubset<T, CashSnapshotUpsertArgs>
     ): Prisma__CashSnapshotClient<CashSnapshotGetPayload<T>>;
 
     /**
@@ -19703,12 +19702,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends CashSnapshotCountArgs>(
-      args?: Subset<T, CashSnapshotCountArgs>,
+      args?: Subset<T, CashSnapshotCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], CashSnapshotCountAggregateOutputType>
+          : GetScalarType<T["select"], CashSnapshotCountAggregateOutputType>
         : number
     >;
 
@@ -19737,7 +19736,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends CashSnapshotAggregateArgs>(
-      args: Subset<T, CashSnapshotAggregateArgs>,
+      args: Subset<T, CashSnapshotAggregateArgs>
     ): Prisma.PrismaPromise<GetCashSnapshotAggregateType<T>>;
 
     /**
@@ -19761,20 +19760,20 @@ export namespace Prisma {
     groupBy<
       T extends CashSnapshotGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CashSnapshotGroupByArgs['orderBy'] }
-        : { orderBy?: CashSnapshotGroupByArgs['orderBy'] },
+        ? { orderBy: CashSnapshotGroupByArgs["orderBy"] }
+        : { orderBy?: CashSnapshotGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -19785,13 +19784,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -19800,8 +19799,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -19816,10 +19815,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, CashSnapshotGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetCashSnapshotGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -19845,21 +19844,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -19877,7 +19876,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -19888,7 +19887,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -20388,11 +20387,11 @@ export namespace Prisma {
   };
 
   export type GetPropertySnapshotAggregateType<
-    T extends PropertySnapshotAggregateArgs,
+    T extends PropertySnapshotAggregateArgs
   > = {
     [P in keyof T & keyof AggregatePropertySnapshot]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregatePropertySnapshot[P]>
@@ -20430,12 +20429,12 @@ export namespace Prisma {
   };
 
   type GetPropertySnapshotGroupByPayload<
-    T extends PropertySnapshotGroupByArgs,
+    T extends PropertySnapshotGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<PropertySnapshotGroupByOutputType, T['by']> & {
+      PickArray<PropertySnapshotGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof PropertySnapshotGroupByOutputType]: P extends '_count'
+          keyof PropertySnapshotGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], PropertySnapshotGroupByOutputType[P]>
@@ -20465,9 +20464,9 @@ export namespace Prisma {
   };
 
   export type PropertySnapshotGetPayload<
-    S extends boolean | null | undefined | PropertySnapshotArgs,
+    S extends boolean | null | undefined | PropertySnapshotArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? PropertySnapshot
     : S extends undefined
@@ -20477,8 +20476,8 @@ export namespace Prisma {
         | PropertySnapshotFindManyArgs
       )
     ? PropertySnapshot & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -20486,8 +20485,8 @@ export namespace Prisma {
         | PropertySnapshotFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof PropertySnapshot
           ? PropertySnapshot[P]
           : never;
@@ -20496,7 +20495,7 @@ export namespace Prisma {
 
   type PropertySnapshotCountArgs = Omit<
     PropertySnapshotFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: PropertySnapshotCountAggregateInputType | true;
   };
@@ -20506,7 +20505,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one PropertySnapshot that matches the filter.
@@ -20521,16 +20520,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends PropertySnapshotFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, PropertySnapshotFindUniqueArgs>,
+      args: SelectSubset<T, PropertySnapshotFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'PropertySnapshot'
+      "findUnique",
+      "PropertySnapshot"
     > extends True
       ? Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
       : Prisma__PropertySnapshotClient<
@@ -20551,7 +20550,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends PropertySnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PropertySnapshotFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, PropertySnapshotFindUniqueOrThrowArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20569,16 +20568,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends PropertySnapshotFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, PropertySnapshotFindFirstArgs>,
+      args?: SelectSubset<T, PropertySnapshotFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'PropertySnapshot'
+      "findFirst",
+      "PropertySnapshot"
     > extends True
       ? Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>
       : Prisma__PropertySnapshotClient<
@@ -20601,7 +20600,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends PropertySnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PropertySnapshotFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, PropertySnapshotFindFirstOrThrowArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20621,7 +20620,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends PropertySnapshotFindManyArgs>(
-      args?: SelectSubset<T, PropertySnapshotFindManyArgs>,
+      args?: SelectSubset<T, PropertySnapshotFindManyArgs>
     ): Prisma.PrismaPromise<Array<PropertySnapshotGetPayload<T>>>;
 
     /**
@@ -20637,7 +20636,7 @@ export namespace Prisma {
      *
      **/
     create<T extends PropertySnapshotCreateArgs>(
-      args: SelectSubset<T, PropertySnapshotCreateArgs>,
+      args: SelectSubset<T, PropertySnapshotCreateArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20653,7 +20652,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends PropertySnapshotCreateManyArgs>(
-      args?: SelectSubset<T, PropertySnapshotCreateManyArgs>,
+      args?: SelectSubset<T, PropertySnapshotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -20669,7 +20668,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends PropertySnapshotDeleteArgs>(
-      args: SelectSubset<T, PropertySnapshotDeleteArgs>,
+      args: SelectSubset<T, PropertySnapshotDeleteArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20688,7 +20687,7 @@ export namespace Prisma {
      *
      **/
     update<T extends PropertySnapshotUpdateArgs>(
-      args: SelectSubset<T, PropertySnapshotUpdateArgs>,
+      args: SelectSubset<T, PropertySnapshotUpdateArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20704,7 +20703,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends PropertySnapshotDeleteManyArgs>(
-      args?: SelectSubset<T, PropertySnapshotDeleteManyArgs>,
+      args?: SelectSubset<T, PropertySnapshotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -20725,7 +20724,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends PropertySnapshotUpdateManyArgs>(
-      args: SelectSubset<T, PropertySnapshotUpdateManyArgs>,
+      args: SelectSubset<T, PropertySnapshotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -20746,7 +20745,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends PropertySnapshotUpsertArgs>(
-      args: SelectSubset<T, PropertySnapshotUpsertArgs>,
+      args: SelectSubset<T, PropertySnapshotUpsertArgs>
     ): Prisma__PropertySnapshotClient<PropertySnapshotGetPayload<T>>;
 
     /**
@@ -20763,12 +20762,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends PropertySnapshotCountArgs>(
-      args?: Subset<T, PropertySnapshotCountArgs>,
+      args?: Subset<T, PropertySnapshotCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], PropertySnapshotCountAggregateOutputType>
+          : GetScalarType<T["select"], PropertySnapshotCountAggregateOutputType>
         : number
     >;
 
@@ -20797,7 +20796,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends PropertySnapshotAggregateArgs>(
-      args: Subset<T, PropertySnapshotAggregateArgs>,
+      args: Subset<T, PropertySnapshotAggregateArgs>
     ): Prisma.PrismaPromise<GetPropertySnapshotAggregateType<T>>;
 
     /**
@@ -20821,20 +20820,20 @@ export namespace Prisma {
     groupBy<
       T extends PropertySnapshotGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PropertySnapshotGroupByArgs['orderBy'] }
-        : { orderBy?: PropertySnapshotGroupByArgs['orderBy'] },
+        ? { orderBy: PropertySnapshotGroupByArgs["orderBy"] }
+        : { orderBy?: PropertySnapshotGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -20845,13 +20844,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -20860,8 +20859,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -20876,10 +20875,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, PropertySnapshotGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetPropertySnapshotGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -20905,21 +20904,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -20937,7 +20936,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -20948,7 +20947,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -21460,11 +21459,11 @@ export namespace Prisma {
   };
 
   export type GetSecuritySnapshotAggregateType<
-    T extends SecuritySnapshotAggregateArgs,
+    T extends SecuritySnapshotAggregateArgs
   > = {
     [P in keyof T & keyof AggregateSecuritySnapshot]: P extends
-      | '_count'
-      | 'count'
+      | "_count"
+      | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSecuritySnapshot[P]>
@@ -21502,12 +21501,12 @@ export namespace Prisma {
   };
 
   type GetSecuritySnapshotGroupByPayload<
-    T extends SecuritySnapshotGroupByArgs,
+    T extends SecuritySnapshotGroupByArgs
   > = Prisma.PrismaPromise<
     Array<
-      PickArray<SecuritySnapshotGroupByOutputType, T['by']> & {
+      PickArray<SecuritySnapshotGroupByOutputType, T["by"]> & {
         [P in keyof T &
-          keyof SecuritySnapshotGroupByOutputType]: P extends '_count'
+          keyof SecuritySnapshotGroupByOutputType]: P extends "_count"
           ? T[P] extends boolean
             ? number
             : GetScalarType<T[P], SecuritySnapshotGroupByOutputType[P]>
@@ -21537,9 +21536,9 @@ export namespace Prisma {
   };
 
   export type SecuritySnapshotGetPayload<
-    S extends boolean | null | undefined | SecuritySnapshotArgs,
+    S extends boolean | null | undefined | SecuritySnapshotArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? SecuritySnapshot
     : S extends undefined
@@ -21549,8 +21548,8 @@ export namespace Prisma {
         | SecuritySnapshotFindManyArgs
       )
     ? SecuritySnapshot & {
-        [P in TruthyKeys<S['include']>]: P extends 'user'
-          ? UserGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "user"
+          ? UserGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -21558,8 +21557,8 @@ export namespace Prisma {
         | SecuritySnapshotFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'user'
-          ? UserGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "user"
+          ? UserGetPayload<S["select"][P]>
           : P extends keyof SecuritySnapshot
           ? SecuritySnapshot[P]
           : never;
@@ -21568,7 +21567,7 @@ export namespace Prisma {
 
   type SecuritySnapshotCountArgs = Omit<
     SecuritySnapshotFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: SecuritySnapshotCountAggregateInputType | true;
   };
@@ -21578,7 +21577,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one SecuritySnapshot that matches the filter.
@@ -21593,16 +21592,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends SecuritySnapshotFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, SecuritySnapshotFindUniqueArgs>,
+      args: SelectSubset<T, SecuritySnapshotFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'SecuritySnapshot'
+      "findUnique",
+      "SecuritySnapshot"
     > extends True
       ? Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
       : Prisma__SecuritySnapshotClient<
@@ -21623,7 +21622,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends SecuritySnapshotFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SecuritySnapshotFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, SecuritySnapshotFindUniqueOrThrowArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21641,16 +21640,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends SecuritySnapshotFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, SecuritySnapshotFindFirstArgs>,
+      args?: SelectSubset<T, SecuritySnapshotFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'SecuritySnapshot'
+      "findFirst",
+      "SecuritySnapshot"
     > extends True
       ? Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>
       : Prisma__SecuritySnapshotClient<
@@ -21673,7 +21672,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends SecuritySnapshotFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SecuritySnapshotFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, SecuritySnapshotFindFirstOrThrowArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21693,7 +21692,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends SecuritySnapshotFindManyArgs>(
-      args?: SelectSubset<T, SecuritySnapshotFindManyArgs>,
+      args?: SelectSubset<T, SecuritySnapshotFindManyArgs>
     ): Prisma.PrismaPromise<Array<SecuritySnapshotGetPayload<T>>>;
 
     /**
@@ -21709,7 +21708,7 @@ export namespace Prisma {
      *
      **/
     create<T extends SecuritySnapshotCreateArgs>(
-      args: SelectSubset<T, SecuritySnapshotCreateArgs>,
+      args: SelectSubset<T, SecuritySnapshotCreateArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21725,7 +21724,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends SecuritySnapshotCreateManyArgs>(
-      args?: SelectSubset<T, SecuritySnapshotCreateManyArgs>,
+      args?: SelectSubset<T, SecuritySnapshotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -21741,7 +21740,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends SecuritySnapshotDeleteArgs>(
-      args: SelectSubset<T, SecuritySnapshotDeleteArgs>,
+      args: SelectSubset<T, SecuritySnapshotDeleteArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21760,7 +21759,7 @@ export namespace Prisma {
      *
      **/
     update<T extends SecuritySnapshotUpdateArgs>(
-      args: SelectSubset<T, SecuritySnapshotUpdateArgs>,
+      args: SelectSubset<T, SecuritySnapshotUpdateArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21776,7 +21775,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends SecuritySnapshotDeleteManyArgs>(
-      args?: SelectSubset<T, SecuritySnapshotDeleteManyArgs>,
+      args?: SelectSubset<T, SecuritySnapshotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -21797,7 +21796,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends SecuritySnapshotUpdateManyArgs>(
-      args: SelectSubset<T, SecuritySnapshotUpdateManyArgs>,
+      args: SelectSubset<T, SecuritySnapshotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -21818,7 +21817,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends SecuritySnapshotUpsertArgs>(
-      args: SelectSubset<T, SecuritySnapshotUpsertArgs>,
+      args: SelectSubset<T, SecuritySnapshotUpsertArgs>
     ): Prisma__SecuritySnapshotClient<SecuritySnapshotGetPayload<T>>;
 
     /**
@@ -21835,12 +21834,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends SecuritySnapshotCountArgs>(
-      args?: Subset<T, SecuritySnapshotCountArgs>,
+      args?: Subset<T, SecuritySnapshotCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], SecuritySnapshotCountAggregateOutputType>
+          : GetScalarType<T["select"], SecuritySnapshotCountAggregateOutputType>
         : number
     >;
 
@@ -21869,7 +21868,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends SecuritySnapshotAggregateArgs>(
-      args: Subset<T, SecuritySnapshotAggregateArgs>,
+      args: Subset<T, SecuritySnapshotAggregateArgs>
     ): Prisma.PrismaPromise<GetSecuritySnapshotAggregateType<T>>;
 
     /**
@@ -21893,20 +21892,20 @@ export namespace Prisma {
     groupBy<
       T extends SecuritySnapshotGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SecuritySnapshotGroupByArgs['orderBy'] }
-        : { orderBy?: SecuritySnapshotGroupByArgs['orderBy'] },
+        ? { orderBy: SecuritySnapshotGroupByArgs["orderBy"] }
+        : { orderBy?: SecuritySnapshotGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -21917,13 +21916,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -21932,8 +21931,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -21948,10 +21947,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, SecuritySnapshotGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetSecuritySnapshotGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -21977,21 +21976,21 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -22009,7 +22008,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -22020,7 +22019,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -22580,9 +22579,9 @@ export namespace Prisma {
   };
 
   export type GetCryptocurrencyAggregateType<
-    T extends CryptocurrencyAggregateArgs,
+    T extends CryptocurrencyAggregateArgs
   > = {
-    [P in keyof T & keyof AggregateCryptocurrency]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateCryptocurrency]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCryptocurrency[P]>
@@ -22630,9 +22629,9 @@ export namespace Prisma {
   type GetCryptocurrencyGroupByPayload<T extends CryptocurrencyGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<CryptocurrencyGroupByOutputType, T['by']> & {
+        PickArray<CryptocurrencyGroupByOutputType, T["by"]> & {
           [P in keyof T &
-            keyof CryptocurrencyGroupByOutputType]: P extends '_count'
+            keyof CryptocurrencyGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], CryptocurrencyGroupByOutputType[P]>
@@ -22678,9 +22677,9 @@ export namespace Prisma {
   };
 
   export type CryptocurrencyGetPayload<
-    S extends boolean | null | undefined | CryptocurrencyArgs,
+    S extends boolean | null | undefined | CryptocurrencyArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Cryptocurrency
     : S extends undefined
@@ -22690,16 +22689,16 @@ export namespace Prisma {
         | CryptocurrencyFindManyArgs
       )
     ? Cryptocurrency & {
-        [P in TruthyKeys<S['include']>]: P extends 'market'
-          ? MarketGetPayload<S['include'][P]> | null
-          : P extends 'parent'
-          ? CryptocurrencyGetPayload<S['include'][P]> | null
-          : P extends 'Children'
-          ? Array<CryptocurrencyGetPayload<S['include'][P]>>
-          : P extends 'user'
-          ? UserGetPayload<S['include'][P]>
-          : P extends '_count'
-          ? CryptocurrencyCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "market"
+          ? MarketGetPayload<S["include"][P]> | null
+          : P extends "parent"
+          ? CryptocurrencyGetPayload<S["include"][P]> | null
+          : P extends "Children"
+          ? Array<CryptocurrencyGetPayload<S["include"][P]>>
+          : P extends "user"
+          ? UserGetPayload<S["include"][P]>
+          : P extends "_count"
+          ? CryptocurrencyCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (
@@ -22707,16 +22706,16 @@ export namespace Prisma {
         | CryptocurrencyFindManyArgs
       )
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'market'
-          ? MarketGetPayload<S['select'][P]> | null
-          : P extends 'parent'
-          ? CryptocurrencyGetPayload<S['select'][P]> | null
-          : P extends 'Children'
-          ? Array<CryptocurrencyGetPayload<S['select'][P]>>
-          : P extends 'user'
-          ? UserGetPayload<S['select'][P]>
-          : P extends '_count'
-          ? CryptocurrencyCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "market"
+          ? MarketGetPayload<S["select"][P]> | null
+          : P extends "parent"
+          ? CryptocurrencyGetPayload<S["select"][P]> | null
+          : P extends "Children"
+          ? Array<CryptocurrencyGetPayload<S["select"][P]>>
+          : P extends "user"
+          ? UserGetPayload<S["select"][P]>
+          : P extends "_count"
+          ? CryptocurrencyCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof Cryptocurrency
           ? Cryptocurrency[P]
           : never;
@@ -22725,7 +22724,7 @@ export namespace Prisma {
 
   type CryptocurrencyCountArgs = Omit<
     CryptocurrencyFindManyArgs,
-    'select' | 'include'
+    "select" | "include"
   > & {
     select?: CryptocurrencyCountAggregateInputType | true;
   };
@@ -22735,7 +22734,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Cryptocurrency that matches the filter.
@@ -22750,16 +22749,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends CryptocurrencyFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, CryptocurrencyFindUniqueArgs>,
+      args: SelectSubset<T, CryptocurrencyFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Cryptocurrency'
+      "findUnique",
+      "Cryptocurrency"
     > extends True
       ? Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
       : Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null, null>;
@@ -22777,7 +22776,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends CryptocurrencyFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CryptocurrencyFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, CryptocurrencyFindUniqueOrThrowArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22795,16 +22794,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends CryptocurrencyFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, CryptocurrencyFindFirstArgs>,
+      args?: SelectSubset<T, CryptocurrencyFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Cryptocurrency'
+      "findFirst",
+      "Cryptocurrency"
     > extends True
       ? Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>
       : Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | null, null>;
@@ -22824,7 +22823,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends CryptocurrencyFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CryptocurrencyFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, CryptocurrencyFindFirstOrThrowArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22844,7 +22843,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends CryptocurrencyFindManyArgs>(
-      args?: SelectSubset<T, CryptocurrencyFindManyArgs>,
+      args?: SelectSubset<T, CryptocurrencyFindManyArgs>
     ): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>>>;
 
     /**
@@ -22860,7 +22859,7 @@ export namespace Prisma {
      *
      **/
     create<T extends CryptocurrencyCreateArgs>(
-      args: SelectSubset<T, CryptocurrencyCreateArgs>,
+      args: SelectSubset<T, CryptocurrencyCreateArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22876,7 +22875,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends CryptocurrencyCreateManyArgs>(
-      args?: SelectSubset<T, CryptocurrencyCreateManyArgs>,
+      args?: SelectSubset<T, CryptocurrencyCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -22892,7 +22891,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends CryptocurrencyDeleteArgs>(
-      args: SelectSubset<T, CryptocurrencyDeleteArgs>,
+      args: SelectSubset<T, CryptocurrencyDeleteArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22911,7 +22910,7 @@ export namespace Prisma {
      *
      **/
     update<T extends CryptocurrencyUpdateArgs>(
-      args: SelectSubset<T, CryptocurrencyUpdateArgs>,
+      args: SelectSubset<T, CryptocurrencyUpdateArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22927,7 +22926,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends CryptocurrencyDeleteManyArgs>(
-      args?: SelectSubset<T, CryptocurrencyDeleteManyArgs>,
+      args?: SelectSubset<T, CryptocurrencyDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -22948,7 +22947,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends CryptocurrencyUpdateManyArgs>(
-      args: SelectSubset<T, CryptocurrencyUpdateManyArgs>,
+      args: SelectSubset<T, CryptocurrencyUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -22969,7 +22968,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends CryptocurrencyUpsertArgs>(
-      args: SelectSubset<T, CryptocurrencyUpsertArgs>,
+      args: SelectSubset<T, CryptocurrencyUpsertArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T>>;
 
     /**
@@ -22986,12 +22985,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends CryptocurrencyCountArgs>(
-      args?: Subset<T, CryptocurrencyCountArgs>,
+      args?: Subset<T, CryptocurrencyCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], CryptocurrencyCountAggregateOutputType>
+          : GetScalarType<T["select"], CryptocurrencyCountAggregateOutputType>
         : number
     >;
 
@@ -23020,7 +23019,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends CryptocurrencyAggregateArgs>(
-      args: Subset<T, CryptocurrencyAggregateArgs>,
+      args: Subset<T, CryptocurrencyAggregateArgs>
     ): Prisma.PrismaPromise<GetCryptocurrencyAggregateType<T>>;
 
     /**
@@ -23044,20 +23043,20 @@ export namespace Prisma {
     groupBy<
       T extends CryptocurrencyGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CryptocurrencyGroupByArgs['orderBy'] }
-        : { orderBy?: CryptocurrencyGroupByArgs['orderBy'] },
+        ? { orderBy: CryptocurrencyGroupByArgs["orderBy"] }
+        : { orderBy?: CryptocurrencyGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -23068,13 +23067,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -23083,8 +23082,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -23099,10 +23098,10 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
       args: SubsetIntersection<T, CryptocurrencyGroupByArgs, OrderByArg> &
-        InputErrors,
+        InputErrors
     ): {} extends InputErrors
       ? GetCryptocurrencyGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -23128,33 +23127,33 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     market<T extends MarketArgs = {}>(
-      args?: Subset<T, MarketArgs>,
+      args?: Subset<T, MarketArgs>
     ): Prisma__MarketClient<MarketGetPayload<T> | Null>;
 
     parent<T extends CryptocurrencyArgs = {}>(
-      args?: Subset<T, CryptocurrencyArgs>,
+      args?: Subset<T, CryptocurrencyArgs>
     ): Prisma__CryptocurrencyClient<CryptocurrencyGetPayload<T> | Null>;
 
     Children<T extends Cryptocurrency$ChildrenArgs = {}>(
-      args?: Subset<T, Cryptocurrency$ChildrenArgs>,
+      args?: Subset<T, Cryptocurrency$ChildrenArgs>
     ): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>> | Null>;
 
     user<T extends UserArgs = {}>(
-      args?: Subset<T, UserArgs>,
+      args?: Subset<T, UserArgs>
     ): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     private get _document();
@@ -23172,7 +23171,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -23183,7 +23182,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -23727,7 +23726,7 @@ export namespace Prisma {
   };
 
   export type GetMarketAggregateType<T extends MarketAggregateArgs> = {
-    [P in keyof T & keyof AggregateMarket]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateMarket]: P extends "_count" | "count"
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateMarket[P]>
@@ -23771,8 +23770,8 @@ export namespace Prisma {
   type GetMarketGroupByPayload<T extends MarketGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickArray<MarketGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof MarketGroupByOutputType]: P extends '_count'
+        PickArray<MarketGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof MarketGroupByOutputType]: P extends "_count"
             ? T[P] extends boolean
               ? number
               : GetScalarType<T[P], MarketGroupByOutputType[P]>
@@ -23810,38 +23809,38 @@ export namespace Prisma {
   };
 
   export type MarketGetPayload<
-    S extends boolean | null | undefined | MarketArgs,
+    S extends boolean | null | undefined | MarketArgs
   > = S extends { select: any; include: any }
-    ? 'Please either choose `select` or `include`'
+    ? "Please either choose `select` or `include`"
     : S extends true
     ? Market
     : S extends undefined
     ? never
     : S extends { include: any } & (MarketArgs | MarketFindManyArgs)
     ? Market & {
-        [P in TruthyKeys<S['include']>]: P extends 'linked_assets'
-          ? Array<AssetGetPayload<S['include'][P]>>
-          : P extends 'Cryptocurrency'
-          ? Array<CryptocurrencyGetPayload<S['include'][P]>>
-          : P extends '_count'
-          ? MarketCountOutputTypeGetPayload<S['include'][P]>
+        [P in TruthyKeys<S["include"]>]: P extends "linked_assets"
+          ? Array<AssetGetPayload<S["include"][P]>>
+          : P extends "Cryptocurrency"
+          ? Array<CryptocurrencyGetPayload<S["include"][P]>>
+          : P extends "_count"
+          ? MarketCountOutputTypeGetPayload<S["include"][P]>
           : never;
       }
     : S extends { select: any } & (MarketArgs | MarketFindManyArgs)
     ? {
-        [P in TruthyKeys<S['select']>]: P extends 'linked_assets'
-          ? Array<AssetGetPayload<S['select'][P]>>
-          : P extends 'Cryptocurrency'
-          ? Array<CryptocurrencyGetPayload<S['select'][P]>>
-          : P extends '_count'
-          ? MarketCountOutputTypeGetPayload<S['select'][P]>
+        [P in TruthyKeys<S["select"]>]: P extends "linked_assets"
+          ? Array<AssetGetPayload<S["select"][P]>>
+          : P extends "Cryptocurrency"
+          ? Array<CryptocurrencyGetPayload<S["select"][P]>>
+          : P extends "_count"
+          ? MarketCountOutputTypeGetPayload<S["select"][P]>
           : P extends keyof Market
           ? Market[P]
           : never;
       }
     : Market;
 
-  type MarketCountArgs = Omit<MarketFindManyArgs, 'select' | 'include'> & {
+  type MarketCountArgs = Omit<MarketFindManyArgs, "select" | "include"> & {
     select?: MarketCountAggregateInputType | true;
   };
 
@@ -23850,7 +23849,7 @@ export namespace Prisma {
       | Prisma.RejectOnNotFound
       | Prisma.RejectPerOperation
       | false
-      | undefined,
+      | undefined
   > {
     /**
      * Find zero or one Market that matches the filter.
@@ -23865,16 +23864,16 @@ export namespace Prisma {
      **/
     findUnique<
       T extends MarketFindUniqueArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args: SelectSubset<T, MarketFindUniqueArgs>,
+      args: SelectSubset<T, MarketFindUniqueArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findUnique',
-      'Market'
+      "findUnique",
+      "Market"
     > extends True
       ? Prisma__MarketClient<MarketGetPayload<T>>
       : Prisma__MarketClient<MarketGetPayload<T> | null, null>;
@@ -23892,7 +23891,7 @@ export namespace Prisma {
      * })
      **/
     findUniqueOrThrow<T extends MarketFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, MarketFindUniqueOrThrowArgs>,
+      args?: SelectSubset<T, MarketFindUniqueOrThrowArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -23910,16 +23909,16 @@ export namespace Prisma {
      **/
     findFirst<
       T extends MarketFindFirstArgs,
-      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
-        ? T['rejectOnNotFound']
-        : undefined,
+      LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound
+        ? T["rejectOnNotFound"]
+        : undefined
     >(
-      args?: SelectSubset<T, MarketFindFirstArgs>,
+      args?: SelectSubset<T, MarketFindFirstArgs>
     ): HasReject<
       GlobalRejectSettings,
       LocalRejectSettings,
-      'findFirst',
-      'Market'
+      "findFirst",
+      "Market"
     > extends True
       ? Prisma__MarketClient<MarketGetPayload<T>>
       : Prisma__MarketClient<MarketGetPayload<T> | null, null>;
@@ -23939,7 +23938,7 @@ export namespace Prisma {
      * })
      **/
     findFirstOrThrow<T extends MarketFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, MarketFindFirstOrThrowArgs>,
+      args?: SelectSubset<T, MarketFindFirstOrThrowArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -23959,7 +23958,7 @@ export namespace Prisma {
      *
      **/
     findMany<T extends MarketFindManyArgs>(
-      args?: SelectSubset<T, MarketFindManyArgs>,
+      args?: SelectSubset<T, MarketFindManyArgs>
     ): Prisma.PrismaPromise<Array<MarketGetPayload<T>>>;
 
     /**
@@ -23975,7 +23974,7 @@ export namespace Prisma {
      *
      **/
     create<T extends MarketCreateArgs>(
-      args: SelectSubset<T, MarketCreateArgs>,
+      args: SelectSubset<T, MarketCreateArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -23991,7 +23990,7 @@ export namespace Prisma {
      *
      **/
     createMany<T extends MarketCreateManyArgs>(
-      args?: SelectSubset<T, MarketCreateManyArgs>,
+      args?: SelectSubset<T, MarketCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -24007,7 +24006,7 @@ export namespace Prisma {
      *
      **/
     delete<T extends MarketDeleteArgs>(
-      args: SelectSubset<T, MarketDeleteArgs>,
+      args: SelectSubset<T, MarketDeleteArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -24026,7 +24025,7 @@ export namespace Prisma {
      *
      **/
     update<T extends MarketUpdateArgs>(
-      args: SelectSubset<T, MarketUpdateArgs>,
+      args: SelectSubset<T, MarketUpdateArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -24042,7 +24041,7 @@ export namespace Prisma {
      *
      **/
     deleteMany<T extends MarketDeleteManyArgs>(
-      args?: SelectSubset<T, MarketDeleteManyArgs>,
+      args?: SelectSubset<T, MarketDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -24063,7 +24062,7 @@ export namespace Prisma {
      *
      **/
     updateMany<T extends MarketUpdateManyArgs>(
-      args: SelectSubset<T, MarketUpdateManyArgs>,
+      args: SelectSubset<T, MarketUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
@@ -24084,7 +24083,7 @@ export namespace Prisma {
      * })
      **/
     upsert<T extends MarketUpsertArgs>(
-      args: SelectSubset<T, MarketUpsertArgs>,
+      args: SelectSubset<T, MarketUpsertArgs>
     ): Prisma__MarketClient<MarketGetPayload<T>>;
 
     /**
@@ -24101,12 +24100,12 @@ export namespace Prisma {
      * })
      **/
     count<T extends MarketCountArgs>(
-      args?: Subset<T, MarketCountArgs>,
+      args?: Subset<T, MarketCountArgs>
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
+      T extends _Record<"select", any>
+        ? T["select"] extends true
           ? number
-          : GetScalarType<T['select'], MarketCountAggregateOutputType>
+          : GetScalarType<T["select"], MarketCountAggregateOutputType>
         : number
     >;
 
@@ -24135,7 +24134,7 @@ export namespace Prisma {
      * })
      **/
     aggregate<T extends MarketAggregateArgs>(
-      args: Subset<T, MarketAggregateArgs>,
+      args: Subset<T, MarketAggregateArgs>
     ): Prisma.PrismaPromise<GetMarketAggregateType<T>>;
 
     /**
@@ -24159,20 +24158,20 @@ export namespace Prisma {
     groupBy<
       T extends MarketGroupByArgs,
       HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: MarketGroupByArgs['orderBy'] }
-        : { orderBy?: MarketGroupByArgs['orderBy'] },
+        ? { orderBy: MarketGroupByArgs["orderBy"] }
+        : { orderBy?: MarketGroupByArgs["orderBy"] },
       OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T['orderBy']>>
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
       >,
-      ByFields extends TupleToUnion<T['by']>,
+      ByFields extends TupleToUnion<T["by"]>,
       ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
+      HavingFields extends GetHavingFields<T["having"]>,
       HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
+      ByEmpty extends T["by"] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
         ? `Error: "by" must not be empty.`
         : HavingValid extends False
@@ -24183,13 +24182,13 @@ export namespace Prisma {
               ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
               : [
                   Error,
-                  'Field ',
+                  "Field ",
                   P,
-                  ` in "having" needs to be provided in "by"`,
+                  ` in "having" needs to be provided in "by"`
                 ];
           }[HavingFields]
-        : 'take' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "take" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -24198,8 +24197,8 @@ export namespace Prisma {
                   : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
               }[OrderFields]
           : 'Error: If you provide "take", you also need to provide "orderBy"'
-        : 'skip' extends Keys<T>
-        ? 'orderBy' extends Keys<T>
+        : "skip" extends Keys<T>
+        ? "orderBy" extends Keys<T>
           ? ByValid extends True
             ? {}
             : {
@@ -24214,9 +24213,9 @@ export namespace Prisma {
             [P in OrderFields]: P extends ByFields
               ? never
               : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-          }[OrderFields],
+          }[OrderFields]
     >(
-      args: SubsetIntersection<T, MarketGroupByArgs, OrderByArg> & InputErrors,
+      args: SubsetIntersection<T, MarketGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
       ? GetMarketGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
@@ -24242,25 +24241,25 @@ export namespace Prisma {
     private _isList;
     private _callsite;
     private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    readonly [Symbol.toStringTag]: "PrismaPromise";
     constructor(
       _dmmf: runtime.DMMFClass,
-      _queryType: 'query' | 'mutation',
+      _queryType: "query" | "mutation",
       _rootField: string,
       _clientMethod: string,
       _args: any,
       _dataPath: string[],
       _errorFormat: ErrorFormat,
       _measurePerformance?: boolean | undefined,
-      _isList?: boolean,
+      _isList?: boolean
     );
 
     linked_assets<T extends Market$linked_assetsArgs = {}>(
-      args?: Subset<T, Market$linked_assetsArgs>,
+      args?: Subset<T, Market$linked_assetsArgs>
     ): Prisma.PrismaPromise<Array<AssetGetPayload<T>> | Null>;
 
     Cryptocurrency<T extends Market$CryptocurrencyArgs = {}>(
-      args?: Subset<T, Market$CryptocurrencyArgs>,
+      args?: Subset<T, Market$CryptocurrencyArgs>
     ): Prisma.PrismaPromise<Array<CryptocurrencyGetPayload<T>> | Null>;
 
     private get _document();
@@ -24278,7 +24277,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult2 | PromiseLike<TResult2>)
         | undefined
-        | null,
+        | null
     ): Promise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
@@ -24289,7 +24288,7 @@ export namespace Prisma {
       onrejected?:
         | ((reason: any) => TResult | PromiseLike<TResult>)
         | undefined
-        | null,
+        | null
     ): Promise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -24680,406 +24679,406 @@ export namespace Prisma {
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const AccountScalarFieldEnum: {
-    id: 'id';
-    userId: 'userId';
-    type: 'type';
-    provider: 'provider';
-    providerAccountId: 'providerAccountId';
-    refresh_token: 'refresh_token';
-    access_token: 'access_token';
-    expires_at: 'expires_at';
-    token_type: 'token_type';
-    scope: 'scope';
-    id_token: 'id_token';
-    session_state: 'session_state';
+    id: "id";
+    userId: "userId";
+    type: "type";
+    provider: "provider";
+    providerAccountId: "providerAccountId";
+    refresh_token: "refresh_token";
+    access_token: "access_token";
+    expires_at: "expires_at";
+    token_type: "token_type";
+    scope: "scope";
+    id_token: "id_token";
+    session_state: "session_state";
   };
 
   export type AccountScalarFieldEnum =
     (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum];
 
   export const AssetLabelScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    icon: 'icon';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
-    assetId: 'assetId';
+    id: "id";
+    name: "name";
+    icon: "icon";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
+    assetId: "assetId";
   };
 
   export type AssetLabelScalarFieldEnum =
     (typeof AssetLabelScalarFieldEnum)[keyof typeof AssetLabelScalarFieldEnum];
 
   export const AssetScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    institution: 'institution';
-    currency: 'currency';
-    apiKey: 'apiKey';
-    apiSecret: 'apiSecret';
-    walletAddress: 'walletAddress';
-    balance: 'balance';
-    costBasis: 'costBasis';
-    realisedGain: 'realisedGain';
-    targetBalance: 'targetBalance';
-    interestBearingBalance: 'interestBearingBalance';
-    incomeRate: 'incomeRate';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
-    account: 'account';
-    category: 'category';
-    categoryId: 'categoryId';
-    marketId: 'marketId';
-    parentId: 'parentId';
-    userId: 'userId';
-    status: 'status';
+    id: "id";
+    name: "name";
+    institution: "institution";
+    currency: "currency";
+    apiKey: "apiKey";
+    apiSecret: "apiSecret";
+    walletAddress: "walletAddress";
+    balance: "balance";
+    costBasis: "costBasis";
+    realisedGain: "realisedGain";
+    targetBalance: "targetBalance";
+    interestBearingBalance: "interestBearingBalance";
+    incomeRate: "incomeRate";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
+    account: "account";
+    category: "category";
+    categoryId: "categoryId";
+    marketId: "marketId";
+    parentId: "parentId";
+    userId: "userId";
+    status: "status";
   };
 
   export type AssetScalarFieldEnum =
     (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum];
 
   export const AssetTransactionScalarFieldEnum: {
-    id: 'id';
-    timestamp: 'timestamp';
-    pricePerUnit: 'pricePerUnit';
-    baseCurrency: 'baseCurrency';
-    quantity: 'quantity';
-    quantityFilled: 'quantityFilled';
-    fee: 'fee';
-    valueInBaseCurrency: 'valueInBaseCurrency';
-    fromAsset: 'fromAsset';
-    toAsset: 'toAsset';
-    market: 'market';
-    transactionType: 'transactionType';
-    expiry: 'expiry';
-    status: 'status';
-    transactionHash: 'transactionHash';
-    description: 'description';
-    memo: 'memo';
-    relatedAssetId: 'relatedAssetId';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    timestamp: "timestamp";
+    pricePerUnit: "pricePerUnit";
+    baseCurrency: "baseCurrency";
+    quantity: "quantity";
+    quantityFilled: "quantityFilled";
+    fee: "fee";
+    valueInBaseCurrency: "valueInBaseCurrency";
+    fromAsset: "fromAsset";
+    toAsset: "toAsset";
+    market: "market";
+    transactionType: "transactionType";
+    expiry: "expiry";
+    status: "status";
+    transactionHash: "transactionHash";
+    description: "description";
+    memo: "memo";
+    relatedAssetId: "relatedAssetId";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type AssetTransactionScalarFieldEnum =
     (typeof AssetTransactionScalarFieldEnum)[keyof typeof AssetTransactionScalarFieldEnum];
 
   export const BudgetEnvelopeScalarFieldEnum: {
-    id: 'id';
-    budgetId: 'budgetId';
-    name: 'name';
-    remainingAmount: 'remainingAmount';
-    totalAmount: 'totalAmount';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    budgetId: "budgetId";
+    name: "name";
+    remainingAmount: "remainingAmount";
+    totalAmount: "totalAmount";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type BudgetEnvelopeScalarFieldEnum =
     (typeof BudgetEnvelopeScalarFieldEnum)[keyof typeof BudgetEnvelopeScalarFieldEnum];
 
   export const BudgetScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    userId: 'userId';
-    totalBalance: 'totalBalance';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    name: "name";
+    userId: "userId";
+    totalBalance: "totalBalance";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type BudgetScalarFieldEnum =
     (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum];
 
   export const BudgetTransactionScalarFieldEnum: {
-    id: 'id';
-    timestamp: 'timestamp';
-    pricePerUnit: 'pricePerUnit';
-    baseCurrency: 'baseCurrency';
-    quantity: 'quantity';
-    quantityFilled: 'quantityFilled';
-    fee: 'fee';
-    valueInBaseCurrency: 'valueInBaseCurrency';
-    fromAsset: 'fromAsset';
-    toAsset: 'toAsset';
-    market: 'market';
-    transactionType: 'transactionType';
-    expiry: 'expiry';
-    status: 'status';
-    transactionHash: 'transactionHash';
-    description: 'description';
-    memo: 'memo';
-    imageUrl: 'imageUrl';
-    imageName: 'imageName';
-    imageId: 'imageId';
-    budgetEnvelopeId: 'budgetEnvelopeId';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    timestamp: "timestamp";
+    pricePerUnit: "pricePerUnit";
+    baseCurrency: "baseCurrency";
+    quantity: "quantity";
+    quantityFilled: "quantityFilled";
+    fee: "fee";
+    valueInBaseCurrency: "valueInBaseCurrency";
+    fromAsset: "fromAsset";
+    toAsset: "toAsset";
+    market: "market";
+    transactionType: "transactionType";
+    expiry: "expiry";
+    status: "status";
+    transactionHash: "transactionHash";
+    description: "description";
+    memo: "memo";
+    imageUrl: "imageUrl";
+    imageName: "imageName";
+    imageId: "imageId";
+    budgetEnvelopeId: "budgetEnvelopeId";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type BudgetTransactionScalarFieldEnum =
     (typeof BudgetTransactionScalarFieldEnum)[keyof typeof BudgetTransactionScalarFieldEnum];
 
   export const CashSnapshotScalarFieldEnum: {
-    id: 'id';
-    currency: 'currency';
-    totalValue: 'totalValue';
-    costBasis: 'costBasis';
-    unrealisedGain: 'unrealisedGain';
-    realisedGain: 'realisedGain';
-    saleableValue: 'saleableValue';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    currency: "currency";
+    totalValue: "totalValue";
+    costBasis: "costBasis";
+    unrealisedGain: "unrealisedGain";
+    realisedGain: "realisedGain";
+    saleableValue: "saleableValue";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type CashSnapshotScalarFieldEnum =
     (typeof CashSnapshotScalarFieldEnum)[keyof typeof CashSnapshotScalarFieldEnum];
 
   export const CryptoSnapshotScalarFieldEnum: {
-    id: 'id';
-    currency: 'currency';
-    totalValue: 'totalValue';
-    costBasis: 'costBasis';
-    unrealisedGain: 'unrealisedGain';
-    realisedGain: 'realisedGain';
-    saleableValue: 'saleableValue';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    currency: "currency";
+    totalValue: "totalValue";
+    costBasis: "costBasis";
+    unrealisedGain: "unrealisedGain";
+    realisedGain: "realisedGain";
+    saleableValue: "saleableValue";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type CryptoSnapshotScalarFieldEnum =
     (typeof CryptoSnapshotScalarFieldEnum)[keyof typeof CryptoSnapshotScalarFieldEnum];
 
   export const CryptocurrencyScalarFieldEnum: {
-    id: 'id';
-    displayName: 'displayName';
-    currency: 'currency';
-    balance: 'balance';
-    costBasis: 'costBasis';
-    realisedGain: 'realisedGain';
-    apiKey: 'apiKey';
-    apiSecret: 'apiSecret';
-    walletAddress: 'walletAddress';
-    targetBalance: 'targetBalance';
-    interestBearingBalance: 'interestBearingBalance';
-    incomeRate: 'incomeRate';
-    accountConnection: 'accountConnection';
-    marketId: 'marketId';
-    parentId: 'parentId';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    displayName: "displayName";
+    currency: "currency";
+    balance: "balance";
+    costBasis: "costBasis";
+    realisedGain: "realisedGain";
+    apiKey: "apiKey";
+    apiSecret: "apiSecret";
+    walletAddress: "walletAddress";
+    targetBalance: "targetBalance";
+    interestBearingBalance: "interestBearingBalance";
+    incomeRate: "incomeRate";
+    accountConnection: "accountConnection";
+    marketId: "marketId";
+    parentId: "parentId";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type CryptocurrencyScalarFieldEnum =
     (typeof CryptocurrencyScalarFieldEnum)[keyof typeof CryptocurrencyScalarFieldEnum];
 
   export const CustomAssetCategoryScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    icon: 'icon';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    name: "name";
+    icon: "icon";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type CustomAssetCategoryScalarFieldEnum =
     (typeof CustomAssetCategoryScalarFieldEnum)[keyof typeof CustomAssetCategoryScalarFieldEnum];
 
   export const IncomeScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    payFrequency: 'payFrequency';
-    grossAmount: 'grossAmount';
-    grossFrequency: 'grossFrequency';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    name: "name";
+    payFrequency: "payFrequency";
+    grossAmount: "grossAmount";
+    grossFrequency: "grossFrequency";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type IncomeScalarFieldEnum =
     (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum];
 
   export const LogScalarFieldEnum: {
-    id: 'id';
-    type: 'type';
-    message: 'message';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    type: "type";
+    message: "message";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type LogScalarFieldEnum =
     (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum];
 
   export const MarketScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    ticker: 'ticker';
-    description: 'description';
-    currency: 'currency';
-    price: 'price';
-    priceChange24h: 'priceChange24h';
-    priceChange24hPercent: 'priceChange24hPercent';
-    marketCap: 'marketCap';
-    marketCapRank: 'marketCapRank';
-    type: 'type';
-    image: 'image';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    name: "name";
+    ticker: "ticker";
+    description: "description";
+    currency: "currency";
+    price: "price";
+    priceChange24h: "priceChange24h";
+    priceChange24hPercent: "priceChange24hPercent";
+    marketCap: "marketCap";
+    marketCapRank: "marketCapRank";
+    type: "type";
+    image: "image";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type MarketScalarFieldEnum =
     (typeof MarketScalarFieldEnum)[keyof typeof MarketScalarFieldEnum];
 
   export const PortfolioSnapshotScalarFieldEnum: {
-    id: 'id';
-    currency: 'currency';
-    totalValue: 'totalValue';
-    costBasis: 'costBasis';
-    unrealisedGain: 'unrealisedGain';
-    realisedGain: 'realisedGain';
-    saleableValue: 'saleableValue';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    currency: "currency";
+    totalValue: "totalValue";
+    costBasis: "costBasis";
+    unrealisedGain: "unrealisedGain";
+    realisedGain: "realisedGain";
+    saleableValue: "saleableValue";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type PortfolioSnapshotScalarFieldEnum =
     (typeof PortfolioSnapshotScalarFieldEnum)[keyof typeof PortfolioSnapshotScalarFieldEnum];
 
   export const PropertySnapshotScalarFieldEnum: {
-    id: 'id';
-    currency: 'currency';
-    totalValue: 'totalValue';
-    costBasis: 'costBasis';
-    unrealisedGain: 'unrealisedGain';
-    realisedGain: 'realisedGain';
-    saleableValue: 'saleableValue';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    currency: "currency";
+    totalValue: "totalValue";
+    costBasis: "costBasis";
+    unrealisedGain: "unrealisedGain";
+    realisedGain: "realisedGain";
+    saleableValue: "saleableValue";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type PropertySnapshotScalarFieldEnum =
     (typeof PropertySnapshotScalarFieldEnum)[keyof typeof PropertySnapshotScalarFieldEnum];
 
   export const QueryMode: {
-    default: 'default';
-    insensitive: 'insensitive';
+    default: "default";
+    insensitive: "insensitive";
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
 
   export const SecuritySnapshotScalarFieldEnum: {
-    id: 'id';
-    currency: 'currency';
-    totalValue: 'totalValue';
-    costBasis: 'costBasis';
-    unrealisedGain: 'unrealisedGain';
-    realisedGain: 'realisedGain';
-    saleableValue: 'saleableValue';
-    userId: 'userId';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    currency: "currency";
+    totalValue: "totalValue";
+    costBasis: "costBasis";
+    unrealisedGain: "unrealisedGain";
+    realisedGain: "realisedGain";
+    saleableValue: "saleableValue";
+    userId: "userId";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type SecuritySnapshotScalarFieldEnum =
     (typeof SecuritySnapshotScalarFieldEnum)[keyof typeof SecuritySnapshotScalarFieldEnum];
 
   export const SessionScalarFieldEnum: {
-    id: 'id';
-    sessionToken: 'sessionToken';
-    userId: 'userId';
-    expires: 'expires';
+    id: "id";
+    sessionToken: "sessionToken";
+    userId: "userId";
+    expires: "expires";
   };
 
   export type SessionScalarFieldEnum =
     (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum];
 
   export const SettingsScalarFieldEnum: {
-    id: 'id';
-    userId: 'userId';
-    preferredColorScheme: 'preferredColorScheme';
-    userCurrency: 'userCurrency';
-    userLanguage: 'userLanguage';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
+    id: "id";
+    userId: "userId";
+    preferredColorScheme: "preferredColorScheme";
+    userCurrency: "userCurrency";
+    userLanguage: "userLanguage";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
   };
 
   export type SettingsScalarFieldEnum =
     (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum];
 
   export const SortOrder: {
-    asc: 'asc';
-    desc: 'desc';
+    asc: "asc";
+    desc: "desc";
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 
   export const TransactionIsolationLevel: {
-    ReadUncommitted: 'ReadUncommitted';
-    ReadCommitted: 'ReadCommitted';
-    RepeatableRead: 'RepeatableRead';
-    Serializable: 'Serializable';
+    ReadUncommitted: "ReadUncommitted";
+    ReadCommitted: "ReadCommitted";
+    RepeatableRead: "RepeatableRead";
+    Serializable: "Serializable";
   };
 
   export type TransactionIsolationLevel =
     (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
   export const UserScalarFieldEnum: {
-    id: 'id';
-    name: 'name';
-    email: 'email';
-    emailVerified: 'emailVerified';
-    image: 'image';
-    createdAt: 'createdAt';
-    updatedAt: 'updatedAt';
-    deleted: 'deleted';
-    deletedAt: 'deletedAt';
-    role: 'role';
+    id: "id";
+    name: "name";
+    email: "email";
+    emailVerified: "emailVerified";
+    image: "image";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+    deleted: "deleted";
+    deletedAt: "deletedAt";
+    role: "role";
   };
 
   export type UserScalarFieldEnum =
     (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 
   export const VerificationTokenScalarFieldEnum: {
-    identifier: 'identifier';
-    token: 'token';
-    expires: 'expires';
+    identifier: "identifier";
+    token: "token";
+    expires: "expires";
   };
 
   export type VerificationTokenScalarFieldEnum =

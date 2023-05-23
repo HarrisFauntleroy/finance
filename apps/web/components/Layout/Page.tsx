@@ -1,6 +1,6 @@
-import { Container, ContainerProps } from '@mantine/core';
-import Head from 'next/head';
-import { PropsWithChildren } from 'react';
+import { Container, ContainerProps } from "@mantine/core";
+import Head from "next/head";
+import { PropsWithChildren } from "react";
 
 type PageProps<T> = PropsWithChildren<T> & ContainerProps;
 

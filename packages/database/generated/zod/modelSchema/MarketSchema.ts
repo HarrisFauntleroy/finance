@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { MarketTypeSchema } from '../inputTypeSchemas/MarketTypeSchema';
+import { z } from "zod";
+import { MarketTypeSchema } from "../inputTypeSchemas/MarketTypeSchema";
 
 /////////////////////////////////////////
 // MARKET SCHEMA

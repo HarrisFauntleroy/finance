@@ -1,6 +1,6 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { date, z } from 'zod';
+import { date, z } from "zod";
 
 export const createAssetTransactionInput = z.object({
   userId: z.string(),
@@ -24,7 +24,7 @@ export const createAssetTransactionInput = z.object({
 });
 
 export async function createAssetTransaction(
-  data: z.infer<typeof createAssetTransactionInput>,
+  data: z.infer<typeof createAssetTransactionInput>
 ) {
   return await prisma.assetTransaction.create({ data });
 }

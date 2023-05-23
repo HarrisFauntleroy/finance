@@ -1,9 +1,9 @@
-import { Skeleton } from '@chakra-ui/react';
-import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
-import type { CSSProperties } from 'react';
+import { Skeleton } from "@chakra-ui/react";
+import { ApexOptions } from "apexcharts";
+import dynamic from "next/dynamic";
+import type { CSSProperties } from "react";
 
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 type ChartScaffoldProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,22 +11,22 @@ type ChartScaffoldProps = {
   options?: ApexOptions;
   style?: CSSProperties;
   type:
-    | 'area'
-    | 'line'
-    | 'bar'
-    | 'scatter'
-    | 'bubble'
-    | 'pie'
-    | 'polarArea'
-    | 'radar'
-    | 'histogram'
-    | 'donut'
-    | 'radialBar'
-    | 'heatmap'
-    | 'treemap'
-    | 'boxPlot'
-    | 'candlestick'
-    | 'rangeBar';
+    | "area"
+    | "line"
+    | "bar"
+    | "scatter"
+    | "bubble"
+    | "pie"
+    | "polarArea"
+    | "radar"
+    | "histogram"
+    | "donut"
+    | "radialBar"
+    | "heatmap"
+    | "treemap"
+    | "boxPlot"
+    | "candlestick"
+    | "rangeBar";
 };
 
 function ChartScaffold(props: ChartScaffoldProps) {
@@ -34,7 +34,7 @@ function ChartScaffold(props: ChartScaffoldProps) {
     <Skeleton
       height="100%"
       width="100%"
-      isLoaded={typeof window !== 'undefined'}
+      isLoaded={typeof window !== "undefined"}
     >
       <Chart height="100%" width="100%" {...props} />
     </Skeleton>

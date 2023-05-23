@@ -1,9 +1,9 @@
-import { calculateSMA } from './sma';
+import { calculateSMA } from "./sma";
 
 // Calculate the standard deviation of an array of prices's prices over a given number of days
 export function calculateStandardDeviation(
   prices: number[],
-  days: number,
+  days: number
 ): number {
   // Calculate the SMA of then array of prices's prices over the past `days` days
   const sma = calculateSMA(prices, days);

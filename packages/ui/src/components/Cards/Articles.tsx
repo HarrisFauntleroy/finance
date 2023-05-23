@@ -3,13 +3,13 @@
  * Simple vertical map of articles
  *
  */
-import React from 'react';
+import React from "react";
 
-import { ArticleCard } from '../Cards/ArticleCard';
-import { LineWithDot } from '../Cards/LineWIthDot';
+import { ArticleCard } from "../Cards/ArticleCard";
+import { LineWithDot } from "../Cards/LineWIthDot";
 
-import { chakra, Container, Flex } from '@chakra-ui/react';
-import type { IconType } from 'react-icons';
+import { chakra, Container, Flex } from "@chakra-ui/react";
+import type { IconType } from "react-icons";
 
 type Category = string[];
 

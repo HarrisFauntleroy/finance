@@ -3,19 +3,19 @@
  * Internationalization
  *
  */
-import { Dispatch, SetStateAction, createContext, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from "react";
 
-import enAUMessages from '../../lang/en-AU.json';
-import enUSMessages from '../../lang/en-US.json';
-import zhCNMessages from '../../lang/zh-CN.json';
+import enAUMessages from "../../lang/en-AU.json";
+import enUSMessages from "../../lang/en-US.json";
+import zhCNMessages from "../../lang/zh-CN.json";
 
-import type { PropsWithChildren } from 'react';
-import { IntlProvider as Provider } from 'react-intl';
+import type { PropsWithChildren } from "react";
+import { IntlProvider as Provider } from "react-intl";
 
 export enum LOCALE {
-  AUSTRALIAN = 'en-AU',
-  AMERICAN = 'en-US',
-  CHINESE = 'zh-CN',
+  AUSTRALIAN = "en-AU",
+  AMERICAN = "en-US",
+  CHINESE = "zh-CN",
 }
 
 export type LocaleType = {
@@ -29,7 +29,7 @@ type IntlContextType = {
 };
 
 const defaultValues = {
-  locale: { label: 'Australian', value: LOCALE.AUSTRALIAN },
+  locale: { label: "Australian", value: LOCALE.AUSTRALIAN },
   setLocale: () => null,
 };
 

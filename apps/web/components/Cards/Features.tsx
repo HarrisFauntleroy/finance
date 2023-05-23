@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { FeatureCard } from '../Cards/FeatureCard';
-import { Grid } from '../Grid';
+import { FeatureCard } from "../Cards/FeatureCard";
+import { Grid } from "../Grid";
 
-import { Container } from '@chakra-ui/react';
-import type { ReactNode } from 'react';
+import { Container } from "@chakra-ui/react";
+import type { ReactNode } from "react";
 
 export type Feature = {
   heading: string;

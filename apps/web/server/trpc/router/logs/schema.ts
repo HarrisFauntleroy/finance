@@ -1,6 +1,6 @@
-import { LogType, Prisma } from 'database/generated/prisma-client';
+import { LogType, Prisma } from "database/generated/prisma-client";
 
-import { z } from 'zod';
+import { z } from "zod";
 
 export const LogSelectSchema = Prisma.validator<Prisma.LogSelect>()({
   id: true,

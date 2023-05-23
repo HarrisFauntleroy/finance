@@ -1,8 +1,8 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { createBudgetInput } from './create';
+import { createBudgetInput } from "./create";
 
-import { z } from 'zod';
+import { z } from "zod";
 
 export const updateBudgetInput = createBudgetInput.extend({
   id: z.string(),

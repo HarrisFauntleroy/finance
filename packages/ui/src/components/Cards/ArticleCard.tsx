@@ -3,7 +3,7 @@
  * Simple vertical map of articles
  *
  */
-import React from 'react';
+import React from "react";
 
 import {
   Box,
@@ -14,8 +14,8 @@ import {
   Text,
   useColorModeValue,
   VStack,
-} from '@chakra-ui/react';
-import type { IconType } from 'react-icons';
+} from "@chakra-ui/react";
+import type { IconType } from "react-icons";
 
 type CardProps = {
   title: string;
@@ -35,24 +35,24 @@ export function ArticleCard({
   return (
     <HStack
       p={{ base: 3, sm: 6 }}
-      bg={useColorModeValue('gray.100', 'gray.800')}
+      bg={useColorModeValue("gray.100", "gray.800")}
       spacing={5}
       rounded="lg"
       alignItems="center"
       pos="relative"
       _before={{
         content: '""',
-        w: '0',
-        h: '0',
+        w: "0",
+        h: "0",
         borderColor: `transparent ${useColorModeValue(
-          '#edf2f6',
-          '#1a202c',
+          "#edf2f6",
+          "#1a202c"
         )} transparent`,
-        borderStyle: 'solid',
-        borderWidth: '15px 15px 15px 0',
-        position: 'absolute',
-        left: '-15px',
-        display: 'block',
+        borderStyle: "solid",
+        borderWidth: "15px 15px 15px 0",
+        position: "absolute",
+        left: "-15px",
+        display: "block",
       }}
     >
       <Icon as={icon} w={12} h={12} color="teal.400" />
@@ -67,7 +67,7 @@ export function ArticleCard({
         <VStack spacing={2} mb={3} textAlign="left">
           <chakra.h1
             as={Link}
-            _hover={{ color: 'teal.400' }}
+            _hover={{ color: "teal.400" }}
             fontSize="2xl"
             lineHeight={1.2}
             fontWeight="bold"

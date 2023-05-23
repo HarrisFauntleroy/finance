@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { logger } from 'common';
+import { logger } from "common";
 
 import {
   Button,
@@ -18,9 +18,9 @@ import {
   Thead,
   Tr,
   useDisclosure,
-} from '@chakra-ui/react';
-import { parse } from 'papaparse';
-import type { ChangeEvent } from 'react';
+} from "@chakra-ui/react";
+import { parse } from "papaparse";
+import type { ChangeEvent } from "react";
 
 // Load the CSV file and parse its contents
 export async function loadCSV(file: File): Promise<unknown[]> {
@@ -29,14 +29,14 @@ export async function loadCSV(file: File): Promise<unknown[]> {
       header: true,
       dynamicTyping: true,
       complete: (results) => {
-        logger.info('Loaded CSV', results.data);
+        logger.info("Loaded CSV", results.data);
         resolve(results.data);
       },
       error: (error) => {
         logger.error(error.message);
         reject(error);
       },
-    }),
+    })
   );
 }
 
@@ -56,8 +56,8 @@ export const Csv = () => {
         setCsvState(parsedData);
       });
     }
-    logger.error('File not found');
-    return { error: 'File not found' };
+    logger.error("File not found");
+    return { error: "File not found" };
   }
 
   return (
@@ -100,7 +100,7 @@ export const Csv = () => {
                               // }
                             />
                           </Td>
-                        ),
+                        )
                       )}
                     </Tr>
                   ))}

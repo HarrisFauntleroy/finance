@@ -1,4 +1,4 @@
-import { average } from '../math';
+import { average } from "../math";
 
 // Calculate the simple moving average (SMA) for an array of prices over a given number of days
 export function calculateSMA(prices: number[], days: number): number {

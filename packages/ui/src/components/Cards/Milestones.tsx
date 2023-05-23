@@ -3,13 +3,13 @@
  * Simple vertical map of milestones
  *
  */
-import React from 'react';
+import React from "react";
 
-import { EmptyCard } from '../Cards/EmptyCard';
-import { LineWithDot } from '../Cards/LineWIthDot';
-import { MilestoneCard } from '../Cards/MilestoneCard';
+import { EmptyCard } from "../Cards/EmptyCard";
+import { LineWithDot } from "../Cards/LineWIthDot";
+import { MilestoneCard } from "../Cards/MilestoneCard";
 
-import { chakra, Container, Flex, useBreakpointValue } from '@chakra-ui/react';
+import { chakra, Container, Flex, useBreakpointValue } from "@chakra-ui/react";
 
 export type Milestone = {
   id: number;

@@ -1,4 +1,4 @@
-import { logger } from 'common';
+import { logger } from "common";
 
 export class Progress {
   private total: number;
@@ -31,8 +31,8 @@ export class Progress {
 
   private getProgressBar(percentage: number): string {
     const progress = Math.round((percentage / 100) * this.progressBarLength);
-    return `[${'|'.repeat(progress)}${'-'.repeat(
-      this.progressBarLength - progress,
+    return `[${"|".repeat(progress)}${"-".repeat(
+      this.progressBarLength - progress
     )}]`;
   }
 }

@@ -1,7 +1,7 @@
-import { prisma } from 'database';
-import { AccountConnection, Category } from 'database/generated/prisma-client';
+import { prisma } from "database";
+import { AccountConnection, Category } from "database/generated/prisma-client";
 
-import { date, z } from 'zod';
+import { date, z } from "zod";
 
 const CurrencyType = z.string().regex(/^[A-Z]{3}$/);
 
@@ -34,7 +34,7 @@ export const createBudgetTransactionInput = z.object({
 });
 
 export async function createBudgetTransaction(
-  data: z.infer<typeof createBudgetTransactionInput>,
+  data: z.infer<typeof createBudgetTransactionInput>
 ) {
   return await prisma.budgetTransaction.create({ data });
 }

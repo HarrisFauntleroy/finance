@@ -1,5 +1,5 @@
-import { calculateAverageGain } from './averageGain';
-import { calculateAverageLoss } from './averageLoss';
+import { calculateAverageGain } from "./averageGain";
+import { calculateAverageLoss } from "./averageLoss";
 
 // RSI = 100 - 100 / (1 + (average gain / average loss))
 

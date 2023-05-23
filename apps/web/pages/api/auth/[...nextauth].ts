@@ -2,14 +2,14 @@
  * Authentication route using NextAuth
  * Prisma adapter provides type mapping and ORM
  */
-import { prisma } from 'database';
-import { Role } from 'database/generated/prisma-client';
+import { prisma } from "database";
+import { Role } from "database/generated/prisma-client";
 
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import type { NextAuthOptions } from 'next-auth';
-import NextAuth, { getServerSession } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextAuthOptions } from "next-auth";
+import NextAuth, { getServerSession } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
           },
         };
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
         throw error;
       }
     },
@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
       } catch (error) {
-        console.error('Error creating user settings:', error);
+        console.error("Error creating user settings:", error);
         throw error;
       }
     },
@@ -74,11 +74,11 @@ export default NextAuth(authOptions);
 
 export const hasUserSession = async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) => {
   const session = await getServerSession(req, res, authOptions);
   if (session) {
     return session.userId;
   }
-  throw new Error('User not found!');
+  throw new Error("User not found!");
 };

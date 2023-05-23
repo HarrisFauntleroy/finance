@@ -1,12 +1,12 @@
-import { flattenArrToObj, logger } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { flattenArrToObj, logger } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
 export function runOnServer(fn: () => void) {
-  if (typeof window === 'undefined' || !process.browser) {
+  if (typeof window === "undefined" || !process.browser) {
     fn();
   } else {
-    logger.error('This function can only be run on the server');
+    logger.error("This function can only be run on the server");
   }
 }
 
@@ -30,7 +30,7 @@ export const getExchangeRates = async (): Promise<Record<string, string>> => {
       price: price?.toString(),
     };
   });
-  return flattenArrToObj(market, 'ticker', 'price');
+  return flattenArrToObj(market, "ticker", "price");
 };
 
 export const getUserCurrency = async (userId: string): Promise<string> => {

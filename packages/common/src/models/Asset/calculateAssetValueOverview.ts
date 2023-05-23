@@ -1,22 +1,22 @@
-import currency from 'currency.js';
+import currency from "currency.js";
 
-import { sumArrayByKey } from '../../util';
-import { AssetWithCalculatedValues } from './types';
+import { sumArrayByKey } from "../../util";
+import { AssetWithCalculatedValues } from "./types";
 
 export function calculateAssetValueOverview(data: AssetWithCalculatedValues[]) {
-  const totalValue = sumArrayByKey(data, 'value').toString();
+  const totalValue = sumArrayByKey(data, "value").toString();
 
-  const totalCostBasis = sumArrayByKey(data, 'costBasis').toString();
+  const totalCostBasis = sumArrayByKey(data, "costBasis").toString();
 
   const unrealisedGain = currency(totalValue)
     .subtract(totalCostBasis)
     .toString();
 
-  const saleableValue = sumArrayByKey(data, 'saleableValue').toString();
+  const saleableValue = sumArrayByKey(data, "saleableValue").toString();
 
   const totalEstimatedYearlyReturn = sumArrayByKey(
     data,
-    'estimatedYearlyReturn',
+    "estimatedYearlyReturn"
   ).toString();
 
   return {

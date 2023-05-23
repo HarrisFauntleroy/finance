@@ -1,14 +1,14 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { useDebounce } from '../../hooks/useDebounce';
+import { useDebounce } from "../../hooks/useDebounce";
 
-import { Input, InputProps } from '@chakra-ui/react';
+import { Input, InputProps } from "@chakra-ui/react";
 
 type DebouncedInputProps = {
   value: string | number;
   onChange: (value: string | number) => void;
   debounce?: number;
-} & Omit<InputProps, 'value' | 'onChange'>;
+} & Omit<InputProps, "value" | "onChange">;
 
 export const DebouncedInput: FC<DebouncedInputProps> = ({
   value: initialValue,

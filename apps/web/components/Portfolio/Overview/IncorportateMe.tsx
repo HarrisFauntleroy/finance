@@ -1,6 +1,6 @@
-import { Card } from '../../Cards';
+import { Card } from "../../Cards";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
 import {
   Table as ChakraTable,
@@ -11,16 +11,16 @@ import {
   Text,
   Th,
   Tr,
-} from '@chakra-ui/react';
-import { useSession } from 'next-auth/react';
-import Currency from '../../Currency';
+} from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
+import Currency from "../../Currency";
 
 function Overview() {
   const session = useSession();
   const userId = session?.data?.userId;
 
   const { data } = trpc.assets.byUserIdOld.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   return (
@@ -28,7 +28,7 @@ function Overview() {
       <Stack>
         <Text
           variant="h3"
-          fontSize={{ base: 'lg', sm: '2xl' }}
+          fontSize={{ base: "lg", sm: "2xl" }}
           fontWeight="bold"
           lineHeight="1.2"
         >

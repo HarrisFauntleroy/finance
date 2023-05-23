@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { logger } from 'common';
+import { logger } from "common";
 
-import { defaultToast } from '../../utils/toast';
-import { RouterOutput, trpc } from '../../utils/trpc';
+import { defaultToast } from "../../utils/toast";
+import { RouterOutput, trpc } from "../../utils/trpc";
 
-import { Autocomplete } from '../Form/Autocomplete';
+import { Autocomplete } from "../Form/Autocomplete";
 
-import { SettingsIcon } from '@chakra-ui/icons';
+import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonGroup,
@@ -21,16 +21,16 @@ import {
   Stack,
   useDisclosure,
   useToast,
-} from '@chakra-ui/react';
-import type { Settings } from 'database/generated/prisma-client';
-import { useSession } from 'next-auth/react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { TextInput } from '../TextInput';
-import { Debug } from '../Debug';
-import { Drawer } from '../Drawer';
+} from "@chakra-ui/react";
+import type { Settings } from "database/generated/prisma-client";
+import { useSession } from "next-auth/react";
+import { FormProvider, useForm } from "react-hook-form";
+import { TextInput } from "../TextInput";
+import { Debug } from "../Debug";
+import { Drawer } from "../Drawer";
 
 type SettingsFormProps = {
-  defaultValues?: RouterOutput['settings']['byUserId'];
+  defaultValues?: RouterOutput["settings"]["byUserId"];
 };
 
 export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
@@ -69,16 +69,16 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
         .then(() => {
           reset();
           toast({
-            title: 'Updated!',
-            status: 'success',
+            title: "Updated!",
+            status: "success",
             ...defaultToast,
           });
         })
         .catch(() => {
           reset();
           toast({
-            title: 'Error!',
-            status: 'error',
+            title: "Error!",
+            status: "error",
             ...defaultToast,
           });
         });
@@ -100,7 +100,7 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
             validation={{
               minLength: {
                 value: 3,
-                message: 'Minimum length should be 3',
+                message: "Minimum length should be 3",
               },
             }}
             error={errors.userLanguage?.message}
@@ -110,7 +110,7 @@ export const SettingsForm = ({ defaultValues }: SettingsFormProps) => {
             name="preferredColorScheme"
             register={register}
             validation={{
-              required: 'This is required',
+              required: "This is required",
             }}
             error={errors.preferredColorScheme?.message}
           />
@@ -146,7 +146,7 @@ export const SettingsDrawer = ({ defaultValues }: SettingsDrawerProps) => {
         onClick={onOpen}
         textTransform="uppercase"
         maxWidth="max-content"
-        aria-label={''}
+        aria-label={""}
       />
       <Drawer isOpen={isOpen} onClose={onClose}>
         <DrawerOverlay />

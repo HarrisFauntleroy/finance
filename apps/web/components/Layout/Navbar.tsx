@@ -7,13 +7,13 @@ import {
   UnstyledButton,
   Text,
   useMantineTheme,
-} from '@mantine/core';
+} from "@mantine/core";
 
-import { SignIn, SignOut } from '@phosphor-icons/react';
+import { SignIn, SignOut } from "@phosphor-icons/react";
 
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { MainLink } from './MainLink';
-import { type LinkType } from './Header';
+import { signIn, signOut, useSession } from "next-auth/react";
+import { MainLink } from "./MainLink";
+import { type LinkType } from "./Header";
 
 const Navbar = ({ links }: { links: LinkType[] }) => {
   const theme = useMantineTheme();
@@ -38,7 +38,7 @@ const Navbar = ({ links }: { links: LinkType[] }) => {
           sx={{
             paddingTop: theme.spacing.sm,
             borderTop: `${rem(1)} solid ${
-              theme.colorScheme === 'dark'
+              theme.colorScheme === "dark"
                 ? theme.colors.dark[4]
                 : theme.colors.gray[2]
             }`,
@@ -46,18 +46,18 @@ const Navbar = ({ links }: { links: LinkType[] }) => {
         >
           <UnstyledButton
             sx={{
-              display: 'block',
-              width: '100%',
-              padding: theme.spacing.xs,
-              borderRadius: theme.radius.sm,
-              color:
-                theme.colorScheme === 'dark'
+              "display": "block",
+              "width": "100%",
+              "padding": theme.spacing.xs,
+              "borderRadius": theme.radius.sm,
+              "color":
+                theme.colorScheme === "dark"
                   ? theme.colors.dark[0]
                   : theme.black,
 
-              '&:hover': {
+              "&:hover": {
                 backgroundColor:
-                  theme.colorScheme === 'dark'
+                  theme.colorScheme === "dark"
                     ? theme.colors.dark[6]
                     : theme.colors.gray[0],
               },

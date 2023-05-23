@@ -1,17 +1,17 @@
 // #?: Explain this
 // Takes assets including their transactions and subassets
-import { Category } from 'database/generated/prisma-client';
+import { Category } from "database/generated/prisma-client";
 
-import { convertCurrency } from '../../util/finance';
-import { divide, lessThan, multiply, subtract } from '../../util/math';
-import { calculateAssetValueOverview } from './calculateAssetValueOverview';
-import { AssetWithCalculatedValues, AssetWithRelatedChild } from './types';
+import { convertCurrency } from "../../util/finance";
+import { divide, lessThan, multiply, subtract } from "../../util/math";
+import { calculateAssetValueOverview } from "./calculateAssetValueOverview";
+import { AssetWithCalculatedValues, AssetWithRelatedChild } from "./types";
 
 // Returning an array of assets with calculated values
 export function calculateAssetValue(
   asset: AssetWithRelatedChild,
   exchangeRates: Record<string, string>,
-  toCurrency = 'usd',
+  toCurrency = "usd"
 ): AssetWithCalculatedValues {
   // const itts = Asset.create(asset)
   // logger.info(itts)
@@ -32,17 +32,17 @@ export function calculateAssetValue(
     amount: asset.costBasis.toString(),
   });
 
-  const balance = asset?.balance?.toString() || '0';
+  const balance = asset?.balance?.toString() || "0";
 
   const value =
     asset.category === Category.CRYPTOCURRENCY
       ? multiply(balance, price)
       : balance;
 
-  const targetBalance = asset.targetBalance?.toString() || '0';
-  const incomeRate = asset.incomeRate?.toString() || '0';
+  const targetBalance = asset.targetBalance?.toString() || "0";
+  const incomeRate = asset.incomeRate?.toString() || "0";
   const interestBearingBalance =
-    asset.interestBearingBalance?.toString() || '0';
+    asset.interestBearingBalance?.toString() || "0";
 
   const unrealisedGain = subtract(value, costBasis);
   const unrealisedGainPercentage = divide(unrealisedGain, costBasis);
@@ -51,7 +51,7 @@ export function calculateAssetValue(
   const saleableValue = multiply(saleable, price);
   const estimatedStakingYield = divide(
     multiply(incomeRate, interestBearingBalance),
-    100,
+    100
   );
   const estimatedYearlyReturn = multiply(estimatedStakingYield, price);
   const belowTargetBalance = lessThan(saleable, targetBalance);
@@ -59,7 +59,7 @@ export function calculateAssetValue(
 
   // So the logic here is that, if there is a subAsset, then we calculate the subAsset, and then we calculate the totals of the subAssets.
   const calculatedSubAssets = asset.subAssets?.map((child) =>
-    calculateAssetValue({ ...child, subAssets: [] }, exchangeRates, toCurrency),
+    calculateAssetValue({ ...child, subAssets: [] }, exchangeRates, toCurrency)
   );
 
   const subAssetTotals = calculateAssetValueOverview(calculatedSubAssets);

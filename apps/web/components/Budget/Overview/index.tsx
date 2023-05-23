@@ -1,27 +1,27 @@
-import React from 'react';
+import React from "react";
 
-import { Card } from '../../Cards';
+import { Card } from "../../Cards";
 
-import { Layout } from '../Layout';
+import { Layout } from "../Layout";
 
-import { Button, GridItem } from '@chakra-ui/react';
+import { Button, GridItem } from "@chakra-ui/react";
 
 export const BudgetOverview = () => {
   return (
     <Layout>
-      <Card height="64px" area={'date-picker'}>
+      <Card height="64px" area={"date-picker"}>
         Date picker
       </Card>
-      <Card area={'spending-breakdown'}>
+      <Card area={"spending-breakdown"}>
         SPENDING BREAKDOWN
-        <ul style={{ listStyle: 'none' }}>
+        <ul style={{ listStyle: "none" }}>
           <li>Income</li>
           <li>Expenses</li>
         </ul>
       </Card>
-      <Card area={'accounts-overview'}>ACCOUNTS OVERVIEW </Card>
-      <Card area={'period-summary'}>PERIOD SUMMARY</Card>
-      <GridItem area={'stats'}>
+      <Card area={"accounts-overview"}>ACCOUNTS OVERVIEW </Card>
+      <Card area={"period-summary"}>PERIOD SUMMARY</Card>
+      <GridItem area={"stats"}>
         <Card height="128px">
           <Button>Review Transactions</Button>
         </Card>

@@ -1,4 +1,4 @@
-import { trpc } from '../utils/trpc';
+import { trpc } from "../utils/trpc";
 
 import {
   Avatar,
@@ -12,11 +12,11 @@ import {
   StatLabel,
   StatNumber,
   Text,
-} from '@chakra-ui/react';
-import { Csv } from '../components/Csv';
-import { Grid } from '../components/Grid';
-import { Card } from '../components/Cards';
-import { Page } from '../components/Layout/Page';
+} from "@chakra-ui/react";
+import { Csv } from "../components/Csv";
+import { Grid } from "../components/Grid";
+import { Card } from "../components/Cards";
+import { Page } from "../components/Layout/Page";
 
 const Index = () => {
   const { data: users } = trpc.user.all.useQuery();
@@ -39,7 +39,7 @@ const Index = () => {
 
   const { data: findUsersWithProviderAccount } =
     trpc.user.findUsersWithProviderAccount.useQuery({
-      provider: 'google',
+      provider: "google",
     });
 
   return (
@@ -153,17 +153,17 @@ const Index = () => {
             <Card
               key={user.id}
               style={{
-                padding: '16px',
+                padding: "16px",
               }}
             >
               <Flex
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'left',
-                  gap: '16px',
+                  alignItems: "center",
+                  justifyContent: "left",
+                  gap: "16px",
                 }}
               >
-                <Avatar src={user.image || ''} />
+                <Avatar src={user.image || ""} />
                 <List>
                   <ListItem>Name: {user.name}</ListItem>
                   <ListItem>Role: {user.role.toUpperCase()}</ListItem>

@@ -1,6 +1,6 @@
-import { percentageChange } from './percentageChange';
+import { percentageChange } from "./percentageChange";
 
-test('Percentage change shows the percent difference between two numbers', () => {
+test("Percentage change shows the percent difference between two numbers", () => {
   // Should return a 50% decrease
   expect(percentageChange(2, 1)).toEqual(-50);
 

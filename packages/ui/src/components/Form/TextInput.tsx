@@ -1,11 +1,11 @@
-import type { InputProps as ChakraInputProps } from '@chakra-ui/react';
+import type { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-} from '@chakra-ui/react';
-import type { ValidationRule } from 'react-hook-form';
+} from "@chakra-ui/react";
+import type { ValidationRule } from "react-hook-form";
 
 type InputProps = {
   name: string;

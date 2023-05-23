@@ -4,10 +4,10 @@
  *
  */
 
-import { AssetBuilder, calculateTransactions } from 'common'
-import { trpc } from '../utils/trpc'
+import { AssetBuilder, calculateTransactions } from "common";
+import { trpc } from "../utils/trpc";
 
-import { Heading } from '@chakra-ui/react'
+import { Heading } from "@chakra-ui/react";
 import {
   ArcElement,
   BarElement,
@@ -20,10 +20,10 @@ import {
   PointElement,
   Title,
   Tooltip,
-} from 'chart.js'
-import { useSession } from 'next-auth/react'
-import { Page } from '../components/Layout/Page'
-import { JSONObjectViewer } from '../components/JSON'
+} from "chart.js";
+import { useSession } from "next-auth/react";
+import { Page } from "../components/Layout/Page";
+import { JSONObjectViewer } from "../components/JSON";
 
 Chart.register(
   CategoryScale,
@@ -35,22 +35,22 @@ Chart.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
-)
+  Filler
+);
 
 const Home = () => {
-  const session = useSession()
-  const userId = session.data?.userId
+  const session = useSession();
+  const userId = session.data?.userId;
   const { data: assetTransactions } = trpc.assetTransactions.byUserId.useQuery({
-    userId: userId || '',
-  })
+    userId: userId || "",
+  });
 
   const { data: assetsById } = trpc.assets.byId.useQuery({
-    id: 'cldwad5ab00465avd6tpjbezj',
-  })
+    id: "cldwad5ab00465avd6tpjbezj",
+  });
 
-  const asset1 = assetsById && new AssetBuilder()
-  const asset2 = assetsById && new AssetBuilder(assetsById)
+  const asset1 = assetsById && new AssetBuilder();
+  const asset2 = assetsById && new AssetBuilder(assetsById);
 
   return (
     <Page title="Home" padding="8px" gap="8px">
@@ -63,8 +63,8 @@ const Home = () => {
       <Heading>Calculated Transactions</Heading>
       <JSONObjectViewer data={calculateTransactions(assetTransactions || [])} />
     </Page>
-  )
-}
+  );
+};
 
-Home.auth = false
-export default Home
+Home.auth = false;
+export default Home;

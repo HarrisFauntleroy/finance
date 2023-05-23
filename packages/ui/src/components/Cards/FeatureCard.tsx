@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import type { Feature } from '../Cards/Features';
+import type { Feature } from "../Cards/Features";
 
 import {
   Box,
@@ -9,13 +9,13 @@ import {
   Link,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 export function FeatureCard({ icon, heading, content }: Feature) {
   return (
     <Box
       key={`feature_element${heading}`}
-      bg={useColorModeValue('gray.100', 'gray.900')}
+      bg={useColorModeValue("gray.100", "gray.900")}
       p={6}
       rounded="lg"
       textAlign="center"

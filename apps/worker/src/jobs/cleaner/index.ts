@@ -1,13 +1,13 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { Progress } from '../../util';
+import { Progress } from "../../util";
 
-import { subDays } from 'date-fns';
+import { subDays } from "date-fns";
 
 export const cleaner = async () => {
   const progress = new Progress(4);
 
-  progress.start('Cleaner');
+  progress.start("Cleaner");
 
   const sevenDaysAgo = subDays(new Date(), 7);
 
@@ -58,5 +58,5 @@ export const cleaner = async () => {
   });
 
   progress.increment();
-  progress.stop('Cleaner');
+  progress.stop("Cleaner");
 };

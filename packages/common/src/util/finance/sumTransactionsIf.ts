@@ -1,4 +1,4 @@
-import currency from 'currency.js';
+import currency from "currency.js";
 
 type Transaction = {
   [TransactionType: string]: string;

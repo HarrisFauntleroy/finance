@@ -6,7 +6,7 @@ import {
   useMantineTheme,
   Grid,
   Stack,
-} from '@mantine/core'
+} from "@mantine/core";
 import {
   ArcElement,
   BarElement,
@@ -19,9 +19,9 @@ import {
   PointElement,
   Title,
   Tooltip,
-} from 'chart.js'
-import { Changelog } from '../components/Changelog'
-import { Page } from '../components/Layout/Page'
+} from "chart.js";
+import { Changelog } from "../components/Changelog";
+import { Page } from "../components/Layout/Page";
 
 Chart.register(
   CategoryScale,
@@ -33,21 +33,21 @@ Chart.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
-)
+  Filler
+);
 
 const Home = () => {
-  const theme = useMantineTheme()
+  const theme = useMantineTheme();
 
   const person = {
-    firstName: 'John',
-    lastName: 'Doe',
+    firstName: "John",
+    lastName: "Doe",
     printName() {
-      console.log(`${this.firstName} ${this.lastName}`)
+      console.log(`${this.firstName} ${this.lastName}`);
     },
-  }
+  };
 
-  console.log('person', person.printName())
+  console.log("person", person.printName());
 
   return (
     <Page title="Home">
@@ -75,8 +75,8 @@ const Home = () => {
         <Changelog />
       </Stack>
     </Page>
-  )
-}
+  );
+};
 
-Home.auth = false
-export default Home
+Home.auth = false;
+export default Home;

@@ -3,7 +3,7 @@ export function flattenObject(obj: object | null): object {
     return Object.keys(obj)
       .flatMap((key) => {
         const value = (obj as Record<string, unknown>)[key];
-        return typeof value === 'object' && !Array.isArray(value)
+        return typeof value === "object" && !Array.isArray(value)
           ? flattenObject(value)
           : [{ [key]: value }];
       })
@@ -14,9 +14,9 @@ export function flattenObject(obj: object | null): object {
 export function flattenObjectWithPrefix(obj: object): object {
   const result = new Map();
 
-  function flatten(obj: object, prefix = '') {
+  function flatten(obj: object, prefix = "") {
     for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === 'object') {
+      if (typeof value === "object") {
         flatten(value, `${prefix}${key}.`);
       } else {
         result.set(prefix + key, value);
@@ -31,13 +31,13 @@ export function flattenObjectWithPrefix(obj: object): object {
 export function flattenArrToObj<T extends Record<string, unknown>>(
   arr: T[],
   key: string | number,
-  value: string,
+  value: string
 ) {
   return arr.reduce(
     (acc, val) => ({
       ...acc,
       [`${val[key]}`]: val[value],
     }),
-    {},
+    {}
   );
 }

@@ -82,11 +82,11 @@ General
 - 💡 VS Code Suggested extensions
 - 🗺️ Sitemap.xml and robots.txt with next-sitemap
 - 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
-- 🗂 VSCode configuration: Debug, Settings, Tasks and extension for PostCSS, ESLint, Prettier, TypeScript, Jest
+- 🗂 VSCode configuration: Debug, Settings, Tasks and extension for PostCSS,
+  ESLint, Prettier, TypeScript, Jest
 - 🎉 Storybook for UI development
-- 🦺 Unit Testing with Jest and React Testing Library
-  🧪 E2E Testing with Cypress
-  👷 Run tests on pull request with GitHub Actions
+- 🦺 Unit Testing with Jest and React Testing Library 🧪 E2E Testing with
+  Cypress 👷 Run tests on pull request with GitHub Actions
 - 💖 Continuous integration with GitHub actions
 - 🧪 End-to-end testing with [Playwright](https://playwright.dev/)
 - 🎨 [ESLint](https://eslint.org) + Prettier 💅
@@ -218,7 +218,9 @@ docker system prune -a
 
 ## Disclaimer 🚨
 
-This software is currently a work in progress and is considered in ALPHA state. Features will appear and disappear, APIs will be changed, bugs will be introduced, your feedback is always welcome! 🚧
+This software is currently a work in progress and is considered in ALPHA state.
+Features will appear and disappear, APIs will be changed, bugs will be
+introduced, your feedback is always welcome! 🚧
 
 <br />
 

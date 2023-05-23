@@ -1,7 +1,7 @@
-import { Timeline, Text, Avatar } from '@mantine/core';
-import { EventData } from './Changelog';
-import { format } from 'date-fns';
-import { Markdown } from './Markdown';
+import { Timeline, Text, Avatar } from "@mantine/core";
+import { EventData } from "./Changelog";
+import { format } from "date-fns";
+import { Markdown } from "./Markdown";
 
 export function Releases({ releases }: { releases: EventData }) {
   return (
@@ -13,11 +13,11 @@ export function Releases({ releases }: { releases: EventData }) {
           title={
             <Text>
               {release.repo.name
-                .split('/')[1]
-                .split('-')
+                .split("/")[1]
+                .split("-")
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ')}
-              {' - '}
+                .join(" ")}
+              {" - "}
               {(release.payload as { release: { name: string } }).release.name}
             </Text>
           }
@@ -36,9 +36,9 @@ export function Releases({ releases }: { releases: EventData }) {
               new Date(
                 (
                   release.payload as { release: { published_at: string } }
-                ).release.published_at,
+                ).release.published_at
               ),
-              'MMM dd, yyyy',
+              "MMM dd, yyyy"
             )}
           </Text>
         </Timeline.Item>

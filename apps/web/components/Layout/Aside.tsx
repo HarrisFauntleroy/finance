@@ -1,11 +1,11 @@
-import { MediaQuery, Aside as MantineAside, Text } from '@mantine/core';
+import { MediaQuery, Aside as MantineAside, Text } from "@mantine/core";
 
 const sidebarEnabled = false;
 
 const Aside = () => (
   <>
     {sidebarEnabled && (
-      <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+      <MediaQuery smallerThan="lg" styles={{ display: "none" }}>
         <MantineAside
           width={{ base: 0, lg: 200, xl: 300 }}
           p="xs"

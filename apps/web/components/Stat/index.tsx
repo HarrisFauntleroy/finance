@@ -1,10 +1,10 @@
-import { Card } from '../Cards';
+import { Card } from "../Cards";
 
-import Currency from '../Currency';
+import Currency from "../Currency";
 
-import { Stat as ChakraStat, StatHelpText, StatNumber } from '@chakra-ui/react';
-import type { Any } from 'currency.js';
-import currency from 'currency.js';
+import { Stat as ChakraStat, StatHelpText, StatNumber } from "@chakra-ui/react";
+import type { Any } from "currency.js";
+import currency from "currency.js";
 
 type StatProps = {
   value?: Any;

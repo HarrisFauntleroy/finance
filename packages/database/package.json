@@ -40,30 +40,6 @@
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
-  "prettier": {
-    "arrowParens": "always",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "endOfLine": "lf",
-    "htmlWhitespaceSensitivity": "strict",
-    "jsxSingleQuote": false,
-    "printWidth": 80,
-    "proseWrap": "preserve",
-    "quoteProps": "as-needed",
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "useTabs": false,
-    "vueIndentScriptAndStyle": false,
-    "ignorePatterns": [
-      ".turbo",
-      "dist",
-      "node_modules",
-      "prisma/migrations",
-      "generated"
-    ]
-  },
   "eslintConfig": {
     "env": {
       "browser": true,

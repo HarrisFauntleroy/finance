@@ -1,10 +1,10 @@
-import { prisma } from 'database';
+import { prisma } from "database";
 
-import { publicProcedure, router } from '../../trpc';
-import { byId } from '../schema';
+import { publicProcedure, router } from "../../trpc";
+import { byId } from "../schema";
 
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const userRouter = router({
   all: publicProcedure.query(async () => {
@@ -19,7 +19,7 @@ export const userRouter = router({
       })
       .catch(() => {
         throw new TRPCError({
-          code: 'NOT_FOUND',
+          code: "NOT_FOUND",
         });
       });
   }),
@@ -58,7 +58,7 @@ export const userRouter = router({
     });
     if (!user) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: "NOT_FOUND",
         message: `No user with id '${id}'`,
       });
     }
@@ -79,7 +79,7 @@ export const userRouter = router({
   findAdminUsers: publicProcedure.query(async () => {
     return prisma.user.findMany({
       where: {
-        role: 'ADMIN',
+        role: "ADMIN",
       },
     });
   }),

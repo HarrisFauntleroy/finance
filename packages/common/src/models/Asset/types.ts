@@ -1,4 +1,4 @@
-import { Prisma } from 'database/generated/prisma-client';
+import { Prisma } from "database/generated/prisma-client";
 
 // #?: Explain this
 export type AssetWithRelated = Prisma.AssetGetPayload<{

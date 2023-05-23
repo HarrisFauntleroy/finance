@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import { Page } from '../../components/Layout/Page';
+import { Page } from "../../components/Layout/Page";
 
-import Accounts from './accounts';
-import Overview from './overview';
-import Statistics from './statistics';
-import Transactions from './transactions';
+import Accounts from "./accounts";
+import Overview from "./overview";
+import Statistics from "./statistics";
+import Transactions from "./transactions";
 
-import { Tabs } from '@mantine/core';
-import { ChartPieSlice, Gauge, Receipt, Wallet } from '@phosphor-icons/react';
+import { Tabs } from "@mantine/core";
+import { ChartPieSlice, Gauge, Receipt, Wallet } from "@phosphor-icons/react";
 
 const Portfolio = () => {
   return (

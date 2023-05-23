@@ -4,11 +4,11 @@ import {
   AssetTransaction,
   Category,
   Market,
-} from 'database/generated/prisma-client';
-import { Table } from '../../Table';
+} from "database/generated/prisma-client";
+import { Table } from "../../Table";
 
-import type { RouterOutput } from '../../../utils/trpc';
-import { trpc } from '../../../utils/trpc';
+import type { RouterOutput } from "../../../utils/trpc";
+import { trpc } from "../../../utils/trpc";
 
 import {
   Avatar,
@@ -20,17 +20,17 @@ import {
   Text,
   Tooltip,
   useToast,
-} from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
-import type { ColumnDef } from '@tanstack/react-table';
-import { AssetWithCalculatedValues } from 'common';
-import currency from 'currency.js';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { MdCompareArrows } from 'react-icons/md';
-import { FormattedNumber } from 'react-intl';
-import Currency from '../../Currency';
+} from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import type { ColumnDef } from "@tanstack/react-table";
+import { AssetWithCalculatedValues } from "common";
+import currency from "currency.js";
+import { formatDuration, intervalToDuration } from "date-fns";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { MdCompareArrows } from "react-icons/md";
+import { FormattedNumber } from "react-intl";
+import Currency from "../../Currency";
 
 const statusColor = (status: AssetStatus | null) => {
   switch (status) {
@@ -53,7 +53,7 @@ const statusColor = (status: AssetStatus | null) => {
         </Badge>
       );
     default:
-      return <Badge variant="subtle">{status || ''}</Badge>;
+      return <Badge variant="subtle">{status || ""}</Badge>;
   }
 };
 
@@ -61,27 +61,27 @@ const renderBadge = (category: Category | null) => {
   switch (category) {
     case Category.CASH:
       return {
-        colorScheme: 'cyan',
+        colorScheme: "cyan",
       };
     case Category.CREDIT:
       return {
-        colorScheme: 'blue',
+        colorScheme: "blue",
       };
     case Category.CRYPTOCURRENCY:
       return {
-        colorScheme: 'purple',
+        colorScheme: "purple",
       };
     case Category.CUSTOM:
       return {
-        colorScheme: 'orange',
+        colorScheme: "orange",
       };
     case Category.INVESTMENT:
       return {
-        colorScheme: 'green',
+        colorScheme: "green",
       };
     case Category.SUPERANNUATION:
       return {
-        colorScheme: 'yellow',
+        colorScheme: "yellow",
       };
     default:
       break;
@@ -90,8 +90,8 @@ const renderBadge = (category: Category | null) => {
 
 const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
   {
-    header: 'Display Name',
-    accessorKey: 'name',
+    header: "Display Name",
+    accessorKey: "name",
     cell: ({
       row: {
         getToggleExpandedHandler,
@@ -108,17 +108,17 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
             }}
           >
             <Avatar
-              _hover={{ transform: 'scale(1.05)' }}
-              name={market?.name || ''}
-              title={market?.name || ''}
-              src={market?.image || ''}
+              _hover={{ transform: "scale(1.05)" }}
+              name={market?.name || ""}
+              title={market?.name || ""}
+              src={market?.image || ""}
             />
             {subAssets?.map((subAsset) => (
               <Avatar
                 key={subAsset?.id}
-                name={subAsset?.market?.name || ''}
-                title={subAsset?.market?.name || ''}
-                src={subAsset?.market?.image || ''}
+                name={subAsset?.market?.name || ""}
+                title={subAsset?.market?.name || ""}
+                src={subAsset?.market?.image || ""}
               />
             ))}
           </AvatarGroup>
@@ -145,8 +145,8 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
     },
   },
   {
-    header: 'Category',
-    accessorKey: 'category',
+    header: "Category",
+    accessorKey: "category",
     cell: ({
       row: {
         original: { category },
@@ -160,8 +160,8 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
     },
   },
   {
-    header: 'Institution',
-    accessorKey: 'institution',
+    header: "Institution",
+    accessorKey: "institution",
     cell: ({
       row: {
         original: { institution },
@@ -169,8 +169,8 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
     }) => <Text>{institution}</Text>,
   },
   {
-    header: 'Balance',
-    accessorKey: 'balance',
+    header: "Balance",
+    accessorKey: "balance",
     cell: ({
       row: {
         original: { value, price, market, balance, category },
@@ -179,7 +179,7 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
       return (
         <Tooltip
           label={`${market?.ticker?.toUpperCase()} is trading at price: ${currency(
-            price,
+            price
           ).format()}`}
         >
           <Stack textAlign="right">
@@ -245,7 +245,7 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
   // 	),
   // },
   {
-    header: 'Last Update',
+    header: "Last Update",
     cell: ({
       row: {
         original: { updatedAt },
@@ -259,16 +259,16 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
               end: updatedAt,
             }),
             {
-              format: ['hours', 'minutes'],
-              delimiter: ', ',
-            },
-          ) || 'Less than a minutes ago'}
+              format: ["hours", "minutes"],
+              delimiter: ", ",
+            }
+          ) || "Less than a minutes ago"}
         </Text>
       );
     },
   },
   {
-    header: 'Status',
+    header: "Status",
     cell: ({
       row: {
         original: { status },
@@ -287,8 +287,8 @@ const subAssetsColumns: ColumnDef<
   }
 >[] = [
   {
-    header: 'Display Name',
-    accessorKey: 'name',
+    header: "Display Name",
+    accessorKey: "name",
     cell: ({
       row: {
         getToggleExpandedHandler,
@@ -305,10 +305,10 @@ const subAssetsColumns: ColumnDef<
             }}
           >
             <Avatar
-              _hover={{ transform: 'scale(1.05)' }}
-              name={market?.name || ''}
-              title={market?.name || ''}
-              src={market?.image || ''}
+              _hover={{ transform: "scale(1.05)" }}
+              name={market?.name || ""}
+              title={market?.name || ""}
+              src={market?.image || ""}
             />
             {transactions?.map((transaction) => (
               <ul key={transaction.id}>
@@ -340,8 +340,8 @@ const subAssetsColumns: ColumnDef<
     },
   },
   {
-    header: 'Category',
-    accessorKey: 'category',
+    header: "Category",
+    accessorKey: "category",
     cell: ({
       row: {
         original: { category },
@@ -355,8 +355,8 @@ const subAssetsColumns: ColumnDef<
     },
   },
   {
-    header: 'Institution',
-    accessorKey: 'institution',
+    header: "Institution",
+    accessorKey: "institution",
     cell: ({
       row: {
         original: { institution },
@@ -364,7 +364,7 @@ const subAssetsColumns: ColumnDef<
     }) => <Text>{institution}</Text>,
   },
   {
-    header: 'Last Update',
+    header: "Last Update",
     cell: ({
       row: {
         original: { updatedAt },
@@ -378,16 +378,16 @@ const subAssetsColumns: ColumnDef<
               end: updatedAt,
             }),
             {
-              format: ['hours', 'minutes'],
-              delimiter: ', ',
-            },
-          ) || 'Less than a minutes ago'}
+              format: ["hours", "minutes"],
+              delimiter: ", ",
+            }
+          ) || "Less than a minutes ago"}
         </Text>
       );
     },
   },
   {
-    header: 'Status',
+    header: "Status",
     cell: ({
       row: {
         original: { status },
@@ -398,7 +398,7 @@ const subAssetsColumns: ColumnDef<
   },
 ];
 
-export type AssetsByUserIdQueryOutput = RouterOutput['assets']['byUserId'];
+export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"];
 
 export const AccountsList = () => {
   const toast = useToast();
@@ -407,7 +407,7 @@ export const AccountsList = () => {
   const userId = session?.data?.userId;
 
   const { data } = trpc.assets.byUserId.useQuery({
-    userId: userId || '',
+    userId: userId || "",
   });
 
   const createAsset = trpc.assets.create.useMutation();
@@ -421,7 +421,7 @@ export const AccountsList = () => {
           queryClient.invalidateQueries();
           toast({
             title: `Successfully updated account ${asset.name}`,
-            status: 'success',
+            status: "success",
           });
         });
       }
@@ -429,11 +429,11 @@ export const AccountsList = () => {
         queryClient.invalidateQueries();
         toast({
           title: `Successfully created account ${name}`,
-          status: 'success',
+          status: "success",
         });
       });
     }
-    return new Error('No userId provided');
+    return new Error("No userId provided");
   };
 
   return (

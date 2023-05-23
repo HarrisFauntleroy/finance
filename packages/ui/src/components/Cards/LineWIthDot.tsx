@@ -3,9 +3,9 @@
  * Simple vertical map of articles
  *
  */
-import React from 'react';
+import React from "react";
 
-import { Box, chakra, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, chakra, Flex, useColorModeValue } from "@chakra-ui/react";
 
 export function LineWithDot() {
   return (
@@ -15,7 +15,7 @@ export function LineWithDot() {
         left="50%"
         height="calc(100% + 10px)"
         border="1px solid"
-        borderColor={useColorModeValue('gray.200', 'gray.700')}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
         top="0px"
       />
       <Box pos="relative" p="10px">

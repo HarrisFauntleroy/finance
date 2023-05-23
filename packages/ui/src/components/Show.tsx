@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
 type ShowProps<T> = PropsWithChildren<T> & {
   when: boolean;
@@ -6,7 +6,7 @@ type ShowProps<T> = PropsWithChildren<T> & {
 
 export function Show<T>({ when, children }: ShowProps<T>) {
   return (
-    <div style={{ display: when ? undefined : 'none' }}>
+    <div style={{ display: when ? undefined : "none" }}>
       <>{children}</>
     </div>
   );

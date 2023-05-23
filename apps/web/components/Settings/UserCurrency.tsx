@@ -1,11 +1,11 @@
-import { trpc } from '../../utils/trpc';
+import { trpc } from "../../utils/trpc";
 
-import { useSession } from 'next-auth/react';
-import NextError from 'next/error';
+import { useSession } from "next-auth/react";
+import NextError from "next/error";
 
 export const UserCurrency = () => {
   const { data: session } = useSession();
-  const userId = session?.userId || '';
+  const userId = session?.userId || "";
 
   /** Fetch list of assets for form autocomplete */
   const { data, error, status } = trpc.settings.byUserId.useQuery({ userId });
@@ -23,7 +23,7 @@ export const UserCurrency = () => {
     return <>Not signed in...</>;
   }
 
-  if (status !== 'success') {
+  if (status !== "success") {
     return <>Loading...</>;
   }
 

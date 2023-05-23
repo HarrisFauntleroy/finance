@@ -1,9 +1,9 @@
-import { Table } from '../../Table';
+import { Table } from "../../Table";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { Stack } from '@chakra-ui/react';
-import { cryptocurrencyColumns } from '../../Markets/Cryptocurrency/columns';
+import { Stack } from "@chakra-ui/react";
+import { cryptocurrencyColumns } from "../../Markets/Cryptocurrency/columns";
 
 export const Cryptocurrency = () => {
   const { data } = trpc.markets.cryptocurrency.useQuery();

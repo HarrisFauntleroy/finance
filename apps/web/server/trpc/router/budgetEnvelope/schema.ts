@@ -1,6 +1,6 @@
-import { Prisma } from 'database/generated/prisma-client';
+import { Prisma } from "database/generated/prisma-client";
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /** Prisma schemas for retrieving data */
 // model Budget {

@@ -1,6 +1,6 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from "react";
 
-import { EditIcon } from '@chakra-ui/icons';
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonGroup,
@@ -15,11 +15,11 @@ import {
   Progress,
   Stack,
   useDisclosure,
-} from '@chakra-ui/react';
-import { useSession } from 'next-auth/react';
-import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form';
-import { trpc } from '../../../utils/trpc';
-import { FormInputs, TextInput } from '../../Form/TextInput';
+} from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import { trpc } from "../../../utils/trpc";
+import { FormInputs, TextInput } from "../../Form/TextInput";
 
 export type BudgetFormInputs = {
   id?: string;
@@ -50,31 +50,31 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
   useEffect(() => reset(defaultValues), [defaultValues, reset]);
 
   const onValidSubmit: SubmitHandler<BudgetFormInputs> = () => {
-    return new Error('No userId provided');
+    return new Error("No userId provided");
   };
 
   const inputs: FormInputs[] = [
     {
-      id: '145e9714-75f2-46b9-999f-e0895cc37952',
-      label: 'Name',
-      name: 'name',
-      type: 'text',
+      id: "145e9714-75f2-46b9-999f-e0895cc37952",
+      label: "Name",
+      name: "name",
+      type: "text",
     },
     {
-      id: 'db3016e5-a3b7-432f-a399-8c238c562651',
-      label: 'Total Balance',
-      name: 'totalBalance',
-      type: 'text',
+      id: "db3016e5-a3b7-432f-a399-8c238c562651",
+      label: "Total Balance",
+      name: "totalBalance",
+      type: "text",
     },
   ];
 
   return (
     <Fragment>
       <Button
-        colorScheme={defaultValues?.id ? 'blue' : 'green'}
+        colorScheme={defaultValues?.id ? "blue" : "green"}
         onClick={onOpen}
       >
-        {defaultValues?.id ? <EditIcon /> : 'NEW BUDGET'}
+        {defaultValues?.id ? <EditIcon /> : "NEW BUDGET"}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
@@ -83,7 +83,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
             <form>
               <ModalHeader>
                 <Heading size="md">
-                  {defaultValues?.id ? 'UPDATE BUDGET' : 'CREATE BUDGET'}
+                  {defaultValues?.id ? "UPDATE BUDGET" : "CREATE BUDGET"}
                 </Heading>
               </ModalHeader>
               <ModalCloseButton />
@@ -106,8 +106,8 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
                     onClick={handleSubmit(onValidSubmit, console.error)}
                   >
                     {createBudget.isLoading || updateBudget.isLoading
-                      ? 'LOADING...'
-                      : 'SUBMIT'}
+                      ? "LOADING..."
+                      : "SUBMIT"}
                   </Button>
                   <Button onClick={onClose} colorScheme="orange">
                     CANCEL
@@ -116,7 +116,7 @@ export const BudgetForm = ({ defaultValues }: FormProps) => {
               </ModalFooter>
               {(createBudget.error || updateBudget.error) && (
                 <p>
-                  Something went wrong!{' '}
+                  Something went wrong!{" "}
                   {createBudget?.error?.message || updateBudget?.error?.message}
                 </p>
               )}

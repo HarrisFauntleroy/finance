@@ -1,4 +1,4 @@
-import React, { type SVGProps } from 'react';
+import React, { type SVGProps } from "react";
 
 export const JestIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg

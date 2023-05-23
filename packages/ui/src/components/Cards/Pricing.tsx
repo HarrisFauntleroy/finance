@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   chakra,
@@ -7,8 +7,8 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
-import * as bs from 'react-icons/bs';
+} from "@chakra-ui/react";
+import * as bs from "react-icons/bs";
 
 type PricingCardProps = {
   features?: string[];
@@ -23,13 +23,13 @@ export function PricingCard({ features, cost, frequency }: PricingCardProps) {
       spacing={5}
       p={10}
       border="1px solid"
-      borderColor={useColorModeValue('gray.400', 'gray.600')}
+      borderColor={useColorModeValue("gray.400", "gray.600")}
       rounded="md"
       margin="0 auto"
       textAlign="center"
     >
       <chakra.h1 fontSize="7xl" fontWeight="400">
-        {cost}{' '}
+        {cost}{" "}
         <Text as="sub" fontSize="md" left="-10px">
           {frequency}
         </Text>

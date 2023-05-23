@@ -50,20 +50,17 @@
   },
   "prettier": {
     "arrowParens": "always",
-    "bracketSameLine": false,
     "bracketSpacing": true,
     "endOfLine": "lf",
-    "htmlWhitespaceSensitivity": "strict",
     "jsxSingleQuote": false,
     "printWidth": 80,
-    "proseWrap": "preserve",
-    "quoteProps": "as-needed",
-    "semi": false,
-    "singleQuote": true,
+    "proseWrap": "always",
+    "quoteProps": "consistent",
+    "semi": true,
+    "singleQuote": false,
     "tabWidth": 2,
-    "trailingComma": "all",
-    "useTabs": false,
-    "vueIndentScriptAndStyle": false
+    "trailingComma": "es5",
+    "useTabs": false
   },
   "eslintConfig": {
     "settings": {

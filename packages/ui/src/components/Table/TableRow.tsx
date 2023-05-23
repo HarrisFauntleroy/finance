@@ -1,16 +1,16 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from "react";
 
-import { EditableCell } from './EditableCell';
+import { EditableCell } from "./EditableCell";
 
-import { Button, ButtonGroup, Td, Tr } from '@chakra-ui/react';
-import { Row } from '@tanstack/table-core';
+import { Button, ButtonGroup, Td, Tr } from "@chakra-ui/react";
+import { Row } from "@tanstack/table-core";
 import {
   FieldValues,
   FormProvider,
   SubmitHandler,
   useForm,
-} from 'react-hook-form';
-import { BsCheck, BsPencil, BsStop } from 'react-icons/bs';
+} from "react-hook-form";
+import { BsCheck, BsPencil, BsStop } from "react-icons/bs";
 
 type TableRowProps<T> = {
   row: Row<T>;

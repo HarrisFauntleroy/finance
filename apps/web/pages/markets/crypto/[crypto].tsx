@@ -1,11 +1,11 @@
-import { MarketType } from 'database/generated/prisma-client';
+import { MarketType } from "database/generated/prisma-client";
 
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import NextError from 'next/error';
-import { useRouter } from 'next/router';
-import { Page } from '../../../components/Layout/Page';
-import { Debug } from '../../../components/Debug';
+import NextError from "next/error";
+import { useRouter } from "next/router";
+import { Page } from "../../../components/Layout/Page";
+import { Debug } from "../../../components/Debug";
 
 const MarketViewPage = () => {
   const { name, ticker } = useRouter().query as {
@@ -27,7 +27,7 @@ const MarketViewPage = () => {
     );
   }
 
-  if (marketQuery.status !== 'success') {
+  if (marketQuery.status !== "success") {
     return <>Loading...</>;
   }
 
@@ -37,7 +37,7 @@ const MarketViewPage = () => {
       <h1>{data.name}</h1>
       <em>
         Created
-        {data.createdAt.toLocaleDateString('en-us')}
+        {data.createdAt.toLocaleDateString("en-us")}
       </em>
       <h2>Raw data:</h2>
       <Debug data={data} />

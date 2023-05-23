@@ -1,8 +1,8 @@
-import { trpc } from '../../../utils/trpc';
+import { trpc } from "../../../utils/trpc";
 
-import { DeleteIcon } from '@chakra-ui/icons';
-import { Button, useToast } from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { DeleteIcon } from "@chakra-ui/icons";
+import { Button, useToast } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 type DeleteAssetProps = {
   id?: string;
@@ -26,8 +26,8 @@ export const DeleteAsset = ({ id }: DeleteAssetProps) => {
           return deleteAccount.mutateAsync({ id });
         }
         return toast({
-          title: 'No assets found, missing ID',
-          status: 'error',
+          title: "No assets found, missing ID",
+          status: "error",
         });
       }}
     >

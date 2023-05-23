@@ -1,8 +1,8 @@
-import { Children, PropsWithChildren } from 'react';
+import { Children, PropsWithChildren } from "react";
 
-import type { SimpleGridProps } from '@chakra-ui/react';
-import { GridItem, SimpleGrid } from '@chakra-ui/react';
-import type { ReactElement } from 'react';
+import type { SimpleGridProps } from "@chakra-ui/react";
+import { GridItem, SimpleGrid } from "@chakra-ui/react";
+import type { ReactElement } from "react";
 
 type GridProps<T> = PropsWithChildren<T> & SimpleGridProps;
 
@@ -20,7 +20,7 @@ export function Grid<T>({ children, ...props }: GridProps<T>) {
       {Children.map(children as ReactElement, (child) => (
         <GridItem
           key={child.key}
-          style={{ height: '100%', width: '100%' }}
+          style={{ height: "100%", width: "100%" }}
           as={child.type}
           {...child.props}
         />

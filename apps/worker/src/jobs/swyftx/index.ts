@@ -1,12 +1,12 @@
-import { logger } from 'common';
-import { prisma } from 'database';
+import { logger } from "common";
+import { prisma } from "database";
 import {
   AccountConnection,
   AssetStatus,
   MarketType,
-} from 'database/generated/prisma-client';
+} from "database/generated/prisma-client";
 
-import { Progress } from '../../util';
+import { Progress } from "../../util";
 import {
   Balance,
   Secrets,
@@ -14,35 +14,35 @@ import {
   SwyftxAsset,
   SwyftxJWT,
   Transaction,
-} from './types';
+} from "./types";
 
-import axios from 'axios';
-import dotenv from 'dotenv';
+import axios from "axios";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const endpoint = {
-  base: 'https://api.swyftx.com.au',
-  assets: '/markets/assets/',
-  balance: '/user/balance/',
-  history: '/history/all/type/assetId/',
-  jwt: 'https://api.swyftx.com.au/auth/refresh/',
+  base: "https://api.swyftx.com.au",
+  assets: "/markets/assets/",
+  balance: "/user/balance/",
+  history: "/history/all/type/assetId/",
+  jwt: "https://api.swyftx.com.au/auth/refresh/",
 };
 
-const applicationJson = 'application/json';
+const applicationJson = "application/json";
 
 const refreshSwyftxToken = async (apiKey: string) => {
   try {
     const data = `apiKey=${apiKey}`;
     const response = await axios.post(endpoint.jwt, data, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept-Encoding': applicationJson,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept-Encoding": applicationJson,
       },
     });
     return response.data;
   } catch (err) {
-    logger.error('refreshSwyftxToken');
+    logger.error("refreshSwyftxToken");
   }
 };
 
@@ -52,15 +52,15 @@ const fetchFromSwyftx = async (url: string, accessToken: string) => {
   try {
     const response = await axios.get(endpoint.base + url, {
       headers: {
-        'Content-Type': applicationJson,
-        'Accept-Encoding': applicationJson,
-        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": applicationJson,
+        "Accept-Encoding": applicationJson,
+        "Authorization": `Bearer ${accessToken}`,
       },
       data: body,
     });
     return response.data;
   } catch (err) {
-    logger.error('fetchFromSwyftx');
+    logger.error("fetchFromSwyftx");
   }
 };
 
@@ -72,22 +72,22 @@ const getSwyftxAccount = async ({
 
   const assetsList: SwyftxAsset[] = await fetchFromSwyftx(
     endpoint.assets,
-    accessToken,
+    accessToken
   );
 
   const rawBalance: Balance[] = await fetchFromSwyftx(
     endpoint.balance,
-    accessToken,
+    accessToken
   );
 
   const transactions: Transaction[] = await fetchFromSwyftx(
     endpoint.history,
-    accessToken,
+    accessToken
   );
 
   const balance = rawBalance?.map((item) => {
     const matchingAsset = assetsList.find(
-      (asset) => Number(asset.id) === Number(item.assetId),
+      (asset) => Number(asset.id) === Number(item.assetId)
     );
     if (matchingAsset) {
       return {
@@ -101,7 +101,7 @@ const getSwyftxAccount = async ({
 
   const history = transactions?.map((item) => {
     const matchingAsset = assetsList.find(
-      (asset) => Number(asset.id) === Number(item.asset),
+      (asset) => Number(asset.id) === Number(item.asset)
     );
     if (matchingAsset) {
       return {
@@ -137,19 +137,19 @@ const updateOneUser = async (secrets: {
         marketId: `${marketId.toUpperCase()}_${MarketType.CRYPTOCURRENCY}`,
         interestBearingBalance: stakingBalance,
         balance: availableBalance,
-        costBasis: '0',
-        targetBalance: '0',
-        incomeRate: '0',
-        realisedGain: '0',
-        apiKey: '',
-        apiSecret: '',
-        walletAddress: '',
+        costBasis: "0",
+        targetBalance: "0",
+        incomeRate: "0",
+        realisedGain: "0",
+        apiKey: "",
+        apiSecret: "",
+        walletAddress: "",
         account: AccountConnection.NONE,
-        institution: 'Swyftx',
+        institution: "Swyftx",
         status: AssetStatus.ACTIVE,
         currency: marketId.toUpperCase(),
       };
-    },
+    }
   );
 
   const { subAssets } = await prisma.asset.findFirstOrThrow({
@@ -171,7 +171,7 @@ const updateOneUser = async (secrets: {
   formattedData?.map(async (crypto) => {
     // What is happening here
     const existingCrypto = subAssets.find(
-      (child) => child.marketId === crypto.marketId,
+      (child) => child.marketId === crypto.marketId
     );
 
     const { marketId, userId, parentId, ...remainder } = crypto;
@@ -245,4 +245,4 @@ export const swyftx = () =>
       }
       progress.stop(`Finished updating ${swyftxAccounts} Swyftx accounts}`);
     })
-    .catch(() => logger.info('swyftx'));
+    .catch(() => logger.info("swyftx"));

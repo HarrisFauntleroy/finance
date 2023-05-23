@@ -1,13 +1,13 @@
-import { logger } from 'common';
+import { logger } from "common";
 
-import { ExpressAdapter } from '@bull-board/express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { Application, Request, Response } from 'express';
-import { rateLimit } from 'express-rate-limit';
-import helmet from 'helmet';
+import { ExpressAdapter } from "@bull-board/express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { Application, Request, Response } from "express";
+import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
 
-export const BULL_BOARD_PATH = '/admin/queues';
+export const BULL_BOARD_PATH = "/admin/queues";
 
 export const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath(BULL_BOARD_PATH);
@@ -21,7 +21,7 @@ export const applyMiddlewares = (app: Application) => {
   app.use(helmet());
   app.use(cors());
   app.use(limiter);
-  app.use(bodyParser.json({ limit: '1mb' }));
+  app.use(bodyParser.json({ limit: "1mb" }));
   app.use(BULL_BOARD_PATH, serverAdapter.getRouter());
   app.use((err: Error, _req: Request, res: Response): void => {
     logger.error(`An error occurred: ${err.message}`);

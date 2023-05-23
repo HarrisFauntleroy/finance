@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export function useDebounce<T>(
   value: T,
-  debounce: number,
+  debounce: number
 ): [T, Dispatch<SetStateAction<T>>] {
   const [debouncedValue, setDebouncedValue] = useState(value);
 

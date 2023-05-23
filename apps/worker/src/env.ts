@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-import { z } from 'zod';
+import dotenv from "dotenv";
+import { z } from "zod";
 
 dotenv.config();
 
@@ -14,8 +14,8 @@ const env = envSchema.safeParse(process.env);
 
 if (!env.success) {
   console.error(
-    '❌  environment variables:',
-    JSON.stringify(env.error.format(), null, 4),
+    "❌  environment variables:",
+    JSON.stringify(env.error.format(), null, 4)
   );
   process.exit(1);
 }

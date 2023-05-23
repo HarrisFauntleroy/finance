@@ -1,5 +1,5 @@
 const NextSitemapConfig = {
-  siteUrl: 'https://alchemical-finance.vercel.app/',
+  siteUrl: "https://alchemical-finance.vercel.app/",
   generateRobotsTxt: true,
 };
 

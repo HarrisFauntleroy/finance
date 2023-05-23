@@ -1,12 +1,12 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState } from "react";
 
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { DebouncedInput } from '../Form';
-import { Show } from '../Show';
-import { fuzzy } from './Filter';
-import { TableHeader } from './Header';
-import { Pagination } from './Pagination';
-import { TableRow } from './TableRow';
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { DebouncedInput } from "../Form";
+import { Show } from "../Show";
+import { fuzzy } from "./Filter";
+import { TableHeader } from "./Header";
+import { Pagination } from "./Pagination";
+import { TableRow } from "./TableRow";
 
 import {
   Table as ChakraTable,
@@ -17,7 +17,7 @@ import {
   Th,
   Thead,
   Tr,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   Column,
   ColumnDef,
@@ -35,8 +35,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+} from "@tanstack/react-table";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 type TableProps<T extends { id: string }> = {
   id: string;
@@ -61,7 +61,7 @@ export const Table = <T extends { id: string }>({
   id,
   onValidSubmit,
 }: TableProps<T>) => {
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState("");
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -69,7 +69,7 @@ export const Table = <T extends { id: string }>({
   });
   const [sorting, setSorting] = useLocalStorage<SortingState>(
     `table-sort-${id}`,
-    [],
+    []
   );
   const table = useReactTable({
     data: data || [],
@@ -106,7 +106,7 @@ export const Table = <T extends { id: string }>({
     <Stack height="100%" flex={1}>
       <Show when={!!filterEnabled}>
         <DebouncedInput
-          value={globalFilter ?? ''}
+          value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
           placeholder="Search all columns..."
         />
@@ -130,8 +130,8 @@ export const Table = <T extends { id: string }>({
                   if (onValidSubmit) return onValidSubmit(submitData);
                   else
                     console.log(
-                      'No onValidSubmit handler provided',
-                      submitData,
+                      "No onValidSubmit handler provided",
+                      submitData
                     );
                 }}
               />
@@ -146,7 +146,7 @@ export const Table = <T extends { id: string }>({
                       ? null
                       : flexRender(
                           header.column.columnDef.footer,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </Th>
                 ))}

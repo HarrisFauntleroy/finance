@@ -1,10 +1,10 @@
-import { logger } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { logger } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
-import { Progress } from '../../../util';
+import { Progress } from "../../../util";
 
-import { Harmony } from '@harmony-js/core';
+import { Harmony } from "@harmony-js/core";
 import {
   ChainID,
   ChainType,
@@ -12,12 +12,12 @@ import {
   hexToNumber,
   isValidAddress,
   Units,
-} from '@harmony-js/utils';
-import dotenv from 'dotenv';
+} from "@harmony-js/utils";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const hmy = new Harmony('https://rpc.ankr.com/harmony', {
+const hmy = new Harmony("https://rpc.ankr.com/harmony", {
   chainType: ChainType.Harmony,
   chainId: ChainID.HmyTestnet,
 });
@@ -32,7 +32,7 @@ export async function getBalance(walletAddress: string): Promise<string> {
 
     return fromWei(hexToNumber(balance), Units.one);
   }
-  throw new Error('Invalid address!');
+  throw new Error("Invalid address!");
 }
 
 export async function updateHarmonyBalances() {
@@ -42,7 +42,7 @@ export async function updateHarmonyBalances() {
       market: {
         type: MarketType.CRYPTOCURRENCY,
       },
-      marketId: 'one_CRYPTOCURRENCY',
+      marketId: "one_CRYPTOCURRENCY",
       walletAddress: {
         not: null,
       },
@@ -54,7 +54,7 @@ export async function updateHarmonyBalances() {
   });
 
   const progress = new Progress(cryptocurrencies.length);
-  progress.start('Harmony ONE');
+  progress.start("Harmony ONE");
 
   // Iterate over the cryptocurrencies
   for (const cryptocurrency of cryptocurrencies) {
@@ -83,7 +83,7 @@ export async function updateHarmonyBalances() {
     }
   }
 
-  progress.stop('Harmony ONE');
+  progress.stop("Harmony ONE");
 
   return new Date();
 }

@@ -1,6 +1,9 @@
 # Alchemical Finance Monorepo
 
-Alchemical Finance is a TypeScript-based monorepo that aims to provide a comprehensive financial solution using modern web technologies. It consists of multiple applications and packages working together to deliver a seamless user experience.
+Alchemical Finance is a TypeScript-based monorepo that aims to provide a
+comprehensive financial solution using modern web technologies. It consists of
+multiple applications and packages working together to deliver a seamless user
+experience.
 
 ## Table of Contents
 
@@ -102,20 +105,28 @@ Describe how to deploy the app here
 
 ## Contributing
 
-We welcome contributions to the Alchemical Finance project! If you would like to contribute, please follow these steps:
+We welcome contributions to the Alchemical Finance project! If you would like to
+contribute, please follow these steps:
 
 1. Fork the repository on GitHub.
 2. Create a new feature branch from the `main` branch.
-3. Make your changes and ensure that the code follows the project's coding style and standards.
+3. Make your changes and ensure that the code follows the project's coding style
+   and standards.
 4. Submit a pull request with a clear description of your changes.
-5. Address any feedback from maintainers and adjust your pull request accordingly.
+5. Address any feedback from maintainers and adjust your pull request
+   accordingly.
 
-For bug reports, feature requests, and other issues, please use the GitHub issue tracker to submit them.
+For bug reports, feature requests, and other issues, please use the GitHub issue
+tracker to submit them.
 
 ## Security
 
-If you discover a security vulnerability in the Alchemical Finance project, please email us at [security@example.com](mailto:) instead of using the issue tracker. We will address the issue as soon as possible and appreciate your discretion in keeping our users safe.
+If you discover a security vulnerability in the Alchemical Finance project,
+please email us at [security@example.com](mailto:) instead of using the issue
+tracker. We will address the issue as soon as possible and appreciate your
+discretion in keeping our users safe.
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more
+information.

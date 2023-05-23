@@ -1,8 +1,8 @@
-import { Children, PropsWithChildren, cloneElement } from 'react';
+import { Children, PropsWithChildren, cloneElement } from "react";
 
-import type { AccordionProps as ChakraAccordionProps } from '@chakra-ui/react';
-import { AccordionItem, Accordion as ChakraAccordion } from '@chakra-ui/react';
-import type { ReactElement } from 'react';
+import type { AccordionProps as ChakraAccordionProps } from "@chakra-ui/react";
+import { AccordionItem, Accordion as ChakraAccordion } from "@chakra-ui/react";
+import type { ReactElement } from "react";
 
 type AccordionProps<T> = PropsWithChildren<T> & ChakraAccordionProps;
 

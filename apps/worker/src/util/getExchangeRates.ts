@@ -1,6 +1,6 @@
-import { flattenArrToObj } from 'common';
-import { prisma } from 'database';
-import { MarketType } from 'database/generated/prisma-client';
+import { flattenArrToObj } from "common";
+import { prisma } from "database";
+import { MarketType } from "database/generated/prisma-client";
 
 export const getExchangeRates = async (): Promise<Record<string, string>> => {
   const markets = await prisma.market.findMany({
@@ -21,5 +21,5 @@ export const getExchangeRates = async (): Promise<Record<string, string>> => {
       price: price?.toString(),
     };
   });
-  return flattenArrToObj(market, 'ticker', 'price');
+  return flattenArrToObj(market, "ticker", "price");
 };

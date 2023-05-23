@@ -1,6 +1,6 @@
-import { Flex, StackProps } from '@chakra-ui/react';
-import Head from 'next/head';
-import { PropsWithChildren } from 'react';
+import { Flex, StackProps } from "@chakra-ui/react";
+import Head from "next/head";
+import { PropsWithChildren } from "react";
 
 type PageProps<T> = PropsWithChildren<T> & StackProps;
 
