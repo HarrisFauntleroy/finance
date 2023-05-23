@@ -7,42 +7,40 @@ import Overview from "./overview";
 import Statistics from "./statistics";
 import Transactions from "./transactions";
 
-import { Tabs } from "@mantine/core";
 import { ChartPieSlice, Gauge, Receipt, Wallet } from "@phosphor-icons/react";
+import Tabs from "../../components/Tabs";
 
 const Portfolio = () => {
+  const tabsData = [
+    {
+      value: "overview",
+      label: "Overview",
+      icon: <Gauge />,
+      component: <Overview />,
+    },
+    {
+      value: "accounts",
+      label: "Accounts",
+      icon: <Wallet />,
+      component: <Accounts />,
+    },
+    {
+      value: "transactions",
+      label: "Transactions",
+      icon: <Receipt />,
+      component: <Transactions />,
+    },
+    {
+      value: "statistics",
+      label: "Statistics",
+      icon: <ChartPieSlice />,
+      component: <Statistics />,
+    },
+  ];
+
   return (
     <Page title="Portfolio">
-      <Tabs h="100%" defaultValue="overview">
-        <Tabs.List grow>
-          <Tabs.Tab icon={<Gauge />} value="overview">
-            Overview
-          </Tabs.Tab>
-          <Tabs.Tab icon={<Wallet />} value="accounts">
-            Accounts
-          </Tabs.Tab>
-          <Tabs.Tab icon={<Receipt />} value="transactions">
-            Transactions
-          </Tabs.Tab>
-          <Tabs.Tab icon={<ChartPieSlice />} value="statistics">
-            Statistics
-          </Tabs.Tab>
-        </Tabs.List>
-        <Tabs.List h="100%">
-          <Tabs.Panel value="overview">
-            <Overview />
-          </Tabs.Panel>
-          <Tabs.Panel value="accounts">
-            <Accounts />
-          </Tabs.Panel>
-          <Tabs.Panel value="transactions">
-            <Transactions />
-          </Tabs.Panel>
-          <Tabs.Panel value="statistics">
-            <Statistics />
-          </Tabs.Panel>
-        </Tabs.List>
-      </Tabs>
+      <Tabs tabs={tabsData} />
     </Page>
   );
 };

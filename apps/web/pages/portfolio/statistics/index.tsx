@@ -4,7 +4,7 @@ import { Stack } from "@chakra-ui/react";
 
 function Statistics() {
   return (
-    <Stack paddingY="8px">
+    <Stack>
       <div>Statistics</div>
     </Stack>
   );

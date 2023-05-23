@@ -3,13 +3,13 @@ import { trpc } from "../../../utils/trpc";
 
 import { forexColumns } from "./columns";
 
-import { Stack } from "@chakra-ui/react";
+import { Card } from "@mantine/core";
 
 export const Forex = () => {
   const { data } = trpc.markets.forex.useQuery();
 
   return (
-    <Stack>
+    <Card>
       <Table
         id="Forex"
         data={data || []}
@@ -17,6 +17,6 @@ export const Forex = () => {
         canExpandRows
         paginationEnabled
       />
-    </Stack>
+    </Card>
   );
 };

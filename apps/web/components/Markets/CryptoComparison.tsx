@@ -105,12 +105,14 @@ const CryptoComparison = () => {
             {data?.map((crypto, index) => (
               <option value={index} key={crypto.ticker}>
                 <HStack alignItems="center">
-                  <Image
-                    width={1}
-                    height={1}
-                    alt=""
-                    src={crypto.image || crypto.name || ""}
-                  />
+                  {crypto.image && (
+                    <Image
+                      width={1}
+                      height={1}
+                      alt="crypto logo"
+                      src={crypto.image}
+                    />
+                  )}
                   <Text>
                     {crypto.name} ({crypto.ticker})
                   </Text>

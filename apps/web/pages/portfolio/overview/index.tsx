@@ -59,7 +59,7 @@ export const options = {
 
 function Overview() {
   return (
-    <Grid grow py="16px">
+    <Grid grow>
       <Grid.Col span={6}>
         <OverviewCard />
       </Grid.Col>

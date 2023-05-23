@@ -43,7 +43,7 @@ const Index = () => {
     });
 
   return (
-    <Page title="Home">
+    <Page title="Admin">
       <Stack alignItems="center" padding="16px">
         <Heading>Admin dashboard</Heading>
         <Csv />

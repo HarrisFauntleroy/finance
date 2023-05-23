@@ -5,8 +5,7 @@ import { JSONObjectViewer } from "../../../components/JSON";
 
 function Transactions() {
   return (
-    <Stack paddingY="8px">
-      <div>Transactions</div>
+    <Stack>
       <JSONObjectViewer
         data={JSON.stringify({
           id: "1",

@@ -1,54 +1,48 @@
 import React from "react";
 
-import {
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
 import { BudgetsList } from "../../components/Budget/BudgetsList";
 import { BudgetOverview } from "../../components/Budget/Overview";
 import { Statistics } from "../../components/Budget/Statistics";
 import { TransactionsList } from "../../components/Budget/Transactions";
 import { Page } from "../../components/Layout/Page";
+import {
+  ChartPieSlice,
+  Gauge,
+  PiggyBank,
+  Receipt,
+} from "@phosphor-icons/react";
+import Tabs from "../../components/Tabs";
 
 function Budgets() {
+  const tabsData = [
+    {
+      value: "overview",
+      label: "Overview",
+      icon: <Gauge />,
+      component: <BudgetOverview />,
+    },
+    {
+      value: "budgets",
+      label: "Budgets",
+      icon: <PiggyBank />,
+      component: <BudgetsList />,
+    },
+    {
+      value: "transactions",
+      label: "Transactions",
+      icon: <Receipt />,
+      component: <TransactionsList />,
+    },
+    {
+      value: "statistics",
+      label: "Statistics",
+      icon: <ChartPieSlice />,
+      component: <Statistics />,
+    },
+  ];
   return (
     <Page title="Budgets">
-      <Stack height="100%">
-        <Tabs height="100%" padding="8px">
-          <TabList>
-            <Tab>Overview</Tab>
-            <Tab>Budgets</Tab>
-            <Tab>Transactions</Tab>
-            <Tab>Statistics</Tab>
-          </TabList>
-          <TabPanels height="100%">
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
-                <BudgetOverview />
-              </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
-                <BudgetsList />
-              </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
-                <TransactionsList />
-              </Stack>
-            </TabPanel>
-            <TabPanel padding={0} height="100%">
-              <Stack paddingY="8px">
-                <Statistics />
-              </Stack>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Stack>
+      <Tabs tabs={tabsData} />
     </Page>
   );
 }
