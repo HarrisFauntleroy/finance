@@ -53,7 +53,7 @@ const Home = () => {
 
   return (
     <Page title="Home">
-      {session ? <AuthenticatedHomePage /> : <HomePage />}
+      {session.data?.user ? <AuthenticatedHomePage /> : <HomePage />}
     </Page>
   );
 };
