@@ -106,7 +106,7 @@ export type LinkType = {
   href?: string;
   label?: string;
   icon?: ReactNode;
-  role?: Role;
+  expectedRole?: Role;
   color?: string;
 };
 
@@ -119,13 +119,6 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [active, setActive] = useState(links[0].href);
   const { classes, cx } = useStyles();
   const { data: session } = useSession();
-
-  const handleLinkVisability = ({ role }: LinkType) => {
-    if (role === "ADMIN") {
-      return session?.user.role === "ADMIN";
-    }
-    return true;
-  };
 
   return (
     <Header height={HEADER_HEIGHT} p="8px">
@@ -150,13 +143,9 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              {links.filter(handleLinkVisability).map((link) => (
+              {links.map((link) => (
                 <MainLink
                   key={link.label}
-                  icon={link.icon}
-                  color={link.color}
-                  label={link.label}
-                  href={link?.href || ""}
                   className={cx(classes.link, {
                     [classes.linkActive]: active === link.href,
                   })}
@@ -164,6 +153,7 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
                     setActive(link.href);
                     close();
                   }}
+                  {...link}
                 />
               ))}
               {session ? (
