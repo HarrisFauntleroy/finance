@@ -1,11 +1,12 @@
 import {
-  Paper,
-  Col,
-  Text,
   Button,
-  useMantineTheme,
+  Card,
+  Col,
   Grid,
+  Paper,
   Stack,
+  Text,
+  useMantineTheme,
 } from "@mantine/core";
 import {
   ArcElement,
@@ -14,12 +15,13 @@ import {
   Chart,
   Filler,
   Legend,
-  LinearScale,
   LineElement,
+  LinearScale,
   PointElement,
   Title,
   Tooltip,
 } from "chart.js";
+import { useSession } from "next-auth/react";
 import { Changelog } from "../components/Changelog";
 import { Page } from "../components/Layout/Page";
 
@@ -37,7 +39,7 @@ Chart.register(
 );
 
 const Home = () => {
-  const theme = useMantineTheme();
+  const session = useSession();
 
   const person = {
     firstName: "John",
@@ -51,32 +53,52 @@ const Home = () => {
 
   return (
     <Page title="Home">
-      <Stack style={{ paddingTop: theme.spacing.xl }}>
-        <Grid>
-          <Col span={12}>
-            <Paper p="md" shadow="xs">
-              <Text align="center" size="xl" weight={700}>
-                Welcome to Alchemical Finance
-              </Text>
-              <Text align="center">
-                Track your portfolio, create and collaborate on budgets, gain
-                trading insights, and much more.
-              </Text>
-              <Button
-                fullWidth
-                variant="light"
-                style={{ marginTop: theme.spacing.md }}
-              >
-                Get Started
-              </Button>
-            </Paper>
-          </Col>
-        </Grid>
-        <Changelog />
-      </Stack>
+      {session ? <AuthenticatedHomePage /> : <HomePage />}
     </Page>
   );
 };
 
 Home.auth = false;
 export default Home;
+
+function AuthenticatedHomePage() {
+  const theme = useMantineTheme();
+
+  return (
+    <Stack style={{ paddingTop: theme.spacing.xl }}>
+      <Card>Accounts overview</Card>
+      <Card>Budgets overview</Card>
+      <Card>Markets overview</Card>
+    </Stack>
+  );
+}
+
+function HomePage() {
+  const theme = useMantineTheme();
+
+  return (
+    <Stack style={{ paddingTop: theme.spacing.xl }}>
+      <Grid>
+        <Col span={12}>
+          <Paper p="md" shadow="xs">
+            <Text align="center" size="xl" weight={700}>
+              Welcome to Alchemical Finance
+            </Text>
+            <Text align="center">
+              Track your portfolio, create and collaborate on budgets, gain
+              trading insights, and much more.
+            </Text>
+            <Button
+              fullWidth
+              variant="light"
+              style={{ marginTop: theme.spacing.md }}
+            >
+              Get Started
+            </Button>
+          </Paper>
+        </Col>
+      </Grid>
+      <Changelog />
+    </Stack>
+  );
+}
