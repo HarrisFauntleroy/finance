@@ -138,7 +138,6 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
               height={32}
               width={32}
             />
-            {/* Make it underline only on hover  */}
             <Text size="lg">Alchemical Finance</Text>
           </Flex>
         </Link>
