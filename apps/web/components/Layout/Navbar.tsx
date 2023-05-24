@@ -3,21 +3,22 @@ import {
   Box,
   Group,
   Navbar as MantineNavbar,
-  rem,
-  UnstyledButton,
   Text,
+  UnstyledButton,
+  rem,
   useMantineTheme,
 } from "@mantine/core";
 
 import { SignIn, SignOut } from "@phosphor-icons/react";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { MainLink } from "./MainLink";
 import { type LinkType } from "./Header";
+import { MainLink } from "./MainLink";
 
 const Navbar = ({ links }: { links: LinkType[] }) => {
   const theme = useMantineTheme();
   const { data: session } = useSession();
+  const userRole = session?.user.role;
 
   return (
     <MantineNavbar
@@ -29,7 +30,7 @@ const Navbar = ({ links }: { links: LinkType[] }) => {
       <MantineNavbar.Section grow mt="xs">
         <div>
           {links.map((link) => (
-            <MainLink {...link} key={link.label} />
+            <MainLink key={link.label} {...link} userRole={userRole} />
           ))}
         </div>
       </MantineNavbar.Section>

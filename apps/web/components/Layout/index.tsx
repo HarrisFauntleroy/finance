@@ -2,25 +2,32 @@ import { AppShell, MantineTheme } from "@mantine/core";
 import { PropsWithChildren } from "react";
 
 import {
-  Gear,
   Bank,
-  PiggyBank,
   ChartLineUp,
+  Gear,
+  PiggyBank,
   Shield,
 } from "@phosphor-icons/react";
 
+import { Role } from "database/generated/prisma-client";
+import Aside from "../Layout/Aside";
 import Header, { LinkType } from "../Layout/Header";
 import Navbar from "../Layout/Navbar";
-import Aside from "../Layout/Aside";
-import { Role } from "database/generated/prisma-client";
 
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   const links: LinkType[] = [
-    { href: "/portfolio", label: "Accounts", icon: <Bank />, color: "grape" },
+    {
+      href: "/portfolio",
+      label: "Accounts",
+      icon: <Bank />,
+      expectedRole: Role.USER,
+      color: "grape",
+    },
     {
       href: "/budgets",
       label: "Budgets",
       icon: <PiggyBank />,
+      expectedRole: Role.USER,
       color: "teal",
     },
     {
@@ -33,13 +40,14 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
       href: "/admin",
       icon: <Shield />,
       label: "Admin",
-      role: Role.ADMIN,
+      expectedRole: Role.ADMIN,
       color: "blue",
     },
     {
       href: "/settings",
       label: "Settings",
       icon: <Gear />,
+      expectedRole: Role.USER,
       color: "red",
     },
   ];

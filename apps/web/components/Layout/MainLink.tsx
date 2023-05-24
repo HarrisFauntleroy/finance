@@ -1,13 +1,14 @@
-import { ReactNode } from "react";
-import { Text, UnstyledButton, Group, ThemeIcon } from "@mantine/core";
-import Link from "next/link";
+import { Group, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
 import { Role } from "database/generated/prisma-client";
+import Link from "next/link";
+import { ReactNode, useCallback } from "react";
 
 export interface MainLinkProps {
   href?: string;
   label?: string;
   icon?: ReactNode;
-  role?: Role;
+  expectedRole?: Role;
+  userRole?: Role;
   color?: string;
   className?: string;
   onClick?: () => void;
@@ -20,34 +21,53 @@ export function MainLink({
   className,
   href,
   onClick,
+  expectedRole,
+  userRole = Role.GUEST,
 }: MainLinkProps) {
+  const handleClick = useCallback(() => {
+    if (onClick) {
+      onClick();
+    }
+  }, [onClick]);
+
+  const isDisabled =
+    expectedRole === Role.USER &&
+    userRole !== expectedRole &&
+    userRole !== Role.ADMIN;
+  const isHidden = expectedRole === Role.ADMIN && userRole !== expectedRole;
+
+  if (isHidden) return null;
+
   return (
     <UnstyledButton
       component={Link}
-      href={href || ""}
+      href={isDisabled ? "" : href || ""}
       className={className}
+      onClick={isDisabled ? undefined : handleClick}
+      aria-disabled={isDisabled}
       sx={(theme) => ({
         "display": "block",
         "width": "100%",
         "padding": theme.spacing.xs,
         "borderRadius": theme.radius.sm,
-        "color":
-          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
+        "color": isDisabled
+          ? theme.colors.gray[5]
+          : theme.colorScheme === "dark"
+          ? theme.colors.dark[0]
+          : theme.black,
         "&:hover": {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
+          backgroundColor: isDisabled
+            ? undefined
+            : theme.colorScheme === "dark"
+            ? theme.colors.dark[6]
+            : theme.colors.gray[0],
         },
       })}
-      onClick={onClick}
     >
       <Group>
-        <ThemeIcon color={color} variant="light">
+        <ThemeIcon color={color} variant="light" opacity={isDisabled ? 0.5 : 1}>
           {icon}
         </ThemeIcon>
-
         <Text size="sm">{label}</Text>
       </Group>
     </UnstyledButton>
