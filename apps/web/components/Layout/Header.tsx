@@ -1,21 +1,21 @@
-import { ReactNode, useState } from "react";
 import {
-  createStyles,
-  Header,
-  Container,
   Burger,
-  Paper,
-  Transition,
-  rem,
+  Container,
   Flex,
+  Header,
   Image,
+  Paper,
   Text,
+  Transition,
+  createStyles,
+  rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { SignOut, SignIn } from "@phosphor-icons/react";
+import { SignIn, SignOut } from "@phosphor-icons/react";
 import { Role } from "database/generated/prisma-client";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { ReactNode, useState } from "react";
 import { MainLink } from "./MainLink";
 
 const HEADER_HEIGHT = rem(60);
@@ -130,20 +130,24 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} p="8px">
       <Container fluid className={classes.header}>
-        <Flex align="center" gap="8px">
-          <Link href="/">
-            <Image src="/images/logodark.png" alt="Site logo" height={32} />
-          </Link>
-          <Text size="lg">Alchemical Finance</Text>
-        </Flex>
-
+        <Link href="/" className={classes.link}>
+          <Flex align="center" gap="8px">
+            <Image
+              src="/images/logodark.png"
+              alt="Site logo"
+              height={32}
+              width={32}
+            />
+            {/* Make it underline only on hover  */}
+            <Text size="lg">Alchemical Finance</Text>
+          </Flex>
+        </Link>
         <Burger
           onClick={toggle}
           opened={opened}
           className={classes.burger}
           size="sm"
         />
-
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
