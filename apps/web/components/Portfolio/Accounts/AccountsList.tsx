@@ -32,60 +32,44 @@ import { MdCompareArrows } from "react-icons/md";
 import { FormattedNumber } from "react-intl";
 import Currency from "../../Currency";
 
-const statusColor = (status: AssetStatus | null) => {
-  switch (status) {
-    case AssetStatus.ACTIVE:
-      return (
-        <Badge colorScheme="green" variant="subtle">
-          {status}
-        </Badge>
-      );
-    case AssetStatus.CONNECTED:
-      return (
-        <Badge colorScheme="purple" variant="subtle">
-          {status}
-        </Badge>
-      );
-    case AssetStatus.ERROR:
-      return (
-        <Badge colorScheme="red" variant="subtle">
-          {status}
-        </Badge>
-      );
-    default:
-      return <Badge variant="subtle">{status || ""}</Badge>;
-  }
+const badgeColors: Record<Category, string> = {
+  [Category.CASH]: "cyan",
+  [Category.CREDIT]: "blue",
+  [Category.CRYPTOCURRENCY]: "purple",
+  [Category.CUSTOM]: "orange",
+  [Category.INVESTMENT]: "green",
+  [Category.SUPERANNUATION]: "yellow",
+  LOAN: "",
+  MORTGAGE: "",
+  PROPERTY: "",
 };
 
-const renderBadge = (category: Category | null) => {
-  switch (category) {
-    case Category.CASH:
-      return {
-        colorScheme: "cyan",
-      };
-    case Category.CREDIT:
-      return {
-        colorScheme: "blue",
-      };
-    case Category.CRYPTOCURRENCY:
-      return {
-        colorScheme: "purple",
-      };
-    case Category.CUSTOM:
-      return {
-        colorScheme: "orange",
-      };
-    case Category.INVESTMENT:
-      return {
-        colorScheme: "green",
-      };
-    case Category.SUPERANNUATION:
-      return {
-        colorScheme: "yellow",
-      };
-    default:
-      break;
-  }
+const statusColors: Record<AssetStatus, string> = {
+  [AssetStatus.ACTIVE]: "green",
+  [AssetStatus.CONNECTED]: "purple",
+  [AssetStatus.ERROR]: "red",
+  CONNECTION_FAILED: "",
+  DISCONNECTED: "",
+  PENDING_CONNECTION: "",
+  UNAUTHORIZED: "",
+  MAINTENANCE: "",
+  BLOCKED: "",
+  UNKNOWN: "",
+  INACTIVE: "",
+};
+
+const StatusBadge = ({ status }: { status: AssetStatus | null }) => {
+  const colorScheme = status ? statusColors[status] : "";
+  return (
+    <Badge colorScheme={colorScheme} variant="subtle">
+      {status || ""}
+    </Badge>
+  );
+};
+
+const CategoryBadge = ({ category }: { category: Category | null }) => {
+  const colorScheme = category ? badgeColors[category] : "";
+  return <Badge colorScheme={colorScheme}>{category}</Badge>;
 };
 
 const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
@@ -152,11 +136,7 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
         original: { category },
       },
     }) => {
-      return (
-        <Flex justify="right">
-          <Badge {...renderBadge(category)}> {category}</Badge>
-        </Flex>
-      );
+      return <CategoryBadge category={category} />;
     },
   },
   {
@@ -274,7 +254,7 @@ const assetsColumns: ColumnDef<AssetWithCalculatedValues>[] = [
         original: { status },
       },
     }) => {
-      return statusColor(status);
+      return <StatusBadge status={status} />;
     },
   },
 ];
@@ -347,11 +327,7 @@ const subAssetsColumns: ColumnDef<
         original: { category },
       },
     }) => {
-      return (
-        <Flex justify="right">
-          <Badge {...renderBadge(category)}> {category}</Badge>
-        </Flex>
-      );
+      return <CategoryBadge category={category} />;
     },
   },
   {
@@ -393,7 +369,7 @@ const subAssetsColumns: ColumnDef<
         original: { status },
       },
     }) => {
-      return statusColor(status);
+      return <StatusBadge status={status} />;
     },
   },
 ];
