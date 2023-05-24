@@ -50,6 +50,8 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     height: "100%",
+    paddingLeft: 0,
+    marginLeft: 0,
   },
 
   links: {
