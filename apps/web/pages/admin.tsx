@@ -1,199 +1,144 @@
 import { trpc } from "../utils/trpc";
 
-import {
-  Avatar,
-  Flex,
-  Heading,
-  List,
-  ListItem,
-  Stack,
-  Stat,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
-  Text,
-} from "@chakra-ui/react";
-import { Csv } from "../components/Csv";
+import { Avatar, Card, Chip, Stack, Text } from "@mantine/core";
+import { Role } from "database/generated/prisma-client";
 import { Grid } from "../components/Grid";
-import { Card } from "../components/Cards";
 import { Page } from "../components/Layout/Page";
 
-const Index = () => {
-  const { data: users } = trpc.user.all.useQuery();
+const UserCardComponent = ({
+  user,
+}: {
+  user: {
+    id: string;
+    name: string | null;
+    role: Role;
+    image: string | null;
+  };
+}) => (
+  <Card shadow="xs" padding="md">
+    <Stack dir="row" align="center" spacing="md">
+      <Avatar src={user.image || ""} radius="xl" />
+      <Stack align="flex-start" spacing="xs">
+        <Text size="xl" weight={500}>
+          {user.name}
+        </Text>
+        <Text color="gray" size="sm">
+          Role: {user.role.toUpperCase()}
+        </Text>
+        <Text color="gray" size="sm">
+          ID: {user.id}
+        </Text>
+      </Stack>
+    </Stack>
+  </Card>
+);
 
-  const { data: logs } = trpc.logs.read.useQuery();
-  const { data: findInactiveUsers } = trpc.user.findInactiveUsers.useQuery();
+const LogCardComponent = ({
+  log,
+}: {
+  log: {
+    createdAt: Date;
+    deleted: boolean;
+    id: string;
+    message: string;
+    type: string;
+    updatedAt: Date;
+  };
+}) => (
+  <Card shadow="xs" padding="md">
+    <Stack align="flex-start" spacing="xs">
+      <Text size="xl" weight={500}>
+        {log.createdAt.toLocaleDateString()}
+      </Text>
+      <Text color="gray" size="sm">
+        Flagged for deletion: {log.deleted.toString()}
+      </Text>
+      <Text color="gray" size="sm">
+        ID: {log.id}
+      </Text>
+      <Text color="gray" size="sm">
+        {log.message}
+      </Text>
+      <Text color="gray" size="sm">
+        {log.type}
+      </Text>
+      <Text color="gray" size="sm">
+        {log.updatedAt.toLocaleDateString()}
+      </Text>
+    </Stack>
+  </Card>
+);
 
-  const { data: findUsersWithSession } =
-    trpc.user.findUsersWithSession.useQuery();
+const CardComponent = ({
+  statLabel,
+  statNumber,
+  statHelpText,
+  list,
+}: {
+  statLabel: string;
+  statNumber: number;
+  statHelpText: string;
+  list: {
+    id: string;
+    name: string | null;
+  }[];
+}) => (
+  <Card shadow="xs">
+    <Stack align="center">
+      <Text size="xl" weight={500}>
+        {statLabel}
+      </Text>
+      <Text size="4xl" weight={700}>
+        {statNumber}
+      </Text>
+      <Text color="gray" size="sm">
+        {statHelpText}
+      </Text>
+      <Stack dir="row" spacing="xs">
+        {list.map((item) => (
+          <Chip key={item.id}>{item.name}</Chip>
+        ))}
+      </Stack>
+    </Stack>
+  </Card>
+);
 
-  const { data: findUsersWithCryptocurrency } =
-    trpc.user.findUsersWithCryptocurrency.useQuery();
-
-  const { data: findUsersWithBudget } =
-    trpc.user.findUsersWithBudget.useQuery();
-
-  const { data: findAdminUsers } = trpc.user.findAdminUsers.useQuery();
-
-  const { data: findVerifiedUsers } = trpc.user.findVerifiedUsers.useQuery();
-
-  const { data: findUsersWithProviderAccount } =
-    trpc.user.findUsersWithProviderAccount.useQuery({
-      provider: "google",
-    });
+const Admin = () => {
+  const { data: dashboardData } = trpc.user.dashboard.useQuery();
+  const { data: logData } = trpc.logs.read.useQuery();
 
   return (
     <Page title="Admin">
-      <Stack alignItems="center" padding="16px">
-        <Heading>Admin dashboard</Heading>
-        <Csv />
-        Hello
-        <Text textAlign="left" width="100%" fontSize="2xl">
-          Stats
-        </Text>
-        <Grid columns={4} padding="16px">
-          <Card>
-            <Stat>
-              <StatLabel>Verified users</StatLabel>
-              <StatNumber>{findVerifiedUsers?.length}</StatNumber>
-              <StatHelpText>Users who have verified their email:</StatHelpText>
-              <List>
-                {findVerifiedUsers?.map((verifiedUser) => (
-                  <ListItem key={verifiedUser.id}>{verifiedUser.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Admin users</StatLabel>
-              <StatNumber>{findAdminUsers?.length}</StatNumber>
-              <StatHelpText>Users who have admin their email:</StatHelpText>
-              <List>
-                {findAdminUsers?.map((adminUser) => (
-                  <ListItem key={adminUser.id}>{adminUser.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Google users</StatLabel>
-              <StatNumber>{findUsersWithProviderAccount?.length}</StatNumber>
-              <StatHelpText>Users who have google emails:</StatHelpText>
-              <List>
-                {findUsersWithProviderAccount?.map((googleUser) => (
-                  <ListItem key={googleUser.id}>{googleUser.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Budget users</StatLabel>
-              <StatNumber>{findUsersWithBudget?.length}</StatNumber>
-              <StatHelpText>Users who have at least one budget:</StatHelpText>
-              <List>
-                {findUsersWithBudget?.map((budgetUser) => (
-                  <ListItem key={budgetUser.id}>{budgetUser.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Cryptocurrency users</StatLabel>
-              <StatNumber>{findUsersWithCryptocurrency?.length}</StatNumber>
-              <StatHelpText>
-                Users who have at least one cryptocurrency:
-              </StatHelpText>
-              <List>
-                {findUsersWithCryptocurrency?.map((cryptocurrencyUser) => (
-                  <ListItem key={cryptocurrencyUser.id}>
-                    {cryptocurrencyUser.name}
-                  </ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Signed in at least once</StatLabel>
-              <StatNumber>{findUsersWithSession?.length}</StatNumber>
-              <StatHelpText>
-                Users who have logged in at least once:
-              </StatHelpText>
-              <List>
-                {findUsersWithSession?.map((hadSession) => (
-                  <ListItem key={hadSession.id}>{hadSession.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-          <Card>
-            <Stat>
-              <StatLabel>Inactive users</StatLabel>
-              <StatNumber>{findInactiveUsers?.length}</StatNumber>
-              <StatHelpText>
-                Users who have not logged in for the past 30 days:
-              </StatHelpText>
-              <List>
-                {findInactiveUsers?.map((inactiveUser) => (
-                  <ListItem key={inactiveUser.id}>{inactiveUser.name}</ListItem>
-                ))}
-              </List>
-            </Stat>
-          </Card>
-        </Grid>
-        <Text textAlign="left" width="100%" fontSize="2xl">
-          Users
-        </Text>
-        <Grid columns={4} padding="16px">
-          {users?.map((user) => (
-            <Card
-              key={user.id}
-              style={{
-                padding: "16px",
-              }}
-            >
-              <Flex
-                style={{
-                  alignItems: "center",
-                  justifyContent: "left",
-                  gap: "16px",
-                }}
-              >
-                <Avatar src={user.image || ""} />
-                <List>
-                  <ListItem>Name: {user.name}</ListItem>
-                  <ListItem>Role: {user.role.toUpperCase()}</ListItem>
-                  <ListItem fontSize={16}>ID: {user.id}</ListItem>
-                </List>
-              </Flex>
-            </Card>
+      <Stack align="left">
+        <Text size="xl">Admin dashboard</Text>
+
+        <Text>Stats</Text>
+        <Grid columns={4}>
+          {dashboardData?.statistics.map((stat) => (
+            <CardComponent
+              key={stat.statHelpText}
+              statLabel={stat.statLabel}
+              statNumber={stat.statNumber}
+              statHelpText={stat.statHelpText}
+              list={stat.list}
+            />
           ))}
         </Grid>
-        <Text textAlign="left" width="100%" fontSize="2xl">
-          Logs
-        </Text>
-        {logs?.map((log) => (
-          <Card key={log.id}>
-            <List>
-              <ListItem>{log.createdAt.toLocaleDateString()}</ListItem>
-              <ListItem>
-                Flagged for deletion: {log.deleted.toString()}
-              </ListItem>
-              <ListItem>{log.id}</ListItem>
-              <ListItem>{log.message}</ListItem>
-              <ListItem>{log.type}</ListItem>
-              <ListItem>{log.updatedAt.toLocaleDateString()}</ListItem>
-            </List>
-          </Card>
+        <Text>Users</Text>
+        <Grid columns={4}>
+          {dashboardData?.users.map((user) => (
+            <UserCardComponent key={user.id} user={user} />
+          ))}
+        </Grid>
+        <Text>Logs</Text>
+        {logData?.map((log) => (
+          <LogCardComponent key={log.id} log={log} />
         ))}
       </Stack>
     </Page>
   );
 };
 
-Index.auth = false;
-export default Index;
+Admin.auth = true;
+Admin.roles = ["ADMIN"];
+export default Admin;

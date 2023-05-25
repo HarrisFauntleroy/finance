@@ -142,4 +142,42 @@ export const userRouter = router({
       },
     });
   }),
+
+  dashboard: publicProcedure.query(async () => {
+    try {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          role: true,
+        },
+      });
+
+      const verifiedUsers = await prisma.user.findMany({
+        where: { emailVerified: { not: null } },
+      });
+      // Add similar code for other user types
+      return {
+        users,
+        statistics: [
+          {
+            statLabel: "Verified users",
+            statNumber: verifiedUsers.length,
+            statHelpText: "Users who have verified their email:",
+            list: verifiedUsers.map((user) => ({
+              id: user.id,
+              name: user.name,
+            })),
+          },
+          // Add similar stats for other user types
+        ],
+      };
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Failed to fetch dashboard data: ${(error as Error).message}`,
+      });
+    }
+  }),
 });

@@ -1,16 +1,8 @@
-/**
- *
- *	Auth page
- *	Checks if user is logged in before allowing access to page
- *
- */
-import { Fragment, PropsWithChildren } from "react";
-
-import { Role } from "database/generated/prisma-client";
-
 import { Center, Progress, Stack, Text } from "@chakra-ui/react";
+import { Role } from "database/generated/prisma-client";
 import type { NextPageContext } from "next";
 import { getSession, useSession } from "next-auth/react";
+import { Fragment, PropsWithChildren } from "react";
 
 type AuthProps<T> = PropsWithChildren<T> & {
   roles?: Role[];
@@ -18,7 +10,15 @@ type AuthProps<T> = PropsWithChildren<T> & {
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const session = await getSession(context);
-  if (session) return session;
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return { props: { session } };
 };
 
 function Auth<T>({ children, roles }: AuthProps<T>) {
@@ -26,31 +26,40 @@ function Auth<T>({ children, roles }: AuthProps<T>) {
     required: true,
   });
 
-  const loading = status === "loading";
-
-  const role = session?.user.role || Role.USER;
+  const userRole = session?.user?.role || Role.GUEST;
   const rolesArray = roles || [Role.USER];
-  const roleAllowed = rolesArray.includes(role) || role === Role.ADMIN;
+  const roleAllowed = rolesArray.includes(userRole) || userRole === Role.ADMIN;
 
-  const hasSession = !loading && session;
-  // For a user to have a required role, they must have a session
-  const hasRequiredRole = hasSession && roleAllowed;
-  // If role is required, user must have required role
-  // Otherwise just a session is required
-  const authorized = role ? hasRequiredRole : hasSession;
-
-  if (authorized && children) {
-    return <Fragment>{children}</Fragment>;
+  if (status === "loading") {
+    return (
+      <Center height="100%">
+        <Stack>
+          <Text>Loading...</Text>
+          <Progress isIndeterminate />
+        </Stack>
+      </Center>
+    );
   }
 
-  return (
-    <Center height="100%">
-      <Stack>
-        <Text>Looking for sessions</Text>
-        <Progress isIndeterminate />
-      </Stack>
-    </Center>
-  );
+  if (!session) {
+    return (
+      <Center height="100%">
+        <Text>You must be logged in to view this page.</Text>
+      </Center>
+    );
+  }
+
+  if (!roleAllowed) {
+    return (
+      <Center height="100%">
+        <Text>
+          You do not have the necessary permissions to view this page.
+        </Text>
+      </Center>
+    );
+  }
+
+  return <Fragment>{children}</Fragment>;
 }
 
 export default Auth;

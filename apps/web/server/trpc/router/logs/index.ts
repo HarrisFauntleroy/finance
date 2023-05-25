@@ -6,14 +6,15 @@ import { TRPCError } from "@trpc/server";
 
 export const logRouter = router({
   read: publicProcedure.query(async () => {
-    return await prisma.log
-      .findMany({
+    try {
+      return await prisma.log.findMany({
         orderBy: { createdAt: "desc" },
-      })
-      .catch(() => {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-        });
       });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Failed to fetch logs: ${(error as Error).message}`,
+      });
+    }
   }),
 });
