@@ -1,10 +1,3 @@
-/**
- *
- * Simple vertical map of milestones
- *
- */
-import React from "react";
-
 import { EmptyCard } from "../Cards/EmptyCard";
 import { LineWithDot } from "../Cards/LineWIthDot";
 import { MilestoneCard } from "../Cards/MilestoneCard";

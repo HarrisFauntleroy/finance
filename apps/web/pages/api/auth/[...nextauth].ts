@@ -1,7 +1,3 @@
-/**
- * Authentication route using NextAuth
- * Prisma adapter provides type mapping and ORM
- */
 import { prisma } from "database";
 import { Role } from "database/generated/prisma-client";
 

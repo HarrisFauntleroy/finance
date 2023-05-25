@@ -1,9 +1,3 @@
-/**
- *
- * Fetches and updates prices across all accounts holding cryptocurrencies.
- * We update the database with price so that weekly/monthly portfolioSnapshot show price of balance at the time of snapshot were current
- *
- */
 import { logger } from "common";
 import { prisma } from "database";
 import { MarketType } from "database/generated/prisma-client";

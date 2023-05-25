@@ -1,8 +1,3 @@
-/**
- *
- * Internationalization
- *
- */
 import { Dispatch, SetStateAction, createContext, useState } from "react";
 
 import enAUMessages from "../../lang/en-AU.json";

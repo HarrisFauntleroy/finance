@@ -12,7 +12,6 @@ export type AssetInput = Prisma.AssetGetPayload<{
 export class AssetBuilder {
   price: string;
   balance: string;
-  value: string;
   costBasis: string;
   targetBalance: string;
   incomeRate: string;
@@ -21,7 +20,6 @@ export class AssetBuilder {
   constructor(input?: AssetInput) {
     this.price = input?.market?.price || "0";
     this.balance = input?.balance || "0";
-    this.value = this.calculateValue();
     this.costBasis = input?.costBasis || "0";
     this.targetBalance = input?.targetBalance || "0";
     this.incomeRate = input?.incomeRate || "0";
@@ -32,16 +30,12 @@ export class AssetBuilder {
     return new AssetBuilder(options);
   }
 
-  toString(value?: string | null) {
-    return String(value);
-  }
-
   calculateValue(): string {
     return multiply(this.price, this.balance);
   }
 
   get unrealizedGain(): string {
-    return subtract(this.value, this.costBasis);
+    return subtract(this.calculateValue(), this.costBasis);
   }
 
   get averageCost() {
@@ -73,16 +67,25 @@ export class AssetBuilder {
   }
 
   get computedProperties() {
+    const unrealizedGain = this.unrealizedGain;
+    const averageCost = this.averageCost;
+    const saleable = this.saleable;
+    const saleableValue = this.saleableValue;
+    const estimatedStakingYield = this.estimatedStakingYield;
+    const estimatedYearlyReturn = this.estimatedYearlyReturn;
+    const belowTargetBalance = this.belowTargetBalance;
+    const shouldSell = this.shouldSell;
+
     return {
       ...this,
-      unrealizedGain: this.unrealizedGain,
-      averageCost: this.averageCost,
-      saleable: this.saleable,
-      saleableValue: this.saleableValue,
-      estimatedStakingYield: this.estimatedStakingYield,
-      estimatedYearlyReturn: this.estimatedYearlyReturn,
-      belowTargetBalance: this.belowTargetBalance,
-      shouldSell: this.shouldSell,
+      unrealizedGain,
+      averageCost,
+      saleable,
+      saleableValue,
+      estimatedStakingYield,
+      estimatedYearlyReturn,
+      belowTargetBalance,
+      shouldSell,
     };
   }
 }

@@ -1,6 +1,3 @@
-/**
- * Generic Card
- */
 import { PropsWithChildren } from "react";
 
 import type { GridItemProps } from "@chakra-ui/react";

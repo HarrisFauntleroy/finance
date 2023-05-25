@@ -1,12 +1,3 @@
-/**
- *
- * Debug component
- * Displays raw object data in a readable format
- * Only displays in development environment
- *
- */
-import React from "react";
-
 import { Heading, Stack } from "@chakra-ui/react";
 
 /** This component will not show up in production */

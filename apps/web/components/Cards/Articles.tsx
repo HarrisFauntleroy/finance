@@ -1,10 +1,3 @@
-/**
- *
- * Simple vertical map of articles
- *
- */
-import React from "react";
-
 import { ArticleCard } from "../Cards/ArticleCard";
 import { LineWithDot } from "../Cards/LineWIthDot";
 

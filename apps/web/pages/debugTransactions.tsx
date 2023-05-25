@@ -1,9 +1,3 @@
-/**
- *
- * Index page
- *
- */
-
 import { AssetBuilder, calculateTransactions } from "common";
 import { trpc } from "../utils/trpc";
 

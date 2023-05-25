@@ -1,7 +1,3 @@
-/**
- * Custom sign in page for Next Auth
- */
-
 import { Button, Flex, Stack } from "@chakra-ui/react";
 import type { NextPageContext } from "next";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";

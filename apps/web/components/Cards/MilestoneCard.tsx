@@ -1,10 +1,3 @@
-/**
- *
- * Simple vertical map of milestones
- *
- */
-import React from "react";
-
 import {
   Box,
   chakra,

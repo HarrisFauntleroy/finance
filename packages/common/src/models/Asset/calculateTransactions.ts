@@ -1,4 +1,4 @@
-import currency from "currency.js";
+import currency, { Any } from "currency.js";
 import { AssetTransaction } from "database/generated/prisma-client";
 
 import { divide } from "../../util";
@@ -10,35 +10,45 @@ export type TransactionStats = {
   totalQuantity: string;
 };
 
+function toCurrency(value: Any | null): currency {
+  return currency(value || 0);
+}
+
 export function calculateTransactions(
   transactions: AssetTransaction[]
 ): TransactionStats {
-  let totalValue = currency(0);
-  let totalFees = currency(0);
-  let totalQuantity = currency(0);
-  let totalFilledQuantity = currency(0);
+  if (!Array.isArray(transactions)) {
+    throw new Error("Transactions must be an array");
+  }
 
-  transactions?.forEach((tx) => {
-    const price = tx.pricePerUnit ? currency(tx.pricePerUnit) : null;
-    const fee = tx.fee ? currency(tx.fee) : currency(0);
-    const quantity = tx.quantityFilled
-      ? currency(tx.quantityFilled)
-      : currency(0);
-    const value = price ? quantity.multiply(price) : null;
+  const initialTotals = {
+    totalValue: toCurrency(0),
+    totalFees: toCurrency(0),
+    totalQuantity: toCurrency(0),
+  };
 
-    totalValue = totalValue.add(value || 0);
-    totalFees = totalFees.add(fee);
-    totalQuantity = totalQuantity.add(quantity);
-    totalFilledQuantity = totalFilledQuantity.add(quantity);
-  });
+  const totals = transactions.reduce((acc, tx) => {
+    const price = toCurrency(tx.pricePerUnit);
+    const fee = toCurrency(tx.fee);
+    const quantity = toCurrency(tx.quantityFilled);
+    const value = price ? quantity.multiply(price) : toCurrency(0);
+
+    return {
+      totalValue: acc.totalValue.add(value),
+      totalFees: acc.totalFees.add(fee),
+      totalQuantity: acc.totalQuantity.add(quantity),
+    };
+  }, initialTotals);
 
   const averagePrice =
-    totalQuantity.value === 0 ? null : divide(totalValue, totalQuantity);
+    totals.totalQuantity.value === 0
+      ? null
+      : divide(totals.totalValue, totals.totalQuantity);
 
   return {
-    totalValue: totalValue.toString(),
-    totalFees: totalFees.toString(),
+    totalValue: totals.totalValue.toString(),
+    totalFees: totals.totalFees.toString(),
     averagePrice,
-    totalQuantity: totalQuantity.toString(),
+    totalQuantity: totals.totalQuantity.toString(),
   };
 }
