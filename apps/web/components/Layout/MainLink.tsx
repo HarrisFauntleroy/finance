@@ -3,7 +3,7 @@ import { Role } from "database/generated/prisma-client";
 import Link from "next/link";
 import { ReactNode, useCallback } from "react";
 
-export interface MainLinkProps {
+export type MainLinkProps = {
   href?: string;
   label?: string;
   icon?: ReactNode;
@@ -12,7 +12,7 @@ export interface MainLinkProps {
   color?: string;
   className?: string;
   onClick?: () => void;
-}
+};
 
 export function MainLink({
   icon,

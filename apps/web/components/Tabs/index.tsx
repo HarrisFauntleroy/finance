@@ -1,16 +1,16 @@
 import { Tabs as MantineTabs } from "@mantine/core";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
-export interface Tab {
+export type Tab = {
   value: string;
   label: string;
   icon: ReactNode;
   component: ReactNode;
-}
+};
 
-interface CustomTabProps {
+type CustomTabProps = {
   tabs: Tab[];
-}
+};
 
 const Tabs = ({ tabs }: CustomTabProps) => (
   <MantineTabs h="100%" defaultValue={tabs[0].value}>
