@@ -103,7 +103,7 @@ const CardComponent = ({
   </Card>
 );
 
-const Index = () => {
+const Admin = () => {
   const { data: dashboardData } = trpc.user.dashboard.useQuery();
   const { data: logData } = trpc.logs.read.useQuery();
 
@@ -139,5 +139,6 @@ const Index = () => {
   );
 };
 
-Index.auth = false;
-export default Index;
+Admin.auth = true;
+Admin.roles = ["ADMIN"];
+export default Admin;
