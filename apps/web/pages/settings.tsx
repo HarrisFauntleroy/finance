@@ -4,5 +4,5 @@ const Settings = () => {
   return <Page title="Settings">Settings</Page>;
 };
 
-Settings.auth = false;
+Settings.auth = true;
 export default Settings;

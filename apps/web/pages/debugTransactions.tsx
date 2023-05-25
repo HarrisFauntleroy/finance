@@ -22,8 +22,8 @@ import {
   Tooltip,
 } from "chart.js";
 import { useSession } from "next-auth/react";
-import { Page } from "../components/Layout/Page";
 import { JSONObjectViewer } from "../components/JSON";
+import { Page } from "../components/Layout/Page";
 
 Chart.register(
   CategoryScale,
@@ -38,7 +38,7 @@ Chart.register(
   Filler
 );
 
-const Home = () => {
+const DebugTransactions = () => {
   const session = useSession();
   const userId = session.data?.userId;
   const { data: assetTransactions } = trpc.assetTransactions.byUserId.useQuery({
@@ -53,7 +53,7 @@ const Home = () => {
   const asset2 = assetsById && new AssetBuilder(assetsById);
 
   return (
-    <Page title="Home" padding="8px" gap="8px">
+    <Page title="DebugTransactions" padding="8px" gap="8px">
       <Heading>Without provided Asset</Heading>
       <JSONObjectViewer data={asset1?.computedProperties} />
       <Heading>With provided Asset</Heading>
@@ -66,5 +66,5 @@ const Home = () => {
   );
 };
 
-Home.auth = false;
-export default Home;
+DebugTransactions.auth = false;
+export default DebugTransactions;

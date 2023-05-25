@@ -56,5 +56,4 @@ function OverviewCard() {
   );
 }
 
-OverviewCard.auth = true;
 export default OverviewCard;
