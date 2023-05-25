@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@alchemical-finance/web",
   "version": "2.0.0",
   "private": true,
   "homepage": "https://alchemical-finance-web.vercel.app/",

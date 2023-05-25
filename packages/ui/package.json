@@ -1,7 +1,6 @@
 {
-  "name": "ui",
+  "name": "@alchemical-finance/ui",
   "version": "2.0.0",
-  "private": true,
   "homepage": "",
   "repository": {
     "type": "git",

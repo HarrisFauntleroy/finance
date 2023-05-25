@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "alchemical-finance",
   "homepage": "https://alchemical-finance.vercel.app/",
   "repository": {
     "type": "git",
