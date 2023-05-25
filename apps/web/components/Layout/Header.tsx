@@ -112,9 +112,9 @@ export type LinkType = {
   color?: string;
 };
 
-interface HeaderResponsiveProps {
+type HeaderResponsiveProps = {
   links: LinkType[];
-}
+};
 
 export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
