@@ -26,12 +26,11 @@ function Auth<T>({ children, roles }: AuthProps<T>) {
     required: true,
   });
 
-  const loading = status === "loading";
   const userRole = session?.user?.role || Role.GUEST;
   const rolesArray = roles || [Role.USER];
   const roleAllowed = rolesArray.includes(userRole) || userRole === Role.ADMIN;
 
-  if (loading) {
+  if (status === "loading") {
     return (
       <Center height="100%">
         <Stack>
