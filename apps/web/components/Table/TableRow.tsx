@@ -2,6 +2,7 @@ import { ReactNode, useCallback, useState } from "react";
 
 import { EditableCell } from "./EditableCell";
 
+import { Button, Group } from "@mantine/core";
 import { Row } from "@tanstack/table-core";
 import {
   FieldValues,
@@ -10,7 +11,6 @@ import {
   useForm,
 } from "react-hook-form";
 import { BsCheck, BsPencil, BsStop } from "react-icons/bs";
-import { Button, Group } from "@mantine/core";
 
 type TableRowProps<T> = {
   row: Row<T>;

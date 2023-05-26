@@ -1,5 +1,3 @@
-import React from "react";
-
 import { FeatureCard } from "../Cards/FeatureCard";
 import { Grid } from "../Grid";
 

@@ -33,9 +33,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { DebouncedInput } from "../Form/DebouncedInput";
 import { Show } from "../Show";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 type EditableTableProps<T extends FieldValues> = {
   id: string;

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { useDebounce } from "../../hooks/useDebounce";
 import { Input, InputProps } from "@mantine/core";
+import { useDebounce } from "../../hooks/useDebounce";
 
 type DebouncedInputProps = {
   value: string | number;

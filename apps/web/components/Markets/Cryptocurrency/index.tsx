@@ -2,8 +2,8 @@ import { Table } from "../../Table";
 
 import { trpc } from "../../../utils/trpc";
 
-import { cryptocurrencyColumns } from "../../Markets/Cryptocurrency/columns";
 import { Card } from "@mantine/core";
+import { cryptocurrencyColumns } from "../../Markets/Cryptocurrency/columns";
 
 export const Cryptocurrency = () => {
   const { data } = trpc.markets.cryptocurrency.useQuery();

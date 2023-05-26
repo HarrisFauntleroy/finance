@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Card } from "../../Cards";
 
 import { Layout } from "../Layout";

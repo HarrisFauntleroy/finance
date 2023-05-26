@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Stat } from "../Stat";
 
 import { Flex } from "@chakra-ui/react";

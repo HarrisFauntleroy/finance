@@ -1,4 +1,4 @@
-import { MediaQuery, Aside as MantineAside, Text } from "@mantine/core";
+import { Aside as MantineAside, MediaQuery, Text } from "@mantine/core";
 
 const sidebarEnabled = false;
 

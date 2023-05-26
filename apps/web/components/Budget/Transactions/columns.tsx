@@ -2,7 +2,7 @@ import { BudgetTransaction } from "@alchemical-finance/database/generated/prisma
 
 import { List, ListItem, Text } from "@chakra-ui/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import Currency from "components/Currency";
+import Currency from "../../Currency";
 
 export const transactionsListColumns: ColumnDef<BudgetTransaction>[] = [
   {
