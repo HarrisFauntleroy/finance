@@ -160,7 +160,7 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
               ))}
               {session ? (
                 <MainLink
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ redirect: false })}
                   className={classes.link}
                   label="Sign out"
                   icon={<SignOut />}
