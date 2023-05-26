@@ -1,13 +1,10 @@
 # Alchemical Finance Monorepo
 
-Alchemical Finance is a TypeScript-based monorepo that aims to provide a
-comprehensive financial solution using modern web technologies. It consists of
-multiple applications and packages working together to deliver a seamless user
-experience.
+Welcome to Alchemical Finance - a TypeScript-based monorepo designed to deliver comprehensive financial solutions leveraging cutting-edge web technologies. Our monorepo consists of several intertwined applications and packages, all working in unison to offer a smooth and seamless user experience.
 
 ## Table of Contents
 
-- [Apps](#apps)
+- [Applications](#applications)
 - [Packages](#packages)
 - [Local Development](#local-development)
 - [Testing](#testing)
@@ -16,7 +13,7 @@ experience.
 - [Security](#security)
 - [License](#license)
 
-## Apps
+## Applications
 
 Alchemical Finance includes the following apps:
 
@@ -39,12 +36,11 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ## Local Development
 
-To get started with local development, follow these steps:
+Embarking on local development is easy. Just follow these steps:
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/)
-- [Yarn](https://yarnpkg.com/)
+Ensure you have [Docker](https://www.docker.com/) and [Yarn](https://yarnpkg.com/) installed.
 
 ### Steps
 
@@ -56,7 +52,7 @@ To get started with local development, follow these steps:
    yarn install
    ```
 
-2. **Configure environment:**
+2. **Set up your environment:**
 
    Copy the `.env.example` file to `.env`:
 
@@ -66,7 +62,7 @@ To get started with local development, follow these steps:
 
    Update the `DATABASE_URL` in your `.env` file if necessary.
 
-3. **Start Docker Compose:**
+3. **Launch Docker Compose:**
 
    Run the Postgres server using Docker Compose:
 
@@ -88,36 +84,30 @@ To get started with local development, follow these steps:
    yarn db:seed
    ```
 
-5. **Build and run the development environment:**
+5. **Build and start the development environment:**
 
    ```bash
-   yarn run build
-   yarn run dev
+   yarn dev
    ```
 
 ## Testing
 
-Describe how to test the app here.
+To learn how to test the application, please refer to our [testing guide]().
 
 ## Deployment
 
-Describe how to deploy the app here
+For a detailed guide on deploying the application, please see our [deployment instructions]().
 
 ## Contributing
 
-We welcome contributions to the Alchemical Finance project! If you would like to
-contribute, please follow these steps:
+We warmly welcome contributions to the Alchemical Finance project! To contribute, follow these guidelines:
 
 1. Fork the repository on GitHub.
-2. Create a new feature branch from the `main` branch.
-3. Make your changes and ensure that the code follows the project's coding style
-   and standards.
-4. Submit a pull request with a clear description of your changes.
-5. Address any feedback from maintainers and adjust your pull request
-   accordingly.
-
-For bug reports, feature requests, and other issues, please use the GitHub issue
-tracker to submit them.
+2. Initiate a new feature branch from the main branch.
+3. Implement your changes, adhering to the project's code style and standards.
+4. Submit a pull request with a comprehensive summary of your changes.
+5. Address any feedback from the maintainers and revise your pull request as necessary.
+6. For submitting bug reports, requesting features, or reporting other issues, please use the GitHub issue tracker to submit them.
 
 ## Security
 
