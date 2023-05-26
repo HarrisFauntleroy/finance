@@ -1,7 +1,7 @@
 import { trpc } from "../utils/trpc";
 
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import { Avatar, Card, Chip, Stack, Text } from "@mantine/core";
-import { Role } from "database/generated/prisma-client";
 import { Grid } from "../components/Grid";
 import { Page } from "../components/Layout/Page";
 

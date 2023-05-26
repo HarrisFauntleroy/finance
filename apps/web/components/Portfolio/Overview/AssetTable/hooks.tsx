@@ -1,10 +1,10 @@
-import { logger } from "common";
+import { logger } from "@alchemical-finance/common";
 
 import { trpc } from "../../../../utils/trpc";
 
+import { type Asset } from "@alchemical-finance/database/generated/prisma-client";
 import { useToast } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { type Asset } from "database/generated/prisma-client";
 import { SubmitHandler } from "react-hook-form";
 
 export function useAssetActions(userId: string | undefined): {

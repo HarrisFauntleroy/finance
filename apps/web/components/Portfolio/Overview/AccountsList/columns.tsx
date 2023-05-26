@@ -4,7 +4,7 @@ import {
   AssetTransaction,
   Category,
   Market,
-} from "database/generated/prisma-client";
+} from "@alchemical-finance/database/generated/prisma-client";
 
 import {
   Avatar,

@@ -1,4 +1,4 @@
-import type { User } from "database/generated/prisma-client";
+import type { User } from "@alchemical-finance/database/generated/prisma-client";
 
 declare module "next-auth" {
   type Session = {

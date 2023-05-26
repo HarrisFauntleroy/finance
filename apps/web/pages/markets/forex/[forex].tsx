@@ -1,6 +1,6 @@
-import { MarketType } from "database/generated/prisma-client";
-import { Page } from "../../../components/Layout/Page";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 import { Debug } from "../../../components/Debug";
+import { Page } from "../../../components/Layout/Page";
 
 import { trpc } from "../../../utils/trpc";
 

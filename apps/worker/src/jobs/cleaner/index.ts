@@ -1,7 +1,6 @@
-import { prisma } from "database";
-
 import { Progress } from "../../util";
 
+import { prisma } from "@alchemical-finance/database";
 import { subDays } from "date-fns";
 
 export const cleaner = async () => {

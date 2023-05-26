@@ -1,10 +1,9 @@
-import { logger } from "common";
-
 import config from "./env";
 import { findAndRunJobByName, JobName } from "./jobs";
 import { applyMiddlewares, BULL_BOARD_PATH, serverAdapter } from "./middleware";
 import { Scheduler } from "./scheduler";
 
+import { logger } from "@alchemical-finance/common";
 import { BullMQAdapter, createBullBoard } from "@bull-board/express";
 import {
   ConnectionOptions,

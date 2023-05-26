@@ -1,4 +1,4 @@
-import { BudgetTransaction } from "database/generated/prisma-client";
+import { BudgetTransaction } from "@alchemical-finance/database/generated/prisma-client";
 
 import { List, ListItem, Text } from "@chakra-ui/react";
 import type { ColumnDef } from "@tanstack/react-table";

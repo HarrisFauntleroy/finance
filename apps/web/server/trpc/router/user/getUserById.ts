@@ -1,4 +1,4 @@
-import { prisma } from "database";
+import { prisma } from "@alchemical-finance/database";
 
 export const getUserById = (id: string) =>
   prisma.user.findUnique({

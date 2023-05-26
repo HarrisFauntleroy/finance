@@ -1,4 +1,4 @@
-import { Decimal } from "database/generated/prisma-client/runtime/library";
+import { Decimal } from "@alchemical-finance/database/generated/prisma-client/runtime/library";
 import { z } from "zod";
 
 // Returns a decimal to 10 decimal places

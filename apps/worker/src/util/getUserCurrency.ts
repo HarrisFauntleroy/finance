@@ -1,4 +1,4 @@
-import { prisma } from "database";
+import { prisma } from "@alchemical-finance/database";
 
 export const getUserCurrency = async (userId: string): Promise<string> => {
   const { userCurrency } = await prisma.settings.findFirstOrThrow({

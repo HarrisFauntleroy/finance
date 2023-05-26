@@ -1,4 +1,4 @@
-import { logger } from "common";
+import { logger } from "@alchemical-finance/common";
 
 export class Progress {
   private total: number;

@@ -78,17 +78,6 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "import/extensions": "off",
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/*.stories.*",
-            "**/.storybook/**/*.*"
-          ],
-          "peerDependencies": true
-        }
-      ],
       "simple-import-sort/imports": [
         "off",
         {
@@ -104,8 +93,7 @@
             ]
           ]
         }
-      ],
-      "@next/next/no-html-link-for-pages": "off"
+      ]
     },
     "ignorePatterns": [
       "dist"

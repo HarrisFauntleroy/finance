@@ -1,6 +1,6 @@
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import { Person, Shield } from "@phosphor-icons/react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Role } from "database/generated/prisma-client";
 import { MainLink } from "./MainLink";
 
 const meta: Meta<typeof MainLink> = {

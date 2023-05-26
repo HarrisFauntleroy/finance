@@ -1,5 +1,8 @@
-import { logger } from "common";
-import { AccountConnection, Asset } from "database/generated/prisma-client";
+import { logger } from "@alchemical-finance/common";
+import {
+  AccountConnection,
+  Asset,
+} from "@alchemical-finance/database/generated/prisma-client";
 import { Table } from "../Table";
 
 import { trpc } from "../../utils/trpc";

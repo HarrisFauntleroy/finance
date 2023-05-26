@@ -1,5 +1,5 @@
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 
 import { publicProcedure, router } from "../../trpc";
 

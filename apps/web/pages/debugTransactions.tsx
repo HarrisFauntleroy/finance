@@ -1,4 +1,7 @@
-import { AssetBuilder, calculateTransactions } from "common";
+import {
+  AssetBuilder,
+  calculateTransactions,
+} from "@alchemical-finance/common";
 import { trpc } from "../utils/trpc";
 
 import { Heading } from "@chakra-ui/react";

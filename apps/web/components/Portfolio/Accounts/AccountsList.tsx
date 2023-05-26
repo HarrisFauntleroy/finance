@@ -4,12 +4,13 @@ import {
   AssetTransaction,
   Category,
   Market,
-} from "database/generated/prisma-client";
+} from "@alchemical-finance/database/generated/prisma-client";
 import { Table } from "../../Table";
 
 import type { RouterOutput } from "../../../utils/trpc";
 import { trpc } from "../../../utils/trpc";
 
+import { AssetWithCalculatedValues } from "@alchemical-finance/common";
 import {
   Avatar,
   AvatarGroup,
@@ -23,7 +24,6 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { AssetWithCalculatedValues } from "common";
 import currency from "currency.js";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { useSession } from "next-auth/react";

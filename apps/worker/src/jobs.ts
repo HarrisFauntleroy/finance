@@ -1,10 +1,10 @@
-import { logger } from "common";
-
 import { cleaner } from "./jobs/cleaner";
 import { cryptocurrency } from "./jobs/cryptocurrency";
 import { history } from "./jobs/history";
 import { marketData } from "./jobs/marketData";
 import { swyftx } from "./jobs/swyftx";
+
+import { logger } from "@alchemical-finance/common";
 
 export enum JobName {
   History = "history",

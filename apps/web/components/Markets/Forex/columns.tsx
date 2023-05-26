@@ -1,4 +1,4 @@
-import { isNegative } from "common";
+import { isNegative } from "@alchemical-finance/common";
 
 import { countryByCurrency } from "../../../utils/countries";
 

@@ -1,8 +1,11 @@
-import { calculateAssetValue, calculateAssetValueOverview } from "common";
-import { Prisma } from "database/generated/prisma-client";
-
 import { getExchangeRates, getUserCurrency } from "../../util";
 import { getUserById } from "./getUserById";
+
+import {
+  calculateAssetValue,
+  calculateAssetValueOverview,
+} from "@alchemical-finance/common";
+import { Prisma } from "@alchemical-finance/database/generated/prisma-client";
 
 export const calculateAssetValuesTotals = async (userId: string) => {
   const user: Prisma.PromiseReturnType<typeof getUserById> = await getUserById(

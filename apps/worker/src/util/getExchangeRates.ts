@@ -1,6 +1,6 @@
-import { flattenArrToObj } from "common";
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
+import { flattenArrToObj } from "@alchemical-finance/common";
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 
 export const getExchangeRates = async (): Promise<Record<string, string>> => {
   const markets = await prisma.market.findMany({

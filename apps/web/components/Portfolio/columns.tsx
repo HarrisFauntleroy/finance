@@ -1,6 +1,6 @@
+import type { PortfolioSnapshot } from "@alchemical-finance/database/generated/prisma-client";
 import type { ColumnDef } from "@tanstack/react-table";
 import Currency from "components/Currency";
-import type { PortfolioSnapshot } from "database/generated/prisma-client";
 
 /** Column definitions for crypto page */
 export const incomeBreakdownColumns: ColumnDef<PortfolioSnapshot>[] = [

@@ -1,4 +1,4 @@
-import { prisma } from "database";
+import { prisma } from "@alchemical-finance/database";
 
 import { date, z } from "zod";
 

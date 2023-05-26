@@ -22,9 +22,8 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "NODE_ENV=development nodemon src/server.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix && yarn format",
+    "lint:fix": "eslint . --fix",
     "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "format": "prettier --write .",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
@@ -68,23 +67,11 @@
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          "argsIgnorePattern": "^_",
-          "varsIgnorePattern": "^_"
-        }
-      ],
-      "import/extensions": "off",
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/*.stories.*",
-            "**/.storybook/**/*.*"
-          ],
-          "peerDependencies": true
+          "argsIgnorePattern": "^_"
         }
       ],
       "simple-import-sort/imports": [
-        "error",
+        "off",
         {
           "groups": [
             [

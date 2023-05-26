@@ -24,18 +24,9 @@
       "cache": false,
       "outputs": []
     },
-    "lint": {
-      "cache": false,
-      "outputs": []
-    },
-    "lint:watch": {
-      "cache": false,
-      "outputs": []
-    },
-    "lint:fix": {
-      "cache": false,
-      "outputs": []
-    },
+    "lint": {},
+    "lint:watch": {},
+    "lint:fix": {},
     "type-check": {
       "outputs": []
     },

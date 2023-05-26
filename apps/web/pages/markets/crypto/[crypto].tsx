@@ -1,11 +1,11 @@
-import { MarketType } from "database/generated/prisma-client";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 
 import { trpc } from "../../../utils/trpc";
 
 import NextError from "next/error";
 import { useRouter } from "next/router";
-import { Page } from "../../../components/Layout/Page";
 import { Debug } from "../../../components/Debug";
+import { Page } from "../../../components/Layout/Page";
 
 const MarketViewPage = () => {
   const { name, ticker } = useRouter().query as {

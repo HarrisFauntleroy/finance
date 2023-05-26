@@ -1,5 +1,4 @@
-import { logger } from "common";
-
+import { logger } from "@alchemical-finance/common";
 import { ExpressAdapter } from "@bull-board/express";
 import bodyParser from "body-parser";
 import cors from "cors";

@@ -1,3 +1,4 @@
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import {
   Burger,
   Container,
@@ -12,7 +13,6 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { SignIn, SignOut } from "@phosphor-icons/react";
-import { Role } from "database/generated/prisma-client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { ReactNode, useState } from "react";

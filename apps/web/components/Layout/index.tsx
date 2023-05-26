@@ -9,7 +9,7 @@ import {
   Shield,
 } from "@phosphor-icons/react";
 
-import { Role } from "database/generated/prisma-client";
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import Aside from "../Layout/Aside";
 import Header, { LinkType } from "../Layout/Header";
 import Navbar from "../Layout/Navbar";

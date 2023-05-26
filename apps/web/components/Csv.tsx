@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { logger } from "common";
+import { logger } from "@alchemical-finance/common";
 
 import {
   Button,

@@ -1,7 +1,7 @@
-import { prisma } from "database";
-
 import { Progress } from "../../util";
 import { calculateAssetValuesTotals } from "./assets";
+
+import { prisma } from "@alchemical-finance/database";
 
 export const history = async () => {
   /** Get userId of signed in user */

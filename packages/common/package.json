@@ -22,9 +22,8 @@
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix && yarn format",
+    "lint:fix": "eslint . --fix",
     "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "format": "prettier --write .",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
@@ -74,11 +73,22 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
-      "import/first": "error",
-      "import/newline-after-import": "error",
-      "import/no-duplicates": "error"
+      "simple-import-sort/imports": [
+        "off",
+        {
+          "groups": [
+            [
+              "^react$"
+            ],
+            [
+              "^(ui|common|database|database/generated/prisma-client)$"
+            ],
+            [
+              "^[./]"
+            ]
+          ]
+        }
+      ]
     },
     "ignorePatterns": [
       ".turbo",

@@ -1,5 +1,5 @@
-import { prisma } from "database";
-import { Role } from "database/generated/prisma-client";
+import { prisma } from "@alchemical-finance/database";
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { NextApiRequest, NextApiResponse } from "next";

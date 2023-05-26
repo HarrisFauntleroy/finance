@@ -1,8 +1,12 @@
-import { convertCurrency, multiply, sumGroupByCategory } from "common";
-import { Category } from "database/generated/prisma-client";
+import {
+  convertCurrency,
+  multiply,
+  sumGroupByCategory,
+} from "@alchemical-finance/common";
+import { Category } from "@alchemical-finance/database/generated/prisma-client";
 
+import { getExchangeRates, getUserCurrency } from "../../../api";
 import { getAssetsWithMarket } from "./getAssetsWithMarket";
-import { getUserCurrency, getExchangeRates } from "../../../api";
 
 export type PortfolioAllocation = {
   name: string;

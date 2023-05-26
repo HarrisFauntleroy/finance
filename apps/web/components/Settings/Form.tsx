@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 
-import { logger } from "common";
+import { logger } from "@alchemical-finance/common";
 
 import { defaultToast } from "../../utils/toast";
 import { RouterOutput, trpc } from "../../utils/trpc";
 
 import { Autocomplete } from "../Form/Autocomplete";
 
+import type { Settings } from "@alchemical-finance/database/generated/prisma-client";
 import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -22,12 +23,11 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import type { Settings } from "database/generated/prisma-client";
 import { useSession } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { TextInput } from "../TextInput";
 import { Debug } from "../Debug";
 import { Drawer } from "../Drawer";
+import { TextInput } from "../TextInput";
 
 type SettingsFormProps = {
   defaultValues?: RouterOutput["settings"]["byUserId"];

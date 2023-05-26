@@ -1,5 +1,5 @@
+import { AssetTransaction } from "@alchemical-finance/database/generated/prisma-client";
 import currency, { Any } from "currency.js";
-import { AssetTransaction } from "database/generated/prisma-client";
 
 import { divide } from "../../util";
 

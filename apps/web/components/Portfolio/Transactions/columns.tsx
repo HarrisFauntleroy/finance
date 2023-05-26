@@ -1,9 +1,7 @@
-import React from "react";
-
+import type { AssetTransaction } from "@alchemical-finance/database/generated/prisma-client";
 import { List, ListItem, Text } from "@chakra-ui/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import Currency from "components/Currency";
-import type { AssetTransaction } from "database/generated/prisma-client";
 
 export const transactionsListColumns: ColumnDef<AssetTransaction>[] = [
   {

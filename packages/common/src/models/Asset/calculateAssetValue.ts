@@ -1,6 +1,6 @@
 // #?: Explain this
 // Takes assets including their transactions and subassets
-import { Category } from "database/generated/prisma-client";
+import { Category } from "@alchemical-finance/database/generated/prisma-client";
 
 import { convertCurrency } from "../../util/finance";
 import { divide, lessThan, multiply, subtract } from "../../util/math";

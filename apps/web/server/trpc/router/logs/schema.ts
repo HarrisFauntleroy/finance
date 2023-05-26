@@ -1,4 +1,7 @@
-import { LogType, Prisma } from "database/generated/prisma-client";
+import {
+  LogType,
+  Prisma,
+} from "@alchemical-finance/database/generated/prisma-client";
 
 import { z } from "zod";
 

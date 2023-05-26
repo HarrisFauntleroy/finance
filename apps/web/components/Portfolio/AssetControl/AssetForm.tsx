@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 
-import { logger } from "common";
+import { logger } from "@alchemical-finance/common";
 
 import type { RouterInput } from "../../../utils/trpc";
 import { trpc } from "../../../utils/trpc";

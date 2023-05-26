@@ -1,11 +1,10 @@
-import { logger } from "common";
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
-
 import { Progress } from "../../../util";
 import { getBalance } from "./getBalance";
 import { createWeb3Instance } from "./web3";
 
+import { logger } from "@alchemical-finance/common";
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 import dotenv from "dotenv";
 
 dotenv.config();

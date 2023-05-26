@@ -1,5 +1,5 @@
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import { Group, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
-import { Role } from "database/generated/prisma-client";
 import Link from "next/link";
 import { ReactNode, useCallback } from "react";
 

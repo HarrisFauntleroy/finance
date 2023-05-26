@@ -1,12 +1,11 @@
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
-
 import { Progress } from "../../../util";
 
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
+import { Decimal } from "@alchemical-finance/database/generated/prisma-client/runtime/library";
 import { Coin, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { QueryClientImpl } from "cosmjs-types/cosmos/bank/v1beta1/query";
-import { Decimal } from "database/generated/prisma-client/runtime/library";
 
 const OSMOSIS_RPC = "https://osmosis-mainnet-rpc.allthatnode.com:26657";
 

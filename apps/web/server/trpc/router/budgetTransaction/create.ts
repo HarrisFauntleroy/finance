@@ -1,5 +1,8 @@
-import { prisma } from "database";
-import { AccountConnection, Category } from "database/generated/prisma-client";
+import { prisma } from "@alchemical-finance/database";
+import {
+  AccountConnection,
+  Category,
+} from "@alchemical-finance/database/generated/prisma-client";
 
 import { date, z } from "zod";
 

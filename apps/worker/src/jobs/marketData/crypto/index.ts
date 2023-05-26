@@ -1,10 +1,9 @@
-import { logger } from "common";
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
-
 import { Progress } from "../../../util";
 import { CoinGeckoResponse, ParsedCrypto } from "./types";
 
+import { logger } from "@alchemical-finance/common";
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 import axios from "axios";
 
 export class MarketUpdater {

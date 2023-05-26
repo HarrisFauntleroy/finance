@@ -79,9 +79,8 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "import/extensions": "off",
       "simple-import-sort/imports": [
-        "error",
+        "off",
         {
           "groups": [
             [

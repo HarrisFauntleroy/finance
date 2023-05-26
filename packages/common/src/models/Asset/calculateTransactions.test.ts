@@ -1,4 +1,4 @@
-import { AssetTransaction } from "database/generated/prisma-client";
+import { AssetTransaction } from "@alchemical-finance/database/generated/prisma-client";
 
 import { calculateTransactions } from "./calculateTransactions";
 

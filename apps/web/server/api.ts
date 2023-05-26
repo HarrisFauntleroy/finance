@@ -1,6 +1,6 @@
-import { flattenArrToObj, logger } from "common";
-import { prisma } from "database";
-import { MarketType } from "database/generated/prisma-client";
+import { flattenArrToObj, logger } from "@alchemical-finance/common";
+import { prisma } from "@alchemical-finance/database";
+import { MarketType } from "@alchemical-finance/database/generated/prisma-client";
 
 export function runOnServer(fn: () => void) {
   if (typeof window === "undefined" || !process.browser) {

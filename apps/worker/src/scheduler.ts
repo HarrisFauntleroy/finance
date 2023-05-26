@@ -1,7 +1,6 @@
-import { logger } from "common";
-
 import { JobName } from "./jobs";
 
+import { logger } from "@alchemical-finance/common";
 import { JobsOptions, Queue as QueueMQ } from "bullmq";
 import { isValidCron } from "cron-validator";
 

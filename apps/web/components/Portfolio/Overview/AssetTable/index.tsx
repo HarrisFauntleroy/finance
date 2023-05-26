@@ -1,4 +1,4 @@
-import { AssetWithCalculatedValues } from "common";
+import { AssetWithCalculatedValues } from "@alchemical-finance/common";
 import { Table } from "../../../Table";
 
 import { trpc } from "../../../../utils/trpc";

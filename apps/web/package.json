@@ -23,9 +23,8 @@
     "build-storybook": "storybook build",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "next dev -p 3000",
-    "format": "prettier --write .",
     "lint": "next lint",
-    "lint:fix": "eslint . --fix && yarn format",
+    "lint:fix": "eslint . --fix",
     "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
     "reset-db": "docker-compose down --volumes --remove-orphans",
     "start": "next start",
@@ -39,17 +38,6 @@
     "test-storybook": "test-storybook",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn lint:fix",
-      "yarn format"
-    ]
   },
   "browserslist": {
     "production": [
@@ -107,7 +95,6 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "import/extensions": "off",
       "simple-import-sort/imports": [
         "off",
         {

@@ -1,4 +1,4 @@
-import { Prisma } from "database/generated/prisma-client";
+import { Prisma } from "@alchemical-finance/database/generated/prisma-client";
 
 import { z } from "zod";
 

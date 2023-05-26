@@ -1,5 +1,5 @@
-import { AssetWithCalculatedValues } from "common";
-import { AccountConnection } from "database/generated/prisma-client";
+import { AssetWithCalculatedValues } from "@alchemical-finance/common";
+import { AccountConnection } from "@alchemical-finance/database/generated/prisma-client";
 
 import { CopyContent } from "../../../lol/CopyContent";
 

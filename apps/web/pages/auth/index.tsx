@@ -1,5 +1,5 @@
+import { Role } from "@alchemical-finance/database/generated/prisma-client";
 import { Center, Progress, Stack, Text } from "@chakra-ui/react";
-import { Role } from "database/generated/prisma-client";
 import type { NextPageContext } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { Fragment, PropsWithChildren } from "react";

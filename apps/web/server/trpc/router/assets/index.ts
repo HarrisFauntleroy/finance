@@ -1,6 +1,9 @@
-import { calculateAssetValue, calculateAssetValueOverview } from "common";
-import { type Prisma } from "database/generated/prisma-client";
-import { prisma } from "database";
+import {
+  calculateAssetValue,
+  calculateAssetValueOverview,
+} from "@alchemical-finance/common";
+import { prisma } from "@alchemical-finance/database";
+import { type Prisma } from "@alchemical-finance/database/generated/prisma-client";
 
 import { getExchangeRates, getUserCurrency } from "../../../api";
 
@@ -12,9 +15,9 @@ import { getAssetsByUserId } from "./getAssetsByUserId";
 import { getPortfolioAllocation } from "./getPortfolioAllocation";
 import { updateAsset } from "./update";
 
+import { AssetSchema } from "@alchemical-finance/database/generated/zod";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { AssetSchema } from "database/generated/zod";
 
 export const assetRouter = router({
   create: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {

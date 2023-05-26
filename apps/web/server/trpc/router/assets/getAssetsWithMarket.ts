@@ -1,4 +1,4 @@
-import { prisma } from "database";
+import { prisma } from "@alchemical-finance/database";
 
 export const getAssetsWithMarket = (userId: string) =>
   prisma.asset.findMany({
