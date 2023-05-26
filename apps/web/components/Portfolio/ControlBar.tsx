@@ -1,58 +1,33 @@
-import React, { useContext, useState } from "react";
-
-import { AssetControl } from "./AssetControl";
-
-import { SettingsIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-  Select,
-} from "@chakra-ui/react";
-import { PrivacyContext } from "../Providers/Privacy";
+import { ActionIcon, Button, Flex, useMantineColorScheme } from "@mantine/core";
+import { IconMoonStars, IconSun } from "@tabler/icons-react";
+import { useContext } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { MdExpand } from "react-icons/md";
+import { PrivacyContext } from "../Providers/Privacy";
+import { CreateAccount } from "./CreateAccount";
 
 export const ControlBar = () => {
   const { privacy, togglePrivacy } = useContext(PrivacyContext);
-
-  const [toggleOverview, setToggleOverview] = useState(true);
-
-  const handleClick = () => setToggleOverview(!toggleOverview);
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
 
   return (
     <Flex justify="space-between">
-      <AssetControl />
-      <Flex gap="8px">
-        <Menu closeOnSelect={false}>
-          <MenuButton as={Button}>
-            <SettingsIcon />
-          </MenuButton>
-          <MenuList minWidth="240px">
-            <MenuOptionGroup defaultValue="asc" type="radio">
-              <MenuItemOption>Hide zero balances</MenuItemOption>
-              <MenuDivider />
-              <MenuItemOption
-                icon={privacy ? <FiEyeOff /> : <FiEye />}
-                onClick={() => togglePrivacy()}
-              >
-                Privacy mode
-              </MenuItemOption>
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
-        <Select placeholder="Sort by" width="max-content">
-          <option>type</option>
-        </Select>
-        <Button onClick={handleClick}>
-          <MdExpand />
-        </Button>
-      </Flex>
+      <CreateAccount />
+      <Button>Hide zero balances</Button>
+      <Button
+        leftIcon={privacy ? <FiEyeOff /> : <FiEye />}
+        onClick={() => togglePrivacy()}
+      >
+        Privacy mode
+      </Button>
+      <ActionIcon
+        variant="outline"
+        color={dark ? "yellow" : "blue"}
+        onClick={() => toggleColorScheme()}
+        title="Toggle color scheme"
+      >
+        {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
+      </ActionIcon>
     </Flex>
   );
 };
