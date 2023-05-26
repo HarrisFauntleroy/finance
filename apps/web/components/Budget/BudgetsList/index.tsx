@@ -12,10 +12,10 @@ import {
   StatHelpText,
   StatNumber,
 } from "@chakra-ui/react";
-import { Card } from "../../Cards";
-import { Grid } from "../../Grid";
 import currency from "currency.js";
 import { useSession } from "next-auth/react";
+import { Card } from "../../Cards";
+import { Grid } from "../../Grid";
 
 export const BudgetsList = () => {
   const session = useSession();
