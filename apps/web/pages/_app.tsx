@@ -31,7 +31,7 @@ MyApp.getInitialProps = async (appContext: NextJsAppContext) => {
   };
 };
 
-type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
+export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
   P,
   IP
 > & {

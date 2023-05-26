@@ -4,9 +4,7 @@ import type { NextPageContext } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { Fragment, PropsWithChildren } from "react";
 
-type AuthProps<T> = PropsWithChildren<T> & {
-  roles?: Role[];
-};
+type AuthProps<T> = PropsWithChildren<T> & { roles?: Role[] };
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const session = await getSession(context);
