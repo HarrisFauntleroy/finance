@@ -22,7 +22,6 @@ import {
 import { parse } from "papaparse";
 import type { ChangeEvent } from "react";
 
-// Load the CSV file and parse its contents
 export async function loadCSV(file: File): Promise<unknown[]> {
   return new Promise((resolve, reject) =>
     parse(file, {

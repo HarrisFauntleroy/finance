@@ -1,7 +1,3 @@
-import { Card } from "../../Cards";
-
-import { trpc } from "../../../utils/trpc";
-
 import {
   Table as ChakraTable,
   Stack,
@@ -12,7 +8,9 @@ import {
   Th,
   Tr,
 } from "@chakra-ui/react";
+import { Card } from "@mantine/core";
 import { useSession } from "next-auth/react";
+import { trpc } from "../../../utils/trpc";
 import Currency from "../../Currency";
 
 function Overview() {
