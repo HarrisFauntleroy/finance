@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Stack } from "@chakra-ui/react";
 
 function Statistics() {

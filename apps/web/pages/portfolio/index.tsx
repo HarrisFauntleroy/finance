@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Page } from "../../components/Layout/Page";
 
 import Accounts from "./accounts";

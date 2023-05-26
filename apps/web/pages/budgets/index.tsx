@@ -1,16 +1,14 @@
-import React from "react";
-
-import { BudgetsList } from "../../components/Budget/BudgetsList";
-import { BudgetOverview } from "../../components/Budget/Overview";
-import { Statistics } from "../../components/Budget/Statistics";
-import { TransactionsList } from "../../components/Budget/Transactions";
-import { Page } from "../../components/Layout/Page";
 import {
   ChartPieSlice,
   Gauge,
   PiggyBank,
   Receipt,
 } from "@phosphor-icons/react";
+import { BudgetsList } from "../../components/Budget/BudgetsList";
+import { BudgetOverview } from "../../components/Budget/Overview";
+import { Statistics } from "../../components/Budget/Statistics";
+import { TransactionsList } from "../../components/Budget/Transactions";
+import { Page } from "../../components/Layout/Page";
 import Tabs from "../../components/Tabs";
 
 function Budgets() {
