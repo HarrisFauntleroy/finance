@@ -1,5 +1,3 @@
-import { percentageChange } from "common";
-
 import {
   Accordion,
   AccordionButton,
@@ -12,11 +10,12 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
+import { Card } from "@mantine/core";
 import type { Row } from "@tanstack/react-table";
+import { percentageChange } from "common";
 import currency from "currency.js";
-import { Card } from "../../Cards";
-import { Grid } from "../../Grid";
 import { Debug, inDev } from "../../Debug";
+import { Grid } from "../../Grid";
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
   <Card>

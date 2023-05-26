@@ -9,17 +9,17 @@ type ListRepositoryReleasesResponse =
 
 export type ReleaseData = ListRepositoryReleasesResponse["data"];
 
+const RELEASE_URL =
+  "https://api.github.com/repos/harrisfauntleroy/alchemical-finance/releases";
+
 export function Releases() {
-  const { data, isLoading } = useFetchWithReactQuery(
-    "https://api.github.com/repos/harrisfauntleroy/alchemical-finance/releases",
-    {
-      headers: {
-        "Accept": "application/vnd.github+json",
-        "Authorization": `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    }
-  );
+  const { data, isLoading } = useFetchWithReactQuery(RELEASE_URL, {
+    headers: {
+      "Accept": "application/vnd.github+json",
+      "Authorization": `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
 
   if (isLoading) return <Loader />;
 

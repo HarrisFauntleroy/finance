@@ -1,37 +1,31 @@
-import React from "react";
-
-import { Card } from "../../Cards";
-
-import { Layout } from "../Layout";
-
 import { Button, GridItem } from "@chakra-ui/react";
+import { Card } from "@mantine/core";
+import { Layout } from "../Layout";
 
 export const BudgetOverview = () => {
   return (
     <Layout>
-      <Card height="64px" area={"date-picker"}>
-        Date picker
-      </Card>
-      <Card area={"spending-breakdown"}>
+      <Card h="64px">Date picker</Card>
+      <Card>
         SPENDING BREAKDOWN
         <ul style={{ listStyle: "none" }}>
           <li>Income</li>
           <li>Expenses</li>
         </ul>
       </Card>
-      <Card area={"accounts-overview"}>ACCOUNTS OVERVIEW </Card>
-      <Card area={"period-summary"}>PERIOD SUMMARY</Card>
-      <GridItem area={"stats"}>
-        <Card height="128px">
+      <Card>ACCOUNTS OVERVIEW</Card>
+      <Card>PERIOD SUMMARY</Card>
+      <GridItem>
+        <Card h="128px">
           <Button>Review Transactions</Button>
         </Card>
-        <Card height="128px">
+        <Card h="128px">
           <Button>Set November Budget</Button>
         </Card>
-        <Card height="128px">
+        <Card h="128px">
           <Button>Review Recurring Items</Button>
         </Card>
-        <Card height="128px">
+        <Card h="128px">
           <Button>Setup Accounts</Button>
           <p>Goes to accounts page</p>
         </Card>

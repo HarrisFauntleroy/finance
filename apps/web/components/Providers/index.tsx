@@ -6,12 +6,13 @@ import { AppPropsWithLayout } from "../../pages/_app";
 import { IntlProvider } from "../Providers/I18n";
 import { PrivacyProvider } from "../Providers/Privacy";
 import ThemeProvider from "../Providers/Theme";
+import { AuthProvider } from "./Auth";
 
-export function AppContext<T>({
-  children,
-  ...props
-}: AppPropsWithLayout & PropsWithChildren<T>) {
+export function AppContext<T>(
+  props: AppPropsWithLayout & PropsWithChildren<T>
+) {
   const {
+    children,
     pageProps: { session },
   } = props;
 
@@ -19,9 +20,11 @@ export function AppContext<T>({
     <SessionProvider session={session}>
       <DefaultSeo {...SEO} />
       <ThemeProvider {...props}>
-        <PrivacyProvider>
-          <IntlProvider>{children}</IntlProvider>
-        </PrivacyProvider>
+        <AuthProvider {...props}>
+          <PrivacyProvider>
+            <IntlProvider>{children}</IntlProvider>
+          </PrivacyProvider>
+        </AuthProvider>
       </ThemeProvider>
     </SessionProvider>
   );

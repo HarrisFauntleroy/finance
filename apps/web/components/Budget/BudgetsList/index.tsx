@@ -1,7 +1,3 @@
-import { trpc } from "../../../utils/trpc";
-
-import { BudgetControl } from "../BudgetControl";
-
 import {
   ButtonGroup,
   Flex,
@@ -12,10 +8,12 @@ import {
   StatHelpText,
   StatNumber,
 } from "@chakra-ui/react";
-import { Card } from "../../Cards";
-import { Grid } from "../../Grid";
+import { Card } from "@mantine/core";
 import currency from "currency.js";
 import { useSession } from "next-auth/react";
+import { trpc } from "../../../utils/trpc";
+import { Grid } from "../../Grid";
+import { BudgetControl } from "../BudgetControl";
 
 export const BudgetsList = () => {
   const session = useSession();

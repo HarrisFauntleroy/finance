@@ -7,12 +7,10 @@ import { useHotkeys } from "@mantine/hooks";
 import { setCookie } from "cookies-next";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { AppPropsWithLayout } from "../../pages/_app";
-import Auth from "../../pages/auth";
 import { Layout } from "../Layout";
 
 export default function ThemeProvider<T>({
   children,
-  Component,
   ...props
 }: AppPropsWithLayout & PropsWithChildren<T>) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>(
@@ -22,11 +20,7 @@ export default function ThemeProvider<T>({
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   function getLayout(page: ReactNode) {
-    return (
-      <Layout>
-        <Auth roles={Component.roles}>{page}</Auth>
-      </Layout>
-    );
+    return <Layout>{page}</Layout>;
   }
 
   function toggleColorScheme(value?: ColorScheme) {

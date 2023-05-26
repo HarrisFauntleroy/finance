@@ -1,7 +1,15 @@
-import { Group, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
+import {
+  Group,
+  Text,
+  ThemeIcon,
+  UnstyledButton,
+  useMantineTheme,
+} from "@mantine/core";
 import { Role } from "database/generated/prisma-client";
 import Link from "next/link";
-import { ReactNode, useCallback } from "react";
+import { Fragment, ReactNode, useCallback } from "react";
+
+const { ADMIN, USER, GUEST } = Role;
 
 export type MainLinkProps = {
   href?: string;
@@ -14,6 +22,14 @@ export type MainLinkProps = {
   onClick?: () => void;
 };
 
+function useRolePermission(userRole?: Role, expectedRole?: Role) {
+  const isDisabled =
+    expectedRole === USER && userRole !== expectedRole && userRole !== ADMIN;
+  const isHidden = expectedRole === ADMIN && userRole !== expectedRole;
+
+  return { isDisabled, isHidden };
+}
+
 export function MainLink({
   icon,
   color,
@@ -22,21 +38,25 @@ export function MainLink({
   href,
   onClick,
   expectedRole,
-  userRole = Role.GUEST,
+  userRole = GUEST,
 }: MainLinkProps) {
+  const theme = useMantineTheme();
+
   const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     }
   }, [onClick]);
 
-  const isDisabled =
-    expectedRole === Role.USER &&
-    userRole !== expectedRole &&
-    userRole !== Role.ADMIN;
-  const isHidden = expectedRole === Role.ADMIN && userRole !== expectedRole;
+  const { isDisabled, isHidden } = useRolePermission(userRole, expectedRole);
 
-  if (isHidden) return null;
+  if (isHidden) return <Fragment />;
+
+  const disabledColor = theme.colors.gray[5];
+  const enabledColor =
+    theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black;
+  const hoverBgColor =
+    theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0];
 
   return (
     <UnstyledButton
@@ -50,17 +70,9 @@ export function MainLink({
         "width": "100%",
         "padding": theme.spacing.xs,
         "borderRadius": theme.radius.sm,
-        "color": isDisabled
-          ? theme.colors.gray[5]
-          : theme.colorScheme === "dark"
-          ? theme.colors.dark[0]
-          : theme.black,
+        "color": isDisabled ? disabledColor : enabledColor,
         "&:hover": {
-          backgroundColor: isDisabled
-            ? undefined
-            : theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+          backgroundColor: isDisabled ? undefined : hoverBgColor,
         },
       })}
     >

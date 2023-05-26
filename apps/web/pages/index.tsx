@@ -102,3 +102,5 @@ function HomePage() {
     </Stack>
   );
 }
+
+Home.auth = false;
