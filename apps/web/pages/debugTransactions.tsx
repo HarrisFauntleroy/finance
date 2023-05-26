@@ -8,6 +8,7 @@ import { AssetBuilder, calculateTransactions } from "common";
 import { trpc } from "../utils/trpc";
 
 import { Heading } from "@chakra-ui/react";
+import { Code } from "@mantine/core";
 import {
   ArcElement,
   BarElement,
@@ -22,7 +23,6 @@ import {
   Tooltip,
 } from "chart.js";
 import { useSession } from "next-auth/react";
-import { JSONObjectViewer } from "../components/JSON";
 import { Page } from "../components/Layout/Page";
 
 Chart.register(
@@ -55,13 +55,15 @@ const DebugTransactions = () => {
   return (
     <Page title="DebugTransactions" padding="8px" gap="8px">
       <Heading>Without provided Asset</Heading>
-      <JSONObjectViewer data={asset1?.computedProperties} />
+      <Code block>{String(asset1?.computedProperties)}</Code>
       <Heading>With provided Asset</Heading>
-      <JSONObjectViewer data={asset2?.computedProperties} />
+      <Code block>{String(asset2?.computedProperties)} </Code>
       <Heading>Transaction</Heading>
-      <JSONObjectViewer data={assetTransactions} />
+      <Code block>{String(assetTransactions)} </Code>
       <Heading>Calculated Transactions</Heading>
-      <JSONObjectViewer data={calculateTransactions(assetTransactions || [])} />
+      <Code block>
+        {String(calculateTransactions(assetTransactions || []))}{" "}
+      </Code>
     </Page>
   );
 };

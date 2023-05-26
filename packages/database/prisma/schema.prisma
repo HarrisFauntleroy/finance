@@ -15,10 +15,6 @@ generator zod {
   useMultipleFiles = true
 }
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// USER
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -117,10 +113,6 @@ enum Role {
   @@map("user_role")
 }
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// LOGS 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
 model Log {
   id        String    @id @unique @default(cuid())
   type      LogType
@@ -138,10 +130,6 @@ enum LogType {
   trace
   debug
 }
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// BUDGETS 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 model Income {
   id             String    @id @unique @default(cuid())
@@ -249,53 +237,6 @@ model BudgetTransaction {
   deleted   Boolean   @default(false)
   deletedAt DateTime?
 }
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// ASSETS 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-// You can use the term "financial asset" or "financial instrument" to refer to something that may be either an asset or a liability. These terms are commonly used in accounting and finance to refer to items that have a monetary value and can be used to measure, recognize, and record transactions or events. Financial assets may include cash, investments, or other assets that can be easily converted into cash, while financial liabilities may include debts or obligations that are owed to others.
-
-// EG 
-// const assets = await prisma.item.findMany({
-//   where: {
-//     type: CustomAssetCategory.CRYPTOCURRENCY,
-//     labels: {
-//       some: {
-//         name: "MyLabel",
-//       },
-//     },
-//   },
-//   orderBy: {
-//     createdAt: "asc",
-//   },
-// })
-
-// const liabilities = await prisma.item.findMany({
-//   where: {
-//     type: LiabilityCategory.MORTGAGE,
-//     labels: {
-//       some: {
-//         name: "MyLabel",
-//       },
-//     },
-//   },
-//   orderBy: {
-//     createdAt: "asc",
-//   },
-// })
-
-// const customAssets = await prisma.item.findMany({
-//   where: {
-//     type: CustomAssetCategory.CUSTOM,
-//     customCategory: {
-//       name: "MyCustomCategory",
-//     },
-//   },
-//   orderBy: {
-//     createdAt: "asc",
-//   },
-// })
 
 enum Category {
   LOAN // represents a liability
@@ -461,10 +402,6 @@ model AssetTransaction {
   deleted   Boolean   @default(false)
   deletedAt DateTime?
 }
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// SNAPSHOTS - TODO: REFACTOR NEEDED 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 model PortfolioSnapshot {
   id             String    @id @unique @default(cuid())

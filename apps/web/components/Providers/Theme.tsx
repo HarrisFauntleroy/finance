@@ -4,6 +4,8 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 import { setCookie } from "cookies-next";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { AppPropsWithLayout } from "../../pages/_app";
@@ -42,7 +44,8 @@ export default function ThemeProvider<T>({
         withNormalizeCSS
         theme={{ colorScheme }}
       >
-        {getLayout(children)}
+        <Notifications />
+        <ModalsProvider>{getLayout(children)}</ModalsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );

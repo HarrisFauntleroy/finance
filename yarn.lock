@@ -5376,20 +5376,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/modals@npm:^6.0.10":
-  version: 6.0.10
-  resolution: "@mantine/modals@npm:6.0.10"
-  dependencies:
-    "@mantine/utils": 6.0.10
-  peerDependencies:
-    "@mantine/core": 6.0.10
-    "@mantine/hooks": 6.0.10
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 21747bc53c082fa289f3d2b8c8ab6b58230dd64984d89d594e3ef178f0d9097a84d8ccde5b2a5d1a2c7f7ac15c26bd5ad465a49ea4a269645ea7c480673a9189
-  languageName: node
-  linkType: hard
-
 "@mantine/modals@npm:^6.0.11":
   version: 6.0.11
   resolution: "@mantine/modals@npm:6.0.11"
@@ -5415,21 +5401,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: dada280aec47449f59aa7445191a98d31e2cf45ff07001a0ef258e88c8cb5e368c87062f7edd33eaa8b87921c51d793bea9b8ad7a2826f08b9c5fa489f92abac
-  languageName: node
-  linkType: hard
-
-"@mantine/notifications@npm:^6.0.10":
-  version: 6.0.10
-  resolution: "@mantine/notifications@npm:6.0.10"
-  dependencies:
-    "@mantine/utils": 6.0.10
-    react-transition-group: 4.4.2
-  peerDependencies:
-    "@mantine/core": 6.0.10
-    "@mantine/hooks": 6.0.10
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 5b2d789b43547f18f06c7c39d65fa1e40df32529e6b83c85654d43f6cdd4def12f081ef71107789b26ece74a03c20880d7ed689d84d351ceabfad7a2731ba716
   languageName: node
   linkType: hard
 
@@ -27982,9 +27953,9 @@ __metadata:
     "@mantine/ds": ^6.0.11
     "@mantine/form": ^6.0.10
     "@mantine/hooks": ^6.0.11
-    "@mantine/modals": ^6.0.10
+    "@mantine/modals": ^6.0.11
     "@mantine/next": ^6.0.11
-    "@mantine/notifications": ^6.0.10
+    "@mantine/notifications": ^6.0.11
     "@mantine/nprogress": ^6.0.10
     "@mantine/prism": ^6.0.10
     "@mantine/spotlight": ^6.0.10

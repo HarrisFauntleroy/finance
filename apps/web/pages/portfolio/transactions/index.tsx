@@ -1,16 +1,14 @@
-import React from "react";
-
 import { Stack } from "@chakra-ui/react";
-import { JSONObjectViewer } from "../../../components/JSON";
+import { Code } from "@mantine/core";
 
 function Transactions() {
   return (
     <Stack>
-      <JSONObjectViewer
-        data={JSON.stringify({
+      <Code block>
+        {JSON.stringify({
           id: "1",
         })}
-      />
+      </Code>
     </Stack>
   );
 }
