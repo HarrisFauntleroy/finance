@@ -65,7 +65,7 @@ const Navbar = ({ links }: { links: LinkType[] }) => {
             }}
           >
             {session ? (
-              <Group onClick={() => signOut()}>
+              <Group onClick={() => signOut({ redirect: false })}>
                 <Avatar src={session?.user.image} radius="xl" />
                 <Box sx={{ flex: 1 }}>
                   <Text size="sm" weight={500}>
