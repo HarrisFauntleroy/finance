@@ -22,8 +22,8 @@ import {
   Tooltip,
 } from "chart.js";
 import { useSession } from "next-auth/react";
-import { Changelog } from "../components/Changelog";
 import { Page } from "../components/Layout/Page";
+import { Changelog } from "../components/Releases";
 
 Chart.register(
   CategoryScale,
@@ -40,16 +40,6 @@ Chart.register(
 
 const Home = () => {
   const session = useSession();
-
-  const person = {
-    firstName: "John",
-    lastName: "Doe",
-    printName() {
-      console.log(`${this.firstName} ${this.lastName}`);
-    },
-  };
-
-  console.log("person", person.printName());
 
   return (
     <Page title="Home">
@@ -98,7 +88,7 @@ function HomePage() {
           </Paper>
         </Col>
       </Grid>
-      <Changelog />
+      <Changelog repo="harrisfauntleroy/alchemical-finance" />
     </Stack>
   );
 }

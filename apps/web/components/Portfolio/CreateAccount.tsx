@@ -1,24 +1,54 @@
-import { Box, Button, Code, Group, Select, TextInput } from "@mantine/core";
+import { Box, Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
+import { Debug } from "../Debug";
 
 export function CreateAccount() {
   const [submittedValues, setSubmittedValues] = useState("");
 
-  const form = useForm({
-    initialValues: {
-      firstName: "Jane",
-      lastName: "Doe",
-      age: "33",
-    },
+  const form = useForm({});
 
-    transformValues: (values) => ({
-      fullName: `${values.firstName} ${values.lastName}`,
-      age: Number(values.age) || 0,
-    }),
-  });
+  const inputs = [
+    {
+      id: "mQx8p5iZ",
+      label: "Name",
+      placeholder: "Name",
+      inputProps: form.getInputProps("name"),
+    },
+    {
+      id: "RTptgjTN",
+      label: "Currency",
+      placeholder: "Currency",
+      inputType: "string",
+      inputProps: form.getInputProps("currency"),
+    },
+    {
+      id: "PtEeyb8c",
+      label: "Balance",
+      placeholder: "Balance",
+      inputProps: form.getInputProps("balance"),
+    },
+    {
+      id: "TvaL0Lw3",
+      label: "Cost Basis",
+      placeholder: "Cost Basis",
+      inputProps: form.getInputProps("costbasis"),
+    },
+    {
+      id: "XHMg0496",
+      label: "Realised Gain",
+      placeholder: "Realised Gain",
+      inputProps: form.getInputProps("realisedGain"),
+    },
+    {
+      id: "Xd4R0496",
+      label: "Market ID",
+      placeholder: "Market ID",
+      inputProps: form.getInputProps("marketId"),
+    },
+  ];
 
   return (
     <Group position="center">
@@ -32,42 +62,19 @@ export function CreateAccount() {
                 <form
                   onSubmit={form.onSubmit((values) => {
                     setSubmittedValues(JSON.stringify(values, null, 2));
+                    console.log("values", values);
                     notifications.show({
-                      title: "Default notification",
-                      message: "Hey there, your code is awesome! 🤥",
+                      title: "Submitted values",
+                      message: JSON.stringify(values),
                     });
                   })}
                 >
-                  <TextInput
-                    label="First name"
-                    placeholder="First name"
-                    {...form.getInputProps("firstName")}
-                  />
-                  <TextInput
-                    label="Last name"
-                    placeholder="Last name"
-                    mt="md"
-                    {...form.getInputProps("lastName")}
-                  />
-                  <Select
-                    type="number"
-                    label="Age"
-                    placeholder="Age"
-                    mt="md"
-                    data={
-                      [
-                        { value: "10", label: "Ten" },
-                        { value: "20", label: "Twenty" },
-                        { value: "30", label: "Thirty" },
-                      ] as const
-                    }
-                    {...form.getInputProps("age")}
-                  />
-                  <Button type="submit" mt="md">
-                    Submit
-                  </Button>
+                  {inputs?.map((values) => (
+                    <TextInput key={values.id} {...values} />
+                  ))}
+                  <Button type="submit">Submit</Button>
                 </form>
-                {submittedValues && <Code block>{submittedValues}</Code>}
+                <Debug data={submittedValues} />
               </Box>
             ),
           });
