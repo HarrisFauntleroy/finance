@@ -1,11 +1,10 @@
-import { PropsWithChildren } from "react";
-
 import {
   Drawer as ChakraDrawer,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
 } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
 
 type DrawerProps<T> = PropsWithChildren<T> & {
   isOpen: boolean;

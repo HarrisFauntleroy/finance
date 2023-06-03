@@ -1,9 +1,7 @@
-import { Table } from "../../Table";
-import { trpc } from "../../../utils/trpc";
-
-import { forexColumns } from "./columns";
-
 import { Card } from "@mantine/core";
+import { trpc } from "../../../utils/trpc";
+import { Table } from "../../Table";
+import { forexColumns } from "./columns";
 
 export const Forex = () => {
   const { data } = trpc.markets.forex.useQuery();

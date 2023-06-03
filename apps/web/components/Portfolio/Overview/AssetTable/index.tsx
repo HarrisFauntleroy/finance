@@ -1,5 +1,6 @@
-import { Group, Stack, Table } from "@mantine/core";
+import { Group, Table } from "@mantine/core";
 import { useSession } from "next-auth/react";
+import { Fragment } from "react";
 import { trpc } from "../../../../utils/trpc";
 import { Debug } from "../../../Debug";
 import { DeleteAccount } from "../../../Portfolio/DeleteAccount";
@@ -11,8 +12,13 @@ export function AssetTable() {
   const { data } = trpc.assets.byUserId.useQuery({ userId });
 
   return (
-    <Stack>
-      <Table>
+    <Fragment>
+      <Table
+        style={{
+          width: "100%",
+          overflowX: "auto",
+        }}
+      >
         <thead>
           <tr>
             <th>ID</th>
@@ -44,6 +50,6 @@ export function AssetTable() {
         </tbody>
       </Table>
       <Debug data={data} />
-    </Stack>
+    </Fragment>
   );
 }

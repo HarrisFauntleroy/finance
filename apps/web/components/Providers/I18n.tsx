@@ -1,16 +1,9 @@
-/**
- *
- * Internationalization
- *
- */
+import type { PropsWithChildren } from "react";
 import { Dispatch, SetStateAction, createContext, useState } from "react";
-
+import { IntlProvider as Provider } from "react-intl";
 import enAUMessages from "../../lang/en-AU.json";
 import enUSMessages from "../../lang/en-US.json";
 import zhCNMessages from "../../lang/zh-CN.json";
-
-import type { PropsWithChildren } from "react";
-import { IntlProvider as Provider } from "react-intl";
 
 export enum LOCALE {
   AUSTRALIAN = "en-AU",

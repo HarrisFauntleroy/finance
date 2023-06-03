@@ -1,7 +1,7 @@
 import { Button } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { Asset } from "database/generated/prisma-client";
-import { AssetForm } from "./CreateAccount";
+import { AssetForm } from "./AccountForm";
 
 type UpdateAccountProps = {
   asset: Asset;

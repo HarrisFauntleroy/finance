@@ -1,10 +1,8 @@
 import { MarketType } from "database/generated/prisma-client";
-import { Page } from "../../../components/Layout/Page";
-import { Debug } from "../../../components/Debug";
-
-import { trpc } from "../../../utils/trpc";
-
 import { useRouter } from "next/router";
+import { Debug } from "../../../components/Debug";
+import { Page } from "../../../components/Layout/Page";
+import { trpc } from "../../../utils/trpc";
 
 const MarketViewPage = () => {
   const { name, ticker } = useRouter().query as {

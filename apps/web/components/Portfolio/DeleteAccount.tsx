@@ -1,4 +1,4 @@
-import { Button, Group, Loader } from "@mantine/core";
+import { Button, Center, Loader } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { TrashSimple } from "@phosphor-icons/react";
@@ -34,6 +34,7 @@ export const DeleteAccount = ({ asset }: DeleteAccountProps) => {
       message: "Successfully deleted asset",
       autoClose: 5000,
     });
+    close();
   }
 
   function onMutate() {
@@ -63,8 +64,8 @@ export const DeleteAccount = ({ asset }: DeleteAccountProps) => {
     onError,
   });
 
-  const handleDelete = (id: string) => {
-    mutation.mutateAsync({ id });
+  const handleDelete = () => {
+    mutation.mutateAsync({ id: asset.id });
   };
 
   return (
@@ -73,27 +74,22 @@ export const DeleteAccount = ({ asset }: DeleteAccountProps) => {
       onClick={() => {
         modals.open({
           id: "create-asset",
-          title: "Add new asset",
+          withCloseButton: false,
           children: (
-            <Group>
-              <Button
-                id={`delete-asset-button-${asset.id}`}
-                onClick={() => {
-                  handleDelete(asset.id);
-                  close();
-                }}
-                disabled={mutation.isLoading}
-                leftIcon={<TrashSimple />}
-                variant="light"
-                color="red"
-              >
-                I&apos;m sure. Delete this record of {asset.balance}{" "}
-                {asset.name}
-              </Button>
-              <Button onClick={close} variant="light">
-                No, I changed my mind
-              </Button>
-            </Group>
+            <Center>
+              <Button.Group>
+                <Button
+                  id={`delete-asset-button-${asset.id}`}
+                  onClick={handleDelete}
+                  loading={mutation.isLoading}
+                  leftIcon={<TrashSimple />}
+                  color="red"
+                >
+                  Delete {asset.name}
+                </Button>
+                <Button onClick={close}>Cancel</Button>
+              </Button.Group>
+            </Center>
           ),
         });
       }}

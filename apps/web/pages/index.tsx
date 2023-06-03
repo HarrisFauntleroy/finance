@@ -21,7 +21,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Page } from "../components/Layout/Page";
 import { Changelog } from "../components/Releases";
 
@@ -80,7 +80,7 @@ function HomePage() {
             </Text>
             <Button
               fullWidth
-              variant="light"
+              onClick={() => signIn()}
               style={{ marginTop: theme.spacing.md }}
             >
               Get Started

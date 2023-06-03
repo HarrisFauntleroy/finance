@@ -1,16 +1,4 @@
 import {
-  Asset,
-  AssetStatus,
-  AssetTransaction,
-  Category,
-  Market,
-} from "database/generated/prisma-client";
-import { Table } from "../../Table";
-
-import type { RouterOutput } from "../../../utils/trpc";
-import { trpc } from "../../../utils/trpc";
-
-import {
   Avatar,
   AvatarGroup,
   Badge,
@@ -25,12 +13,21 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AssetWithCalculatedValues } from "common";
 import currency from "currency.js";
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from "database/generated/prisma-client";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { MdCompareArrows } from "react-icons/md";
 import { FormattedNumber } from "react-intl";
+import { trpc } from "../../../utils/trpc";
 import Currency from "../../Currency";
+import { Table } from "../../Table";
 
 const badgeColors: Record<Category, string> = {
   [Category.CASH]: "cyan",
@@ -374,8 +371,7 @@ const subAssetsColumns: ColumnDef<
   },
 ];
 
-export type AssetsByUserIdQueryOutput = RouterOutput["assets"]["byUserId"];
-
+// TODO: Remove.
 export const AccountsList = () => {
   const toast = useToast();
   const session = useSession();

@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import Currency from "components/Currency";
 import type { PortfolioSnapshot } from "database/generated/prisma-client";
+import Currency from "../Currency";
 
 /** Column definitions for crypto page */
 export const incomeBreakdownColumns: ColumnDef<PortfolioSnapshot>[] = [

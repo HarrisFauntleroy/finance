@@ -23,9 +23,9 @@ export function Releases({ repo }: Props) {
     }
   );
 
-  if (isLoading) return <Loader />;
-
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Timeline active={1} bulletSize={24} lineWidth={2}>
       {(data as ReleaseData)?.slice(0, 3).map((release) => (
         <Timeline.Item

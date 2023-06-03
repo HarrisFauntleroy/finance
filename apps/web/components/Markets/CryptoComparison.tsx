@@ -1,21 +1,20 @@
-import { divide, multiply, subtract } from "common";
-import { useMemo, useState } from "react";
-import { trpc } from "../../utils/trpc";
-
 import {
   Avatar,
   Box,
   Divider,
   Flex,
-  Heading,
   HStack,
+  Heading,
   Select,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { Card } from "@mantine/core";
+import { divide, multiply, subtract } from "common";
 import currency from "currency.js";
 import Image from "next/image";
+import { useMemo, useState } from "react";
+import { trpc } from "../../utils/trpc";
 import { Grid } from "../Grid";
 
 const currencies = ["USD", "EUR", "GBP", "JPY"];

@@ -1,10 +1,8 @@
-import React from "react";
-
-import { Stack, Text } from "@chakra-ui/react";
+import { Stack, Text } from "@mantine/core";
 
 export const AccountBreakdown = () => {
   return (
-    <Stack style={{ padding: "8px" }}>
+    <Stack>
       <Text>Overview</Text>
       <ul>
         <ul>

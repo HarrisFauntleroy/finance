@@ -1,7 +1,6 @@
-import { trpc } from "../../../utils/trpc";
-
 import { Card, Loader, Table, Text } from "@mantine/core";
 import { useSession } from "next-auth/react";
+import { trpc } from "../../../utils/trpc";
 import Currency from "../../Currency";
 
 function OverviewCard() {

@@ -1,8 +1,7 @@
-import { Children, PropsWithChildren } from "react";
-
 import type { SimpleGridProps } from "@chakra-ui/react";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import type { ReactElement } from "react";
+import { Children, PropsWithChildren } from "react";
 
 type GridProps<T> = PropsWithChildren<T> & SimpleGridProps;
 
