@@ -1,6 +1,6 @@
 import { Aside as MantineAside, MediaQuery, Text } from "@mantine/core";
 
-const sidebarEnabled = true;
+const sidebarEnabled = false;
 
 const Aside = () => (
   <>
