@@ -1,4 +1,4 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Center, Text } from "@mantine/core";
 import { Role } from "database/generated/prisma-client";
 import type { NextPageContext } from "next";
 import { getSession, useSession } from "next-auth/react";
@@ -30,7 +30,7 @@ function Auth<T>({ children, roles }: AuthProps<T>) {
   const roleAllowed = rolesArray.includes(userRole) || userRole === Role.ADMIN;
 
   const CenterMessage = ({ message }: { message: string }) => (
-    <Center height="100%">
+    <Center h="100%">
       <Text>{message}</Text>
     </Center>
   );

@@ -241,8 +241,7 @@ export function AssetTable() {
     userId: userId || "",
   });
 
-  const createAsset = trpc.assets.create.useMutation();
-  const updateAsset = trpc.assets.update.useMutation();
+  const createAsset = trpc.assets.createOrUpdate.useMutation();
 
   console.log(userId);
   console.log(data);
@@ -251,7 +250,7 @@ export function AssetTable() {
   const handleValidSubmit: SubmitHandler<any> = (submitData) => {
     if (userId) {
       if (submitData?.id) {
-        return updateAsset
+        return createAsset
           .mutateAsync(submitData)
           .then((asset) => {
             queryClient.invalidateQueries();

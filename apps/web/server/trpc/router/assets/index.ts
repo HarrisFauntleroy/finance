@@ -1,29 +1,41 @@
+import { TRPCError } from "@trpc/server";
 import { calculateAssetValue, calculateAssetValueOverview } from "common";
-import { type Prisma } from "database/generated/prisma-client";
 import { prisma } from "database";
-
+import { type Prisma } from "database/generated/prisma-client";
+import { z } from "zod";
 import { getExchangeRates, getUserCurrency } from "../../../api";
-
 import { publicProcedure, router } from "../../trpc";
-import { createAsset } from "./create";
 import { deleteAsset } from "./delete";
 import { getAssetById } from "./getAssetById";
 import { getAssetsByUserId } from "./getAssetsByUserId";
 import { getPortfolioAllocation } from "./getPortfolioAllocation";
-import { updateAsset } from "./update";
 
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-import { AssetSchema } from "database/generated/zod";
+// CREATE OR UPDATE ASSET SCHEMA ------------------------------------------------
+
+export const createOrUpdateAssetSchema = z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  name: z.string(),
+  currency: z.string(),
+  balance: z.string(),
+});
+
+export type CreateOrUpdateAssetSchema = z.infer<
+  typeof createOrUpdateAssetSchema
+>;
+
+// -----------------------------------------------------------------------------
 
 export const assetRouter = router({
-  create: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
-    return await createAsset(input);
-  }),
-
-  update: publicProcedure.input(AssetSchema).mutation(async ({ input }) => {
-    return await updateAsset(input);
-  }),
+  createOrUpdate: publicProcedure
+    .input(createOrUpdateAssetSchema)
+    .mutation(async function ({ input }) {
+      return input.id
+        ? prisma.asset.update({ where: { id: input.id }, data: input })
+        : prisma.asset.create({
+            data: input,
+          });
+    }),
 
   delete: publicProcedure
     .input(
@@ -33,12 +45,6 @@ export const assetRouter = router({
     )
     .mutation(async ({ input: { id } }) => {
       return await deleteAsset(id);
-    }),
-
-  createChild: publicProcedure
-    .input(AssetSchema)
-    .mutation(async ({ input }) => {
-      return await createAsset(input);
     }),
 
   byId: publicProcedure

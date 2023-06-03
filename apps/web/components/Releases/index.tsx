@@ -1,25 +1,27 @@
-import { Avatar, Loader, Text, Timeline } from "@mantine/core";
+import { Avatar, Box, Loader, Text, Timeline, Title } from "@mantine/core";
 import { Endpoints } from "@octokit/types";
 import { format } from "date-fns";
-import { useFetchWithReactQuery } from "../hooks/useFetchWithReactQuery";
-import { Markdown } from "./Markdown";
+import { useFetchWithReactQuery } from "../../hooks/useFetchWithReactQuery";
+import { Markdown } from "../Markdown";
+
+type Props = { repo: string };
 
 type ListRepositoryReleasesResponse =
   Endpoints["GET /repos/{owner}/{repo}/releases"]["response"];
 
 export type ReleaseData = ListRepositoryReleasesResponse["data"];
 
-const RELEASE_URL =
-  "https://api.github.com/repos/harrisfauntleroy/alchemical-finance/releases";
-
-export function Releases() {
-  const { data, isLoading } = useFetchWithReactQuery(RELEASE_URL, {
-    headers: {
-      "Accept": "application/vnd.github+json",
-      "Authorization": `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
+export function Releases({ repo }: Props) {
+  const { data, isLoading } = useFetchWithReactQuery(
+    `https://api.github.com/repos/${repo}/releases`,
+    {
+      headers: {
+        "Accept": "application/vnd.github+json",
+        "Authorization": `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    }
+  );
 
   if (isLoading) return <Loader />;
 
@@ -50,5 +52,16 @@ export function Releases() {
         </Timeline.Item>
       ))}
     </Timeline>
+  );
+}
+
+export function Changelog({ repo }: Props) {
+  return (
+    <Box h="100%" w="100%" p="lg">
+      <Title order={1} mb="16px">
+        Changelog
+      </Title>
+      <Releases repo={repo} />
+    </Box>
   );
 }

@@ -1,8 +1,7 @@
 import { prisma } from "database";
+import { CreateOrUpdateAssetSchema } from ".";
 
-import { type Asset } from "database/generated/prisma-client";
-
-export async function createAsset(data: Asset) {
+export async function createAsset(data: CreateOrUpdateAssetSchema) {
   return await prisma.asset.create({
     data,
   });

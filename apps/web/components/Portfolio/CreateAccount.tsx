@@ -1,80 +1,130 @@
-import { Box, Button, Code, Group, Select, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Box, Button, TextInput } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { logger } from "common";
+import { Asset } from "database/generated/prisma-client";
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { CreateOrUpdateAssetSchema } from "../../server/trpc/router/assets";
+import { trpc } from "../../utils/trpc";
+import { Debug } from "../Debug";
 
 export function CreateAccount() {
-  const [submittedValues, setSubmittedValues] = useState("");
-
-  const form = useForm({
-    initialValues: {
-      firstName: "Jane",
-      lastName: "Doe",
-      age: "33",
-    },
-
-    transformValues: (values) => ({
-      fullName: `${values.firstName} ${values.lastName}`,
-      age: Number(values.age) || 0,
-    }),
-  });
-
   return (
-    <Group position="center">
-      <Button
-        onClick={() => {
-          modals.open({
-            id: "create-account",
-            title: "Add new account",
-            children: (
-              <Box maw={400} mx="auto">
-                <form
-                  onSubmit={form.onSubmit((values) => {
-                    setSubmittedValues(JSON.stringify(values, null, 2));
-                    notifications.show({
-                      title: "Default notification",
-                      message: "Hey there, your code is awesome! 🤥",
-                    });
-                  })}
-                >
-                  <TextInput
-                    label="First name"
-                    placeholder="First name"
-                    {...form.getInputProps("firstName")}
-                  />
-                  <TextInput
-                    label="Last name"
-                    placeholder="Last name"
-                    mt="md"
-                    {...form.getInputProps("lastName")}
-                  />
-                  <Select
-                    type="number"
-                    label="Age"
-                    placeholder="Age"
-                    mt="md"
-                    data={
-                      [
-                        { value: "10", label: "Ten" },
-                        { value: "20", label: "Twenty" },
-                        { value: "30", label: "Thirty" },
-                      ] as const
-                    }
-                    {...form.getInputProps("age")}
-                  />
-                  <Button type="submit" mt="md">
-                    Submit
-                  </Button>
-                </form>
-                {submittedValues && <Code block>{submittedValues}</Code>}
-              </Box>
-            ),
-          });
-        }}
-      >
-        Open content modal
-      </Button>
-    </Group>
+    <Button
+      onClick={() => {
+        modals.open({
+          id: "create-asset",
+          title: "Add new asset",
+          children: <AssetForm />,
+        });
+      }}
+    >
+      Open content modal
+    </Button>
   );
 }
+
+export const AssetForm = ({ asset }: { asset?: Asset }) => {
+  const session = useSession();
+  const queryClient = useQueryClient();
+  const userId = session?.data?.userId || "";
+
+  const assetNotificationId = "assetNotificationId";
+  const mutation = trpc.assets.createOrUpdate.useMutation({
+    onError: () => {
+      notifications.update({
+        id: assetNotificationId,
+        title: "Error.",
+        message: "Failed to create asset",
+      });
+    },
+    onMutate: (data) => {
+      notifications.show({
+        id: assetNotificationId,
+        title: "Loading...",
+        message: data.id ? "Updating asset" : "Creating asset",
+        withCloseButton: false,
+        autoClose: false,
+      });
+    },
+    onSuccess: () => {
+      notifications.update({
+        id: assetNotificationId,
+        title: "Success",
+        message: "Successfully created asset",
+        autoClose: 5000,
+      });
+    },
+  });
+
+  async function onValidSubmit(data: CreateOrUpdateAssetSchema) {
+    return mutation.mutateAsync(data).then((asset) => {
+      queryClient.invalidateQueries();
+      notifications.show({
+        title: `Successfully created asset ${asset.name}`,
+        message: JSON.stringify(asset),
+      });
+    });
+  }
+
+  async function onInvalidSubmit() {
+    logger.error(`Error submitting form: ${accountForm.formState.errors}`);
+    notifications.show({
+      title: "Error",
+      message: "Invalid form data",
+    });
+  }
+
+  const accountForm = useForm<CreateOrUpdateAssetSchema>({
+    defaultValues: asset,
+  });
+
+  const inputs = useMemo(
+    () => [
+      {
+        id: "create-asset-userId",
+        label: "User Id",
+        placeholder: "User Id",
+        ...accountForm.register("userId"),
+        value: userId,
+        hidden: true,
+      },
+      {
+        id: "create-asset-name",
+        label: "Name",
+        placeholder: "Name",
+        ...accountForm.register("name"),
+      },
+      {
+        id: "create-asset-currency",
+        label: "Currency",
+        placeholder: "Currency",
+        ...accountForm.register("currency"),
+      },
+      {
+        id: "create-asset-balance",
+        label: "Balance",
+        placeholder: "Balance",
+        ...accountForm.register("balance"),
+      },
+    ],
+    [accountForm, userId]
+  );
+
+  return (
+    <Box maw={400} mx="auto">
+      <form onSubmit={accountForm.handleSubmit(onValidSubmit, onInvalidSubmit)}>
+        {inputs?.map((values) => (
+          <TextInput key={values.id} {...values} />
+        ))}
+        <Button mt="8px" type="submit">
+          Submit
+        </Button>
+      </form>
+      <Debug data={accountForm.formState} />
+    </Box>
+  );
+};

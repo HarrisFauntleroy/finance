@@ -13,13 +13,12 @@ export function useAssetActions(userId: string | undefined): {
 } {
   const toast = useToast();
   const queryClient = useQueryClient();
-  const createAsset = trpc.assets.create.useMutation();
-  const updateAsset = trpc.assets.update.useMutation();
+  const createAsset = trpc.assets.createOrUpdate.useMutation();
 
   const handleValidSubmit: SubmitHandler<Asset> = (data) => {
     if (userId) {
       if (data?.id) {
-        return updateAsset
+        return createAsset
           .mutateAsync(data)
           .then((asset) => {
             queryClient.invalidateQueries();
