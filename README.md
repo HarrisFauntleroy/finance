@@ -1,45 +1,80 @@
-# Alchemical Finance Monorepo
+# Alchemical Finance Development Roadmap
 
-Alchemical Finance is a TypeScript-based monorepo that aims to provide a
-comprehensive financial solution using modern web technologies. It consists of
-multiple applications and packages working together to deliver a seamless user
-experience.
+## Overview
+
+Welcome to Alchemical Finance - a website designed to help you manage and track
+your personal financial portfolio. This document outlines our development plans,
+local setup, and contribution guidelines.
 
 ## Table of Contents
 
-- [Apps](#apps)
-- [Packages](#packages)
-- [Local Development](#local-development)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [Security](#security)
-- [License](#license)
+1. [Roadmap](#roadmap)
+2. [App Structure](#app-structure)
+3. [Local Development](#local-development)
+4. [Testing](#testing)
+5. [Deployment](#deployment)
+6. [Contributing](#contributing)
+7. [Security](#security)
+8. [License](#license)
 
-## Apps
+## Roadmap
 
-Alchemical Finance includes the following apps:
+### Phase 1: Core Features
 
-| Folder   | Description                            | README                          |
-| -------- | -------------------------------------- | ------------------------------- |
-| `web`    | a [Next.js](https://nextjs.org) app    | [README](apps/web/README.md)    |
-| `worker` | A Node.js, BullMQ & Redis based worker | [README](apps/worker/README.md) |
+Focuses on the foundation of the website.
 
-## Packages
+- [ ] User account creation and management
+- [ ] Manual input account tracking
+- [ ] Robust security features
+- [ ] 100% test coverage suite
 
-Alchemical Finance includes the following packages:
+### Phase 2: Bank Integration
 
-| Folder     | Description                                                               | README                                |
-| ---------- | ------------------------------------------------------------------------- | ------------------------------------- |
-| `common`   | Shared code                                                               | [README](packages/common/README.md)   |
-| `ul`       | Component Library                                                         | [README](packages/ul/README.md)       |
-| `database` | [Prisma](https://prisma.io/) ORM wrapper to manage & access your database | [README](packages/database/README.md) |
+Introduction of bank APIs to automate transaction and balance tracking. Starting
+with the Up Bank API.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- [ ] Up Bank API integration
+- [ ] Automated transaction and balance tracking
+
+### Phase 3: Cryptocurrency Integration
+
+Starting with a select few.
+
+- [ ] Crypto wallet integration
+- [ ] Crypto transaction and balance tracking
+
+### Phase 4: Budgeting Tools
+
+Development of budget management features.
+
+- [ ] Budget creation and management
+- [ ] Expense tracking against budget
+- [ ] Budget visualization (graphs, pie-charts, etc.)
+
+### Phase 5: Market Analysis
+
+Incorporation of market analysis features.
+
+- [ ] Market data feeds integration
+- [ ] Market analysis tool development (trends, forecasts, etc.)
+- [ ] User-friendly market data visualization
+
+## App Structure
+
+Our codebase consists of apps and packages written in
+[TypeScript](https://www.typescriptlang.org/).
+
+- `apps/web` - a [Next.js](https://nextjs.org) app
+  ([README](apps/web/README.md))
+- `apps/worker` - a Node.js, BullMQ & Redis based worker
+  ([README](apps/worker/README.md))
+
+- `packages/common` - Shared code ([README](packages/common/README.md))
+- `packages/ui` - Component Library ([README](packages/ui/README.md))
+- `packages/database` - [Prisma](https://prisma.io/) ORM wrapper
+  ([README](packages/database/README.md)) [
 
 ## Local Development
-
-To get started with local development, follow these steps:
 
 ### Prerequisites
 
@@ -97,36 +132,29 @@ To get started with local development, follow these steps:
 
 ## Testing
 
-Describe how to test the app here.
+(Testing instructions to be added)
 
 ## Deployment
 
-Describe how to deploy the app here
+(Deployment instructions to be added)
 
 ## Contributing
 
-We welcome contributions to the Alchemical Finance project! If you would like to
-contribute, please follow these steps:
+Contributions are always welcome! Please:
 
 1. Fork the repository on GitHub.
-2. Create a new feature branch from the `main` branch.
-3. Make your changes and ensure that the code follows the project's coding style
-   and standards.
-4. Submit a pull request with a clear description of your changes.
-5. Address any feedback from maintainers and adjust your pull request
-   accordingly.
+2. Create a new feature branch.
+3. Adhere to our coding style and standards.
+4. Submit a clear, well-described pull request.
+5. Address feedback from maintainers. 6.
 
-For bug reports, feature requests, and other issues, please use the GitHub issue
-tracker to submit them.
+Submit bug reports, feature requests, and issues via the GitHub issue tracker.
 
 ## Security
 
-If you discover a security vulnerability in the Alchemical Finance project,
-please email us at [security@example.com](mailto:) instead of using the issue
-tracker. We will address the issue as soon as possible and appreciate your
-discretion in keeping our users safe.
+For security vulnerabilities, please email us at security@example.com rather
+than using the issue tracker.
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for more
-information.
+MIT License. See [LICENSE](LICENSE) for more details.
