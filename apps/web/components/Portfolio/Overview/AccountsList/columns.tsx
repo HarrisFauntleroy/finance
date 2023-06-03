@@ -1,12 +1,4 @@
 import {
-  Asset,
-  AssetStatus,
-  AssetTransaction,
-  Category,
-  Market,
-} from "database/generated/prisma-client";
-
-import {
   Avatar,
   AvatarGroup,
   Badge,
@@ -17,6 +9,13 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/table-core";
+import {
+  Asset,
+  AssetStatus,
+  AssetTransaction,
+  Category,
+  Market,
+} from "database/generated/prisma-client";
 import { formatDuration, intervalToDuration } from "date-fns";
 import Link from "next/link";
 import { FormattedNumber } from "react-intl";

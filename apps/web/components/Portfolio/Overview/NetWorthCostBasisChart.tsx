@@ -1,12 +1,10 @@
-import { useMemo } from "react";
-
-import { trpc } from "../../../utils/trpc";
-
 import { Card, useMantineColorScheme } from "@mantine/core";
 import currency from "currency.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 import { Line } from "react-chartjs-2";
+import { trpc } from "../../../utils/trpc";
 
 const options = {
   responsive: true,

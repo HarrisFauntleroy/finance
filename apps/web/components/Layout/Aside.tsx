@@ -1,6 +1,6 @@
-import { MediaQuery, Aside as MantineAside, Text } from "@mantine/core";
+import { Aside as MantineAside, MediaQuery, Text } from "@mantine/core";
 
-const sidebarEnabled = false;
+const sidebarEnabled = true;
 
 const Aside = () => (
   <>
@@ -13,6 +13,7 @@ const Aside = () => (
           hidden
         >
           <Text>Application sidebar</Text>
+          <Text>Biggest movers in the last hour</Text>
         </MantineAside>
       </MediaQuery>
     )}

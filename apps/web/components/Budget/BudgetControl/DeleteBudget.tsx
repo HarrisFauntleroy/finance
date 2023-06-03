@@ -1,8 +1,7 @@
-import { trpc } from "../../../utils/trpc";
-
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Button, useToast } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { trpc } from "../../../utils/trpc";
 
 type DeleteBudgetProps = {
   id?: string;

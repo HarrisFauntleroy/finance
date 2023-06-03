@@ -27,7 +27,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { Show } from "../Show";
+import { Show } from "../Layout/Show";
 
 type TableProps<T extends { id: string }> = {
   id: string;

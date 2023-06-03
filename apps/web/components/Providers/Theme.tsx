@@ -42,7 +42,16 @@ export default function ThemeProvider<T>({
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme }}
+        theme={{
+          colorScheme,
+          components: {
+            Button: {
+              defaultProps: {
+                variant: "light",
+              },
+            },
+          },
+        }}
       >
         <Notifications />
         <ModalsProvider>{getLayout(children)}</ModalsProvider>

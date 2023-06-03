@@ -63,14 +63,7 @@ export const AllocationPieChart = () => {
   if (isLoading) return <Loader />;
   if (error) return <Text>Error loading data</Text>;
   return (
-    <Card
-      h="100%"
-      style={{
-        position: "relative",
-        height: "100%",
-        width: "100%",
-      }}
-    >
+    <Card>
       <Pie data={data} options={options} />
     </Card>
   );

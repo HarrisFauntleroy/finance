@@ -1,6 +1,4 @@
 import { AppShell, MantineTheme } from "@mantine/core";
-import { PropsWithChildren } from "react";
-
 import {
   Bank,
   ChartLineUp,
@@ -8,8 +6,8 @@ import {
   PiggyBank,
   Shield,
 } from "@phosphor-icons/react";
-
 import { Role } from "database/generated/prisma-client";
+import { PropsWithChildren } from "react";
 import Aside from "../Layout/Aside";
 import Header, { LinkType } from "../Layout/Header";
 import Navbar from "../Layout/Navbar";

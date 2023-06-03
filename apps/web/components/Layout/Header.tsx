@@ -2,6 +2,7 @@ import {
   Burger,
   Container,
   Flex,
+  Group,
   Header,
   Image,
   Paper,
@@ -17,6 +18,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { ReactNode, useState } from "react";
 import { MainLink } from "./MainLink";
+import ThemeToggle from "./ThemeToggle";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -136,12 +138,15 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Text size="lg">Alchemical Finance</Text>
           </Flex>
         </Link>
-        <Burger
-          onClick={toggle}
-          opened={opened}
-          className={classes.burger}
-          size="sm"
-        />
+        <Group>
+          <ThemeToggle />
+          <Burger
+            onClick={toggle}
+            opened={opened}
+            className={classes.burger}
+            size="sm"
+          />
+        </Group>
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>

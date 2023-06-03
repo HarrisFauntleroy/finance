@@ -1,8 +1,7 @@
-import { BudgetTransaction } from "database/generated/prisma-client";
-
 import { List, ListItem, Text } from "@chakra-ui/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import Currency from "components/Currency";
+import { BudgetTransaction } from "database/generated/prisma-client";
+import Currency from "../../Currency";
 
 export const transactionsListColumns: ColumnDef<BudgetTransaction>[] = [
   {

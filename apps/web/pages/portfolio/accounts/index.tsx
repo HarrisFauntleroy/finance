@@ -1,13 +1,13 @@
-import { Stack } from "@chakra-ui/react";
+import { Stack } from "@mantine/core";
 import { AccountBreakdown } from "../../../components/Portfolio/AccountBreakdown";
-import { AccountsList } from "../../../components/Portfolio/Accounts/AccountsList";
 import { ControlBar } from "../../../components/Portfolio/ControlBar";
+import { AssetTable } from "../../../components/Portfolio/Overview/AssetTable";
 
 function Accounts() {
   return (
     <Stack>
       <ControlBar />
-      <AccountsList />
+      <AssetTable />
       <AccountBreakdown />
     </Stack>
   );

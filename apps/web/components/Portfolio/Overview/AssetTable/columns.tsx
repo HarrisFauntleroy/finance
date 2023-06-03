@@ -1,9 +1,6 @@
+import { createColumnHelper } from "@tanstack/table-core";
 import { AssetWithCalculatedValues } from "common";
 import { AccountConnection } from "database/generated/prisma-client";
-
-import { CopyContent } from "../../../lol/CopyContent";
-
-import { createColumnHelper } from "@tanstack/table-core";
 
 const columnHelper = createColumnHelper<AssetWithCalculatedValues>();
 
@@ -26,15 +23,15 @@ export const columns = [
   }),
   columnHelper.accessor("apiKey", {
     header: "API Key",
-    cell: ({ getValue }) => <CopyContent content={getValue()} /> || "N/A",
+    cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor("apiSecret", {
     header: "API Secret",
-    cell: ({ getValue }) => <CopyContent content={getValue()} /> || "N/A",
+    cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor("walletAddress", {
     header: "Wallet Address",
-    cell: ({ getValue }) => <CopyContent content={getValue()} /> || "N/A",
+    cell: ({ getValue }) => getValue(),
   }),
   columnHelper.accessor("balance", {
     header: "Balance",

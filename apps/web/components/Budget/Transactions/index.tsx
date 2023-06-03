@@ -1,9 +1,7 @@
-import { Table } from "../../Table";
-
-import { trpc } from "../../../utils/trpc";
-
 import { useSession } from "next-auth/react";
+import { trpc } from "../../../utils/trpc";
 import { transactionsListColumns } from "../../Budget/Transactions/columns";
+import { Table } from "../../Table";
 
 export const TransactionsList = () => {
   const session = useSession();

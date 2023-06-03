@@ -1,5 +1,3 @@
-import { Fragment, useEffect } from "react";
-
 import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -17,6 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
+import { Fragment, useEffect } from "react";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { trpc } from "../../../utils/trpc";
 import { FormInputs, TextInput } from "../../Form/TextInput";

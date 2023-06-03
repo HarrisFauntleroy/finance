@@ -1,7 +1,3 @@
-import { isNegative } from "common";
-
-import { countryByCurrency } from "../../../utils/countries";
-
 import {
   Avatar,
   HStack,
@@ -12,9 +8,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import type { ColumnDef } from "@tanstack/react-table";
+import { isNegative } from "common";
 import { formatDuration, intervalToDuration } from "date-fns";
 import Link from "next/link";
 import { BsFileMinus, BsPlus } from "react-icons/bs";
+import { countryByCurrency } from "../../../utils/countries";
 import Currency from "../../Currency";
 
 /** Column definitions for markets page */
