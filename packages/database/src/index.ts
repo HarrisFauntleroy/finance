@@ -1,5 +1,4 @@
 import { Prisma, PrismaClient } from "../generated/prisma-client";
-export * as zodPrisma from "../generated/zod";
 
 export * from "@prisma/client";
 

@@ -22,7 +22,7 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "build-storybook": "storybook build",
     "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
-    "dev": "next dev -p 3000",
+    "dev": "next dev",
     "format": "prettier --write .",
     "lint": "next lint",
     "lint:fix": "eslint . --fix && yarn format",
