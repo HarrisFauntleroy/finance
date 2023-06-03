@@ -6,6 +6,7 @@ import CryptoComparison from "../../components/Markets/CryptoComparison";
 import { Cryptocurrency } from "../../components/Markets/Cryptocurrency";
 import { Forex } from "../../components/Markets/Forex";
 import Tabs from "../../components/Tabs";
+import { StockTicker } from "../../components/Ticker";
 
 const Markets = () => {
   const tabsData = [
@@ -31,6 +32,7 @@ const Markets = () => {
 
   return (
     <Page title="Markets">
+      <StockTicker />
       <Tabs tabs={tabsData} />
     </Page>
   );
