@@ -386,14 +386,13 @@ export const AccountsList = () => {
     userId: userId || "",
   });
 
-  const createAsset = trpc.assets.create.useMutation();
-  const updateAsset = trpc.assets.update.useMutation();
+  const createAsset = trpc.assets.createOrUpdate.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onValidSubmit = (submitData: any) => {
     if (userId) {
       if (submitData?.id) {
-        return updateAsset.mutateAsync(submitData).then((asset) => {
+        return createAsset.mutateAsync(submitData).then((asset) => {
           queryClient.invalidateQueries();
           toast({
             title: `Successfully updated account ${asset.name}`,
