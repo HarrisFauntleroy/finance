@@ -3,6 +3,8 @@ import {
   Avatar,
   Box,
   Button,
+  Flex,
+  Grid,
   Navbar,
   Stack,
   Text,
@@ -17,8 +19,10 @@ import { MainLink } from "./MainLink";
 
 const Sidebar = ({ links }: { links: LinkType[] }) => {
   const theme = useMantineTheme();
-  const { data: session } = useSession();
-  const userRole = session?.user.role;
+  const session = useSession();
+  const userRole = session?.data?.user?.role;
+  const userId = session.data?.userId || "";
+  const user = session.data?.user;
 
   return (
     <Navbar width={{ base: 0, sm: 300 }} p="xs" hiddenBreakpoint="sm" hidden>
@@ -39,46 +43,66 @@ const Sidebar = ({ links }: { links: LinkType[] }) => {
           }`,
         }}
       >
-        <Button.Group
-          style={{ alignItems: "center", justifyContent: "space-between" }}
-        >
-          <Button
-            component={Link}
-            href={session?.userId ? "/profile" : ""}
-            onClick={session?.userId ? undefined : () => signIn()}
-            variant="unstyled"
-            leftIcon={<Avatar src={session?.user.image} radius="xl" />}
-          >
-            {session?.user ? (
-              <Stack spacing="0" sx={{ flex: 1 }}>
-                <Text size="sm" weight={500}>
-                  {session?.user.name}
-                </Text>
-                <Text color="dimmed" size="xs" style={{ overflow: "scroll" }}>
-                  {session?.user.email}
-                </Text>
-              </Stack>
+        <Grid columns={5}>
+          <Grid.Col span={4}>
+            {user ? (
+              <Button
+                style={{
+                  display: "flex",
+                  padding: 0,
+                }}
+                component={Link}
+                href={"/profile"}
+                variant="unstyled"
+                leftIcon={<Avatar size="sm" src={user?.image} radius="xl" />}
+              >
+                <Stack spacing="0" w={200}>
+                  <Text truncate size="sm" weight={500}>
+                    {user.name}
+                  </Text>
+                  <Text truncate color="dimmed" size="xs">
+                    {user.email}
+                  </Text>
+                </Stack>
+              </Button>
             ) : (
-              <Box sx={{ flex: 1 }}>
-                <Text size="sm" weight={500}>
-                  Sign in
-                </Text>
-                <Text color="dimmed" size="xs">
-                  Or sign up!
-                </Text>
-              </Box>
+              <Button
+                variant="unstyled"
+                onClick={() => signIn()}
+                leftIcon={<Avatar size="sm" radius="xl" />}
+              >
+                <Box sx={{ flex: 1 }}>
+                  <Text size="sm" weight={500}>
+                    Sign in
+                  </Text>
+                  <Text color="dimmed" size="xs">
+                    Or sign up!
+                  </Text>
+                </Box>
+              </Button>
             )}
-          </Button>
-          {session?.userId ? (
-            <ActionIcon onClick={() => signOut()}>
-              <SignOut />
-            </ActionIcon>
-          ) : (
-            <ActionIcon onClick={() => signIn()}>
-              <SignIn />
-            </ActionIcon>
-          )}
-        </Button.Group>
+          </Grid.Col>
+
+          <Grid.Col span={1}>
+            <Flex
+              style={{
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {userId ? (
+                <ActionIcon onClick={() => signOut({ redirect: false })}>
+                  <SignOut />
+                </ActionIcon>
+              ) : (
+                <ActionIcon onClick={() => signIn()}>
+                  <SignIn />
+                </ActionIcon>
+              )}
+            </Flex>
+          </Grid.Col>
+        </Grid>
       </Navbar.Section>
     </Navbar>
   );

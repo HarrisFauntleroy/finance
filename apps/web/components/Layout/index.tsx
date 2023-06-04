@@ -1,11 +1,5 @@
 import { AppShell, MantineTheme } from "@mantine/core";
-import {
-  Bank,
-  ChartLineUp,
-  Gear,
-  PiggyBank,
-  Shield,
-} from "@phosphor-icons/react";
+import { Bank, ChartLineUp, PiggyBank, Shield } from "@phosphor-icons/react";
 import { Role } from "database/generated/prisma-client";
 import { PropsWithChildren } from "react";
 import Aside from "../Layout/Aside";
@@ -40,13 +34,6 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
       label: "Admin",
       expectedRole: Role.ADMIN,
       color: "blue",
-    },
-    {
-      href: "/settings",
-      label: "Settings",
-      icon: <Gear />,
-      expectedRole: Role.USER,
-      color: "red",
     },
   ];
 

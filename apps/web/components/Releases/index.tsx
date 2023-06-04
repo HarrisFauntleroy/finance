@@ -33,6 +33,8 @@ export function Releases({ repo }: Props) {
           bullet={<Avatar src={release.author.avatar_url} radius="xl" />}
           title={
             <Text>
+              {/* We'll need to split on capital letters  */}
+              {release.author.login.split(/(?=[A-Z])/).join(" ")} published
               Alchemical Finance
               {" - "}
               {release.tag_name}
@@ -58,8 +60,8 @@ export function Releases({ repo }: Props) {
 export function Changelog({ repo }: Props) {
   return (
     <Box h="100%" w="100%" p="lg">
-      <Title order={1} mb="16px">
-        Changelog
+      <Title order={3} mb="32px">
+        Development updates
       </Title>
       <Releases repo={repo} />
     </Box>

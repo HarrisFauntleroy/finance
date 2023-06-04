@@ -1,14 +1,10 @@
-import React from "react";
-
+import { ChartPieSlice, Gauge, Receipt, Wallet } from "@phosphor-icons/react";
 import { Page } from "../../components/Layout/Page";
-
+import Tabs from "../../components/Tabs";
 import Accounts from "./accounts";
 import Overview from "./overview";
 import Statistics from "./statistics";
 import Transactions from "./transactions";
-
-import { ChartPieSlice, Gauge, Receipt, Wallet } from "@phosphor-icons/react";
-import Tabs from "../../components/Tabs";
 
 const Portfolio = () => {
   const tabsData = [
