@@ -1,13 +1,21 @@
-name: Build Test Lint
+name: CI Actions
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
+concurrency:
+  group:
+    ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: Build and Test
+    name: CI Actions
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
