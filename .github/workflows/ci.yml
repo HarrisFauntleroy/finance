@@ -50,6 +50,10 @@ jobs:
       - name: OpenCommit — improve commits with AI 🧙
         if: success() || failure()
         uses: di-sukharev/opencommit@github-action-v1.0.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          OCO_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Run Prisma migration
         run: npx prisma migrate deploy
