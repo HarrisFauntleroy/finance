@@ -6,9 +6,9 @@ import { Progress } from "../../../util";
 import { getBalance } from "./getBalance";
 import { createWeb3Instance } from "./web3";
 
-import dotenv from "dotenv";
+import { config } from "dotenv";
 
-dotenv.config();
+config();
 
 const web3 = createWeb3Instance();
 

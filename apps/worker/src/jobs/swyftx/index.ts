@@ -17,9 +17,9 @@ import {
 } from "./types";
 
 import axios from "axios";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 
-dotenv.config();
+config();
 
 const endpoint = {
   base: "https://api.swyftx.com.au",
