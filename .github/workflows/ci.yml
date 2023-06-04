@@ -29,5 +29,13 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Lint
+        run: yarn lint
+
       - name: Test
         run: yarn test
+
+      - name: Run Prisma migration
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
