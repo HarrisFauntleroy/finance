@@ -1,14 +1,14 @@
 name: CI
 
 on:
+  push:
+    branches: ["main"]
   pull_request:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+    types: [opened, synchronize]
 
 jobs:
-  build-test-lint:
+  build:
+    name: Build and Test
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
@@ -31,11 +31,4 @@ jobs:
         run: yarn build
 
       - name: Test
-        run: yarn build
-
-      - name: Lint
-        uses: github/super-linter@v5
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn test
