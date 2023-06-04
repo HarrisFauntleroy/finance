@@ -34,3 +34,17 @@ jobs:
 
       - name: Test
         run: yarn test
+
+      - name: Coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+
+      - name: Run Prisma migration
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Publish UI package to NPM
+        uses: JS-DevTools/npm-publish@v2
+        with:
+          package: ../../packages/ui
+          token: ${{ secrets.NPM_TOKEN }}
