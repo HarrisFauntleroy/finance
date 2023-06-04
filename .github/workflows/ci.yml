@@ -44,22 +44,14 @@ jobs:
       - name: Test monorepo 🧪
         run: yarn test
 
-      - name: Coverage report 📊
-        if: success() || failure()
-        uses: ArtiomTr/jest-coverage-report-action@v2
-
-      - name: OpenCommit — improve commits with AI 🧙
-        if: success() || failure()
-        uses: di-sukharev/opencommit@github-action-v1.0.2
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          OCO_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
       - name: Run Prisma migration 🗄️
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Coverage report 📊
+        if: success() || failure()
+        uses: ArtiomTr/jest-coverage-report-action@v2
 
       - name: Publish UI package to NPM 📦
         uses: JS-DevTools/npm-publish@v2
