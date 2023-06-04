@@ -1,10 +1,8 @@
+import { TRPCError } from "@trpc/server";
 import { prisma } from "database";
 import { MarketType } from "database/generated/prisma-client";
-
-import { publicProcedure, router } from "../../trpc";
-
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { publicProcedure, router } from "../../trpc";
 
 export const createMarketInput = z.object({
   name: z.string(),
@@ -138,6 +136,7 @@ export const marketsRouter = router({
         type: MarketType.CASH,
       },
       select: {
+        id: true,
         name: true,
         currency: true,
         ticker: true,
@@ -146,6 +145,8 @@ export const marketsRouter = router({
         priceChange24h: true,
         priceChange24hPercent: true,
         updatedAt: true,
+        marketCapRank: true,
+        marketCap: true,
       },
     });
     if (!market) {
@@ -162,6 +163,7 @@ export const marketsRouter = router({
         type: MarketType.CRYPTOCURRENCY,
       },
       select: {
+        id: true,
         name: true,
         currency: true,
         ticker: true,

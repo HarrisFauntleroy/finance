@@ -1,14 +1,5 @@
-import {
-  Avatar,
-  Box,
-  Divider,
-  Flex,
-  HStack,
-  Heading,
-  Select,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
+import { Avatar, Box, Divider, Flex, Stack, Text, Title } from "@mantine/core";
 import { divide, multiply, subtract } from "common";
 import currency from "currency.js";
 import Image from "next/image";
@@ -85,7 +76,7 @@ const CryptoComparison = () => {
       }}
     >
       <Card padding="8px">
-        <Heading>Crypto Comparison</Heading>
+        <Title>Crypto Comparison</Title>
         <Flex>
           <Select
             width="100%"
@@ -100,7 +91,7 @@ const CryptoComparison = () => {
           >
             {data?.map((crypto, index) => (
               <option value={index} key={crypto.ticker}>
-                <HStack alignItems="center">
+                <Flex align="center">
                   {crypto.image && (
                     <Image
                       width={1}
@@ -112,7 +103,7 @@ const CryptoComparison = () => {
                   <Text>
                     {crypto.name} ({crypto.ticker})
                   </Text>
-                </HStack>
+                </Flex>
               </option>
             ))}
           </Select>
@@ -129,22 +120,22 @@ const CryptoComparison = () => {
             ))}
           </Select>
         </Flex>
-        <Text fontSize={32}>
+        <Text>
           What if {coinToCompare?.ticker} reached the market cap of...
         </Text>
-        <Stack width="100%">
+        <Stack w="100%">
           {calculatedValues?.map((crypto) => (
             <Flex key={crypto.ticker} justify="space-between" align="center">
               <Flex align="center">
                 <Box>{String(crypto?.marketCapRank)}</Box>
-                <Avatar src={crypto.image || ""} name={crypto.ticker} />
-                <Stack alignItems="center">
-                  <Text textTransform="uppercase">{crypto.ticker}</Text>
-                  <Text textTransform="capitalize">{crypto.name}</Text>
+                <Avatar src={crypto.image || ""} alt={crypto.ticker} />
+                <Stack align="center">
+                  <Text>{crypto.ticker}</Text>
+                  <Text>{crypto.name}</Text>
                 </Stack>
                 <Box>{currency(String(crypto?.marketCap)).format()}</Box>
               </Flex>
-              <Box width="300px">
+              <Box w="300px">
                 <Flex>
                   <>
                     Current {crypto?.ticker} Price: {crypto?.price}

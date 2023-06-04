@@ -219,7 +219,12 @@ export const assetRouter = router({
         },
         select: {
           id: true,
-          portfolioSnapshot: true,
+          portfolioSnapshot: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 7,
+          },
         },
       });
 

@@ -122,7 +122,8 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].href);
   const { classes, cx } = useStyles();
-  const { data: session } = useSession();
+  const session = useSession();
+  const userRole = session?.data?.user?.role;
 
   return (
     <Header height={HEADER_HEIGHT} p="8px">
@@ -160,6 +161,7 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
                     setActive(link.href);
                     close();
                   }}
+                  userRole={userRole}
                   {...link}
                 />
               ))}

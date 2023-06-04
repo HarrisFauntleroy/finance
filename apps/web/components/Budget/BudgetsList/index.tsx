@@ -1,19 +1,9 @@
-import {
-  ButtonGroup,
-  Flex,
-  Heading,
-  Stack,
-  Stat,
-  StatGroup,
-  StatHelpText,
-  StatNumber,
-} from "@chakra-ui/react";
+import { Button, Flex, Stack, Title } from "@mantine/core";
 import currency from "currency.js";
 import { useSession } from "next-auth/react";
 import { trpc } from "../../../utils/trpc";
 import { Grid } from "../../Grid";
 import { Card } from "../../Layout/Card";
-import { BudgetControl } from "../BudgetControl";
 
 export const BudgetsList = () => {
   const session = useSession();
@@ -23,39 +13,32 @@ export const BudgetsList = () => {
   });
 
   return (
-    <Stack gap="8px">
+    <Stack>
       <Flex justify="space-between" align="center">
-        <BudgetControl />
+        {/* <BudgetControl /> */}
       </Flex>
       <Grid>
         {data?.map((budget) => (
           <Card key={budget.id}>
             <Stack justify="space-between" align="top">
               <Stack>
-                <Heading size="md">{budget.name}</Heading>
+                <Title size="md">{budget.name}</Title>
               </Stack>
-              <StatGroup gap="16px">
-                <Stat>
-                  <StatNumber>
-                    {currency(String(budget.income)).format()}
-                  </StatNumber>
-                  <StatHelpText>Income</StatHelpText>
-                </Stat>
-                <Stat>
-                  <StatNumber>
-                    {currency(String(budget?.totalBalance)).format()}
-                  </StatNumber>
-                  <StatHelpText>Current balance</StatHelpText>
-                </Stat>
-                <Stat>
-                  <StatNumber>{currency(40).format()}</StatNumber>
-                  <StatHelpText>Daily spend limit</StatHelpText>
-                </Stat>
-              </StatGroup>
-              <ButtonGroup alignItems="center">
-                <BudgetControl variant="delete" defaultValues={budget} />
-                <BudgetControl defaultValues={budget} />
-              </ButtonGroup>
+              <Flex gap="16px">
+                <Flex>
+                  <Flex>{currency(String(budget.income)).format()}</Flex>
+                  <Flex>Income</Flex>
+                </Flex>
+                <Flex>
+                  <Flex>{currency(String(budget?.totalBalance)).format()}</Flex>
+                  <Flex>Current balance</Flex>
+                </Flex>
+                <Flex>
+                  <Flex>{currency(40).format()}</Flex>
+                  <Flex>Daily spend limit</Flex>
+                </Flex>
+              </Flex>
+              <Button.Group>Controls here</Button.Group>
             </Stack>
           </Card>
         ))}

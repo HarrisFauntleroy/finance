@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import { trpc } from "../../../utils/trpc";
-import { transactionsListColumns } from "../../Budget/Transactions/columns";
-import { Table } from "../../Table";
+import { Table } from "../../MantineTable";
 
 export const TransactionsList = () => {
   const session = useSession();
@@ -12,13 +11,23 @@ export const TransactionsList = () => {
   });
 
   return (
-    <Table
-      id="budgetOverview"
-      data={data || []}
-      columns={transactionsListColumns}
-      canExpandRows
-      filterEnabled
-      paginationEnabled
-    />
+    <Table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Account</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data?.map((transaction) => (
+          <tr key={transaction.id}>
+            <td>{transaction.id}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 };

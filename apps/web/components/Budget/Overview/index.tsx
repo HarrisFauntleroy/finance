@@ -1,21 +1,20 @@
-import { Button, GridItem } from "@chakra-ui/react";
+import { Button, List, Stack } from "@mantine/core";
 import { Card } from "../../Layout/Card";
-import { Layout } from "../Layout";
 
 export const BudgetOverview = () => {
   return (
-    <Layout>
+    <Stack>
       <Card h="64px">Date picker</Card>
       <Card>
         SPENDING BREAKDOWN
-        <ul style={{ listStyle: "none" }}>
-          <li>Income</li>
-          <li>Expenses</li>
-        </ul>
+        <List style={{ listStyle: "none" }}>
+          <List.Item>Income</List.Item>
+          <List.Item>Expenses</List.Item>
+        </List>
       </Card>
       <Card>ACCOUNTS OVERVIEW</Card>
       <Card>PERIOD SUMMARY</Card>
-      <GridItem>
+      <Button.Group>
         <Card h="128px">
           <Button>Review Transactions</Button>
         </Card>
@@ -27,9 +26,8 @@ export const BudgetOverview = () => {
         </Card>
         <Card h="128px">
           <Button>Setup Accounts</Button>
-          <p>Goes to accounts page</p>
         </Card>
-      </GridItem>
-    </Layout>
+      </Button.Group>
+    </Stack>
   );
 };

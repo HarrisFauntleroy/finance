@@ -6,23 +6,11 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { trpc } from "../../../utils/trpc";
 import { Card } from "../../Layout/Card";
-import { Table } from "../../Table";
-import { historySnapshotColumns } from "../columns";
+import { Table } from "../../MantineTable";
 
 const Bar = dynamic(() => import("react-chartjs-2").then(({ Bar }) => Bar), {
   ssr: false,
 });
-
-function sortFn<T extends { createdAt: Date }>(a: T, b: T) {
-  if (a.createdAt < b.createdAt) {
-    return -1;
-  } else {
-    if (a.createdAt > b.createdAt) {
-      return 1;
-    }
-    return 0;
-  }
-}
 
 export const HistorySnapshots = () => {
   const session = useSession();
@@ -59,15 +47,28 @@ export const HistorySnapshots = () => {
     <Card>
       <Stack>
         <Text variant="h3">History Snapshots</Text>
-        <Table
-          pageSize={4}
-          columns={historySnapshotColumns}
-          id={"history-portfolioSnapshot"}
-          // ISO8601See General principles was designed for lexicographical sort. As such the ISO8601 string representation can be sorted like any other string, and this will give the expected order
-          // https://stackoverflow.com/questions/12192491/sort-array-by-iso-8601-date
-          // This only works if the date includes the timezone
-          data={tableData?.sort(sortFn).reverse() || []}
-        />
+        <Table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Total Value</th>
+              <th>Base Currency</th>
+              <th>Quantity</th>
+              <th>Quantity Filled</th>
+              <th>Fee</th>
+              <th>Fee Currency</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData?.map((row) => (
+              <tr key={row.id}>
+                <td>{format(new Date(row.createdAt), "dd MMM")}</td>
+                <td>{row.totalValue}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
         <Bar data={newData} />
       </Stack>
     </Card>
