@@ -13,9 +13,9 @@ import {
   isValidAddress,
   Units,
 } from "@harmony-js/utils";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 
-dotenv.config();
+config();
 
 const hmy = new Harmony("https://rpc.ankr.com/harmony", {
   chainType: ChainType.Harmony,
