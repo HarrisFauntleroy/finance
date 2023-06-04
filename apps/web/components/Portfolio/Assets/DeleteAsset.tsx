@@ -4,7 +4,7 @@ import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "common";
 import { Asset } from "database/generated/prisma-client";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "../../../utils/trpc";
 
 type DeleteAccountProps = {
   asset: Asset;

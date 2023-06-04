@@ -1,13 +1,13 @@
 import { SimpleGrid } from "@mantine/core";
 import { AccountBreakdown } from "../../../components/Portfolio/AccountBreakdown";
-import { ControlBar } from "../../../components/Portfolio/ControlBar";
-import { AssetTable } from "../../../components/Portfolio/Overview/AssetTable";
+import { AssetList } from "../../../components/Portfolio/Assets/AssetList";
+import { ControlBar } from "../../../components/Portfolio/Assets/ControlBar";
 
 function Accounts() {
   return (
     <SimpleGrid cols={1}>
       <ControlBar />
-      <AssetTable />
+      <AssetList />
       <AccountBreakdown />
     </SimpleGrid>
   );
