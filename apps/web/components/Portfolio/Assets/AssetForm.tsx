@@ -6,9 +6,9 @@ import { Asset } from "database/generated/prisma-client";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { CreateOrUpdateAssetSchema } from "../../server/trpc/router/assets";
-import { trpc } from "../../utils/trpc";
-import { Debug } from "../Debug";
+import { CreateOrUpdateAssetSchema } from "../../../server/trpc/router/assets";
+import { trpc } from "../../../utils/trpc";
+import { Debug } from "../../Debug";
 
 export const AssetForm = ({ asset }: { asset?: Asset }) => {
   const session = useSession();

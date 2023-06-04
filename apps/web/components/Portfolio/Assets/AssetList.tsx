@@ -1,13 +1,13 @@
 import { Button } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { trpc } from "../../../../utils/trpc";
-import { Debug } from "../../../Debug";
-import { Card } from "../../../Layout/Card";
-import { Table } from "../../../MantineTable";
-import { DeleteAccount } from "../../../Portfolio/DeleteAccount";
-import { UpdateAccount } from "../../../Portfolio/UpdateAccount";
+import { trpc } from "../../../utils/trpc";
+import { Debug } from "../../Debug";
+import { Card } from "../../Layout/Card";
+import { Table } from "../../MantineTable";
+import { DeleteAccount } from "./DeleteAsset";
+import { UpdateAccount } from "./UpdateAsset";
 
-export function AssetTable() {
+export function AssetList() {
   const session = useSession();
   const userId = session?.data?.userId || "";
   const { data } = trpc.assets.byUserId.useQuery({ userId });

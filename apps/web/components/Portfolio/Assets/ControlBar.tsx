@@ -1,8 +1,8 @@
 import { Button } from "@mantine/core";
 import { useContext } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { PrivacyContext } from "../Providers/Privacy";
-import { CreateAccount } from "./CreateAccount";
+import { CreateAccount } from ".";
+import { PrivacyContext } from "../../Providers/Privacy";
 
 export const ControlBar = () => {
   const { privacy, togglePrivacy } = useContext(PrivacyContext);

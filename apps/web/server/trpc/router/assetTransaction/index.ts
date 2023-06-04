@@ -2,35 +2,49 @@ import { prisma } from "database";
 
 import { publicProcedure, router } from "../../trpc";
 import { byId, byUserId } from "../schema";
-import { createAssetTransaction, createAssetTransactionInput } from "./create";
-import { deleteAssetTransaction } from "./delete";
-import { updateAssetTransaction, updateAssetTransactionInput } from "./update";
 
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { deleteAssetTransaction } from "./delete";
+
+// CREATE OR UPDATE ASSET SCHEMA ------------------------------------------------
+export const createOrUpdateAssetTransactionSchema = z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  baseCurrency: z.string(),
+  quantity: z.string(),
+  toAsset: z.string(),
+  transactionType: z.string(),
+});
+
+export type CreateOrUpdateAsseTransactionSchema = z.infer<
+  typeof createOrUpdateAssetTransactionSchema
+>;
+// -----------------------------------------------------------------------------
 
 export const assetTransactionRouter = router({
-  create: publicProcedure
-    .input(createAssetTransactionInput)
-    .mutation(async ({ input }) => {
-      return await createAssetTransaction(input);
+  createOrUpdate: publicProcedure
+    .input(createOrUpdateAssetTransactionSchema)
+    .mutation(async function ({ input }) {
+      return input.id
+        ? prisma.assetTransaction.update({
+            where: { id: input.id },
+            data: input,
+          })
+        : prisma.assetTransaction.create({
+            data: input,
+          });
     }),
 
-  createChild: publicProcedure
-    .input(createAssetTransactionInput.extend({ parentId: z.string() }))
-    .mutation(async ({ input }) => {
-      return await createAssetTransaction(input);
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ input: { id } }) => {
+      return await deleteAssetTransaction(id);
     }),
-
-  update: publicProcedure
-    .input(updateAssetTransactionInput)
-    .mutation(async ({ input }) => {
-      return await updateAssetTransaction(input);
-    }),
-
-  delete: publicProcedure.input(byId).mutation(async ({ input: { id } }) => {
-    return await deleteAssetTransaction(id);
-  }),
 
   all: publicProcedure.input(byId).query(async ({ input }) => {
     const { id } = input;
