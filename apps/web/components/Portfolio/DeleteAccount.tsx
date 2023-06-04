@@ -1,7 +1,6 @@
-import { Button, Center, Loader } from "@mantine/core";
+import { Button, Loader, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { TrashSimple } from "@phosphor-icons/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "common";
 import { Asset } from "database/generated/prisma-client";
@@ -68,32 +67,23 @@ export const DeleteAccount = ({ asset }: DeleteAccountProps) => {
     mutation.mutateAsync({ id: asset.id });
   };
 
+  const openDeleteMdoal = () => {
+    modals.openConfirmModal({
+      title: "Delete account",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Confirm that you want to delete the account {asset.name}
+        </Text>
+      ),
+      labels: { confirm: "Delete", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: handleDelete,
+    });
+  };
+
   return (
-    <Button
-      color="red"
-      onClick={() => {
-        modals.open({
-          id: "create-asset",
-          withCloseButton: false,
-          children: (
-            <Center>
-              <Button.Group>
-                <Button
-                  id={`delete-asset-button-${asset.id}`}
-                  onClick={handleDelete}
-                  loading={mutation.isLoading}
-                  leftIcon={<TrashSimple />}
-                  color="red"
-                >
-                  Delete {asset.name}
-                </Button>
-                <Button onClick={close}>Cancel</Button>
-              </Button.Group>
-            </Center>
-          ),
-        });
-      }}
-    >
+    <Button color="red" onClick={openDeleteMdoal}>
       Delete
     </Button>
   );

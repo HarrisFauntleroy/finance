@@ -98,7 +98,7 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
   );
 
   return (
-    <Box maw={400} mx="auto">
+    <Box>
       <form onSubmit={accountForm.handleSubmit(onValidSubmit, onInvalidSubmit)}>
         {inputs?.map((values) => (
           <TextInput

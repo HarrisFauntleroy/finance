@@ -1,10 +1,11 @@
-import { Card, Stack, Text } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import { ChartData } from "chart.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { trpc } from "../../../utils/trpc";
+import { Card } from "../../Layout/Card";
 import { Table } from "../../Table";
 import { historySnapshotColumns } from "../columns";
 

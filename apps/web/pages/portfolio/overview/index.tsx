@@ -1,4 +1,4 @@
-import { Grid, Group } from "@mantine/core";
+import { SimpleGrid } from "@mantine/core";
 import {
   ArcElement,
   BarElement,
@@ -33,23 +33,15 @@ Chart.register(
 
 function Overview() {
   return (
-    <Grid grow maw="100%">
-      <Grid.Col span={6}>
-        <Group grow>
-          <OverviewCard />
-          <AllocationPieChart />
-        </Group>
-      </Grid.Col>
-      <Grid.Col span={12}>
-        <NetWorthCostBasisChart />
-      </Grid.Col>
-      <Grid.Col span={12}>
-        <OverviewAccountsList />
-      </Grid.Col>
-      <Grid.Col span={12}>
-        <HistorySnapshots />
-      </Grid.Col>
-    </Grid>
+    <SimpleGrid cols={1}>
+      <SimpleGrid cols={2}>
+        <OverviewCard />
+        <AllocationPieChart />
+      </SimpleGrid>
+      <NetWorthCostBasisChart />
+      <OverviewAccountsList />
+      <HistorySnapshots />
+    </SimpleGrid>
   );
 }
 

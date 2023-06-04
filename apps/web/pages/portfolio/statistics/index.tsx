@@ -1,12 +1,11 @@
-import React from "react";
-
-import { Stack } from "@chakra-ui/react";
+import { SimpleGrid } from "@mantine/core";
+import { Card } from "../../../components/Layout/Card";
 
 function Statistics() {
   return (
-    <Stack>
-      <div>Statistics</div>
-    </Stack>
+    <SimpleGrid cols={1}>
+      <Card>Statistics</Card>
+    </SimpleGrid>
   );
 }
 

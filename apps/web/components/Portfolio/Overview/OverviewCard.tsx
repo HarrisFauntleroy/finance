@@ -1,7 +1,9 @@
-import { Card, Loader, Table, Text } from "@mantine/core";
+import { Loader, Text } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { trpc } from "../../../utils/trpc";
 import Currency from "../../Currency";
+import { Card } from "../../Layout/Card";
+import { Table } from "../../MantineTable";
 
 function OverviewCard() {
   const session = useSession();
@@ -17,7 +19,7 @@ function OverviewCard() {
 
   return (
     <Card h="100%">
-      <Table h="100%">
+      <Table>
         <tbody>
           <tr>
             <th>Value</th>

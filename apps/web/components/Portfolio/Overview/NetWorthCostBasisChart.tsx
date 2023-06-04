@@ -1,10 +1,11 @@
-import { Card, useMantineColorScheme } from "@mantine/core";
+import { useMantineColorScheme } from "@mantine/core";
 import currency from "currency.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { trpc } from "../../../utils/trpc";
+import { Card } from "../../Layout/Card";
 
 const options = {
   responsive: true,

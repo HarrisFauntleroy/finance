@@ -1,8 +1,9 @@
-import { Stack, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
+import { Card } from "../Layout/Card";
 
 export const AccountBreakdown = () => {
   return (
-    <Stack>
+    <Card>
       <Text>Overview</Text>
       <ul>
         <ul>
@@ -18,6 +19,6 @@ export const AccountBreakdown = () => {
           <li>1 active account</li>
         </ul>
       </ul>
-    </Stack>
+    </Card>
   );
 };

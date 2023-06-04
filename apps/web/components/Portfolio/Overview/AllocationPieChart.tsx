@@ -1,9 +1,10 @@
-import { Card, Loader, Text } from "@mantine/core";
+import { Loader, Text } from "@mantine/core";
 import { ChartData } from "chart.js";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { trpc } from "../../../utils/trpc";
+import { Card } from "../../Layout/Card";
 
 const Pie = dynamic(() => import("react-chartjs-2").then(({ Pie }) => Pie), {
   ssr: false,

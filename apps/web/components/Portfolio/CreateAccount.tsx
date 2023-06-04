@@ -1,19 +1,20 @@
 import { Button } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { AssetForm } from "./AccountForm";
+import { AssetForm } from "./AssetForm";
 
-export function CreateAccount() {
+export const CreateAccount = () => {
+  const openUpdateAccountModal = () => {
+    modals.open({
+      id: "create-account",
+      title: "Create account",
+      centered: true,
+      children: <AssetForm />,
+    });
+  };
+
   return (
-    <Button
-      onClick={() => {
-        modals.open({
-          id: "create-asset",
-          title: "Add new asset",
-          children: <AssetForm />,
-        });
-      }}
-    >
+    <Button color="green" onClick={openUpdateAccountModal}>
       Create
     </Button>
   );
-}
+};

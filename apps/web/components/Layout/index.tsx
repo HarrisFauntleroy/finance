@@ -10,7 +10,7 @@ import { Role } from "database/generated/prisma-client";
 import { PropsWithChildren } from "react";
 import Aside from "../Layout/Aside";
 import Header, { LinkType } from "../Layout/Header";
-import Navbar from "../Layout/Navbar";
+import Sidebar from "./Sidebar";
 
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   const links: LinkType[] = [
@@ -62,7 +62,7 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
   return (
     <AppShell
       header={<Header links={links} />}
-      navbar={<Navbar links={links} />}
+      navbar={<Sidebar links={links} />}
       aside={<Aside />}
       styles={handleStyles}
     >

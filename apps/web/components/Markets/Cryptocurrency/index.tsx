@@ -1,5 +1,5 @@
-import { Card } from "@mantine/core";
 import { trpc } from "../../../utils/trpc";
+import { Card } from "../../Layout/Card";
 import { cryptocurrencyColumns } from "../../Markets/Cryptocurrency/columns";
 import { Table } from "../../Table";
 

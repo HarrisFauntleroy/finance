@@ -1,15 +1,17 @@
-import { Stack } from "@chakra-ui/react";
-import { Code } from "@mantine/core";
+import { Code, SimpleGrid } from "@mantine/core";
+import { Card } from "../../../components/Layout/Card";
 
 function Transactions() {
   return (
-    <Stack>
-      <Code block>
-        {JSON.stringify({
-          id: "1",
-        })}
-      </Code>
-    </Stack>
+    <SimpleGrid cols={1}>
+      <Card>
+        <Code block>
+          {JSON.stringify({
+            id: "1",
+          })}
+        </Code>
+      </Card>
+    </SimpleGrid>
   );
 }
 

@@ -9,13 +9,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Card } from "@mantine/core";
 import { divide, multiply, subtract } from "common";
 import currency from "currency.js";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { Grid } from "../Grid";
+import { Card } from "../Layout/Card";
 
 const currencies = ["USD", "EUR", "GBP", "JPY"];
 

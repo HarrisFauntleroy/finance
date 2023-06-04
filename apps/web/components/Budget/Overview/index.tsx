@@ -1,5 +1,5 @@
 import { Button, GridItem } from "@chakra-ui/react";
-import { Card } from "@mantine/core";
+import { Card } from "../../Layout/Card";
 import { Layout } from "../Layout";
 
 export const BudgetOverview = () => {

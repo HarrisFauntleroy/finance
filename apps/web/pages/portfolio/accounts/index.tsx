@@ -1,15 +1,15 @@
-import { Stack } from "@mantine/core";
+import { SimpleGrid } from "@mantine/core";
 import { AccountBreakdown } from "../../../components/Portfolio/AccountBreakdown";
 import { ControlBar } from "../../../components/Portfolio/ControlBar";
 import { AssetTable } from "../../../components/Portfolio/Overview/AssetTable";
 
 function Accounts() {
   return (
-    <Stack>
+    <SimpleGrid cols={1}>
       <ControlBar />
       <AssetTable />
       <AccountBreakdown />
-    </Stack>
+    </SimpleGrid>
   );
 }
 

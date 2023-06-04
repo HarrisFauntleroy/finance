@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   Col,
   Grid,
   Paper,
@@ -22,6 +21,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { signIn, useSession } from "next-auth/react";
+import { Card } from "../components/Layout/Card";
 import { Page } from "../components/Layout/Page";
 import { Changelog } from "../components/Releases";
 

@@ -1,8 +1,9 @@
-import { Group, Table } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { Fragment } from "react";
 import { trpc } from "../../../../utils/trpc";
 import { Debug } from "../../../Debug";
+import { Card } from "../../../Layout/Card";
+import { Table } from "../../../MantineTable";
 import { DeleteAccount } from "../../../Portfolio/DeleteAccount";
 import { UpdateAccount } from "../../../Portfolio/UpdateAccount";
 
@@ -12,13 +13,8 @@ export function AssetTable() {
   const { data } = trpc.assets.byUserId.useQuery({ userId });
 
   return (
-    <Fragment>
-      <Table
-        style={{
-          width: "100%",
-          overflowX: "auto",
-        }}
-      >
+    <Card style={{ overflow: "scroll" }}>
+      <Table>
         <thead>
           <tr>
             <th>ID</th>
@@ -40,16 +36,16 @@ export function AssetTable() {
               <td>{asset.price}</td>
               <td>{asset.value}</td>
               <td>
-                <Group>
+                <Button.Group>
                   <UpdateAccount asset={asset} />
                   <DeleteAccount asset={asset} />
-                </Group>
+                </Button.Group>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
       <Debug data={data} />
-    </Fragment>
+    </Card>
   );
 }

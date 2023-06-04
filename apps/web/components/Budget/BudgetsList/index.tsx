@@ -8,11 +8,11 @@ import {
   StatHelpText,
   StatNumber,
 } from "@chakra-ui/react";
-import { Card } from "@mantine/core";
 import currency from "currency.js";
 import { useSession } from "next-auth/react";
 import { trpc } from "../../../utils/trpc";
 import { Grid } from "../../Grid";
+import { Card } from "../../Layout/Card";
 import { BudgetControl } from "../BudgetControl";
 
 export const BudgetsList = () => {

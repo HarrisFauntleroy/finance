@@ -54,6 +54,8 @@ export const userRouter = router({
         email: true,
         image: true,
         role: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     if (!user) {

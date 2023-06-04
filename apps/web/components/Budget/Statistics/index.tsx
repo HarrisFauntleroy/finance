@@ -1,4 +1,4 @@
-import { Card } from "@mantine/core";
+import { Card } from "../../Layout/Card";
 
 export const Statistics = () => {
   return <Card>Statistics</Card>;

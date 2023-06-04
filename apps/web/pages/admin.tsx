@@ -1,9 +1,9 @@
-import { trpc } from "../utils/trpc";
-
-import { Avatar, Card, Chip, Stack, Text } from "@mantine/core";
+import { Avatar, Chip, Stack, Text } from "@mantine/core";
 import { Role } from "database/generated/prisma-client";
 import { Grid } from "../components/Grid";
+import { Card } from "../components/Layout/Card";
 import { Page } from "../components/Layout/Page";
+import { trpc } from "../utils/trpc";
 
 const UserCardComponent = ({
   user,
