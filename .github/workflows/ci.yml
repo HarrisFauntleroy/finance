@@ -36,7 +36,12 @@ jobs:
         run: yarn test
 
       - name: Coverage
+        if: success() || failure()
         uses: ArtiomTr/jest-coverage-report-action@v2
+
+      - name: OpenCommit — improve commits with AI 🧙
+        if: success() || failure()
+        uses: di-sukharev/opencommit@github-action-v1.0.2
 
       - name: Run Prisma migration
         run: npx prisma migrate deploy
