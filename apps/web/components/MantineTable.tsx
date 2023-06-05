@@ -1,7 +1,10 @@
-import { Table as MantineTable } from "@mantine/core";
+import {
+  Table as MantineTable,
+  type TableProps as MantineTableProps,
+} from "@mantine/core";
 import { PropsWithChildren } from "react";
 
-type TableProps<T> = PropsWithChildren<T>;
+type TableProps<T> = PropsWithChildren<T> & MantineTableProps;
 
 export function Table<T>({ children }: TableProps<T>) {
   return (

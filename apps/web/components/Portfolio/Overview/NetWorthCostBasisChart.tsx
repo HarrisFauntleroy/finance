@@ -1,4 +1,4 @@
-import { useMantineColorScheme } from "@mantine/core";
+import { Skeleton, useMantineColorScheme } from "@mantine/core";
 import currency from "currency.js";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -37,7 +37,7 @@ export const NetWorthCostBasisChart = () => {
   const session = useSession();
   const userId = session?.data?.userId;
 
-  const { data } = trpc.assets.historyByUserId.useQuery({
+  const { data, isLoading } = trpc.assets.historyByUserId.useQuery({
     userId: userId || "",
   });
 
@@ -89,8 +89,10 @@ export const NetWorthCostBasisChart = () => {
   );
 
   return (
-    <Card>
-      <Line options={options} data={lineData} />
-    </Card>
+    <Skeleton visible={isLoading} animate>
+      <Card>
+        <Line options={options} data={lineData} />
+      </Card>
+    </Skeleton>
   );
 };

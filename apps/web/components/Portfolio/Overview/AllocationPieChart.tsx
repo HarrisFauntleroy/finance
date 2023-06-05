@@ -1,4 +1,4 @@
-import { Loader, Text } from "@mantine/core";
+import { Skeleton, Text } from "@mantine/core";
 import { ChartData } from "chart.js";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
@@ -61,11 +61,13 @@ export const AllocationPieChart = () => {
     },
   };
 
-  if (isLoading) return <Loader />;
   if (error) return <Text>Error loading data</Text>;
+
   return (
-    <Card>
-      <Pie data={data} options={options} />
-    </Card>
+    <Skeleton visible={isLoading}>
+      <Card>
+        <Pie data={data} options={options} />
+      </Card>
+    </Skeleton>
   );
 };
