@@ -5,16 +5,16 @@ const TEST_USER_ID = "test-user";
 const TEST_MARKET_ID = "test_OTHER";
 const CURRENCY = "AUD";
 
-function createUser() {
+function createUser(id = TEST_USER_ID) {
   return {
-    id: TEST_USER_ID,
+    id,
     name: "Test User",
   };
 }
 
-function createMarket() {
+function createMarket(id = TEST_MARKET_ID) {
   return {
-    id: "test_" + MarketType.OTHER,
+    id,
     ticker: "TEST",
     currency: CURRENCY,
     type: MarketType.OTHER,
@@ -22,13 +22,12 @@ function createMarket() {
   };
 }
 
-function createAsset() {
+function createAsset(userId = TEST_USER_ID) {
   return {
     id: `test-asset-${Math.random()}`,
-    userId: TEST_USER_ID,
+    userId,
     name: `Test Asset ${Math.random()}`,
-    // Will have to create market first
-    // marketId: "test-market",
+    marketId: TEST_MARKET_ID,
     status: AssetStatus.ACTIVE,
     currency: CURRENCY,
   };
