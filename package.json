@@ -82,7 +82,7 @@
   },
   "packageManager": "yarn@3.5.1",
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=v16.20.0",
     "npm": ">=7.0.0"
   },
   "prisma": {
