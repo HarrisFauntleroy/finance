@@ -12,6 +12,7 @@ export type MainLinkProps = {
   color?: string;
   className?: string;
   onClick?: () => void;
+  open?: boolean;
 };
 
 export function MainLink({
@@ -23,6 +24,7 @@ export function MainLink({
   onClick,
   expectedRole,
   userRole = Role.GUEST,
+  open,
 }: MainLinkProps) {
   const handleClick = useCallback(() => {
     if (onClick) {
@@ -65,10 +67,15 @@ export function MainLink({
       })}
     >
       <Group>
-        <ThemeIcon color={color} variant="light" opacity={isDisabled ? 0.5 : 1}>
+        <ThemeIcon
+          m={open ? "auto" : "none"}
+          color={color}
+          variant="light"
+          opacity={isDisabled ? 0.5 : 1}
+        >
           {icon}
         </ThemeIcon>
-        <Text size="sm">{label}</Text>
+        {!open && <Text size="sm">{label}</Text>}
       </Group>
     </UnstyledButton>
   );

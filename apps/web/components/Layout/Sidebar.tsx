@@ -1,37 +1,40 @@
-import {
-  ActionIcon,
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Navbar,
-  Stack,
-  Text,
-  rem,
-  useMantineTheme,
-} from "@mantine/core";
-import { SignIn, SignOut } from "@phosphor-icons/react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { Navbar, rem, useMantineTheme } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { ReactNode } from "react";
 import { type LinkType } from "./Header";
-import { MainLink } from "./MainLink";
+import { SidebarLinks } from "./SidebarLinks";
+import { UserPanel } from "./UserPanel";
 
-const Sidebar = ({ links }: { links: LinkType[] }) => {
+export type Disclosure = readonly [
+  boolean,
+  {
+    readonly open: () => void;
+    readonly close: () => void;
+    readonly toggle: () => void;
+  }
+];
+
+const SidebarLayout = ({
+  linkSection,
+  userPanel,
+  disclosure,
+}: {
+  linkSection: ReactNode;
+  userPanel: ReactNode;
+  disclosure: Disclosure;
+}) => {
   const theme = useMantineTheme();
-  const session = useSession();
-  const userRole = session?.data?.user?.role;
-  const userId = session.data?.userId || "";
-  const user = session.data?.user;
+  const [opened] = disclosure;
 
   return (
-    <Navbar width={{ base: 0, sm: 300 }} p="xs" hiddenBreakpoint="sm" hidden>
+    <Navbar
+      width={{ base: 0, sm: opened ? 70 : 300 }}
+      hiddenBreakpoint="sm"
+      hidden
+      p="md"
+    >
       <Navbar.Section grow mt="xs">
-        <div>
-          {links.map((link) => (
-            <MainLink key={link.label} {...link} userRole={userRole} />
-          ))}
-        </div>
+        {linkSection}
       </Navbar.Section>
       <Navbar.Section
         sx={{
@@ -43,68 +46,21 @@ const Sidebar = ({ links }: { links: LinkType[] }) => {
           }`,
         }}
       >
-        <Grid columns={5}>
-          <Grid.Col span={4}>
-            {user ? (
-              <Button
-                style={{
-                  display: "flex",
-                  padding: 0,
-                }}
-                component={Link}
-                href={"/profile"}
-                variant="unstyled"
-                leftIcon={<Avatar size="sm" src={user?.image} radius="xl" />}
-              >
-                <Stack spacing="0" w={200}>
-                  <Text truncate size="sm" weight={500}>
-                    {user.name}
-                  </Text>
-                  <Text truncate color="dimmed" size="xs">
-                    {user.email}
-                  </Text>
-                </Stack>
-              </Button>
-            ) : (
-              <Button
-                variant="unstyled"
-                onClick={() => signIn()}
-                leftIcon={<Avatar size="sm" radius="xl" />}
-              >
-                <Box sx={{ flex: 1 }}>
-                  <Text size="sm" weight={500}>
-                    Sign in
-                  </Text>
-                  <Text color="dimmed" size="xs">
-                    Or sign up!
-                  </Text>
-                </Box>
-              </Button>
-            )}
-          </Grid.Col>
-
-          <Grid.Col span={1}>
-            <Flex
-              style={{
-                height: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {userId ? (
-                <ActionIcon onClick={() => signOut({ redirect: false })}>
-                  <SignOut />
-                </ActionIcon>
-              ) : (
-                <ActionIcon onClick={() => signIn()}>
-                  <SignIn />
-                </ActionIcon>
-              )}
-            </Flex>
-          </Grid.Col>
-        </Grid>
+        {userPanel}
       </Navbar.Section>
     </Navbar>
+  );
+};
+
+const Sidebar = ({ links }: { links: LinkType[] }) => {
+  const disclosure = useDisclosure(false);
+
+  return (
+    <SidebarLayout
+      disclosure={disclosure}
+      linkSection={<SidebarLinks links={links} disclosure={disclosure} />}
+      userPanel={<UserPanel disclosure={disclosure} />}
+    />
   );
 };
 
