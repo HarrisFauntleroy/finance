@@ -31,7 +31,7 @@ const SidebarLayout = ({
       width={{ base: 0, sm: opened ? 70 : 300 }}
       hiddenBreakpoint="sm"
       hidden
-      p="md"
+      p="xs"
     >
       <Navbar.Section grow mt="xs">
         {linkSection}

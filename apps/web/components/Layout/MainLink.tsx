@@ -48,7 +48,7 @@ export function MainLink({
       onClick={isDisabled ? undefined : handleClick}
       aria-disabled={isDisabled}
       sx={(theme) => ({
-        "display": "block",
+        "display": "flex",
         "width": "100%",
         "padding": theme.spacing.xs,
         "borderRadius": theme.radius.sm,
