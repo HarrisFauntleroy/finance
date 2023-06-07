@@ -21,7 +21,7 @@ export const SidebarLinks = ({
         <MainLink key={link.label} userRole={userRole} open={open} {...link} />
       ))}
       <Button
-        variant="white"
+        variant="subtle"
         style={{ flex: 1 }}
         onClick={() => handlers.toggle()}
       />
