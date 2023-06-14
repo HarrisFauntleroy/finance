@@ -30,7 +30,7 @@
     "**/*.jsx",
     "**/*.config.js",
     "**/*.d.ts",
-    ".next/types/**/*.ts"
-, "../../../adhd-assistant/src/components/editor.tsx"  ],
+    ".next/types/**/*.ts",
+  ],
   "exclude": ["dist", "node_modules"]
 }
