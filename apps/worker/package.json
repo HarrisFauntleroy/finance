@@ -20,14 +20,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "NODE_ENV=development nodemon src/server.ts",
-    "lint": "eslint . --color",
+    "format": "prettier --write .",
     "lint:fix": "eslint . --fix --color",
     "lint:watch": "esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "format": "prettier --write .",
+    "lint": "eslint . --color",
     "start": "NODE_ENV=production node dist/index.js",
-    "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
+    "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
