@@ -20,7 +20,6 @@
   "scripts": {
     "build": "tsup",
     "build-storybook": "storybook build",
-    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "concurrently \"yarn build --watch\" \"yarn storybook\"",
     "lint": "yarn esw . --ext .js,.jsx,.ts,.tsx --color",
     "lint:fix": "yarn esw . --ext .js,.jsx,.ts,.tsx --fix --color",

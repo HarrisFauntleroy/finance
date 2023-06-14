@@ -19,7 +19,6 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "NODE_ENV=development nodemon src/server.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix && yarn format",

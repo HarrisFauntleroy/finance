@@ -17,7 +17,6 @@
   "scripts": {
     "audit:fix": "yarn audit --fix .",
     "build": "turbo run build",
-    "clean": "turbo run clean",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
@@ -40,7 +39,11 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn test && yarn lint && yarn build"
+      "post-commit": "echo '[Husky] post-commit'",
+      "pre-push": "yarn test && yarn lint && yarn build",
+      "post-checkout": "echo '[Husky] post-checkout'",
+      "post-merge": "echo '[Husky] post-merge'",
+      "post-rewrite": "echo '[Husky] post-rewrite'"
     }
   },
   "lint-staged": {

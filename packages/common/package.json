@@ -19,7 +19,6 @@
   ],
   "scripts": {
     "build": "tsup",
-    "clean": "rimraf .turbo node_modules dist tsconfig.tsbuildinfo",
     "dev": "yarn build --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix && yarn format",

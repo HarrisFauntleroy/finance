@@ -1,4 +1,3 @@
-import { MarketType } from "database/generated/prisma-client";
 import { useRouter } from "next/router";
 import { Debug } from "../../../components/Debug";
 import { Page } from "../../../components/Layout/Page";
@@ -12,7 +11,7 @@ const MarketViewPage = () => {
   const marketQuery = trpc.markets.byName.useQuery({
     name,
     ticker,
-    type: MarketType.CASH,
+    currency: "USD",
   });
 
   const { data } = marketQuery;

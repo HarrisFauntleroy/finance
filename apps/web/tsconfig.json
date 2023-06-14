@@ -30,7 +30,7 @@
     "**/*.jsx",
     "**/*.config.js",
     "**/*.d.ts",
-    ".next/types/**/*.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["dist", "node_modules"]
 }

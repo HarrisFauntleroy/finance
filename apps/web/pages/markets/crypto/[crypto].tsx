@@ -1,4 +1,3 @@
-import { MarketType } from "database/generated/prisma-client";
 import NextError from "next/error";
 import { useRouter } from "next/router";
 import { Debug } from "../../../components/Debug";
@@ -13,7 +12,7 @@ const MarketViewPage = () => {
   const marketQuery = trpc.markets.byName.useQuery({
     name,
     ticker,
-    type: MarketType.CRYPTOCURRENCY,
+    currency: "USD",
   });
 
   if (marketQuery.error) {

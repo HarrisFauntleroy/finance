@@ -130,6 +130,12 @@ Our codebase consists of apps and packages written in
    yarn run dev
    ```
 
+6. **Migrate Database and Generate Prisma Client**
+
+```bash
+yarn turbo db:push db:generate
+```
+
 ## Testing
 
 (Testing instructions to be added)

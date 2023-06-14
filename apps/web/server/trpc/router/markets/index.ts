@@ -6,9 +6,9 @@ import { publicProcedure, router } from "../../trpc";
 
 export const createMarketInput = z.object({
   name: z.string(),
-  ticker: z.string(),
+  ticker: z.string().length(3),
+  currency: z.string().length(3),
   description: z.string(),
-  currency: z.string(),
   price: z.string(),
   priceChange24h: z.string(),
   priceChange24hPercent: z.string(),
@@ -34,12 +34,12 @@ export const marketsRouter = router({
   update: publicProcedure
     .input(updateMarketInput)
     .mutation(async ({ input: data }) => {
-      const { ticker, type } = data;
+      const { ticker, currency } = data;
       return prisma.market.update({
         where: {
-          ticker_type: {
+          ticker_currency: {
             ticker,
-            type,
+            currency,
           },
         },
         data,
@@ -51,16 +51,16 @@ export const marketsRouter = router({
     .input(
       z.object({
         name: z.string(),
-        ticker: z.string(),
-        type: z.nativeEnum(MarketType),
+        ticker: z.string().length(3),
+        currency: z.string().length(3),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input: { ticker, currency } }) => {
       return prisma.market.update({
         where: {
-          ticker_type: {
-            ticker: input.ticker,
-            type: input.type,
+          ticker_currency: {
+            ticker: ticker,
+            currency: currency,
           },
         },
         data: {
@@ -92,17 +92,17 @@ export const marketsRouter = router({
     .input(
       z.object({
         name: z.string(),
-        ticker: z.string(),
-        type: z.nativeEnum(MarketType),
+        ticker: z.string().length(3),
+        currency: z.string().length(3),
       })
     )
     .query(async ({ input }) => {
-      const { ticker, type } = input;
+      const { ticker, currency } = input;
       const market = await prisma.market.findUnique({
         where: {
-          ticker_type: {
+          ticker_currency: {
             ticker,
-            type,
+            currency,
           },
         },
       });
