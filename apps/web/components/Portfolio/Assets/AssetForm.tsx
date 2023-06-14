@@ -1,10 +1,18 @@
-import { Box, Button, TextInput, TextInputProps } from "@mantine/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  Group,
+  Text,
+  TextInput,
+  TextInputProps,
+} from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "common";
 import { Asset } from "database/generated/prisma-client";
 import { useSession } from "next-auth/react";
-import { useMemo } from "react";
+import { ComponentPropsWithoutRef, forwardRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { CreateOrUpdateAssetSchema } from "../../../server/trpc/router/assets";
 import { trpc } from "../../../utils/trpc";
@@ -113,6 +121,17 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
             {...values}
           />
         ))}
+        {/* <Select
+          label="Market"
+          placeholder="Pick one"
+          allowDeselect
+          itemComponent={SelectItem}
+          data={markets?.data || []}
+          searchable
+          maxDropdownHeight={300}
+          nothingFound="Nothing here"
+          {...accountForm.register("marketId")}
+        /> */}
         <Button mt="8px" type="submit">
           Submit
         </Button>
@@ -121,3 +140,27 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
     </Box>
   );
 };
+
+interface ItemProps extends ComponentPropsWithoutRef<"div"> {
+  image: string;
+  label: string;
+  description: string;
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
+  ({ image, label, description, ...others }: ItemProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap>
+        <Avatar src={image} />
+
+        <div>
+          <Text size="sm">{label}</Text>
+          <Text size="xs" opacity={0.65}>
+            {description}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  )
+);
+SelectItem.displayName = "@mantine/core/SelectItem";

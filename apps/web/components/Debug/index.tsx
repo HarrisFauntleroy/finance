@@ -9,7 +9,9 @@ export function Debug({ data }: { data: unknown }) {
         </Accordion.Control>
         <Accordion.Panel>
           <Text color="green">Raw data:</Text>
-          <Code>{JSON.stringify(data, null, 4)}</Code>
+          <Code>
+            <pre>{JSON.stringify(data, null, 4)}</pre>
+          </Code>
           <Text color="blue">Only visible in development</Text>
         </Accordion.Panel>
       </Accordion.Item>
@@ -17,4 +19,4 @@ export function Debug({ data }: { data: unknown }) {
   ) : null;
 }
 
-export const inDev = () => process.env.NODE_ENV === "development";
+export const isDevEnvironment = () => process.env.NODE_ENV === "development";

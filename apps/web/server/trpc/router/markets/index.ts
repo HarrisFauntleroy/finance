@@ -78,14 +78,31 @@ export const marketsRouter = router({
     });
   }),
 
-  all: publicProcedure.input(createMarketInput).query(async () => {
-    const market = await prisma.market.findMany();
-    if (!market) {
+  all: publicProcedure.query(async () => {
+    const markets = await prisma.market.findMany({
+      select: {
+        // image: "https://img.icons8.com/clouds/256/000000/futurama-bender.png",
+        // label: "Bender Bending Rodríguez",
+        // value: "Bender Bending Rodríguez",
+        // description: "Fascinated with cooking",
+        image: true,
+        name: true,
+        ticker: true,
+        currency: true,
+        description: true,
+      },
+    });
+    if (!markets) {
       throw new TRPCError({
         code: "NOT_FOUND",
       });
     }
-    return market;
+    return markets.map((market) => ({
+      image: market.image || "",
+      label: `${market.name} (${market.ticker})`,
+      value: `${market.ticker}-(${market.currency})`,
+      description: market.description || "No description",
+    }));
   }),
 
   byName: publicProcedure

@@ -13,7 +13,7 @@ import {
 import type { Row } from "@tanstack/react-table";
 import { percentageChange } from "common";
 import currency from "currency.js";
-import { Debug, inDev } from "../../Debug";
+import { Debug, isDevEnvironment } from "../../Debug";
 import { Grid } from "../../Grid";
 import { Card } from "../../Layout/Card";
 
@@ -67,7 +67,7 @@ function TableSubComponent<TData extends Record<string, string>>({
           </Stack>
         </AccordionPanel>
       </AccordionItem>
-      {inDev() && (
+      {isDevEnvironment() && (
         <AccordionItem>
           <h2>
             <AccordionButton>

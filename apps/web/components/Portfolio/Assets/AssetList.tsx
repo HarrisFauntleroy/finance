@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Stack } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { trpc } from "../../../utils/trpc";
 import { Debug } from "../../Debug";
@@ -29,21 +29,24 @@ export function AssetList() {
         </thead>
         <tbody>
           {data?.map((asset) => (
-            <tr key={asset.id}>
-              <td>{asset.name}</td>
-              <td>{asset.currency.toUpperCase()}</td>
-              <td>{asset.balance}</td>
-              <td>{asset.costBasis}</td>
-              <td>{asset.price}</td>
-              <td>{asset.market?.price}</td>
-              <td>{asset.value}</td>
-              <td>
-                <Button.Group>
-                  <UpdateAccount asset={asset} />
-                  <DeleteAccount asset={asset} />
-                </Button.Group>
-              </td>
-            </tr>
+            <Stack key={asset.id}>
+              <tr>
+                <td>{asset.name}</td>
+                <td>{asset.currency.toUpperCase()}</td>
+                <td>{asset.balance}</td>
+                <td>{asset.costBasis}</td>
+                <td>{asset.price}</td>
+                <td>{asset.market?.price}</td>
+                <td>{asset.value}</td>
+                <td>
+                  <Button.Group>
+                    <UpdateAccount asset={asset} />
+                    <DeleteAccount asset={asset} />
+                  </Button.Group>
+                </td>
+              </tr>
+              <Debug data={asset} />
+            </Stack>
           ))}
         </tbody>
       </Table>
