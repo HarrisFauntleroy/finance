@@ -14,8 +14,8 @@ export const DebouncedInput: FC<DebouncedInputProps> = ({
   debounce = 500,
   ...props
 }) => {
-  const [value, setValue] = useState<string | number>(initialValue);
-  const [debouncedValue] = useDebounce<string | number>(value, debounce);
+  const [value, setValue] = useState(initialValue);
+  const [debouncedValue] = useDebounce(value, debounce);
 
   useEffect(() => {
     setValue(initialValue);
