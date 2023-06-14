@@ -4,8 +4,7 @@ import { Progress } from "../../util";
 import { calculateAssetValuesTotals } from "./assets";
 
 export const history = async () => {
-  /** Get userId of signed in user */
-  const users: { id: string }[] = await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     select: {
       id: true,
     },
@@ -17,7 +16,6 @@ export const history = async () => {
 
   const results: { user?: string; status: string }[] = [];
 
-  // Assets portfolioSnapshot
   await Promise.all(
     users.map(async ({ id: userId }) => {
       try {
