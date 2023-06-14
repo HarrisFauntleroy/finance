@@ -1,0 +1,5 @@
+#!/bin/sh
+."$(dirname "$0")/_/husky.sh"
+
+echo "======== LINT-STAGED ========"
+yarn lint-staged

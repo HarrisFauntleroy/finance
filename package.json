@@ -36,14 +36,11 @@
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
     "watch": "turbo run watch --"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn test && yarn lint && yarn build",
-    }
-  },
   "lint-staged": {
-    "*.{ts,tsx}": []
+    "*.{ts,tsx}": [
+      "yarn format",
+      "yarn lint:fix"
+    ]
   },
   "prettier": {
     "arrowParens": "always",
