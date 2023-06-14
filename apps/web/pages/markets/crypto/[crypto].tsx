@@ -1,3 +1,4 @@
+import { Loader } from "@mantine/core";
 import NextError from "next/error";
 import { useRouter } from "next/router";
 import { Debug } from "../../../components/Debug";
@@ -24,9 +25,7 @@ const MarketViewPage = () => {
     );
   }
 
-  if (marketQuery.status !== "success") {
-    return <>Loading...</>;
-  }
+  if (marketQuery.status !== "success") return <Loader />;
 
   const { data } = marketQuery;
   return (
