@@ -39,11 +39,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "post-commit": "echo '[Husky] post-commit'",
       "pre-push": "yarn test && yarn lint && yarn build",
-      "post-checkout": "echo '[Husky] post-checkout'",
-      "post-merge": "echo '[Husky] post-merge'",
-      "post-rewrite": "echo '[Husky] post-rewrite'"
     }
   },
   "lint-staged": {
