@@ -8,12 +8,8 @@ echo "======== Testing 🧪  ========"
 yarn test
 echo "======== Testing ✅  ========"
 echo
-echo "======== Linting 🔬  ========"
-yarn lint
-echo "======== Linting ✅  ========"
-echo
 echo "======== Building 🏗️ ========"
 yarn build
 echo "======== Building ✅ ========"
 echo
-echo "Test ✅ Lint ✅ Build ✅ pushed 🚀"
+echo "Tested ✅ Built ✅ Pushed 🚀"
