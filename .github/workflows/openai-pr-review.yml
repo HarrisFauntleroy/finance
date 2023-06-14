@@ -25,27 +25,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
-<<<<<<< HEAD
           review_simple_changes: false  # No need to review simple changes if the focus is on summarization
           review_comment_lgtm: false  # Avoid commenting if the patch is good (LGTM: Looks Good To Me)
           disable_review: true  # Disable detailed code reviews and focus on summarization
           disable_release_notes: false  # Generate release notes unless they are not needed
-=======
-          debug: false # Only set to true if you are experiencing issues and need to debug
-          max_files: 50 # A reasonable limit to ensure not too many files are being processed at once, adjust as needed
-          review_simple_changes: false # No need to review simple changes if the focus is on summarization
-          review_comment_lgtm: false # Avoid commenting if the patch is good (LGTM: Looks Good To Me)
-          path_filters: default # Exclude files that are not relevant for code changes (image files, lock files, etc.)
-          disable_review: true # Disable detailed code reviews and focus on summarization
-          disable_release_notes: false # Generate release notes unless they are not needed
-          openai_base_url: "https://api.openai.com/v1" # Default OpenAI API URL
-          openai_light_model: "gpt-3.5-turbo" # Balanced model, good for most tasks
-          openai_heavy_model: "gpt-3.5-turbo" # Same as above, but could be changed if a more powerful model is needed
-          openai_model_temperature: 0.6 # Balance between randomness and determinism in the AI model's output
-          openai_retries: 5 # Number of retries for OpenAI API in case of timeouts or errors
-          openai_timeout_ms: 360000 # Timeout for OpenAI API call in millis, increase if you face regular timeouts
-          openai_concurrency_limit: 4 # Concurrency limit for OpenAI API calls, increase if the workflow needs to handle more simultaneous tasks
-          system_message: default # Default system message is fine, modify it to change the AI's behavior
-          summarize: default # Default summarization prompt, modify it to change the AI's behavior
-          summarize_release_notes: default # Default release notes prompt, modify it to change the AI's behavior
->>>>>>> 6dc7dbde (style(github workflows): remove unnecessary spaces and quotes to improve readability)
