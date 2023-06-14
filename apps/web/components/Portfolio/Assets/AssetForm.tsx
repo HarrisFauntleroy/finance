@@ -93,6 +93,12 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
         placeholder: "Balance",
         ...accountForm.register("balance"),
       },
+      {
+        id: "create-asset-market",
+        label: "Market",
+        placeholder: "Market",
+        ...accountForm.register("marketId"),
+      },
     ],
     [accountForm, userId]
   );

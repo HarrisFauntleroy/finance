@@ -18,6 +18,7 @@ export const createOrUpdateAssetSchema = z.object({
   name: z.string(),
   currency: z.string(),
   balance: z.string(),
+  marketId: z.string().nullable(),
 });
 
 export type CreateOrUpdateAssetSchema = z.infer<

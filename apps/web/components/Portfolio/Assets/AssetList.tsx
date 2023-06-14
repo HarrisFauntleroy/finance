@@ -17,10 +17,11 @@ export function AssetList() {
       <Table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Currency</th>
             <th>Balance</th>
+            <th>Cost Basis</th>
+            <th>Price</th>
             <th>Price</th>
             <th>Value</th>
             <th>Actions</th>
@@ -29,11 +30,12 @@ export function AssetList() {
         <tbody>
           {data?.map((asset) => (
             <tr key={asset.id}>
-              <td>{asset.id}</td>
               <td>{asset.name}</td>
-              <td>{asset.currency}</td>
+              <td>{asset.currency.toUpperCase()}</td>
               <td>{asset.balance}</td>
+              <td>{asset.costBasis}</td>
               <td>{asset.price}</td>
+              <td>{asset.market?.price}</td>
               <td>{asset.value}</td>
               <td>
                 <Button.Group>
