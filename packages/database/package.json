@@ -22,6 +22,7 @@
     "preinstall": "{{ packageManager }} install",
     "postinstall": "generate",
     "predev": "generate",
+    "dev": "concurrently \"yarn build --watch\" \"yarn prisma studio\" \"yarn prisma generate --watch\"",
     "prebuild": "generate",
     "build": "tsup",
     "postbuild": "prisma migrate deploy",
