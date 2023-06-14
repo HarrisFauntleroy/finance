@@ -20,9 +20,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "yarn build --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix && yarn format",
-    "lint:watch": "yarn esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
+    "lint": "eslint . --color",
+    "lint:fix": "eslint . --fix --color",
+    "lint:watch": "esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
     "format": "prettier --write .",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "jest --passWithNoTests",
