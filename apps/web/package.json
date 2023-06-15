@@ -39,17 +39,6 @@
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn lint:fix",
-      "yarn format"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.3%",
