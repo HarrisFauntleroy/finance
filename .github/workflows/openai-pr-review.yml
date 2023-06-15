@@ -25,7 +25,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
-          review_simple_changes: false  # No need to review simple changes if the focus is on summarization
-          review_comment_lgtm: false  # Avoid commenting if the patch is good (LGTM: Looks Good To Me)
-          disable_review: true  # Disable detailed code reviews and focus on summarization
-          disable_release_notes: false  # Generate release notes unless they are not needed
+          review_simple_changes: false # No need to review simple changes if the focus is on summarization
+          review_comment_lgtm: false # Avoid commenting if the patch is good (LGTM: Looks Good To Me)
+          disable_review: true # Disable detailed code reviews and focus on summarization
+          disable_release_notes: false # Generate release notes unless they are not needed
