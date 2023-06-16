@@ -299,7 +299,7 @@ P.hyperbolicCosine = P.cosh = function() {
   }
   x = taylorSeries(Ctor, 1, x.times(n), new Ctor(1), true);
   var cosh2_x, i = k, d8 = new Ctor(8);
-  while (i--) {
+  for (; i--; ) {
     cosh2_x = x.times(x);
     x = one.minus(cosh2_x.times(d8.minus(cosh2_x.times(d8))));
   }
@@ -322,7 +322,7 @@ P.hyperbolicSine = P.sinh = function() {
     x = x.times(1 / tinyPow(5, k));
     x = taylorSeries(Ctor, 2, x, x, true);
     var sinh2_x, d5 = new Ctor(5), d16 = new Ctor(16), d20 = new Ctor(20);
-    while (k--) {
+    for (; k--; ) {
       sinh2_x = x.times(x);
       x = x.times(d5.plus(sinh2_x.times(d16.times(sinh2_x).plus(d20))));
     }
@@ -460,7 +460,7 @@ P.inverseTangent = P.atan = function() {
   x2 = x.times(x);
   r = new Ctor(x);
   px = x;
-  while (i !== -1) {
+  for (; i !== -1; ) {
     px = px.times(x2);
     t = r.minus(px.div(n += 2));
     px = px.times(x2);
@@ -630,7 +630,7 @@ P.minus = P.sub = function(y) {
     }
     xd[i] -= yd[i];
   }
-  while (xd[--len] === 0)
+  for (; xd[--len] === 0; )
     xd.pop();
   for (; xd[0] === 0; xd.shift())
     --e;
@@ -714,7 +714,7 @@ P.plus = P.add = function(y) {
       d.length = 1;
     }
     d.reverse();
-    while (i--)
+    for (; i--; )
       d.push(0);
     d.reverse();
   }
@@ -870,7 +870,7 @@ P.times = P.mul = function(y) {
     }
     r[k] = (r[k] + carry) % BASE | 0;
   }
-  while (!r[--rL])
+  for (; !r[--rL]; )
     r.pop();
   if (carry)
     ++e;
@@ -1122,7 +1122,7 @@ function digitsToString(d) {
   } else if (w === 0) {
     return "0";
   }
-  while (w % 10 === 0)
+  for (; w % 10 === 0; )
     w /= 10;
   return str + w;
 }
@@ -1171,7 +1171,7 @@ function checkRoundingDigits(d, i, rm, repeating) {
 }
 function convertBase(str, baseIn, baseOut) {
   var j, arr = [0], arrL, i = 0, strL = str.length;
-  while (i < strL) {
+  for (; i < strL; ) {
     for (arrL = arr.length; arrL--; )
       arr[arrL] *= baseIn;
     arr[0] += NUMERALS.indexOf(str.charAt(i++));
@@ -1235,12 +1235,12 @@ var divide = function() {
   }
   function subtract(a, b, aL, base) {
     var i = 0;
-    while (aL--) {
+    for (; aL--; ) {
       a[aL] -= i;
       i = a[aL] < b[aL] ? 1 : 0;
       a[aL] = i * base + a[aL] - b[aL];
     }
-    while (!a[0] && a.length > 1)
+    for (; !a[0] && a.length > 1; )
       a.shift();
   }
   return function(x, y, pr, rm, dp, base) {
@@ -1301,7 +1301,7 @@ var divide = function() {
         xi = yL;
         rem = xd.slice(0, yL);
         remL = rem.length;
-        while (remL < yL)
+        for (; remL < yL; )
           rem[remL++] = 0;
         yz = yd.slice();
         yz.unshift(0);
@@ -1394,7 +1394,7 @@ function finalise(x, sd, rm, isTruncated) {
         k = xd.length;
         if (xdi >= k) {
           if (isTruncated) {
-            while (k++ <= xdi)
+            for (; k++ <= xdi; )
               xd.push(0);
             w = rd = 0;
             digits = 1;
@@ -1534,7 +1534,7 @@ function getPrecision(digits) {
 }
 function getZeroString(k) {
   var zs = "";
-  while (k--)
+  for (; k--; )
     zs += "0";
   return zs;
 }
@@ -1565,7 +1565,7 @@ function isOdd(n) {
 }
 function maxOrMin(Ctor, args, ltgt) {
   var y, x = new Ctor(args[0]), i = 0;
-  while (++i < args.length) {
+  for (; ++i < args.length; ) {
     y = new Ctor(args[i]);
     if (!y.s) {
       x = y;
@@ -1722,7 +1722,7 @@ function parseDecimal(x, str) {
     } else {
       i -= len;
     }
-    while (i--)
+    for (; i--; )
       str += "0";
     x.d.push(+str);
     if (external) {
@@ -1805,7 +1805,7 @@ function sine(Ctor, x) {
   x = x.times(1 / tinyPow(5, k));
   x = taylorSeries(Ctor, 2, x, x);
   var sin2_x, d5 = new Ctor(5), d16 = new Ctor(16), d20 = new Ctor(20);
-  while (k--) {
+  for (; k--; ) {
     sin2_x = x.times(x);
     x = x.times(d5.plus(sin2_x.times(d16.times(sin2_x).minus(d20))));
   }
@@ -1899,7 +1899,7 @@ function toStringBinary(x, baseOut, sd, rm) {
     }
     xd = convertBase(str, 10, base);
     e = len = xd.length;
-    while (xd[--len] == 0)
+    for (; xd[--len] == 0; )
       xd.pop();
     if (!xd[0]) {
       str = isExp ? "0p+0" : "0";
@@ -1921,7 +1921,7 @@ function toStringBinary(x, baseOut, sd, rm) {
       roundUp = rm < 4 ? (i !== void 0 || roundUp) && (rm === 0 || rm === (x.s < 0 ? 3 : 2)) : i > k || i === k && (rm === 4 || roundUp || rm === 6 && xd[sd - 1] & 1 || rm === (x.s < 0 ? 8 : 7));
       xd.length = sd;
       if (roundUp) {
-        while (++xd[--sd] > base - 1) {
+        for (; ++xd[--sd] > base - 1; ) {
           xd[sd] = 0;
           if (!sd) {
             ++e;
@@ -1950,7 +1950,7 @@ function toStringBinary(x, baseOut, sd, rm) {
         }
         str = str + (e < 0 ? "p" : "p+") + e;
       } else if (e < 0) {
-        while (++e)
+        for (; ++e; )
           str = "0" + str;
         str = "0." + str;
       } else {
@@ -2303,11 +2303,11 @@ function random(sd) {
     checkInt32(sd, 1, MAX_DIGITS);
   k = Math.ceil(sd / LOG_BASE);
   if (!this.crypto) {
-    while (i < k)
+    for (; i < k; )
       rd[i++] = Math.random() * 1e7 | 0;
   } else if (crypto.getRandomValues) {
     d = crypto.getRandomValues(new Uint32Array(k));
-    while (i < k) {
+    for (; i < k; ) {
       n = d[i];
       if (n >= 429e7) {
         d[i] = crypto.getRandomValues(new Uint32Array(1))[0];
@@ -2317,7 +2317,7 @@ function random(sd) {
     }
   } else if (crypto.randomBytes) {
     d = crypto.randomBytes(k *= 4);
-    while (i < k) {
+    for (; i < k; ) {
       n = d[i] + (d[i + 1] << 8) + (d[i + 2] << 16) + ((d[i + 3] & 127) << 24);
       if (n >= 214e7) {
         crypto.randomBytes(4).copy(d, i);
@@ -2376,7 +2376,7 @@ function sub(x, y) {
 function sum() {
   var i = 0, args = arguments, x = new this(args[i]);
   external = false;
-  while (x.s && ++i < args.length)
+  for (; x.s && ++i < args.length; )
     x = x.plus(args[i]);
   external = true;
   return finalise(x, this.precision, this.rounding);
