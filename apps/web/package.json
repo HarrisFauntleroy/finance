@@ -18,24 +18,24 @@
     "dist"
   ],
   "scripts": {
-    "build-storybook": "storybook build",
     "build": "next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
+    "build-storybook": "storybook build",
     "dev": "next dev",
     "format": "prettier --write .",
+    "lint": "eslint . --color",
     "lint:fix": "eslint . --fix --color",
     "lint:watch": "esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "lint": "eslint . --color",
-    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "reset-db": "docker-compose down --volumes --remove-orphans",
     "start": "next start",
+    "storybook": "storybook dev -p 6007",
     "storybook:build": "storybook build",
     "storybook:serve": "http-server storybook-static --port 6007 --silent",
-    "storybook": "storybook dev -p 6007",
     "swagger": "next-swagger-doc-cli next-swagger-doc.json",
+    "test": "jest --passWithNoTests",
     "test-storybook": "test-storybook",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
@@ -50,75 +50,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es6": true,
-      "jest": true,
-      "node": true
-    },
-    "parser": "@typescript-eslint/parser",
-    "settings": {
-      "import/resolver": {
-        "typescript": true,
-        "node": true
-      },
-      "react": {
-        "version": "detect"
-      }
-    },
-    "plugins": [
-      "@typescript-eslint",
-      "simple-import-sort",
-      "import",
-      "sonarjs",
-      "jsx-a11y",
-      "prettier"
-    ],
-    "extends": [
-      "next",
-      "plugin:@typescript-eslint/recommended",
-      "eslint:recommended",
-      "plugin:import/typescript",
-      "plugin:import/recommended",
-      "plugin:sonarjs/recommended",
-      "plugin:jsx-a11y/recommended",
-      "plugin:storybook/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          "argsIgnorePattern": "^_"
-        }
-      ],
-      "import/extensions": "off",
-      "simple-import-sort/imports": [
-        "off",
-        {
-          "groups": [
-            [
-              "^react$"
-            ],
-            [
-              "^(ui|common|database|database/generated/prisma-client)$"
-            ],
-            [
-              "^[./]"
-            ]
-          ]
-        }
-      ],
-      "@next/next/no-html-link-for-pages": [
-        "error",
-        "pages"
-      ]
-    },
-    "ignorePatterns": [
-      "dist"
     ]
   },
   "jest": {
