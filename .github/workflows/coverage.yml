@@ -1,11 +1,13 @@
-# always add emojis
-
 name: Code Coverage 📊
+
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
-      - master
       - main
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
@@ -14,3 +16,4 @@ jobs:
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           package-manager: yarn
+          test-script: yarn test
