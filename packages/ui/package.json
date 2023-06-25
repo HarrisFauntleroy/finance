@@ -18,24 +18,29 @@
     "dist"
   ],
   "scripts": {
-    "build-storybook": "storybook build",
     "build": "tsup",
+    "build-storybook": "storybook build",
     "dev": "concurrently \"yarn build --watch\" \"yarn storybook\"",
+    "lint": "eslint . --color",
     "lint:fix": "eslint . --fix --color",
     "lint:watch": "esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "lint": "eslint . --color",
     "preview": "vite preview",
     "start": "NODE_ENV=production node dist/index.js",
+    "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:serve": "http-server storybook-static --port 6006 --silent",
-    "storybook": "storybook dev -p 6006",
+    "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "lines": 80
+      }
+    },
     "testEnvironment": "node",
     "testRegex": ".test.*",
     "transform": {

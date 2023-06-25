@@ -18,27 +18,32 @@
     "dist"
   ],
   "scripts": {
+    "prebuild": "yarn generate",
     "build": "tsup",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "tsx src/seed.ts",
+    "predev": "yarn generate",
     "dev": "concurrently \"yarn build --watch\" \"yarn prisma studio\" \"yarn generate --watch\"",
     "generate": "prisma generate --schema=prisma/schema.prisma",
+    "postinstall": "yarn generate",
+    "lint": "eslint . --color",
     "lint:fix": "eslint . --fix --color",
     "lint:watch": "esw . --ext .js,.jsx,.ts,.tsx --watch --fix --color --changed --clear",
-    "lint": "eslint . --color",
-    "postinstall": "yarn generate",
-    "prebuild": "yarn generate",
-    "predev": "yarn generate",
     "prepare": "yarn build",
     "start": "NODE_ENV=production node dist/index.js",
+    "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit",
     "watch": "yarn type-check --watch"
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "lines": 80
+      }
+    },
     "testEnvironment": "node",
     "testRegex": ".test.*",
     "transform": {

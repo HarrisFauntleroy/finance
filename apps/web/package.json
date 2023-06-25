@@ -53,6 +53,11 @@
     ]
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "lines": 80
+      }
+    },
     "testEnvironment": "node",
     "testRegex": ".test.*",
     "transform": {
