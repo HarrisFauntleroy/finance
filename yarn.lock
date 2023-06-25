@@ -29083,7 +29083,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.1.3, typescript@npm:^5.1.3":
+"typescript@npm:5.1, typescript@npm:5.1.3, typescript@npm:^5.1.3":
   version: 5.1.3
   resolution: "typescript@npm:5.1.3"
   bin:
@@ -29093,7 +29093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.1.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.1#~builtin<compat/typescript>, typescript@patch:typescript@5.1.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.1.3
   resolution: "typescript@patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"
   bin:
@@ -30311,7 +30311,7 @@ __metadata:
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
     tslib: ^2.5.3
-    typescript: 5.1.3
+    typescript: 5.1
     ui: "*"
     uuid: 9.0.0
     ws: 8.13.0
