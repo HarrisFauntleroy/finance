@@ -1,6 +1,7 @@
 name: Code Coverage 📊
 
 on:
+  # pull_request: # Uncomment when public repo
   pull_request_target:
     branches:
       - main

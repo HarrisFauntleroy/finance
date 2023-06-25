@@ -1,14 +1,22 @@
 # Alchemical Finance Development Roadmap
 
-## Overview
+⚠️ WORK IN PROGRESS SIDE PROJECT ⚠️
 
-Welcome to Alchemical Finance - a website designed to help you manage and track
-your personal financial portfolio. This document outlines our development plans,
-local setup, and contribution guidelines.
+Master your finances with the power of data and simplicity!
+
+[![CI Actions 🤖](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml)
+
+[![Code Coverage 📊](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml)
+
+## About
+
+Welcome to Alchemical Finance - a personal finance management and tracking
+platform. We aim to provide an all-encompassing tool to track, manage and
+visualize your financial portfolio.
 
 ## Table of Contents
 
-1. [Roadmap](#roadmap)
+1. [🌟 Development Roadmap](#🌟-development-roadmap)
 2. [App Structure](#app-structure)
 3. [Local Development](#local-development)
 4. [Testing](#testing)
@@ -17,47 +25,50 @@ local setup, and contribution guidelines.
 7. [Security](#security)
 8. [License](#license)
 
-## Roadmap
+## 🌟 Development Roadmap
 
-### Phase 1: Core Features
+Our development journey is divided into phases, each focusing on enhancing the
+platform's capabilities.
 
-Focuses on the foundation of the website.
+### Phase 1: Core Features (Underway 🚧)
 
-- [ ] User account creation and management
-- [ ] Manual input account tracking
-- [ ] Robust security features
-- [ ] 100% test coverage suite
+The foundation of the website, including:
+
+- [ ] 🧑‍💻 User account creation and management
+- [ ] 📝 Manual input account tracking
+- [ ] 🛡️ Robust security features
+- [ ] ✅ 100% test coverage suite
 
 ### Phase 2: Bank Integration
 
 Introduction of bank APIs to automate transaction and balance tracking. Starting
 with the Up Bank API.
 
-- [ ] Up Bank API integration
-- [ ] Automated transaction and balance tracking
+- [ ] 🏦 Up Bank API integration
+- [ ] 🔄 Automated transaction and balance tracking
 
 ### Phase 3: Cryptocurrency Integration
 
 Starting with a select few.
 
-- [ ] Crypto wallet integration
-- [ ] Crypto transaction and balance tracking
+- [ ] 💱 Crypto wallet integration
+- [ ] 🔄 Crypto transaction and balance tracking
 
 ### Phase 4: Budgeting Tools
 
 Development of budget management features.
 
-- [ ] Budget creation and management
-- [ ] Expense tracking against budget
-- [ ] Budget visualization (graphs, pie-charts, etc.)
+- [ ] 💰 Budget creation and management
+- [ ] 📊 Expense tracking against budget
+- [ ] 📈 Budget visualization (graphs, pie-charts, etc.)
 
 ### Phase 5: Market Analysis
 
 Incorporation of market analysis features.
 
-- [ ] Market data feeds integration
-- [ ] Market analysis tool development (trends, forecasts, etc.)
-- [ ] User-friendly market data visualization
+- [ ] 📈 Market data feeds integration
+- [ ] 🧠 Market analysis tool development (trends, forecasts, etc.)
+- [ ] 📊 User-friendly market data visualization
 
 ## App Structure
 
@@ -76,91 +87,51 @@ Our codebase consists of apps and packages written in
 
 ## Local Development
 
-### Prerequisites
+Interested in contributing? Here's how you can set up Alchemical Finance in your
+local dev environment:
 
-- [Docker](https://www.docker.com/)
-- [Yarn](https://yarnpkg.com/)
+### Requirements
 
-### Steps
+- Node >= 14
+- Docker 🐳 (for running Postgres)
 
-1. **Clone the repository and install dependencies:**
+Node is managed using Node Version Manager
 
-   ```bash
-   git clone https://github.com/alchemical-finance/monorepo.git
-   cd monorepo
-   yarn install
-   ```
+<a href="https://github.com/nvm-sh/logos"><img alt="nvm project logo" src="https://raw.githubusercontent.com/nvm-sh/logos/HEAD/nvm-logo-color.svg" height="50" /></a>
 
-2. **Configure environment:**
-
-   Copy the `.env.example` file to `.env`:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Update the `DATABASE_URL` in your `.env` file if necessary.
-
-3. **Start Docker Compose:**
-
-   Run the Postgres server using Docker Compose:
-
-   ```bash
-   docker-compose up -d
-   ```
-
-4. **Initialize the database:**
-
-   Apply migrations using Prisma Migrate:
-
-   ```bash
-   yarn prisma migrate dev
-   ```
-
-   Optional: Seed the database:
-
-   ```bash
-   yarn db:seed
-   ```
-
-5. **Build and run the development environment:**
-
-   ```bash
-   yarn run build
-   yarn run dev
-   ```
-
-6. **Migrate Database and Generate Prisma Client**
-
-```bash
-yarn turbo db:push db:generate
+```sh
+# Update node version
+nvm use <version>
 ```
 
-## Testing
+## Installation
 
-(Testing instructions to be added)
+**Yarn**
 
-## Deployment
+```sh
+# Install dependencies
+yarn
+```
 
-(Deployment instructions to be added)
+### Commands
 
-## Contributing
+```sh
+# Start all services
+yarn dev
+```
 
-Contributions are always welcome! Please:
+<!-- LICENSE -->
 
-1. Fork the repository on GitHub.
-2. Create a new feature branch.
-3. Adhere to our coding style and standards.
-4. Submit a clear, well-described pull request.
-5. Address feedback from maintainers. 6.
+## **License** ⚖️
 
-Submit bug reports, feature requests, and issues via the GitHub issue tracker.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Security
+---
 
-For security vulnerabilities, please email us at security@example.com rather
-than using the issue tracker.
+<!-- DISCLAIMER -->
 
-## License
+## **Disclaimer** 🚨
 
-MIT License. See [LICENSE](LICENSE) for more details.
+This software is currently a work in progress and is considered in ALPHA state.
+Features will appear and disappear, APIs will be changed, bugs will be
+introduced, your feedback is always welcome! 🚧
