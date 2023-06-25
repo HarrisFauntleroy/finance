@@ -15,7 +15,6 @@
     "packages/*"
   ],
   "scripts": {
-    "audit:fix": "yarn audit --fix .",
     "build": "turbo run build",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
@@ -170,7 +169,7 @@
   },
   "prisma": {
     "schema": "packages/database/prisma/schema.prisma",
-    "seed": "tsx packages/database/src/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} packages/database/prisma/seed.ts"
   },
   "yarn": {
     "overrides": {

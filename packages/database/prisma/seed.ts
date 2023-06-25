@@ -1,5 +1,5 @@
 import { AssetStatus, MarketType } from "../generated/prisma-client";
-import { prisma } from "./";
+import { prisma } from "../src";
 
 const TEST_USER_ID = "test-user";
 const TEST_MARKET_ID = "test_OTHER";
