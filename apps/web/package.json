@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "next build",
-    "postbuild": "next-sitemap --config next-sitemap.config.js",
+    "postbuild": "next-sitemap",
     "build-storybook": "storybook build",
     "dev": "next dev",
     "format": "prettier --write .",

@@ -34,3 +34,6 @@ yarn-error.log*
 
 # turborepo
 .turbo
+
+public/sitemap*
+public/robots*
