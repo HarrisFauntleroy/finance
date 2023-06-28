@@ -20,6 +20,7 @@
   "scripts": {
     "prebuild": "yarn generate",
     "build": "tsup",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "prisma db seed",

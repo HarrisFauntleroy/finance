@@ -41,14 +41,14 @@ jobs:
       - name: Test monorepo 🧪
         run: yarn test
 
-      - name: Run Prisma migration 🗄️
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
       - name: Coverage report 📊
         if: success() || failure()
         uses: ArtiomTr/jest-coverage-report-action@v2
+
+      - name: Run Prisma migration 🗄️
+        run: yarn db:migrate:deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       # - name: Publish UI package to NPM 📦
       #   uses: JS-DevTools/npm-publish@v2

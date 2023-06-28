@@ -37,6 +37,9 @@
     "db:seed": {
       "cache": false
     },
+    "db:migrate:deploy": {
+      "cache": false
+    },
     "deploy": {
       "dependsOn": [
         "build",
