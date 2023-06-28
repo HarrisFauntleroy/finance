@@ -1,15 +1,11 @@
 name: CI Actions 🤖
 
-# Controls when the action will run. Triggers the workflow on push or pull request
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize]
 
-# Prevents this workflow from running twice at the same time for the same ref.
 concurrency:
   group:
     ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -17,6 +13,7 @@ concurrency:
 
 jobs:
   continuous-integration:
+    permissions: write-all
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
@@ -49,9 +46,9 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # - name: Coverage report 📊
-      #   if: success() || failure()
-      #   uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Coverage report 📊
+        if: success() || failure()
+        uses: ArtiomTr/jest-coverage-report-action@v2
 
       # - name: Publish UI package to NPM 📦
       #   uses: JS-DevTools/npm-publish@v2

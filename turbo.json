@@ -2,12 +2,31 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "dev": {
-      "dependsOn": ["^db:generate"],
-      "cache": false
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "cache": false,
+      "persistent": true
     },
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
+    },
+    "lint": {},
+    "lint:fix": {},
+    "type-check": {},
+    "test": {
+      "outputs": [],
+      "dependsOn": [
+        "^build"
+      ]
     },
     "db:generate": {
       "cache": false
@@ -18,20 +37,12 @@
     "db:seed": {
       "cache": false
     },
-    "lint": {
-      "cache": false,
-      "outputs": []
-    },
-    "lint:fix": {
-      "cache": false,
-      "outputs": []
-    },
-    "type-check": {
-      "outputs": []
-    },
-    "test": {
-      "outputs": [],
-      "dependsOn": ["^build"]
+    "deploy": {
+      "dependsOn": [
+        "build",
+        "test",
+        "lint"
+      ]
     }
   }
 }
