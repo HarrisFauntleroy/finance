@@ -29,7 +29,7 @@
     "prepare": "husky install",
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
     "test": "turbo run test --concurrency=1",
-    "test:ci": "turbo run test:ci",
+    "test:ci": "turbo run test -- --ci -- --json -- --coverage -- --testLocationInResults -- --outputFile=report.json",
     "test:watch": "turbo run test:watch",
     "type-check": "turbo run type-check --",
     "watch": "turbo run watch --"
