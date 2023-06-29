@@ -15,6 +15,7 @@
     "packages/*"
   ],
   "scripts": {
+    "sendit": "git add -p && opencommit",
     "build": "turbo run build",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
