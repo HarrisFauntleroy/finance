@@ -1,4 +1,4 @@
-name: CI Actions 🤖
+name: CI Actions 🚀🤖
 
 on:
   push:
@@ -18,38 +18,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code 🛎️
+      # Check out the repository code at the beginning of the workflow
+      - name: 🛎️ Check out code 🛎️
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
-      - name: Setup Node.js environment 📦
+      # Setup Node.js environment for the workflow
+      - name: 📦 Setup Node.js environment 📦
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "yarn"
+        # Could consider supporting multiple Node.js versions using matrix strategy
 
-      - name: Install dependencies 📦
+      # Install the project dependencies
+      - name: 🧶 Install dependencies 🧶
         run: yarn
 
-      - name: Build monorepo 🏗️
+      # Build the monorepo
+      - name: 🏗️ Build monorepo 🏗️
         run: yarn build
 
-      - name: Lint monorepo 🧹
+      # Lint the codebase to ensure code quality
+      - name: 🧹 Lint monorepo 🧹
         run: yarn lint
 
-      - name: Test 🧪 & Coverage 📊
+      # Run tests and generate a coverage report
+      - name: 🧪 Test and report 🧪📊
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           test-script: "yarn test:ci"
 
-      - name: Run Prisma migration 🗄️
+      # Run database migrations
+      - name: 🗄️ Run Prisma migration 🗄️
         run: yarn db:migrate:deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # - name: Publish UI package to NPM 📦
+      # Optional: Publish UI package to NPM (uncomment if needed)
+      # - name: 📦 Publish UI package to NPM 📦
       #   uses: JS-DevTools/npm-publish@v2
       #   with:
       #     package: ../../packages/ui
       #     token: ${{ secrets.NPM_TOKEN }}
+
+      # ✨ Consider adding additional steps such as:
+      # - Deploying the code to a staging environment
+      # - Running end-to-end tests
+      # - Generating and publishing documentation
