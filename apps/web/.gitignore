@@ -1,12 +1,17 @@
 # Yarn
 .yarn*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 /node_modules
 
-# generated 
-/dist
-/build
+# testing
 /coverage
-/.cache
+report.json
+
+# next.js
 /.next/
 /out/
 
@@ -25,12 +30,18 @@ yarn-error.log*
 
 # local env files
 .env
-.env.test
 .env.local
+.env.development.local
+.env.test
+.env.test.local
 .env.production
+.env.production.local
 
 # vercel
 .vercel
+
+# trunk
+.trunk
 
 # turborepo
 .turbo
