@@ -42,7 +42,7 @@
   "dependencies": {
     "@bull-board/express": "^4.12.2",
     "@cosmjs/stargate": "^0.29.5",
-    "@cosmjs/tendermint-rpc": "^0.29.5",
+    "@cosmjs/tendermint-rpc": "^0.31.0",
     "@harmony-js/core": "^0.1.57",
     "@harmony-js/utils": "^0.1.56",
     "ansi-colors": "^4.1.3",
