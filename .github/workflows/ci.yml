@@ -44,6 +44,8 @@ jobs:
       - name: Coverage report 📊
         if: success() || failure()
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          test-script: "yarn test:ci"
 
       - name: Run Prisma migration 🗄️
         run: yarn db:migrate:deploy

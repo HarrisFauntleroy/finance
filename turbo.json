@@ -15,7 +15,7 @@
     "lint:progress": {},
     "type-check": {},
     "test": {
-      "outputs": [],
+      "outputs": ["coverage"],
       "dependsOn": ["^build"]
     },
     "db:generate": {
