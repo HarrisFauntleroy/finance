@@ -41,12 +41,9 @@ jobs:
       - name: Test monorepo 🧪
         run: yarn test
 
-      # - name: Coverage report 📊
-      #   if: success() || failure()
-      #   uses: ArtiomTr/jest-coverage-report-action@v2
-      #   with:
-      #     test-script: "yarn test:ci"
-      #     package-manager: yarn
+      - name: Coverage report 📊
+        if: success() || failure()
+        uses: ArtiomTr/jest-coverage-report-action@v2
 
       - name: Run Prisma migration 🗄️
         run: yarn db:migrate:deploy
