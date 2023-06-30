@@ -38,11 +38,7 @@ jobs:
       - name: Lint monorepo 🧹
         run: yarn lint
 
-      - name: Test monorepo 🧪
-        run: yarn test
-
-      - name: Coverage report 📊
-        if: success() || failure()
+      - name: Test 🧪 & Coverage 📊
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           test-script: "yarn test:ci"
