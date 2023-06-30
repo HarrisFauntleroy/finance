@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "sendit": "git add -p && opencommit",
-    "build": "turbo run build",
+    "build": "turbo run build --cache-dir=.turbo",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",

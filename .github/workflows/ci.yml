@@ -17,21 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository code at the beginning of the workflow
       - name: 🛎️ Check out code 🛎️
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
-      # Setup Node.js environment for the workflow
       - name: 📦 Setup Node.js environment 📦
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "yarn"
-        # Could consider supporting multiple Node.js versions using matrix strategy
 
-        # Cache Next.js build and node modules
       - name: Cache turbo build setup
         uses: actions/cache@v3
         with:
@@ -40,29 +36,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-turbo-
 
-      # Install the project dependencies
       - name: 🧶 Install dependencies 🧶
         run: yarn
 
-      # Build the monorepo
       - name: 🏗️ Build monorepo 🏗️
         run: yarn build
 
-      # Lint the codebase to ensure code quality
       - name: 🧹 Lint monorepo 🧹
         run: yarn lint
 
-      # Run tests
       - name: 🧪 Test monorepo 🧪
         run: yarn test
 
-      # Run database migrations
       - name: 🗄️ Run Prisma migration 🗄️
         run: yarn db:migrate:deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # Optional: Publish UI package to NPM (uncomment if needed)
       # - name: 📦 Publish UI package to NPM 📦
       #   uses: JS-DevTools/npm-publish@v2
       #   with:
