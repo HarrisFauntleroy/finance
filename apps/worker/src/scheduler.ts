@@ -68,9 +68,7 @@ export class Scheduler {
   }) {
     return this.queue
       .add(name, { name }, options)
-      .then(() => {
-        logger.info(`Successfully scheduled job: ${name}`);
-      })
+      .then(() => logger.info(`Successfully scheduled job: ${name}`))
       .catch((error) => {
         logger.error(
           `Error scheduling job ${name}: ${(error as Error).message}`

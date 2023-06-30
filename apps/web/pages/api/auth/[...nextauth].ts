@@ -73,10 +73,10 @@ export const authOptions: NextAuthOptions = {
 export default NextAuth(authOptions);
 
 export const hasUserSession = async (
-  req: NextApiRequest,
+  request: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await getServerSession(request, res, authOptions);
   if (session) {
     return session.userId;
   }

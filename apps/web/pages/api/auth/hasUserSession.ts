@@ -14,10 +14,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
  *         description: You must be signed in to view the protected content on this page.
  */
 export default async function handler(
-  req: NextApiRequest,
+  request: NextApiRequest,
   res: NextApiResponse
 ) {
-  await hasUserSession(req, res)
+  await hasUserSession(request, res)
     .then((userId) => res.status(200).send(userId))
     .catch(() =>
       res.status(401).send({

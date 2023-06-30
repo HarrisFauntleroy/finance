@@ -5,13 +5,13 @@ import { useContext } from "react";
 import { trpc } from "../../utils/trpc";
 import { PrivacyContext } from "../Providers/Privacy";
 
-type CurrencyProps = {
+type CurrencyProperties = {
   value?: string | number | null;
   minimumFractionDigits?: number;
   maximumFractionDigits?: number;
 };
 
-function Currency({ value }: CurrencyProps) {
+function Currency({ value }: CurrencyProperties) {
   const { privacy: hidden } = useContext(PrivacyContext);
 
   const { data: session } = useSession();
@@ -22,7 +22,7 @@ function Currency({ value }: CurrencyProps) {
   });
 
   const userLocale =
-    navigator.languages && navigator.languages.length
+    navigator.languages && navigator.languages.length > 0
       ? navigator.languages[0]
       : navigator.language;
 

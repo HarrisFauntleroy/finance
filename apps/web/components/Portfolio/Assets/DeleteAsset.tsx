@@ -6,11 +6,11 @@ import { logger } from "common";
 import { Asset } from "database/generated/prisma-client";
 import { trpc } from "../../../utils/trpc";
 
-type DeleteAccountProps = {
+type DeleteAccountProperties = {
   asset: Asset;
 };
 
-export const DeleteAccount = ({ asset }: DeleteAccountProps) => {
+export const DeleteAccount = ({ asset }: DeleteAccountProperties) => {
   const queryClient = useQueryClient();
 
   const assetNotificationId = "assetNotificationId";

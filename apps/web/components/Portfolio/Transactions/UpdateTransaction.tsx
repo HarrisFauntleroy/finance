@@ -3,11 +3,13 @@ import { modals } from "@mantine/modals";
 import { AssetTransaction } from "database/generated/prisma-client";
 import { TransactionForm } from "./TransactionForm";
 
-type UpdateTransactionProps = {
+type UpdateTransactionProperties = {
   transaction: AssetTransaction;
 };
 
-export const UpdateTransaction = ({ transaction }: UpdateTransactionProps) => {
+export const UpdateTransaction = ({
+  transaction,
+}: UpdateTransactionProperties) => {
   const openUpdateTransactionModal = () => {
     modals.open({
       id: "update-transaction",

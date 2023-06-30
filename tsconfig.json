@@ -8,7 +8,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": false,
-    "newLine": "lf"
+    "newLine": "lf",
+    "noImplicitAny": true
   },
   "exclude": ["dist", "node_modules"]
 }

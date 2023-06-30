@@ -30,7 +30,7 @@ describe("sumArrayByKey", () => {
   it("should return the sum of the specified number of decimal places", () => {
     const array = [
       { id: 1, value: 10 },
-      { id: 2, value: 20.12345 },
+      { id: 2, value: 20.123_45 },
       { id: 3, value: 30.6789 },
     ];
     const key = "value";

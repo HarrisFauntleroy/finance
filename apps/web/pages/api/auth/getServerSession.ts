@@ -2,8 +2,8 @@ import { getServerAuthSession } from "../../../server/common/get-server-auth-ses
 
 import { type NextApiRequest, type NextApiResponse } from "next";
 
-const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getServerAuthSession({ req, res });
+const restricted = async (request: NextApiRequest, res: NextApiResponse) => {
+  const session = await getServerAuthSession({ req: request, res });
 
   if (session) {
     res.send({

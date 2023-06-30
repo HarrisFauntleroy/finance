@@ -15,24 +15,24 @@ export function calculateAverageLoss(prices: number[], days: number): number {
 
   // Initialize the total loss and the number of days for which there is loss data
   let totalLoss = 0;
-  let numDays = 0;
+  let numberDays = 0;
 
   // Loop through the `lossPrices` array and compare each price to the next price in the `prices` array
-  lossPrices.forEach((currentPrice, index) => {
+  for (const [index, currentPrice] of lossPrices.entries()) {
     const nextPrice = prices[index + 1];
 
     // If there is loss data for this day, add it to the total loss and increment the number of days
     if (nextPrice && currentPrice > nextPrice) {
       totalLoss += currentPrice - nextPrice;
-      numDays++;
+      numberDays++;
     }
-  });
+  }
 
   // If there are no days with loss data, return 0
-  if (numDays === 0) {
+  if (numberDays === 0) {
     return 0;
   }
 
   // Return the average loss by dividing the total loss by the number of days
-  return totalLoss / numDays;
+  return totalLoss / numberDays;
 }

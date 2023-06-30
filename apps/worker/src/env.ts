@@ -3,21 +3,21 @@ import { z } from "zod";
 
 config();
 
-const envSchema = z.object({
+const environmentSchema = z.object({
   NODE_ENV: z.string(),
   REDIS_PORT: z.string(),
   WORKER_PORT: z.string(),
   OER_APP_ID: z.string(),
 });
 
-const env = envSchema.safeParse(process.env);
+const environment = environmentSchema.safeParse(process.env);
 
-if (!env.success) {
+if (!environment.success) {
   console.error(
     "❌  environment variables:",
-    JSON.stringify(env.error.format(), null, 4)
+    JSON.stringify(environment.error.format(), null, 4)
   );
   process.exit(1);
 }
 
-export default env.data;
+export default environment.data;

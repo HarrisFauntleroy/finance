@@ -32,9 +32,7 @@ export class AssetBuilder {
     return new AssetBuilder(options);
   }
 
-  toString(value?: string | null) {
-    return String(value);
-  }
+  toString = String;
 
   calculateValue(): string {
     return multiply(this.price, this.balance);

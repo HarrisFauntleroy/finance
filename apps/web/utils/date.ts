@@ -8,7 +8,7 @@ export const date = () =>
     .refine((value) => {
       try {
         return new Date(value);
-      } catch (error) {
+      } catch {
         return false;
       }
     })

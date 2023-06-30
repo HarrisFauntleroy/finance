@@ -21,72 +21,83 @@ import Link from "next/link";
 import { FormattedNumber } from "react-intl";
 
 const renderCategoryBadge = (category: Category | null) => {
-  let props = {};
+  let properties = {};
   switch (category) {
-    case Category.CASH:
-      props = {
+    case Category.CASH: {
+      properties = {
         colorScheme: "cyan",
-        ...props,
+        ...properties,
       };
       break;
-    case Category.CREDIT:
-      props = {
+    }
+    case Category.CREDIT: {
+      properties = {
         colorScheme: "blue",
-        ...props,
+        ...properties,
       };
       break;
-    case Category.CRYPTOCURRENCY:
-      props = {
+    }
+    case Category.CRYPTOCURRENCY: {
+      properties = {
         colorScheme: "purple",
-        ...props,
+        ...properties,
       };
       break;
-    case Category.CUSTOM:
-      props = {
+    }
+    case Category.CUSTOM: {
+      properties = {
         colorScheme: "orange",
-        ...props,
+        ...properties,
       };
       break;
-    case Category.INVESTMENT:
-      props = {
+    }
+    case Category.INVESTMENT: {
+      properties = {
         colorScheme: "green",
-        ...props,
+        ...properties,
       };
       break;
-    case Category.SUPERANNUATION:
-      props = {
+    }
+    case Category.SUPERANNUATION: {
+      properties = {
         colorScheme: "yellow",
-        ...props,
+        ...properties,
       };
       break;
-    default:
+    }
+    default: {
       break;
+    }
   }
-  return <Badge {...props}>{category}</Badge>;
+  return <Badge {...properties}>{category}</Badge>;
 };
 
 const statusColor = (status: AssetStatus | null) => {
   switch (status) {
-    case AssetStatus.ACTIVE:
+    case AssetStatus.ACTIVE: {
       return (
         <Badge colorScheme="green" variant="subtle">
           {status}
         </Badge>
       );
-    case AssetStatus.CONNECTED:
+    }
+    case AssetStatus.CONNECTED: {
       return (
         <Badge colorScheme="purple" variant="subtle">
           {status}
         </Badge>
       );
-    case AssetStatus.ERROR:
+    }
+    case AssetStatus.ERROR: {
       return (
         <Badge colorScheme="red" variant="subtle">
           {status}
         </Badge>
       );
-    default:
+    }
+    default: {
       return <Badge variant="subtle">{status}</Badge>;
+    }
   }
 };
 

@@ -13,41 +13,46 @@ export const logger = (() => {
     // If logs enabled in .env or in development mode
     if (process.env.NEXT_PUBLIC_LOGS_ENABLED || isDev) {
       switch (type) {
-        case "info":
+        case "info": {
           console.info(
             customLogText,
             "background: #4299E1; color: #000000;",
             ...messages
           );
           break;
-        case "warn":
+        }
+        case "warn": {
           console.warn(
             customLogText,
             "background: #ED8936; color: #000000;",
             ...messages
           );
           break;
-        case "error":
+        }
+        case "error": {
           console.error(
             `${customLogText}❌`,
             "background: #F56565; color: #000000;",
             ...messages
           );
           break;
-        case "trace":
+        }
+        case "trace": {
           console.trace(
             customLogText,
             "background: #A0AEC0; color: #000000;",
             ...messages
           );
           break;
+        }
         case "debug":
-        default:
+        default: {
           console.log(
             customLogText,
             "background: #48BB78; color: #000000;",
             ...messages
           );
+        }
       }
     }
   };
@@ -61,12 +66,12 @@ export const logger = (() => {
   };
 })();
 
-export const timeStamp = (...args: unknown[]) => {
-  logger.info(`[${new Date().toISOString().slice(11, 23)}] -`, ...args);
+export const timeStamp = (...arguments_: unknown[]) => {
+  logger.info(`[${new Date().toISOString().slice(11, 23)}] -`, ...arguments_);
 };
 
-export const debugLog = (...args: unknown[]) => {
+export const debugLog = (...arguments_: unknown[]) => {
   if (process.env.DEBUG === "1") {
-    timeStamp(...args);
+    timeStamp(...arguments_);
   }
 };

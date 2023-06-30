@@ -4,7 +4,7 @@ import { useState } from "react";
 export const useLocalStorage = <T>(
   key: string,
   initialValue: T
-): readonly [T, (value: T | ((val: T) => T)) => void] => {
+): readonly [T, (value: T | ((value_: T) => T)) => void] => {
   /**
    * State to store our value
    * Pass initial state function to useState
@@ -28,7 +28,7 @@ export const useLocalStorage = <T>(
    * Return a wrapped version of useState's setter function
    * that persists the new value to localStorage.
    */
-  const setValue = (value: T | ((val: T) => T)) => {
+  const setValue = (value: T | ((value_: T) => T)) => {
     try {
       /**
        * Allow value to be a function

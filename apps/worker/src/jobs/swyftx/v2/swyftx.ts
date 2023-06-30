@@ -54,8 +54,8 @@ export class Swyftx {
         data: body,
       });
       return response.data;
-    } catch (err) {
-      logger.error(err);
+    } catch (error) {
+      logger.error(error);
     }
   }
 
@@ -171,8 +171,9 @@ export class Swyftx {
       });
       const progress = new Progress(secrets.length);
       progress.start();
-      const promises = secrets.map((secret) => {
-        this.updateOneUser(secret).then(() => progress.increment());
+      const promises = secrets.map(async (secret) => {
+        await this.updateOneUser(secret);
+        progress.increment();
       });
       await Promise.all(promises);
       progress.stop();

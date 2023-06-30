@@ -12,10 +12,10 @@ export function calculateStandardDeviation(
   let sumSquaredDifferences = 0;
 
   // Loop through the past `days` days of price data using the `forEach` method
-  prices.forEach((price) => {
+  for (const price of prices) {
     // Add the squared difference between the current price and the SMA to the sum of squared differences
     sumSquaredDifferences += (price - sma) ** 2;
-  });
+  }
 
   // Return the standard deviation by taking the square root of the average squared difference
   return Math.sqrt(sumSquaredDifferences / days);

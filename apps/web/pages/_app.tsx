@@ -12,21 +12,21 @@ import { AppContext } from "../components/Providers";
 import { initI18n } from "../i18n";
 import { trpc } from "../utils/trpc";
 
-function MyApp(props: AppPropsWithLayout) {
-  const { Component, pageProps } = props;
+function MyApp(properties: AppPropsWithLayout) {
+  const { Component, pageProps } = properties;
   initI18n();
 
   return (
-    <AppContext {...props}>
+    <AppContext {...properties}>
       <Component {...pageProps} />
     </AppContext>
   );
 }
 
 MyApp.getInitialProps = async (appContext: NextJsAppContext) => {
-  const appProps = await NextApp.getInitialProps(appContext);
+  const appProperties = await NextApp.getInitialProps(appContext);
   return {
-    ...appProps,
+    ...appProperties,
     colorScheme: getCookie("mantine-color-scheme", appContext.ctx) || "light",
   };
 };

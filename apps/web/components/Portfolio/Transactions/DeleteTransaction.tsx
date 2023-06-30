@@ -6,11 +6,13 @@ import { logger } from "common";
 import { AssetTransaction } from "database/generated/prisma-client";
 import { trpc } from "../../../utils/trpc";
 
-type DeleteTransactionProps = {
+type DeleteTransactionProperties = {
   transaction: AssetTransaction;
 };
 
-export const DeleteTransaction = ({ transaction }: DeleteTransactionProps) => {
+export const DeleteTransaction = ({
+  transaction,
+}: DeleteTransactionProperties) => {
   const queryClient = useQueryClient();
 
   const transactionNotificationId = "transactionNotificationId";

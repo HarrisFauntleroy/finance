@@ -22,7 +22,7 @@ export function PrivacyProvider<T>({ children }: PropsWithChildren<T>) {
   const [privacy, setPrivacy] = useLocalStorage("privacy", false);
 
   const togglePrivacy = useCallback(
-    () => setPrivacy((prevValue) => !prevValue),
+    () => setPrivacy((previousValue) => !previousValue),
     [setPrivacy]
   );
 

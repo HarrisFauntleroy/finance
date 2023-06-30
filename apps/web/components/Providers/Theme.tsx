@@ -8,15 +8,15 @@ import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { setCookie } from "cookies-next";
 import { PropsWithChildren, ReactNode, useState } from "react";
-import { AppPropsWithLayout } from "../../pages/_app";
+import { AppPropsWithLayout as AppPropertiesWithLayout } from "../../pages/_app";
 import { Layout } from "../Layout";
 
 export default function ThemeProvider<T>({
   children,
-  ...props
-}: AppPropsWithLayout & PropsWithChildren<T>) {
+  ...properties
+}: AppPropertiesWithLayout & PropsWithChildren<T>) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>(
-    props.colorScheme
+    properties.colorScheme
   );
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);

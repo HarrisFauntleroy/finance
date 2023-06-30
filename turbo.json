@@ -12,6 +12,7 @@
     },
     "lint": {},
     "lint:fix": {},
+    "lint:progress": {},
     "type-check": {},
     "test": {
       "outputs": [],
@@ -31,6 +32,14 @@
     },
     "deploy": {
       "dependsOn": ["build", "test", "lint"]
+    },
+    "storybook": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "storybook:build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
     }
   }
 }

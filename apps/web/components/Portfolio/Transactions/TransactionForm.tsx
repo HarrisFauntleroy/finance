@@ -50,7 +50,7 @@ export const TransactionForm = ({
   async function onValidSubmit(data: CreateOrUpdateAsseTransactionSchema) {
     return mutation.mutateAsync(data).then((transaction) => {
       queryClient.invalidateQueries();
-      notifications.show({
+      return notifications.show({
         title: `Successfully created transaction ${transaction.id}`,
         message: JSON.stringify(transaction),
       });

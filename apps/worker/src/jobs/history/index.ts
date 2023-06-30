@@ -46,7 +46,7 @@ export const history = async () => {
         progress.increment();
         /** Return PortfolioSnapshot object */
         results.push({ user: response.userId, status: "Succeeded" });
-      } catch (error) {
+      } catch {
         progress.increment();
         /** Return the thrown error */
         results.push({ status: "Failed" });

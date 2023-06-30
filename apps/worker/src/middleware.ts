@@ -23,8 +23,8 @@ export const applyMiddlewares = (app: Application) => {
   app.use(limiter);
   app.use(bodyParser.json({ limit: "1mb" }));
   app.use(BULL_BOARD_PATH, serverAdapter.getRouter());
-  app.use((err: Error, _req: Request, res: Response): void => {
-    logger.error(`An error occurred: ${err.message}`);
-    res.status(500).send({ error: err.message });
+  app.use((error: Error, _request: Request, res: Response): void => {
+    logger.error(`An error occurred: ${error.message}`);
+    res.status(500).send({ error: error.message });
   });
 };

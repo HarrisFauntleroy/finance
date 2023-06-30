@@ -15,10 +15,10 @@ export function calculateEMA(prices: number[], days: number): number {
   let ema = average(prices.slice(0, days));
 
   // Use a forEach loop to iterate over the remaining prices
-  prices.slice(days).forEach((price) => {
+  for (const price of prices.slice(days)) {
     // Update the EMA using the current price and the weighting multiplier
     ema = (price - ema) * multiplier + ema;
-  });
+  }
 
   // Return the EMA
   return ema;

@@ -8,8 +8,8 @@ import { Scheduler } from "./scheduler";
 import { BullMQAdapter, createBullBoard } from "@bull-board/express";
 import {
   ConnectionOptions,
-  Queue as QueueMQ,
   QueueEvents,
+  Queue as QueueMQ,
   Worker,
 } from "bullmq";
 import express from "express";
@@ -64,10 +64,14 @@ queueEvents.on("error", (error) => {
 });
 
 app.listen(config.WORKER_PORT, () => {
-  logger.info(`Running on ${config.WORKER_PORT}...`);
-  logger.info(
-    `For the UI, open http://localhost:${config.WORKER_PORT}${BULL_BOARD_PATH}`
-  );
+  logger.info(`
+  ################################################
+    
+  Server running on port ${config.WORKER_PORT} in ${config.NODE_ENV} mode.
+  For the UI, open http://localhost:${config.WORKER_PORT}${BULL_BOARD_PATH}
+
+  ################################################
+`);
 });
 
 process.on("SIGTERM", async () => {

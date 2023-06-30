@@ -8,11 +8,11 @@ export type Tab = {
   component: ReactNode;
 };
 
-type CustomTabProps = {
+type CustomTabProperties = {
   tabs: Tab[];
 };
 
-const Tabs = ({ tabs }: CustomTabProps) => (
+const Tabs = ({ tabs }: CustomTabProperties) => (
   <MantineTabs h="100%" defaultValue={tabs[0].value}>
     <MantineTabs.List grow>
       {tabs.map(({ value, icon, label }) => (

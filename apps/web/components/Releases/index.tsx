@@ -4,14 +4,14 @@ import { format } from "date-fns";
 import { useFetchWithReactQuery } from "../../hooks/useFetchWithReactQuery";
 import { Markdown } from "../Markdown";
 
-type Props = { repo: string };
+type Properties = { repo: string };
 
 type ListRepositoryReleasesResponse =
   Endpoints["GET /repos/{owner}/{repo}/releases"]["response"];
 
 export type ReleaseData = ListRepositoryReleasesResponse["data"];
 
-export function Releases({ repo }: Props) {
+export function Releases({ repo }: Properties) {
   const { data, isLoading } = useFetchWithReactQuery(
     `https://api.github.com/repos/${repo}/releases`,
     {
@@ -57,7 +57,7 @@ export function Releases({ repo }: Props) {
   );
 }
 
-export function Changelog({ repo }: Props) {
+export function Changelog({ repo }: Properties) {
   return (
     <Box h="100%" w="100%" p="lg">
       <Title order={3} mb="32px">

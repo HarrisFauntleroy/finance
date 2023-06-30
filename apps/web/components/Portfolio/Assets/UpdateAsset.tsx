@@ -3,11 +3,11 @@ import { modals } from "@mantine/modals";
 import { Asset } from "database/generated/prisma-client";
 import { AssetForm } from "./AssetForm";
 
-type UpdateAccountProps = {
+type UpdateAccountProperties = {
   asset: Asset;
 };
 
-export const UpdateAccount = ({ asset }: UpdateAccountProps) => {
+export const UpdateAccount = ({ asset }: UpdateAccountProperties) => {
   const openUpdateAccountModal = () => {
     modals.open({
       id: "update-account",

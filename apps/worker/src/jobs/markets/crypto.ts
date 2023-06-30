@@ -120,7 +120,7 @@ export class MarketUpdater {
           create: crypto,
           update: crypto,
         })
-        .catch((err) => logger.error("error", `${crypto.ticker} ${err}`));
+        .catch((error) => logger.error("error", `${crypto.ticker} ${error}`));
     }
   }
 

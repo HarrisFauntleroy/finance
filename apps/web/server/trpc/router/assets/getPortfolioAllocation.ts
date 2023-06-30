@@ -1,8 +1,8 @@
 import { convertCurrency, multiply, sumGroupByCategory } from "common";
 import { Category } from "database/generated/prisma-client";
 
+import { getExchangeRates, getUserCurrency } from "../../../api";
 import { getAssetsWithMarket } from "./getAssetsWithMarket";
-import { getUserCurrency, getExchangeRates } from "../../../api";
 
 export type PortfolioAllocation = {
   name: string;
@@ -28,12 +28,10 @@ export async function getPortfolioAllocation(
       toCurrency: userCurrency,
       amount: market?.price?.toString() || 0,
     });
-    let value;
-    if (price && category === Category.CRYPTOCURRENCY) {
-      value = multiply(balance.toString(), price.toString());
-    } else {
-      value = balance;
-    }
+    const value =
+      price && category === Category.CRYPTOCURRENCY
+        ? multiply(balance.toString(), price.toString())
+        : balance;
     return { value: value.toString(), category };
   });
   return sumGroupByCategory(mapped, "category");

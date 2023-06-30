@@ -52,13 +52,21 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
   });
 
   async function onValidSubmit(data: CreateOrUpdateAssetSchema) {
-    return mutation.mutateAsync(data).then((asset) => {
-      queryClient.invalidateQueries();
-      notifications.show({
-        title: `Successfully created asset ${asset.name}`,
-        message: JSON.stringify(asset),
-      });
-    });
+    return mutation
+      .mutateAsync(data)
+      .then((asset) => {
+        queryClient.invalidateQueries();
+        return notifications.show({
+          title: `Successfully created asset ${asset.name}`,
+          message: JSON.stringify(asset),
+        });
+      })
+      .catch((error) =>
+        notifications.show({
+          title: "Error",
+          message: error.message,
+        })
+      );
   }
 
   async function onInvalidSubmit() {
@@ -141,15 +149,15 @@ export const AssetForm = ({ asset }: { asset?: Asset }) => {
   );
 };
 
-interface ItemProps extends ComponentPropsWithoutRef<"div"> {
+interface ItemProperties extends ComponentPropsWithoutRef<"div"> {
   image: string;
   label: string;
   description: string;
 }
 
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ image, label, description, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
+const SelectItem = forwardRef<HTMLDivElement, ItemProperties>(
+  ({ image, label, description, ...others }: ItemProperties, reference) => (
+    <div ref={reference} {...others}>
       <Group noWrap>
         <Avatar src={image} />
 

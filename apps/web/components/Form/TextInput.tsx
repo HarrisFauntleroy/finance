@@ -37,7 +37,7 @@ export function TextInput({
   name,
   error,
   hidden,
-  ...props
+  ...properties
 }: FormInputs) {
   const context = useFormContext();
   return (
@@ -47,7 +47,7 @@ export function TextInput({
       flexDir="column"
     >
       <FormLabel htmlFor={name}>{label}</FormLabel>
-      <Input {...props} {...context.register(name)} />
+      <Input {...properties} {...context.register(name)} />
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   );

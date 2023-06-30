@@ -1,12 +1,12 @@
 import {
   Table as MantineTable,
-  type TableProps as MantineTableProps,
+  type TableProps as MantineTableProperties,
 } from "@mantine/core";
 import { PropsWithChildren } from "react";
 
-type TableProps<T> = PropsWithChildren<T> & MantineTableProps;
+type TableProperties<T> = PropsWithChildren<T> & MantineTableProperties;
 
-export function Table<T>({ children }: TableProps<T>) {
+export function Table<T>({ children }: TableProperties<T>) {
   return (
     <MantineTable
       striped

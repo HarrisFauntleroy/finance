@@ -13,7 +13,10 @@ import {
 import type { Row } from "@tanstack/react-table";
 import { percentageChange } from "common";
 import currency from "currency.js";
-import { Debug, isDevEnvironment } from "../../Debug";
+import {
+  Debug,
+  isDevEnvironment as isDevelopmentEnvironment,
+} from "../../Debug";
 import { Grid } from "../../Grid";
 import { Card } from "../../Layout/Card";
 
@@ -28,7 +31,7 @@ const Stat = ({ label, value }: { label: string; value: string }) => (
   </Card>
 );
 
-type TableSubComponentProps<TData> = {
+type TableSubComponentProperties<TData> = {
   row: Row<TData>;
 };
 
@@ -36,7 +39,7 @@ function TableSubComponent<TData extends Record<string, string>>({
   row: {
     original: { averageCost, price, ...original },
   },
-}: TableSubComponentProps<TData>) {
+}: TableSubComponentProperties<TData>) {
   return (
     <Accordion allowMultiple allowToggle>
       <AccordionItem maxW="100vw">
@@ -67,7 +70,7 @@ function TableSubComponent<TData extends Record<string, string>>({
           </Stack>
         </AccordionPanel>
       </AccordionItem>
-      {isDevEnvironment() && (
+      {isDevelopmentEnvironment() && (
         <AccordionItem>
           <h2>
             <AccordionButton>

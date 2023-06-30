@@ -114,11 +114,13 @@ export type LinkType = {
   color?: string;
 };
 
-type HeaderResponsiveProps = {
+type HeaderResponsiveProperties = {
   links: LinkType[];
 };
 
-export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
+export default function HeaderResponsive({
+  links,
+}: HeaderResponsiveProperties) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].href);
   const { classes, cx } = useStyles();

@@ -2,9 +2,9 @@ import { flattenArrToObj, logger } from "common";
 import { prisma } from "database";
 import { MarketType } from "database/generated/prisma-client";
 
-export function runOnServer(fn: () => void) {
+export function runOnServer(function_: () => void) {
   if (typeof window === "undefined" || !process.browser) {
-    fn();
+    function_();
   } else {
     logger.error("This function can only be run on the server");
   }

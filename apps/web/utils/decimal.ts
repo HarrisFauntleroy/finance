@@ -14,7 +14,7 @@ export const decimal = () =>
     .refine((value) => {
       try {
         return new Decimal(value);
-      } catch (error) {
+      } catch {
         return false;
       }
     })

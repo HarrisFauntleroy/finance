@@ -12,14 +12,14 @@ export type Item = {
 };
 
 export function sumGroupByCategory<T extends Item>(
-  arr: any[],
+  array: any[],
   category: keyof T
 ): any {
-  return arr.reduce((grouped: Grouped<string>, obj: T) => {
-    if (!grouped[obj[category]]) {
-      grouped[obj[category]] = String(0);
+  return array.reduce((grouped: Grouped<string>, object: T) => {
+    if (!grouped[object[category]]) {
+      grouped[object[category]] = String(0);
     }
-    grouped[obj[category]] = add(grouped[obj[category]], obj.value);
+    grouped[object[category]] = add(grouped[object[category]], object.value);
     return grouped;
   }, {});
 }

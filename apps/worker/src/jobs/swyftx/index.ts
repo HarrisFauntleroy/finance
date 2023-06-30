@@ -41,7 +41,7 @@ const refreshSwyftxToken = async (apiKey: string) => {
       },
     });
     return response.data;
-  } catch (err) {
+  } catch {
     logger.error("refreshSwyftxToken");
   }
 };
@@ -59,7 +59,7 @@ const fetchFromSwyftx = async (url: string, accessToken: string) => {
       data: body,
     });
     return response.data;
-  } catch (err) {
+  } catch {
     logger.error("fetchFromSwyftx");
   }
 };
@@ -236,13 +236,18 @@ export const swyftx = () =>
       },
       select: { apiKey: true, apiSecret: true, id: true, userId: true },
     })
-    .then((secrets) => {
+    .then(async (secrets) => {
       const swyftxAccounts = secrets.length;
       const progress = new Progress(swyftxAccounts);
       progress.start(`Started updating ${swyftxAccounts} Swyftx accounts`);
       for (const secret of secrets) {
-        updateOneUser(secret).then(() => progress.increment());
+        await updateOneUser(secret);
+        progress.increment();
       }
-      progress.stop(`Finished updating ${swyftxAccounts} Swyftx accounts}`);
+      return progress.stop(
+        `Finished updating ${swyftxAccounts} Swyftx accounts}`
+      );
     })
-    .catch(() => logger.info("swyftx"));
+    .catch((error) => {
+      throw new Error(error);
+    });

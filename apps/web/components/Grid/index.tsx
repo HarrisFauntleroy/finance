@@ -3,9 +3,9 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import type { ReactElement } from "react";
 import { Children, PropsWithChildren } from "react";
 
-type GridProps<T> = PropsWithChildren<T> & SimpleGridProps;
+type GridProperties<T> = PropsWithChildren<T> & SimpleGridProps;
 
-export function Grid<T>({ children, ...props }: GridProps<T>) {
+export function Grid<T>({ children, ...properties }: GridProperties<T>) {
   return (
     <SimpleGrid
       columns={{ base: 1, sm: 2, md: 3 }}
@@ -14,7 +14,7 @@ export function Grid<T>({ children, ...props }: GridProps<T>) {
       minChildWidth="300px"
       gridAutoFlow="dense"
       gap={2}
-      {...props}
+      {...properties}
     >
       {Children.map(children as ReactElement, (child) => (
         <GridItem

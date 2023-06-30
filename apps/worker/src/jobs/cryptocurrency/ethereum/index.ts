@@ -27,7 +27,7 @@ export async function getTransactionHistory(
 
   const transactionHistory = [];
 
-  for (let i = 0; i < transactionCount; i++) {
+  for (let index = 0; index < transactionCount; index++) {
     const receipt = await web3.eth.getTransactionReceipt(walletAddress);
 
     if (!receipt) continue;

@@ -14,6 +14,6 @@ describe("isNegative", () => {
   });
 
   it("should return false for NaN inputs", () => {
-    expect(isNegative(NaN)).toBe(false);
+    expect(isNegative(Number.NaN)).toBe(false);
   });
 });

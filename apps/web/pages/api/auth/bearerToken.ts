@@ -1,19 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const authorized = (req: NextApiRequest): boolean => {
-  const { authorization } = req.headers;
+const authorized = (request: NextApiRequest): boolean => {
+  const { authorization } = request.headers;
 
   return (
-    req.method === "POST" &&
+    request.method === "POST" &&
     authorization === `Bearer ${process.env.INTERNAL_API_KEY}`
   );
 };
 
 export default async function handler(
-  req: NextApiRequest,
+  request: NextApiRequest,
   res: NextApiResponse
 ) {
-  const isAuthorized = authorized(req);
+  const isAuthorized = authorized(request);
   if (isAuthorized) {
     res.status(200).json({ statusCode: 200, message: "Success" });
   } else {
