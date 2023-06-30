@@ -62,7 +62,7 @@
     "@mantine/spotlight": "^6.0.13",
     "@mantine/tiptap": "^6.0.13",
     "@phosphor-icons/react": "^2.0.9",
-    "@tabler/icons-react": "^2.20.0",
+    "@tabler/icons-react": "^2.22.0",
     "@tanstack/match-sorter-utils": "^8.8.4",
     "@tanstack/react-table": "^8.9.2",
     "@tanstack/table-core": "^8.9.2",

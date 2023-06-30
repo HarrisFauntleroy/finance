@@ -9486,18 +9486,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tabler/icons-react@npm:^2.20.0":
-  version: 2.20.0
-  resolution: "@tabler/icons-react@npm:2.20.0"
-  dependencies:
-    "@tabler/icons": 2.20.0
-    prop-types: ^15.7.2
-  peerDependencies:
-    react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: fec0919163523f1490bfff281902e1b10bd3d73a8a5b549928aad7311f4a66e34418609b6c564c666f8e2632bb0c1f169df64a70168f18bf671c430fac5ce8af
-  languageName: node
-  linkType: hard
-
 "@tabler/icons-react@npm:^2.22.0":
   version: 2.22.0
   resolution: "@tabler/icons-react@npm:2.22.0"
@@ -9507,13 +9495,6 @@ __metadata:
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
   checksum: fe2a4c3e5483269ee178195746cdc4b8c1e150dec78aae4bbf3884f33dd819929a7ff1e53eb6ba1426b914ba710e13a30d0e70caf9e588b8df45e500f70941dd
-  languageName: node
-  linkType: hard
-
-"@tabler/icons@npm:2.20.0":
-  version: 2.20.0
-  resolution: "@tabler/icons@npm:2.20.0"
-  checksum: 02177e14f4b3cbbbf10a7f8f60acabf45f4b1584eec6c81d9be20c34a149afafd49b72b20fd42a8bdd47ea3dd339fef0620fd144c6b96fb12381431916fe64fe
   languageName: node
   linkType: hard
 
@@ -28891,7 +28872,7 @@ __metadata:
     "@storybook/react": ^7.0.20
     "@storybook/react-webpack5": ^7.0.20
     "@storybook/testing-library": ^0.1.0
-    "@tabler/icons-react": ^2.20.0
+    "@tabler/icons-react": ^2.22.0
     "@tanstack/match-sorter-utils": ^8.8.4
     "@tanstack/react-table": ^8.9.2
     "@tanstack/table-core": ^8.9.2
