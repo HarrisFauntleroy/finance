@@ -32,17 +32,17 @@ jobs:
         # Could consider supporting multiple Node.js versions using matrix strategy
 
         # Cache Next.js build and node modules
-      - name: 🚀 Cache Next.js build and node modules 🚀
-        uses: actions/cache@v3
+      - name: 🗃️ Cache Next.js build and node modules 🗃️
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
-          key:
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{
-            hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-yarn-
 
       # Install the project dependencies
       - name: 🧶 Install dependencies 🧶

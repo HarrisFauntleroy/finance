@@ -15,7 +15,10 @@
     "lint:progress": {},
     "type-check": {},
     "test": {
-      "outputs": ["coverage"],
+      "dependsOn": ["^build"]
+    },
+    "test:ci": {
+      "outputs": ["coverage/**", "**/report.json"],
       "dependsOn": ["^build"]
     },
     "db:generate": {
