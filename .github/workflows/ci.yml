@@ -32,17 +32,13 @@ jobs:
         # Could consider supporting multiple Node.js versions using matrix strategy
 
         # Cache Next.js build and node modules
-      - name: 🗃️ Cache Next.js build and node modules 🗃️
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha}}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-turbo-
 
       # Install the project dependencies
       - name: 🧶 Install dependencies 🧶
@@ -56,11 +52,15 @@ jobs:
       - name: 🧹 Lint monorepo 🧹
         run: yarn lint
 
-      # Run tests and generate a coverage report
-      - name: 🧪 Test and report 🧪📊
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          test-script: "yarn test:ci"
+      # Run tests
+      - name: 🧪 Test monorepo 🧪
+        run: yarn test
+
+      # # Run tests and generate a coverage report
+      # - name: 🧪 Test and report 🧪📊
+      #   uses: ArtiomTr/jest-coverage-report-action@v2
+      #   with:
+      #     test-script: "yarn test:ci"
 
       # Run database migrations
       - name: 🗄️ Run Prisma migration 🗄️
