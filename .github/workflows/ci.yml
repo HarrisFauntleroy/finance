@@ -56,12 +56,6 @@ jobs:
       - name: 🧪 Test monorepo 🧪
         run: yarn test
 
-      # # Run tests and generate a coverage report
-      # - name: 🧪 Test and report 🧪📊
-      #   uses: ArtiomTr/jest-coverage-report-action@v2
-      #   with:
-      #     test-script: "yarn test:ci"
-
       # Run database migrations
       - name: 🗄️ Run Prisma migration 🗄️
         run: yarn db:migrate:deploy
@@ -74,8 +68,3 @@ jobs:
       #   with:
       #     package: ../../packages/ui
       #     token: ${{ secrets.NPM_TOKEN }}
-
-      # ✨ Consider adding additional steps such as:
-      # - Deploying the code to a staging environment
-      # - Running end-to-end tests
-      # - Generating and publishing documentation
