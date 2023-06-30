@@ -31,7 +31,8 @@
     "test": "turbo run test --concurrency=1 -- --colors",
     "test:watch": "turbo run test:watch",
     "type-check": "turbo run type-check --",
-    "watch": "turbo run watch --"
+    "watch": "turbo run watch --",
+    "size": "git count-objects --human-readable"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
