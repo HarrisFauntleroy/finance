@@ -1,5 +1,5 @@
 # Specify a base image
-FROM node:16-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Specify a working directory
 WORKDIR /usr/src/worker
@@ -22,7 +22,7 @@ COPY . .
 RUN yarn turbo run build --filter=worker
 
 # Runner stage
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Specify a working directory
 WORKDIR /usr/src/worker
