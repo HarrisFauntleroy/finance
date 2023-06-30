@@ -15,7 +15,6 @@
     "packages/*"
   ],
   "scripts": {
-    "sendit": "git add -p && opencommit",
     "build": "turbo run build --cache-dir=.turbo",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
@@ -28,6 +27,7 @@
     "lint:fix": "yarn lint --fix",
     "prepare": "husky install",
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
+    "sendit": "git add -p && opencommit",
     "test": "turbo run test --concurrency=1 -- --colors",
     "test:watch": "turbo run test:watch",
     "type-check": "turbo run type-check --",
@@ -38,6 +38,20 @@
       "yarn format",
       "yarn lint:fix"
     ]
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "proseWrap": "always",
+    "quoteProps": "consistent",
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
   },
   "eslintConfig": {
     "env": {
@@ -81,10 +95,11 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "import/extensions": "off",
       "import/export": "off",
-      "react/react-in-jsx-scope": "off",
+      "import/extensions": "off",
       "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
+      "security/detect-object-injection": "off",
       "simple-import-sort/imports": [
         "off",
         {
@@ -101,7 +116,6 @@
           ]
         }
       ],
-      "security/detect-object-injection": "off",
       "@next/next/no-html-link-for-pages": "off"
     },
     "ignorePatterns": [
@@ -111,20 +125,6 @@
       "node_modules"
     ],
     "root": true
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "bracketSpacing": true,
-    "endOfLine": "lf",
-    "jsxSingleQuote": false,
-    "printWidth": 80,
-    "proseWrap": "always",
-    "quoteProps": "consistent",
-    "semi": true,
-    "singleQuote": false,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
