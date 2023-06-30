@@ -1,11 +1,6 @@
-/**
- * Authentication route using NextAuth
- * Prisma adapter provides type mapping and ORM
- */
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "database";
 import { Role } from "database/generated/prisma-client";
-
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth, { getServerSession } from "next-auth";

@@ -12,29 +12,28 @@
     "name": "Harris Fauntleroy",
     "url": "https://github.com/HarrisFauntleroy"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/**"
   ],
   "scripts": {
-    "prebuild": "yarn generate",
     "build": "tsup",
+    "clean": "rimraf .turbo node_modules dist",
     "db:migrate:deploy": "prisma migrate deploy",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
-    "db:seed": "prisma db seed",
-    "predev": "yarn generate",
-    "dev": "concurrently \"yarn build --watch\" \"yarn prisma studio\" \"yarn generate --watch\"",
-    "generate": "prisma generate --schema=prisma/schema.prisma",
-    "postinstall": "yarn generate",
-    "prepare": "yarn build",
-    "start": "NODE_ENV=production node dist/index.js",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx src/seed.ts",
+    "dev": "tsup --watch",
+    "db:generate": "prisma generate --schema=prisma/schema.prisma",
+    "prebuild": "yarn db:generate",
+    "predev": "yarn db:generate",
+    "studio": "prisma studio",
     "test": "jest --passWithNoTests",
     "test:ci": "yarn test --ci --coverage --maxWorkers=2",
     "test:watch": "yarn test --watchAll",
-    "type-check": "tsc --noEmit",
-    "watch": "yarn type-check --watch"
+    "type-check": "tsc --noEmit"
   },
   "jest": {
     "coverageThreshold": {

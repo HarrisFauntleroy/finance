@@ -63,7 +63,7 @@ function UnSignedInButton({ open }: { open: boolean }) {
     >
       {open && <Avatar size="sm" src={user?.image} />}
       {!open && (
-        <Stack spacing="0" w={200}>
+        <Stack spacing="0" w={200} onClick={() => signIn()}>
           <Text truncate size="sm" weight={500}>
             Sign in
           </Text>

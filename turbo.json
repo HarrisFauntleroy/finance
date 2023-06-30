@@ -22,7 +22,7 @@
       "dependsOn": ["^build"]
     },
     "db:generate": {
-      "outputs": ["packages/database/generated/prisma-client"]
+      "cache": false
     },
     "db:push": {
       "cache": false
