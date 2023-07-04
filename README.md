@@ -4,7 +4,7 @@
 
 Master your finances with the power of data and simplicity!
 
-[![CI Actions 🚀🤖](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml)
+[![CI Actions 🚀🤖](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml)[![Code Coverage 📊](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml)![GitHub commit activity](https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/alchemical-finance?style=flat)
 
 ## About
 
