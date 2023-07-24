@@ -1,4 +1,4 @@
-# Alchemical Finance Development Roadmap
+# Alchemical Finance 🧪
 
 **⚠🚧 WORK IN PROGRESS SIDE PROJECT 🚧⚠️**
 
