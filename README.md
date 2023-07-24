@@ -1,135 +1,121 @@
 # Alchemical Finance Development Roadmap
 
-⚠️ WORK IN PROGRESS SIDE PROJECT ⚠️
-
-Master your finances with the power of data and simplicity!
+**⚠🚧 WORK IN PROGRESS SIDE PROJECT 🚧⚠️**
 
 [![CI Actions 🚀🤖](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml)[![Code Coverage 📊](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/coverage.yml)![GitHub commit activity](https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/alchemical-finance?style=flat)
 
-## About
+<!-- PROJECT_DESCRIPTION -->
 
 Welcome to Alchemical Finance - a personal finance management and tracking
 platform. We aim to provide an all-encompassing tool to track, manage and
 visualize your financial portfolio.
 
-## Table of Contents
+Master your finances with the power of data and simplicity!
 
-1. [🌟 Development Roadmap](#🌟-development-roadmap)
-2. [App Structure](#app-structure)
-3. [Local Development](#local-development)
-4. [Testing](#testing)
-5. [Deployment](#deployment)
-6. [Contributing](#contributing)
-7. [Security](#security)
-8. [License](#license)
+<!-- PROJECT_SCREENSHOT -->
 
-## 🌟 Development Roadmap
+<!-- <img src="" alt="Alchemical Finance" title="Alchemical Finance" width="750"/> -->
 
-Our development journey is divided into phases, each focusing on enhancing the
-platform's capabilities.
+---
 
-### Phase 1: Core Features (Underway 🚧)
+## Table of Contents ⚙️
 
-The foundation of the website, including:
+1. [Features](#features-💫)
+2. [Local Development](#local-development-💻)
+3. [Roadmap](#roadmap-🗺️)
+4. [Contributing](#contributing-🤝)
+5. [License](#license-⚖️)
+6. [Disclaimer](#disclaimer-🚨)
 
-- [ ] 🧑‍💻 User account creation and management
-- [ ] 📝 Manual input account tracking
-- [ ] 🛡️ Robust security features
-- [ ] ✅ 100% test coverage suite
+## Features 💫
 
-### Phase 2: Bank Integration
+- WIP 🚧
 
-Introduction of bank APIs to automate transaction and balance tracking. Starting
-with the Up Bank API.
+<!-- LIST OF FEATURES -->
 
-- [ ] 🏦 Up Bank API integration
-- [ ] 🔄 Automated transaction and balance tracking
+## Local Development 💻
 
-### Phase 3: Cryptocurrency Integration
+Here's how you can set up Alchemical Finance in your local dev environment:
 
-Starting with a select few.
+**Requirements**
 
-- [ ] 💱 Crypto wallet integration
-- [ ] 🔄 Crypto transaction and balance tracking
+<!-- LIST OF REQUIREMENTS -->
 
-### Phase 4: Budgeting Tools
-
-Development of budget management features.
-
-- [ ] 💰 Budget creation and management
-- [ ] 📊 Expense tracking against budget
-- [ ] 📈 Budget visualization (graphs, pie-charts, etc.)
-
-### Phase 5: Market Analysis
-
-Incorporation of market analysis features.
-
-- [ ] 📈 Market data feeds integration
-- [ ] 🧠 Market analysis tool development (trends, forecasts, etc.)
-- [ ] 📊 User-friendly market data visualization
-
-## App Structure
-
-Our codebase consists of apps and packages written in
-[TypeScript](https://www.typescriptlang.org/).
-
-- `apps/web` - a [Next.js](https://nextjs.org) app
-  ([README](apps/web/README.md))
-- `apps/worker` - a Node.js, BullMQ & Redis based worker
-  ([README](apps/worker/README.md))
-
-- `packages/common` - Shared code ([README](packages/common/README.md))
-- `packages/ui` - Component Library ([README](packages/ui/README.md))
-- `packages/database` - [Prisma](https://prisma.io/) ORM wrapper
-  ([README](packages/database/README.md)) [
-
-## Local Development
-
-Interested in contributing? Here's how you can set up Alchemical Finance in your
-local dev environment:
-
-### Requirements
-
-- Node >= 14
-- Docker 🐳 (for running Postgres)
+- Node >= 16
+- Docker (for running Postgres, Redis, etc.) 🐳
 
 Node is managed using Node Version Manager
 
 <a href="https://github.com/nvm-sh/logos"><img alt="nvm project logo" src="https://raw.githubusercontent.com/nvm-sh/logos/HEAD/nvm-logo-color.svg" height="50" /></a>
 
-```sh
+```bash
 # Update node version
 nvm use <version>
 ```
 
-## Installation
+**Installation**
 
-**Yarn**
+<!-- INSTALLATION INSTRUCTIONS -->
 
-```sh
+```bash
 # Install dependencies
 yarn
 ```
 
-### Commands
-
-```sh
-# Start all services
+```bash
+# Start development server
 yarn dev
 ```
 
-<!-- LICENSE -->
+**Commands**
 
-## **License** ⚖️
+<!-- LIST OF COMMANDS -->
+
+```bash
+
+```
+
+_Please refer to the package.json for additional details and scripts._
+
+## Roadmap 🗺️
+
+The following is a tentative roadmap of project development:
+
+1. **Phase 1: Core Features** 🚧  
+   Currently under development is the foundation of the website, which includes
+   user account creation and management, manual input account tracking, robust
+   security features, and a test coverage suite of 100%.
+
+2. **Phase 2: Bank Integration**  
+   This phase involves introducing bank APIs to automate transaction and balance
+   tracking, with the initial focus on integrating the Up Bank API.
+
+3. **Phase 3: Cryptocurrency Integration**  
+   In this phase, selected cryptocurrencies will be integrated, with features
+   for crypto wallet integration and automated transaction and balance tracking.
+
+4. **Phase 4: Budgeting Tools**  
+   The fourth phase will see the development of budget management features,
+   including budget creation and management, expense tracking against the set
+   budget, and visual representation of budgets using graphs, pie-charts, etc.
+
+5. **Phase 5: Market Analysis**  
+   Lastly, market analysis features will be incorporated, including integration
+   of market data feeds, development of market analysis tools for trends and
+   forecasts, as well as user-friendly visualization of market data.
+
+_[See the open issues for a list of proposed features (and known issues).](http://github.com/HarrisFauntleroy/alchemical-finance/issues)_
+
+## Contributing 🤝
+
+<!-- GUIDELINES FOR CONTRIBUTION -->
+
+## License ⚖️
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
----
-
-<!-- DISCLAIMER -->
-
-## **Disclaimer** 🚨
+## Disclaimer 🚨
 
 This software is currently a work in progress and is considered in ALPHA state.
 Features will appear and disappear, APIs will be changed, bugs will be
-introduced, your feedback is always welcome! 🚧
+introduced, your feedback is always welcome! 🚧🔧
