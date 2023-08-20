@@ -10,11 +10,11 @@ import { CreateOrUpdateAsseTransactionSchema } from "../../../server/trpc/router
 import { trpc } from "../../../utils/trpc";
 import { Debug } from "../../Debug";
 
-export const TransactionForm = ({
-  transaction,
-}: {
+type TransactionFormProps = {
   transaction?: AssetTransaction;
-}) => {
+};
+
+export const TransactionForm = ({ transaction }: TransactionFormProps) => {
   const session = useSession();
   const queryClient = useQueryClient();
   const userId = session?.data?.userId || "";

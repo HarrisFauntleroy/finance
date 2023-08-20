@@ -5,6 +5,11 @@ import { JobName } from "./jobs";
 import { JobsOptions, Queue as QueueMQ } from "bullmq";
 import { isValidCron } from "cron-validator";
 
+type ScheduleJobProps = {
+  name: JobName;
+  options: JobsOptions;
+};
+
 export class Scheduler {
   constructor(private queue: QueueMQ) {}
 
@@ -59,13 +64,7 @@ export class Scheduler {
     ];
   }
 
-  async scheduleJob({
-    name,
-    options,
-  }: {
-    name: JobName;
-    options: JobsOptions;
-  }) {
+  async scheduleJob({ name, options }: ScheduleJobProps) {
     return this.queue
       .add(name, { name }, options)
       .then(() => logger.info(`Successfully scheduled job: ${name}`))

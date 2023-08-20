@@ -21,17 +21,19 @@ export function getConversionRate(
   return { value: divide(toRate, fromRate) };
 }
 
+type ConvertCurrencyProps = {
+  exchangeRates: Record<string, string>;
+  fromCurrency: string;
+  toCurrency: string;
+  amount: Any;
+};
+
 export function convertCurrency({
   exchangeRates,
   fromCurrency,
   toCurrency,
   amount,
-}: {
-  exchangeRates: Record<string, string>;
-  fromCurrency: string;
-  toCurrency: string;
-  amount: Any;
-}): string {
+}: ConvertCurrencyProps): string {
   // get the conversion rate using the provided exchange rates and currencies
   const { value: conversionRate } = getConversionRate(
     exchangeRates,

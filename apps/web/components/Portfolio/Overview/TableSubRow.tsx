@@ -20,7 +20,9 @@ import {
 import { Grid } from "../../Grid";
 import { Card } from "../../Layout/Card";
 
-const Stat = ({ label, value }: { label: string; value: string }) => (
+type StatProps = { label: string; value: string };
+
+const Stat = ({ label, value }: StatProps) => (
   <Card>
     <ChakraStat style={{ padding: "8px" }}>
       <Stack>

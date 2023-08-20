@@ -522,7 +522,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env"
+    "rootEnvPath": "../../.env",
+    "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
   "clientVersion": "4.15.0",
@@ -532,14 +533,14 @@ const config = {
   ],
   "activeProvider": "postgresql",
   "dataProxy": false,
-  "postinstall": true
+  "postinstall": false
 }
 
 const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "packages/database/generated/prisma-client")
+  config.dirname = path.join(process.cwd(), "generated/prisma-client")
   config.isBundled = true
 }
 
@@ -563,6 +564,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "packages/database/generated/prisma-client/libquery_engine-darwin-arm64.dylib.node")
+path.join(process.cwd(), "generated/prisma-client/libquery_engine-darwin-arm64.dylib.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "packages/database/generated/prisma-client/schema.prisma")
+path.join(process.cwd(), "generated/prisma-client/schema.prisma")

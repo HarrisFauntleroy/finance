@@ -14,15 +14,17 @@ export type Disclosure = readonly [
   }
 ];
 
+type SidebarLayoutProps = {
+  linkSection: ReactNode;
+  userPanel: ReactNode;
+  disclosure: Disclosure;
+};
+
 const SidebarLayout = ({
   linkSection,
   userPanel,
   disclosure,
-}: {
-  linkSection: ReactNode;
-  userPanel: ReactNode;
-  disclosure: Disclosure;
-}) => {
+}: SidebarLayoutProps) => {
   const theme = useMantineTheme();
   const [opened] = disclosure;
 
@@ -52,7 +54,9 @@ const SidebarLayout = ({
   );
 };
 
-const Sidebar = ({ links }: { links: LinkType[] }) => {
+type SidebarProps = { links: LinkType[] };
+
+const Sidebar = ({ links }: SidebarProps) => {
   const disclosure = useDisclosure(false);
 
   return (

@@ -2,7 +2,9 @@ import { Text } from "@mantine/core";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 
-export function Markdown({ children }: { children: string }) {
+type MarkdownProps = { children: string };
+
+export function Markdown({ children }: MarkdownProps) {
   const parsed = marked(children, { mangle: false, headerIds: false });
   const sanitized = sanitizeHtml(parsed);
   return (

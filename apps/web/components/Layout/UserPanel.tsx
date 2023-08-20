@@ -12,7 +12,9 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { Disclosure } from "./Sidebar";
 
-function SignedInButton({ open }: { open: boolean }) {
+type SignedInButtonProps = { open: boolean };
+
+function SignedInButton({ open }: SignedInButtonProps) {
   const session = useSession();
   const user = session.data?.user;
 
@@ -46,7 +48,9 @@ function SignedInButton({ open }: { open: boolean }) {
   );
 }
 
-function UnSignedInButton({ open }: { open: boolean }) {
+type UnSignedInButtonProps = { open: boolean };
+
+function UnSignedInButton({ open }: UnSignedInButtonProps) {
   const session = useSession();
   const user = session.data?.user;
 
@@ -76,7 +80,9 @@ function UnSignedInButton({ open }: { open: boolean }) {
   );
 }
 
-export const UserPanel = ({ disclosure }: { disclosure: Disclosure }) => {
+type UserPanelProps = { disclosure: Disclosure };
+
+export const UserPanel = ({ disclosure }: UserPanelProps) => {
   const session = useSession();
   const [open] = disclosure;
 
