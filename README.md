@@ -1,10 +1,29 @@
 # Alchemical Finance 🧪
 
-![WIP Badge](https://img.shields.io/badge/Project%20Status%3A-wip%20%F0%9F%9A%A7-orange)
-
-[![CI Actions 🚀🤖](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/HarrisFauntleroy/alchemical-finance/actions/workflows/ci.yml)![GitHub commit activity](https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/alchemical-finance?style=flat)
-
-![Badge](https://img.shields.io/badge/package%20manager-yarn-brightgreen)
+<p align="center">
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/releases">
+        <img alt="GitHub release" src="https://img.shields.io/github/package-json/v/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+    <a href="/LICENSE.md">
+        <img alt="GitHub" src="https://img.shields.io/github/license/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/graphs/contributors">
+        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/actions">
+        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/HarrisFauntleroy/alchemical-finance/main?&style=for-the-badge">
+    </a>
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/issues/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/last-commit/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+    </a>
+    <a href="https://github.com/HarrisFauntleroy/alchemical-finance/issues?q=is%3Aopen+is%3Aissue">
+        <img alt="GitHub issues" src="https://img.shields.io/github/commit-activity/w/HarrisFauntleroy/alchemical-finance?&style=for-the-badge">
+    </a>
+</p>
 
 <!-- PROJECT_DESCRIPTION -->
 
