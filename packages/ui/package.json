@@ -23,7 +23,7 @@
     "dev": "concurrently \"yarn build --watch\" \"yarn storybook\"",
     "preview": "vite preview",
     "start": "NODE_ENV=production node dist/index.js",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "storybook:build": "storybook build",
     "storybook:serve": "http-server storybook-static --port 6006 --silent",
     "test": "jest --passWithNoTests",
