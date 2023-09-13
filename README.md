@@ -47,8 +47,6 @@ Welcome to Alchemical Finance - a personal finance management and tracking
 platform. We aim to provide an all-encompassing tool to track, manage and
 visualize your financial portfolio.
 
-Master your finances with the power of data and simplicity!
-
 <!-- PROJECT_SCREENSHOT -->
 
 <!-- <img src="" alt="Alchemical Finance" title="Alchemical Finance" width="750"/> -->
