@@ -49,7 +49,7 @@ function Currency({ value }: CurrencyProperties) {
           : {}
       }
     >
-      {finalValue ? finalValue : "-"}
+      {finalValue ?? "-"}
     </chakra.span>
   );
 }

@@ -6,6 +6,15 @@ import Aside from "../Layout/Aside";
 import Header, { LinkType } from "../Layout/Header";
 import Sidebar from "./Sidebar";
 
+const handleStyles = (theme: MantineTheme) => ({
+  main: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[8]
+        : theme.colors.gray[0],
+  },
+});
+
 export function Layout<T>({ children }: PropsWithChildren<T>) {
   const links: LinkType[] = [
     {
@@ -36,15 +45,6 @@ export function Layout<T>({ children }: PropsWithChildren<T>) {
       color: "blue",
     },
   ];
-
-  const handleStyles = (theme: MantineTheme) => ({
-    main: {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
-    },
-  });
 
   return (
     <AppShell

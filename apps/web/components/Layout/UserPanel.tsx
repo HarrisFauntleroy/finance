@@ -12,9 +12,9 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { Disclosure } from "./Sidebar";
 
-type SignedInButtonProps = { open: boolean };
+type SignedInButtonProperties = { open: boolean };
 
-function SignedInButton({ open }: SignedInButtonProps) {
+function SignedInButton({ open }: SignedInButtonProperties) {
   const session = useSession();
   const user = session.data?.user;
 
@@ -48,9 +48,9 @@ function SignedInButton({ open }: SignedInButtonProps) {
   );
 }
 
-type UnSignedInButtonProps = { open: boolean };
+type UnSignedInButtonProperties = { open: boolean };
 
-function UnSignedInButton({ open }: UnSignedInButtonProps) {
+function UnSignedInButton({ open }: UnSignedInButtonProperties) {
   const session = useSession();
   const user = session.data?.user;
 
@@ -80,21 +80,21 @@ function UnSignedInButton({ open }: UnSignedInButtonProps) {
   );
 }
 
-type UserPanelProps = { disclosure: Disclosure };
+function handleSignIn() {
+  signIn();
+}
 
-export const UserPanel = ({ disclosure }: UserPanelProps) => {
+function handleSignOut() {
+  signOut({ redirect: false });
+}
+
+type UserPanelProperties = { disclosure: Disclosure };
+
+export const UserPanel = ({ disclosure }: UserPanelProperties) => {
   const session = useSession();
   const [open] = disclosure;
 
   const isSignedIn = session.data?.userId || "";
-
-  function handleSignIn() {
-    signIn();
-  }
-
-  function handleSignOut() {
-    signOut({ redirect: false });
-  }
 
   return (
     <Button.Group

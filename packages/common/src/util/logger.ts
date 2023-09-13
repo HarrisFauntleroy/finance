@@ -45,7 +45,6 @@ export const logger = (() => {
           );
           break;
         }
-        case "debug":
         default: {
           console.log(
             customLogText,

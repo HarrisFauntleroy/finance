@@ -18,9 +18,9 @@ import { CreateOrUpdateAssetSchema } from "../../../server/trpc/router/assets";
 import { trpc } from "../../../utils/trpc";
 import { Debug } from "../../Debug";
 
-type AssetFormProps = { asset?: Asset };
+type AssetFormProperties = { asset?: Asset };
 
-export const AssetForm = ({ asset }: AssetFormProps) => {
+export const AssetForm = ({ asset }: AssetFormProperties) => {
   const session = useSession();
   const queryClient = useQueryClient();
   const userId = session?.data?.userId || "";

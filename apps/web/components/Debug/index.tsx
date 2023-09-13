@@ -1,8 +1,8 @@
 import { Accordion, Code, Text } from "@mantine/core";
 
-type DebugProps = { data: unknown };
+type DebugProperties = { data: unknown };
 
-export function Debug({ data }: DebugProps) {
+export function Debug({ data }: DebugProperties) {
   return process.env.NODE_ENV === "development" ? (
     <Accordion>
       <Accordion.Item value="debug">

@@ -4,12 +4,12 @@ import { LinkType } from "./Header";
 import { MainLink } from "./MainLink";
 import { Disclosure } from "./Sidebar";
 
-type SidebarLinksProps = {
+type SidebarLinksProperties = {
   links: LinkType[];
   disclosure: Disclosure;
 };
 
-export const SidebarLinks = ({ links, disclosure }: SidebarLinksProps) => {
+export const SidebarLinks = ({ links, disclosure }: SidebarLinksProperties) => {
   const session = useSession();
   const userRole = session?.data?.user?.role;
   const [open, handlers] = disclosure;

@@ -5,7 +5,7 @@ import { Card } from "../components/Layout/Card";
 import { Page } from "../components/Layout/Page";
 import { trpc } from "../utils/trpc";
 
-type UserCardComponentProps = {
+type UserCardComponentProperties = {
   user: {
     id: string;
     name: string | null;
@@ -14,7 +14,7 @@ type UserCardComponentProps = {
   };
 };
 
-const UserCardComponent = ({ user }: UserCardComponentProps) => (
+const UserCardComponent = ({ user }: UserCardComponentProperties) => (
   <Card shadow="xs" padding="md">
     <Stack dir="row" align="center" spacing="md">
       <Avatar src={user.image || ""} radius="xl" />
@@ -33,7 +33,7 @@ const UserCardComponent = ({ user }: UserCardComponentProps) => (
   </Card>
 );
 
-type LogCardComponentProps = {
+type LogCardComponentProperties = {
   log: {
     createdAt: Date;
     deleted: boolean;
@@ -44,7 +44,7 @@ type LogCardComponentProps = {
   };
 };
 
-const LogCardComponent = ({ log }: LogCardComponentProps) => (
+const LogCardComponent = ({ log }: LogCardComponentProperties) => (
   <Card shadow="xs" padding="md">
     <Stack align="flex-start" spacing="xs">
       <Text size="xl" weight={500}>
@@ -69,7 +69,7 @@ const LogCardComponent = ({ log }: LogCardComponentProps) => (
   </Card>
 );
 
-type CardComponentProps = {
+type CardComponentProperties = {
   statLabel: string;
   statNumber: number;
   statHelpText: string;
@@ -84,7 +84,7 @@ const CardComponent = ({
   statNumber,
   statHelpText,
   list,
-}: CardComponentProps) => (
+}: CardComponentProperties) => (
   <Card shadow="xs">
     <Stack align="center">
       <Text size="xl" weight={500}>

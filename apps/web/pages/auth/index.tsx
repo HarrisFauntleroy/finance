@@ -29,9 +29,9 @@ function Auth<T>({ children, roles }: AuthProperties<T>) {
   const rolesArray = roles || [Role.USER];
   const roleAllowed = rolesArray.includes(userRole) || userRole === Role.ADMIN;
 
-  type CenterMessageProps = { message: string };
+  type CenterMessageProperties = { message: string };
 
-  const CenterMessage = ({ message }: CenterMessageProps) => (
+  const CenterMessage = ({ message }: CenterMessageProperties) => (
     <Center h="100%">
       <Text>{message}</Text>
     </Center>

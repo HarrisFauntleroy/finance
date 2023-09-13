@@ -2,11 +2,13 @@ import { Text } from "@mantine/core";
 import { AssetTransaction } from "database/generated/prisma-client";
 import { Table } from "../../../MantineTable";
 
-type TransactionTableProps = {
+type TransactionTableProperties = {
   transactions: AssetTransaction[];
 };
 
-export const TransactionTable = ({ transactions }: TransactionTableProps) => {
+export const TransactionTable = ({
+  transactions,
+}: TransactionTableProperties) => {
   return (
     <Table>
       <thead>

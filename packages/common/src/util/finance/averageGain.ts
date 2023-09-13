@@ -19,11 +19,5 @@ export function calculateAverageGain(prices: number[], days: number): number {
   }
 
   // Check if there are any days for which there is gain data
-  if (numberDays === 0) {
-    // Return 1 if there are no days with gain data
-    return 1;
-  } else {
-    // Return the average gain by dividing the total gain by the number of days
-    return totalGain / numberDays;
-  }
+  return numberDays === 0 ? 1 : totalGain / numberDays;
 }

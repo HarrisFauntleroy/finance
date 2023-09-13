@@ -1,4 +1,20 @@
-# Alchemical Finance 🧪
+<div align="center">
+    <a href="">
+        <img src="apps/web/public/images/logo.png?raw=true" alt="" height="140" />
+    </a>
+    <h5 align="center">
+      Alchemical Finance
+    </h5>
+    <p align="center">
+        <a target="_blank" href="">💵</a>
+          &middot;
+        <a target="_blank" href="">💷</a>
+          &middot;
+        <a target="_blank" href="">💴</a>
+          &middot;
+        <a target="_blank" href="">💶</a>
+    </p>
+</div>
 
 <p align="center">
     <a href="https://github.com/HarrisFauntleroy/alchemical-finance/releases">
@@ -42,61 +58,15 @@ Master your finances with the power of data and simplicity!
 ## Table of Contents ⚙️
 
 1. [Features](#features-💫)
-2. [Local Development](#local-development-💻)
-3. [Roadmap](#roadmap-🗺️)
+2. [Roadmap](#roadmap-🗺️)
+3. [Local Development](#local-development-💻)
 4. [Contributing](#contributing-🤝)
 5. [License](#license-⚖️)
 6. [Disclaimer](#disclaimer-🚨)
 
 ## Features 💫
 
-- WIP 🚧
-
-<!-- LIST OF FEATURES -->
-
-## Local Development 💻
-
-Here's how you can set up Alchemical Finance in your local dev environment:
-
-**Requirements**
-
-<!-- LIST OF REQUIREMENTS -->
-
-- Node >= 16
-- Docker (for running Postgres, Redis, etc.) 🐳
-
-Node is managed using Node Version Manager
-
-<a href="https://github.com/nvm-sh/logos"><img alt="nvm project logo" src="https://raw.githubusercontent.com/nvm-sh/logos/HEAD/nvm-logo-color.svg" height="50" /></a>
-
-```bash
-# Update node version
-nvm use <version>
-```
-
-**Installation**
-
-<!-- INSTALLATION INSTRUCTIONS -->
-
-```bash
-# Install dependencies
-yarn
-```
-
-```bash
-# Start development server
-yarn dev
-```
-
-**Commands**
-
-<!-- LIST OF COMMANDS -->
-
-```bash
-
-```
-
-_Please refer to the package.json for additional details and scripts._
+- TODO
 
 ## Roadmap 🗺️
 
@@ -127,16 +97,58 @@ The following is a tentative roadmap of project development:
 
 _[See the open issues for a list of proposed features (and known issues).](http://github.com/HarrisFauntleroy/alchemical-finance/issues)_
 
+## Local Development 🛠️
+
+Here's how you can set up harrisfauntleroy.com in your local dev environment:
+
+**Installation**
+
+```zsh
+# Install dependencies with yarn
+yarn install
+```
+
+```zsh
+# Start development servers (web, api, db, storybook)
+yarn dev
+```
+
+_Please refer to the package.json for additional details and scripts._
+
+## Trunk-Based Development and Git Hooks
+
+This repository adopts a **Trunk-Based Development** approach to encourage:
+
+- Short-lived branches or direct trunk modifications
+- Frequent merges
+- High collaboration among developers
+
+### Automated Git Hooks
+
+To maintain code quality, we've set up automated Git hooks that perform the
+following tasks before any `git push` operation:
+
+- **Linting**: Enforces a consistent code style across the codebase.
+- **Formatting**: Applies standardized code formatting.
+- **Testing**: Executes all unit tests to catch regressions and errors at an
+  early stage.
+- **Building**: Compiles the code and bundles all assets to ensure everything is
+  set up correctly.
+
+This automation helps keep our codebase clean, stable, and error-free.
+
 ## Contributing 🤝
 
-<!-- GUIDELINES FOR CONTRIBUTION -->
+If you'd like to contribute, please see our
+[contribution guidelines](CONTRIBUTING.md) for more information.
 
 ## License ⚖️
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This software is distributed under the terms of the MIT License. You can see the
+full license [here](LICENSE).
 
 ## Disclaimer 🚨
 
-This software is currently a work in progress and is considered in ALPHA state.
-Features will appear and disappear, APIs will be changed, bugs will be
-introduced, your feedback is always welcome! 🚧🔧
+This software is currently a work in progress and considered in the ALPHA phase.
+As we continue to update and improve, please expect features to evolve and APIs
+to change. We appreciate your patience and value your feedback! 🙌
