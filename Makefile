@@ -1,39 +1,44 @@
-# Run the development server
-run-dev:
-	@echo "Starting development server..."
-	./gradlew bootRun --args='--spring.profiles.active=dev'
+# Run the frontend server
+frontend:
+	@echo "Starting frontend..."
+	yarn dev
+
+# Run the backend server
+backend:
+	@echo "Starting backend..."
+	cd apps/backend && ./gradlew bootRun --args='--spring.profiles.active=dev'
 
 # Run the production server
-run-prod:
+backend-prod:
 	@echo "Starting production server..."
-	./gradlew bootRun --args='--spring.profiles.active=prod'
+	cd apps/backend && ./gradlew bootRun --args='--spring.profiles.active=prod'
 
 # Run the test server
-run-test:
+backend-test:
 	@echo "Starting test server..."
-	./gradlew bootRun --args='--spring.profiles.active=test'
+	cd apps/backend && ./gradlew bootRun --args='--spring.profiles.active=test'
 
 # Run the linter
-lint:
+ktlint:
 	@echo "Running linter..."
 	./gradlew check
 
 # Run the linter and fix issues
-lint-fix:
+ktlint-fix:
 	@echo "Running linter..."
 	./gradlew ktlintFormat
 
 # Run the tests
-test:
+backend-test:
 	@echo "Running tests..."
 	./gradlew test
 
 # Build the application
-build:
+backend-build:
 	@echo "Building application..."
 	./gradlew build
 
 # Clean the build
-clean:
+backend-clean:
 	@echo "Cleaning build..."
 	./gradlew clean
