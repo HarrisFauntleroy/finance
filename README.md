@@ -41,26 +41,23 @@
     </a>
 </p>
 
-<!-- PROJECT_DESCRIPTION -->
-
-Welcome to Alchemical Finance - a personal finance management and tracking
-platform. We aim to provide an all-encompassing tool to track, manage and
-visualize your financial portfolio.
-
-<!-- PROJECT_SCREENSHOT -->
-
-<!-- <img src="" alt="Alchemical Finance" title="Alchemical Finance" width="750"/> -->
+Welcome to Alchemical Finance, a platform for managing and tracking personal
+finances. Our goal is to provide a comprehensive tool for visualizing and
+managing your financial portfolio.
 
 ---
 
 ## Table of Contents ⚙️
 
-1. [Features](#features-💫)
-2. [Roadmap](#roadmap-🗺️)
-3. [Local Development](#local-development-💻)
-4. [Contributing](#contributing-🤝)
-5. [License](#license-⚖️)
-6. [Disclaimer](#disclaimer-🚨)
+- [Table of Contents ⚙️](#table-of-contents-️)
+- [Features 💫](#features-)
+- [Roadmap 🗺️](#roadmap-️)
+- [Local Development 🛠️](#local-development-️)
+- [Trunk-Based Development and Git Hooks](#trunk-based-development-and-git-hooks)
+  - [Automated Git Hooks](#automated-git-hooks)
+- [Contributing 🤝](#contributing-)
+- [License ⚖️](#license-️)
+- [Disclaimer 🚨](#disclaimer-)
 
 ## Features 💫
 
