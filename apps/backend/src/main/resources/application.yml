@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://202.172.109.118:5432/finance
+    driver-class-name: org.postgresql.Driver
+    name: finance
+    username: user
+    password: iBaLbAHI4184N7J6
