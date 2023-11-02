@@ -23,7 +23,6 @@ import {
 import { signIn, useSession } from "next-auth/react";
 import { Card } from "../components/Layout/Card";
 import { Page } from "../components/Layout/Page";
-import { Changelog } from "../components/Releases";
 
 Chart.register(
   CategoryScale,
@@ -88,7 +87,6 @@ function HomePage() {
           </Paper>
         </Col>
       </Grid>
-      <Changelog repo="harrisfauntleroy/alchemical-finance" />
     </Stack>
   );
 }

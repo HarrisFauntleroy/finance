@@ -137,6 +137,7 @@
     "ignorePatterns": [
       "dist",
       ".yarn",
+      "reports",
       "coverage",
       "generated",
       "node_modules"

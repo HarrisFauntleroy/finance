@@ -5,7 +5,7 @@
 const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
 module.exports = {
-  transpilePackages: ["database", "ui", "common"],
+  transpilePackages: ["database", "common"],
   reactStrictMode: true,
   swcMinify: true,
   images: {

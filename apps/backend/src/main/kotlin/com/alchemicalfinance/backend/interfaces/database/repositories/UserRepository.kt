@@ -20,7 +20,7 @@ interface UserRepository : CrudRepository<User, String> {
 
     @Query(
         value = """
-        SELECT * FROM User WHERE createdAt BETWEEN :start_date AND :end_date
+        SELECT * FROM "user" WHERE "createdAt" BETWEEN :start_date AND :end_date
         """
     )
     fun findUsersCreatedWithinDateRange(

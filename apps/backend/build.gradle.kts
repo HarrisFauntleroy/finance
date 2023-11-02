@@ -5,10 +5,8 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
-
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.spring") version "1.8.22"
-
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
 }
 
@@ -29,9 +27,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation(kotlin("stdlib"))
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("org.flywaydb:flyway-core")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

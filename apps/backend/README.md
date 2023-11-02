@@ -1,35 +1,38 @@
-Install Kotlin: If you haven't installed Kotlin, you can download it from
-Kotlin's GitHub releases or install it via SDKMAN!:
+# Alchemical Finance Setup
 
-### Dependencies
+Ensure Kotlin and Gradle are installed on your machine. If not, they can be
+installed using SDKMAN!.
 
 ```zsh
 sdk install kotlin
-
 sdk install gradle
 ```
 
-# Clean
+## Project Commands
 
-```
+### Clean Project
+
+```zsh
 ./gradlew clean
 ```
 
-### KtLint
+### KtLint (Linting and Formatting)
 
 ```zsh
+# Check code formatting
 ./gradlew ktlintCheck
 
+# Format code
 ./gradlew ktlintFormat
 ```
 
-### JUnit
+### JUnit (Testing)
 
 ```zsh
 ./gradlew test
 ```
 
-### Run
+### Run Application
 
 ```zsh
 ./gradlew run
@@ -43,59 +46,45 @@ sdk install gradle
 
 ## Project Structure
 
-The backend of the application follows a structured directory hierarchy to
-ensure a clean separation of concerns and ease of navigation. Here's an
-overview:
-
 ### Source Root (`src`)
 
-#### Main (`main`)
+#### Main Directory (`main`)
 
-##### Kotlin (`kotlin`)
+##### Kotlin Code (`kotlin`)
 
-###### `com.yourappname` (located at `com/yourappname`)
+- **`com.yourappname`** (located at `com/yourappname`):
 
-- **application**:
+  - **application**:
 
-  - Contains application level concerns like the main function, application
-    configuration, etc.
+    - Application level concerns: main function, configuration, etc.
 
-- **domain**:
+  - **domain**:
 
-  - Contains business logic, entities, and use cases.
+    - Business logic, entities, and use cases.
 
-- **infrastructure**:
+  - **infrastructure**:
 
-  - Contains code that communicates with external systems like databases,
-    external APIs, etc.
+    - Interaction with external systems: databases, external APIs, etc.
+      - **database**:
+        - Configurations, migrations, repositories, etc.
+          - **migrations**:
+            - Database migration scripts using Flyway.
+      - **jobs**:
+        - Background job configurations and implementations.
 
-  - **database**:
-
-    - Database configurations, migrations, repositories, etc.
-
-    - **migrations**:
-      - Database migration scripts.
-
-  - **jobs**:
-    - Background job configurations and implementations.
-
-- **interfaces**:
-
-  - Contains code for the interface adapters like REST controllers, gRPC, etc.
-
-  - **api**:
-
-    - REST controllers, request/response objects, etc.
-
-  - **rpc**:
-    - gRPC or other RPC configurations and implementations.
+  - **interfaces**:
+    - Interface adapters: REST controllers, gRPC, etc.
+      - **api**:
+        - REST controllers, request/response objects, etc.
+      - **rpc**:
+        - gRPC or other RPC configurations and implementations.
 
 ##### Resources (`resources`)
 
 - **application.properties**:
   - Application properties file.
 
-#### Test (`test`)
+#### Test Directory (`test`)
 
 - **kotlin**:
 
@@ -103,3 +92,43 @@ overview:
 
 - **resources**:
   - Test resources.
+
+## Flyway Database Migrations
+
+Flyway is a database migration tool which ensures that your database schema is
+always in sync with your codebase. Migrations are version-controlled SQL scripts
+which are run in order, ensuring that schema changes are applied in a consistent
+manner across all environments.
+
+Here's a simplified overview of how Flyway works:
+
+1. **Migration Script Creation**:
+
+- Create SQL migration scripts for schema changes, each script having a unique
+  version.
+- Place scripts in the `src/main/resources/db/migration` directory.
+
+2. **Configuration**:
+
+- Configure Flyway in your `application.properties` file, specifying the
+  database connection and migrations location.
+
+3. **Execution**:
+
+- On application startup or through a manual trigger, Flyway checks the database
+  to see which scripts have been applied.
+- Any not-yet-run scripts are executed in order to update the database schema.
+
+4. **Verification**:
+
+- Flyway records which scripts have been run, ensuring they aren’t run twice.
+- Verify the schema changes in your database and ensure application
+  functionality.
+
+This process ensures that your database schema evolves consistently along with
+your application code, making database schema management easier and error-free.
+
+---
+
+This structure should provide a clean and organized setup guide for your Kotlin
+project along with an explanation of how Flyway manages database migrations.

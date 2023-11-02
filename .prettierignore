@@ -15,7 +15,7 @@ node_modules/
 /out/
 
 # Ignore production build files
-/build/
+*build*
 **/dist/
 **/generated/
 tsconfig.tsbuildinfo
