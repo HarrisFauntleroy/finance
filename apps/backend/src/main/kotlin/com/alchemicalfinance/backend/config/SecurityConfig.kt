@@ -19,11 +19,14 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.invoke {
             authorizeRequests {
-                authorize("/admin.html", hasRole("ADMIN"))
+                authorize("/admin", hasRole("ADMIN"))
                 authorize(anyRequest, authenticated)
             }
+            oauth2Login { }
             formLogin { }
-            logout { }
+            logout {
+                logoutSuccessUrl = "/"
+            }
         }
         return http.build()
     }
