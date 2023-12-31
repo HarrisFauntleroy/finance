@@ -28,9 +28,10 @@ export function AssetList() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((asset) => (
-            <Stack key={asset.id}>
-              <tr>
+          {data?.map((asset) => {
+            console.log("Asset:", asset);
+            return (
+              <tr key={asset.id}>
                 <td>{asset.name}</td>
                 <td>{asset.currency.toUpperCase()}</td>
                 <td>{asset.balance}</td>
@@ -45,12 +46,10 @@ export function AssetList() {
                   </Button.Group>
                 </td>
               </tr>
-              <Debug data={asset} />
-            </Stack>
-          ))}
+            );
+          })}
         </tbody>
       </Table>
-      <Debug data={data} />
     </Card>
   );
 }

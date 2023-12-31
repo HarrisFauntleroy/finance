@@ -10,12 +10,9 @@ export function Table<T>({ children }: TableProperties<T>) {
   return (
     <MantineTable
       striped
-      highlightOnHover
-      //   verticalSpacing="xs"
-      //   fontSize="sm"
-      //   horizontalSpacing="sm"
-      //   withBorder
-      //   withColumnBorders
+      verticalSpacing="xs"
+      fontSize="sm"
+      horizontalSpacing="sm"
     >
       {children}
     </MantineTable>
