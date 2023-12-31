@@ -20370,10 +20370,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:6.9.3":
-  version: 6.9.3
-  resolution: "nodemailer@npm:6.9.3"
-  checksum: 3bea8316652c0578515d9146d2f24660e4855807520153f061d39af76b440a4f61b4e70f10fed35f8f12f115f6aea1aeb483ea7ba0337c0e3e675f117c41c611
+"nodemailer@npm:^6.9.7":
+  version: 6.9.7
+  resolution: "nodemailer@npm:6.9.7"
+  checksum: 0cf66d27aed3bd2cbdff9939402cec3d2119c31b2b9ff4af3bcd59f48287ea75b90c0ce2cd9eb0df838164972cd25581b4b723c91fd673e2608bcb28445ccb1b
   languageName: node
   linkType: hard
 
@@ -24440,13 +24440,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"std@npm:0.1.x":
-  version: 0.1.40
-  resolution: "std@npm:0.1.40"
-  checksum: ecc79c56d9793d67f8ea2c1d61ea6e3ed1673e157610236ea549d1337f2cb3da4e99a184ed2dcd151524fd079b2387f49bc95d0e6cc5a9f65349d37bea72e370
-  languageName: node
-  linkType: hard
-
 "stop-iteration-iterator@npm:^1.0.0":
   version: 1.0.0
   resolution: "stop-iteration-iterator@npm:1.0.0"
@@ -26101,15 +26094,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ui@npm:*":
-  version: 0.2.4
-  resolution: "ui@npm:0.2.4"
-  dependencies:
-    std: 0.1.x
-  checksum: c79eafb255ab5fd2ed83cf898cc98bd5379ee1ae77576b9a1e52ff70fbfdc276d8084719e6071f2448269bcd6f24468971b376c87d0ae48348dd60fcffd60e12
-  languageName: node
-  linkType: hard
-
 "ultron@npm:~1.1.0":
   version: 1.1.1
   resolution: "ultron@npm:1.1.1"
@@ -27032,7 +27016,7 @@ __metadata:
     next-seo: 6.0.0
     next-sitemap: 4.1.3
     next-swagger-doc: 0.3.6
-    nodemailer: 6.9.3
+    nodemailer: ^6.9.7
     papaparse: ^5.4.1
     postcss: ^8.4.24
     qs: 6.11.2
@@ -27058,7 +27042,6 @@ __metadata:
     ts-node: ^10.9.1
     tslib: ^2.5.3
     typescript: 5.0.3
-    ui: "*"
     uuid: 9.0.0
     ws: 8.13.0
     zod: 3.21.4
