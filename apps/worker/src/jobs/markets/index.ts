@@ -1,5 +1,5 @@
-import { updateCryptoMarkets } from "./crypto";
-import { updateExchangeRates } from "./exchangeRates";
+import { updateCryptoMarkets } from "./coingecko";
+import { updateExchangeRates } from "./openExchangeRates";
 
 export const markets = async () => {
   await updateExchangeRates();
