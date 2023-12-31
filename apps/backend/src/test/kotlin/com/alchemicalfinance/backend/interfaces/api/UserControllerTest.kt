@@ -1,8 +1,7 @@
-package com.alchemicalfinance.backend.api
+package com.alchemicalfinance.backend.interfaces.api
 
 import com.alchemicalfinance.backend.interfaces.database.models.User
 import com.alchemicalfinance.backend.interfaces.database.repositories.UserRepository
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 class UserControllerTest @Autowired constructor(
     val mockMvc: MockMvc,
-    val objectMapper: ObjectMapper
 ) {
 
     private val userRepository = mock(UserRepository::class.java)
@@ -26,7 +24,6 @@ class UserControllerTest @Autowired constructor(
 
     @BeforeEach
     fun setup() {
-        // ... setup mocks
     }
 
     @Test
@@ -38,14 +35,15 @@ class UserControllerTest @Autowired constructor(
                     email = "",
                     password = "password",
                     name = "name",
+                    username = "username",
                     emailVerified = null,
                     image = null,
                     createdAt = null,
                     updatedAt = null,
                     deleted = null,
-                    deletedAt = null
-                )
-            )
+                    deletedAt = null,
+                ),
+            ),
         )
 
         mockMvc.perform(get("/api/v1/users"))

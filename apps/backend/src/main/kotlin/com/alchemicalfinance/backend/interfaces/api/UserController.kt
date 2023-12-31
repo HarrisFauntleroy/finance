@@ -1,9 +1,11 @@
-package com.alchemicalfinance.backend.api
+package com.alchemicalfinance.backend.interfaces.api
 
 import com.alchemicalfinance.backend.interfaces.database.models.User
 import com.alchemicalfinance.backend.interfaces.database.repositories.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,6 +32,16 @@ class UserController(private val userRepository: UserRepository) {
             logger.error("An error occurred while fetching users: ${exception.message}", exception)
             throw exception
         }
+    }
+
+    @GetMapping("/user")
+    fun getUser(@AuthenticationPrincipal(errorOnInvalidType = true) userDetails: OAuth2User?): Map<String, Any?> {
+        return mapOf(
+            "name" to userDetails?.name,
+            "id" to userDetails?.attributes?.get("id"),
+            "email" to userDetails?.attributes?.get("email"),
+            "picture" to userDetails?.attributes?.get("picture")
+        )
     }
 
     @GetMapping("/email/{email}")

@@ -10,6 +10,7 @@ data class User(
     @Id
     val id: String,
     val name: String?,
+    val username: String?,
 
     val email: String?,
     val password: String?,
@@ -28,9 +29,10 @@ data class User(
     val deleted: Boolean?,
 
     @Column("deletedAt")
-    val deletedAt: Instant?
+    val deletedAt: Instant?,
 
-//    val role: Role?,
+    @Column("role")
+    val role: UserRole = UserRole.USER
 //    val accounts: List<Account>?,
 //    val budgets: List<Budget>?,
 //    val budgetTransactions: List<BudgetTransaction>?,
@@ -45,3 +47,8 @@ data class User(
 //    val propertySnapshot: List<PropertySnapshot>?,
 //    val securitySnapshot: List<SecuritySnapshot>?
 )
+
+enum class UserRole {
+    ADMIN,
+    USER
+}

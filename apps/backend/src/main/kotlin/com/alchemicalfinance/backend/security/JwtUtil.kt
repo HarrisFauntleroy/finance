@@ -1,34 +1,30 @@
-package com.alchemicalfinance.backend.security
-
-import io.jsonwebtoken.Claims
-import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.stereotype.Component
 import java.util.Date
 
+@Component
 class JwtUtil {
-    private val SECRET_KEY = "secret"
 
-    fun generateToken(email: String): String {
-        return Jwts.builder()
+    private val secret = "TODO_UPDATE_SECRET"
+    private val expiration = 6000000
+
+    fun generateToken(email: String): String =
+        Jwts.builder()
             .setSubject(email)
-            .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60 * 8)) // 8 hours
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .setExpiration(Date(System.currentTimeMillis() + expiration))
+            .signWith(SignatureAlgorithm.HS512, secret.toByteArray())
             .compact()
-    }
 
-    fun validateToken(token: String): Boolean {
-        return try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token)
-            true
-        } catch (e: JwtException) {
-            false
-        }
-    }
+    private fun getClaims(token: String) =
+        Jwts.parser().setSigningKey(secret.toByteArray()).parseClaimsJws(token).body
 
-    fun extractEmail(token: String): String {
-        val claims: Claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).body
-        return claims.subject
+    fun getEmail(token: String): String = getClaims(token).subject
+
+    fun isTokenValid(token: String): Boolean {
+        val claims = getClaims(token)
+        val expirationDate = claims.expiration
+        val now = Date(System.currentTimeMillis())
+        return now.before(expirationDate)
     }
 }
