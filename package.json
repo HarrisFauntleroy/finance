@@ -176,7 +176,7 @@
     "prettier": "2.8.8",
     "turbo": "1.10.5"
   },
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@3.8.1",
   "engines": {
     "node": ">=v16.20.1",
     "npm": ">=7.24.2"
