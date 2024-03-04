@@ -175,7 +175,7 @@
     "ts-node": "^10.9.1",
     "typescript": "5.0.3"
   },
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@3.8.1",
   "ct3aMetadata": {
     "initVersion": "6.10.2"
   }
